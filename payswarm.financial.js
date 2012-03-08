@@ -3,23 +3,23 @@
  */
 var async = require('async');
 var payswarm = {
-  config: require('payswarm.config'),
-  db: require('payswarm.database'),
-  identity: require('payswarm.identity'),
-  logger: require('payswarm.logger'),
-  permission: require('payswarm.permission'),
-  profile: require('payswarm.profile'),
-  security: require('payswarm.security'),
+  config: require('./payswarm.config'),
+  db: require('./payswarm.database'),
+  identity: require('./payswarm.identity'),
+  logger: require('./payswarm.logger'),
+  permission: require('./payswarm.permission'),
+  profile: require('./payswarm.profile'),
+  security: require('./payswarm.security'),
   // financial sub modules
   financial: {
-    account: require('payswarm.financial.account'),
-    budget: require('payswarm.financial.budget'),
-    contract: require('payswarm.financial.contract'),
-    deposit: require('payswarm.financial.deposit'),
-    paymentToken: require('payswarm.financial.paymentToken'),
-    transaction: require('payswarm.financial.transaction'),
-    transfer: require('payswarm.financial.transfer'),
-    withdrawal: require('payswarm.financial.withdrawal')
+    account: require('./payswarm.financial.account'),
+    budget: require('./payswarm.financial.budget'),
+    contract: require('./payswarm.financial.contract'),
+    deposit: require('./payswarm.financial.deposit'),
+    paymentToken: require('./payswarm.financial.paymentToken'),
+    transaction: require('./payswarm.financial.transaction'),
+    transfer: require('./payswarm.financial.transfer'),
+    withdrawal: require('./payswarm.financial.withdrawal')
   }
 };
 

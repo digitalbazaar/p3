@@ -3,13 +3,13 @@
  */
 var async = require('async');
 var payswarm = {
-  config: require('payswarm.config'),
-  db: require('payswarm.database'),
-  identity: require('payswarm.identity'),
-  logger: require('payswarm.logger'),
-  permission: require('payswarm.permission'),
-  profile: require('payswarm.profile'),
-  security: require('payswarm.security')
+  config: require('./payswarm.config'),
+  db: require('./payswarm.database'),
+  identity: require('./payswarm.identity'),
+  logger: require('./payswarm.logger'),
+  permission: require('./payswarm.permission'),
+  profile: require('./payswarm.profile'),
+  security: require('./payswarm.security')
 };
 
 // constants
@@ -29,18 +29,16 @@ api.init = function(callback) {
   callback();
 };
 
-
 /**
- * Processes a financial Transaction containing a list of financial
- * Transfers. The transaction ID will be generated and assigned by this
- * method.
+ * Processes a financial Withdrawal. This method must be called before the
+ * physical monetary transfer to the Withdrawal's external source.
  *
- * @param actor the Profile performing the action.
- * @param transaction the Transaction to process.
+ * @param actor the profile performing the action.
+ * @param withdrawal the Withdrawal to process.
  * @param options:
  *          escrowType: the escrow type to use (EscrowNone or EscrowReceive).
  * @param callback(err) called once the operation completes.
  */
-api.processTransfer = function(actor, transaction, options, callback) {
+api.processWithdrawal = function(actor, withdrawal, options, callback) {
   // FIXME: implement me
 };

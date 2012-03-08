@@ -4,9 +4,9 @@
 var async = require('async');
 var assert = require('assert');
 var payswarm = {
-  logger: require('payswarm.logger'),
+  logger: require('./payswarm.logger'),
   // FIXME: deprecate 'common'
-  common: require('payswarm.common')
+  common: require('./payswarm.common')
 };
 
 var api = {};

@@ -5,12 +5,12 @@ var async = require('async');
 var crypto = require('crypto');
 var rsa = require('rsa');
 var payswarm = {
-  config: require('payswarm.config'),
-  db: require('payswarm.database'),
-  logger: require('payswarm.logger'),
-  permission: require('payswarm.permission'),
-  profile: require('payswarm.profile'),
-  tools: require('payswarm.tools')
+  config: require('./payswarm.config'),
+  db: require('./payswarm.database'),
+  logger: require('./payswarm.logger'),
+  permission: require('./payswarm.permission'),
+  profile: require('./payswarm.profile'),
+  tools: require('./payswarm.tools')
 };
 
 // constants

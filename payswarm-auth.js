@@ -4,14 +4,14 @@
 var async = require('async');
 var cluster = require('cluster');
 var express = require('express');
-var config = require('payswarm.config');
+var config = require('./payswarm.config');
 
 // get the number of CPUs
 var cpus = require('os').cpus().length;
 
 if(cluster.isMaster) {
   // set up logger
-  var logger = require('payswarm.logger');
+  var logger = require('./payswarm.logger');
 
   // fork each app process
   // FIXME: uncomment to use multiple cpus
@@ -41,7 +41,7 @@ if(cluster.isMaster) {
 }
 else {
   // set up logger
-  var logger = require('payswarm.logger');
+  var logger = require('./payswarm.logger');
 
   // create app
   var app = {};

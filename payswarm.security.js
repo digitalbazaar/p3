@@ -7,8 +7,8 @@ var rsa = require('rsa');
 var jsonld = require('jsonld');
 var util = require('util');
 var payswarm = {
-  logger: require('payswarm.logger'),
-  tools: require('payswarm.tools')
+  logger: require('./payswarm.logger'),
+  tools: require('./payswarm.tools')
 };
 
 var api = {};

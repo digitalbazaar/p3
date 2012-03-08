@@ -3,7 +3,7 @@
  */
 var util = require('util');
 var payswarm = {
-  logger: require('payswarm.logger')
+  logger: require('./payswarm.logger')
 };
 
 var api = {};

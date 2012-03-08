@@ -3,9 +3,9 @@
  */
 var async = require('async');
 var payswarm = {
-  logger: require('payswarm.logger'),
-  config: require('payswarm.config'),
-  tools: require('payswarm.tools')
+  logger: require('./payswarm.logger'),
+  config: require('./payswarm.config'),
+  tools: require('./payswarm.tools')
 };
 
 // constants

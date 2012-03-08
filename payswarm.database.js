@@ -5,8 +5,8 @@ var async = require('async');
 var crypto = require('crypto');
 var mongo = require('mongodb');
 var payswarm = {
-  logger: require('payswarm.logger'),
-  config: require('payswarm.config')
+  logger: require('./payswarm.logger'),
+  config: require('./payswarm.config')
 };
 
 // constants

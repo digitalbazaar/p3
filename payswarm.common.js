@@ -4,12 +4,12 @@
 // FIXME: use this or deprecate it?
 var bigdecimal = require('bigdecimal');
 var payswarm = {
-  logger: require('payswarm.logger')
+  logger: require('./payswarm.logger')
 };
 
 var api = {
-  money: require('payswarm.money'),
-  security: require('payswarm.security'),
-  tools: require('payswarm.tools')
+  money: require('./payswarm.money'),
+  security: require('./payswarm.security'),
+  tools: require('./payswarm.tools')
 };
 module.exports = api;

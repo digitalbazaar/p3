@@ -3,12 +3,12 @@
  */
 var async = require('async');
 var payswarm = {
-  config: require('payswarm.config'),
-  db: require('payswarm.database'),
-  events: require('payswarm.events'),
-  logger: require('payswarm.logger'),
-  permission: require('payswarm.permission'),
-  security: require('payswarm.security')
+  config: require('./payswarm.config'),
+  db: require('./payswarm.database'),
+  events: require('./payswarm.events'),
+  logger: require('./payswarm.logger'),
+  permission: require('./payswarm.permission'),
+  security: require('./payswarm.security')
 };
 
 // constants

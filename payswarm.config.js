@@ -9,12 +9,12 @@ config.https.port = 8001;
 
 // modules to load
 config.modules = [
-  'payswarm.database',
-  'payswarm.profile',
-  'payswarm.addressValidator',
-  'payswarm.identity',
-  'payswarm.financial',
-  'payswarm.test'
+  './payswarm.database',
+  './payswarm.profile',
+  './payswarm.addressValidator',
+  './payswarm.identity',
+  './payswarm.financial',
+  './payswarm.test'
 ];
 
 // database config

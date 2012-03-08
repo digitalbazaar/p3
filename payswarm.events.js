@@ -3,7 +3,7 @@
  */
 var events = require('events');
 var payswarm = {
-  logger: require('payswarm.logger')
+  logger: require('./payswarm.logger')
 };
 
 var api = new EventEmitter();

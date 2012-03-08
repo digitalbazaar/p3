@@ -707,7 +707,7 @@ function _generatePasscode() {
 function _createProfile(profile, callback) {
   var defaults = payswarm.config.profile.defaults.profile;
   payswarm.tools.extend(profile, {
-    'foaf:nick': profile['foaf:nick'] || profile['psa:slug'],
+    'rdfs:label': profile['rdfs:label'] || profile['psa:slug'],
     'psa:status': profile['psa:status'] || defaults['psa:status'],
     'psa:role': profile['psa:role'] || defaults['psa:role']
   });

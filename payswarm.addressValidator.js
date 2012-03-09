@@ -21,6 +21,7 @@ var PERMISSIONS = {
 // module API
 var api = {};
 api.name = MODULE_TYPE + '.AddressValidator';
+api.validator = null;
 module.exports = api;
 
 /**
@@ -34,7 +35,8 @@ api.init = function(app, callback) {
   async.waterfall([
     _registerPermissions,
     function initValidator(callback) {
-      require(payswarm.config.addressValidator.name).init(app, callback);
+      api.validator = require(payswarm.config.addressValidator.module);
+      api.validator.init(callback);
     }
   ], callback);
 };

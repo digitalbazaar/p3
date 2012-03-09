@@ -184,6 +184,39 @@ api.getIdentityPaymentTokens = function(actor, identityId) {
       }
       payswarm.db.collections.paymentToken.find(
         query, payswarm.db.readOptions).toArray(callback);
+    },
+    function(records, callback) {
+      // return records if non-empty
+      if(records.length > 0) {
+        return callback(null, records);
+      }
+
+      // create default tokens
+      var sources = payswarm.config.financial.defaults.paymentTokens;
+      async.forEachSeries(sources, function(source, callback) {
+        if(gateway && gateway !== source['com:gateway']) {
+          // skip gateway that doesn't match query
+          return callback();
+        }
+
+        // create token
+        var token = {
+          '@type': 'com:PaymentToken',
+          'ps:owner': identityId,
+          'rdfs:label': source['rdfs:label'],
+          'com:gateway': source['com:gateway']
+        };
+        api.createPaymentToken(source, token, function(err, token) {
+          callback(err);
+        });
+      },
+      function(err) {
+        if(err) {
+          return callback(err);
+        }
+        // re-run query
+        api.getIdentityPaymentTokens(actor, identityId, gateway, callback);
+      });
     }
   ], callback);
 };

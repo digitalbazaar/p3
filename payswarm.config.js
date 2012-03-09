@@ -70,7 +70,7 @@ config.identity.identities = [];
 config.identity.keys = [];
 
 // address validator
-config.addressValidator.name = 'payswarm.av-test';
+config.addressValidator.module = './payswarm.av.test';
 
 // financial config
 config.financial = {};
@@ -83,7 +83,26 @@ config.financial.defaults = {
     'com:currency': 'USD',
     'psa:status': 'active',
     'psa:privacy': 'private'
-  }
+  },
+  paymentTokens: [{
+    // demo payment token source
+    '@type': 'ccard:CreditCard',
+    'rdfs:label': 'My Visa',
+    'com:gateway': 'Test',
+    'ccard:brand': 'ccard:Visa',
+    'ccard:number': '4111111111111111',
+    'ccard:expMonth': '11',
+    'ccard:expYear': '16',
+    'ccard:cvm': '111',
+    'ccard:address': {
+      'vcard:fn': 'Billing Name',
+      'vcard:street-address': '1 Billing Lane',
+      'vcard:locality': 'Locality',
+      'vcard:region': 'Region',
+      'vcard:postal-code': '12345',
+      'vcard:country-name': 'US'
+    }
+  }]
 };
 config.financial.accounts = [];
 config.financial.paymentGateways = [

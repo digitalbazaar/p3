@@ -64,7 +64,7 @@ api.init = function(app, callback) {
         payswarm.config.profile.profiles,
         function(p, callback) {
           _createProfile(p, function(err) {
-            if(err && !db.isDuplicateError(err)) {
+            if(err && payswarm.db.isDuplicateError(err)) {
               err = null;
             }
             callback(err);

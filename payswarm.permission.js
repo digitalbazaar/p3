@@ -26,6 +26,7 @@ var api = {};
 api.name = MODULE_TYPE + '.Permission';
 module.exports = api;
 
+// cache of registered permissions
 var registeredPermissions = {
   map: {},
   list: []
@@ -59,7 +60,7 @@ api.init = function(app, callback) {
         payswarm.config.permission.roles,
         function(r, callback) {
           api.addRole(r, function(err) {
-            if(err && !db.isDuplicateError(err)) {
+            if(err && payswarm.db.isDuplicateError(err)) {
               err = null;
             }
             callback(err);
@@ -279,8 +280,8 @@ api.checkPermission = function(superset, subset, callback) {
       if(denied.length > 0) {
         err = new payswarm.tools.PaySwarmError(
           'Permission denied.',
-          MODULE_TYPE + '.PermissionDenied');
-        err.details = {denied: denied};
+          MODULE_TYPE + '.PermissionDenied',
+          {denied: denied});
       }
       callback(err);
     }

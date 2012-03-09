@@ -55,7 +55,7 @@ api.init = function(callback) {
         payswarm.config.financial.accounts,
         function(a, callback) {
           _createAccount(a, function(err) {
-            if(err && !payswarm.db.isDuplicateError(err)) {
+            if(err && payswarm.db.isDuplicateError(err)) {
               err = null;
             }
             callback(err);
@@ -94,7 +94,7 @@ api.createAccount = function(actor, account, callback) {
       api.checkActorPermission(
         actor, account,
         PERMISSIONS.ACCOUNT_ADMIN, PERMISSIONS.ACCOUNT_CREATE,
-        _checkAccountOwner, callback);
+        payswarm.identity.checkIdentityObjectOwner, callback);
     },
     function(callback) {
       _createAccount(account, callback);

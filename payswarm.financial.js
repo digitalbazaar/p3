@@ -44,6 +44,9 @@ module.exports = payswarm.tools.extend(
   payswarm.financial.withdrawal
 );
 
+// payment gateways
+api.paymentGateways = {};
+
 /**
  * Initializes this module.
  *
@@ -53,7 +56,7 @@ module.exports = payswarm.tools.extend(
 api.init = function(app, callback) {
   // do initialization work
   async.waterfall([
-    _registerPermissions,
+    _loadPaymentGateways,
     payswarm.financial.account.init,
     payswarm.financial.budget.init,
     payswarm.financial.paymentToken.init,
@@ -63,3 +66,21 @@ api.init = function(app, callback) {
     payswarm.financial.withdrawal.init
   ], callback);
 };
+
+/**
+ * Loads all payment gateways specified in the configuration.
+ *
+ * @param callback(err) called once the operation completes.
+ */
+function _loadPaymentGateways(callback) {
+  var gateways = payswarm.config.paymentGateways;
+  async.forEachSeries(gateways, function(gateway, callback) {
+    var mod = require(gateway);
+    mod.init(function(err) {
+      if(!err) {
+        api.paymentGateways[mod.name] = mod;
+      }
+      callback(err);
+    });
+  }, callback);
+}

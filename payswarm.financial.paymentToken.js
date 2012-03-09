@@ -55,76 +55,191 @@ api.init = function(callback) {
 
 /**
  * Creates a payment token for the given source of funds (eg: CreditCard or
- * BankAccount), if supported by the given gateway. If tokenization is not
- * supported by the gateway, the returned PaymenToken will be null.
+ * BankAccount), if supported by the gateway given by token['com:gateway']. If
+ * tokenization is not supported by the gateway, the returned PaymenToken will
+ * be null. The token must also specify 'ps:owner' and 'rdfs:label'. The
+ * token's ID will be auto-generated based on its property 'rdfs:label'.
  *
  * @param actor the Profile performing the action.
  * @param source the source of funds (eg: CreditCard, BankAccount).
- * @param gateway the gateway to create the token with.
  * @param token the PaymentToken with custom information to store.
  * @param callback(err, token) called once the operation completes.
  */
 api.createPaymentToken = function(actor, source, gateway, token, callback) {
-  // FIXME: implement me
+  if(!(gateway in payswarm.financial.paymentGateways)) {
+    return callback(new payswarm.tools.PaySwarmError(
+        'Could not create payment token. Unknown payment gateway specified.',
+        MODULE_TYPE + '.PaymentGatewayNotFound',
+        {gateway: gateway}));
+  }
+
+  async.waterfall([
+    function(callback) {
+      api.checkActorPermission(
+        actor, token,
+        PERMISSIONS.PTOKEN_ADMIN, PERMISSIONS.PTOKEN_CREATE,
+        payswarm.identity.checkIdentityObjectOwner, callback);
+    },
+    function(callback) {
+      // create token via gateway
+      gateway = payswarm.financial.paymentGateways(gateway);
+      gateway.createPaymentToken(source, token, callback);
+    },
+    function(token, callback) {
+      // generate ID for token
+      _generatePaymentTokenId(token);
+
+      // create record
+      var now = +new Date();
+      var record = {
+        id: payswarm.db.hash(token['@id']),
+        owner: payswarm.db.hash(token['ps:owner']),
+        meta: {
+          created: now,
+          updated: now
+        },
+        paymentToken: token
+      };
+
+      // try to insert record, adding a counter to the ID until it is unique
+      var base = token['@id'];
+      var count = 1;
+      var inserted = false;
+      async.until(function() {return inserted;}, function(callback) {
+        payswarm.db.collections.paymentToken.insert(
+          record, payswarm.db.writeOptions, function(err) {
+            inserted = !err;
+            if(err && payswarm.db.isDuplicateError(err)) {
+              token['@id'] = base + (count++);
+              record.id = payswarm.db.hash(paymentToken['@id']);
+              err = null;
+            }
+            callback(err);
+          });
+      },
+      function(err) {
+        callback(err, token);
+      });
+    }
+  ], callback);
 };
 
 /**
  * Gets the PaymentToken by token ID.
  *
  * @param actor the Profile performing the action.
- * @param token the PaymentToken to populate, with its token and owner set.
- *
- * @return true on success, false on failure with exception set.
+ * @param id the ID of the PaymentToken to retrieve.
+ * @param callback(err, token, meta) called once the operation completes.
  */
-virtual bool getPaymentToken(
-   payswarm::common::Profile& actor,
-   payswarm::common::PaymentToken& token) = 0;
+api.getPaymentToken = function(actor, id, callback) {
+  async.waterfall([
+    function(callback) {
+      payswarm.db.collections.paymentToken.findOne(
+        {id: payswarm.db.hash(id)},
+        payswarm.db.readOptions, callback);
+    },
+    function(result, callback) {
+      callback(null, result.paymentToken, result.meta);
+    },
+    function(callback, paymentToken, meta) {
+      api.checkActorPermissionForObject(
+        actor, paymentToken,
+        PERMISSIONS.PTOKEN_ADMIN, PERMISSIONS.PTOKEN_ACCESS,
+        _checkPaymentTokenOwner, function(err) {
+          callback(err, paymentToken, meta);
+        });
+    }
+  ], callback);
+};
 
 /**
- * Gets all the PaymentTokens for the given identity.
- *
- * The query must contain "ps:owner" and may optionally contain:
- *
- * "com:gateway": The gateway for the tokens.
+ * Retrieves all PaymentTokens owned by a particular Identity.
  *
  * @param actor the Profile performing the action.
- * @param query the query for getting payment tokens.
- * @param tokens the list to populate with payment tokens.
- *
- * @return true on success, false on failure with exception set.
+ * @param identityId the ID of the Identity to get the PaymentTokens for.
+ * @param gateway the gateway to filter on (optional).
+ * @param callback(err, records) called once the operation completes.
  */
-virtual bool getPaymentTokens(
-   payswarm::common::Profile& actor,
-   monarch::rt::DynamicObject& query,
-   monarch::rt::DynamicObject& tokens) = 0;
+api.getIdentityPaymentTokens = function(actor, identityId) {
+  var gateway = null;
+  var callback;
+  if(arguments.length() === 3) {
+    callback = arguments[2];
+  }
+  else {
+    gateway = arguments[2];
+    callback = arguments[3];
+  }
+
+  async.waterfall([
+    function(callback) {
+      api.checkActorPermission(
+        actor, PERMISSIONS.PTOKEN_ADMIN, PERMISSIONS.PTOKEN_ACCESS,
+        callback);
+    },
+    function(callback) {
+      var query = {owner: payswarm.db.hash(identityId)};
+      if(gateway) {
+        query['paymentToken.com:gateway'] = gateway;
+      }
+      payswarm.db.collections.paymentToken.find(
+        query, payswarm.db.readOptions).toArray(callback);
+    }
+  ], callback);
+};
 
 /**
- * Adds a new PaymentToken. The PaymentToken's ID will be generated based
- * on its label.
+ * Retrieves all PaymentTokens matching the given query.
  *
  * @param actor the Profile performing the action.
- * @param token the PaymentToken to add.
- * @param changeIdOnDuplicate true to generate a new ID if the PaymentToken
- *           is a duplicate.
- *
- * @return true on success, false on failure with exception set.
+ * @param query the query to use (defaults to {}).
+ * @param callback(err, records) called once the operation completes.
  */
-virtual bool addPaymentToken(
-   payswarm::common::Profile& actor,
-   payswarm::common::PaymentToken& token,
-   bool changeIdOnDuplicate = true) = 0;
+api.getPaymentTokens = function(actor, query, callback) {
+  query = query || {};
+  async.waterfall([
+    function(callback) {
+      api.checkActorPermission(actor, PERMISSIONS.PTOKEN_ADMIN, callback);
+    },
+    function(callback) {
+      payswarm.db.collections.paymentToken.find(
+        query, payswarm.db.readOptions).toArray(callback);
+    }
+  ], callback);
+};
 
 /**
- * Updates an existing PaymentToken.
+ * Removes a PaymentToken.
  *
  * @param actor the Profile performing the action.
- * @param token the PaymentToken to update.
- *
- * @return true on success, false on failure with exception set.
+ * @param id the ID of the PaymentToken to remove.
+ * @param callback(err) called once the operation completes.
  */
-virtual bool updatePaymentToken(
-   payswarm::common::Profile& actor,
-   payswarm::common::PaymentToken& token) = 0;
+api.removePaymentToken = function(actor, id, callback) {
+  async.waterfall([
+    function(callback) {
+      api.checkActorPermission(
+        actor, PERMISSIONS.PTOKEN_ADMIN, PERMISSIONS.PTOKEN_REMOVE, callback);
+    },
+    function(callback) {
+      payswarm.db.collections.paymentToken.remove(
+        {id: payswarm.db.hash(id)},
+        payswarm.db.writeOptions,
+        callback);
+    }
+  ], callback);
+};
+
+/**
+ * Generates a PaymentToken ID. The ID will be assigned to the '@id' property
+ * of the given token.
+ *
+ * @param token the PaymentToken to generate an ID for.
+ */
+function _generatePaymentTokenId(token) {
+  token['@id'] = util.format('%s/payment-token/%s',
+    token['ps:owner'], encodeURIComponent(token['rdfs:label']));
+}
 
 /**
  * Checks if an actor owns a PaymentToken.

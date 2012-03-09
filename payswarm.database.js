@@ -171,7 +171,7 @@ api.buildUpdate = function(obj) {
  * @param callback(err) called once the operation completes.
  */
 api.createIndexes = function(options, callback) {
-  async.forEachSeries(options, function(item, callback) {
+  async.forEach(options, function(item, callback) {
     payswarm.db.collections[item.collection].ensureIndex(
       item.fields, item.options, callback);
   }, callback);

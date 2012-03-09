@@ -89,7 +89,7 @@ api.init = function(app, callback) {
           var publicKey = i.publicKey;
           var privateKey = i.privateKey || null;
           _addIdentityPublicKey(publicKey, privateKey, function(err) {
-            if(err && !payswarm.db.isDuplicateError(err)) {
+            if(err && payswarm.db.isDuplicateError(err)) {
               err = null;
             }
             callback(err);

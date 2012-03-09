@@ -28,8 +28,7 @@ api.hashJsonLd = function(obj, frame) {
   var rval = null;
 
   // compact using payswarm context
-  var ctx = payswarm.tools.getDefaultJsonLdContext();
-  obj = jsonld.compact(ctx, obj);
+  obj = _compact(obj);
 
   // do reframing if frame supplied
   var reframed = obj;
@@ -68,8 +67,7 @@ api.signJsonLd = function(obj, key, creator, nonce, date, callback) {
   }
 
   // compact using payswarm context
-  var ctx = payswarm.tools.getDefaultJsonLdContext();
-  obj = jsonld.compact(ctx, obj);
+  obj = _compact(obj);
 
   // get created date
   var created = payswarm.tools.w3cDate(date);
@@ -98,6 +96,9 @@ api.signJsonLd = function(obj, key, creator, nonce, date, callback) {
     // attach new signature info
     // FIXME: support multiple signatures
     obj['sec:signature'] = signInfo;
+
+    // remove default context
+    delete obj['@context'];
     callback(null, obj);
   }
   catch(e) {
@@ -162,8 +163,7 @@ api.encryptJsonLd = function(obj, publicKey, callback) {
   // context is not a string
   var compacted;
   if(!('@context' in obj && obj['@context'] instanceof String)) {
-    var ctx = payswarm.tools.getDefaultJsonLdContext();
-    compacted = jsonld.compact(ctx, obj);
+    compacted = _compact(obj);
   }
   else {
      // use already compact object
@@ -391,17 +391,8 @@ function _verifyLegacyPassword(password, salt, checksum) {
 function _getSignatureData(obj) {
   var rval = null;
 
-  // make sure the object has the default payswarm context
-  var ctx = payswarm.tools.getDefaultJsonLdContext();
-  var removeContext = false;
-  if(!('@context' in obj)) {
-    input = obj;
-    input['@context'] = ctx;
-    removeContext = true;
-  }
-  else {
-    input = jsonld.compact(ctx, obj);
-  }
+  // compact using payswarm context
+  var input = _compact(obj);
 
   // remove signature field
   var tmp = null;
@@ -411,17 +402,32 @@ function _getSignatureData(obj) {
   }
 
   // normalize and serialize
-  rval = JSON.stringify(jsonld.normalize(input));
+  return JSON.stringify(jsonld.normalize(input));
+}
 
-  // remove context if it was added
-  if(removeContext) {
-    delete obj['@context'];
-  }
+/**
+ * Compacts the given input using the default PaySwarm context.
+ *
+ * @param input the input.
+ *
+ * @return the output.
+ */
+function _compact(input) {
+   var ctx = payswarm.tools.clone(payswarm.tools.getDefaultJsonLdContext());
 
-  // replace signature field if removed
-  if(tmp !== null) {
-    input['sec:signature'] = tmp;
-  }
+   // add context before compaction if not already provided or if given
+   // context is a string (HACK: assume it is the default payswarm context URL)
+   if(!('@context' in input) || input['@context'] instanceof String) {
+     input = payswarm.tools.clone(input);
+     input['@context'] = ctx;
+     input = jsonld.compact(ctx, input);
+   }
+   // do simple compaction (the context may be the payswarm context or some
+   // other one, in the former case compaction may help reduce the number of
+   // terms listed in the context and in the latter we convert to payswarm)
+   else {
+     input = jsonld.compact(ctx, input);
+   }
 
-  return rval;
+   return input;
 }

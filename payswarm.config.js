@@ -86,3 +86,6 @@ config.financial.defaults = {
   }
 };
 config.financial.accounts = [];
+config.financial.paymentGateways = [
+  './payswarm.pg.test'
+];

@@ -174,8 +174,9 @@ api.getIdentityPaymentTokens = function(actor, identityId) {
   async.waterfall([
     function(callback) {
       api.checkActorPermission(
-        actor, PERMISSIONS.PTOKEN_ADMIN, PERMISSIONS.PTOKEN_ACCESS,
-        callback);
+        actor, {'ps:owner': identityId},
+        PERMISSIONS.PTOKEN_ADMIN, PERMISSIONS.PTOKEN_ACCESS,
+        _checkPaymentTokenOwner, callback);
     },
     function(callback) {
       var query = {owner: payswarm.db.hash(identityId)};
@@ -252,7 +253,9 @@ api.removePaymentToken = function(actor, id, callback) {
   async.waterfall([
     function(callback) {
       api.checkActorPermission(
-        actor, PERMISSIONS.PTOKEN_ADMIN, PERMISSIONS.PTOKEN_REMOVE, callback);
+        actor, {'@id': id},
+        PERMISSIONS.PTOKEN_ADMIN, PERMISSIONS.PTOKEN_REMOVE,
+        _checkPaymentTokenOwner, callback);
     },
     function(callback) {
       payswarm.db.collections.paymentToken.remove(

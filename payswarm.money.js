@@ -67,6 +67,15 @@ api.Money.prototype.divide = function(x) {
   }
   return _wrapBigDecimal(this.value.divide(x.value));
 };
+api.Money.prototype.compareTo = function(x) {
+  if(!(x instanceof api.Money)) {
+    x = new api.Money(x);
+  }
+  return this.value.compareTo(x.value);
+};
+api.Money.prototype.isNegative = function() {
+  return (this.value.compareTo(new bigdecimal.BigDecimal(0)) < 0);
+};
 api.Money.prototype.toString = function() {
   return this.value.toPlainString();
 };

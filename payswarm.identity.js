@@ -73,7 +73,7 @@ api.init = function(app, callback) {
         payswarm.config.identity.identities,
         function(i, callback) {
           _createIdentity(i, function(err) {
-            if(err && !payswarm.db.isDuplicateError(err)) {
+            if(err && payswarm.db.isDuplicateError(err)) {
               err = null;
             }
             callback(err);

@@ -29,6 +29,9 @@ var PERMISSIONS = {
 var api = {};
 module.exports = api;
 
+// distributed ID generator
+var budgetIdGenerator = null;
+
 /**
  * Initializes this module.
  *
@@ -39,7 +42,7 @@ api.init = function(callback) {
   async.waterfall([
     function openCollections(callback) {
       // open all necessary collections
-      payswarm.db.openCollections(['paymentToken'], callback);
+      payswarm.db.openCollections(['budget'], callback);
     },
     function setupCollections(callback) {
       // setup collections (create indexes, etc)
@@ -49,7 +52,16 @@ api.init = function(callback) {
         options: {unique: true, background: true}
       }], callback);
     },
-    _registerPermissions
+    _registerPermissions,
+    function getIdGenerator(callback) {
+      payswarm.db.getDistributedIdGenerator('budget',
+        function(err, idGenerator) {
+          if(!err) {
+            budgetIdGenerator = idGenerator
+          }
+          callback(err);
+      });
+    }
   ], callback);
 };
 
@@ -68,14 +80,12 @@ api.createBudgetId = function(ownerId, name) {
 /**
  * Creates a new BudgetId based on the owner's IdentityId.
  *
- * @param ownerId the ID of the Identity budget owner.
- * @param budgetId the BudgetId generated for the Budget.
- *
- * @return true on success, false on failure with exception set.
+ * @param ownerId the ID of the Identity that owns the budget.
+ * @param callback(err, id) called once the operation completes.
  */
-virtual bool generateBudgetId(
-   payswarm::common::IdentityId ownerId,
-   payswarm::common::BudgetId& budgetId) = 0;
+api.generateBudgetId(ownerId, callback) {
+  budgetIdGenerator.generateId(callback);
+};
 
 /**
  * Creates a new Budget. The "@id", "@type", "ps:owner", and

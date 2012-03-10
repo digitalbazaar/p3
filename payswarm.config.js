@@ -35,6 +35,7 @@ config.database.writeOptions = {
   fsync: true,
   multi: true
 };
+config.database.local.path = '/tmp/payswarm-dev.local.db';
 
 // authority config
 config.authority = {};

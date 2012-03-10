@@ -120,19 +120,20 @@ function _loadIds(idGenerator, callback) {
         idGenerator.globalId = new Id64(globalId);
 
         // just atomically update local ID and return
-        return payswarm.db.findAndModify(localKey, function(old, callback) {
-          idGenerator.localId = new Id64(old);
-          if(idGenerator.localId.isMax()) {
-            // local ID space exhausted, clear global ID and reload IDs
-            payswarm.db.setLocalItem(globalKey, null);
-            _loadIds(idGenerator, callback);
-          }
-          else {
-            // increment local ID
-            idGenerator.localId.increment();
-            callback(null, idGenerator.localId.toHex());
-          }
-        }, callback);
+        return payswarm.db.findAndModifyLocalItem(localKey,
+          function(old, callback) {
+            idGenerator.localId = new Id64(old);
+            if(idGenerator.localId.isMax()) {
+              // local ID space exhausted, clear global ID and reload IDs
+              payswarm.db.setLocalItem(globalKey, null);
+              _loadIds(idGenerator, callback);
+            }
+            else {
+              // increment local ID
+              idGenerator.localId.increment();
+              callback(null, idGenerator.localId.toHex());
+            }
+          }, callback);
       }
 
       // no global ID yet, assign a new one

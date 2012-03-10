@@ -11,7 +11,7 @@ var payswarm = {
   profile: require('./payswarm.profile'),
   security: require('./payswarm.security')
 };
-var Money = money: require('./payswarm.money');
+var Money = require('./payswarm.money').Money;
 
 // constants
 var MODULE_TYPE = payswarm.financial.type;
@@ -53,7 +53,7 @@ api.init = function(callback) {
         options: {unique: true, background: true}
       }, {
         collection: 'budget',
-        fields: {id: 1, vendors: 1},
+        fields: {owner: 1, vendors: 1},
         options: {unique: true, background: true}
       }], callback);
     },
@@ -62,7 +62,7 @@ api.init = function(callback) {
       payswarm.db.getDistributedIdGenerator('budget',
         function(err, idGenerator) {
           if(!err) {
-            budgetIdGenerator = idGenerator
+            budgetIdGenerator = idGenerator;
           }
           callback(err);
       });
@@ -71,10 +71,10 @@ api.init = function(callback) {
 };
 
 /**
- * Creates a Budget ID from the given Identity ID and budget slug.
+ * Creates a Budget ID from the given Identity ID and Budget slug.
  *
  * @param ownerId the Identity ID.
- * @param name the short budget name (slug).
+ * @param name the short Budget name (slug).
  *
  * @return the Budget ID.
  */
@@ -85,7 +85,7 @@ api.createBudgetId = function(ownerId, name) {
 /**
  * Creates a new BudgetId based on the owner's IdentityId.
  *
- * @param ownerId the ID of the Identity that owns the budget.
+ * @param ownerId the ID of the Identity that owns the Budget.
  * @param callback(err, id) called once the operation completes.
  */
 api.generateBudgetId(ownerId, callback) {
@@ -109,8 +109,8 @@ api.createBudget = function(actor, budget, callback) {
         payswarm.identity.checkIdentityObjectOwner, callback);
     },
     function(callback) {
-      // initialize any unset budget parameters
-      _initBudget(budget);
+      // sanitize budget
+      _sanitizeBudget(budget, false);
 
       // clear vendor field
       budget['com:vendor'] = [];
@@ -134,190 +134,121 @@ api.createBudget = function(actor, budget, callback) {
 };
 
 /**
- * Populates Budgets based on the given query. The query may contain
- * "budget" or "identity" (and "vendor" optionally along with "identity"),
- * where these fields refer to the ID of a specific budget, the ID of an
- * identity, and the ID of a vendor, respectively.
+ * Gets the Budget by ID. If an expired Budget is found it will be removed
+ * and treated as if it didn't exist. If a Budget needs to be refreshed,
+ * it will be.
  *
- * @param actor the profile performing the action.
- * @param query the query to use.
+ * @param actor the Profile performing the action.
+ * @param id the ID of the Budget to retrieve.
+ * @param callback(err, budget, meta) called once the operation completes.
+ */
+api.getBudget = function(actor, id, callback) {
+  async.waterfall([
+    function(callback) {
+      payswarm.db.collections.budget.findOne(
+        {id: payswarm.db.hash(id)},
+        payswarm.db.readOptions, callback);
+    },
+    function(result, callback) {
+      if(!result) {
+        return callback(new payswarm.tools.PaySwarmError(
+          'Budget not found.',
+          MODULE_TYPE + '.BudgetNotFound',
+          {'@id': id}));
+      }
+      callback(null, result.budget, result.meta);
+    },
+    function(budget, meta, callback) {
+      api.checkActorPermissionForObject(
+        actor, budget,
+        PERMISSIONS.BUDGET_ADMIN, PERMISSIONS.BUDGET_ACCESS,
+        _checkBudgetOwner, function(err) {
+          callback(err, budget, meta);
+        });
+    },
+    function(budget, meta, callback) {
+      // update budget
+      _updateBudgets([{budget: budget}], function(err, records) {
+        if(!err) {
+          if(records.length === 0) {
+            return callback(new payswarm.tools.PaySwarmError(
+              'Budget not found.',
+              MODULE_TYPE + '.BudgetNotFound',
+              {'@id': id}));
+          }
+          return callback(null, budget, meta);
+        }
+        callback(err);
+      });
+    }
+  ], callback);
+};
+
+/**
+ * Retrieves all Budgets owned by a particular Identity. If an expired Budget
+ * is found it will be removed and treated as if it didn't exist. If a Budget
+ * needs to be refreshed, it will be.
+ *
+ * @param actor the Profile performing the action.
+ * @param identityId the ID of the Identity to get the Budgets for.
+ * @param vendorId the vendorId to filter on (optional).
+ * @param callback(err, records) called once the operation completes.
+ */
+api.getIdentityBudgets = function(actor, identityId) {
+  var vendorId = null;
+  var callback;
+  if(arguments.length() === 3) {
+    callback = arguments[2];
+  }
+  else {
+    vendorId = arguments[2];
+    callback = arguments[3];
+  }
+
+  async.waterfall([
+    function(callback) {
+      api.checkActorPermission(
+        actor, {'ps:owner': identityId},
+        PERMISSIONS.BUDGET_ADMIN, PERMISSIONS.BUDGET_ACCESS,
+        _checkBudgetOwner, callback);
+    },
+    function(callback) {
+      var query = {owner: payswarm.db.hash(identityId)};
+      if(vendorId) {
+        query.vendors = payswarm.db.hash(vendorId);
+      }
+      payswarm.db.collections.budget.find(
+        query, payswarm.db.readOptions).toArray(callback);
+    },
+    _updateBudgets
+  ], callback);
+};
+
+
+/**
+ * Gets Budgets based on the given query. If an expired Budget is found it will
+ * be removed and treated as if it didn't exist. If a Budget needs to be
+ * refreshed, it will be.
+ *
+ * @param actor the Profile performing the action.
+ * @param query the query to use (defaults to {}).
  * @param result the result set with Budgets.
  * @param meta to store the meta data for the Budgets.
  *
  * @return true on success, false on failure with exception set.
  */
-api.populateBudgets = function(actor, query, callback) {
-  bool rval;
-
-  // initialize result
-  result->setType(Map);
-  result->clear();
-  result["resources"]->setType(Array);
-
-  // initialize meta
-  if(meta != NULL)
-  {
-     (*meta)->setType(Array);
-     (*meta)->clear();
-  }
-
-  // look up specific budget
-  if(query->hasMember("budget"))
-  {
-     Budget budget;
-     DynamicObject budgetMeta;
-     budget["@id"] = query["budget"].clone();
-     rval = mBudgetStorage->get(
-        budget, NULL, NULL, PS_DYNO_STORAGE_DEFAULT_INDEX, &budgetMeta);
-     if(rval)
-     {
-        // check budget permissions
-        CompareIdentityObjectOwner c(mIdentityApi);
-        rval = mProfileApi->checkActorPermissionForObject(
-           actor, budget, PERMISSION_BUDGET_ADMIN, PERMISSION_BUDGET_ACCESS,
-           &c);
-        if(rval)
-        {
-           result["resources"]->append(budget);
-           result["total"] = 1;
-           result["start"] = 0;
-           result["num"] = 1;
-           if(meta != NULL)
-           {
-              (*meta)->append(budgetMeta);
-           }
-        }
-     }
-  }
-  // look up budgets owned by an identity
-  else if(query->hasMember("identity"))
-  {
-     // populate identity
-     Identity identity;
-     identity["@id"] = query["identity"].clone();
-     DynamicObject identityMeta;
-     DynamicObject vendorMeta(NULL);
-     rval = mIdentityApi->getIdentity(actor, identity, &identityMeta);
-     if(rval)
-     {
-        // no vendor, use DynoStorage API to get all owned budgets
-        if(!query->hasMember("vendor"))
-        {
-           // get the budgets owned by the given identity
-           DynoStorageRef storage;
-           DynamicObject where;
-           where[0]["ps:owner"] = identity["@id"];
-           rval =
-              mBudgetStorage->getMany(result, &where, NULL, 0, 0, NULL, meta);
-        }
-        // get specific budget for a vendor
-        else
-        {
-           // look up vendor identity meta
-           Identity vendor;
-           vendor["@id"] = query["vendor"].clone();
-           vendorMeta = DynamicObject();
-           Profile authority;
-           authority["@id"] = mProfileConfig["authority"];
-           rval = mIdentityApi->getIdentity(authority, vendor, &vendorMeta);
-
-           // query index
-           if(rval)
-           {
-              // TODO: allow query to specify limit info
-              DynamicObject where;
-              where["identityIdxKey"] = identityMeta["indexKey"];
-              if(!vendorMeta.isNull())
-              {
-                 where["vendorIdxKey"] = vendorMeta["indexKey"];
-              }
-              DynamicObject members;
-              members["budgetIdxKey"];
-              SqlExecutableRef se = mDatabaseClient->selectOne(
-                 mDbApi->getGlobalTableName(TABLE_BUDGET_VENDOR_IDX),
-                 &where, &members);
-              rval = !se.isNull() && mDatabaseClient->execute(se);
-              if(rval)
-              {
-                 // populate result
-                 result["total"] = se->rowsRetrieved;
-                 result["start"] = 0;
-                 result["num"] = se->rowsRetrieved;
-                 if(se->rowsRetrieved > 0)
-                 {
-                    Budget& budget = result["resources"]->append();
-                    uint64_t indexKey = se->result["budgetIdxKey"];
-                    DynamicObject m;
-                    if(meta != NULL)
-                    {
-                       (*meta)->append(m);
-                    }
-                    rval = mBudgetStorage->get(
-                       budget, NULL, NULL, PS_DYNO_STORAGE_DEFAULT_INDEX, &m,
-                       &indexKey);
-                 }
-              }
-           }
-        }
-     }
-  }
-  // missing "budget" or "identity" in query, so invalid
-  else
-  {
-     ExceptionRef e = new Exception(
-        "Invalid budget query. The query must contain 'budget' or "
-        "'identity'.",
-        PS_FINANCIAL ".InvalidQuery");
-     Exception::set(e);
-     rval = false;
-  }
-
-  if(rval)
-  {
-     Date now;
-     uint32_t secs = Date::utcSeconds();
-     DynamicObjectIterator bi = result["resources"].getIterator();
-     DynamicObjectIterator mi;
-     if(meta != NULL)
-     {
-        mi = (*meta).getIterator();
-     }
-     while(rval && bi->hasNext())
-     {
-        Budget& budget = bi->next();
-        if(meta != NULL)
-        {
-           mi->next();
-        }
-
-        // remove budget if expired
-        if(budget["psa:expires"]->getUInt32() <= secs)
-        {
-           rval = removeBudget(actor, budget["@id"]);
-           bi->remove();
-           if(meta != NULL)
-           {
-              mi->remove();
-           }
-           result["total"] = result["total"]->getUInt64() - 1;
-           result["num"] = result["num"]->getUInt64() - 1;
-        }
-        // refresh budget if necessary
-        else if(_mustRefresh(budget, now))
-        {
-           budget["psa:refreshed"] = secs;
-           budget["com:balance"] = budget["com:amount"].clone();
-
-           BudgetUpdater updater;
-           updater.changes = budget.clone();
-           updater.refresh = true;
-           rval = DatabaseUpdate<BudgetUpdater>().run(
-              mBudgetStorage, &updater, budget);
-        }
-     }
-  }
-
-  return rval;
+api.getBudgets = function(actor, query, callback) {
+  query = query || {};
+  async.waterfall([
+    function(callback) {
+      api.checkActorPermission(actor, PERMISSIONS.BUDGET_ADMIN, callback);
+    },
+    function(callback) {
+      payswarm.db.collections.budget.find(
+        query, payswarm.db.readOptions).toArray(callback);
+    },
+    _updateBudgets
+  ], callback);
 };
 
 /**
@@ -327,7 +258,7 @@ api.populateBudgets = function(actor, query, callback) {
  * be included.
  *
  * @param actor the Profile performing the action.
- * @param budgetUpdate the budget with @id and fields to update.
+ * @param budgetUpdate the Budget with @id and fields to update.
  * @param callback(err) called once the operation completes.
  */
 api.updateBudget = function(actor, budgetUpdate, callback) {
@@ -344,6 +275,7 @@ api.updateBudget = function(actor, budgetUpdate, callback) {
       delete budgetUpdate['com:balance'];
       delete budgetUpdate['ps:owner'];
       delete budgetUpdate['com:vendor'];
+      _sanitizeBudget(budgetUpdate, true);
       payswarm.db.collections.budget.update(
         {id: payswarm.db.hash(budgetUpdate['@id'])},
         {$set: payswarm.db.buildUpdate(budgetUpdate)},
@@ -390,12 +322,14 @@ api.removeBudget = function(actor, id, callback) {
 /**
  * Updates the remaining balance on the given Budget.
  *
- * @param actor the profile performing the action.
- * @param id the ID of the budget to update.
- * @param amount the Money amount to change the Budget balance by (+/-).
+ * @param actor the Profile performing the action.
+ * @param id the ID of the Budget to update.
+ * @param amountOrDate the Money amount to change the Budget balance by (+/-)
+ *          or a Date to refresh the Budget and mark it as refreshed on the
+ *          given Date.
  * @param callback(err) called once the operation completes.
  */
-api.updateBudgetBalance = function(actor, id, amount, callback) {
+api.updateBudgetBalance = function(actor, id, amountOrDate, callback) {
   async.waterfall([
     function(callback) {
       api.checkActorPermissionForObject(
@@ -404,194 +338,204 @@ api.updateBudgetBalance = function(actor, id, amount, callback) {
         _checkBudgetOwner, callback);
     },
     function(callback) {
-      var done = false;
-      async.until(function() {return done;}, function(callback) {
-        _updateBalance(id, amount, function(err, updated) {
-          done = updated;
-          callback(err);
-        });
-      }, callback);
+      _atomicUpdateBalance(id, amountOrDate, callback);
     }
   ], callback);
 };
 
 /**
- * Adds a vendor to a Budget.
+ * Adds a vendor to a Budget. If the vendor was in another Budget, it will
+ * be removed from that other Budget.
  *
- * @param actor the profile performing the action.
- * @param budgetId the ID of the budget.
+ * @param actor the Profile performing the action.
+ * @param budgetId the ID of the Budget.
  * @param vendorId the ID of the vendor to add.
- *
- * @return true on success, false on failure with exception set.
+ * @param callback(err) called once the operation completes.
  */
-api.addBudgetVendor(actor, budgetId, vendorId, callback) {
-  bool rval;
-
-  // get the budget
-  Budget budget;
-  budget["@id"] = budgetId;
-  rval = mBudgetStorage->get(budget);
-
-  // check permissions
-  CompareIdentityObjectOwner c(mIdentityApi);
-  rval = rval && mProfileApi->checkActorPermissionForObject(
-     actor, budget, PERMISSION_BUDGET_ADMIN, PERMISSION_BUDGET_EDIT, &c);
-  if(rval)
-  {
-     BudgetVendorUpdater updater;
-     updater.budgetId = budgetId;
-     updater.vendorId = vendorId;
-     updater.add = true;
-
-     // look up identity and vendor meta data
-     Identity identity;
-     identity["@id"] = budget["ps:owner"].clone();
-     DynamicObject identityMeta;
-     rval = mIdentityApi->getIdentity(actor, identity, &identityMeta);
-     if(rval)
-     {
-        Profile authority;
-        authority["@id"] = mProfileConfig["authority"];
-        Identity vendor;
-        vendor["@id"] = vendorId;
-        DynamicObject vendorMeta;
-        rval = mIdentityApi->getIdentity(authority, vendor, &vendorMeta);
-        if(rval)
-        {
-           updater.identityIdxKey = identityMeta["indexKey"];
-           updater.vendorIdxKey = vendorMeta["indexKey"];
-        }
-     }
-
-     rval = rval && AtomicDatabaseUpdate<BudgetVendorUpdater>().run(
-        mDbApi, mDatabaseClient, &updater);
-  }
-
-  return rval;
+api.addBudgetVendor = function(actor, budgetId, vendorId, callback) {
+  var vendorHash = payswarm.db.hash(vendorId);
+  async.waterfall([
+    function(callback) {
+      api.getBudget(actor, budgetId, callback);
+    },
+    function(budget, callback) {
+      api.checkActorPermissionForObject(
+        actor, budget,
+        PERMISSIONS.BUDGET_ADMIN, PERMISSIONS.BUDGET_EDIT,
+        _checkBudgetOwner, callback);
+    },
+    function(callback) {
+      // remove vendor from any other owned budget
+      payswarm.db.collections.budget.update(
+        {owner: payswarm.db.hash(budget['ps:owner']), vendors: vendorHash},
+        {$pull: {vendors: vendorHash, 'budget.com:vendor': vendorId}},
+        payswarm.db.writeOptions,
+        callback);
+    },
+    function(callback) {
+      // add vendor to budget
+      payswarm.db.collections.budget.update(
+        {id: payswarm.db.hash(budgetId)},
+        {$addToSet: {vendors: vendorHash, 'budget.com:vendor': vendorId}},
+        payswarm.db.writeOptions,
+        callback);
+    }
+  ], callback);
 };
 
 /**
  * Removes a vendor from a Budget.
  *
- * @param actor the profile performing the action.
- * @param budgetId the ID of the budget.
+ * @param actor the Profile performing the action.
+ * @param budgetId the ID of the Budget.
  * @param vendorId the ID of the vendor to remove.
- *
- * @return true on success, false on failure with exception set.
+ * @param callback(err) called once the operation completes.
  */
 api.removeBudgetVendor = function(actor, budgetId, vendorId, callback) {
-  bool rval;
-
-  // get the budget
-  Budget budget;
-  budget["@id"] = budgetId;
-  rval = mBudgetStorage->get(budget);
-
-  // check permissions
-  CompareIdentityObjectOwner c(mIdentityApi);
-  rval = rval && mProfileApi->checkActorPermissionForObject(
-     actor, budget, PERMISSION_BUDGET_ADMIN, PERMISSION_BUDGET_EDIT, &c);
-  if(rval)
-  {
-     BudgetVendorUpdater updater;
-     updater.budgetId = budgetId;
-     updater.vendorId = vendorId;
-     updater.add = false;
-
-     // look up identity and vendor meta data
-     Identity identity;
-     identity["@id"] = budget["ps:owner"].clone();
-     DynamicObject identityMeta;
-     rval = mIdentityApi->getIdentity(actor, identity, &identityMeta);
-     if(rval)
-     {
-        Profile authority;
-        authority["@id"] = mProfileConfig["authority"];
-        Identity vendor;
-        vendor["@id"] = vendorId;
-        DynamicObject vendorMeta;
-        rval = mIdentityApi->getIdentity(authority, vendor, &vendorMeta);
-        if(rval)
-        {
-           updater.identityIdxKey = identityMeta["indexKey"];
-           updater.vendorIdxKey = vendorMeta["indexKey"];
-        }
-     }
-
-     rval = rval && AtomicDatabaseUpdate<BudgetVendorUpdater>().run(
-        mDbApi, mDatabaseClient, &updater);
-  }
-
-  return rval;
+  var vendorHash = payswarm.db.hash(vendorId);
+  async.waterfall([
+    function(callback) {
+      api.getBudget(actor, budgetId, callback);
+    },
+    function(budget, callback) {
+      api.checkActorPermissionForObject(
+        actor, budget,
+        PERMISSIONS.BUDGET_ADMIN, PERMISSIONS.BUDGET_EDIT,
+        _checkBudgetOwner, callback);
+    },
+    function(callback) {
+      // remove vendor from budget
+      payswarm.db.collections.budget.update(
+        {id: payswarm.db.hash(budgetId)},
+        {$pull: {vendors: vendorHash, 'budget.com:vendor': vendorId}},
+        payswarm.db.writeOptions,
+        callback);
+    }
+  ], callback);
 };
 
-function _initBudget(Budget& budget) {
-   JsonLd::addValue(budget, "@type", "psa:Budget");
+/**
+ * Sanitizes a Budget by adding any missing fields, etc.
+ *
+ * @param budget the Budget to sanitize.
+ * @param update true if the sanitation is only for an update.
+ */
+function _sanitizeBudget(budget, update) {
+  if(!update) {
+    // FIXME: use JSON-LD helper function once in jsonld.js
+    //JsonLd::addValue(budget, '@type', 'psa:Budget');
+    budget['@type'] = 'psa:Budget';
 
-   // set balance if not set
-   if(!budget->hasMember("com:balance"))
-   {
-      budget["com:balance"] = budget["com:amount"].clone();
-   }
+    // set balance if not set
+    budget['com:balance'] = budget['com:balance'] || budget['com:amount'];
 
-   // ensure balance is not greater than amount
-   Money balance = budget["com:balance"];
-   Money amount = budget["com:amount"];
-   if(balance > amount)
-   {
-      budget["com:balance"] = budget["com:amount"].clone();
-   }
+    // ensure balance is not greater than amount
+    var balance = new Money(budget['com:balance']);
+    var amount = new Money(budget['com:amount']);
+    if(balance.compareTo(amount) > 0) {
+      budget['com:balance'] = budget['com:amount'];
+    }
 
-   // set max per use to amount if not set
-   if(!budget->hasMember("psa:maxPerUse"))
-   {
-      budget["psa:maxPerUse"] = budget["com:amount"].clone();
-   }
+    // set max per use to amount if not set
+    budget['psa:maxPerUse'] = budget['psa:maxPerUse'] || budget['com:amount'];
 
-   // set refreshed to now if not set
-   if(budget->hasMember("psa:refreshed"))
-   {
-      // coerce to an Int32
-      budget["psa:refreshed"]->setType(UInt32);
-   }
-   else
-   {
-      // use current time
-      budget["psa:refreshed"] = (uint32_t)Date::utcSeconds();
-   }
+    // set refresh to never if not set
+    budget['psa:refresh'] = budget['psa:refresh'] || 'psa:Never';
+  }
 
-   // set refresh to never if not set
-   if(!budget->hasMember("psa:refresh"))
-   {
-      budget["psa:refresh"] = "psa:Never";
-   }
+  // set refreshed to now if not set
+  if('psa:refreshed' in budget) {
+    // coerce to an integer
+    budget['psa:refreshed'] = parseInt(budget['psa:refreshed']);
+  }
+  else if(!update) {
+    // use current time
+    budget['psa:refreshed'] = Math.floor(+new Date()/1000);
+  }
 
-   // coerce to an Int32
-   if(budget->hasMember("psa:expires"))
-   {
-      uint32_t e = budget["psa:expires"]->getUInt32();
-      // relative expires if < ~13 months
-      if(e <= ((365 + 30) * 24 * 60 * 60))
-      {
-         e += (uint32_t)Date::utcSeconds();
-      }
-      budget["psa:expires"] = e;
-   }
-   // set expiration to forever if not set
-   else
-   {
-      budget["psa:expires"] = UINT32_MAX;
-   }
+  // coerce to an integer
+  if('psa:expires' in budget) {
+    var i = parseInt(budget['psa:expires']);
+
+    // relative expires if < ~13 months
+    if(i <= ((365 + 30) * 24 * 60 * 60)) {
+      i += Math.floor(+new Date()/1000);
+    }
+    budget['psa:expires'] = i;
+  }
+  // set expiration to forever if not set
+  else if(!update) {
+    budget['psa:expires'] = 0xffffffff;
+  }
+}
+
+/**
+ * Updates the given Budget records, removing expired Budgets and refreshing
+ * stale Budgets.
+ *
+ * @param records the Budget records.
+ * @param callback(err, records) called once the operation completes.
+ */
+function _updateBudgets(records, callback) {
+  var budgets = [];
+  async.forEachSeries(records, function(record, callback) {
+    var budget = record.budget;
+
+    // expire budget if old
+    var now = new Date();
+    var secs = Math.floor(+now/1000);
+    if(budget['psa:expires'] <= secs) {
+      return payswarm.db.collections.budget.remove(
+        {id: payswarm.db.hash(budget['@id'])},
+        payswarm.db.writeOptions, callback);
+    }
+
+    // budget not expiring
+    budgets.push(record);
+
+    // refresh budget if necessary
+    if(_mustRefresh(budget, now)) {
+      _atomicUpdateBalance(id, now, function(err) {
+        if(!err) {
+          budget['psa:refreshed'] = Math.floor(+now/1000);
+          budget['com:balance'] = budget['com:amount'];
+        }
+        callback(err);
+      });
+    }
+  }, function(err) {
+    callback(err, budgets);
+  });
+}
+
+/**
+ * A helper function that asynchronously loops until a Budget balance has
+ * been updated or an error occurs.
+ *
+ * @param id the ID of the Budget.
+ * @param amountOrDate the Money amount to change the balance by or a Date to
+ *          refresh the Budget and mark it as refreshed on the given Date.
+ * @param callback(err) called once the operation completes.
+ */
+function _atomicUpdateBalance(id, amountOrDate, callback) {
+  var done = false;
+  async.until(function() {return done;}, function(callback) {
+    _updateBalance(id, amountOrDate, function(err, updated) {
+      done = updated;
+      callback(err);
+    });
+  }, callback);
 }
 
 /**
  * A helper function called internally to update a Budget balance.
  *
  * @param id the ID of the Budget.
- * @param amount the Money amount to change the balance by.
+ * @param amountOrDate the Money amount to change the balance by or a Date to
+ *          refresh the Budget and mark it as refreshed on the given Date.
  * @param callback(err, updated) called once the operation completes.
  */
-function _updateBalance(id, amount, callback) {
+function _updateBalance(id, amountOrDate, callback) {
   var updated = false;
   async.waterfall([
     function(callback) {
@@ -613,9 +557,21 @@ function _updateBalance(id, amount, callback) {
           {budget: id, httpStatusCode: 400, 'public': true}));
       }
 
-      // update balance by amount
-      var balance = new Money(result.balance);
-      balance.add(amount);
+      // update object
+      var update = {$set: {}, $inc: {updateCounter: 1}};
+
+      // update balance
+      var balance = new Money(result['com:balance']);
+      if(amountOrDate instanceof Date) {
+        // refresh balance
+        balance = new Money(result['com:amount']);
+        update.$set['budget.com:psa:refreshed'] =
+          Math.floor(+amountOrDate/1000);
+      }
+      else {
+        // add amount
+        balance.add(amountOrDate);
+      }
 
       // check if over budget
       if(balance.isNegative()) {
@@ -633,12 +589,11 @@ function _updateBalance(id, amount, callback) {
       }
 
       // attempt to update balance (ensure updateCounter matches)
+      update.$set['budget.com:balance'] = balance.toString();
       balance = balance.toString();
       payswarm.db.collections.budget.update(
         {id: payswarm.db.hash(id), updateCounter: result.updateCounter + 1},
-        {$set: {'budget.com:balance': balance}, $inc: {updateCounter: 1}},
-        payswarm.db.writeOptions,
-        callback);
+        update, payswarm.db.writeOptions, callback);
     },
     function(n, callback) {
       // budget updated if record was affected
@@ -649,51 +604,49 @@ function _updateBalance(id, amount, callback) {
   });
 }
 
-function _refreshHourly(Date& now, Date& refreshed) {
-   return (now.hour() != refreshed.hour() ||
-      now.day() != refreshed.day() ||
-      now.month() != refreshed.month() ||
-      now.year() != refreshed.year());
+function _refreshHourly(now, refreshed) {
+  return (now.getHours() != refreshed.getHours() ||
+    now.getDay() != refreshed.getDay() ||
+    now.month() != refreshed.month() ||
+    now.year() != refreshed.year());
 }
 
-function _refreshDaily(Date& now, Date& refreshed) {
-   return (now.day() != refreshed.day() ||
-      now.month() != refreshed.month() ||
-      now.year() != refreshed.year());
+function _refreshDaily(now, refreshed) {
+  return (now.day() != refreshed.day() ||
+    now.month() != refreshed.month() ||
+    now.year() != refreshed.year());
 }
 
-function _refreshMonthly(Date& now, Date& refreshed) {
-   return (now.month() != refreshed.month() ||
-      now.year() != refreshed.year());
+function _refreshMonthly(now, refreshed) {
+  return (now.month() != refreshed.month() ||
+    now.year() != refreshed.year());
 }
 
-function _refreshYearly(Date& now, Date& refreshed) {
-   return (now.year() != refreshed.year());
+function _refreshYearly(now, refreshed) {
+  return (now.year() != refreshed.year());
 }
 
-function _mustRefresh(Budget& budget, Date& now) {
-   bool rval = false;
+function _mustRefresh(budget, now) {
+  var rval = false;
 
-   // FIXME: decide if @ids used for refresh or something else
-   if(budget["psa:refresh"] != "psa:Never")
-   {
-      Date refreshed(budget["psa:refreshed"]->getUInt32());
-      if(now.getSeconds() > refreshed.getSeconds())
-      {
-         rval = (
-            (budget["psa:refresh"] == "psa:Hourly" &&
-            _refreshHourly(now, refreshed)) ||
-            (budget["psa:refresh"] == "psa:Daily" &&
-            _refreshDaily(now, refreshed)) ||
-            (budget["psa:refresh"] == "psa:Monthly" &&
-            _refreshMonthly(now, refreshed)) ||
-            (budget["psa:refresh"] == "psa:Yearly" &&
-            _refreshYearly(now, refreshed))
-         );
-      }
-   }
+  // FIXME: decide if @ids used for refresh or something else
+  if(budget['psa:refresh'] !== 'psa:Never') {
+    var refreshed = new Date(budget['psa:refreshed'] * 1000);
+    if(now.getSeconds() > refreshed.getSeconds()) {
+      rval = (
+        (budget['psa:refresh'] === 'psa:Hourly' &&
+        _refreshHourly(now, refreshed)) ||
+        (budget['psa:refresh'] === 'psa:Daily' &&
+        _refreshDaily(now, refreshed)) ||
+        (budget['psa:refresh'] === 'psa:Monthly' &&
+        _refreshMonthly(now, refreshed)) ||
+        (budget['psa:refresh'] === 'psa:Yearly' &&
+        _refreshYearly(now, refreshed))
+      );
+    }
+  }
 
-   return rval;
+  return rval;
 }
 
 /**

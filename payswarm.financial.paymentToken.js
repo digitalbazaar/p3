@@ -139,9 +139,15 @@ api.getPaymentToken = function(actor, id, callback) {
         payswarm.db.readOptions, callback);
     },
     function(result, callback) {
+      if(!result) {
+        return callback(new payswarm.tools.PaySwarmError(
+          'PaymentToken not found.',
+          MODULE_TYPE + '.PaymentTokenNotFound',
+          {'@id': id}));
+      }
       callback(null, result.paymentToken, result.meta);
     },
-    function(callback, paymentToken, meta) {
+    function(paymentToken, meta, callback) {
       api.checkActorPermissionForObject(
         actor, paymentToken,
         PERMISSIONS.PTOKEN_ADMIN, PERMISSIONS.PTOKEN_ACCESS,

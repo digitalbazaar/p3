@@ -180,6 +180,12 @@ api.getProfile = function(actor, id, callback) {
         {id: payswarm.db.hash(id)}, payswarm.db.readOptions, callback);
     },
     function(result, callback) {
+      if(!result) {
+        return callback(new payswarm.tools.PaySwarmError(
+          'Profile not found.',
+          MODULE_TYPE + '.ProfileNotFound',
+          {'@id': id}));
+      }
       // remove restricted fields
       delete result.profile['psa:password'];
       delete result.profile['psa:passcode'];

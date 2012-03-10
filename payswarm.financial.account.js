@@ -159,9 +159,15 @@ api.getAccount = function(actor, id, callback) {
         payswarm.db.readOptions, callback);
     },
     function(result, callback) {
+      if(!result) {
+        return callback(new payswarm.tools.PaySwarmError(
+          'Account not found.',
+          MODULE_TYPE + '.AccountNotFound',
+          {'@id': id}));
+      }
       callback(null, result.account, result.meta);
     },
-    function(callback, account, meta) {
+    function(account, meta, callback) {
       api.checkActorPermissionForObject(
         actor, account,
         PERMISSIONS.ACCOUNT_ADMIN, PERMISSIONS.ACCOUNT_ACCESS,

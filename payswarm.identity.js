@@ -252,9 +252,15 @@ api.getIdentity = function(actor, id, callback) {
         payswarm.db.readOptions, callback);
     },
     function(result, callback) {
+      if(!result) {
+        return callback(new payswarm.tools.PaySwarmError(
+          'Identity not found.',
+          MODULE_TYPE + '.IdentityNotFound',
+          {'@id': id}));
+      }
       callback(null, result.identity, result.meta);
     },
-    function(callback, identity, meta) {
+    function(identity, meta, callback) {
       api.checkActorPermissionForObject(
         actor, identity,
         PERMISSIONS.IDENTITY_ADMIN, PERMISSIONS.IDENTITY_ACCESS,

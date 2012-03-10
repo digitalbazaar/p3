@@ -88,7 +88,7 @@ api.createBudgetId = function(ownerId, name) {
  * @param ownerId the ID of the Identity that owns the Budget.
  * @param callback(err, id) called once the operation completes.
  */
-api.generateBudgetId(ownerId, callback) {
+api.generateBudgetId = function(ownerId, callback) {
   budgetIdGenerator.generateId(callback);
 };
 
@@ -223,7 +223,6 @@ api.getIdentityBudgets = function(actor, identityId) {
     _updateBudgets
   ], callback);
 };
-
 
 /**
  * Gets Budgets based on the given query. If an expired Budget is found it will
@@ -635,7 +634,7 @@ function _mustRefresh(budget, now) {
   return rval;
 }
 
-//return true if 'now' is after 'refreshed for various refresh schemes
+// return true if 'now' is after 'refreshed for various refresh schemes
 function _refreshHourly(now, refreshed) {
   return (now.getHours() != refreshed.getHours() ||
     now.getDay() != refreshed.getDay() ||

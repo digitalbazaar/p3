@@ -604,28 +604,14 @@ function _updateBalance(id, amountOrDate, callback) {
   });
 }
 
-function _refreshHourly(now, refreshed) {
-  return (now.getHours() != refreshed.getHours() ||
-    now.getDay() != refreshed.getDay() ||
-    now.month() != refreshed.month() ||
-    now.year() != refreshed.year());
-}
-
-function _refreshDaily(now, refreshed) {
-  return (now.day() != refreshed.day() ||
-    now.month() != refreshed.month() ||
-    now.year() != refreshed.year());
-}
-
-function _refreshMonthly(now, refreshed) {
-  return (now.month() != refreshed.month() ||
-    now.year() != refreshed.year());
-}
-
-function _refreshYearly(now, refreshed) {
-  return (now.year() != refreshed.year());
-}
-
+/**
+ * Determines if a Budget must be refreshed or not.
+ *
+ * @param budget the Budget to potentially refresh.
+ * @param now the current Date.
+ *
+ * @return true if the Budget needs refreshing, false if not.
+ */
 function _mustRefresh(budget, now) {
   var rval = false;
 
@@ -647,6 +633,26 @@ function _mustRefresh(budget, now) {
   }
 
   return rval;
+}
+
+//return true if 'now' is after 'refreshed for various refresh schemes
+function _refreshHourly(now, refreshed) {
+  return (now.getHours() != refreshed.getHours() ||
+    now.getDay() != refreshed.getDay() ||
+    now.getMonth() != refreshed.getMonth() ||
+    now.getFullYear() != refreshed.getFullYear());
+}
+function _refreshDaily(now, refreshed) {
+  return (now.getDay() != refreshed.getDay() ||
+    now.getMonth() != refreshed.getMonth() ||
+    now.getFullYear() != refreshed.getFullYear());
+}
+function _refreshMonthly(now, refreshed) {
+  return (now.getMonth() != refreshed.getMonth() ||
+    now.getFullYear() != refreshed.getFullYear());
+}
+function _refreshYearly(now, refreshed) {
+  return (now.getFullYear() != refreshed.getFullYear());
 }
 
 /**

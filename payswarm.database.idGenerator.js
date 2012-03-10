@@ -106,8 +106,8 @@ function _loadIds(idGenerator, callback) {
   idGenerator.currentId = new Id64();
 
   // get keys for local storage
-  var globalKey = idGenerator.namespace + 'payswarm.database.globalId:';
-  var localKey = idGenerator.namespace + 'payswarm.database.localId:';
+  var globalKey = 'payswarm.database.globalId:' + idGenerator.namespace;
+  var localKey = 'payswarm.database.localId:' + idGenerator.namespace;
 
   async.waterfall([
     function(callback) {

@@ -10,7 +10,9 @@ config.https.port = 8001;
 // modules to load
 config.modules = [
   './payswarm.database',
+  './payswarm.permission',
   './payswarm.profile',
+  // FIXME: load address validator as submodule of identity
   './payswarm.addressValidator',
   './payswarm.identity',
   './payswarm.financial',

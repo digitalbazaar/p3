@@ -89,7 +89,12 @@ api.createBudgetId = function(ownerId, name) {
  * @param callback(err, id) called once the operation completes.
  */
 api.generateBudgetId = function(ownerId, callback) {
-  budgetIdGenerator.generateId(callback);
+  budgetIdGenerator.generateId(function(err, id) {
+    if(err) {
+      return callback(err);
+    }
+    callback(null, api.createBudgetId(ownerId, id));
+  });
 };
 
 /**
@@ -556,8 +561,14 @@ function _updateBalance(id, amountOrDate, callback) {
           {budget: id, httpStatusCode: 400, 'public': true}));
       }
 
+      // get next update counter
+      var updateCounter = 0;
+      if(result.updateCounter < 0xffffffff) {
+        updateCounter = result.updateCounter + 1;
+      }
+
       // update object
-      var update = {$set: {}, $inc: {updateCounter: 1}};
+      var update = {$set: {updateCounter: updateCounter}};
 
       // update balance
       var balance = new Money(result['com:balance']);
@@ -591,7 +602,7 @@ function _updateBalance(id, amountOrDate, callback) {
       update.$set['budget.com:balance'] = balance.toString();
       balance = balance.toString();
       payswarm.db.collections.budget.update(
-        {id: payswarm.db.hash(id), updateCounter: result.updateCounter + 1},
+        {id: payswarm.db.hash(id), updateCounter: result.updateCounter},
         update, payswarm.db.writeOptions, callback);
     },
     function(n, callback) {

@@ -41,7 +41,7 @@ api.hashJsonLd = function(obj, frame) {
 
   // hash
   var md = crypto.createHash('sha1');
-  md.update(data);
+  md.update(data, 'utf8');
   rval = md.digest('hex');
 
   return rval;
@@ -304,7 +304,7 @@ api.createSaltedHash = function(value, saltSize, callback) {
 
       // hash value+salt
       var md = crypto.createHash('sha1');
-      md.update(value + salt);
+      md.update(value + salt, 'utf8');
       var hex = md.digest('hex');
 
       // produce "SHA1:<hex salt>:<hex digest>" output
@@ -340,7 +340,7 @@ api.verifySaltedHash = function(value, hash, callback) {
   else {
     // hash value+salt
     var md = crypto.createHash(fields[0]);
-    md.update(value + fields[1]);
+    md.update(value + fields[1], 'utf8');
     var hex = md.digest('hex');
     verified = (hex === fields[2]);
   }
@@ -373,7 +373,7 @@ function _verifyLegacyPassword(password, salt, checksum) {
       var serverKey = 'j3k9w0h2nkJ1pLq8cnFdk4';
 
       var md = crypto.createHash('md5');
-      md.update(salt + serverKey + encoded);
+      md.update(salt + serverKey + encoded, 'utf8');
       var hex = md.digest('hex');
       rval = (hex === checksum);
    }

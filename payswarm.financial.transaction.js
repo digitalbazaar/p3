@@ -286,6 +286,10 @@ api.processTransaction = function(transaction, callback) {
       }
       // process transaction
       _processTransaction(transaction, result.settleId, callback);
+    },
+    function(callback) {
+      // settle transaction
+      api.settleTransaction(transaction, callback);
     }
   ], callback);
 };

@@ -9,8 +9,10 @@ var payswarm = {
   logger: require('./payswarm.logger'),
   permission: require('./payswarm.permission'),
   profile: require('./payswarm.profile'),
-  security: require('./payswarm.security')
+  security: require('./payswarm.security'),
+  tools: require('./payswarm.tools')
 };
+var PaySwarmError = payswarm.tools.PaySwarmError;
 var Money = require('./payswarm.money').Money;
 
 // constants
@@ -125,7 +127,7 @@ api.createBudget = function(actor, budget, callback) {
         id: payswarm.db.hash(budget['@id']),
         owner: payswarm.db.hash(budget['ps:owner']),
         vendors: [],
-        updateCounter: 0,
+        updateId: 0,
         meta: {
           created: now,
           updated: now
@@ -156,7 +158,7 @@ api.getBudget = function(actor, id, callback) {
     },
     function(result, callback) {
       if(!result) {
-        return callback(new payswarm.tools.PaySwarmError(
+        return callback(new PaySwarmError(
           'Budget not found.',
           MODULE_TYPE + '.BudgetNotFound',
           {'@id': id}));
@@ -176,7 +178,7 @@ api.getBudget = function(actor, id, callback) {
       _updateBudgets([{budget: budget}], function(err, records) {
         if(!err) {
           if(records.length === 0) {
-            return callback(new payswarm.tools.PaySwarmError(
+            return callback(new PaySwarmError(
               'Budget not found.',
               MODULE_TYPE + '.BudgetNotFound',
               {'@id': id}));
@@ -288,7 +290,7 @@ api.updateBudget = function(actor, budgetUpdate, callback) {
     },
     function(n, callback) {
       if(n === 0) {
-        callback(new payswarm.tools.PaySwarmError(
+        callback(new PaySwarmError(
           'Could not update Budget. Budget not found.',
           MODULE_TYPE + '.BudgetNotFound'));
       }
@@ -545,15 +547,21 @@ function _updateBalance(id, amountOrDate, callback) {
     function(callback) {
       payswarm.db.collections.budget.findOne(
         {id: payswarm.db.hash(id)},
-        ['updateCounter', 'budget.com:amount', 'budget.com:balance',
+        ['updateId', 'budget.com:amount', 'budget.com:balance',
          'budget.psa:maxPerUse'],
         payswarm.db.readOptions, callback);
     },
     function(result, callback) {
+      if(!result) {
+        return callback(new PaySwarmError(
+          'Budget not found',
+          MODULE_TYPE + '.BudgetNotFound'));
+      }
+
       // ensure amount is not greater than maxPerUse restriction
-      var maxPerUse = new Money(result['psa:maxPerUse']);
+      var maxPerUse = new Money(result.budget['psa:maxPerUse']);
       if(amount.compareTo(maxPerUse) > 0) {
-        return callback(new payswarm.tools.PaySwarmError(
+        return callback(new PaySwarmError(
           'Could not update budget balance by the specified amount. ' +
           'The budget restricts the maximum amount that can be deducted ' +
           'from its balance in a single use.',
@@ -561,31 +569,28 @@ function _updateBalance(id, amountOrDate, callback) {
           {budget: id, httpStatusCode: 400, 'public': true}));
       }
 
-      // get next update counter
-      var updateCounter = 0;
-      if(result.updateCounter < 0xffffffff) {
-        updateCounter = result.updateCounter + 1;
-      }
+      // get next update ID
+      var updateId = payswarm.db.getNextUpdateId(result.updateId);
 
       // update object
-      var update = {$set: {updateCounter: updateCounter}};
+      var update = {$set: {updateId: updateId}};
 
       // update balance
-      var balance = new Money(result['com:balance']);
+      var balance = new Money(result.budget['com:balance']);
       if(amountOrDate instanceof Date) {
         // refresh balance
-        balance = new Money(result['com:amount']);
+        balance = new Money(result.budget['com:amount']);
         update.$set['budget.com:psa:refreshed'] =
           Math.floor(+amountOrDate/1000);
       }
       else {
         // add amount
-        balance.add(amountOrDate);
+        balance = balance.add(amountOrDate);
       }
 
       // check if over budget
       if(balance.isNegative()) {
-        return callback(new payswarm.tools.PaySwarmError(
+        return callback(new PaySwarmError(
           'Could not update budget balance by the specified amount. ' +
           'The budget would be exceeded.',
           MODULE_TYPE + '.BudgetExceeded',
@@ -598,16 +603,18 @@ function _updateBalance(id, amountOrDate, callback) {
         balance = max;
       }
 
-      // attempt to update balance (ensure updateCounter matches)
+      // attempt to update balance (ensure updateId matches)
       update.$set['budget.com:balance'] = balance.toString();
       balance = balance.toString();
       payswarm.db.collections.budget.update(
-        {id: payswarm.db.hash(id), updateCounter: result.updateCounter},
+        {id: payswarm.db.hash(id), updateId: result.updateId},
         update, payswarm.db.writeOptions, callback);
     },
     function(n, callback) {
       // budget updated if record was affected
       updated = (n === 1);
+      // FIXME: try again if not updated? (this wasn't finished it looks like)
+      callback();
     }
   ], function(err) {
     callback(err, done);

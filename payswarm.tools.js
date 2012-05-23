@@ -12,7 +12,9 @@ module.exports = api;
 // PaySwarmError class
 api.PaySwarmError = function(message, type, details) {
   Error.call(this, message);
-  this.type = type;
+  Error.captureStackTrace(this, this.constructor);
+  this.name = type;
+  this.message = message;
   this.details = details;
 };
 util.inherits(api.PaySwarmError, Error);

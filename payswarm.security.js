@@ -10,6 +10,7 @@ var payswarm = {
   logger: require('./payswarm.logger'),
   tools: require('./payswarm.tools')
 };
+var PaySwarmError = payswarm.tools.PaySwarmError;
 
 var api = {};
 module.exports = api;
@@ -61,7 +62,7 @@ api.hashJsonLd = function(obj, frame) {
 api.signJsonLd = function(obj, key, creator, nonce, date, callback) {
   // check key
   if(!('sec:privateKeyPem' in key)) {
-    return callback(new payswarm.tools.PaySwarmError(
+    return callback(new PaySwarmError(
       'PrivateKey missing sec:privateKeyPem property.',
       'payswarm.security.InvalidPrivateKey'));
   }
@@ -102,7 +103,7 @@ api.signJsonLd = function(obj, key, creator, nonce, date, callback) {
     callback(null, obj);
   }
   catch(e) {
-    return callback(new payswarm.tools.PaySwarmError(
+    return callback(new PaySwarmError(
       'Could not sign JSON-LD.',
       'payswarm.security.SignError',
       {cause: e}));
@@ -119,13 +120,13 @@ api.signJsonLd = function(obj, key, creator, nonce, date, callback) {
 api.verifyJsonLd = function(obj, key, callback) {
   // FIXME: support multiple signatures
   if(!('sec:signature' in obj)) {
-    return callback(new payswarm.tools.PaySwarmError(
+    return callback(new PaySwarmError(
       'Could not verify signature on object. Object is not signed.',
       'payswarm.security.InvalidSignature'));
   }
 
   if(!('sec:publicKeyPem' in key)) {
-    return callback(payswarm.tools.PaySwarmError(
+    return callback(PaySwarmError(
       'PublicKey missing sec:publicKeyPem property.',
       'payswarm.security.InvalidPublicKey'));
   }
@@ -143,7 +144,7 @@ api.verifyJsonLd = function(obj, key, callback) {
       key['sec:publicKeyPem'], signInfo['sec:signatureValue'], 'base64'));
   }
   catch(e) {
-    return callback(new payswarm.tools.PaySwarmError(
+    return callback(new PaySwarmError(
       'Could not verify JSON-LD.',
       'payswarm.security.VerifyError',
       {cause: e}));
@@ -207,7 +208,7 @@ api.encryptJsonLd = function(obj, publicKey, callback) {
         callback(null, msg);
       }
       catch(e) {
-        callback(new payswarm.tools.PaySwarmError(
+        callback(new PaySwarmError(
           'Could not encrypt message.',
           'payswarm.security.EncryptMessageError',
           {cause: e}));
@@ -227,7 +228,7 @@ api.encryptJsonLd = function(obj, publicKey, callback) {
 api.decryptJsonLd = function(obj, privateKey, callback) {
   // check algorithm
   if(obj['sec:algorithm'] !== 'rsa-aes-128-cbc') {
-    return callback(new payswarm.tools.PaySwarmError(
+    return callback(new PaySwarmError(
       'The JSON-LD encrypted message algorithm is not supported.',
       'payswarm.security.UnsupportedAlgorithm',
       {'algorithm': obj['sec:algorithm']}));
@@ -255,7 +256,7 @@ api.decryptJsonLd = function(obj, privateKey, callback) {
         callback(null, msg);
       }
       catch(e) {
-        callback(new payswarm.tools.PaySwarmError(
+        callback(new PaySwarmError(
           'Could not encrypt message.',
           'payswarm.security.EncryptMessageError',
           {cause: e}));
@@ -327,7 +328,7 @@ api.createSaltedHash = function(value, saltSize, callback) {
 api.verifySaltedHash = function(value, hash, callback) {
   var fields = hash.split(':');
   if(fields.length !== 3) {
-    return callback(payswarm.tools.PaySwarmError(
+    return callback(PaySwarmError(
       'Could not verify hashed value. Invalid input.',
       'payswarm.security.MalformedHash'));
   }

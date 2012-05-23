@@ -8,6 +8,7 @@ var payswarm = {
   logger: require('./payswarm.logger'),
   tools: require('./payswarm.tools')
 };
+var PaySwarmError = payswarm.tools.PaySwarmError;
 
 // constants
 var MODULE_TYPE = 'payswarm.permission';
@@ -204,7 +205,7 @@ api.updateRole = function(actor, role, callback) {
     },
     function(n, callback) {
       if(n === 0) {
-        callback(new payswarm.tools.PaySwarmError(
+        callback(new PaySwarmError(
           'Could not update Role. Role not found.',
           MODULE_TYPE + '.RoleNotFound'));
       }
@@ -278,7 +279,7 @@ api.checkPermission = function(superset, subset, callback) {
 
       var err = null;
       if(denied.length > 0) {
-        err = new payswarm.tools.PaySwarmError(
+        err = new PaySwarmError(
           'Permission denied.',
           MODULE_TYPE + '.PermissionDenied',
           {denied: denied});

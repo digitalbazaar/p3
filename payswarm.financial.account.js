@@ -10,6 +10,7 @@ var payswarm = {
   logger: require('./payswarm.logger'),
   permission: require('./payswarm.permission')
 };
+var PaySwarmError = payswarm.tools.PaySwarmError;
 
 // constants
 var MODULE_TYPE = payswarm.financial.type;
@@ -160,7 +161,7 @@ api.getAccount = function(actor, id, callback) {
     },
     function(result, callback) {
       if(!result) {
-        return callback(new payswarm.tools.PaySwarmError(
+        return callback(new PaySwarmError(
           'Account not found.',
           MODULE_TYPE + '.AccountNotFound',
           {'@id': id}));
@@ -181,10 +182,10 @@ api.getAccount = function(actor, id, callback) {
 /**
  * Updates an existing Account.
  *
-* @param actor the Profile performing the action.
-* @param account the Account to update.
-* @param callback(err) called once the operation completes.
-*/
+ * @param actor the Profile performing the action.
+ * @param account the Account to update.
+ * @param callback(err) called once the operation completes.
+ */
 api.updateAccount = function(actor, account, callback) {
  async.waterfall([
    function(callback) {
@@ -209,7 +210,7 @@ api.updateAccount = function(actor, account, callback) {
    },
    function(n, callback) {
      if(n === 0) {
-       callback(new payswarm.tools.PaySwarmError(
+       callback(new PaySwarmError(
          'Could not update Account. Account not found.',
          MODULE_TYPE + '.AccountNotFound'));
      }
@@ -242,6 +243,9 @@ function _createAccount(account, callback) {
   var record = {
     id: payswarm.db.hash(account['@id']),
     owner: payswarm.db.hash(account['ps:owner']),
+    incoming: [],
+    outgoing: [],
+    updateId: 0,
     meta: {
       created: now,
       updated: now

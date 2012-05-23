@@ -44,6 +44,14 @@ module.exports = payswarm.tools.extend(
   payswarm.financial.withdrawal
 );
 
+// supported escrow types
+api.escrowType = {
+  NONE: 'ESCROW_NONE',
+  RECEIVE: 'ESCROW_RECEIVE',
+  DISBURSE: 'ESCROW_DISBURSE',
+  REVERT: 'ESCROW_REVERT'
+};
+
 // payment gateways
 api.paymentGateways = {};
 

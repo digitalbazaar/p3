@@ -9,8 +9,10 @@ var payswarm = {
   logger: require('./payswarm.logger'),
   permission: require('./payswarm.permission'),
   profile: require('./payswarm.profile'),
-  security: require('./payswarm.security')
+  security: require('./payswarm.security'),
+  tools: require('./payswarm.tools')
 };
+var PaySwarmError = payswarm.tools.PaySwarmError;
 
 // constants
 var MODULE_TYPE = payswarm.financial.type;
@@ -67,7 +69,7 @@ api.init = function(callback) {
  */
 api.createPaymentToken = function(actor, source, gateway, token, callback) {
   if(!(gateway in payswarm.financial.paymentGateways)) {
-    return callback(new payswarm.tools.PaySwarmError(
+    return callback(new PaySwarmError(
         'Could not create payment token. Unknown payment gateway specified.',
         MODULE_TYPE + '.PaymentGatewayNotFound',
         {gateway: gateway}));
@@ -140,7 +142,7 @@ api.getPaymentToken = function(actor, id, callback) {
     },
     function(result, callback) {
       if(!result) {
-        return callback(new payswarm.tools.PaySwarmError(
+        return callback(new PaySwarmError(
           'PaymentToken not found.',
           MODULE_TYPE + '.PaymentTokenNotFound',
           {'@id': id}));

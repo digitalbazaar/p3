@@ -12,6 +12,7 @@ var payswarm = {
   profile: require('./payswarm.profile'),
   tools: require('./payswarm.tools')
 };
+var PaySwarmError = payswarm.tools.PaySwarmError;
 
 // constants
 var MODULE_TYPE = 'payswarm.identity';
@@ -253,7 +254,7 @@ api.getIdentity = function(actor, id, callback) {
     },
     function(result, callback) {
       if(!result) {
-        return callback(new payswarm.tools.PaySwarmError(
+        return callback(new PaySwarmError(
           'Identity not found.',
           MODULE_TYPE + '.IdentityNotFound',
           {'@id': id}));
@@ -304,7 +305,7 @@ api.updateIdentity = function(actor, identity, callback) {
     },
     function(n, callback) {
       if(n === 0) {
-        callback(new payswarm.tools.PaySwarmError(
+        callback(new PaySwarmError(
           'Could not update Identity. Identity not found.',
           MODULE_TYPE + '.IdentityNotFound'));
       }
@@ -339,7 +340,7 @@ api.addIdentityAddress = function(actor, id, address, callback) {
     },
     function(n, callback) {
       if(n === 0) {
-        callback(new payswarm.tools.PaySwarmError(
+        callback(new PaySwarmError(
           'Could not add address to Identity. Identity not found.',
           MODULE_TYPE + '.IdentityNotFound'));
       }
@@ -401,7 +402,7 @@ api.setIdentityPreferences = function(actor, prefs, callback) {
     },
     function(n, callback) {
       if(n === 0) {
-        callback(new payswarm.tools.PaySwarmError(
+        callback(new PaySwarmError(
           'Could not update Identity preferences. Identity not found.',
           MODULE_TYPE + '.IdentityNotFound'));
       }
@@ -630,7 +631,7 @@ api.updateIdentityPublicKey = function(actor, publicKey, callback) {
     },
     function(n, callback) {
       if(n === 0) {
-        callback(new payswarm.tools.PaySwarmError(
+        callback(new PaySwarmError(
           'Could not update public key. Public key not found.',
           MODULE_TYPE + '.PublicKeyNotFound'));
       }
@@ -765,12 +766,12 @@ function _addIdentityPublicKey(publicKey) {
         privateKey: privateKey ? privateKey['sec:privateKeyPem'] : null
       });
       if(keypair.publicKey === null) {
-        return callback(new payswarm.tools.PaySwarmError(
+        return callback(new PaySwarmError(
           'Could not add public key to Identity. Invalid public key.',
           MODULE_TYPE + '.InvalidPublicKey'));
       }
       if(privateKey && keypair.privateKey === null) {
-        return callback(new payswarm.tools.PaySwarmError(
+        return callback(new PaySwarmError(
           'Could not add private key to Identity. Invalid private key.',
           MODULE_TYPE + '.InvalidPrivateKey'));
       }
@@ -778,7 +779,7 @@ function _addIdentityPublicKey(publicKey) {
         var ciphertext = keypair.encrypt('plaintext', 'utf8');
         var plaintext = keypair.decrypt(ciphertext, 'binary', 'utf8');
         if(plaintext !== 'plaintext') {
-          return callback(new payswarm.tools.PaySwarmError(
+          return callback(new PaySwarmError(
             'Could not add public key to Identity. Key pair does not match.',
             MODULE_TYPE + '.InvalidKeyPair'));
         }
@@ -795,7 +796,7 @@ function _addIdentityPublicKey(publicKey) {
       }
 
       // get next public key ID from identity meta
-      // FIXME: ensure query contains the shard key
+      // FIXME: ensure query contains shard key for findAndModify
       payswarm.db.collections.identity.findAndModify(
         {id: payswarm.db.hash(publicKey['ps:owner'])},
         [['id', 'asc']],
@@ -805,7 +806,7 @@ function _addIdentityPublicKey(publicKey) {
           {upsert: true, 'new': true, fields: {'meta.lastPublicKeyId': 1}}),
         callback);
     },
-    function(lastPublicKeyId, callback) {
+    function(result, callback) {
       // FIXME: disallow setting public key names for anyone but
       // the authority ... instead search all public keys for a
       // particular identity and reject dups
@@ -822,11 +823,12 @@ function _addIdentityPublicKey(publicKey) {
       // if no ID was provided, get last public key ID and update it
       if(!('@id' in publicKey)) {
         publicKey['@id'] = api.createIdentityPublicKeyId(
-          publicKey['ps:owner'], lastPublicKeyId);
+          publicKey['ps:owner'], result.meta.lastPublicKeyId);
 
         // if no label was provided, add default label
         if(!('rdfs:label' in publicKey)) {
-          publicKey['rdfs:label'] = util.format('Key %d', lastPublicKeyId);
+          publicKey['rdfs:label'] = util.format(
+            'Key %d', result.meta.lastPublicKeyId);
         }
       }
 

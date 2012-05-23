@@ -455,3 +455,14 @@ api.isAlreadyExistsError = function(err) {
 api.isDuplicateError = function(err) {
   return (err.name === MDBE_ERROR && err.code === MDBE_DUPLICATE);
 };
+
+/**
+ * A helper method for incrementing cycling update IDs.
+ *
+ * @param updateId the current update ID.
+ *
+ * @return the new update ID.
+ */
+api.getNextUpdateId = function(updateId) {
+  return (updateId < 0xffffffff) ? (updateId + 1) : 0;
+};

@@ -10,6 +10,7 @@ var payswarm = {
   permission: require('./payswarm.permission'),
   security: require('./payswarm.security')
 };
+var PaySwarmError = payswarm.tools.PaySwarmError;
 
 // constants
 var MODULE_TYPE = 'payswarm.profile';
@@ -181,7 +182,7 @@ api.getProfile = function(actor, id, callback) {
     },
     function(result, callback) {
       if(!result) {
-        return callback(new payswarm.tools.PaySwarmError(
+        return callback(new PaySwarmError(
           'Profile not found.',
           MODULE_TYPE + '.ProfileNotFound',
           {'@id': id}));
@@ -227,7 +228,7 @@ api.updateProfile = function(actor, profile, callback) {
     },
     function(n, callback) {
       if(n === 0) {
-        callback(new payswarm.tools.PaySwarmError(
+        callback(new PaySwarmError(
           'Could not update Profile. Profile not found.',
           MODULE_TYPE + '.ProfileNotFound'));
       }
@@ -262,7 +263,7 @@ api.setProfileStatus = function(actor, id, status, callback) {
    },
    function(n, callback) {
      if(n === 0) {
-       callback(new payswarm.tools.PaySwarmError(
+       callback(new PaySwarmError(
          'Could not set Profile status. Profile not found.',
          MODULE_TYPE + '.ProfileNotFound'));
      }
@@ -307,7 +308,7 @@ api.setProfilePassword = function(actor, profile, callback) {
     },
     function(n, callback) {
       if(n === 0) {
-        callback(new payswarm.tools.PaySwarmError(
+        callback(new PaySwarmError(
           'Could not set Profile password. Profile not found.',
           MODULE_TYPE + '.ProfileNotFound'));
       }
@@ -408,12 +409,12 @@ function _verifyProfileSaltedHash(profile, type, callback) {
     },
     function(result, callback) {
       if(result === null) {
-        callback(new payswarm.tools.PaySwarmError(
+        callback(new PaySwarmError(
           'Could not verify Profile ' + type + '. Profile not found.',
           MODULE_TYPE + '.ProfileNotFound'));
       }
       else if(result['psa:status'] !== 'active') {
-        callback(new payswarm.tools.PaySwarmError(
+        callback(new PaySwarmError(
           'Could not verify Profile ' + type + '. Profile is not active.',
           MODULE_TYPE + '.ProfileInactive'));
       }
@@ -458,7 +459,7 @@ api.sendProfilePasscodes = function(profiles, usage) {
         event.email = profile['foaf:mbox'];
       }
       else if(event.email !== profile['foaf:mbox']) {
-        return callback(new payswarm.tools.PaySwarmError(
+        return callback(new PaySwarmError(
           'Could not send Profile passcodes. The profiles do not all ' +
           'have the same contact point (eg: email address).',
           MODULE_TYPE + '.ContactPointMismatch'));
@@ -622,7 +623,7 @@ api.checkActorOwnsObject = function(actor, object) {
   }
   comparator(actor, object, function(err, owns) {
     if(!err && !owns) {
-      err = new payswarm.tools.PaySwarmError(
+      err = new PaySwarmError(
         'The actor does not have permission to interact with this object.',
         'payswarm.permission.PermissionDenied');
     }

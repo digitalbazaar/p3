@@ -29,7 +29,6 @@ api.init = function(callback) {
   callback();
 };
 
-
 /**
  * Processes a financial Transaction containing a list of financial
  * Transfers. The transaction ID will be generated and assigned by this

@@ -16,7 +16,7 @@ config.logger.file.silent = false;
 config.logger.file.json = false;
 config.logger.file.timestamp = true;
 config.logger.file.filename = '/tmp/payswarm-dev.log';
-config.logger.file.maxsize = 1024;
+config.logger.file.maxsize = 2*1024*1024;
 config.logger.file.maxFiles = 10;
 
 // error file logging

@@ -1,6 +1,16 @@
 var config = {};
 module.exports = config;
 
+// modules to load
+config.modules = [
+  './payswarm.database',
+  './payswarm.permission',
+  './payswarm.profile',
+  './payswarm.identity',
+  './payswarm.financial'/*,
+  './payswarm.test'*/
+];
+
 // logger config
 config.logger = {};
 
@@ -39,18 +49,6 @@ config.logger.email.timestamp = true;
 // server info
 config.server = {};
 config.server.port = 8000;
-
-// modules to load
-config.modules = [
-  './payswarm.database',
-  './payswarm.permission'/*,
-  './payswarm.profile',
-  // FIXME: load address validator as submodule of identity
-  './payswarm.addressValidator',
-  './payswarm.identity',
-  './payswarm.financial',
-  './payswarm.test'*/
-];
 
 // database config
 config.database = {};

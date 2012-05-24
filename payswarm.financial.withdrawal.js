@@ -5,12 +5,15 @@ var async = require('async');
 var payswarm = {
   config: require('./payswarm.config'),
   db: require('./payswarm.database'),
+  financial: require('./payswarm.financial'),
   identity: require('./payswarm.identity'),
   logger: require('./payswarm.logger'),
   permission: require('./payswarm.permission'),
   profile: require('./payswarm.profile'),
-  security: require('./payswarm.security')
+  security: require('./payswarm.security'),
+  tools: require('./payswarm.tools')
 };
+var PaySwarmError = payswarm.tools.PaySwarmError;
 
 // constants
 var MODULE_TYPE = payswarm.financial.type;

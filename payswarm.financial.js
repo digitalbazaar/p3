@@ -10,6 +10,7 @@ var payswarm = {
   permission: require('./payswarm.permission'),
   profile: require('./payswarm.profile'),
   security: require('./payswarm.security'),
+  tools: require('./payswarm.tools'),
   // financial sub modules
   financial: {
     account: require('./payswarm.financial.account'),
@@ -81,7 +82,7 @@ api.init = function(app, callback) {
  * @param callback(err) called once the operation completes.
  */
 function _loadPaymentGateways(callback) {
-  var gateways = payswarm.config.paymentGateways;
+  var gateways = payswarm.config.financial.paymentGateways;
   async.forEachSeries(gateways, function(gateway, callback) {
     var mod = require(gateway);
     mod.init(function(err) {

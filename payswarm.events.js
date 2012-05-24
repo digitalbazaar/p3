@@ -6,5 +6,5 @@ var payswarm = {
   logger: require('./payswarm.logger')
 };
 
-var api = new EventEmitter();
+var api = new events.EventEmitter();
 module.exports = api;

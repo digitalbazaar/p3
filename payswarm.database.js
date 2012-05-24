@@ -223,7 +223,9 @@ api.getDistributedIdGenerator = function(namespace, callback) {
   // create and initialize ID generator
   var idGenerator = new DistributedIdGenerator();
   async.waterfall([
-    idGenerator.init,
+    function(callback) {
+      idGenerator.init(namespace, callback);
+    },
     function(callback) {
       idGenerators[namespace] = idGenerator;
       callback(null, idGenerator);
@@ -239,7 +241,8 @@ api.getDistributedIdGenerator = function(namespace, callback) {
 function _initLocalDatabase(callback) {
   async.waterfall([
     function(callback) {
-      var db = new sqlite3.cached.Database(
+      // FIXME: use sqlite3 cached
+      var db = new sqlite3.Database(
         payswarm.config.database.local.path, function(err) {
           callback(err, db);
         });
@@ -267,7 +270,8 @@ function _initLocalDatabase(callback) {
 api.setLocalItem = function(key, value, callback) {
   async.waterfall([
     function(callback) {
-      var db = new sqlite3.cached.Database(
+      // FIXME: use sqlite3.cached
+      var db = new sqlite3.Database(
         payswarm.config.database.local.path, function(err) {
           callback(err, db);
         });
@@ -352,7 +356,8 @@ api.setLocalItems = function(pairs, callback) {
 api.getLocalItem = function(key, callback) {
   async.waterfall([
     function(callback) {
-      var db = new sqlite3.cached.Database(
+      // FIXME: use sqlite3 cached
+      var db = new sqlite3.Database(
         payswarm.config.database.local.path, function(err) {
           callback(err, db);
         });

@@ -10,7 +10,8 @@ var payswarm = {
   logger: require('./payswarm.logger'),
   permission: require('./payswarm.permission'),
   profile: require('./payswarm.profile'),
-  tools: require('./payswarm.tools')
+  tools: require('./payswarm.tools'),
+  addressValidator: require('./payswarm.addressValidator')
 };
 var PaySwarmError = payswarm.tools.PaySwarmError;
 
@@ -33,6 +34,11 @@ var PERMISSIONS = {
 var api = {};
 api.name = MODULE_TYPE + '.Identity';
 module.exports = api;
+module.exports = payswarm.tools.extend(
+  api,
+  // sub modules
+  payswarm.addressValidator
+);
 
 /**
  * Initializes this module.
@@ -43,6 +49,7 @@ module.exports = api;
 api.init = function(app, callback) {
   // do initialization work
   async.waterfall([
+    payswarm.addressValidator.init,
     function(callback) {
       // open all necessary collections
       payswarm.db.openCollections(['identity', 'publicKey'], callback);
@@ -95,8 +102,7 @@ api.init = function(app, callback) {
             }
             callback(err);
           });
-        },
-        callback);
+        }, callback);
     }
   ], callback);
 };

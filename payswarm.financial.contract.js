@@ -5,12 +5,15 @@ var async = require('async');
 var payswarm = {
   config: require('./payswarm.config'),
   db: require('./payswarm.database'),
+  financial: require('./payswarm.financial'),
   identity: require('./payswarm.identity'),
   logger: require('./payswarm.logger'),
   permission: require('./payswarm.permission'),
   profile: require('./payswarm.profile'),
-  security: require('./payswarm.security')
+  security: require('./payswarm.security'),
+  tools: require('./payswarm.tools')
 };
+var PaySwarmError = payswarm.tools.PaySwarmError;
 
 // constants
 var MODULE_TYPE = payswarm.financial.type;
@@ -99,7 +102,7 @@ api.createPayeeSchemeId = function(ownerId, name) {
  *            (default: 'identity', other option: 'authority').
  * @param callback(err) called once the operation completes.
  */
-api.addPayeeSchemeToContract(contract, psId, options, callback) {
+api.addPayeeSchemeToContract = function(contract, psId, options, callback) {
   // FIXME: implement me
 };
 

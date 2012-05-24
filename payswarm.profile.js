@@ -8,7 +8,8 @@ var payswarm = {
   events: require('./payswarm.events'),
   logger: require('./payswarm.logger'),
   permission: require('./payswarm.permission'),
-  security: require('./payswarm.security')
+  security: require('./payswarm.security'),
+  tools: require('./payswarm.tools')
 };
 var PaySwarmError = payswarm.tools.PaySwarmError;
 
@@ -70,8 +71,7 @@ api.init = function(app, callback) {
             }
             callback(err);
           });
-        },
-        callback);
+        }, callback);
     }
   ], callback);
 };

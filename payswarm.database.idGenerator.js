@@ -1,11 +1,13 @@
 /*
  * Copyright (c) 2012 Digital Bazaar, Inc. All rights reserved.
  */
+var async = require('async');
 var mongo = require('mongodb');
 var util = require('util');
 var payswarm = {
   db: require('./payswarm.database'),
-  logger: require('./payswarm.logger')
+  logger: require('./payswarm.logger'),
+  tools: require('./payswarm.tools')
 };
 
 var api = {};
@@ -47,11 +49,9 @@ api.DistributedIdGenerator = function() {
  * Initializes this generator.
  *
  * @param namespace a unique namespace for the IDs.
- * @param options the options for this generator (none at the moment).
  * @param callback(err) called once the operation completes.
  */
-api.DistributedIdGenerator.prototype.init = function(
-  namespace, options, callback) {
+api.DistributedIdGenerator.prototype.init = function(namespace, callback) {
   var self = this;
   self.namespace = namespace;
   _loadIds(self, callback);
@@ -124,16 +124,23 @@ function _loadIds(idGenerator, callback) {
           function(old, callback) {
             idGenerator.localId = new Id64(old);
             if(idGenerator.localId.isMax()) {
-              // local ID space exhausted, clear global ID and reload IDs
-              payswarm.db.setLocalItem(globalKey, null);
-              _loadIds(idGenerator, callback);
+              // local ID space exhausted, clear global ID, keep local ID
+              globalId = null;
             }
             else {
-              // increment local ID
-              idGenerator.localId.increment();
-              callback(null, idGenerator.localId.toHex());
+              // get next local ID
+              idGenerator.localId.next();
             }
-          }, callback);
+            callback(null, idGenerator.localId.toHex());
+          }, function(err) {
+            if(err) {
+              return callback(err);
+            }
+            // global ID not cleared, do callback, otherwise drop to below
+            if(globalId !== null) {
+              callback();
+            }
+          });
       }
 
       // no global ID yet, assign a new one
@@ -144,6 +151,10 @@ function _loadIds(idGenerator, callback) {
         payswarm.tools.extend({}, payswarm.db.writeOptions,
           {'new': true, upsert: true}),
         function(err, record) {
+          if(err) {
+            return callback(err);
+          }
+
           // atomically write new global ID and local ID to local storage
           idGenerator.globalId = new Id64(record.id);
           idGenerator.localId = new Id64(1);
@@ -165,13 +176,13 @@ function _loadIds(idGenerator, callback) {
 var Id64 = function() {
   this.low = this.high = 0;
   if(arguments.length > 0) {
-    if(arguments[0] instanceof Number) {
+    if(typeof arguments[0] === 'number') {
       this.low = arguments[0] & 0xffffffff;
       if(arguments.length > 1 && arguments[1] instanceof Number) {
         this.high = arguments[1] & 0xffffffff;
       }
     }
-    else if(arguments[0] instanceof String) {
+    else if(typeof arguments[0] === 'string') {
       this.low = parseInt(arguments[0].substr(8), 16);
       this.high = parseInt(arguments[0].substr(0, 8), 16);
     }

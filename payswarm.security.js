@@ -4,8 +4,8 @@
 var async = require('async');
 var crypto = require('crypto');
 var rsa = require('rsa');
-var jsonld = require('jsonld');
 var util = require('util');
+var jsonld = require('./jsonld');
 var payswarm = {
   logger: require('./payswarm.logger'),
   tools: require('./payswarm.tools')

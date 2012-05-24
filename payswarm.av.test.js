@@ -6,9 +6,9 @@ var payswarm = {
 };
 
 // constants
-var MODULE_TYPE = 'payswarm.paymentGateway';
+var MODULE_TYPE = 'payswarm.addressValidator';
 
-// test payment gateway module API
+// test address validator module API
 var api = {};
 api.name = MODULE_TYPE + '.Test';
 module.exports = api;
@@ -20,8 +20,4 @@ module.exports = api;
  */
 api.init = function(callback) {
   callback(null);
-};
-
-// FIXME: implement me
-api.createPaymentToken = function(source, token, callback) {
 };

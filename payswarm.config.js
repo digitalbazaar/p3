@@ -52,7 +52,7 @@ config.server.port = 8000;
 
 // database config
 config.database = {};
-config.database.name = 'payswarm-dev';
+config.database.name = 'payswarm_dev';
 config.database.host = 'localhost';
 config.database.port = 27017;
 config.database.options = {};
@@ -72,7 +72,7 @@ config.database.local.path = '/tmp/payswarm-dev.local.db';
 
 // authority config
 config.authority = {};
-config.authority.baseUri = 'https://payswarm.dev:19443';
+config.authority.baseUri = 'https://payswarm.dev:8000';
 config.authority.id = config.authority.baseUri + '/i/authority';
 
 // permission config
@@ -110,36 +110,13 @@ config.addressValidator.module = './payswarm.av.test';
 // financial config
 config.financial = {};
 config.financial.defaults = {
-  account: {
-    '@type': 'Account',
-    // demo with $10
-    'com:balance': '10.0000000',
-    'com:escrow': '0.0000000',
-    'com:currency': 'USD',
-    'psa:status': 'active',
-    'psa:privacy': 'private'
-  },
-  paymentTokens: [{
-    // demo payment token source
-    '@type': 'ccard:CreditCard',
-    'rdfs:label': 'My Visa',
-    'com:gateway': 'Test',
-    'ccard:brand': 'ccard:Visa',
-    'ccard:number': '4111111111111111',
-    'ccard:expMonth': '11',
-    'ccard:expYear': '16',
-    'ccard:cvm': '111',
-    'ccard:address': {
-      'vcard:fn': 'Billing Name',
-      'vcard:street-address': '1 Billing Lane',
-      'vcard:locality': 'Locality',
-      'vcard:region': 'Region',
-      'vcard:postal-code': '12345',
-      'vcard:country-name': 'US'
-    }
-  }]
+  account: {},
+  paymentTokens: []
 };
 config.financial.accounts = [];
 config.financial.paymentGateways = [
   './payswarm.pg.test'
 ];
+
+// external configs
+require('./configs/dev');

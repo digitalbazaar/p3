@@ -120,6 +120,8 @@ api.createBudget = function(actor, budget, callback) {
       // sanitize budget
       _sanitizeBudget(budget, false);
 
+      payswarm.logger.debug('creating budget', budget);
+
       // clear vendor field
       budget['com:vendor'] = [];
 

@@ -700,6 +700,8 @@ api.checkIdentityObjectOwner = function(actor, object, callback) {
  * @param callback(err) called once the operation completes.
  */
 function _createIdentity(identity, callback) {
+  payswarm.logger.info('creating identity', identity);
+
   var defaults = payswarm.config.identity.defaults;
 
   // add identity defaults
@@ -754,6 +756,8 @@ function _checkIdentityOwner(actor, identity, callback) {
  * @param callback(err) called once the operation completes.
  */
 function _addIdentityPublicKey(publicKey) {
+  payswarm.logger.debug('adding public key', publicKey);
+
   var privateKey = null;
   var callback;
   if(arguments.length === 2) {

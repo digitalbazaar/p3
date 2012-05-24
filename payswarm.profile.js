@@ -700,7 +700,7 @@ function _generatePasscode() {
   // passcodes are 8 chars long
   var rval = '';
   for(var i = 0; i < 8; ++i) {
-    rval += CHARSET.charAt(Math.random() % CHARSET.length() - 1);
+    rval += CHARSET.charAt(Math.random() % CHARSET.length - 1);
   }
   return rval;
 }
@@ -712,6 +712,8 @@ function _generatePasscode() {
  * @param callback(err) called once the operation completes.
  */
 function _createProfile(profile, callback) {
+  payswarm.logger.debug('creating profile', profile);
+
   var defaults = payswarm.config.profile.defaults.profile;
   payswarm.tools.extend(profile, {
     'rdfs:label': profile['rdfs:label'] || profile['psa:slug'],
@@ -742,7 +744,7 @@ function _createProfile(profile, callback) {
           profile['psa:password'], null, callback);
       }
     },
-    hashPasscode: function() {
+    hashPasscode: function(callback) {
       payswarm.security.createSaltedHash(
         profile['psa:passcode'], null, callback);
     }

@@ -228,7 +228,9 @@ api.updateAccount = function(actor, account, callback) {
  * @param callback(err) called once the operation completes.
  */
 function _createAccount(account, callback) {
-  var defaults = payswarm.config.account.defaults;
+  payswarm.logger.debug('creating account', account);
+
+  var defaults = payswarm.config.financial.defaults;
 
   // force balances for new accounts to zero
   account['com:balance'] = '0.0000000';

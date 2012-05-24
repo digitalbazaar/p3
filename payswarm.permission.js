@@ -78,7 +78,7 @@ api.init = function(app, callback) {
  * @param callback(err) called once the operation completes.
  */
 api.registerPermission = function(permission, callback) {
-  payswarm.logger.info('registering permission', permission);
+  payswarm.logger.debug('registering permission', permission);
 
   async.waterfall([
     function(callback) {

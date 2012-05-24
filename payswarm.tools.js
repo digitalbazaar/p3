@@ -143,7 +143,7 @@ api.extend = function() {
  */
 api.clone = function(value) {
   var rval;
-  if(value instanceof Array) {
+  if(Array.isArray(value)) {
     rval = [];
     value.forEach(function(e) {
       rval.push(api.clone(e));
@@ -151,8 +151,8 @@ api.clone = function(value) {
   }
   else if(typeof value === 'object') {
     rval = {};
-    Object.keys(obj).forEach(function(name) {
-      rval[name] = api.clone(obj[name]);
+    Object.keys(value).forEach(function(name) {
+      rval[name] = api.clone(value[name]);
     });
   }
   else {

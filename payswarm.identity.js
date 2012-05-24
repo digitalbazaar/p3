@@ -43,11 +43,11 @@ module.exports = api;
 api.init = function(app, callback) {
   // do initialization work
   async.waterfall([
-    function openCollections(callback) {
+    function(callback) {
       // open all necessary collections
       payswarm.db.openCollections(['identity', 'publicKey'], callback);
     },
-    function setupCollections(callback) {
+    function(callback) {
       // setup collections (create indexes, etc)
       payswarm.db.createIndexes([{
         collection: 'identity',
@@ -68,7 +68,7 @@ api.init = function(app, callback) {
       }], callback);
     },
     _registerPermissions,
-    function createIdentities(callback) {
+    function(callback) {
       // create identities, ignoring duplicate errors
       async.forEachSeries(
         payswarm.config.identity.identities,
@@ -82,7 +82,7 @@ api.init = function(app, callback) {
         },
         callback);
     },
-    function addKeys(callback) {
+    function(callback) {
       // add keys, ignoring duplicate errors
       async.forEachSeries(
         payswarm.config.identity.keys,

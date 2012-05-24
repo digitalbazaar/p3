@@ -44,11 +44,11 @@ var transactionIdGenerator = null;
 api.init = function(callback) {
   // do initialization work
   async.waterfall([
-    function openCollections(callback) {
+    function(callback) {
       // open all necessary collections
       payswarm.db.openCollections(['transaction'], callback);
     },
-    function setupCollections(callback) {
+    function(callback) {
       // setup collections (create indexes, etc)
       payswarm.db.createIndexes([{
         collection: 'transaction',
@@ -62,7 +62,7 @@ api.init = function(callback) {
       }], callback);
     },
     _registerPermissions,
-    function getIdGenerator(callback) {
+    function(callback) {
       payswarm.db.getDistributedIdGenerator('transaction',
         function(err, idGenerator) {
           if(!err) {

@@ -43,11 +43,11 @@ var budgetIdGenerator = null;
 api.init = function(callback) {
   // do initialization work
   async.waterfall([
-    function openCollections(callback) {
+    function(callback) {
       // open all necessary collections
       payswarm.db.openCollections(['budget'], callback);
     },
-    function setupCollections(callback) {
+    function(callback) {
       // setup collections (create indexes, etc)
       payswarm.db.createIndexes([{
         collection: 'budget',
@@ -60,7 +60,7 @@ api.init = function(callback) {
       }], callback);
     },
     _registerPermissions,
-    function getIdGenerator(callback) {
+    function(callback) {
       payswarm.db.getDistributedIdGenerator('budget',
         function(err, idGenerator) {
           if(!err) {

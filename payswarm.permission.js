@@ -42,11 +42,11 @@ var registeredPermissions = {
 api.init = function(app, callback) {
   // do initialization work
   async.waterfall([
-    function openCollections(callback) {
+    function(callback) {
       // open all necessary collections
       payswarm.db.openCollections(['role'], callback);
     },
-    function setupCollections(callback) {
+    function(callback) {
       // setup collections (create indexes, etc)
       payswarm.db.createIndexes([{
         collection: 'role',
@@ -55,7 +55,7 @@ api.init = function(app, callback) {
       }], callback);
     },
     _registerPermissions,
-    function addRoles(callback) {
+    function(callback) {
       // add roles, ignoring duplicate errors
       async.forEachSeries(
         payswarm.config.permission.roles,
@@ -66,8 +66,7 @@ api.init = function(app, callback) {
             }
             callback(err);
           });
-        },
-        callback);
+        }, callback);
     }
   ], callback);
 };
@@ -79,6 +78,9 @@ api.init = function(app, callback) {
  * @param callback(err) called once the operation completes.
  */
 api.registerPermission = function(permission, callback) {
+  payswarm.logger.log('registering permission',
+    require('util').inspect(permission, false, 10));
+
   async.waterfall([
     function(callback) {
       // validate permission
@@ -98,6 +100,7 @@ api.registerPermission = function(permission, callback) {
         map[id] = list.length;
         list.push(permission);
       }
+      callback();
     }
   ], callback);
 };
@@ -132,6 +135,7 @@ api.createRoleId = function(name) {
  */
 api.addRole = function(role, callback) {
   // FIXME: anyone can create a Role, is this correct? (no actor)
+  payswarm.logger.log('adding role', require('util').inspect(role, false, 10));
 
   // insert the role
   var now = +new Date();

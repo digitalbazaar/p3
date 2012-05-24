@@ -7,8 +7,8 @@ config.server.port = 8000;
 
 // modules to load
 config.modules = [
-  './payswarm.database'/*,
-  './payswarm.permission',
+  './payswarm.database',
+  './payswarm.permission'/*,
   './payswarm.profile',
   // FIXME: load address validator as submodule of identity
   './payswarm.addressValidator',

@@ -1,17 +1,17 @@
 /*
- * Copyright (c) 2011 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2012 Digital Bazaar, Inc. All rights reserved.
  */
 var async = require('async');
 var cluster = require('cluster');
 var express = require('express');
 var config = require('./payswarm.config');
 
-// get the number of CPUs
-var cpus = require('os').cpus().length;
-
 if(cluster.isMaster) {
   // set up logger
   var logger = require('./payswarm.logger');
+
+  // get the number of CPUs
+  var cpus = require('os').cpus().length;
 
   // fork each app process
   // FIXME: uncomment to use multiple cpus
@@ -29,14 +29,10 @@ if(cluster.isMaster) {
     });
   }
 
-  // restart worker when one dies
+  // kill master when worker dies
   cluster.on('death', function(worker) {
     logger.log('worker ' + worker.pid + ' died');
-    // FIXME: uncomment to restart workers
-    //var worker = cluster.fork();
-    //logger.attach(worker);
-    // FIXME: kill app on known errors that cause loops
-    process.exit();
+    process.kill(process.pid);
   });
 }
 else {
@@ -46,9 +42,9 @@ else {
   // create app
   var app = {};
 
-  // FIXME: create TLS server as well (just pass 'key', etc to createServer)
-  app.server = express.createServer();
-  //app.server = express.createServer({key: ''});
+  // configure server
+  // FIXME: use TLS (pass 'key', etc to createServer)
+  app.server = express.createServer(/*{key: ''}*/);
 
   // start server
   app.server.listen(config.server.port);
@@ -56,7 +52,7 @@ else {
 
   // switch user
   //process.setgid(userGid);
-  //process.setuid(UserUid);
+  //process.setuid(userUid);
 
   // listen for master process exit
   process.on('message', function(msg) {

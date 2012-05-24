@@ -2,26 +2,24 @@ var config = {};
 module.exports = config;
 
 // server info
-config.http = {};
-config.http.port = 8000;
-config.https = {};
-config.https.port = 8001;
+config.server = {};
+config.server.port = 8000;
 
 // modules to load
 config.modules = [
-  './payswarm.database',
+  './payswarm.database'/*,
   './payswarm.permission',
   './payswarm.profile',
   // FIXME: load address validator as submodule of identity
   './payswarm.addressValidator',
   './payswarm.identity',
   './payswarm.financial',
-  './payswarm.test'
+  './payswarm.test'*/
 ];
 
 // database config
 config.database = {};
-config.database.name = 'test';
+config.database.name = 'payswarm-dev';
 config.database.host = 'localhost';
 config.database.port = 27017;
 config.database.options = {
@@ -37,6 +35,7 @@ config.database.writeOptions = {
   fsync: true,
   multi: true
 };
+config.database.local = {};
 config.database.local.path = '/tmp/payswarm-dev.local.db';
 
 // authority config
@@ -73,6 +72,7 @@ config.identity.identities = [];
 config.identity.keys = [];
 
 // address validator
+config.addressValidator = {};
 config.addressValidator.module = './payswarm.av.test';
 
 // financial config

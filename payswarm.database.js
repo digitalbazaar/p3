@@ -13,7 +13,7 @@ var sqlite3 = require('sqlite3').verbose();
 // constants
 var MODULE_NAME = 'payswarm.database';
 var MODULE_IRI = 'https://payswarm.com/modules/database';
-var PAYSWARM_LOCAL_TABLE = 'payswarm_local_table';
+var PAYSWARM_LOCAL_TABLE = 'payswarm_local';
 
 // exceptions
 var MDBE_ERROR = 'MongoError';
@@ -203,7 +203,7 @@ api.buildUpdate = function(obj) {
  */
 api.createIndexes = function(options, callback) {
   async.forEach(options, function(item, callback) {
-    payswarm.db.collections[item.collection].ensureIndex(
+    api.collections[item.collection].ensureIndex(
       item.fields, item.options, callback);
   }, callback);
 };
@@ -245,9 +245,8 @@ function _initLocalDatabase(callback) {
         });
     },
     function(db, callback) {
-      db.run('CREATE TABLE IF NOT EXISTS $table ' +
-        '(`key` TEXT PRIMARY KEY, `value` TEXT)',
-        {$table: PAYSWARM_LOCAL_TABLE},
+      db.run('CREATE TABLE IF NOT EXISTS ' + PAYSWARM_LOCAL_TABLE +
+        ' (`key` TEXT PRIMARY KEY, `value` TEXT)',
         function(err) {
           callback(err, db);
         });
@@ -275,15 +274,15 @@ api.setLocalItem = function(key, value, callback) {
     },
     function(db, callback) {
       if(value === null) {
-        db.run('DELETE FROM $table WHERE `key`=$key',
+        db.run('DELETE FROM ' + PAYSWARM_LOCAL_TABLE + ' WHERE `key`=$key',
           {$key: key},
           function(err) {
             callback(err, db);
           });
       }
       else {
-        db.run('INSERT OR REPLACE INTO $table (`key`,`value`) ' +
-          'VALUES ($key,$value)',
+        db.run('INSERT OR REPLACE INTO ' + PAYSWARM_LOCAL_TABLE +
+          ' (`key`,`value`) VALUES ($key,$value)',
           {$key: key, $value: value},
           function(err) {
             callback(err, db);
@@ -320,13 +319,14 @@ api.setLocalItems = function(pairs, callback) {
     function(db, callback) {
       async.forEachSeries(pairs, function(pair, callback) {
         if(pair.value === null) {
-          db.run('DELETE FROM $table WHERE `key`=$key',
+          db.run('DELETE FROM ' + PAYSWARM_LOCAL_TABLE + ' WHERE `key`=$key',
             {$key: key}, callback);
         }
         else {
-          db.run('INSERT OR REPLACE INTO $table (`key`,`value`) ' +
-            'VALUES ($key,$value)',
-            {$key: pair.key, $value: pair.value}, callback);
+          db.run('INSERT OR REPLACE INTO ' + PAYSWARM_LOCAL_TABLE +
+            ' (`key`,`value`) VALUES ($key,$value)',
+            {$key: pair.key, $value: pair.value},
+            callback);
         }
       }, function(err) {
         callback(err, db);
@@ -358,7 +358,8 @@ api.getLocalItem = function(key, callback) {
         });
     },
     function(db, callback) {
-      db.get('SELECT `value` FROM $table WHERE `key`=$key',
+      db.get('SELECT `value` FROM ' + PAYSWARM_LOCAL_TABLE +
+        ' WHERE `key`=$key',
         {$key: key},
         function(err, row) {
           if(err) {
@@ -409,7 +410,8 @@ api.findAndModifyLocalItem = function(key, modifier, callback) {
       db.run('BEGIN TRANSACTION', callback);
     },
     function(callback) {
-      db.get('SELECT `value` FROM $table WHERE `key`=$key',
+      db.get('SELECT `value` FROM ' + PAYSWARM_LOCAL_TABLE +
+        ' WHERE `key`=$key',
         {$key: key},
         function(err, row) {
           if(err) {
@@ -420,8 +422,8 @@ api.findAndModifyLocalItem = function(key, modifier, callback) {
         });
     },
     function(newValue, callback) {
-      db.run('INSERT OR REPLACE INTO $table (`key`,`value`) ' +
-        'VALUES ($key,$value)',
+      db.run('INSERT OR REPLACE INTO ' + PAYSWARM_LOCAL_TABLE +
+        ' (`key`,`value`) VALUES ($key,$value)',
         {$key: key, $value: newValue},
         callback);
     },

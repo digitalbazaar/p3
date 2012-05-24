@@ -59,13 +59,13 @@ api.init = function(app, callback) {
   async.waterfall([
     // open connection to shared database
     function(callback) {
-      payswarm.logger.log('connecting to database: mongodb://' +
+      payswarm.logger.info('connecting to database: mongodb://' +
         payswarm.config.database.host + ':' +
         payswarm.config.database.port + '/' +
         payswarm.config.database.name);
       api.client.open(function connected(err, client) {
         if(!err) {
-          payswarm.logger.log('connected to database: mongodb://' +
+          payswarm.logger.info('connected to database: mongodb://' +
             payswarm.config.database.host + ':' +
             payswarm.config.database.port + '/' +
             payswarm.config.database.name);
@@ -107,14 +107,14 @@ api.openCollections = function(names, callback) {
 
   // create collections as necessary (ignore already exists error)
   async.forEach(unopened, function(name, callback) {
-    payswarm.logger.log('creating collection: ' + name);
+    payswarm.logger.info('creating collection: ' + name);
     api.client.createCollection(name, api.writeOptions,
       function ignoreAlreadyExists(err) {
         if(err && api.isAlreadyExistsError(err)) {
           err = null;
         }
         else {
-          payswarm.logger.log('collection created: ' + name);
+          payswarm.logger.info('collection created: ' + name);
         }
         callback(err);
     });
@@ -137,7 +137,7 @@ api.openCollections = function(names, callback) {
       }
 
       // open collections
-      payswarm.logger.log('opening collections: ' + JSON.stringify(names));
+      payswarm.logger.info('opening collections', names);
       async.parallel(collections, function(err, results) {
         if(err) {
           callback(err);
@@ -146,7 +146,7 @@ api.openCollections = function(names, callback) {
           // merge results into collection cache
           for(var name in results) {
             if(!(name in api.collections)) {
-              payswarm.logger.log('collection open: ' + name);
+              payswarm.logger.info('collection open: ' + name);
               api.collections[name] = results[name];
             }
           }

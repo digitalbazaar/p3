@@ -31,7 +31,7 @@ if(cluster.isMaster) {
 
   // kill master when worker dies
   cluster.on('death', function(worker) {
-    logger.log('worker ' + worker.pid + ' died');
+    logger.info('worker ' + worker.pid + ' died');
     process.kill(process.pid);
   });
 }
@@ -48,7 +48,7 @@ else {
 
   // start server
   app.server.listen(config.server.port);
-  logger.log('started server on port ' + config.server.port);
+  logger.info('started server on port ' + config.server.port);
 
   // switch user
   //process.setgid(userGid);
@@ -66,11 +66,11 @@ else {
   // load dynamic modules
   var mods = config.modules;
   async.forEachSeries(config.modules, function loadModule(mod, callback) {
-    logger.log('loading module: ' + mod);
+    logger.info('loading module: ' + mod);
     mod = require(mod);
     mod.init(app, function moduleLoaded(err) {
       if(!err) {
-        logger.log('loaded module: "' + mod.name + '"');
+        logger.info('loaded module: "' + mod.name + '"');
       }
       callback(err);
     });
@@ -79,7 +79,7 @@ else {
       throw err;
     }
     else {
-      logger.log('all modules loaded');
+      logger.info('all modules loaded');
     }
   });
 }

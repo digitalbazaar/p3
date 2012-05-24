@@ -1,6 +1,41 @@
 var config = {};
 module.exports = config;
 
+// logger config
+config.logger = {};
+
+// console logging
+config.logger.console = {};
+config.logger.console.silent = false;
+config.logger.console.json = false;
+config.logger.console.timestamp = true;
+
+// generic file logging
+config.logger.file = {};
+config.logger.file.silent = false;
+config.logger.file.json = false;
+config.logger.file.timestamp = true;
+config.logger.file.filename = '/tmp/payswarm-dev.log';
+config.logger.file.maxsize = 1024;
+config.logger.file.maxFiles = 10;
+
+// error file logging
+/*
+config.logger.error = {};
+config.logger.error.level = 'error';
+config.logger.error.silent = false;
+config.logger.error.json = false;
+config.logger.error.timestamp = true;
+config.logger.error.filename = '/tmp/payswarm-dev.error';*/
+
+// email logging
+config.logger.email = {};
+config.logger.email.to = ['cluster@payswarm.com'];
+config.logger.email.from = 'cluster@payswarm.com';
+config.logger.email.silent = true;
+config.logger.email.json = true;
+config.logger.email.timestamp = true;
+
 // server info
 config.server = {};
 config.server.port = 8000;
@@ -22,8 +57,7 @@ config.database = {};
 config.database.name = 'payswarm-dev';
 config.database.host = 'localhost';
 config.database.port = 27017;
-config.database.options = {
-};
+config.database.options = {};
 config.database.connectOptions = {
   auto_reconnect: true
 };

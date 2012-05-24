@@ -78,8 +78,7 @@ api.init = function(app, callback) {
  * @param callback(err) called once the operation completes.
  */
 api.registerPermission = function(permission, callback) {
-  payswarm.logger.log('registering permission',
-    require('util').inspect(permission, false, 10));
+  payswarm.logger.info('registering permission', permission);
 
   async.waterfall([
     function(callback) {
@@ -135,7 +134,7 @@ api.createRoleId = function(name) {
  */
 api.addRole = function(role, callback) {
   // FIXME: anyone can create a Role, is this correct? (no actor)
-  payswarm.logger.log('adding role', require('util').inspect(role, false, 10));
+  payswarm.logger.info('adding role', role);
 
   // insert the role
   var now = +new Date();

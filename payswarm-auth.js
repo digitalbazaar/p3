@@ -4,6 +4,8 @@
 var async = require('async');
 var cluster = require('cluster');
 var express = require('express');
+var fs = require('fs');
+var path = require('path');
 var config = require('./payswarm.config');
 
 if(cluster.isMaster) {
@@ -42,9 +44,28 @@ else {
   // create app
   var app = {};
 
-  // configure server
+  // create server
   // FIXME: use TLS (pass 'key', etc to createServer)
-  app.server = express.createServer(/*{key: ''}*/);
+  var server = express.createServer(/*{key: ''}*/);
+  app.server = server;
+
+  // configure server
+  app.server.use(express.logger({
+    stream: {write: function(str) {logger.log('net', str);}}
+  }));
+  server.use(express.methodOverride());
+  server.use(express.bodyParser());
+  server.use(express.cookieParser());
+  server.use(express.session({secret: config.server.session.secret}));
+  server.use(server.router);
+  server.use(express.static(path.resolve(config.server.paths.static),
+    {maxAge: config.server.cache.maxAge}));
+  if(config.environment === 'development') {
+    server.use(express.errorHandler({dumpExceptions: true, showStack: true}));
+  }
+  else {
+    server.use(express.errorHandler());
+  }
 
   // start server
   app.server.listen(config.server.port);

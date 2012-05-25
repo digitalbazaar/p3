@@ -9,6 +9,30 @@ var payswarm = {
   config: require('./payswarm.config')
 };
 
+// create custom logging levels
+var levels = {
+  debug: 0,
+  info: 1,
+  net: 1,
+  notice: 2,
+  warning: 3,
+  error: 4,
+  crit: 5,
+  alert: 6,
+  emerg: 7
+};
+var colors = {
+  debug: 'blue',
+  info: 'green',
+  net: 'white',
+  notice: 'yellow',
+  warning: 'orange',
+  error: 'red',
+  crit: 'red',
+  alert: 'yellow',
+  emerg: 'red'
+};
+
 if(cluster.isMaster) {
   // create master logger
   var logger = new winston.Logger({
@@ -18,6 +42,8 @@ if(cluster.isMaster) {
       new WinstonMail(payswarm.config.logger.email)
     ]
   });
+  logger.setLevels(levels);
+  winston.addColors(colors);
 
   /**
    * Attaches a message handler to the given worker. This should be called
@@ -61,7 +87,8 @@ else {
   var logger = new winston.Logger({
     transports: [new WorkerTransport()]
   });
-  logger.log('test', 'this');
+  logger.setLevels(levels);
+  winston.addColors(colors);
 }
 
 module.exports = logger;

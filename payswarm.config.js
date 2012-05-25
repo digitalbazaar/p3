@@ -1,6 +1,11 @@
 var config = {};
 module.exports = config;
 
+// config environment
+config.environment = 'development';
+//config.environment = 'testing';
+//config.environment = 'production';
+
 // modules to load
 config.modules = [
   './payswarm.database',
@@ -49,6 +54,18 @@ config.logger.email.timestamp = true;
 // server info
 config.server = {};
 config.server.port = 8000;
+
+// session info
+config.server.session = {};
+config.server.session.secret = '0123456789abcdef';
+
+// server cache
+config.server.cache = {};
+config.server.cache.maxAge = 0;
+
+// server paths
+config.server.paths = {};
+config.server.paths.static = 'static';
 
 // database config
 config.database = {};

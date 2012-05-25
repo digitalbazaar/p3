@@ -510,6 +510,11 @@ api.setProfileRoles = function(actor, profile, callback) {
  * @return true if the actor has permission, false otherwise.
  */
 api.checkActorPermissionList = function(actor, permissions, callback) {
+  // if actor is null, ignore permission check
+  if(actor === null) {
+    return callback(null);
+  }
+
   // use permission cache
   if('psa:permissionCache' in actor) {
     return payswarm.permission.checkPermission(
@@ -585,6 +590,11 @@ function _populateRoles(roleIds, callback) {
  * @param callback(err) called once the operation completes.
  */
 api.checkActorPermission = function(actor, permission1) {
+  // if actor is null, ignore permission check
+  if(actor === null) {
+    return callback(null);
+  }
+
   var permissions = [];
   var length = arguments.length;
   for(var i = 1; i < length - 1; ++i) {
@@ -661,6 +671,11 @@ api.checkActorPermissionForObject = function(
   }
   else {
     callback = arguments[4];
+  }
+
+  // if actor is null, ignore permission check
+  if(actor === null) {
+    return callback(null);
   }
 
   async.waterfall([

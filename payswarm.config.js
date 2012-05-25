@@ -12,7 +12,8 @@ config.modules = [
   './payswarm.permission',
   './payswarm.profile',
   './payswarm.identity',
-  './payswarm.financial'/*,
+  './payswarm.financial',
+  './payswarm.website'/*,
   './payswarm.test'*/
 ];
 

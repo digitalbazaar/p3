@@ -6,6 +6,7 @@ var cluster = require('cluster');
 var express = require('express');
 var fs = require('fs');
 var path = require('path');
+var passport = require('passport');
 var config = require('./payswarm.config');
 
 if(cluster.isMaster) {
@@ -57,6 +58,8 @@ else {
   server.use(express.bodyParser());
   server.use(express.cookieParser());
   server.use(express.session({secret: config.server.session.secret}));
+  server.use(passport.initialize());
+  server.use(passport.session());
   server.use(server.router);
   server.use(express.static(path.resolve(config.server.paths.static),
     {maxAge: config.server.cache.maxAge}));

@@ -126,7 +126,7 @@ api.verifyJsonLd = function(obj, key, callback) {
   }
 
   if(!('sec:publicKeyPem' in key)) {
-    return callback(PaySwarmError(
+    return callback(new PaySwarmError(
       'PublicKey missing sec:publicKeyPem property.',
       'payswarm.security.InvalidPublicKey'));
   }
@@ -319,16 +319,16 @@ api.createSaltedHash = function(value, saltSize, callback) {
  * Verifies a value against a previously generated secure hash. The opaque
  * hash value should have been generated via createSaltedHash().
  *
- * @param value the value to verify.
  * @param hash the opaque hash value to verify against.
+ * @param value the value to verify.
  * @param callback(err, verified) called once the operation completes.
  *
  * @return true if verified, false if not.
  */
-api.verifySaltedHash = function(value, hash, callback) {
+api.verifySaltedHash = function(hash, value, callback) {
   var fields = hash.split(':');
   if(fields.length !== 3) {
-    return callback(PaySwarmError(
+    return callback(new PaySwarmError(
       'Could not verify hashed value. Invalid input.',
       'payswarm.security.MalformedHash'));
   }

@@ -85,7 +85,7 @@ else {
 
   // create worker logger
   var logger = new winston.Logger({
-    transports: [new WorkerTransport()]
+    transports: [new WorkerTransport({level: 'debug'})]
   });
   logger.setLevels(levels);
   winston.addColors(colors);

@@ -81,7 +81,7 @@ api.init = function(app, callback) {
       // setup indexes
       api.createIndexes([{
         collection: 'distributedId',
-        fields: {namespace: 1},
+        fields: {namespace: true},
         options: {unique: true, background: true}
       }], callback);
     },
@@ -166,7 +166,7 @@ api.openCollections = function(names, callback) {
  */
 api.hash = function(key) {
   var md = crypto.createHash('sha1');
-  md.update(key);
+  md.update(key, 'utf8');
   return md.digest('hex') + key.length.toString(16);
 };
 

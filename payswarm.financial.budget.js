@@ -52,7 +52,7 @@ api.init = function(callback) {
       // setup collections (create indexes, etc)
       payswarm.db.createIndexes([{
         collection: 'budget',
-        fields: {id: 1},
+        fields: {id: true},
         options: {unique: true, background: true}
       }, {
         collection: 'budget',
@@ -111,7 +111,7 @@ api.generateBudgetId = function(ownerId, callback) {
 api.createBudget = function(actor, budget, callback) {
   async.waterfall([
     function(callback) {
-      api.checkActorPermission(
+      payswarm.profile.checkActorPermission(
         actor, budget,
         PERMISSIONS.BUDGET_ADMIN, PERMISSIONS.BUDGET_CREATE,
         payswarm.identity.checkIdentityObjectOwner, callback);
@@ -169,7 +169,7 @@ api.getBudget = function(actor, id, callback) {
       callback(null, result.budget, result.meta);
     },
     function(budget, meta, callback) {
-      api.checkActorPermissionForObject(
+      payswarm.profile.checkActorPermissionForObject(
         actor, budget,
         PERMISSIONS.BUDGET_ADMIN, PERMISSIONS.BUDGET_ACCESS,
         _checkBudgetOwner, function(err) {
@@ -217,7 +217,7 @@ api.getIdentityBudgets = function(actor, identityId) {
 
   async.waterfall([
     function(callback) {
-      api.checkActorPermission(
+      payswarm.profile.checkActorPermission(
         actor, {'ps:owner': identityId},
         PERMISSIONS.BUDGET_ADMIN, PERMISSIONS.BUDGET_ACCESS,
         _checkBudgetOwner, callback);
@@ -250,7 +250,8 @@ api.getBudgets = function(actor, query, callback) {
   query = query || {};
   async.waterfall([
     function(callback) {
-      api.checkActorPermission(actor, PERMISSIONS.BUDGET_ADMIN, callback);
+      payswarm.profile.checkActorPermission(
+        actor, PERMISSIONS.BUDGET_ADMIN, callback);
     },
     function(callback) {
       payswarm.db.collections.budget.find(
@@ -273,7 +274,7 @@ api.getBudgets = function(actor, query, callback) {
 api.updateBudget = function(actor, budgetUpdate, callback) {
   async.waterfall([
     function(callback) {
-      api.checkActorPermissionForObject(
+      payswarm.profile.checkActorPermissionForObject(
         actor, {'@id': budgetUpdate['@id']},
         PERMISSIONS.BUDGET_ADMIN, PERMISSIONS.BUDGET_EDIT,
         _checkBudgetOwner, callback);
@@ -314,7 +315,7 @@ api.updateBudget = function(actor, budgetUpdate, callback) {
 api.removeBudget = function(actor, id, callback) {
   async.waterfall([
     function(callback) {
-      api.checkActorPermission(
+      payswarm.profile.checkActorPermission(
         actor, {'@id': id},
         PERMISSIONS.BUDGET_ADMIN, PERMISSIONS.BUDGET_REMOVE,
         _checkBudgetOwner, callback);
@@ -341,7 +342,7 @@ api.removeBudget = function(actor, id, callback) {
 api.updateBudgetBalance = function(actor, id, amountOrDate, callback) {
   async.waterfall([
     function(callback) {
-      api.checkActorPermissionForObject(
+      payswarm.profile.checkActorPermissionForObject(
         actor, {'@id': id},
         PERMISSIONS.BUDGET_ADMIN, PERMISSIONS.BUDGET_EDIT,
         _checkBudgetOwner, callback);
@@ -368,7 +369,7 @@ api.addBudgetVendor = function(actor, budgetId, vendorId, callback) {
       api.getBudget(actor, budgetId, callback);
     },
     function(budget, callback) {
-      api.checkActorPermissionForObject(
+      payswarm.profile.checkActorPermissionForObject(
         actor, budget,
         PERMISSIONS.BUDGET_ADMIN, PERMISSIONS.BUDGET_EDIT,
         _checkBudgetOwner, callback);
@@ -407,7 +408,7 @@ api.removeBudgetVendor = function(actor, budgetId, vendorId, callback) {
       api.getBudget(actor, budgetId, callback);
     },
     function(budget, callback) {
-      api.checkActorPermissionForObject(
+      payswarm.profile.checkActorPermissionForObject(
         actor, budget,
         PERMISSIONS.BUDGET_ADMIN, PERMISSIONS.BUDGET_EDIT,
         _checkBudgetOwner, callback);
@@ -549,10 +550,12 @@ function _updateBalance(id, amountOrDate, callback) {
   async.waterfall([
     function(callback) {
       payswarm.db.collections.budget.findOne(
-        {id: payswarm.db.hash(id)},
-        ['updateId', 'budget.com:amount', 'budget.com:balance',
-         'budget.psa:maxPerUse'],
-        payswarm.db.readOptions, callback);
+        {id: payswarm.db.hash(id)}, {
+          updateId: true,
+          'budget.com:amount': true,
+          'budget.com:balance': true,
+          'budget.psa:maxPerUse': true
+        }, payswarm.db.readOptions, callback);
     },
     function(result, callback) {
       if(!result) {

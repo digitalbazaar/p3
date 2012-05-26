@@ -20,6 +20,7 @@ var MODULE_IRI = 'https://payswarm.com/modules/profile';
 // module permissions
 var PERMISSIONS = {
   PROFILE_ADMIN: MODULE_IRI + '#profile_admin',
+  PROFILE_ACCESS: MODULE_IRI + '#profile_access',
   PROFILE_CREATE: MODULE_IRI + '#profile_create',
   PROFILE_EDIT: MODULE_IRI + '#profile_edit',
   PROFILE_REMOVE: MODULE_IRI + '#profile_remove'
@@ -47,15 +48,15 @@ api.init = function(app, callback) {
       // setup collections (create indexes, etc)
       payswarm.db.createIndexes([{
         collection: 'profile',
-        fields: {id: 1},
+        fields: {id: true},
         options: {unique: true, background: true}
       }, {
         collection: 'profile',
-        fields: {'profile.foaf:mbox': 1},
+        fields: {'profile.foaf:mbox': true},
         options: {unique: false, background: true}
       }, {
         collection: 'profile',
-        fields: {'profile.psa:slug': 1},
+        fields: {'profile.psa:slug': true},
         options: {unique: true, background: true}
       }], callback);
     },
@@ -98,9 +99,16 @@ api.createProfileId = function(name) {
 api.resolveEmail = function(email, callback) {
   payswarm.db.collections.profile.find(
     {'profile.foaf:mbox': email},
-    ['profile.@id'],
+    {'profile.@id': true},
     payswarm.db.readOptions
-  ).toArray(callback);
+  ).toArray(function(err, result) {
+    if(result) {
+      for(var i in result) {
+        result[i] = result[i].profile['@id'];
+      }
+    }
+    callback(err, result);
+  });
 };
 
 /**
@@ -113,9 +121,14 @@ api.resolveEmail = function(email, callback) {
 api.resolveProfilename = function(name, callback) {
   payswarm.db.collections.profile.findOne(
     {'profile.psa:slug': name},
-    ['profile.@id'],
+    {'profile.@id': true},
     payswarm.db.readOptions,
-    callback);
+    function(err, result) {
+      if(!err && result) {
+        result = result.profile['@id'];
+      }
+      callback(err, result);
+    });
 };
 
 /**
@@ -401,30 +414,28 @@ function _verifyProfileSaltedHash(profile, type, callback) {
   async.waterfall([
     function(callback) {
       // get status and <type> from db
+      var fields = {'profile.psa:status': true};
+      fields['profile.psa:' + type] = true;
       payswarm.db.collections.profile.findOne(
         {id: payswarm.db.hash(profile['@id'])},
-        ['profile.psa:status', 'profile.psa:' + type],
-        payswarm.db.readOptions,
-        callback);
+        fields, payswarm.db.readOptions, callback);
     },
     function(result, callback) {
-      if(result === null) {
-        callback(new PaySwarmError(
+      if(!result) {
+        return callback(new PaySwarmError(
           'Could not verify Profile ' + type + '. Profile not found.',
           MODULE_TYPE + '.ProfileNotFound'));
       }
-      else if(result['psa:status'] !== 'active') {
-        callback(new PaySwarmError(
+      if(result.profile['psa:status'] !== 'active') {
+        return callback(new PaySwarmError(
           'Could not verify Profile ' + type + '. Profile is not active.',
           MODULE_TYPE + '.ProfileInactive'));
       }
-      else {
-        callback(null, result['psa:' + type]);
-      }
+      callback(null, result.profile['psa:' + type]);
     },
-    function(value, callback) {
+    function(hash, callback) {
       payswarm.security.verifySaltedHash(
-        value, profile['psa:' + type], callback);
+        hash, profile['psa:' + type], callback);
     }
   ], callback);
 };
@@ -527,30 +538,37 @@ api.checkActorPermissionList = function(actor, permissions, callback) {
       if('psa:role' in actor) {
         return callback(null, actor['psa:role']);
       }
-      payswarm.db.collections.profile.find(
+      payswarm.db.collections.profile.findOne(
         {id: payswarm.db.hash(actor['@id'])},
-        ['profile.psa:role'],
-        payswarm.db.readOptions,
-        function(err, results) {
+        {'profile.psa:role': true},
+        payswarm.db.readOptions, function(err, result) {
           if(err) {
             return callback(err);
           }
-          _populateRoles(results, callback);
+          if(!result) {
+            result = [];
+          }
+          else {
+            result = result.profile['psa:role'];
+          }
+          _populateRoles(result, callback);
         });
     },
-    function(callback, results) {
+    function(records, callback) {
       // create map of unique permissions
       var unique = {};
-      results.getRoles.forEach(function(role) {
-        role['psa:permission'].forEach(function(permission) {
+      records.forEach(function(record) {
+        record.role['psa:permission'].forEach(function(permission) {
           unique[permission['@id']] = permission;
         });
       });
 
       // put unique permissions into cache
+      actor['psa:permissionCache'] = [];
       for(var id in unique) {
         actor['psa:permissionCache'].push(unique[id]);
       }
+      callback();
     }
   ], function(err) {
     if(err) {
@@ -567,13 +585,11 @@ api.checkActorPermissionList = function(actor, permissions, callback) {
  * @param callback(err, roles) called once the roles are populated.
  */
 function _populateRoles(roleIds, callback) {
-  var query = {$in:[]};
+  var query = {id: {$in:[]}};
   roleIds.forEach(function(roleId) {
-    query.$in.push(payswarm.db.hash(roleId));
+    query.id.$in.push(payswarm.db.hash(roleId));
   });
-  payswarm.permission.getRoles(query, function(err) {
-    callback(err, rval);
-  });
+  payswarm.permission.getRoles(query, callback);
 }
 
 /**
@@ -661,7 +677,7 @@ api.checkActorOwnsObject = function(actor, object) {
  * @param callback(err) called once the operation completes.
  */
 api.checkActorPermissionForObject = function(
-  actor, object, permissionSpecial, permissonNormal) {
+  actor, object, permissionSpecial, permissionNormal) {
   var length = arguments.length;
   var comparator;
   var callback;

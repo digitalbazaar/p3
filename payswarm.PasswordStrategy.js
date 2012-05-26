@@ -5,7 +5,8 @@ var async = require('async');
 var LocalStrategy = require('passport-local');
 var payswarm = {
   logger: require('./payswarm.logger'),
-  profile: require('./payswarm.profile')
+  profile: require('./payswarm.profile'),
+  identity: require('./payswarm.identity')
 };
 
 // export strategy
@@ -60,8 +61,9 @@ function Strategy(options) {
             if(verified) {
               matches.push(id);
             }
+            callback();
           });
-        }, function(err, callback) {
+        }, function(err) {
           callback(err, matches);
         });
       }

@@ -58,19 +58,19 @@ api.init = function(app, callback) {
       // setup collections (create indexes, etc)
       payswarm.db.createIndexes([{
         collection: 'identity',
-        fields: {id: 1},
+        fields: {id: true},
         options: {unique: true, background: true}
       }, {
         collection: 'identity',
-        fields: {owner: 1},
+        fields: {owner: true},
         options: {unique: false, background: true}
       }, {
         collection: 'publicKey',
-        fields: {id: 1},
+        fields: {id: true},
         options: {unique: true, background: true}
       }, {
         collection: 'publicKey',
-        fields: {owner: 1, pem: 1},
+        fields: {owner: true, pem: true},
         options: {unique: true, background: true}
       }], callback);
     },
@@ -166,7 +166,7 @@ api.getProfileDefaultIdentityId = function(profile, callback) {
 api.createIdentity = function(actor, identity, callback) {
   async.waterfall([
     function(callback) {
-      api.checkActorPermission(
+      payswarm.profile.checkActorPermissionForObject(
         actor, identity,
         PERMISSIONS.IDENTITY_ADMIN, PERMISSIONS.IDENTITY_CREATE,
         _checkIdentityOwner, callback);
@@ -187,9 +187,9 @@ api.createIdentity = function(actor, identity, callback) {
 api.getProfileDefaultIdentity = function(actor, profileId, callback) {
   async.waterfall([
     function(callback) {
-      api.checkActorPermission(
-        actor, PERMISSIONS.IDENTITY_ADMIN, PERMISSIONS.IDENTITY_ACCESS,
-        callback);
+      payswarm.profile.checkActorPermissionForObject(
+        actor, {'@id': profileId},
+        PERMISSIONS.IDENTITY_ADMIN, PERMISSIONS.IDENTITY_ACCESS, callback);
     },
     function(callback) {
       payswarm.db.collections.identity.findOne(
@@ -212,9 +212,9 @@ api.getProfileDefaultIdentity = function(actor, profileId, callback) {
 api.getProfileIdentities = function(actor, profileId, callback) {
   async.waterfall([
     function(callback) {
-      api.checkActorPermission(
-        actor, PERMISSIONS.IDENTITY_ADMIN, PERMISSIONS.IDENTITY_ACCESS,
-        callback);
+      payswarm.profile.checkActorPermissionForObject(
+        actor, {'@id': profileId},
+        PERMISSIONS.IDENTITY_ADMIN, PERMISSIONS.IDENTITY_ACCESS, callback);
     },
     function(callback) {
       payswarm.db.collections.identity.find(
@@ -235,7 +235,8 @@ api.getIdentities = function(actor, query, callback) {
   query = query || {};
   async.waterfall([
     function(callback) {
-      api.checkActorPermission(actor, PERMISSIONS.IDENTITY_ADMIN, callback);
+      payswarm.profile.checkActorPermission(
+        actor, PERMISSIONS.IDENTITY_ADMIN, callback);
     },
     function(callback) {
       payswarm.db.collections.identity.find(
@@ -268,7 +269,7 @@ api.getIdentity = function(actor, id, callback) {
       callback(null, result.identity, result.meta);
     },
     function(identity, meta, callback) {
-      api.checkActorPermissionForObject(
+      payswarm.profile.checkActorPermissionForObject(
         actor, identity,
         PERMISSIONS.IDENTITY_ADMIN, PERMISSIONS.IDENTITY_ACCESS,
         _checkIdentityOwner, function(err) {
@@ -290,7 +291,7 @@ api.getIdentity = function(actor, id, callback) {
 api.updateIdentity = function(actor, identity, callback) {
   async.waterfall([
     function(callback) {
-      api.checkActorPermissionForObject(
+      payswarm.profile.checkActorPermissionForObject(
         actor, identity,
         PERMISSIONS.IDENTITY_ADMIN, PERMISSIONS.IDENTITY_EDIT,
         _checkIdentityOwner, callback);
@@ -333,7 +334,7 @@ api.updateIdentity = function(actor, identity, callback) {
 api.addIdentityAddress = function(actor, id, address, callback) {
   async.waterfall([
     function(callback) {
-      api.checkActorPermissionForObject(
+      payswarm.profile.checkActorPermissionForObject(
         actor, {'@id': id},
         PERMISSIONS.IDENTITY_ADMIN, PERMISSIONS.IDENTITY_EDIT,
         _checkIdentityOwner, callback);
@@ -367,7 +368,7 @@ api.addIdentityAddress = function(actor, id, address, callback) {
 api.getIdentityAddresses = function(actor, id, callback) {
   async.waterfall([
     function(callback) {
-      api.checkActorPermissionForObject(
+      payswarm.profile.checkActorPermissionForObject(
         actor, {'@id': id},
         PERMISSIONS.IDENTITY_ADMIN, PERMISSIONS.IDENTITY_ACCESS,
         _checkIdentityOwner, callback);
@@ -395,7 +396,7 @@ api.getIdentityAddresses = function(actor, id, callback) {
 api.setIdentityPreferences = function(actor, prefs, callback) {
   async.waterfall([
     function(callback) {
-      api.checkActorPermissionForObject(
+      payswarm.profile.checkActorPermissionForObject(
         actor, {'@id': prefs['ps:owner']},
         PERMISSIONS.IDENTITY_ADMIN, PERMISSIONS.IDENTITY_EDIT,
         _checkIdentityOwner, callback);
@@ -430,7 +431,7 @@ api.setIdentityPreferences = function(actor, prefs, callback) {
 api.getIdentityPreferences = function(actor, prefs, callback) {
   async.waterfall([
     function(callback) {
-      api.checkActorPermissionForObject(
+      payswarm.profile.checkActorPermissionForObject(
         actor, {'@id': prefs['ps:owner']},
         PERMISSIONS.IDENTITY_ADMIN, PERMISSIONS.IDENTITY_ACCESS,
         _checkIdentityOwner, callback);
@@ -438,10 +439,13 @@ api.getIdentityPreferences = function(actor, prefs, callback) {
     function(callback) {
       payswarm.db.collections.identity.findOne(
         {id: payswarm.db.hash(prefs['ps:owner'])},
-        ['identity.ps:preferences'],
+        {'identity.ps:preferences': true},
         payswarm.db.readOptions, callback);
     },
     function(result, callback) {
+      if(result) {
+        result = result.identity['ps:preferences'];
+      }
       callback(null, result);
     }
   ], callback);
@@ -481,7 +485,7 @@ api.addIdentityPublicKey = function(actor, publicKey) {
 
   async.waterfall([
     function(callback) {
-      api.checkActorPermissionForObject(
+      payswarm.profile.checkActorPermissionForObject(
         actor, {'@id': publicKey['ps:owner']},
         PERMISSIONS.IDENTITY_ADMIN, PERMISSIONS.PUBLIC_KEY_CREATE,
         _checkIdentityOwner, callback);
@@ -538,7 +542,7 @@ api.getIdentityPublicKey = function(publicKey) {
         callback(null, publicKey, meta, privateKey);
       }
       else {
-        api.checkActorPermissionForObject(
+        payswarm.profile.checkActorPermissionForObject(
           actor, {'@id': publicKey['ps:owner']},
           PERMISSIONS.IDENTITY_ADMIN, PERMISSIONS.IDENTITY_ACCESS,
           _checkIdentityOwner, function(err) {
@@ -581,7 +585,7 @@ api.getIdentityPublicKeys = function(id) {
     },
     function(results, callback) {
       if(actor) {
-        api.checkActorPermissionForObject(
+        payswarm.profile.checkActorPermissionForObject(
           actor, {'@id': id},
           PERMISSIONS.IDENTITY_ADMIN, PERMISSIONS.IDENTITY_ACCESS,
           _checkIdentityOwner, function(err) {
@@ -619,7 +623,7 @@ api.getIdentityPublicKeys = function(id) {
 api.updateIdentityPublicKey = function(actor, publicKey, callback) {
   async.waterfall([
     function(callback) {
-      api.checkActorPermissionForObject(
+      payswarm.profile.checkActorPermissionForObject(
         actor, {'@id': publicKey['ps:owner']},
         PERMISSIONS.IDENTITY_ADMIN, PERMISSIONS.IDENTITY_EDIT,
         _checkIdentityOwner, callback);
@@ -660,7 +664,7 @@ api.getAuthorityKeyPair = function(actor, callback) {
   var authorityId = payswarm.config.authority.id;
   async.waterfall([
     function(callback) {
-      api.checkActorPermissionForObject(
+      payswarm.profile.checkActorPermissionForObject(
         actor, {'@id': authorityId},
         PERMISSIONS.IDENTITY_ADMIN, PERMISSIONS.IDENTITY_ACCESS,
         _checkIdentityOwner, callback);
@@ -668,7 +672,7 @@ api.getAuthorityKeyPair = function(actor, callback) {
     function(callback) {
       payswarm.db.collections.publicKey.findOne(
         {owner: payswarm.db.hash(authorityId)},
-        ['publicKey'], payswarm.db.readOptions, callback);
+        {publicKey: true}, payswarm.db.readOptions, callback);
     },
     function(result, callback) {
       // no such public key
@@ -813,7 +817,7 @@ function _addIdentityPublicKey(publicKey) {
         {$inc: {'meta.lastPublicKeyId': 1}},
         payswarm.tools.extend(
           {}, payswarm.db.writeOptions,
-          {upsert: true, 'new': true, fields: {'meta.lastPublicKeyId': 1}}),
+          {upsert: true, 'new': true, fields: {'meta.lastPublicKeyId': true}}),
         callback);
     },
     function(result, callback) {

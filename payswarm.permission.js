@@ -50,7 +50,7 @@ api.init = function(app, callback) {
       // setup collections (create indexes, etc)
       payswarm.db.createIndexes([{
         collection: 'role',
-        fields: {id: 1},
+        fields: {id: true},
         options: {unique: true, background: true}
       }], callback);
     },
@@ -134,7 +134,7 @@ api.createRoleId = function(name) {
  */
 api.addRole = function(role, callback) {
   // FIXME: anyone can create a Role, is this correct? (no actor)
-  payswarm.logger.info('adding role', role);
+  payswarm.logger.debug('adding role', role);
 
   // insert the role
   var now = +new Date();
@@ -194,9 +194,10 @@ api.getRole = function(id, callback) {
  * @param callback(err) called once the operation completes.
  */
 api.updateRole = function(actor, role, callback) {
+  var profile = require('./payswarm.profile');
   async.waterfall([
     function(callback) {
-      api.checkActorPermission(
+      profile.checkActorPermission(
         actor, PERMISSIONS.ROLE_ADMIN, PERMISSIONS.ROLE_EDIT, callback);
     },
     function(callback) {
@@ -229,9 +230,10 @@ api.updateRole = function(actor, role, callback) {
  * @param callback(err) called once the operation completes.
  */
 api.removeRole = function(actor, id, callback) {
+  var profile = require('./payswarm.profile');
   async.waterfall([
     function(callback) {
-      api.checkActorPermission(
+      profile.checkActorPermission(
         actor, PERMISSIONS.ROLE_ADMIN, PERMISSIONS.ROLE_REMOVE, callback);
     },
     function(callback) {
@@ -265,7 +267,7 @@ api.checkPermission = function(superset, subset, callback) {
     },
     function(callback) {
       // build superset map
-      var map;
+      var map = {};
       superset.forEach(function(permission) {
         map[permission['@id']] = permission;
       });
@@ -280,14 +282,12 @@ api.checkPermission = function(superset, subset, callback) {
         }
       });
 
-      var err = null;
       if(denied.length > 0) {
-        err = new PaySwarmError(
+        return callback(new PaySwarmError(
           'Permission denied.',
-          MODULE_TYPE + '.PermissionDenied',
-          {denied: denied});
+          MODULE_TYPE + '.PermissionDenied', {denied: denied}));
       }
-      callback(err);
+      callback();
     }
   ], callback);
 };

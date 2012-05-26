@@ -46,7 +46,7 @@ api.init = function(callback) {
       // setup collections (create indexes, etc)
       payswarm.db.createIndexes([{
         collection: 'account',
-        fields: {id: 1},
+        fields: {id: true},
         options: {unique: true, background: true}
       }], callback);
     },
@@ -92,7 +92,7 @@ api.createAccountId = function(ownerId, name) {
 api.createAccount = function(actor, account, callback) {
   async.waterfall([
     function(callback) {
-      api.checkActorPermission(
+      payswarm.profile.checkActorPermission(
         actor, account,
         PERMISSIONS.ACCOUNT_ADMIN, PERMISSIONS.ACCOUNT_CREATE,
         payswarm.identity.checkIdentityObjectOwner, callback);
@@ -113,7 +113,7 @@ api.createAccount = function(actor, account, callback) {
 api.getIdentityAccounts = function(actor, identityId, callback) {
   async.waterfall([
     function(callback) {
-      api.checkActorPermission(
+      payswarm.profile.checkActorPermission(
         actor, PERMISSIONS.ACCOUNT_ADMIN, PERMISSIONS.ACCOUNT_ACCESS,
         callback);
     },
@@ -136,7 +136,8 @@ api.getAccounts = function(actor, query, callback) {
   query = query || {};
   async.waterfall([
     function(callback) {
-      api.checkActorPermission(actor, PERMISSIONS.ACCOUNT_ADMIN, callback);
+      payswarm.profile.checkActorPermission(
+        actor, PERMISSIONS.ACCOUNT_ADMIN, callback);
     },
     function(callback) {
       payswarm.db.collections.account.find(
@@ -169,7 +170,7 @@ api.getAccount = function(actor, id, callback) {
       callback(null, result.account, result.meta);
     },
     function(account, meta, callback) {
-      api.checkActorPermissionForObject(
+      payswarm.profile.checkActorPermissionForObject(
         actor, account,
         PERMISSIONS.ACCOUNT_ADMIN, PERMISSIONS.ACCOUNT_ACCESS,
         _checkAccountOwner, function(err) {
@@ -189,7 +190,7 @@ api.getAccount = function(actor, id, callback) {
 api.updateAccount = function(actor, account, callback) {
  async.waterfall([
    function(callback) {
-     api.checkActorPermissionForObject(
+     payswarm.profile.checkActorPermissionForObject(
        actor, account,
        PERMISSIONS.ACCOUNT_ADMIN, PERMISSIONS.ACCOUNT_EDIT,
        _checkAccountOwner, callback);

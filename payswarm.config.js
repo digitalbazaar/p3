@@ -22,12 +22,15 @@ config.logger = {};
 
 // console logging
 config.logger.console = {};
+config.logger.console.level = 'debug';
 config.logger.console.silent = false;
 config.logger.console.json = false;
 config.logger.console.timestamp = true;
+config.logger.console.colorize = true;
 
 // generic file logging
 config.logger.file = {};
+config.logger.file.level = 'debug';
 config.logger.file.silent = false;
 config.logger.file.json = false;
 config.logger.file.timestamp = true;
@@ -102,7 +105,10 @@ config.profile = {};
 config.profile.defaults = {
   profile: {
     'psa:status': 'active',
-    'psa:role': [config.authority.baseUri + '/roles/profile_registered']
+    'psa:role': [
+      config.authority.baseUri + '/roles/profile_registered',
+      config.authority.baseUri + '/roles/identity_manager',
+      config.authority.baseUri + '/roles/financial_manager']
   }
 };
 config.profile.profiles = [];
@@ -137,4 +143,5 @@ config.financial.paymentGateways = [
 ];
 
 // external configs
+require('./configs/roles');
 require('./configs/dev');

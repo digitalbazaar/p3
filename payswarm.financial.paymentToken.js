@@ -48,7 +48,7 @@ api.init = function(callback) {
       // setup collections (create indexes, etc)
       payswarm.db.createIndexes([{
         collection: 'paymentToken',
-        fields: {id: 1},
+        fields: {id: true},
         options: {unique: true, background: true}
       }], callback);
     },
@@ -78,7 +78,7 @@ api.createPaymentToken = function(actor, source, gateway, token, callback) {
 
   async.waterfall([
     function(callback) {
-      api.checkActorPermission(
+      payswarm.profile.checkActorPermission(
         actor, token,
         PERMISSIONS.PTOKEN_ADMIN, PERMISSIONS.PTOKEN_CREATE,
         payswarm.identity.checkIdentityObjectOwner, callback);
@@ -151,7 +151,7 @@ api.getPaymentToken = function(actor, id, callback) {
       callback(null, result.paymentToken, result.meta);
     },
     function(paymentToken, meta, callback) {
-      api.checkActorPermissionForObject(
+      payswarm.profile.checkActorPermissionForObject(
         actor, paymentToken,
         PERMISSIONS.PTOKEN_ADMIN, PERMISSIONS.PTOKEN_ACCESS,
         _checkPaymentTokenOwner, function(err) {
@@ -182,7 +182,7 @@ api.getIdentityPaymentTokens = function(actor, identityId) {
 
   async.waterfall([
     function(callback) {
-      api.checkActorPermission(
+      payswarm.profile.checkActorPermission(
         actor, {'ps:owner': identityId},
         PERMISSIONS.PTOKEN_ADMIN, PERMISSIONS.PTOKEN_ACCESS,
         _checkPaymentTokenOwner, callback);
@@ -242,7 +242,8 @@ api.getPaymentTokens = function(actor, query, callback) {
   query = query || {};
   async.waterfall([
     function(callback) {
-      api.checkActorPermission(actor, PERMISSIONS.PTOKEN_ADMIN, callback);
+      payswarm.profile.checkActorPermission(
+        actor, PERMISSIONS.PTOKEN_ADMIN, callback);
     },
     function(callback) {
       payswarm.db.collections.paymentToken.find(
@@ -261,7 +262,7 @@ api.getPaymentTokens = function(actor, query, callback) {
 api.removePaymentToken = function(actor, id, callback) {
   async.waterfall([
     function(callback) {
-      api.checkActorPermission(
+      payswarm.profile.checkActorPermission(
         actor, {'@id': id},
         PERMISSIONS.PTOKEN_ADMIN, PERMISSIONS.PTOKEN_REMOVE,
         _checkPaymentTokenOwner, callback);

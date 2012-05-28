@@ -3,7 +3,8 @@
  */
 var util = require('util');
 var payswarm = {
-  logger: require('./payswarm.logger')
+  logger: require('./payswarm.logger'),
+  config: require('./payswarm.config')
 };
 
 var api = {};
@@ -21,12 +22,31 @@ api.PaySwarmError = function(message, type, details, cause) {
 util.inherits(api.PaySwarmError, Error);
 api.PaySwarmError.prototype.name = 'PaySwarmError';
 api.PaySwarmError.prototype.toObject = function() {
-  return {
+  var rval = {
     message: this.message,
     type: this.name,
     details: this.details,
-    cause: this.cause
+    cause: null
   };
+  if(payswarm.config.environment === 'development') {
+    rval.stack = this.stack;
+  }
+  if(this.cause) {
+    if(this.cause instanceof api.PaySwarmError) {
+      rval.cause = this.cause.toObject();
+    }
+    else {
+      rval.cause = {
+        message: this.cause.message,
+        type: this.cause.name,
+        details: null
+      };
+      if(payswarm.config.environment === 'development') {
+        rval.cause.stack = this.cause.stack;
+      }
+    }
+  }
+  return rval;
 };
 
 /**

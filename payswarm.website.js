@@ -12,7 +12,18 @@ var payswarm = {
   security: require('./payswarm.security'),
   tools: require('./payswarm.tools'),
   PasswordStrategy: require('./payswarm.PasswordStrategy'),
-  SignedGraphStrategy: require('./payswarm.SignedGraphStrategy')
+  SignedGraphStrategy: require('./payswarm.SignedGraphStrategy'),
+  // service sub modules
+  services: {
+    profile: require('./payswarm.services.profile'),
+    identity: require('./payswarm.services.identity'),
+    identifier: require('./payswarm.services.identifier'),
+    key: require('./payswarm.services.key'),
+    account: require('./payswarm.services.account'),
+    budget: require('./payswarm.services.budget'),
+    license: require('./payswarm.services.license'),
+    transaction: require('./payswarm.services.transaction')
+  }
 };
 var PaySwarmError = payswarm.tools.PaySwarmError;
 
@@ -23,7 +34,21 @@ var MODULE_IRI = 'https://payswarm.com/modules/website';
 // module API
 var api = {};
 api.name = MODULE_TYPE + '.Website';
+api.type = MODULE_TYPE;
+api.iri = MODULE_IRI;
 module.exports = api;
+
+// service sub modules
+var modules = [
+  'profile',
+  'identity',
+  'identifier',
+  'key',
+  'account',
+  'budget',
+  'license',
+  'transaction'
+];
 
 /**
  * Initializes this module.
@@ -41,8 +66,30 @@ api.init = function(app, callback) {
     function(callback) {
       // add services
       addServices(app, callback);
+    },
+    // init service sub modules
+    function(callback) {
+      async.forEachSeries(modules, function(module, callback) {
+        payswarm.services[module].init(app, callback);
+      }, callback);
     }
   ], callback);
+};
+
+/**
+ * Ensures a request has been authenticated. This method checks the current
+ * website session for login credentials.
+ *
+ * @param req the request.
+ * @param res the response.
+ * @param next the next route handler.
+ */
+api.ensureAuthenticated = function(req, res, next) {
+  if(req.isAuthenticated()) {
+    return next();
+  }
+  // FIXME: include current route as redirect param
+  res.redirect('/login');
 };
 
 /**
@@ -121,31 +168,9 @@ function addServices(app, callback) {
   });
 
   // FIXME: example of protected resource
-  app.server.get('/foo', ensureAuthenticated, function(req, res) {
+  /*app.server.get('/foo', ensureAuthenticated, function(req, res) {
     res.render('foo.tpl', {user: req.user});
-  });
-
-  app.server.post('/login', function(req, res, next) {
-    passport.authenticate('payswarm.password', function(err, user, info) {
-      if(!user) {
-        err = new PaySwarmError(
-          info.message, MODULE_TYPE + '.InvalidCredentials');
-      }
-      if(err) {
-        return next(err);
-      }
-
-      if(user) {
-        req.logIn(user, function(err) {
-          if(err) {
-            return next(err);
-          }
-          // FIXME: redirect to redirect param if exists
-          return res.redirect('/');
-        });
-      }
-    })(req, res, next);
-  });
+  });*/
 
   // FIXME: example of path param
   app.server.get('/foo/:bar', function(req, res) {
@@ -179,18 +204,11 @@ function addServices(app, callback) {
           'An error occurred.',
           MODULE_TYPE + '.Error', null, err);
       }
+      payswarm.logger.error('Error', err.toObject());
       return res.json(err.toObject());
     }
     next();
   });
 
   callback(null);
-}
-
-// ensures a request is authenticated
-function ensureAuthenticated(req, res, next) {
-  if(req.isAuthenticated()) {
-    return next();
-  }
-  res.redirect('/login');
 }

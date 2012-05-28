@@ -62,6 +62,12 @@ config.server.port = 8000;
 // session info
 config.server.session = {};
 config.server.session.secret = '0123456789abcdef';
+config.server.session.key = 'payswarm.sid';
+config.server.session.prefix = 'payswarm.';
+config.server.session.cookie = {};
+//config.server.session.cookie.secure = true;
+// 30 minute timeout
+config.server.session.cookie.maxAge = 1000*60*30;
 
 // server cache
 config.server.cache = {};

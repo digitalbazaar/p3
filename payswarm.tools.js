@@ -10,15 +10,24 @@ var api = {};
 module.exports = api;
 
 // PaySwarmError class
-api.PaySwarmError = function(message, type, details) {
+api.PaySwarmError = function(message, type, details, cause) {
   Error.call(this, message);
   Error.captureStackTrace(this, this.constructor);
   this.name = type;
   this.message = message;
-  this.details = details;
+  this.details = details || null;
+  this.cause = cause || null;
 };
 util.inherits(api.PaySwarmError, Error);
 api.PaySwarmError.prototype.name = 'PaySwarmError';
+api.PaySwarmError.prototype.toObject = function() {
+  return {
+    message: this.message,
+    type: this.name,
+    details: this.details,
+    cause: this.cause
+  };
+};
 
 /**
  * Gets the passed date in W3C format (eg: 2011-03-09T21:55:41Z).

@@ -6,8 +6,10 @@ var LocalStrategy = require('passport-local');
 var payswarm = {
   logger: require('./payswarm.logger'),
   profile: require('./payswarm.profile'),
-  identity: require('./payswarm.identity')
+  identity: require('./payswarm.identity'),
+  tools: require('./payswarm.tools')
 };
+var PaySwarmError = payswarm.tools.PaySwarmError;
 
 // export strategy
 module.exports = Strategy;
@@ -72,7 +74,8 @@ function Strategy(options) {
           return callback(err);
         }
         if(matches.length === 0) {
-          return callback(null, false, {message: 'Invalid credentials.'});
+          return callback(
+            null, false, {message: 'Invalid login credentials.'});
         }
         // multiple profiles authenticated, simply pass (do not do success)
         if(matches.length > 1) {

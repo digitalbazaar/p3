@@ -49,6 +49,7 @@ else {
   // FIXME: use TLS (pass 'key', etc to createServer)
   var server = express.createServer(/*{key: ''}*/);
   app.server = server;
+  app.server.errorHandlers = [];
 
   // configure server
   app.server.use(express.logger({
@@ -57,12 +58,22 @@ else {
   server.use(express.methodOverride());
   server.use(express.bodyParser());
   server.use(express.cookieParser());
-  server.use(express.session({secret: config.server.session.secret}));
+  server.use(express.session(config.server.session));
   server.use(passport.initialize());
   server.use(passport.session());
   server.use(server.router);
   server.use(express.static(path.resolve(config.server.paths.static),
     {maxAge: config.server.cache.maxAge}));
+  // all customer error handlers to be added later
+  server.use(function(err, req, res, next) {
+    var i = -1;
+    var nextHandler = function(err) {
+      i += 1;
+      return i === server.errorHandlers.length ?
+        next(err) : server.errorHandlers[i](err, req, res, nextHandler);
+    };
+    nextHandler(err);
+  });
   if(config.environment === 'development') {
     server.use(express.errorHandler({dumpExceptions: true, showStack: true}));
   }

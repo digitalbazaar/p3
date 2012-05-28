@@ -125,11 +125,27 @@ function addServices(app, callback) {
     res.render('foo.tpl', {user: req.user});
   });
 
-  // FIXME: simple login authentication
-  app.server.post('/login', passport.authenticate('payswarm.password', {
-    successRedirect: '/',
-    failureRedirect: '/login'
-  }));
+  app.server.post('/login', function(req, res, next) {
+    passport.authenticate('payswarm.password', function(err, user, info) {
+      if(!user) {
+        err = new PaySwarmError(
+          info.message, MODULE_TYPE + '.InvalidCredentials');
+      }
+      if(err) {
+        return next(err);
+      }
+
+      if(user) {
+        req.logIn(user, function(err) {
+          if(err) {
+            return next(err);
+          }
+          // FIXME: redirect to redirect param if exists
+          return res.redirect('/');
+        });
+      }
+    })(req, res, next);
+  });
 
   // FIXME: example of path param
   app.server.get('/foo/:bar', function(req, res) {
@@ -155,10 +171,23 @@ function addServices(app, callback) {
     }
   });
 
+  // send errors
+  app.server.errorHandlers.push(function(err, req, res, next) {
+    if(err) {
+      if(!(err instanceof PaySwarmError)) {
+        err = new PaySwarmError(
+          'An error occurred.',
+          MODULE_TYPE + '.Error', null, err);
+      }
+      return res.json(err.toObject());
+    }
+    next();
+  });
+
   callback(null);
 }
 
-// FIXME: ensures a request is authenticated via passport
+// ensures a request is authenticated
 function ensureAuthenticated(req, res, next) {
   if(req.isAuthenticated()) {
     return next();

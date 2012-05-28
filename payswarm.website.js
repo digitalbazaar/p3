@@ -3,6 +3,7 @@
  */
 var async = require('async');
 var passport = require('passport');
+var path = require('path');
 var LocalStrategy = require('passport-local');
 var payswarm = {
   config: require('./payswarm.config'),
@@ -93,6 +94,72 @@ api.ensureAuthenticated = function(req, res, next) {
 };
 
 /**
+ * Gets a copy of the default view variables.
+ *
+ * @param req the current request.
+ * @param callback(err, vars) called once the operation completes.
+ */
+api.getDefaultViewVars = function(req, callback) {
+  var vars = payswarm.tools.clone(payswarm.config.website.views.vars);
+  vars.data = 'foo';
+
+  // used to set values in templates without output
+  vars.set = function(v) {return '';};
+
+  // displays a default value if the var isn't defined
+  vars.display = function(v, def) {
+    if(v) {
+      return v;
+    }
+    return def;
+  };
+
+  // converts a var to json for later JSON.parse() via a page script
+  vars.parsify = function(v) {
+    return "JSON.parse('" + JSON.stringify(v).replace(/'/g, "\\'") + "')";
+  };
+
+  // include client timezone
+  if(req.cookies.timezone) {
+    vars.clientTimeZone = req.cookies.timezone;
+  }
+
+  if(!req.session.user) {
+    return callback(null, vars);
+  }
+
+  // add session vars
+  vars.session.auth = true;
+  vars.session.loaded = true;
+  vars.session.profile = payswarm.tools.clone(req.session.user.profile);
+  if(req.session.user.identity) {
+    vars.session.identity = payswarm.tools.clone(req.session.user.identity);
+  }
+  if(req.session.user.identity['rdfs:label']) {
+    vars.session.name = req.session.user.identity['rdfs:label'];
+  }
+  else {
+    vars.session.name = req.session.user.profile['rdfs:label'];
+  };
+
+  // FIXME: only retrieve IDs and names?
+  // get identities
+  var identities = vars.session.identities = {};
+  var profileId = vars.session.profile['@id'];
+  payswarm.identity.getProfileIdentities(
+    {'@id': profileId}, profileId, function(err, records) {
+      if(err) {
+        return callback(err);
+      }
+      for(var i in records) {
+        var identity = records[i].identity;
+        identities[identity['@id']] = identity;
+      }
+      callback(null, vars);
+    });
+};
+
+/**
  * Configures the web server.
  *
  * @param app the payswarm-auth application.
@@ -100,7 +167,8 @@ api.ensureAuthenticated = function(req, res, next) {
  */
 function configureServer(app, callback) {
   // add jquery template support
-  app.server.set('view options', {layout: false});
+  app.server.set('views', path.resolve(payswarm.config.website.views.path));
+  app.server.set('view options', payswarm.config.website.views.options);
   app.server.register('.tpl', require('jqtpl').express);
 
   // define passport user serialization
@@ -156,16 +224,23 @@ function configureServer(app, callback) {
  */
 function addServices(app, callback) {
   // main interface
-  app.server.get('/', function(req, res) {
-    res.sendfile('index.html');
+  app.server.get('/', function(req, res, next) {
+    api.getDefaultViewVars(req, function(err, vars) {
+      if(err) {
+        return next(err);
+      }
+      vars.pageTitle = 'Welcome';
+      vars.cssList.push('index');
+      res.render('index.tpl', vars);
+    });
   });
 
   // favicon.ico
-  app.server.get('/favicon.ico', function(req, res) {
+  /*app.server.get('/favicon.ico', function(req, res) {
     res.header('Content-Length', 0);
     res.writeHead(404);
     res.end();
-  });
+  });*/
 
   // FIXME: example of protected resource
   /*app.server.get('/foo', ensureAuthenticated, function(req, res) {

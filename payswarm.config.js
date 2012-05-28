@@ -73,9 +73,11 @@ config.server.session.cookie.maxAge = 1000*60*30;
 config.server.cache = {};
 config.server.cache.maxAge = 0;
 
-// server paths
-config.server.paths = {};
-config.server.paths.static = 'static';
+// server static resource config
+config.server.static = 'sites/dev.payswarm.com/static';
+config.server.staticOptions = {
+  maxAge: config.server.cache.maxAge
+};
 
 // database config
 config.database = {};
@@ -148,6 +150,18 @@ config.financial.paymentGateways = [
   './payswarm.pg.test'
 ];
 
+// website config
+config.website = {};
+
+// views config
+config.website.views = {};
+config.website.views.path = 'sites/dev.payswarm.com/views';
+config.website.views.options = {
+  layout: false
+};
+config.website.views.vars = {};
+
 // external configs
 require('./configs/roles');
+require('./configs/website');
 require('./configs/dev');

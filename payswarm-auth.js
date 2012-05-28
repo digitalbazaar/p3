@@ -62,8 +62,9 @@ else {
   server.use(passport.initialize());
   server.use(passport.session());
   server.use(server.router);
-  server.use(express.static(path.resolve(config.server.paths.static),
-    {maxAge: config.server.cache.maxAge}));
+  server.use(express.static(
+    path.resolve(config.server.static),
+    config.server.staticOptions));
   // all customer error handlers to be added later
   server.use(function(err, req, res, next) {
     var i = -1;

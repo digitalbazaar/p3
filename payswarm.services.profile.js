@@ -2,7 +2,7 @@
  * Copyright (c) 2012 Digital Bazaar, Inc. All rights reserved.
  */
 var async = require('async');
-//var passport = require('passport');
+var passport = require('passport');
 var payswarm = {
   config: require('./payswarm.config'),
   db: require('./payswarm.database'),

@@ -108,3 +108,12 @@ config.permission.roles.push({
     {'@id': 'https://payswarm.com/modules/financial#payment_token_remove'}
   ]
 });
+config.permission.roles.push({
+  '@id': config.authority.baseUri + '/roles/website_administrator',
+  '@type': 'psa:Role',
+  'rdfs:label': 'Website Administrator',
+  'rdfs:comment': 'This role is used to administer the PaySwarm website.',
+  'psa:permission': [
+    {'@id': 'https://payswarm.com/modules/website#admin'}
+  ]
+});

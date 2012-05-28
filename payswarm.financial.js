@@ -10,18 +10,7 @@ var payswarm = {
   permission: require('./payswarm.permission'),
   profile: require('./payswarm.profile'),
   security: require('./payswarm.security'),
-  tools: require('./payswarm.tools'),
-  // financial sub modules
-  financial: {
-    account: require('./payswarm.financial.account'),
-    budget: require('./payswarm.financial.budget'),
-    contract: require('./payswarm.financial.contract'),
-    deposit: require('./payswarm.financial.deposit'),
-    paymentToken: require('./payswarm.financial.paymentToken'),
-    transaction: require('./payswarm.financial.transaction'),
-    transfer: require('./payswarm.financial.transfer'),
-    withdrawal: require('./payswarm.financial.withdrawal')
-  }
+  tools: require('./payswarm.tools')
 };
 
 // constants
@@ -33,7 +22,22 @@ var api = {};
 api.name = MODULE_TYPE + '.Financial';
 api.type = MODULE_TYPE;
 api.iri = MODULE_IRI;
-module.exports = payswarm.tools.extend(
+module.exports = api;
+
+// load financial sub modules
+payswarm.financial = {
+  account: require('./payswarm.financial.account'),
+  budget: require('./payswarm.financial.budget'),
+  contract: require('./payswarm.financial.contract'),
+  deposit: require('./payswarm.financial.deposit'),
+  paymentToken: require('./payswarm.financial.paymentToken'),
+  transaction: require('./payswarm.financial.transaction'),
+  transfer: require('./payswarm.financial.transfer'),
+  withdrawal: require('./payswarm.financial.withdrawal')
+};
+
+// add sub module apis
+payswarm.tools.extend(
   api,
   // sub modules
   payswarm.financial.account,

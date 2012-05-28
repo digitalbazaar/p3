@@ -16,6 +16,8 @@ var payswarm = {
 var PaySwarmError = payswarm.tools.PaySwarmError;
 var Money = require('./payswarm.money').Money;
 
+console.log('payswarm.financial.iri', payswarm.financial.iri);
+
 // constants
 var MODULE_TYPE = payswarm.financial.type;
 var MODULE_IRI = payswarm.financial.iri;

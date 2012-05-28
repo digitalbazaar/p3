@@ -13,18 +13,7 @@ var payswarm = {
   security: require('./payswarm.security'),
   tools: require('./payswarm.tools'),
   PasswordStrategy: require('./payswarm.PasswordStrategy'),
-  SignedGraphStrategy: require('./payswarm.SignedGraphStrategy'),
-  // service sub modules
-  services: {
-    profile: require('./payswarm.services.profile'),
-    identity: require('./payswarm.services.identity'),
-    identifier: require('./payswarm.services.identifier'),
-    key: require('./payswarm.services.key'),
-    account: require('./payswarm.services.account'),
-    budget: require('./payswarm.services.budget'),
-    license: require('./payswarm.services.license'),
-    transaction: require('./payswarm.services.transaction')
-  }
+  SignedGraphStrategy: require('./payswarm.SignedGraphStrategy')
 };
 var PaySwarmError = payswarm.tools.PaySwarmError;
 
@@ -50,6 +39,11 @@ var modules = [
   'license',
   'transaction'
 ];
+payswarm.services = {};
+for(var i in modules) {
+  var module = modules[i];
+  payswarm.services[module] = require('./payswarm.services.' + module);
+}
 
 /**
  * Initializes this module.

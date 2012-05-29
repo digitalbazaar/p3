@@ -535,9 +535,6 @@ api.checkActorPermissionList = function(actor, permissions, callback) {
   // build permission cache
   async.waterfall([
     function(callback) {
-      if('psa:role' in actor) {
-        return callback(null, actor['psa:role']);
-      }
       payswarm.db.collections.profile.findOne(
         {id: payswarm.db.hash(actor['@id'])},
         {'profile.psa:role': true},

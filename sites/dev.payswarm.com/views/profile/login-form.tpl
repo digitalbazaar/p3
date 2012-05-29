@@ -1,7 +1,7 @@
 <form id="login" method="post" action="/profile/login">
   <fieldset>
     {{if ref}}
-    <input type="hidden" name="ref" value="{ref}"/>
+    <input type="hidden" name="ref" value="${ref}"/>
     {{/if}}
     <div class="row headline">
       <div class="span12">

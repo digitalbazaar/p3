@@ -101,7 +101,8 @@ config.database.local.path = '/tmp/payswarm-dev.local.db';
 
 // authority config
 config.authority = {};
-config.authority.baseUri = 'https://payswarm.dev:8000';
+//config.authority.baseUri = 'https://payswarm.dev:8000';
+config.authority.baseUri = 'http://payswarm.dev:8000';
 config.authority.id = config.authority.baseUri + '/i/authority';
 
 // permission config

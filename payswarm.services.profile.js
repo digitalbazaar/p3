@@ -92,7 +92,17 @@ function addServices(app, callback) {
           if(err) {
             return next(err);
           }
-          return res.json({'ref': '/'});
+          var out = {};
+          if(req.body.ref) {
+            out.ref = req.body.ref;
+          }
+          else if(user.identity) {
+            out.ref = user.identity['@id'] + '/dashboard';
+          }
+          else {
+            out.ref = '/';
+          }
+          return res.json(out);
         });
       }
     })(req, res, next);

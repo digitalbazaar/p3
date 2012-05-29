@@ -4,6 +4,7 @@
 var async = require('async');
 var passport = require('passport');
 var path = require('path');
+var url = require('url');
 var LocalStrategy = require('passport-local');
 var payswarm = {
   config: require('./payswarm.config'),
@@ -79,8 +80,19 @@ api.ensureAuthenticated = function(req, res, next) {
   if(req.isAuthenticated()) {
     return next();
   }
-  // FIXME: include current route as redirect param
-  res.redirect('/login');
+  // include current route as redirect param
+  var parsed = url.parse(req.url, true);
+  var urlObject = {
+    pathname: '/profile/login',
+    query: {}
+  };
+  if(parsed.query.ref) {
+    urlObject.query.ref = parsed.query.ref;
+  }
+  else if(parsed.pathname !== '/profile/login') {
+    urlObject.query.ref = parsed.path;
+  }
+  res.redirect(url.format(urlObject));
 };
 
 /**
@@ -147,6 +159,29 @@ api.getDefaultViewVars = function(req, callback) {
       }
       callback(null, vars);
     });
+};
+
+/**
+ * Parses a PaySwarm ID from a URL path and stores it in req.params under
+ * the given name. The return of this method should be passed to
+ * an express server's param call, eg:
+ *
+ * server.param(':foo', payswarmIdParam('foo'))
+ *
+ * @param name the name to assign the ID parameter.
+ */
+api.payswarmIdParam = function(name) {
+  return function(req, res, next, id) {
+    var regex = /[a-zA-Z][-a-zA-Z0-9~_\.]*/;
+    if(!regex.test(id)) {
+      res.redirect('/');
+    }
+    else {
+      req.params = req.params || {};
+      req.params.name = id;
+      next();
+    }
+  };
 };
 
 /**
@@ -231,11 +266,6 @@ function addServices(app, callback) {
     res.header('Content-Length', 0);
     res.writeHead(404);
     res.end();
-  });*/
-
-  // FIXME: example of protected resource
-  /*app.server.get('/foo', ensureAuthenticated, function(req, res) {
-    res.render('foo.tpl', {user: req.user});
   });*/
 
   // FIXME: example of path param

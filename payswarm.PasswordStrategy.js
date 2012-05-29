@@ -98,8 +98,8 @@ function Strategy(options) {
               return callback(err);
             }
             callback(null, {
-              profile: result.getProfile,
-              identity: result.getIdentity
+              profile: result.getProfile[0],
+              identity: result.getIdentity[0]
             });
           });
         }

@@ -24,6 +24,17 @@ api.type = MODULE_TYPE;
 api.iri = MODULE_IRI;
 module.exports = api;
 
+// supported escrow types
+api.escrowType = {
+  NONE: 'ESCROW_NONE',
+  RECEIVE: 'ESCROW_RECEIVE',
+  DISBURSE: 'ESCROW_DISBURSE',
+  REVERT: 'ESCROW_REVERT'
+};
+
+// payment gateways
+api.paymentGateways = {};
+
 // load financial sub modules
 payswarm.financial = {
   account: require('./payswarm.financial.account'),
@@ -48,17 +59,6 @@ payswarm.tools.extend(
   payswarm.financial.transfer,
   payswarm.financial.withdrawal
 );
-
-// supported escrow types
-api.escrowType = {
-  NONE: 'ESCROW_NONE',
-  RECEIVE: 'ESCROW_RECEIVE',
-  DISBURSE: 'ESCROW_DISBURSE',
-  REVERT: 'ESCROW_REVERT'
-};
-
-// payment gateways
-api.paymentGateways = {};
 
 /**
  * Initializes this module.

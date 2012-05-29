@@ -9,7 +9,7 @@ var payswarm = {
   logger: require('./payswarm.logger'),
   permission: require('./payswarm.permission'),
   tools: require('./payswarm.tools'),
-  website: require('./payswarm.website'),
+  website: require('./payswarm.website')
 };
 var PaySwarmError = payswarm.tools.PaySwarmError;
 var ensureAuthenticated = payswarm.website.ensureAuthenticated;

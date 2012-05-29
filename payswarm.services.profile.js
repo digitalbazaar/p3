@@ -3,6 +3,7 @@
  */
 var async = require('async');
 var passport = require('passport');
+var url = require('url');
 var payswarm = {
   config: require('./payswarm.config'),
   db: require('./payswarm.database'),
@@ -10,10 +11,11 @@ var payswarm = {
   logger: require('./payswarm.logger'),
   permission: require('./payswarm.permission'),
   tools: require('./payswarm.tools'),
-  website: require('./payswarm.website'),
+  website: require('./payswarm.website')
 };
 var PaySwarmError = payswarm.tools.PaySwarmError;
 var ensureAuthenticated = payswarm.website.ensureAuthenticated;
+var getDefaultViewVars = payswarm.website.getDefaultViewVars;
 
 // constants
 var MODULE_TYPE = payswarm.website.type;
@@ -45,11 +47,41 @@ api.init = function(app, callback) {
  * @param callback(err) called once the services have been added to the server.
  */
 function addServices(app, callback) {
-  app.server.post('/login', function(req, res, next) {
+  app.server.get('/profile/login', function(req, res, next) {
+    // get request query
+    var query = url.parse(req.url, true).query;
+
+    // redirect authenticated requests to the referral URL
+    if(req.isAuthenticated()) {
+      var ref = query.ref || '/';
+      return res.redirect(ref);
+    }
+
+    // not authenticated, send login page
+    getDefaultViewVars(req, function(err, vars) {
+      if(err) {
+        return next(err);
+      }
+      if('ref' in query) {
+        vars.ref = query.ref;
+      }
+      // remove ref to login page
+      if(vars.ref === '/profile/login') {
+        // if ref isn't removed, it overrides identity page on login
+        delete vars.ref;
+      }
+      res.render('profile/login.tpl', vars);
+    });
+  });
+
+  app.server.post('/profile/login', function(req, res, next) {
+    // normalize profile email/profilename input
+    req.body.profile = req.body.profilename || req.body.profile;
     passport.authenticate('payswarm.password', function(err, user, info) {
       if(!user) {
         err = new PaySwarmError(
-          info.message, MODULE_TYPE + '.InvalidCredentials');
+          'The profile or email address and password combination ' +
+          'you entered is incorrect.', MODULE_TYPE + '.InvalidLogin');
       }
       if(err) {
         return next(err);
@@ -60,11 +92,22 @@ function addServices(app, callback) {
           if(err) {
             return next(err);
           }
-          // FIXME: redirect to redirect param if exists
-          return res.redirect('/');
+          return res.json({'ref': '/'});
         });
       }
     })(req, res, next);
+  });
+
+  app.server.get('/profile/logout', function(req, res, next) {
+    if(req.session) {
+      return req.session.destroy(function(err) {
+        if(err) {
+          next(err);
+        }
+        res.redirect('/');
+      });
+    }
+    res.redirect('/');
   });
 
   callback(null);

@@ -8,6 +8,7 @@ var LocalStrategy = require('passport-local');
 var payswarm = {
   config: require('./payswarm.config'),
   events: require('./payswarm.events'),
+  identity: require('./payswarm.identity'),
   logger: require('./payswarm.logger'),
   profile: require('./payswarm.profile'),
   security: require('./payswarm.security'),
@@ -39,11 +40,6 @@ var modules = [
   'license',
   'transaction'
 ];
-payswarm.services = {};
-for(var i in modules) {
-  var module = modules[i];
-  payswarm.services[module] = require('./payswarm.services.' + module);
-}
 
 /**
  * Initializes this module.
@@ -95,7 +91,6 @@ api.ensureAuthenticated = function(req, res, next) {
  */
 api.getDefaultViewVars = function(req, callback) {
   var vars = payswarm.tools.clone(payswarm.config.website.views.vars);
-  vars.data = 'foo';
 
   // used to set values in templates without output
   vars.set = function(v) {return '';};
@@ -118,22 +113,23 @@ api.getDefaultViewVars = function(req, callback) {
     vars.clientTimeZone = req.cookies.timezone;
   }
 
-  if(!req.session.user) {
+  if(!req.isAuthenticated()) {
     return callback(null, vars);
   }
 
   // add session vars
+  var user = req.user;
   vars.session.auth = true;
   vars.session.loaded = true;
-  vars.session.profile = payswarm.tools.clone(req.session.user.profile);
-  if(req.session.user.identity) {
-    vars.session.identity = payswarm.tools.clone(req.session.user.identity);
+  vars.session.profile = payswarm.tools.clone(user.profile);
+  if(user.identity) {
+    vars.session.identity = payswarm.tools.clone(user.identity);
   }
-  if(req.session.user.identity['rdfs:label']) {
-    vars.session.name = req.session.user.identity['rdfs:label'];
+  if(user.identity['rdfs:label']) {
+    vars.session.name = user.identity['rdfs:label'];
   }
   else {
-    vars.session.name = req.session.user.profile['rdfs:label'];
+    vars.session.name = user.profile['rdfs:label'];
   };
 
   // FIXME: only retrieve IDs and names?
@@ -160,10 +156,12 @@ api.getDefaultViewVars = function(req, callback) {
  * @param callback(err) called once the services have been added to the server.
  */
 function configureServer(app, callback) {
-  // add jquery template support
+  // add jquery template support (turn off debug output)
+  var jqtpl = require('jqtpl').express;
+  jqtpl.debug = function(){};
   app.server.set('views', path.resolve(payswarm.config.website.views.path));
   app.server.set('view options', payswarm.config.website.views.options);
-  app.server.register('.tpl', require('jqtpl').express);
+  app.server.register('.tpl', jqtpl);
 
   // define passport user serialization
   passport.serializeUser(function(user, callback) {
@@ -193,10 +191,11 @@ function configureServer(app, callback) {
       if(err) {
         return callback(err);
       }
-      callback(null, {
-        profile: result.getProfile,
-        identity: result.getIdentity
-      });
+      var user = {
+        profile: result.getProfile[0],
+        identity: result.getIdentity[0]
+      };
+      callback(null, user);
     });
   });
 
@@ -223,8 +222,6 @@ function addServices(app, callback) {
       if(err) {
         return next(err);
       }
-      vars.pageTitle = 'Welcome';
-      vars.cssList.push('index');
       res.render('index.tpl', vars);
     });
   });
@@ -280,4 +277,11 @@ function addServices(app, callback) {
   });
 
   callback(null);
+}
+
+// load service sub modules
+payswarm.services = {};
+for(var i in modules) {
+  var module = modules[i];
+  payswarm.services[module] = require('./payswarm.services.' + module);
 }

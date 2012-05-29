@@ -12,19 +12,19 @@ var payswarm = {
 // create custom logging levels
 var levels = {
   debug: 0,
-  info: 1,
   net: 1,
-  notice: 2,
-  warning: 3,
-  error: 4,
-  crit: 5,
-  alert: 6,
-  emerg: 7
+  info: 2,
+  notice: 3,
+  warning: 4,
+  error: 5,
+  crit: 6,
+  alert: 7,
+  emerg: 8
 };
 var colors = {
   debug: 'blue',
-  info: 'green',
   net: 'white',
+  info: 'green',
   notice: 'yellow',
   warning: 'orange',
   error: 'red',

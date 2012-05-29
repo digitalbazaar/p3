@@ -52,8 +52,7 @@ api.signDeposit = function(actor, deposit, callback) {
  *
  * @param actor the Profile performing the action.
  * @param deposit the Deposit to process.
- * @param options:
- *          escrowType: the escrow type to use (EscrowNone or EscrowReceive).
+ * @param options the deposit options.
  * @param callback(err, deposit) called once the operation completes.
  */
 api.processDeposit = function(actor, deposit, options, callback) {

@@ -39,8 +39,7 @@ api.init = function(callback) {
  *
  * @param actor the Profile performing the action.
  * @param transaction the Transaction to process.
- * @param options:
- *          escrowType: the escrow type to use (EscrowNone or EscrowReceive).
+ * @param options the transfer options.
  * @param callback(err) called once the operation completes.
  */
 api.processTransfer = function(actor, transaction, options, callback) {

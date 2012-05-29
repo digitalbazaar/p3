@@ -38,8 +38,7 @@ api.init = function(callback) {
  *
  * @param actor the profile performing the action.
  * @param withdrawal the Withdrawal to process.
- * @param options:
- *          escrowType: the escrow type to use (EscrowNone or EscrowReceive).
+ * @param options the withdrawal options.
  * @param callback(err) called once the operation completes.
  */
 api.processWithdrawal = function(actor, withdrawal, options, callback) {

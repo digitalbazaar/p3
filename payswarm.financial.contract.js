@@ -190,7 +190,6 @@ api.createFinalizedContract = function(actor, contract, options, callback) {
  * @param contract the Contract to process.
  * @param options:
  *          duplicateQuery a query used to prevent duplicates.
- *          escrowType: the escrow type to use (EscrowNone or EscrowReceive).
  * @param callback(err) called once the operation completes.
  */
 api.processContract = function(actor, contract, options, callback) {

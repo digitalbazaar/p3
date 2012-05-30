@@ -131,11 +131,24 @@ api.getIdentityAccounts = function(actor, identityId, callback) {
  * Retrieves all Accounts matching the given query.
  *
  * @param actor the Profile performing the action.
- * @param query the query to use (defaults to {}).
+ * @param [query] the optional query to use (default: {}).
+ * @param [fields] optional fields to include or exclude (default: {}).
  * @param callback(err, records) called once the operation completes.
  */
-api.getAccounts = function(actor, query, callback) {
+api.getAccounts = function(actor, query, fields, callback) {
+  // handle args
+  if(typeof query === 'function') {
+    callback = query;
+    query = null;
+    fields = null;
+  }
+  else if(typeof fields === 'function') {
+    callback = fields;
+    fields = null;
+  }
+
   query = query || {};
+  fields = fields || {};
   async.waterfall([
     function(callback) {
       payswarm.profile.checkActorPermission(
@@ -143,7 +156,7 @@ api.getAccounts = function(actor, query, callback) {
     },
     function(callback) {
       payswarm.db.collections.account.find(
-        query, payswarm.db.readOptions).toArray(callback);
+        query, fields, payswarm.db.readOptions).toArray(callback);
     }
   ], callback);
 };

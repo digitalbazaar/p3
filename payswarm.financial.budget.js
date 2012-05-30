@@ -242,14 +242,26 @@ api.getIdentityBudgets = function(actor, identityId) {
  * refreshed, it will be.
  *
  * @param actor the Profile performing the action.
- * @param query the query to use (defaults to {}).
- * @param result the result set with Budgets.
- * @param meta to store the meta data for the Budgets.
+ * @param [query] the optional query to use (default: {}).
+ * @param [fields] optional fields to include or exclude (default: {}).
+ * @param callback(err, records) called once the operation completes.
  *
  * @return true on success, false on failure with exception set.
  */
-api.getBudgets = function(actor, query, callback) {
+api.getBudgets = function(actor, query, fields, callback) {
+  // handle args
+  if(typeof query === 'function') {
+    callback = query;
+    query = null;
+    fields = null;
+  }
+  else if(typeof fields === 'function') {
+    callback = fields;
+    fields = null;
+  }
+
   query = query || {};
+  fields = fields || {};
   async.waterfall([
     function(callback) {
       payswarm.profile.checkActorPermission(
@@ -257,7 +269,7 @@ api.getBudgets = function(actor, query, callback) {
     },
     function(callback) {
       payswarm.db.collections.budget.find(
-        query, payswarm.db.readOptions).toArray(callback);
+        query, fields, payswarm.db.readOptions).toArray(callback);
     },
     _updateBudgets
   ], callback);
@@ -496,7 +508,7 @@ function _updateBudgets(records, callback) {
     // expire budget if old
     var now = new Date();
     var secs = Math.floor(+now/1000);
-    if(budget['psa:expires'] <= secs) {
+    if('psa:expires' in budget && budget['psa:expires'] <= secs) {
       return payswarm.db.collections.budget.remove(
         {id: payswarm.db.hash(budget['@id'])},
         payswarm.db.writeOptions, callback);
@@ -641,7 +653,7 @@ function _mustRefresh(budget, now) {
   var rval = false;
 
   // FIXME: decide if @ids used for refresh or something else
-  if(budget['psa:refresh'] !== 'psa:Never') {
+  if('psa:refresh' in budget && budget['psa:refresh'] !== 'psa:Never') {
     var refreshed = new Date(budget['psa:refreshed'] * 1000);
     if(now.getSeconds() > refreshed.getSeconds()) {
       rval = (

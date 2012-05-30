@@ -158,11 +158,24 @@ api.createProfile = function(actor, profile, callback) {
  * Retrieves all Profiles matching the given query.
  *
  * @param actor the Profile performing the action.
- * @param query the query to use (defaults to {}).
+ * @param [query] the optional query to use (default: {}).
+ * @param [fields] optional fields to include or exclude (default: {}).
  * @param callback(err, records) called once the operation completes.
  */
-api.getProfiles = function(actor, query, callback) {
+api.getProfiles = function(actor, query, fields, callback) {
+  // handle args
+  if(typeof query === 'function') {
+    callback = query;
+    query = null;
+    fields = null;
+  }
+  else if(typeof fields === 'function') {
+    callback = fields;
+    fields = null;
+  }
+
   query = query || {};
+  fields = fields || {};
   async.waterfall([
     function(callback) {
       api.checkActorPermission(
@@ -170,7 +183,7 @@ api.getProfiles = function(actor, query, callback) {
     },
     function(callback) {
       payswarm.db.collections.profile.find(
-        query, payswarm.db.readOptions).toArray(callback);
+        query, fields, payswarm.db.readOptions).toArray(callback);
     }
   ], callback);
 };
@@ -603,11 +616,6 @@ function _populateRoles(roleIds, callback) {
  * @param callback(err) called once the operation completes.
  */
 api.checkActorPermission = function(actor, permission1) {
-  // if actor is null, ignore permission check
-  if(actor === null) {
-    return callback(null);
-  }
-
   var permissions = [];
   var length = arguments.length;
   for(var i = 1; i < length - 1; ++i) {

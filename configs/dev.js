@@ -1,5 +1,17 @@
 var config = require('../payswarm.config');
 
+// test address validator
+config.addressValidator.test = {};
+config.addressValidator.test.key = 'testhashkey';
+config.addressValidator.test.address = {
+  'vcard:fn': 'Full Name',
+  'vcard:street-address': '100 Street Apt 1',
+  'vcard:locality': 'City',
+  'vcard:region': 'State',
+  'vcard:postal-code': '10000',
+  'vcard:country-name': 'US'
+};
+
 // financial defaults
 config.financial.defaults.account = {
   '@type': 'Account',

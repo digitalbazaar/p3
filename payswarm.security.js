@@ -21,31 +21,39 @@ module.exports = api;
  * normalized.
  *
  * @param obj the JSON-LD object to hash.
- * @param frame the frame to use to reframe the object (optional).
- *
- * @return the hash.
+ * @param [frame] the frame to use to reframe the object (optional).
+ * @param callback(err, hash) called once the operation completes.
  */
-api.hashJsonLd = function(obj, frame) {
-  var rval = null;
-
-  // compact using payswarm context
-  obj = _compact(obj);
-
-  // do reframing if frame supplied
-  var reframed = obj;
-  if(frame) {
-    reframed = jsonld.frame(obj, frame);
+api.hashJsonLd = function(obj, frame, callback) {
+  // handle args
+  if(typeof frame === 'function') {
+    callback = frame;
+    frame = null;
   }
 
-  // normalize and serialize
-  var data = JSON.stringify(jsonld.normalize(reframed));
-
-  // hash
-  var md = crypto.createHash('sha1');
-  md.update(data, 'utf8');
-  rval = md.digest('hex');
-
-  return rval;
+  async.waterfall([
+    function(callback) {
+      // compact using payswarm context
+      _compact(obj, callback);
+    },
+    function(obj, callback) {
+      // do reframing if frame supplied
+      if(frame) {
+        return jsonld.frame(obj, frame, callback);
+      }
+      callback(null, obj);
+    },
+    function(obj, callback) {
+      // normalize
+      jsonld.normalize(obj, {format: 'application/nquads'}, callback);
+    },
+    function(normalized, callback) {
+      // hash
+      var md = crypto.createHash('sha1');
+      md.update(normalized, 'utf8');
+      callback(null, md.digest('hex'));
+    }
+  ], callback);
 };
 
 /**
@@ -67,47 +75,57 @@ api.signJsonLd = function(obj, key, creator, nonce, date, callback) {
       'payswarm.security.InvalidPrivateKey'));
   }
 
-  // compact using payswarm context
-  obj = _compact(obj);
+  async.waterfall([
+    function(callback) {
+      // compact using payswarm context
+      _compact(obj, callback);
+    },
+    function(obj, callback) {
+      // get data to be signed
+      _getSignatureData(compacted, function(err, data) {
+        callback(err, obj, data);
+      });
+    },
+    function(obj, data, callback) {
+      // get created date
+      var created = payswarm.tools.w3cDate(date);
 
-  // get created date
-  var created = payswarm.tools.w3cDate(date);
+      try {
+        // create signature
+        var signer = crypto.createSign('RSA-SHA1');
+        if(nonce !== undefined && nonce !== null) {
+          signer.update(nonce);
+        }
+        signer.update(created);
+        signer.update(data);
+        var signature = signer.sign(key['sec:privateKeyPem'], 'base64');
 
-  try {
-    // create signature
-    var signer = crypto.createSign('RSA-SHA1');
-    if(nonce !== undefined && nonce !== null) {
-      signer.update(nonce);
+        // set signature info
+        var signInfo = {
+          '@type': 'sec:GraphSignature2012',
+          'dc:creator': creator,
+          'dc:created': created,
+          'sec:signatureValue': signature
+        };
+        if(nonce !== undefined && nonce !== null) {
+          signInfo['sec:nonce'] = nonce;
+        }
+
+        // attach new signature info
+        // FIXME: support multiple signatures
+        obj['sec:signature'] = signInfo;
+
+        // remove default context
+        delete obj['@context'];
+        callback(null, obj);
+      }
+      catch(e) {
+        return callback(new PaySwarmError(
+          'Could not sign JSON-LD.',
+          'payswarm.security.SignError', null, e));
+      }
     }
-    signer.update(created);
-    signer.update(_getSignatureData(obj));
-    var signature = signer.sign(key['sec:privateKeyPem'], 'base64');
-
-    // set signature info
-    var signInfo = {
-      '@type': 'sec:JsonLdSignature',
-      'dc:creator': creator,
-      'dc:created': created,
-      'sec:signatureValue': signature
-    };
-    if(nonce !== undefined && nonce !== null) {
-      signInfo['sec:nonce'] = nonce;
-    }
-
-    // attach new signature info
-    // FIXME: support multiple signatures
-    obj['sec:signature'] = signInfo;
-
-    // remove default context
-    delete obj['@context'];
-    callback(null, obj);
-  }
-  catch(e) {
-    return callback(new PaySwarmError(
-      'Could not sign JSON-LD.',
-      'payswarm.security.SignError',
-      {cause: e}));
-  }
+  ], callback);
 };
 
 /**
@@ -132,22 +150,28 @@ api.verifyJsonLd = function(obj, key, callback) {
   }
 
   try {
-    // verify signature
-    var signInfo = obj['sec:signature'];
-    var verifier = crypto.createVerify('RSA-SHA1');
-    if('sec:nonce' in signInfo) {
-      verifier.update(signInfo['sec:nonce']);
-    }
-    verifier.update(signInfo['dc:created']);
-    verifier.update(_getSignatureData(obj));
-    callback(null, verifier.verify(
-      key['sec:publicKeyPem'], signInfo['sec:signatureValue'], 'base64'));
+    // get data to be verified
+    _getSignatureData(obj, function(err, data) {
+      if(err) {
+        throw err;
+      }
+      // verify signature
+      var signInfo = obj['sec:signature'];
+      var verifier = crypto.createVerify('RSA-SHA1');
+      if('sec:nonce' in signInfo) {
+        verifier.update(signInfo['sec:nonce']);
+      }
+      verifier.update(signInfo['dc:created']);
+      verifier.update(data);
+      var verified = verifier.verify(
+        key['sec:publicKeyPem'], signInfo['sec:signatureValue'], 'base64');
+      callback(null, verified);
+    });
   }
   catch(e) {
     return callback(new PaySwarmError(
       'Could not verify JSON-LD.',
-      'payswarm.security.VerifyError',
-      {cause: e}));
+      'payswarm.security.VerifyError', null, e));
   }
 };
 
@@ -160,27 +184,24 @@ api.verifyJsonLd = function(obj, key, callback) {
  * @param callback(err, msg) called once the operation completes.
  */
 api.encryptJsonLd = function(obj, publicKey, callback) {
-  // compact using a payswarm context if no context is present or the
-  // context is not a string
-  var compacted;
-  if(!('@context' in obj && obj['@context'] instanceof String)) {
-    compacted = _compact(obj);
-  }
-  else {
-     // use already compact object
-     compacted = obj;
-  }
-
-  // do message encryption
   async.waterfall([
-    function generateKeyAndIv(callback) {
+    function(callback) {
+      // compact using a payswarm context if no context is present or the
+      // context is not a string
+      if(!('@context' in obj) || typeof obj['@context'] !== 'string') {
+        return _compact(obj, callback);
+      }
+      callback(null, obj);
+    },
+    function(compacted, callback) {
+      // generate key and IV
       crypto.randomBytes(32, function bytesReady(err, buf) {
         var key = buf.toString('binary', 0, 16);
         var iv = buf.toString('binary', 16);
-        callback(null, key, iv);
+        callback(null, compacted, key, iv);
       });
     },
-    function encrypt(key, iv, callback) {
+    function(compacted, key, iv, callback) {
       try {
         // symmetric encrypt data
         var cipher = crypto.createCipheriv('aes-128-cbc', key, iv);
@@ -210,8 +231,7 @@ api.encryptJsonLd = function(obj, publicKey, callback) {
       catch(e) {
         callback(new PaySwarmError(
           'Could not encrypt message.',
-          'payswarm.security.EncryptMessageError',
-          {cause: e}));
+          'payswarm.security.EncryptMessageError', null, e));
       }
     }
   ], callback);
@@ -258,8 +278,7 @@ api.decryptJsonLd = function(obj, privateKey, callback) {
       catch(e) {
         callback(new PaySwarmError(
           'Could not encrypt message.',
-          'payswarm.security.EncryptMessageError',
-          {cause: e}));
+          'payswarm.security.EncryptMessageError', null, e));
       }
     }
   ], callback);
@@ -386,49 +405,52 @@ function _verifyLegacyPassword(password, salt, checksum) {
  * Gets the data used to generate or verify a signature.
  *
  * @param obj the object to get the data for.
- *
- * @return the data.
+ * @param callback(err, data) called once the operation completes.
  */
-function _getSignatureData(obj) {
-  var rval = null;
-
+function _getSignatureData(obj, callback) {
   // compact using payswarm context
-  var input = _compact(obj);
-
-  // remove signature field
-  var tmp = null;
-  if('sec:signature' in input) {
-    tmp = input['sec:signature'];
+  _compact(obj, function(err, input) {
+    // remove signature field
     delete input['sec:signature'];
-  }
 
-  // normalize and serialize
-  return JSON.stringify(jsonld.normalize(input));
+    // normalize and serialize
+    var options = {format: 'application/nquads'};
+    jsonld.normalize(input, options, function(err, normalized) {
+      if(err) {
+        return callback(err);
+      }
+      callback(null, JSON.stringify(normalized));
+    });
+  });
 }
 
 /**
  * Compacts the given input using the default PaySwarm context.
  *
  * @param input the input.
+ * @param callback(err, output) called once the operation completes.
  *
  * @return the output.
  */
-function _compact(input) {
-   var ctx = payswarm.tools.clone(payswarm.tools.getDefaultJsonLdContext());
+function _compact(input, callback) {
+  var ctx = payswarm.tools.clone(payswarm.tools.getDefaultJsonLdContext());
 
-   // add context before compaction if not already provided or if given
-   // context is a string (HACK: assume it is the default payswarm context URL)
-   if(!('@context' in input) || input['@context'] instanceof String) {
+   // add context to input before compaction if not already provided
+   // or if it is a string, (HACK: assume string context is the default
+   // payswarm context URL)
+   if(!('@context' in input) || typeof input['@context'] === 'string') {
      input = payswarm.tools.clone(input);
      input['@context'] = ctx;
-     input = jsonld.compact(ctx, input);
+     jsonld.compact(input, ctx, function(err, compact) {
+       callback(err, compact);
+     });
    }
    // do simple compaction (the context may be the payswarm context or some
    // other one, in the former case compaction may help reduce the number of
    // terms listed in the context and in the latter we convert to payswarm)
    else {
-     input = jsonld.compact(ctx, input);
+     jsonld.compact(input, ctx, function(err, compact) {
+       callback(err, compact);
+     });
    }
-
-   return input;
 }

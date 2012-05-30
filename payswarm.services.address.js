@@ -65,5 +65,55 @@ function addServices(app, callback) {
         });
   });
 
+  app.server.post('/i/:identity/addresses', ensureAuthenticated,
+    function(req, res, next) {
+      // only validate address if requested
+      var address = req.body;
+      if(req.query.validate) {
+        return payswarm.identity.validateAddress(
+          req.user.profile, address, function(err, validatedAddress) {
+            if(err) {
+              return next(err);
+            }
+            res.json(validatedAddress);
+          });
+      }
+
+      // get identity ID from URL
+      var id = payswarm.identity.createIdentityId(req.params.identity);
+
+      async.waterfall([
+        function(callback) {
+          // check address validation
+          payswarm.identity.isAddressValidated(
+            req.user.profile, address, callback);
+        },
+        function(validated, callback) {
+          if(!validated) {
+            address['psa:validated'] = false;
+            delete address['psa:addressHash'];
+          }
+          // remove any context on address
+          delete address['@context'];
+        },
+        function(callback) {
+          // add identity address
+          payswarm.identity.addIdentityAddress(
+            req.user.profile, id, address, callback);
+        }
+      ], function(err) {
+        if(err) {
+          err = new PaySwarmError(
+            'The address could not be added.',
+            MODULE_TYPE + '.AddAddressFailed', {
+              'public': true
+            }, err);
+          return next(err);
+        }
+        // return address
+        res.json(address);
+      });
+    });
+
   callback(null);
 }

@@ -33,7 +33,6 @@ var PERMISSIONS = {
 // module API
 var api = {};
 api.name = MODULE_TYPE + '.Identity';
-module.exports = api;
 module.exports = payswarm.tools.extend(
   api,
   // sub modules

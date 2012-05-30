@@ -163,26 +163,25 @@ api.getDefaultViewVars = function(req, callback) {
 };
 
 /**
- * Parses a PaySwarm ID from a URL path and stores it in req.params under
- * the given name. The return of this method should be passed to
- * an express server's param call, eg:
+ * Validates a PaySwarm ID from a URL path and, it passes validation, it
+ * will be available via req.params. This method should be passed to an
+ * express server's param call, eg:
  *
- * server.param(':foo', payswarmIdParam('foo'))
+ * server.param(':foo', payswarmIdParam)
  *
- * @param name the name to assign the ID parameter.
+ * @param req the request.
+ * @parma res the response.
+ * @param next the next handler.
+ * @param id the id.
  */
-api.payswarmIdParam = function(name) {
-  return function(req, res, next, id) {
-    var regex = /[a-zA-Z][-a-zA-Z0-9~_\.]*/;
-    if(!regex.test(id)) {
-      res.redirect('/');
-    }
-    else {
-      req.params = req.params || {};
-      req.params.name = id;
-      next();
-    }
-  };
+api.payswarmIdParam = function(req, res, next, id) {
+  var regex = /[a-zA-Z][-a-zA-Z0-9~_\.]*/;
+  if(!regex.test(id)) {
+    res.redirect('/');
+  }
+  else {
+    next();
+  }
 };
 
 /**
@@ -199,8 +198,10 @@ function configureServer(app, callback) {
   app.server.set('view options', payswarm.config.website.views.options);
   app.server.register('.tpl', jqtpl);
 
-  // add common params
-  app.server.param(':identity', api.payswarmIdParam('identity'));
+  // add common URL path params
+  app.server.param(':identity', api.payswarmIdParam);
+  app.server.param(':account', api.payswarmIdParam);
+  app.server.param(':budget', api.payswarmIdParam);
 
   // define passport user serialization
   passport.serializeUser(function(user, callback) {

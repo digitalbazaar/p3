@@ -6,6 +6,7 @@ var payswarm = {
   config: require('./payswarm.config'),
   logger: require('./payswarm.logger'),
   permission: require('./payswarm.permission'),
+  profile: require('./payswarm.profile'),
   tools: require('./payswarm.tools')
 };
 
@@ -49,8 +50,23 @@ api.init = function(callback) {
  * @param callback(err, address) called once the operation completes.
  */
 api.validateAddress = function(actor, address, callback) {
-  // FIXME: check permission
-  callback(null, address);
+  async.waterfall([
+    function(callback) {
+      // check admin permission
+      payswarm.profile.checkActorPermission(
+        actor, PERMISSIONS.ADDRESS_VALIDATOR_ADMIN, function(err) {
+          if(err) {
+            // check normal access permission
+            return payswarm.profile.checkActorPermission(
+              actor, PERMISSIONS.ADDRESS_VALIDATOR_ACCESS, callback);
+          }
+          callback();
+        });
+    },
+    function(callback) {
+      api.validator.validateAddress(address, callback);
+    }
+  ], callback);
 };
 
 /**
@@ -61,8 +77,23 @@ api.validateAddress = function(actor, address, callback) {
  * @param callback(err, validated) called once the operation completes.
  */
 api.isAddressValidated = function(actor, address, callback) {
-  // FIXME: implement
-  callback(null, false);
+  async.waterfall([
+    function(callback) {
+      // check admin permission
+      payswarm.profile.checkActorPermission(
+        actor, PERMISSIONS.ADDRESS_VALIDATOR_ADMIN, function(err) {
+          if(err) {
+            // check normal access permission
+            return payswarm.profile.checkActorPermission(
+              actor, PERMISSIONS.ADDRESS_VALIDATOR_ACCESS, callback);
+          }
+          callback();
+        });
+    },
+    function(callback) {
+      api.validator.isAddressValidated(address, callback);
+    }
+  ], callback);
 };
 
 /**

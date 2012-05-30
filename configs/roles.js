@@ -51,7 +51,9 @@ config.permission.roles.push({
     {'@id': 'https://payswarm.com/modules/identity#identity_edit'},
     {'@id': 'https://payswarm.com/modules/identity#identity_remove'},
     {'@id': 'https://payswarm.com/modules/identity#public_key_create'},
-    {'@id': 'https://payswarm.com/modules/identity#public_key_remove'}
+    {'@id': 'https://payswarm.com/modules/identity#public_key_remove'},
+    {'@id': 'https://payswarm.com/modules/address-validator#address_validator_admin'},
+    {'@id': 'https://payswarm.com/modules/address-validator#address_validator_access'}
   ]
 });
 config.permission.roles.push({
@@ -63,7 +65,8 @@ config.permission.roles.push({
     {'@id': 'https://payswarm.com/modules/identity#identity_access'},
     {'@id': 'https://payswarm.com/modules/identity#identity_create'},
     {'@id': 'https://payswarm.com/modules/identity#identity_edit'},
-    {'@id': 'https://payswarm.com/modules/identity#public_key_create'}
+    {'@id': 'https://payswarm.com/modules/identity#public_key_create'},
+    {'@id': 'https://payswarm.com/modules/address-validator#address_validator_access'}
   ]
 });
 config.permission.roles.push({

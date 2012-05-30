@@ -48,12 +48,9 @@ api.init = function(app, callback) {
  */
 function addServices(app, callback) {
   app.server.get('/profile/login', function(req, res, next) {
-    // get request query
-    var query = url.parse(req.url, true).query;
-
     // redirect authenticated requests to the referral URL
     if(req.isAuthenticated()) {
-      var ref = query.ref || '/';
+      var ref = req.query.ref || '/';
       return res.redirect(ref);
     }
 
@@ -62,8 +59,8 @@ function addServices(app, callback) {
       if(err) {
         return next(err);
       }
-      if('ref' in query) {
-        vars.ref = query.ref;
+      if('ref' in req.query) {
+        vars.ref = req.query.ref;
       }
       // remove ref to login page
       if(vars.ref === '/profile/login') {
@@ -102,6 +99,13 @@ function addServices(app, callback) {
           else {
             out.ref = '/';
           }
+          // FIXME: add method to do:
+          // if(req.accepts('application/ld+json')) {
+          //   res.header('Content-Type', 'application/ld+json');
+          // }
+          // FIXME: might need to just use res.send() instead of res.json(),
+          // replace this in various services when done.
+          // can do res.json(out, 200, {'Content-Type': 'application/ld+json'})
           return res.json(out);
         });
       }

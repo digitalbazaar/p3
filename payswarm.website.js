@@ -34,6 +34,7 @@ module.exports = api;
 var modules = [
   'profile',
   'identity',
+  'address',
   'identifier',
   'key',
   'account',
@@ -304,8 +305,13 @@ function addServices(app, callback) {
           MODULE_TYPE + '.Error', null, err);
       }
       payswarm.logger.error('Error', err.toObject());
-      // FIXME: differentiate between 4xx and 5xx errors
-      res.statusCode = 500;
+      if(err.details && err.details['httpStatusCode']) {
+        res.statusCode = err.details['httpStatusCode'];
+      }
+      else {
+        // FIXME: differentiate between 4xx and 5xx errors
+        res.statusCode = 500;
+      }
       return res.json(err.toObject());
     }
     next();

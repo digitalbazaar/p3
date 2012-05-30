@@ -5,7 +5,6 @@ var async = require('async');
 var payswarm = {
   config: require('./payswarm.config'),
   db: require('./payswarm.database'),
-  financial: require('./payswarm.financial'),
   identity: require('./payswarm.identity'),
   logger: require('./payswarm.logger'),
   tools: require('./payswarm.tools'),
@@ -44,24 +43,25 @@ api.init = function(app, callback) {
  * @param callback(err) called once the services have been added to the server.
  */
 function addServices(app, callback) {
-  app.server.get('/i/:identity/accounts', ensureAuthenticated,
+  app.server.get('/i/:identity/addresses', ensureAuthenticated,
     function(req, res, next) {
       // get identity ID from URL
       var id = payswarm.identity.createIdentityId(req.params.identity);
-      payswarm.financial.getIdentityAccounts(
-        req.user.profile, id, function(err, records) {
+      payswarm.identity.getIdentity(
+        req.user.profile, id, function(err, identity) {
           if(err) {
             return next(err);
           }
-          // do not return deleted accounts
-          var accounts = [];
-          for(var i in records) {
-            var account = records[i].account;
-            if(account['psa:status'] !== 'deleted') {
-              accounts.push(account);
-            }
+          // return addresses
+          if('vcard:adr' in identity) {
+            return res.json(identity['vcard:adr']);
           }
-          res.json(accounts);
+          next(new PaySwarmError(
+            'The identity has no addresses.',
+            MODULE_TYPE + '.AddressNotFound', {
+              httpStatusCode: 404,
+              'public': true
+            }));
         });
   });
 

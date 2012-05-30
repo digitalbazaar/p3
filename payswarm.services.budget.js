@@ -5,9 +5,9 @@ var async = require('async');
 var payswarm = {
   config: require('./payswarm.config'),
   db: require('./payswarm.database'),
+  financial: require('./payswarm.financial'),
   identity: require('./payswarm.identity'),
   logger: require('./payswarm.logger'),
-  permission: require('./payswarm.permission'),
   tools: require('./payswarm.tools'),
   website: require('./payswarm.website')
 };
@@ -44,7 +44,22 @@ api.init = function(app, callback) {
  * @param callback(err) called once the services have been added to the server.
  */
 function addServices(app, callback) {
-  // FIXME: add services
+  app.server.get('/i/:identity/budgets', ensureAuthenticated,
+    function(req, res, next) {
+      // get identity ID from URL
+      var id = payswarm.identity.createIdentityId(req.params.identity);
+      payswarm.financial.getIdentityBudgets(
+        req.user.profile, id, function(err, records) {
+          if(err) {
+            return next(err);
+          }
+          var budgets = [];
+          for(var i in records) {
+            budgets.push(records[i].budget);
+          }
+          res.json(budgets);
+        });
+  });
 
   callback(null);
 }

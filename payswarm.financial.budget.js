@@ -209,7 +209,7 @@ api.getBudget = function(actor, id, callback) {
 api.getIdentityBudgets = function(actor, identityId) {
   var vendorId = null;
   var callback;
-  if(arguments.length() === 3) {
+  if(arguments.length === 3) {
     callback = arguments[2];
   }
   else {

@@ -7,7 +7,6 @@ var payswarm = {
   db: require('./payswarm.database'),
   identity: require('./payswarm.identity'),
   logger: require('./payswarm.logger'),
-  permission: require('./payswarm.permission'),
   tools: require('./payswarm.tools'),
   website: require('./payswarm.website')
 };

@@ -113,7 +113,7 @@ api.generateBudgetId = function(ownerId, callback) {
 api.createBudget = function(actor, budget, callback) {
   async.waterfall([
     function(callback) {
-      payswarm.profile.checkActorPermission(
+      payswarm.profile.checkActorPermissionForObject(
         actor, budget,
         PERMISSIONS.BUDGET_ADMIN, PERMISSIONS.BUDGET_CREATE,
         payswarm.identity.checkIdentityObjectOwner, callback);
@@ -219,10 +219,10 @@ api.getIdentityBudgets = function(actor, identityId) {
 
   async.waterfall([
     function(callback) {
-      payswarm.profile.checkActorPermission(
-        actor, {'ps:owner': identityId},
+      payswarm.profile.checkActorPermissionForObject(
+        actor, {'@id': identityId},
         PERMISSIONS.BUDGET_ADMIN, PERMISSIONS.BUDGET_ACCESS,
-        _checkBudgetOwner, callback);
+        payswarm.identity.checkIdentityOwner, callback);
     },
     function(callback) {
       var query = {owner: payswarm.db.hash(identityId)};

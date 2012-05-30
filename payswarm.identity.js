@@ -169,7 +169,7 @@ api.createIdentity = function(actor, identity, callback) {
       payswarm.profile.checkActorPermissionForObject(
         actor, identity,
         PERMISSIONS.IDENTITY_ADMIN, PERMISSIONS.IDENTITY_CREATE,
-        _checkIdentityOwner, callback);
+        api.checkIdentityOwner, callback);
     },
     function(callback) {
       _createIdentity(identity, callback);
@@ -272,7 +272,7 @@ api.getIdentity = function(actor, id, callback) {
       payswarm.profile.checkActorPermissionForObject(
         actor, identity,
         PERMISSIONS.IDENTITY_ADMIN, PERMISSIONS.IDENTITY_ACCESS,
-        _checkIdentityOwner, function(err) {
+        api.checkIdentityOwner, function(err) {
           callback(err, identity, meta);
         });
     },
@@ -294,7 +294,7 @@ api.updateIdentity = function(actor, identity, callback) {
       payswarm.profile.checkActorPermissionForObject(
         actor, identity,
         PERMISSIONS.IDENTITY_ADMIN, PERMISSIONS.IDENTITY_EDIT,
-        _checkIdentityOwner, callback);
+        api.checkIdentityOwner, callback);
     },
     function(callback) {
       // remove restricted fields
@@ -337,7 +337,7 @@ api.addIdentityAddress = function(actor, id, address, callback) {
       payswarm.profile.checkActorPermissionForObject(
         actor, {'@id': id},
         PERMISSIONS.IDENTITY_ADMIN, PERMISSIONS.IDENTITY_EDIT,
-        _checkIdentityOwner, callback);
+        api.checkIdentityOwner, callback);
     },
     function(callback) {
       payswarm.db.collections.identity.update(
@@ -371,7 +371,7 @@ api.getIdentityAddresses = function(actor, id, callback) {
       payswarm.profile.checkActorPermissionForObject(
         actor, {'@id': id},
         PERMISSIONS.IDENTITY_ADMIN, PERMISSIONS.IDENTITY_ACCESS,
-        _checkIdentityOwner, callback);
+        api.checkIdentityOwner, callback);
     },
     function(callback) {
       payswarm.db.collections.identity.find(
@@ -399,7 +399,7 @@ api.setIdentityPreferences = function(actor, prefs, callback) {
       payswarm.profile.checkActorPermissionForObject(
         actor, {'@id': prefs['ps:owner']},
         PERMISSIONS.IDENTITY_ADMIN, PERMISSIONS.IDENTITY_EDIT,
-        _checkIdentityOwner, callback);
+        api.checkIdentityOwner, callback);
     },
     function(callback) {
       payswarm.db.collections.identity.update(
@@ -434,7 +434,7 @@ api.getIdentityPreferences = function(actor, prefs, callback) {
       payswarm.profile.checkActorPermissionForObject(
         actor, {'@id': prefs['ps:owner']},
         PERMISSIONS.IDENTITY_ADMIN, PERMISSIONS.IDENTITY_ACCESS,
-        _checkIdentityOwner, callback);
+        api.checkIdentityOwner, callback);
     },
     function(callback) {
       payswarm.db.collections.identity.findOne(
@@ -488,7 +488,7 @@ api.addIdentityPublicKey = function(actor, publicKey) {
       payswarm.profile.checkActorPermissionForObject(
         actor, {'@id': publicKey['ps:owner']},
         PERMISSIONS.IDENTITY_ADMIN, PERMISSIONS.PUBLIC_KEY_CREATE,
-        _checkIdentityOwner, callback);
+        api.checkIdentityOwner, callback);
     },
     function(callback) {
       _addIdentityPublicKey(publicKey, privateKey, callback);
@@ -545,7 +545,7 @@ api.getIdentityPublicKey = function(publicKey) {
         payswarm.profile.checkActorPermissionForObject(
           actor, {'@id': publicKey['ps:owner']},
           PERMISSIONS.IDENTITY_ADMIN, PERMISSIONS.IDENTITY_ACCESS,
-          _checkIdentityOwner, function(err) {
+          api.checkIdentityOwner, function(err) {
             if(err) {
               return callback(err);
             }
@@ -588,7 +588,7 @@ api.getIdentityPublicKeys = function(id) {
         payswarm.profile.checkActorPermissionForObject(
           actor, {'@id': id},
           PERMISSIONS.IDENTITY_ADMIN, PERMISSIONS.IDENTITY_ACCESS,
-          _checkIdentityOwner, function(err) {
+          api.checkIdentityOwner, function(err) {
             if(err) {
               return callback(err);
             }
@@ -626,7 +626,7 @@ api.updateIdentityPublicKey = function(actor, publicKey, callback) {
       payswarm.profile.checkActorPermissionForObject(
         actor, {'@id': publicKey['ps:owner']},
         PERMISSIONS.IDENTITY_ADMIN, PERMISSIONS.IDENTITY_EDIT,
-        _checkIdentityOwner, callback);
+        api.checkIdentityOwner, callback);
     },
     function(callback) {
       // remove restricted fields
@@ -667,7 +667,7 @@ api.getAuthorityKeyPair = function(actor, callback) {
       payswarm.profile.checkActorPermissionForObject(
         actor, {'@id': authorityId},
         PERMISSIONS.IDENTITY_ADMIN, PERMISSIONS.IDENTITY_ACCESS,
-        _checkIdentityOwner, callback);
+        api.checkIdentityOwner, callback);
     },
     function(callback) {
       payswarm.db.collections.publicKey.findOne(
@@ -687,6 +687,29 @@ api.getAuthorityKeyPair = function(actor, callback) {
 };
 
 /**
+ * Checks if an actor owns an identity.
+ *
+ * @param actor the actor to compare against.
+ * @param identity the identity to compare.
+ * @param callback(err, owns) called once the operation completes.
+ */
+api.checkIdentityOwner = function(actor, identity, callback) {
+  async.waterfall([
+    function(callback) {
+      if('ps:owner' in identity) {
+        return callback(null, identity);
+      }
+      api.getIdentity(actor, identity['@id'], function(err, identity) {
+        callback(err, identity);
+      });
+    },
+    function(identity, callback) {
+      callback(null, actor['@id'] === identity['ps:owner']);
+    }
+  ], callback);
+};
+
+/**
  * Checks if an actor owns an identity that owns another object.
  *
  * @param actor the actor to compare against.
@@ -694,7 +717,7 @@ api.getAuthorityKeyPair = function(actor, callback) {
  * @param callback(err, owns) called once the operation completes.
  */
 api.checkIdentityObjectOwner = function(actor, object, callback) {
-  _checkIdentityOwner(actor, {'@id': object['ps:owner']}, callback);
+  api.checkIdentityOwner(actor, {'@id': object['ps:owner']}, callback);
 };
 
 /**
@@ -725,31 +748,6 @@ function _createIdentity(identity, callback) {
   };
   payswarm.db.collections.identity.insert(
     record, payswarm.db.writeOptions, callback);
-}
-
-/**
- * Checks if an actor owns an identity.
- *
- * @param actor the actor to compare against.
- * @param identity the identity to compare.
- * @param callback(err, owns) called once the operation completes.
- */
-function _checkIdentityOwner(actor, identity, callback) {
-  async.waterfall([
-    function(callback) {
-      if('ps:owner' in identity) {
-        callback(null, identity);
-      }
-      else {
-        api.getIdentity(actor, identity['@id'], function(err, identity) {
-          callback(err, identity);
-        });
-      }
-    },
-    function(identity, callback) {
-      callback(null, actor['@id'] === identity['ps:owner']);
-    }
-  ], callback);
 }
 
 /**

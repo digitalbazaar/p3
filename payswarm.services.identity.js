@@ -14,7 +14,6 @@ var payswarm = {
 var PaySwarmError = payswarm.tools.PaySwarmError;
 var ensureAuthenticated = payswarm.website.ensureAuthenticated;
 var getDefaultViewVars = payswarm.website.getDefaultViewVars;
-var payswarmIdParam = payswarm.website.payswarmIdParam;
 
 // constants
 var MODULE_TYPE = payswarm.website.type;
@@ -40,15 +39,12 @@ api.init = function(app, callback) {
 };
 
 /**
- * Adds web services to this server.
+ * Adds web services to the server.
  *
  * @param app the payswarm-auth application.
  * @param callback(err) called once the services have been added to the server.
  */
 function addServices(app, callback) {
-  // parse identity param
-  app.server.param(':identity', payswarmIdParam('identity'));
-
   app.server.get('/i/:identity/dashboard', ensureAuthenticated,
     function(req, res, next) {
       getDefaultViewVars(req, function(err, vars) {

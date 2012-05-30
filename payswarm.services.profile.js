@@ -41,7 +41,7 @@ api.init = function(app, callback) {
 };
 
 /**
- * Adds web services to this server.
+ * Adds web services to the server.
  *
  * @param app the payswarm-auth application.
  * @param callback(err) called once the services have been added to the server.

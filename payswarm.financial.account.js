@@ -9,6 +9,7 @@ var payswarm = {
   identity: require('./payswarm.identity'),
   logger: require('./payswarm.logger'),
   permission: require('./payswarm.permission'),
+  profile: require('./payswarm.profile'),
   tools: require('./payswarm.tools')
 };
 var PaySwarmError = payswarm.tools.PaySwarmError;
@@ -92,7 +93,7 @@ api.createAccountId = function(ownerId, name) {
 api.createAccount = function(actor, account, callback) {
   async.waterfall([
     function(callback) {
-      payswarm.profile.checkActorPermission(
+      payswarm.profile.checkActorPermissionForObject(
         actor, account,
         PERMISSIONS.ACCOUNT_ADMIN, PERMISSIONS.ACCOUNT_CREATE,
         payswarm.identity.checkIdentityObjectOwner, callback);
@@ -113,9 +114,10 @@ api.createAccount = function(actor, account, callback) {
 api.getIdentityAccounts = function(actor, identityId, callback) {
   async.waterfall([
     function(callback) {
-      payswarm.profile.checkActorPermission(
-        actor, PERMISSIONS.ACCOUNT_ADMIN, PERMISSIONS.ACCOUNT_ACCESS,
-        callback);
+      payswarm.profile.checkActorPermissionForObject(
+        actor, {'@id': identityId},
+        PERMISSIONS.ACCOUNT_ADMIN, PERMISSIONS.ACCOUNT_ACCESS,
+        payswarm.identity.checkIdentityOwner, callback);
     },
     function(callback) {
       payswarm.db.collections.account.find(

@@ -198,6 +198,9 @@ function configureServer(app, callback) {
   app.server.set('view options', payswarm.config.website.views.options);
   app.server.register('.tpl', jqtpl);
 
+  // add common params
+  app.server.param(':identity', api.payswarmIdParam('identity'));
+
   // define passport user serialization
   passport.serializeUser(function(user, callback) {
     // save profile and identity ID
@@ -301,6 +304,8 @@ function addServices(app, callback) {
           MODULE_TYPE + '.Error', null, err);
       }
       payswarm.logger.error('Error', err.toObject());
+      // FIXME: differentiate between 4xx and 5xx errors
+      res.statusCode = 500;
       return res.json(err.toObject());
     }
     next();

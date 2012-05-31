@@ -482,7 +482,7 @@ api.createIdentityPublicKeyId = function(ownerId, keyName) {
  * @param publicKey the publicKey to add, with no ID yet set.
  * @param privateKey the privateKey that is paired with the publicKey,
  *          only provided if this is an encryption key for an authority.
- * @param callback(err) called once the operation completes.
+ * @param callback(err, record) called once the operation completes.
  */
 api.addIdentityPublicKey = function(actor, publicKey) {
   var privateKey = null;
@@ -595,7 +595,7 @@ api.getIdentityPublicKeys = function(id) {
         {owner: payswarm.db.hash(id)},
         payswarm.db.readOptions).toArray(callback);
     },
-    function(results, callback) {
+    function(records, callback) {
       if(actor) {
         payswarm.profile.checkActorPermissionForObject(
           actor, {'@id': id},
@@ -605,22 +605,22 @@ api.getIdentityPublicKeys = function(id) {
               return callback(err);
             }
             else {
-              callback(null, results);
+              callback(null, records);
             }
           });
       }
       else {
-        callback(null, results);
+        callback(null, records);
       }
     },
-    function(results, callback) {
+    function(records, callback) {
       // remove private keys if no actor was provided
       if(!actor) {
-        results.forEach(function(publicKey) {
-          delete publicKey['psa:privateKey'];
+        records.forEach(function(record) {
+          delete record.publicKey['psa:privateKey'];
         });
       }
-      callback(null, results);
+      callback(null, records);
     }
   ], callback);
 };

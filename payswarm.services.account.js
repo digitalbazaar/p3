@@ -74,8 +74,7 @@ function addServices(app, callback) {
             return next(err);
           }
           // return account
-          res.header('Location', account['@id']);
-          res.json(account, 201);
+          res.json(account, {'Location': account['@id']}, 201);
         });
   });
 

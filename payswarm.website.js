@@ -202,6 +202,7 @@ function configureServer(app, callback) {
   app.server.param(':identity', api.payswarmIdParam);
   app.server.param(':account', api.payswarmIdParam);
   app.server.param(':budget', api.payswarmIdParam);
+  app.server.param(':publicKey', api.payswarmIdParam);
 
   // define passport user serialization
   passport.serializeUser(function(user, callback) {

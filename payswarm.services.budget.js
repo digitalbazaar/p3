@@ -91,8 +91,7 @@ function addServices(app, callback) {
           return next(err);
         }
         // return budget
-        res.header('Location', budget['@id']);
-        res.json(budget, 201);
+        res.json(budget, {'Location': budget['@id']}, 201);
       });
   });
 

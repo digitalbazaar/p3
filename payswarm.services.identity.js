@@ -109,8 +109,7 @@ function addServices(app, callback) {
             return next(err);
           }
           // return identity
-          res.header('Location', identity['@id']);
-          res.json(identity, 201);
+          res.json(identity, {'Location': identity['@id']}, 201);
         });
   });
 

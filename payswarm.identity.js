@@ -767,7 +767,7 @@ function _createIdentity(identity, callback) {
  *
  * @param publicKey the PublicKey to insert.
  * @param privateKey optional private key.
- * @param callback(err) called once the operation completes.
+ * @param callback(err, record) called once the operation completes.
  */
 function _addIdentityPublicKey(publicKey) {
   payswarm.logger.debug('adding public key', publicKey);

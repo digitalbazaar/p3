@@ -1,6 +1,6 @@
 <div>
    <h2>
-      {{! <img src="{:if profile.foaf:depiction}{profile.foaf:depiction}{:else}https://secure.gravatar.com/avatar/00000000000000000000000000000000{:end}?s=28&d=mm" width="28" height="28" /> }}
+      {{! <img src="{{if profile["foaf:depiction"]}}${profile["foaf:depiction"]}{{else}}https://secure.gravatar.com/avatar/00000000000000000000000000000000{{/if}}?s=28&d=mm" width="28" height="28" /> }}
       ${profile["rdfs:label"]}
    </h2>
    

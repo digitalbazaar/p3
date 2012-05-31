@@ -93,13 +93,13 @@ function Strategy(options) {
               payswarm.identity.getProfileDefaultIdentity(
                 actor, matches[0], callback);
             }
-          }, function(err, result) {
+          }, function(err, results) {
             if(err) {
               return callback(err);
             }
             callback(null, {
-              profile: result.getProfile[0],
-              identity: result.getIdentity[0]
+              profile: results.getProfile[0],
+              identity: results.getIdentity[0]
             });
           });
         }

@@ -449,7 +449,7 @@ api.findAndModifyLocalItem = function(key, modifier, callback) {
  * @return true if the error is a 'already exists' error, false if not.
  */
 api.isAlreadyExistsError = function(err) {
-  return (err.message && err.message.indexOf('already exists') !== -1);
+  return (err && err.message && err.message.indexOf('already exists') !== -1);
 };
 
 /**
@@ -460,7 +460,7 @@ api.isAlreadyExistsError = function(err) {
  * @return true if the error is a duplicate key error, false if not.
  */
 api.isDuplicateError = function(err) {
-  return (err.name === MDBE_ERROR && err.code === MDBE_DUPLICATE);
+  return (err && err.name === MDBE_ERROR && err.code === MDBE_DUPLICATE);
 };
 
 /**

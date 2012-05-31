@@ -125,15 +125,13 @@ function addServices(app, callback) {
           }
           // update account
           payswarm.financial.updateAccount(
-            req.user.profile, account, function(err) {
-              callback(err, account);
-            });
+            req.user.profile, account, callback);
         }
-      ], function(err, account) {
+      ], function(err) {
         if(err) {
           return next(err);
         }
-        res.json(account);
+        res.send();
       });
   });
 

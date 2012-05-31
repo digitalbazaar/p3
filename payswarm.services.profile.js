@@ -124,5 +124,21 @@ function addServices(app, callback) {
     res.redirect('/');
   });
 
+  app.server.post('/profile/switch', ensureAuthenticated,
+    function(req, res, next) {
+      // ensure profile can access identity
+      payswarm.identity.getIdentity(
+        req.user.profile, req.body.identity, function(err, identity) {
+          // ignore exception, just do redirect without changing cookies
+          if(!err) {
+            // Note: Code does not check owner of identity in order to allow
+            // privileged profiles to switch to non-owned identities.
+            req.session.passport.user.identity = identity['@id'];
+          }
+          // do redirect
+          res.redirect(req.body.redirect, 303);
+        });
+  });
+
   callback(null);
 }

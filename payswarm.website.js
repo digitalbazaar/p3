@@ -227,13 +227,13 @@ function configureServer(app, callback) {
         }
         payswarm.identity.getIdentity(actor, data.identity, callback);
       }
-    }, function(err, result) {
+    }, function(err, results) {
       if(err) {
         return callback(err);
       }
       var user = {
-        profile: result.getProfile[0],
-        identity: result.getIdentity[0]
+        profile: results.getProfile[0],
+        identity: results.getIdentity[0]
       };
       callback(null, user);
     });

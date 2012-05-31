@@ -736,7 +736,7 @@ api.checkIdentityObjectOwner = function(actor, object, callback) {
  * Creates a new identity, inserting it into the database.
  *
  * @param identity the identity to create.
- * @param callback(err) called once the operation completes.
+ * @param callback(err, record) called once the operation completes.
  */
 function _createIdentity(identity, callback) {
   payswarm.logger.info('creating identity', identity);

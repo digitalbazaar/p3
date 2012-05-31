@@ -130,7 +130,7 @@ api.createRoleId = function(name) {
  * Adds a new Role to the system.
  *
  * @param role the Role to add.
- * @param callback(err) called once the operation completes.
+ * @param callback(err, record) called once the operation completes.
  */
 api.addRole = function(role, callback) {
   // FIXME: anyone can create a Role, is this correct? (no actor)

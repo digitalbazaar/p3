@@ -226,7 +226,9 @@ Id64.prototype.isMax = function() {
  * @return the 64-bit value of this ID in hex.
  */
 Id64.prototype.toHex = function() {
-  return _u32toHex(this.high) + _u32toHex(this.low);
+  // strip beginning zeros
+  var hex = _u32toHex(this.high) + _u32toHex(this.low);
+  return hex.replace(/^0+/, '');
 };
 
 /**

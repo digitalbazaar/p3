@@ -74,9 +74,8 @@ function addServices(app, callback) {
             return next(err);
           }
           // return account
-          res.statusCode = 201;
           res.header('Location', account['@id']);
-          res.json(account);
+          res.json(account, 201);
         });
   });
 

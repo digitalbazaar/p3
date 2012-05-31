@@ -2,6 +2,7 @@
  * Copyright (c) 2012 Digital Bazaar, Inc. All rights reserved.
  */
 var async = require('async');
+var jsonld = require('./jsonld');
 var payswarm = {
   config: require('./payswarm.config'),
   db: require('./payswarm.database'),
@@ -108,7 +109,7 @@ api.generateBudgetId = function(ownerId, callback) {
  *
  * @param actor the Profile performing the action.
  * @param budget the new Budget to create.
- * @param callback(err) called once the operation completes.
+ * @param callback(err, record) called once the operation completes.
  */
 api.createBudget = function(actor, budget, callback) {
   async.waterfall([
@@ -128,10 +129,12 @@ api.createBudget = function(actor, budget, callback) {
       budget['com:vendor'] = [];
 
       // insert budget
+      var now = +new Date();
       var record = {
         id: payswarm.db.hash(budget['@id']),
         owner: payswarm.db.hash(budget['ps:owner']),
-        vendors: [],
+        // adding budget is a hack to prevent duplicate error w/no vendors
+        vendors: [payswarm.db.hash(budget['@id'])],
         updateId: 0,
         meta: {
           created: now,
@@ -446,9 +449,7 @@ api.removeBudgetVendor = function(actor, budgetId, vendorId, callback) {
  */
 function _sanitizeBudget(budget, update) {
   if(!update) {
-    // FIXME: use JSON-LD helper function once in jsonld.js
-    //JsonLd::addValue(budget, '@type', 'psa:Budget');
-    budget['@type'] = 'psa:Budget';
+    jsonld.addValue(budget, '@type', 'psa:Budget');
 
     // set balance if not set
     budget['com:balance'] = budget['com:balance'] || budget['com:amount'];
@@ -519,7 +520,7 @@ function _updateBudgets(records, callback) {
 
     // refresh budget if necessary
     if(_mustRefresh(budget, now)) {
-      _atomicUpdateBalance(id, now, function(err) {
+      return _atomicUpdateBalance(id, now, function(err) {
         if(!err) {
           budget['psa:refreshed'] = Math.floor(+now/1000);
           budget['com:balance'] = budget['com:amount'];
@@ -527,6 +528,7 @@ function _updateBudgets(records, callback) {
         callback(err);
       });
     }
+    callback();
   }, function(err) {
     callback(err, budgets);
   });
@@ -625,7 +627,6 @@ function _updateBalance(id, amountOrDate, callback) {
 
       // attempt to update balance (ensure updateId matches)
       update.$set['budget.com:balance'] = balance.toString();
-      balance = balance.toString();
       payswarm.db.collections.budget.update(
         {id: payswarm.db.hash(id), updateId: result.updateId},
         update, payswarm.db.writeOptions, callback);
@@ -633,11 +634,10 @@ function _updateBalance(id, amountOrDate, callback) {
     function(n, callback) {
       // budget updated if record was affected
       updated = (n === 1);
-      // FIXME: try again if not updated? (this wasn't finished it looks like)
       callback();
     }
   ], function(err) {
-    callback(err, done);
+    callback(err, updated);
   });
 }
 

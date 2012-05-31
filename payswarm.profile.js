@@ -745,7 +745,7 @@ function _generatePasscode() {
  * Creates a new profile, inserting it into the database.
  *
  * @param profile the profile to create.
- * @param callback(err) called once the operation completes.
+ * @param callback(err, record) called once the operation completes.
  */
 function _createProfile(profile, callback) {
   payswarm.logger.debug('creating profile', profile);
@@ -804,10 +804,10 @@ function _createProfile(profile, callback) {
       profile: profile
     };
     payswarm.db.collections.profile.insert(
-      record, payswarm.db.writeOptions, function(err) {
+      record, payswarm.db.writeOptions, function(err, record) {
         // return unhashed passcode
         profile['psa:passcode'] = passcode;
-        callback(err);
+        callback(err, record);
       });
   });
 }

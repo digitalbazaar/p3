@@ -88,7 +88,7 @@ api.createAccountId = function(ownerId, name) {
  *
  * @param actor the Profile performing the action.
  * @param account the Account to create.
- * @param callback(err) called once the operation completes.
+ * @param callback(err, record) called once the operation completes.
  */
 api.createAccount = function(actor, account, callback) {
   async.waterfall([
@@ -241,7 +241,7 @@ api.updateAccount = function(actor, account, callback) {
  * Creates a new Financial Account, inserting it into the database.
  *
  * @param account the Account to create.
- * @param callback(err) called once the operation completes.
+ * @param callback(err, record) called once the operation completes.
  */
 function _createAccount(account, callback) {
   payswarm.logger.debug('creating account', account);

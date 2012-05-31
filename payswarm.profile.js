@@ -132,6 +132,34 @@ api.resolveProfilename = function(name, callback) {
 };
 
 /**
+ * Gets the Profile IDs that match the given identifier. The identifier
+ * can be a profilename (slug) or email address.
+ *
+ * @param identifier the identifier to resolve.
+ * @param callback(err, profileIds) called once the operation completes.
+ */
+api.resolveProfileIdentifier = function(identifier, callback) {
+  // looks like an email
+  if(identifier.indexOf('@') !== -1) {
+    api.resolveEmail(identifier, callback);
+  }
+  // must be a profilename
+  else {
+    api.resolveProfilename(identifier, function(err, result) {
+      if(err) {
+        return callback(err);
+      }
+      if(result) {
+        // arrayify result
+        return callback(null, [result]);
+      }
+      // no matching profile found
+      callback(null, []);
+    });
+  }
+};
+
+/**
  * Creates a new Profile.
  *
  * The Profile must contain @id, a profilename (slug), and an email address.
@@ -140,7 +168,7 @@ api.resolveProfilename = function(name, callback) {
  *
  * @param actor the Profile performing the action.
  * @param profile the Profile containing at least the minimum required data.
- * @param callback(err) called once the operation completes.
+ * @param callback(err, record) called once the operation completes.
  */
 api.createProfile = function(actor, profile, callback) {
   async.waterfall([

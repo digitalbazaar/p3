@@ -273,30 +273,6 @@ function addServices(app, callback) {
     res.end();
   });*/
 
-  // FIXME: example of path param
-  app.server.get('/foo/:bar', function(req, res) {
-    if(req.bar) {
-      res.render('foobar.tpl', {
-        var1: 'foo',
-        var2: 'bar'
-      });
-    }
-    else {
-      res.redirect('/');
-    }
-  });
-  app.server.param(':bar', function(req, res, next, bar) {
-    // FIXME: validate bar
-    var regex = /[-_a-zA-Z0-9]+/;
-    if(!regex.test(bar)) {
-      res.redirect('/');
-    }
-    else {
-      req.bar = bar;
-      next();
-    }
-  });
-
   // send errors
   app.server.errorHandlers.push(function(err, req, res, next) {
     if(err) {
@@ -305,6 +281,10 @@ function addServices(app, callback) {
           'An error occurred.',
           MODULE_TYPE + '.Error', null, err);
       }
+      // FIXME: check for 'critical' in exception chain and use
+      // that log message instead of error ... and set up email logger
+      // to only email critical messages
+
       payswarm.logger.error('Error', err.toObject());
       if(err.details && err.details['httpStatusCode']) {
         res.statusCode = err.details['httpStatusCode'];

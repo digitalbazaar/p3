@@ -25,34 +25,12 @@ function Strategy(options) {
     this, options, function(identifier, password, callback) {
     async.waterfall([
       function(callback) {
-        // identifier can be email address or profilename
-        if(identifier.indexOf('@') !== -1) {
-          // looks like an email
-          payswarm.profile.resolveEmail(identifier, callback);
-        }
-        else {
-          // must be a profilename
-          payswarm.profile.resolveProfilename(identifier,
-            function(err, result) {
-              if(err) {
-                return callback(err);
-              }
-              if(result) {
-                // arrayify result
-                return callback(null, [result]);
-              }
-              callback(null, null);
-            });
-        }
+        payswarm.profile.resolveProfileIdentifier(identifier, callback);
       },
-      function(result, callback) {
-        if(!result) {
-          // profile not found
-          return callback(null, []);
-        }
+      function(profileIds, callback) {
         // try to authenticate each possible profile ID
         var matches = [];
-        async.forEach(result, function(id, callback) {
+        async.forEach(profileIds, function(id, callback) {
           payswarm.profile.verifyProfilePassword({
             '@id': id,
             'psa:password': password

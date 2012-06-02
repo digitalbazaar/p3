@@ -5,6 +5,7 @@ var async = require('async');
 var payswarm = {
   config: require('./payswarm.config'),
   db: require('./payswarm.database'),
+  events: require('./payswarm.events'),
   financial: require('./payswarm.financial'),
   identity: require('./payswarm.identity'),
   logger: require('./payswarm.logger'),
@@ -98,11 +99,16 @@ api.generateTransactionId = function(callback) {
  * @param callback(err) called once the operation completes.
  */
 api.authorizeTransaction = function(transaction, callback) {
+  // if the transaction has no settleAfter date set, set it to now
+  if(!('psa:settleAfter' in transaction)) {
+    transaction['psa:settleAfter'] = +new Date();
+  }
+
   async.waterfall([
     // 1. Insert pending transaction record.
     function(callback) {
-      // FIXME: add asset index ... asset index for non-contracts will
-      // contain transaction ID hash until sparse indexes on multiple
+      // FIXME: add asset index and others ... asset index for non-contracts
+      // will contain transaction ID hash until sparse indexes on multiple
       // fields are supported in mongo
       var now = +new Date();
       var record = {
@@ -150,7 +156,14 @@ api.authorizeTransaction = function(transaction, callback) {
     function(callback) {
       var now = +new Date();
       if(now >= transaction['psa:settleAfter']) {
-        // FIXME: fire an event to settle the transaction
+        // fire an event to settle the transaction
+        var event = {
+          type: 'payswarm.common.Transaction.settle',
+          details: {
+            transactionId: transaction['@id']
+          }
+        };
+        payswarm.events.emit(event.type, event);
       }
       callback();
     }
@@ -191,7 +204,7 @@ api.voidTransaction = function(transaction, callback) {
         update, payswarm.db.writeOptions, callback);
     },
     // 2. If no update, get FT's state.
-    function(n, callback) {
+    function(n, info, callback) {
       if(n === 0) {
         payswarm.db.collections.transaction.findOne(
           {id: transactionHash}, {state: true},
@@ -321,7 +334,7 @@ api.settleTransaction = function(transaction, callback) {
         update, payswarm.db.writeOptions, callback);
     },
     // 2. Get FT's state and settle ID.
-    function(n, callback) {
+    function(n, info, callback) {
       payswarm.db.collections.transaction.findOne(
         {id: transactionHash}, {state: true, settleId: true},
         payswarm.db.readOptions, callback);
@@ -458,7 +471,7 @@ function _authorizeTransaction(transaction, callback) {
         {id: payswarm.db.hash(src), updateId: result.updateId},
         update, payswarm.db.writeOptions, callback);
     },
-    function(n, callback) {
+    function(n, info, callback) {
       // if account not updated, try again
       if(n === 0) {
         return _authorizeTransaction(transaction, callback);
@@ -473,7 +486,7 @@ function _authorizeTransaction(transaction, callback) {
         payswarm.db.writeOptions, callback);
     },
     // raise an error if transaction was not authorized
-    function(n, callback) {
+    function(n, info, callback) {
       if(n === 0) {
         // FIXME: fire event to clean up transaction
         return callback(new PaySwarmError(
@@ -531,7 +544,7 @@ function _voidTransaction(transaction, callback) {
         {id: payswarm.db.hash(src), updateId: result.updateId},
         update, payswarm.db.writeOptions, callback);
     },
-    function(n, callback) {
+    function(n, info, callback) {
       // if account not updated, try again
       if(n === 0) {
         return _voidTransaction(transaction, callback);
@@ -591,7 +604,7 @@ function _processTransaction(transaction, settleId, callback) {
           payswarm.db.writeOptions, callback);
       },
       // if no update, get FT's state.
-      function(n, callback) {
+      function(n, info, callback) {
         if(n === 0) {
           payswarm.db.collections.transaction.findOne(
             {id: transactionHash}, {'state': true},
@@ -699,7 +712,7 @@ function _escrowDestinationFunds(
         {id: payswarm.db.hash(src), updateId: result.updateId},
         update, payswarm.db.writeOptions, callback);
     },
-    function(n, callback) {
+    function(n, info, callback) {
       // if account not updated, try again
       if(n === 0) {
         return _escrowDestinationFunds(
@@ -761,7 +774,7 @@ function _settleTransaction(transaction, settleId, callback) {
           payswarm.db.writeOptions, callback);
       },
       // if no update, get FT's state.
-      function(n, callback) {
+      function(n, info, callback) {
         if(n === 0) {
           payswarm.db.collections.transaction.findOne(
             {id: transactionHash}, {state: true},
@@ -855,7 +868,7 @@ function _settleDestinationAccount(
         {id: payswarm.db.hash(src), updateId: result.updateId},
         update, payswarm.db.writeOptions, callback);
     },
-    function(n, callback) {
+    function(n, info, callback) {
       // if account not updated, try again
       if(n === 0) {
         return _settleDestinationAccount(

@@ -17,9 +17,9 @@ var levels = {
   notice: 3,
   warning: 4,
   error: 5,
-  crit: 6,
+  critical: 6,
   alert: 7,
-  emerg: 8
+  emergency: 8
 };
 var colors = {
   debug: 'blue',
@@ -28,9 +28,9 @@ var colors = {
   notice: 'yellow',
   warning: 'orange',
   error: 'red',
-  crit: 'red',
+  critical: 'red',
   alert: 'yellow',
-  emerg: 'red'
+  emergency: 'red'
 };
 
 if(cluster.isMaster) {

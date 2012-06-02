@@ -322,7 +322,7 @@ api.updateIdentity = function(actor, identity, callback) {
         payswarm.db.writeOptions,
         callback);
     },
-    function(n, callback) {
+    function(n, info, callback) {
       if(n === 0) {
         callback(new PaySwarmError(
           'Could not update Identity. Identity not found.',
@@ -357,7 +357,7 @@ api.addIdentityAddress = function(actor, id, address, callback) {
         {$push: {'identity.vcard:adr': address}},
         payswarm.db.writeOptions, callback);
     },
-    function(n, callback) {
+    function(n, info, callback) {
       if(n === 0) {
         callback(new PaySwarmError(
           'Could not add address to Identity. Identity not found.',
@@ -419,7 +419,7 @@ api.setIdentityPreferences = function(actor, prefs, callback) {
         {$set: {'identity.ps:preferences': prefs}},
         payswarm.db.writeOptions, callback);
     },
-    function(n, callback) {
+    function(n, info, callback) {
       if(n === 0) {
         callback(new PaySwarmError(
           'Could not update Identity preferences. Identity not found.',
@@ -651,7 +651,7 @@ api.updateIdentityPublicKey = function(actor, publicKey, callback) {
         payswarm.db.writeOptions,
         callback);
     },
-    function(n, callback) {
+    function(n, info, callback) {
       if(n === 0) {
         callback(new PaySwarmError(
           'Could not update public key. Public key not found.',

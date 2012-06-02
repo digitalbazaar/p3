@@ -17,8 +17,6 @@ var payswarm = {
 var PaySwarmError = payswarm.tools.PaySwarmError;
 var Money = require('./payswarm.money').Money;
 
-console.log('payswarm.financial.iri', payswarm.financial.iri);
-
 // constants
 var MODULE_TYPE = payswarm.financial.type;
 var MODULE_IRI = payswarm.financial.iri;
@@ -309,7 +307,7 @@ api.updateBudget = function(actor, budgetUpdate, callback) {
         payswarm.db.writeOptions,
         callback);
     },
-    function(n, callback) {
+    function(n, info, callback) {
       if(n === 0) {
         callback(new PaySwarmError(
           'Could not update Budget. Budget not found.',
@@ -520,7 +518,7 @@ function _updateBudgets(records, callback) {
 
     // refresh budget if necessary
     if(_mustRefresh(budget, now)) {
-      return _atomicUpdateBalance(id, now, function(err) {
+      return _atomicUpdateBalance(budget['@id'], now, function(err) {
         if(!err) {
           budget['psa:refreshed'] = Math.floor(+now/1000);
           budget['com:balance'] = budget['com:amount'];
@@ -580,15 +578,19 @@ function _updateBalance(id, amountOrDate, callback) {
           MODULE_TYPE + '.BudgetNotFound'));
       }
 
-      // ensure amount is not greater than maxPerUse restriction
-      var maxPerUse = new Money(result.budget['psa:maxPerUse']);
-      if(amount.compareTo(maxPerUse) > 0) {
-        return callback(new PaySwarmError(
-          'Could not update budget balance by the specified amount. ' +
-          'The budget restricts the maximum amount that can be deducted ' +
-          'from its balance in a single use.',
-          MODULE_TYPE + '.BudgetRestriction',
-          {budget: id, httpStatusCode: 400, 'public': true}));
+      var budget = result.budget;
+
+      if(amountOrDate instanceof Money) {
+        // ensure amount is not greater than maxPerUse restriction
+        var maxPerUse = new Money(budget['psa:maxPerUse']);
+        if(amountOrDate.compareTo(maxPerUse) > 0) {
+          return callback(new PaySwarmError(
+            'Could not update budget balance by the specified amount. ' +
+            'The budget restricts the maximum amount that can be deducted ' +
+            'from its balance in a single use.',
+            MODULE_TYPE + '.BudgetRestriction',
+            {budget: id, httpStatusCode: 400, 'public': true}));
+        }
       }
 
       // get next update ID
@@ -598,10 +600,10 @@ function _updateBalance(id, amountOrDate, callback) {
       var update = {$set: {updateId: updateId}};
 
       // update balance
-      var balance = new Money(result.budget['com:balance']);
+      var balance = new Money(budget['com:balance']);
       if(amountOrDate instanceof Date) {
         // refresh balance
-        balance = new Money(result.budget['com:amount']);
+        balance = new Money(budget['com:amount']);
         update.$set['budget.com:psa:refreshed'] =
           Math.floor(+amountOrDate/1000);
       }
@@ -631,7 +633,7 @@ function _updateBalance(id, amountOrDate, callback) {
         {id: payswarm.db.hash(id), updateId: result.updateId},
         update, payswarm.db.writeOptions, callback);
     },
-    function(n, callback) {
+    function(n, info, callback) {
       // budget updated if record was affected
       updated = (n === 1);
       callback();

@@ -13,10 +13,22 @@ module.exports = api;
 var MONEY_PRECISION = 7;
 var MONEY_ROUND_MODE = bigdecimal.RoundingMode.DOWN();
 
+api.ROUND_MODE = {
+  DOWN: bigdecimal.RoundingMode.DOWN(),
+  UP: bigdecimal.RoundingMode.UP()
+};
+
 /**
  * A Money object is used for handling precise monetary amounts on PaySwarm.
+ *
+ * @param amount the amount to use.
+ * @param precision the precision to use (default: 7).
+ * @param roundMode the round mode to use (default: DOWN).
  */
-api.Money = function(amount) {
+api.Money = function(amount, precision, roundMode) {
+  this.precision = (precision === undefined) ? MONEY_PRECISION : precision;
+  this.roundMode = (roundMode === undefined) ? MONEY_ROUND_MODE : roundMode;
+
   if(typeof(amount) === undefined) {
     amount = 0;
   }
@@ -28,53 +40,59 @@ api.Money = function(amount) {
   }
   else {
     this.value = new bigdecimal.BigDecimal(amount).setScale(
-      MONEY_PRECISION, MONEY_ROUND_MODE);
+      this.precision, this.roundMode);
   }
 };
+api.Money.ROUND_MODE = api.ROUND_MODE;
 
 // internal helper to wrap BigDecimal
-function _wrapBigDecimal(bd) {
-  var rval = new api.Money(null);
-  rval.value = bd.setScale(MONEY_PRECISION, MONEY_ROUND_MODE);
+function _wrapBigDecimal(bd, precision, roundMode) {
+  var rval = new api.Money(null, precision, roundMode);
+  rval.value = bd.setScale(precision, roundMode);
   return rval;
 };
 
 // prototype for Money
 api.Money.prototype.abs = function() {
-  return _wrapBigDecimal(this.value.abs());
+  return _wrapBigDecimal(this.value.abs(), this.precision, this.roundMode);
 };
 api.Money.prototype.add = function(x) {
   if(!(x instanceof api.Money)) {
-    x = new api.Money(x);
+    x = _wrapBigDecimal(x, this.precision, this.roundMode);
   }
-  return _wrapBigDecimal(this.value.add(x.value));
+  return _wrapBigDecimal(
+    this.value.add(x.value), this.precision, this.roundMode);
 };
 api.Money.prototype.subtract = function(x) {
   if(!(x instanceof api.Money)) {
-    x = new api.Money(x);
+    x = _wrapBigDecimal(x, this.precision, this.roundMode);
   }
   return _wrapBigDecimal(this.value.subtract(x.value));
 };
 api.Money.prototype.multiply = function(x) {
   if(!(x instanceof api.Money)) {
-    x = _wrapBigDecimal(x);
+    x = _wrapBigDecimal(x, this.precision, this.roundMode);
   }
   return _wrapBigDecimal(this.value.multiply(x.value));
 };
 api.Money.prototype.divide = function(x) {
   if(!(x instanceof api.Money)) {
-    x = new api.Money(x);
+    x = _wrapBigDecimal(x, this.precision, this.roundMode);
   }
-  return _wrapBigDecimal(this.value.divide(x.value));
+  return _wrapBigDecimal(
+    this.value.divide(x.value), this.precision, this.roundMode);
 };
 api.Money.prototype.compareTo = function(x) {
   if(!(x instanceof api.Money)) {
-    x = new api.Money(x);
+    x = _wrapBigDecimal(x, this.precision, this.roundMode);
   }
   return this.value.compareTo(x.value);
 };
 api.Money.prototype.isNegative = function() {
   return (this.value.compareTo(new bigdecimal.BigDecimal(0)) < 0);
+};
+api.Money.prototype.isZero = function() {
+  return (this.value.compareTo(new bigdecimal.BigDecimal(0)) === 0);
 };
 api.Money.prototype.toString = function() {
   return this.value.toPlainString();

@@ -170,3 +170,16 @@ config.financial.accounts.push({
   'rdfs:label': 'Primary Account',
   'com:currency': 'USD'
 });
+
+// gateways
+config.financial.paymentGateways.push('./payswarm.pg.test');
+config.financial.paymentGateway = config.financial.paymentGateway || {};
+config.financial.paymentGateway.Test = {};
+config.financial.paymentGateway.Test['com:payee'] = [{
+  '@type': 'com:Payee',
+  'com:destination': config.authority.baseUri + '/i/authority/accounts/fees',
+  'com:rateType': 'com:Percentage',
+  'com:rate': '4.1666667',
+  'com:rateContext': 'com:Exclusive',
+  'rdfs:comment': 'Deposit Processing Service'
+}];

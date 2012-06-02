@@ -49,6 +49,7 @@ config.logger.error.filename = '/tmp/payswarm-dev.error';*/
 
 // email logging
 config.logger.email = {};
+config.logger.email.level = 'critical';
 config.logger.email.to = ['cluster@payswarm.com'];
 config.logger.email.from = 'cluster@payswarm.com';
 config.logger.email.silent = true;
@@ -147,9 +148,9 @@ config.financial.defaults = {
   paymentTokens: []
 };
 config.financial.accounts = [];
-config.financial.paymentGateways = [
-  './payswarm.pg.test'
-];
+config.financial.paymentGateways = [];
+// 15 minute deposit expiration time
+config.financial.depositExpiration = 1000 * 60 * 15;
 
 // website config
 config.website = {};

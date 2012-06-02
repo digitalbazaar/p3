@@ -207,7 +207,7 @@ api.updateRole = function(actor, role, callback) {
         payswarm.db.writeOptions,
         callback);
     },
-    function(n, callback) {
+    function(n, info, callback) {
       if(n === 0) {
         callback(new PaySwarmError(
           'Could not update Role. Role not found.',

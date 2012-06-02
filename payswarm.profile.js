@@ -280,7 +280,7 @@ api.updateProfile = function(actor, profile, callback) {
         payswarm.db.writeOptions,
         callback);
     },
-    function(n, callback) {
+    function(n, info, callback) {
       if(n === 0) {
         callback(new PaySwarmError(
           'Could not update Profile. Profile not found.',
@@ -315,7 +315,7 @@ api.setProfileStatus = function(actor, id, status, callback) {
        payswarm.db.writeOptions,
        callback);
    },
-   function(n, callback) {
+   function(n, info, callback) {
      if(n === 0) {
        callback(new PaySwarmError(
          'Could not set Profile status. Profile not found.',
@@ -360,7 +360,7 @@ api.setProfilePassword = function(actor, profile, callback) {
         payswarm.db.writeOptions,
         callback);
     },
-    function(n, callback) {
+    function(n, info, callback) {
       if(n === 0) {
         callback(new PaySwarmError(
           'Could not set Profile password. Profile not found.',

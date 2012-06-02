@@ -2,6 +2,7 @@
  * Copyright (c) 2012 Digital Bazaar, Inc. All rights reserved.
  */
 var async = require('async');
+var jsonld = require('./jsonld');
 var payswarm = {
   config: require('./payswarm.config'),
   db: require('./payswarm.database'),
@@ -26,6 +27,44 @@ module.exports = api;
 
 // payment gateways
 api.paymentGateways = {};
+
+/**
+ * Orders Payees according to their payeePosition.
+ *
+ * @param payees the Payees to order.
+ *
+ * @return the ordered Payees.
+ */
+// FIXME: remove if payees changed to use lists
+api.sortPayees = function(payees) {
+  if(!payees) {
+    return [];
+  }
+  payees = Array.isArray(payees) ? payees : [payees];
+  payees.sort(function(a, b) {
+    var p1 = a['com:payeePosition'];
+    var p2 = b['com:payeePosition'];
+    return p1 < p2 ? -1 : (p1 > p2 ? 1 : 0);
+  });
+};
+
+/**
+ * Signs a Transaction using an authority key-pair.
+ *
+ * @param transaction the Transaction to sign.
+ * @param callback(err, signed) called once the operation completes.
+ */
+api.signTransaction = function(transaction, callback) {
+  // get key-pair without permission check
+  payswarm.identity.getAuthorityKeyPair(null,
+    function(err, publicKey, privateKey) {
+      if(err) {
+        return callback(err);
+      }
+      payswarm.security.signJsonLd(
+        transaction, privateKey, publicKey['@id'], callback);
+  });
+};
 
 // load financial sub modules
 payswarm.financial = {

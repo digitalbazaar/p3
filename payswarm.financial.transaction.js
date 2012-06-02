@@ -2,6 +2,7 @@
  * Copyright (c) 2012 Digital Bazaar, Inc. All rights reserved.
  */
 var async = require('async');
+var jsonld = require('./jsonld');
 var payswarm = {
   config: require('./payswarm.config'),
   db: require('./payswarm.database'),
@@ -53,14 +54,45 @@ api.init = function(callback) {
     function(callback) {
       // setup collections (create indexes, etc)
       payswarm.db.createIndexes([{
+        // ID
         collection: 'transaction',
         fields: {id: true},
         options: {unique: true, background: true}
       }, {
+        // identity+asset+counter
         collection: 'transaction',
-        fields: {asset: true, 'transaction.com:date': true},
+        fields: {identity: 1, asset: 1, counter: 1},
+        options: {unique: true, background: true}
+      }, {
+        // referenceId
+        collection: 'transaction',
+        fields: {'transaction.com:referenceId': true},
+        options: {unique: true, background: true}
+      }, {
+        // asset+identity
+        collection: 'transaction',
+        fields: {asset: 1, identity: 1},
         options: {unique: false, background: true}
-        // FIXME: add other indexes like assetAcquirer
+      }, {
+        // asset+date
+        collection: 'transaction',
+        fields: {asset: 1, 'transaction.com:date': 1},
+        options: {unique: false, background: true}
+      }, {
+        // source+date
+        collection: 'transaction',
+        fields: {source: 1, 'transaction.com:date': 1},
+        options: {unique: false, background: true}
+      }, {
+        // destination+date
+        collection: 'transaction',
+        fields: {destination: 1, 'transaction.com:date': 1},
+        options: {unique: false, background: true}
+      }, {
+        // date+state
+        collection: 'transaction',
+        fields: {'transaction.com:date': 1, state: 1},
+        options: {unique: false, background: true}
       }], callback);
     },
     _registerPermissions,
@@ -96,33 +128,36 @@ api.generateTransactionId = function(callback) {
  * Authorizes the given Transaction.
  *
  * @param transaction the Transaction.
+ * @param [duplicateQuery] an optional query to use for checking for
+ *          duplicates (default: no duplicate check).
  * @param callback(err) called once the operation completes.
  */
-api.authorizeTransaction = function(transaction, callback) {
+api.authorizeTransaction = function(transaction, duplicateQuery, callback) {
+  if(typeof duplicateQuery === 'function') {
+    callback = duplicateQuery;
+    duplicateQuery = null;
+  }
+
+  // if the transaction has no reference ID, set it to the transaction ID
+  if(!('com:referenceId' in transaction)) {
+    transaction['com:referenceId'] = transaction['@id'];
+  }
   // if the transaction has no settleAfter date set, set it to now
   if(!('psa:settleAfter' in transaction)) {
     transaction['psa:settleAfter'] = +new Date();
   }
+  transaction['com:settled'] = false;
+  transaction['com:voided'] = false;
+
+  // FIXME: is this the best way to use a date type in the DB?
+  // copy transaction to insert w/parsed date
+  transaction = payswarm.tools.clone(transaction);
+  transaction['com:date'] = Date.parse(transaction['com:date']);
 
   async.waterfall([
     // 1. Insert pending transaction record.
     function(callback) {
-      // FIXME: add asset index and others ... asset index for non-contracts
-      // will contain transaction ID hash until sparse indexes on multiple
-      // fields are supported in mongo
-      var now = +new Date();
-      var record = {
-        id: payswarm.db.hash(transaction['@id']),
-        state: SETTLE_STATE.PENDING,
-        updateId: 0,
-        meta: {
-          created: now,
-          updated: now
-        },
-        transaction: transaction
-      };
-      payswarm.db.collections.transaction.insert(
-        record, payswarm.db.writeOptions, callback);
+      _insertTransaction(transaction, duplicateQuery, callback);
     },
     // 2. Ensure each dst FA is valid and can receive funds from src FA.
     function(callback) {
@@ -409,6 +444,178 @@ api.getTransactions = function(actor, query, callback) {
 };
 
 /**
+ * Atomically inserts a Transaction if it would not duplicate another
+ * previous Transaction based on the given duplicate query.
+ *
+ * @param transaction the Transaction.
+ * @param duplicateQuery the query to use to check for a duplicate Transaction.
+ * @param callback(err) called once the operation completes.
+ */
+function _insertTransaction(transaction, duplicateQuery, callback) {
+  // build source and destination hashes
+  var transfers = jsonld.getValues(transaction, 'com:transfer');
+  var src = payswarm.db.hash(transfers[0]['com:source']);
+  var dsts = [];
+  for(var i in transfers) {
+    var transfer = transfers[i];
+    dsts.push(payswarm.db.hash(transfer['com:destination']));
+  }
+
+  async.waterfall([
+    function(callback) {
+      _getTransactionIdentityAndAsset(transaction, callback);
+    },
+    function(identityId, assetId, callback) {
+      // keep trying to insert while checking for duplicates
+      var counter = 0;
+      var inserted = false;
+      async.until(function() {return inserted;}, function(callback) {
+        async.waterfall([
+          function(callback) {
+            // get the last identity+asset counter
+            payswarm.db.collections.transaction.findOne(
+              {identity: identityId, asset: assetId},
+              {counter: true}, {sort: {counter: -1}},
+              payswarm.db.readOptions, function(err, record) {
+                if(err) {
+                  return callback(err);
+                }
+                if(record) {
+                  // update counter for insert
+                  counter = record.counter + 1;
+                }
+              });
+          },
+          function(callback) {
+            // run duplicate check
+            if(duplicateQuery) {
+              payswarm.db.collections.transaction.findOne(
+                duplicateQuery, {'transaction.@id': true},
+                payswarm.db.readOptions, function(err, record) {
+                  if(err) {
+                    return callback(err);
+                  }
+                  // duplicate found
+                  if(record) {
+                    return callback(new PaySwarmError(
+                      'A Transaction already exists for the given parameters.',
+                      MODULE_TYPE + '.DuplicateTransaction', {
+                        transaction: record.transaction['@id'],
+                        query: duplicateQuery
+                      }));
+                  }
+                  callback();
+                });
+            }
+            callback();
+          },
+          // 1. Insert pending transaction record.
+          function(callback) {
+            // Note: asset index for non-contracts contains transaction ID
+            // hash until sparse indexes on multiple fields are supported
+            // in mongo
+            var now = +new Date();
+            var record = {
+              id: payswarm.db.hash(transaction['@id']),
+              state: SETTLE_STATE.PENDING,
+              updateId: 0,
+              asset: payswarm.db.hash(assetId),
+              identity: payswarm.db.hash(identityId),
+              source: src,
+              destination: dsts,
+              counter: counter,
+              meta: {
+                created: now,
+                updated: now
+              },
+              transaction: transaction
+            };
+            payswarm.db.collections.transaction.insert(
+              record, payswarm.db.writeOptions, function(err, record) {
+                // retry on duplicate
+                if(payswarm.db.isDuplicateError(err)) {
+                  return callback();
+                }
+                if(err) {
+                  return callback(err);
+                }
+                inserted = true;
+                callback();
+              });
+          }
+        ], function(err) {
+          if(err) {
+            return callback(err);
+          }
+          callback(null);
+        });
+      }, callback);
+    }
+  ], callback);
+}
+
+/**
+ * Gets the Identity and Asset IDs to associate with the given Transaction.
+ *
+ * @param transaction the Transaction.
+ * @param callback(err, identityId, assetId) called once the operation
+ *          completes.
+ */
+function _getTransactionIdentityAndAsset(transaction, callback) {
+  async.waterfall([
+    function(callback) {
+      // get identity ID via asset acquirer
+      var assetAcquirers = jsonld.getValues(transaction, 'ps:assetAcquirer');
+      if(assetAcquirers.length > 0) {
+        var assetAcquirer = assetAcquirers[0];
+        if(typeof assetAcquirer === 'object') {
+          assetAcquirer = assetAcquirer['@id'];
+        }
+        return callback(null, assetAcquirer);
+      }
+
+      // get identity ID via a financial account
+      var account;
+      var transfers = jsonld.getValues(transaction, 'com:transfer');
+
+      // use first destination account for a deposit
+      if(jsonld.hasValue(transaction, '@type', 'com:Deposit')) {
+        account = transfers[0]['com:destination'];
+      }
+      // otherwise, use source account
+      else {
+        account = transfers[0]['com:source'];
+      }
+
+      // get account owner
+      payswarm.financial.getAccount(
+        null, account, function(err, account) {
+          if(err) {
+            return callback(err);
+          }
+          callback(null, account['ps:owner']);
+        });
+    },
+    function(identityId, callback) {
+      // get asset ID
+      var asset;
+      var assets = jsonld.getValues(transaction, 'ps:asset');
+      if(assets.length > 0) {
+        asset = assets[0];
+       if(typeof asset === 'object') {
+          asset = asset['@id'];
+        }
+      }
+      // no asset involved, use transaction ID as asset
+      else {
+        asset = transaction['@id'];
+      }
+      callback(null, identityId, asset);
+    }
+  ], callback);
+}
+
+/**
  * Atomically updates the balance for the source FinancialAccount for
  * the given Transaction and authorizes it on success.
  *
@@ -443,7 +650,15 @@ function _authorizeTransaction(transaction, callback) {
           {id: transactionHash, state: SETTLE_STATE.PENDING},
           {$set: {state: SETTLE_STATE.VOIDING}},
           payswarm.db.writeOptions, function(err) {
-            // FIXME: fire event to clean up transaction
+            // fire event to clean up transaction
+            var event = {
+              type: 'payswarm.common.Transaction.cleanup',
+              details: {
+                transactionId: transaction['@id']
+              }
+            };
+            payswarm.events.emit(event.type, event);
+
             if(err) {
               return callback(err);
             }
@@ -488,7 +703,14 @@ function _authorizeTransaction(transaction, callback) {
     // raise an error if transaction was not authorized
     function(n, info, callback) {
       if(n === 0) {
-        // FIXME: fire event to clean up transaction
+        // fire event to clean up transaction
+        var event = {
+          type: 'payswarm.common.Transaction.cleanup',
+          details: {
+            transactionId: transaction['@id']
+          }
+        };
+        payswarm.events.emit(event.type, event);
         return callback(new PaySwarmError(
           'Transaction could not be authorized; it has been voided.',
           MODULE_TYPE + '.VoidedTransaction'));
@@ -555,7 +777,10 @@ function _voidTransaction(transaction, callback) {
     function(callback) {
       payswarm.db.collections.transaction.update(
         {id: transactionHash},
-        {$set: {state: SETTLE_STATE.VOIDED, 'meta.updated': +new Date()}},
+        {$set: {
+          state: SETTLE_STATE.VOIDED,
+          'transaction.com:voided': false,
+          'meta.updated': +new Date()}},
         payswarm.db.writeOptions, function(err) {callback(err);});
     }
   ], callback);
@@ -770,7 +995,10 @@ function _settleTransaction(transaction, settleId, callback) {
       function(callback) {
         payswarm.db.collections.transaction.update(
           {id: transactionHash, state: SETTLE_STATE.SETTLING},
-          {$set: {state: SETTLE_STATE.SETTLED, 'meta.updated': +new Date()}},
+          {$set: {
+            state: SETTLE_STATE.SETTLED,
+            'transaction.com:settled': true,
+            'meta.updated': +new Date()}},
           payswarm.db.writeOptions, callback);
       },
       // if no update, get FT's state.

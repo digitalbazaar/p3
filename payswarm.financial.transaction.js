@@ -64,9 +64,9 @@ api.init = function(callback) {
         fields: {identity: 1, asset: 1, counter: 1},
         options: {unique: true, background: true}
       }, {
-        // referenceId
+        // identity+referenceId
         collection: 'transaction',
-        fields: {'transaction.com:referenceId': true},
+        fields: {identity: 1, 'transaction.com:referenceId': 1},
         options: {unique: true, background: true}
       }, {
         // asset+identity
@@ -89,9 +89,14 @@ api.init = function(callback) {
         fields: {destination: 1, 'transaction.com:date': 1},
         options: {unique: false, background: true}
       }, {
-        // date+state
+        // date
         collection: 'transaction',
-        fields: {'transaction.com:date': 1, state: 1},
+        fields: {'transaction.com:date': true},
+        options: {unique: false, background: true}
+      }, {
+        // settleAfter+state+updated
+        collection: 'transaction',
+        fields: {'transaction.psa:settleAfter': 1, state: 1, 'meta.updated': 1},
         options: {unique: false, background: true}
       }], callback);
     },
@@ -104,6 +109,9 @@ api.init = function(callback) {
           }
           callback(err);
       });
+    },
+    function(callback) {
+      // FIXME: add listener for settle/cleanup events
     }
   ], callback);
 };
@@ -519,6 +527,7 @@ function _insertTransaction(transaction, duplicateQuery, callback) {
               id: payswarm.db.hash(transaction['@id']),
               state: SETTLE_STATE.PENDING,
               updateId: 0,
+              workerId: 0,
               asset: payswarm.db.hash(assetId),
               identity: payswarm.db.hash(identityId),
               source: src,

@@ -95,6 +95,7 @@ function addServices(app, callback) {
           }
           // remove any context on address
           delete address['@context'];
+          callback();
         },
         function(callback) {
           // add identity address

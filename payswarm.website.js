@@ -56,15 +56,15 @@ api.init = function(app, callback) {
       // configure the web server
       configureServer(app, callback);
     },
-    function(callback) {
-      // add services
-      addServices(app, callback);
-    },
     // init service sub modules
     function(callback) {
       async.forEachSeries(modules, function(module, callback) {
         payswarm.services[module].init(app, callback);
       }, callback);
+    },
+    function(callback) {
+      // add root services
+      addServices(app, callback);
     }
   ], callback);
 };
@@ -283,12 +283,45 @@ function addServices(app, callback) {
     });
   });
 
-  // favicon.ico
-  /*app.server.get('/favicon.ico', function(req, res) {
-    res.header('Content-Length', 0);
-    res.writeHead(404);
-    res.end();
-  });*/
+  // about page
+  app.server.get('/about', function(req, res, next) {
+    api.getDefaultViewVars(req, function(err, vars) {
+      if(err) {
+        return next(err);
+      }
+      res.render('about.tpl', vars);
+    });
+  });
+
+  // legal page
+  app.server.get('/legal', function(req, res, next) {
+    api.getDefaultViewVars(req, function(err, vars) {
+      if(err) {
+        return next(err);
+      }
+      res.render('legal.tpl', vars);
+    });
+  });
+
+  // contact page
+  app.server.get('/contact', function(req, res, next) {
+    api.getDefaultViewVars(req, function(err, vars) {
+      if(err) {
+        return next(err);
+      }
+      res.render('contact.tpl', vars);
+    });
+  });
+
+  // not found handler
+  app.server.all('*', function(req, res, next) {
+    api.getDefaultViewVars(req, function(err, vars) {
+      if(err) {
+        return next(err);
+      }
+      res.render('errors/error-404.tpl', vars);
+    });
+  });
 
   // send errors
   app.server.errorHandlers.push(function(err, req, res, next) {

@@ -39,6 +39,7 @@ var modules = [
   'key',
   'account',
   'budget',
+  'paymentToken',
   'license',
   'transaction'
 ];
@@ -366,6 +367,8 @@ function addServices(app, callback) {
 // load service sub modules
 payswarm.services = {};
 for(var i in modules) {
-  var module = modules[i];
-  payswarm.services[module] = require('./payswarm.services.' + module);
+  var name = modules[i];
+  var module = './payswarm.services.' + name;
+  payswarm.logger.info('loading website service module: ' + module);
+  payswarm.services[name] = require(module);
 }

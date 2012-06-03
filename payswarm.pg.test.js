@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2012 Digital Bazaar, Inc. All rights reserved.
  */
+var async = require('async');
 var jsonld = require('./jsonld');
 var payswarm = {
   logger: require('./payswarm.logger'),
@@ -186,9 +187,10 @@ api.init = function(callback) {
  * token.
  *
  * @param source the source of funds (eg: CreditCard, BankAccount).
+ * @param token the PaymentToken with custom information to store.
  * @param callback(err, token) called once the operation completes.
  */
-api.createPaymentToken = function(source, callback) {
+api.createPaymentToken = function(source, token, callback) {
   async.auto({
     hashSource: function(callback) {
       payswarm.security.hashJsonLd(source, callback);
@@ -208,11 +210,9 @@ api.createPaymentToken = function(source, callback) {
       return callback(err);
     }
     var blinded = results.blindSource;
-    var token = {
-      'com:paymentToken': results.hashSource,
-      'com:gateway': api.name,
-      'com:paymentMethod': blinded['@type']
-    };
+    token['com:paymentToken'] = results.hashSource;
+    token['com:gateway'] = api.name;
+    token['com:paymentMethod'] = blinded['@type'];
     if(jsonld.hasValue(source, '@type', 'ccard:CreditCard')) {
       token['ccard:brand'] = blinded['ccard:brand'];
       token['ccard:number'] = blinded['ccard:number'];

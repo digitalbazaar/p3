@@ -316,6 +316,7 @@ api.sortPayees = function(payees) {
     var p2 = b['com:payeePosition'];
     return p1 < p2 ? -1 : (p1 > p2 ? 1 : 0);
   });
+  return payees;
 };
 
 /**

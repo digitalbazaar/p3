@@ -59,7 +59,8 @@ api.signDeposit = function(actor, deposit, callback) {
         if(!('rdfs:comment' in payee)) {
           payee['rdfs:comment'] = 'Deposit';
         }
-        payswarm.financial.getAccount(actor, payee['com:destination']);
+        payswarm.financial.getAccount(
+          actor, payee['com:destination'], callback);
       }, function(err) {
         callback(err);
       });

@@ -236,21 +236,33 @@ function configureServer(app, callback) {
     var actor = {'@id': data.profile};
     async.auto({
       getProfile: function(callback) {
-        payswarm.profile.getProfile(actor, data.profile, callback);
+        payswarm.profile.getProfile(
+          actor, data.profile, function(err, profile) {
+            if(err) {
+              return callback(err);
+            }
+            callback(err, profile);
+        });
       },
       getIdentity: function(callback) {
         if(data.identity === null) {
           return callback(null, null);
         }
-        payswarm.identity.getIdentity(actor, data.identity, callback);
+        payswarm.identity.getIdentity(
+          actor, data.identity, function(err, identity) {
+            if(err) {
+              return callback(err);
+            }
+            callback(err, identity);
+          });
       }
     }, function(err, results) {
       if(err) {
         return callback(err);
       }
       var user = {
-        profile: results.getProfile[0],
-        identity: results.getIdentity[0]
+        profile: results.getProfile,
+        identity: results.getIdentity
       };
       callback(null, user);
     });

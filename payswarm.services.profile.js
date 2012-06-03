@@ -216,16 +216,15 @@ function addServices(app, callback) {
       payswarm.events.emit(event.type, event);
 
       // auto-login profile
-      req.logIn({
-        profile: results.createProfile['@id'],
-        identity: results.createIdentity['@id']
-      }, function(err) {
+      req.body.profile = results.createProfile['psa:slug'];
+      req.body.password = req.body['psa:password'];
+      _login(req, res, next, function(err, user) {
         if(err) {
           return next(new PaySwarmError(
             'Could not create session for newly created profile.',
-            MODULE_TYPE + '.AutoLoginFailed'));
+            MODULE_TYPE + '.AutoLoginFailed', {}, err));
         }
-        res.json({ref: identityId + '/dashboard'});
+        res.json({ref: results.createIdentity['@id'] + '/dashboard'});
       });
     });
   });
@@ -257,42 +256,29 @@ function addServices(app, callback) {
   app.server.post('/profile/login', function(req, res, next) {
     // normalize profile email/profilename input
     req.body.profile = req.body.profilename || req.body.profile;
-    passport.authenticate('payswarm.password', function(err, user, info) {
-      if(!user) {
-        err = new PaySwarmError(
-          'The profile or email address and password combination ' +
-          'you entered is incorrect.', MODULE_TYPE + '.InvalidLogin');
-      }
+    _login(req, res, next, function(err, user) {
       if(err) {
         return next(err);
       }
-
-      if(user) {
-        req.logIn(user, function(err) {
-          if(err) {
-            return next(err);
-          }
-          var out = {};
-          if(req.body.ref) {
-            out.ref = req.body.ref;
-          }
-          else if(user.identity) {
-            out.ref = user.identity['@id'] + '/dashboard';
-          }
-          else {
-            out.ref = '/';
-          }
-          // FIXME: add method to do:
-          // if(req.accepts('application/ld+json')) {
-          //   res.header('Content-Type', 'application/ld+json');
-          // }
-          // FIXME: might need to just use res.send() instead of res.json(),
-          // replace this in various services when done.
-          // can do res.json(out, 200, {'Content-Type': 'application/ld+json'})
-          return res.json(out);
-        });
+      var out = {};
+      if(req.body.ref) {
+        out.ref = req.body.ref;
       }
-    })(req, res, next);
+      else if(user.identity) {
+        out.ref = user.identity['@id'] + '/dashboard';
+      }
+      else {
+        out.ref = '/';
+      }
+      // FIXME: add method to do:
+      // if(req.accepts('application/ld+json')) {
+      //   res.header('Content-Type', 'application/ld+json');
+      // }
+      // FIXME: might need to just use res.send() instead of res.json(),
+      // replace this in various services when done.
+      // can do res.json(out, 200, {'Content-Type': 'application/ld+json'})
+      res.json(out);
+    });
   });
 
   app.server.get('/profile/logout', function(req, res, next) {
@@ -450,4 +436,21 @@ function addServices(app, callback) {
   });
 
   callback(null);
+}
+
+// perform login
+function _login(req, res, next, callback) {
+  passport.authenticate('payswarm.password', function(err, user, info) {
+    if(!user) {
+      err = new PaySwarmError(
+        'The profile or email address and password combination ' +
+        'you entered is incorrect.', MODULE_TYPE + '.InvalidLogin');
+    }
+    if(err) {
+      return next(err);
+    }
+    req.logIn(user, function(err) {
+      callback(err, user);
+    });
+  })(req, res, next);
 }

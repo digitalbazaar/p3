@@ -174,22 +174,24 @@ api.hash = function(key) {
  * Builds an update object using mongodb dot-notation.
  *
  * @param obj the object with fields to be updated in the database.
+ * @param [field] optional parent field.
  *
  * @return the update object to be assigned to $set in an update query.
  */
 api.buildUpdate = function(obj) {
-  var rval = arguments[1] || {};
-  var field = arguments[2] || '';
+  var field = arguments[1] || '';
+  var rval = arguments[2] || {};
   if(typeof obj === 'object' && !(obj instanceof Array)) {
     // for objects, recurse for each field
     Object.keys(obj).forEach(function(name) {
-      buildUpdate(obj[name], rval, (field.length > 0) ?
-        field + '.' + name : name);
+      api.buildUpdate(obj[name], (field.length > 0) ?
+        field + '.' + name : name, rval);
     });
   }
   else {
     rval[field] = obj;
   }
+  return rval;
 };
 
 /**

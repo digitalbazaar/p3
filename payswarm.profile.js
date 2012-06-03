@@ -276,7 +276,7 @@ api.updateProfile = function(actor, profile, callback) {
       delete profile['psa:status'];
       payswarm.db.collections.profile.update(
         {id: payswarm.db.hash(profile['@id'])},
-        {$set: payswarm.db.buildUpdate(profile)},
+        {$set: payswarm.db.buildUpdate(profile, 'profile')},
         payswarm.db.writeOptions,
         callback);
     },
@@ -356,7 +356,7 @@ api.setProfilePassword = function(actor, profile, callback) {
     function(changes, callback) {
       payswarm.db.collections.profile.update(
         {id: payswarm.db.hash(id)},
-        {$set: payswarm.db.buildUpdate(changes)},
+        {$set: payswarm.db.buildUpdate(changes, 'profile')},
         payswarm.db.writeOptions,
         callback);
     },

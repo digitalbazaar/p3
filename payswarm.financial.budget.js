@@ -308,7 +308,7 @@ api.updateBudget = function(actor, budgetUpdate, callback) {
       _sanitizeBudget(budgetUpdate, true);
       payswarm.db.collections.budget.update(
         {id: payswarm.db.hash(budgetUpdate['@id'])},
-        {$set: payswarm.db.buildUpdate(budgetUpdate)},
+        {$set: payswarm.db.buildUpdate(budgetUpdate, 'budget')},
         payswarm.db.writeOptions,
         callback);
     },

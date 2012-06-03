@@ -220,7 +220,7 @@ api.updateAccount = function(actor, account, callback) {
      delete account['com:currency'];
      payswarm.db.collections.account.update(
        {id: payswarm.db.hash(account['@id'])},
-       {$set: payswarm.db.buildUpdate(account)},
+       {$set: payswarm.db.buildUpdate(account, 'account')},
        payswarm.db.writeOptions,
        callback);
    },

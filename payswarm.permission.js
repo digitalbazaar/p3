@@ -208,7 +208,7 @@ api.updateRole = function(actor, role, callback) {
     function(callback) {
       payswarm.db.collections.role.update(
         {id: payswarm.db.hash(role['@id'])},
-        {$set: payswarm.db.buildUpdate(role)},
+        {$set: payswarm.db.buildUpdate(role, 'role')},
         payswarm.db.writeOptions,
         callback);
     },

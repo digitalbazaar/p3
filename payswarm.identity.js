@@ -318,7 +318,7 @@ api.updateIdentity = function(actor, identity, callback) {
       delete identity['vcard:adr'];
       payswarm.db.collections.identity.update(
         {id: payswarm.db.hash(identity['@id'])},
-        {$set: payswarm.db.buildUpdate(identity)},
+        {$set: payswarm.db.buildUpdate(identity, 'identity')},
         payswarm.db.writeOptions,
         callback);
     },
@@ -647,7 +647,7 @@ api.updateIdentityPublicKey = function(actor, publicKey, callback) {
       delete publicKey['ps:owner'];
       payswarm.db.collections.publicKey.update(
         {id: payswarm.db.hash(publicKey['@id'])},
-        {$set: payswarm.db.buildUpdate(publicKey)},
+        {$set: payswarm.db.buildUpdate(publicKey, 'publicKey')},
         payswarm.db.writeOptions,
         callback);
     },

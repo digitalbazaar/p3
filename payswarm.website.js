@@ -175,7 +175,7 @@ api.getDefaultViewVars = function(req, callback) {
  * @param id the id.
  */
 api.payswarmIdParam = function(req, res, next, id) {
-  var regex = /[a-zA-Z][-a-zA-Z0-9~_\.]*/;
+  var regex = /[a-zA-Z0-9][-a-zA-Z0-9~_\.]*/;
   if(!regex.test(id)) {
     res.redirect('/');
   }

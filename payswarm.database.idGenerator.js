@@ -80,8 +80,9 @@ api.DistributedIdGenerator.prototype.generateId = function(callback) {
       // big-endian hex-encode ID
       // version is hard-coded to 1
       var id = util.format('1.%s.%s.%s',
-        self.globalId.toHex(), self.localId.toHex(),
-        self.currentId.next().toHex());
+        _stripLeadingZeros(self.globalId.toHex()),
+        _stripLeadingZeros(self.localId.toHex()),
+        _stripLeadingZeros(self.currentId.next().toHex()));
       callback(null, id);
     }
   ], callback);
@@ -227,8 +228,7 @@ Id64.prototype.isMax = function() {
  */
 Id64.prototype.toHex = function() {
   // strip beginning zeros
-  var hex = _u32toHex(this.high) + _u32toHex(this.low);
-  return hex.replace(/^0+/, '');
+  return _u32toHex(this.high) + _u32toHex(this.low);
 };
 
 /**
@@ -241,4 +241,15 @@ Id64.prototype.toHex = function() {
 function _u32toHex(u32) {
   var hex = u32.toString(16);
   return '0000000'.substr(0, 8 - hex.length) + hex;
+}
+
+/**
+ * Strips leading zeros from the given hex.
+ *
+ * @param hex the hex to strip leading zeros from.
+ *
+ * @return the stripped hex.
+ */
+function _stripLeadingZeros(hex) {
+  return hex.replace(/^0+/, '');
 }

@@ -23,7 +23,7 @@ program
   .option('--listings', 'Show info for Listings. (overrides --all)')
   .option('--hash', 'Hash JSON-LD. (default: true)')
   .option('--dump', 'Dump JSON-LD. (default: true)')
-  .option('--normalized', 'Dump normalized JSON-LD. (default: true)')
+  .option('--no-normalized', 'Do not dump normalized JSON-LD. (default: true)')
   .option('--compact', 'Dump in compacted JSON-LD. (default: false)')
   .option('--json', 'Expect JSON input instead of RDFa. (default: false)')
   .parse(process.argv);
@@ -44,14 +44,8 @@ if(!('hash' in program)) {
 if(!('dump' in program)) {
   program.dump = true;
 }
-if(program.normalized) {
-  program.compact = false;
-}
 if(program.compact) {
   program.normalized = false;
-}
-if(!('normalized' in program)) {
-  program.normalized = true;
 }
 
 var source = null;

@@ -87,8 +87,7 @@ api.createContract = function(actor, options, callback) {
         hash: options.listingHash,
         type: 'ps:Listing',
         strict: true,
-        fetch: true,
-        errorOnNotFound: true
+        fetch: true
       };
       payswarm.resource.listing.get(query, function(err, records) {
         if(err) {
@@ -111,8 +110,7 @@ api.createContract = function(actor, options, callback) {
         hash: listing['ps:assetHash'],
         type: 'ps:Asset',
         strict: true,
-        fetch: true,
-        errorOnNotFound: true
+        fetch: true
       };
       payswarm.resource.asset.get(query, function(err, records) {
         if(err) {
@@ -132,8 +130,7 @@ api.createContract = function(actor, options, callback) {
         hash: listing['ps:licenseHash'],
         type: 'ps:License',
         strict: true,
-        fetch: true,
-        errorOnNotFound: true
+        fetch: true
       };
       payswarm.resource.license.get(query, function(err, records) {
         if(err) {

@@ -3,6 +3,7 @@ var program = require('commander');
 var jsdom = require('jsdom');
 var jsonld = require('./jsonld');
 var RDFa = require('./rdfa');
+var util = require('util');
 var payswarm = {
   security: require('./payswarm.security'),
   tools: require('./payswarm.tools.js')
@@ -50,11 +51,10 @@ if(program.compact) {
 
 var source = null;
 
-if(program.args === 0) {
+if(program.args.length === 0) {
   source = 'stdin';
-  console.log('Reading %s from standard input...\n',
-    program.json ? 'JSON' : 'RDFa');
-  program.prompt(':', processInput);
+  program.prompt(util.format('Reading %s from standard input:',
+    program.json ? 'JSON' : 'RDFa'), processInput);
 }
 else {
   source = program.args[0];
@@ -128,6 +128,7 @@ function processInput(input) {
       console.log('Error:', err, err.stack ? err.stack : '');
       process.exit(1);
     }
+    process.exit();
   });
 }
 

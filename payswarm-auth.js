@@ -8,6 +8,17 @@ var fs = require('fs');
 var path = require('path');
 var passport = require('passport');
 var config = require('./payswarm.config');
+var program = require('commander');
+
+program
+  .version('0.0.1')
+  .option('--log-level <level>', 'The console log level to use.')
+  .parse(process.argv);
+
+// set console log level
+if(program.logLevel) {
+  config.logger.console.level = program.logLevel;
+}
 
 if(cluster.isMaster) {
   // set up logger

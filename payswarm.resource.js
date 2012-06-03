@@ -273,7 +273,7 @@ ResourceStorage.prototype._fetch = function(query, callback) {
 
       // store record
       payswarm.db.collections[self.name].insert(
-        record, payswarm.db.writeOptions, function(err, record) {
+        record, payswarm.db.writeOptions, function(err, records) {
           /* Note: If a duplicate error was raised, then a race condition
             occurred where another operation already inserted the same
             record; this is ignored and the data is read back out. */
@@ -284,7 +284,7 @@ ResourceStorage.prototype._fetch = function(query, callback) {
           if(err) {
             return callback(err);
           }
-          callback(err, [record]);
+          callback(err, records);
         });
     }
   ], function(err, records) {

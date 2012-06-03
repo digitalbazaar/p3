@@ -65,19 +65,24 @@ function Strategy(options) {
           var actor = {'@id': matches[0]};
           async.auto({
             getProfile: function(callback) {
-              payswarm.profile.getProfile(actor, matches[0], callback);
+              payswarm.profile.getProfile(actor, matches[0],
+                function(err, profile) {
+                  callback(err, profile);
+              });
             },
             getIdentity: function(callback) {
               payswarm.identity.getProfileDefaultIdentity(
-                actor, matches[0], callback);
+                actor, matches[0], function(err, identity) {
+                  callback(err, identity);
+                });
             }
           }, function(err, results) {
             if(err) {
               return callback(err);
             }
             callback(null, {
-              profile: results.getProfile[0],
-              identity: results.getIdentity[0]
+              profile: results.getProfile,
+              identity: results.getIdentity
             });
           });
         }

@@ -141,7 +141,12 @@ api.createBudget = function(actor, budget, callback) {
         budget: budget
       };
       payswarm.db.collections.budget.insert(
-        record, payswarm.db.writeOptions, callback);
+        record, payswarm.db.writeOptions, function(err, records) {
+          if(err) {
+            return callback(err);
+          }
+          callback(null, records[0]);
+        });
     }
   ], callback);
 };

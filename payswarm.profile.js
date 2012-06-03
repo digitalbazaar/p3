@@ -832,10 +832,13 @@ function _createProfile(profile, callback) {
       profile: profile
     };
     payswarm.db.collections.profile.insert(
-      record, payswarm.db.writeOptions, function(err, record) {
+      record, payswarm.db.writeOptions, function(err, records) {
+        if(err) {
+          return callback(err);
+        }
         // return unhashed passcode
         profile['psa:passcode'] = passcode;
-        callback(err, record);
+        callback(null, records[0]);
       });
   });
 }

@@ -93,7 +93,7 @@ api.createContract = function(actor, options, callback) {
         if(err) {
           return callback(err);
         }
-        var listing = records.resources[0]['dc:source'];
+        var listing = records[0].resource;
         payswarm.logger.debug(
           'create contract listing',
           options.listingId, options.listingHash, listing);
@@ -116,7 +116,7 @@ api.createContract = function(actor, options, callback) {
         if(err) {
           return callback(err);
         }
-        var asset = records.resources[0]['dc:source'];
+        var asset = records[0].resource;
         callback(null, asset);
       });
     },
@@ -136,7 +136,7 @@ api.createContract = function(actor, options, callback) {
         if(err) {
           return callback(err);
         }
-        var license = records.resources[0]['dc:source'];
+        var license = records[0].resource;
         callback(null, license);
       });
     },

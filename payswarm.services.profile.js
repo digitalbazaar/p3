@@ -2,15 +2,18 @@
  * Copyright (c) 2012 Digital Bazaar, Inc. All rights reserved.
  */
 var async = require('async');
+var crypto = require('crypto');
 var passport = require('passport');
 var url = require('url');
 var payswarm = {
   config: require('./payswarm.config'),
   db: require('./payswarm.database'),
+  events: require('./payswarm.events'),
   financial: require('./payswarm.financial'),
   identity: require('./payswarm.identity'),
   logger: require('./payswarm.logger'),
   permission: require('./payswarm.permission'),
+  profile: require('./payswarm.profile'),
   tools: require('./payswarm.tools'),
   website: require('./payswarm.website')
 };
@@ -119,10 +122,10 @@ function addServices(app, callback) {
           if(err) {
             return callback(err);
           }
-          callback(record.profile);
+          callback(null, record.profile);
         });
       },
-      createIdentity: ['createProfile', function(callback) {
+      createIdentity: ['createProfile', function(callback, results) {
         profileCreated = true;
         // create identity
         var identityId = payswarm.identity.createIdentityId(
@@ -154,11 +157,12 @@ function addServices(app, callback) {
             else if(err) {
               return callback(err);
             }
-            callback(record.identity);
+            callback(null, record.identity);
           });
       }],
-      createAccount: ['createIdentity', function(callback) {
+      createAccount: ['createIdentity', function(callback, results) {
         identityCreated = true;
+        var identityId = results.createIdentity['@id'];
         var accountId = payswarm.financial.createAccountId(
           identityId, req.body['com:account']['psa:slug']);
         var account = {

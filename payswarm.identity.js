@@ -796,7 +796,12 @@ function _createIdentity(identity, callback) {
     identity: identity
   };
   payswarm.db.collections.identity.insert(
-    record, payswarm.db.writeOptions, callback);
+    record, payswarm.db.writeOptions, function(err, records) {
+      if(err) {
+        return callback(err);
+      }
+      callback(null, records[0]);
+    });
 }
 
 /**
@@ -912,7 +917,12 @@ function _addIdentityPublicKey(publicKey) {
         publicKey: publicKey
       };
       payswarm.db.collections.publicKey.insert(
-        record, payswarm.db.writeOptions, callback);
+        record, payswarm.db.writeOptions, function(err, records) {
+          if(err) {
+            return callback(err);
+          }
+          callback(null, records[0]);
+        });
     }
   ], callback);
 }

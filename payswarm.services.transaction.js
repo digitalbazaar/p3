@@ -124,7 +124,7 @@ function _postTransactionsQuote(req, res, next) {
             }, err);
           return callback(err);
         }
-        var listing = records.resources[0]['dc:source'];
+        var listing = records[0].resource;
         // check only one signature exists
         // FIXME: this is a poor constraint
         var signatures = jsonld.getValues(listing, 'sec:signature');
@@ -163,7 +163,7 @@ function _postTransactionsQuote(req, res, next) {
             }, err);
           return callback(err);
         }
-        var asset = records.resources[0]['dc:source'];
+        var asset = records[0].resource;
         // check only one signature exists
         // FIXME: this is a poor constraint
         var signatures = jsonld.getValues(asset, 'sec:signature');

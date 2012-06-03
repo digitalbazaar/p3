@@ -147,7 +147,8 @@ config.addressValidator.module = './payswarm.av.test';
 config.financial = {};
 config.financial.defaults = {
   account: {},
-  paymentTokens: []
+  paymentTokens: [],
+  gateway: 'Test'
 };
 config.financial.accounts = [];
 config.financial.payeeSchemes = {};

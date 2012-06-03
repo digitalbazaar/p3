@@ -94,6 +94,16 @@ api.Money.prototype.compareTo = function(x) {
 api.Money.prototype.isNegative = function() {
   return (this.value.compareTo(new bigdecimal.BigDecimal(0)) < 0);
 };
+api.Money.prototype.setNegative = function(negative) {
+  if(this.isNegative() === negative) {
+    return;
+  }
+  if(this.isNegative()) {
+    return this.abs();
+  }
+  var zero = _wrapBigDecimal(bd, this.precision, this.roundMode);
+  return zero.subtract(this);
+};
 api.Money.prototype.isZero = function() {
   return (this.value.compareTo(new bigdecimal.BigDecimal(0)) === 0);
 };

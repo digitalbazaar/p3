@@ -16,6 +16,7 @@ var payswarm = {
 };
 var PaySwarmError = payswarm.tools.PaySwarmError;
 var ensureAuthenticated = payswarm.website.ensureAuthenticated;
+var getDefaultViewVars = payswarm.website.getDefaultViewVars;
 
 // constants
 var MODULE_TYPE = payswarm.website.type;
@@ -192,29 +193,12 @@ function _postTransactionsQuote(req, res, next) {
       if(!results.checkDuplicate) {
         return callback();
       }
-
-      // duplicate found, return it in an error
-      var contract = results.checkDuplicate;
       var nonce = null;
       if('sec:nonce' in req.body) {
         nonce = req.body['sec:nonce'];
       }
-      _encryptShortContract(
-        contract, contract['ps:listing']['sec:signature']['dc:creator'],
-        nonce, function(err, encrypted) {
-          if(err) {
-            return callback(err);
-          }
-          callback(new PaySwarmError(
-            'Duplicate purchase found.',
-            MODULE_TYPE + '.DuplicatePurchase', {
-              encryptedMessage: encrypted,
-              // FIXME: send contract details for use in UI?
-              contract: contract,
-              httpStatusCode: 409,
-              'public': true
-            }));
-        });
+      _createDuplicateError(
+        req.user.profile, results.checkDuplicate, nonce, callback);
     }],
     createQuote: ['handleDuplicate', function(callback, results) {
       // create finalized contract
@@ -345,12 +329,114 @@ function _processPartialPurchaseRequest(req, res, next) {
     getContract: function(callback) {
       payswarm.financial.getCachedContract(
         req.user.profile, req.body['ps:transactionId'], callback);
+    },
+    getBudget: ['getContract', function(callback) {
+      // get budget based on acquirer ID and asset provider
+      var acquirerId = contract['ps:assetAcquirer']['@id'];
+      var asset = contract['ps:asset'];
+      var query = {
+        owner: payswarm.db.hash(acquirerId),
+        vendor: payswarm.db.hash(asset['ps:assetProvider'])
+      };
+      payswarm.financial.getBudgets(null, query, function(err, records) {
+        if(err) {
+          return callback(err);
+        }
+        if(records.length > 0) {
+          // get first budget (can only be one owner+vendor pair)
+          var budget = records[0].budget;
+          var transfers = jsonld.getValues(contract, 'com:transfer');
+          if(budget['com:account'] !== transfers[0]['com:source']) {
+            return callback(new PaySwarmError(
+              'The source FinancialAccount in the Contract does not match ' +
+              'the budget associated with the Vendor.',
+              MODULE_TYPE + '.MismatchedBudget'));
+          }
+          callback(null, budget);
+        }
+        callback(null, null);
+      });
+    }],
+    updateBudget: ['getBudget', function(callback, results) {
+      if(results.getBudget) {
+        // subtract contract amount from the budget
+        var amount = new Money(contract['com:amount']);
+        amount.setNegative(true);
+        return payswarm.budget.updateBudgetBalance(
+          req.user.profile, budget['@id'], amount, callback);
+      }
+      // no budget
+      callback();
+    }],
+    processContract: ['updateBudget', function(callback, results) {
+      var contract = results.getContract;
+
+      // create duplicate query
+      var acquirerId = contract['ps:assetAcquirer']['@id'];
+      var query = {identity: payswarm.db.hash(acquirerId)};
+
+      // do reference ID look up
+      if('com:referenceId' in contract) {
+        query.referenceId = payswarm.db.hash(contract['com:referenceId']);
+      }
+      // do asset look up
+      else {
+        var asset = contract['ps:asset'];
+        query.asset = payswarm.db.hash(asset['@id']);
+      }
+
+      // attempt to process contract
+      payswarm.financial.processContract(
+        req.user.profile, contract, query, function(err) {
+          if(!err) {
+            return callback(null, contract);
+          }
+          // failure case
+          async.waterfall([
+            // handle budget
+            function(callback) {
+              // no budget to fix
+              if(!results.getBudget) {
+                return callback();
+              }
+              // attempt to put contract amount back onto budget
+              var amount = new Money(contract['com:amount']);
+              payswarm.budget.updateBudgetBalance(
+                req.user.profile, budget['@id'], amount, callback);
+            },
+            // handle duplicate contract
+            function(callback) {
+              // handle duplicate contract
+              if(err.name === 'payswarm.financial.DuplicateTransaction') {
+                var nonce = null;
+                if('sec:nonce' in req.body) {
+                  nonce = req.body['sec:nonce'];
+                }
+                return _createDuplicateError(
+                  req.user.profile, query, nonce, callback);
+              }
+              callback(err);
+            }
+          ], callback);
+        });
+    }],
+    encryptContract: ['processContract', function(callback, results) {
+      var nonce = null;
+      if('sec:nonce' in req.body) {
+        nonce = req.body['sec:nonce'];
+      }
+      _encryptShortContract(results.processContract, nonce, callback);
+    }]
+  }, function(err, results) {
+    if(err) {
+      return next(err);
     }
+
+    // send created
+    var encrypted = results.encryptedContract;
+    var contractId = results.processContract['@id'];
+    res.json(encrypted, {'Location': contractId}, 201);
   });
-
-
-
-  // FIXME: implement me
 }
 
 /**
@@ -390,7 +476,45 @@ function _processTransfer(req, res, next) {
  * @param next the next handler.
  */
 function _getPaymentForm(req, res, next) {
-  // FIXME: implement me
+  // FIXME: profile has no default identity, this is an error,
+  // go to a page where they can create an identity
+  if(!req.user.identity) {
+    return res.redirect('/profile/settings');
+  }
+
+  async.waterfall([
+    function(callback) {
+      getDefaultViewVars(req, callback);
+    },
+    function(vars, callback) {
+      // create data for UI
+      var data = vars.clientData;
+      data.identity = req.user.identity['@id'];
+      data['ps:listing'] = req.query.listing;
+      data['ps:listingHash'] = req.query['listing-hash'];
+      data.gateway = payswarm.config.financial.defaults.gateway;
+      data.allowDuplicatePurchases =
+        payswarm.config.website.paymentDefaults.allowDuplicatePurchases;
+
+      // optional data
+      if('reference-id' in req.query) {
+        data['com:referenceId'] = req.query['reference-id'];
+      }
+      if('callback' in req.query) {
+        data.callback = req.query.callback;
+      }
+      if('response-nonce' in req.query) {
+        data['sec:nonce'] = req.query['response-nonce'];
+      }
+
+      // render view
+      res.render('pay.tpl', data);
+    }
+  ], function(err) {
+    if(err) {
+      return next(err);
+    }
+  });
 }
 
 /**
@@ -401,7 +525,9 @@ function _getPaymentForm(req, res, next) {
  * @param next the next handler.
  */
 function _getTransactions(req, res, next) {
-  // FIXME: implement me
+  return next(new PaySwarmError(
+    'Not implemented.',
+    MODULE_TYPE + '.NotImplemented'));
 }
 
 /**
@@ -421,9 +547,12 @@ function _getTransactions(req, res, next) {
  * asset: The ID of the Asset.
  * assetHash: The hash of the Asset.
  *
+ * If a duplicate Contract is found, then the query used is returned via
+ * the callback, otherwise null is.
+ *
  * @param actor the Profile performing the check.
  * @param options the options check.
- * @param callback(err, contract) called once the operation completes.
+ * @param callback(err, query) called once the operation completes.
  */
 function _checkDuplicate(actor, options, callback) {
   // identity *must* be present
@@ -446,15 +575,53 @@ function _checkDuplicate(actor, options, callback) {
       MODULE_TYPE + '.InvalidDuplicateContractQuery'));
   }
 
+  payswarm.financial.hasContract(actor, query, function(err, exists) {
+    if(err) {
+      return callback(err);
+    }
+    callback(null, exists ? query : null);
+  });
+}
+
+/**
+ * Creates a duplicate Contract error based on the given query. It is assumed
+ * that the query has already been run and has detected a duplicate. The
+ * callback will always be passed an error.
+ *
+ * @param actor the Profile performing the action.
+ * @param query the query to use.
+ * @param nonce the nonce to use when encrypting the duplicate.
+ * @param callback(err) called once the operation completes.
+ */
+function _createDuplicateError(actor, query, nonce, callback) {
+  // get a matching contract
   payswarm.financial.getTransactions(
     actor, query, {transaction: true}, {limit: 1}, function(err, record) {
       if(err) {
         return callback(err);
       }
-      if(record) {
-        return callback(null, record.transaction);
+      if(!record) {
+        return callback(new PaySwarmError(
+          'No duplicate Contract found when expecting one.',
+          MODULE_TYPE + '.NoDuplicateContract'));
       }
-      callback(null, null);
+
+      // duplicate found, return it in an error
+      var contract = record.transaction;
+      _encryptShortContract(contract, nonce, function(err, encrypted) {
+        if(err) {
+          return callback(err);
+        }
+        callback(new PaySwarmError(
+          'Duplicate purchase found.',
+          MODULE_TYPE + '.DuplicatePurchase', {
+            encryptedMessage: encrypted,
+            // FIXME: send contract details for use in UI?
+            contract: contract,
+            httpStatusCode: 409,
+            'public': true
+          }));
+      });
     });
 }
 
@@ -462,11 +629,13 @@ function _checkDuplicate(actor, options, callback) {
  * Encrypts a short-form Contract for delivery to the vendor.
  *
  * @param contract the Contract to encrypt.
- * @param providerKey the PublicKey ID for the Asset provider.
  * @param nonce the security nonce to use (or null).
  * @param callback(err, encrypted) called once the operation completes.
  */
-function _encryptShortContract(contract, providerKey, nonce, callback) {
+function _encryptShortContract(contract, nonce, callback) {
+  // get vendor key from listing signature
+  var vendorKey = contract['ps:listing']['sec:signature']['dc:creator'];
+
   // reframe data to a short contract
   var frame = payswarm.tools.getDefaultJsonLdFrames()['ps:Contract/Short'];
   if(!('@context' in contract)) {
@@ -477,6 +646,6 @@ function _encryptShortContract(contract, providerKey, nonce, callback) {
       return callback(err);
     }
     payswarm.identity.encryptMessage(
-      framed, providerKey, nonce, callback);
+      framed, vendorKey, nonce, callback);
   });
 }

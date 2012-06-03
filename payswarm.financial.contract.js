@@ -644,5 +644,10 @@ api.verifyContract = function(contract, callback) {
  */
 api.hasContract = function(actor, query, callback) {
   payswarm.financial.getTransactions(
-    actor, query, {id: true}, {limit: 1}, callback);
+    actor, query, {_id: true}, {limit: 1}, function(err, records) {
+      if(err) {
+        return callback(err);
+      }
+      callback(null, records.length !== 0);
+    });
 };

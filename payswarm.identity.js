@@ -733,6 +733,43 @@ api.checkIdentityObjectOwner = function(actor, object, callback) {
 };
 
 /**
+ * Signs and encrypts a message for the given Identity. The given object
+ * will be signed using a PaySwarm Authority key.
+ *
+ * @param obj the object to encrypt.
+ * @param encryptKeyId the ID of the PublicKey to encrypt with.
+ * @param nonce an optional nonce to use when signing (can be null).
+ * @param callback(err, encrypted) called once the operation completes.
+ */
+api.encryptMessage = function(actor, obj, encryptKeyId, callback) {
+  async.auto({
+    getEncryptKey: function(callback) {
+      // get identity public key to encrypt with
+      payswarm.identity.getIdentityPublicKey(
+        actor, {'@id': encryptKeyId}, callback);
+    },
+    getAuthorityKeys: function(callback) {
+      // get authority keys without permission check
+      payswarm.identity.getAuthorityKeyPair(
+        null, function(err, publicKey, privateKey) {
+          callback(err, {publicKey: publicKey, privateKey: privateKey});
+        });
+    },
+    sign: ['getAuthorityKey', function(callback, results) {
+      var publicKey = results.getAuthorityKeys.publicKey;
+      var privateKey = results.getAuthorityKeys.privateKey;
+      payswarm.security.signJsonLd(
+        obj, privateKey, publicKey['@id'], nonce, null, callback);
+    }],
+    encrypt: ['getEncryptKey', 'sign', function(callback, results) {
+      var encryptKey = results.getEncryptKey;
+      var signed = results.sign;
+      payswarm.security.encryptJsonLd(signed, encryptKey, callback);
+    }]
+  });
+};
+
+/**
  * Creates a new identity, inserting it into the database.
  *
  * @param identity the identity to create.

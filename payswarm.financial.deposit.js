@@ -48,7 +48,7 @@ api.init = function(callback) {
  */
 api.signDeposit = function(actor, deposit, callback) {
   // get sorted payees
-  var payees = payswarm.financial.sortPayees(deposit['com:payee']);
+  var payees = payswarm.tools.sortPayees(deposit['com:payee']);
 
   async.waterfall([
     function(callback) {

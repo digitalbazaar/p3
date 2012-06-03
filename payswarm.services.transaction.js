@@ -4,6 +4,7 @@
 var async = require('async');
 var jsonld = require('./jsonld');
 var payswarm = {
+  asset: require('./payswarm.resource'),
   config: require('./payswarm.config'),
   db: require('./payswarm.database'),
   financial: require('./payswarm.financial'),
@@ -87,17 +88,18 @@ function addServices(app, callback) {
  * @param next the next handler.
  */
 function _postTransactionsQuote(req, res, next) {
-  // FIXME: implement me
-
   async.auto({
-    getAccount: function(callback) {
+    getAcquirer: function(callback) {
+      // get acquirer based on source account owner
       payswarm.financial.getAccount(
         req.user.profile, req.body['com:source'], function(err, account) {
-          callback(err, account);
+          if(err) {
+            return callback(err);
+          }
+          callback(null, {'@id': account['ps:owner']});
         });
     },
     getListing: function(callback) {
-      // FIXME: reconsider this API
       var query = {
         id: req.body['ps:listing'],
         hash: req.body['ps:listingHash'],
@@ -106,9 +108,136 @@ function _postTransactionsQuote(req, res, next) {
         strict: true,
         fetch: true
       };
-      payswarm.asset.listings.get(query, callback);
+      payswarm.resource.listing.get(query, function(err, records) {
+        if(err || records.length === 0) {
+          err = new PaySwarmError(
+            'The vendor that you are attempting to purchase something from ' +
+            'has provided us with a bad asset listing. This is typically a ' +
+            'problem with their e-commerce software. You may want to notify ' +
+            'them of this issue.',
+            MODULE_TYPE + '.InvalidListing', {
+              listing: listingId,
+              listingHash: listingHash,
+              'public': true,
+              httpStatusCode: 400
+            }, err);
+          return callback(err);
+        }
+        var listing = records.resources[0]['dc:source'];
+        // check only one signature exists
+        // FIXME: this is a poor constraint
+        var signatures = jsonld.getValues(listing, 'sec:signature');
+        if(signatures.length !== 1) {
+          return callback(new PaySwarmError(
+            'Listings must have exactly one signature.',
+            MODULE_TYPE + '.InvalidSignatureCount', {
+              listing: listingId,
+              listingHash: listingHash
+          }));
+        }
+        callback(null, listing);
+      });
+    },
+    getAsset: ['getListing', function(callback, results) {
+      var listing = results.getListing;
+      var query = {
+        id: listing['ps:asset'],
+        hash: listing['ps:assetHash'],
+        type: 'ps:Asset',
+        strict: true,
+        fetch: true
+      };
+      payswarm.resource.asset.get(query, function(err, records) {
+        if(err || records.length === 0) {
+          err = new PaySwarmError(
+            'We could not find the information associated with the asset ' +
+            'you were trying to purchase. This is typically a problem with ' +
+            'the vendor\'s e-commerce software. You may want to notify ' +
+            'them of this issue.',
+            MODULE_TYPE + '.InvalidAsset', {
+              asset: listing['ps:asset'],
+              assetHash: listing['ps:assetHash'],
+              'public': true,
+              httpStatusCode: 400
+            }, err);
+          return callback(err);
+        }
+        var asset = records.resources[0]['dc:source'];
+        // check only one signature exists
+        // FIXME: this is a poor constraint
+        var signatures = jsonld.getValues(asset, 'sec:signature');
+        if(signatures.length !== 1) {
+          return callback(new PaySwarmError(
+            'Assets must have exactly one signature.',
+            MODULE_TYPE + '.InvalidSignatureCount', {
+            asset: listing['ps:asset'],
+            assetHash: listing['ps:assetHash']
+          }));
+        }
+        callback(null, asset);
+      });
+    }],
+    checkDuplicate: ['getAsset', function(callback) {
+      var options = {identity: results.getAcquirer['@id']};
+      if('com:referenceId' in req.body) {
+        options.referenceId = req.body['com:referenceId'];
+      }
+      else {
+        options.asset = results.getAsset['@id'];
+      }
+      _checkDuplicate(req.user.profile, options, callback);
+    }],
+    handleDuplicate: ['checkDuplicate', function(callback, results) {
+      // no duplicate found, continue
+      if(!results.checkDuplicate) {
+        return callback();
+      }
+
+      // duplicate found, return it in an error
+      var contract = results.checkDuplicate;
+      var nonce = null;
+      if('sec:nonce' in req.body) {
+        nonce = req.body['sec:nonce'];
+      }
+      _encryptShortContract(
+        contract, contract['ps:listing']['sec:signature']['dc:creator'],
+        nonce, function(err, encrypted) {
+          if(err) {
+            return callback(err);
+          }
+          callback(new PaySwarmError(
+            'Duplicate purchase found.',
+            MODULE_TYPE + '.DuplicatePurchase', {
+              encryptedMessage: encrypted,
+              // FIXME: send contract details for use in UI?
+              contract: contract,
+              httpStatusCode: 409,
+              'public': true
+            }));
+        });
+    }],
+    createQuote: ['handleDuplicate', function(callback, results) {
+      // create finalized contract
+      var options = {
+        listing: results.getListing,
+        listingHash: req.body['ps:listingHash'],
+        asset: results.getAsset,
+        license: null,
+        acquirer: results.getAcquirer,
+        acquirerAccountId: req.body['com:source']
+      };
+      if('com:referenceId' in req.body) {
+        options.referenceId = req.body['com:referenceId'];
+      }
+      payswarm.financial.createFinalizedContract(
+        req.user.profile, options, callback);
+    }]
+  }, function(err, quote) {
+    if(err) {
+      return next(err);
     }
-    // FIXME: continue
+    // send quote
+    res.json(quote);
   });
 }
 
@@ -205,6 +334,22 @@ function _processPurchaseRequest(req, res, next) {
  * @param next the next handler.
  */
 function _processPartialPurchaseRequest(req, res, next) {
+  // Web-based PurchaseRequest MUST contain:
+  // transaction ID (for finalized contract), callback,
+  // responseNonce (optional if callback is HTTPS, otherwise required)
+
+  // FIXME: setup to alternatively use signature authentication
+  // signed by identity == customer request
+
+  async.auto({
+    getContract: function(callback) {
+      payswarm.financial.getCachedContract(
+        req.user.profile, req.body['ps:transactionId'], callback);
+    }
+  });
+
+
+
   // FIXME: implement me
 }
 
@@ -257,4 +402,81 @@ function _getPaymentForm(req, res, next) {
  */
 function _getTransactions(req, res, next) {
   // FIXME: implement me
+}
+
+/**
+ * Checks for a duplicate Contract. There are several ways to check for
+ * duplicates:
+ *
+ * 1. identity+referenceId
+ * 2. identity+asset
+ * 3. identity+asset+assetHash
+ *
+ * FIXME: Lower layers permit nearly any sort of check that combines
+ * identity+asset + other parameters, however, this isn't implemented
+ * here yet.
+ *
+ * identity: The ID of the Asset acquirer.
+ * referenceId: The reference ID for the Contract.
+ * asset: The ID of the Asset.
+ * assetHash: The hash of the Asset.
+ *
+ * @param actor the Profile performing the check.
+ * @param options the options check.
+ * @param callback(err, contract) called once the operation completes.
+ */
+function _checkDuplicate(actor, options, callback) {
+  // identity *must* be present
+  var query = {identity: payswarm.db.hash(options.identity)};
+
+  // do reference ID look up
+  if('referenceId' in options) {
+    query.referenceId = payswarm.db.hash(options.referenceId);
+  }
+  // do asset look up
+  else if('asset' in options) {
+    query.asset = payswarm.db.hash(options.asset);
+    if(query.assetHash) {
+      query['transaction.ps:listing.ps:assetHash'] = options.assetHash;
+    }
+  }
+  else {
+    return callback(new PaySwarmError(
+      'Invalid duplicate Contract query.',
+      MODULE_TYPE + '.InvalidDuplicateContractQuery'));
+  }
+
+  payswarm.financial.getTransactions(
+    actor, query, {transaction: true}, {limit: 1}, function(err, record) {
+      if(err) {
+        return callback(err);
+      }
+      if(record) {
+        return callback(null, record.transaction);
+      }
+      callback(null, null);
+    });
+}
+
+/**
+ * Encrypts a short-form Contract for delivery to the vendor.
+ *
+ * @param contract the Contract to encrypt.
+ * @param providerKey the PublicKey ID for the Asset provider.
+ * @param nonce the security nonce to use (or null).
+ * @param callback(err, encrypted) called once the operation completes.
+ */
+function _encryptShortContract(contract, providerKey, nonce, callback) {
+  // reframe data to a short contract
+  var frame = payswarm.tools.getDefaultJsonLdFrames()['ps:Contract/Short'];
+  if(!('@context' in contract)) {
+    contract['@context'] = frame['@context'];
+  }
+  jsonld.frame(contract, frame, function(err, framed) {
+    if(err) {
+      return callback(err);
+    }
+    payswarm.identity.encryptMessage(
+      framed, providerKey, nonce, callback);
+  });
 }

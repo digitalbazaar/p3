@@ -374,34 +374,10 @@ function addServices(app, callback) {
           if('response-nonce' in req.query) {
             return callback(null, prefs);
           }
-
-          // encrypt preferences
-          async.auto({
-            getEncryptKey: function(callback) {
-              // get identity public key to encrypt with
-              payswarm.identity.getIdentityPublicKey(
-                req.user.profile, {'@id': prefs['sec:publicKey']}, callback);
-            },
-            getAuthorityKeys: function(callback) {
-              // get authority keys without permission check
-              payswarm.identity.getAuthorityKeyPair(
-                null, function(err, publicKey, privateKey) {
-                  callback(err, {publicKey: publicKey, privateKey: privateKey});
-                });
-            },
-            sign: ['getAuthorityKey', function(callback, results) {
-              var publicKey = results.getAuthorityKeys.publicKey;
-              var privateKey = results.getAuthorityKeys.privateKey;
-              payswarm.security.signJsonLd(
-                prefs, privateKey, publicKey['@id'],
-                req.query['response-nonce'], null, callback);
-            }],
-            encrypt: ['getEncryptKey', 'sign', function(callback, results) {
-              var encryptKey = results.getEncryptKey;
-              var signed = results.sign;
-              payswarm.security.encryptJsonLd(signed, encryptKey, callback);
-            }]
-          });
+          // send encrypt preferences
+          payswarm.identity.encryptMessage(
+            req.user.profile, prefs['sec:publicKey'],
+            req.query['response-nonce'], callback);
         }
       ], function(err, prefs) {
         if(err) {

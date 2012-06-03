@@ -66,7 +66,7 @@ api.init = function(callback) {
       }, {
         // identity+referenceId
         collection: 'transaction',
-        fields: {identity: 1, 'transaction.com:referenceId': 1},
+        fields: {identity: 1, referenceId: 1},
         options: {unique: true, background: true}
       }, {
         // asset+identity
@@ -76,22 +76,22 @@ api.init = function(callback) {
       }, {
         // asset+date
         collection: 'transaction',
-        fields: {asset: 1, 'transaction.com:date': 1},
+        fields: {asset: 1, date: 1},
         options: {unique: false, background: true}
       }, {
         // source+date
         collection: 'transaction',
-        fields: {source: 1, 'transaction.com:date': 1},
+        fields: {source: 1, date: 1},
         options: {unique: false, background: true}
       }, {
         // destination+date
         collection: 'transaction',
-        fields: {destination: 1, 'transaction.com:date': 1},
+        fields: {destination: 1, date: 1},
         options: {unique: false, background: true}
       }, {
         // date
         collection: 'transaction',
-        fields: {'transaction.com:date': true},
+        fields: {date: true},
         options: {unique: false, background: true}
       }, {
         // settleAfter+state+updated
@@ -146,9 +146,10 @@ api.authorizeTransaction = function(transaction, duplicateQuery, callback) {
     duplicateQuery = null;
   }
 
-  // if the transaction has no reference ID, set it to the transaction ID
+  // transaction has no assigned reference ID
   if(!('com:referenceId' in transaction)) {
-    transaction['com:referenceId'] = transaction['@id'];
+    // use payswarm prefix + transaction ID
+    transaction['com:referenceId'] = 'payswarm.' + transaction['@id'];
   }
   // if the transaction has no settleAfter date set, set it to now
   if(!('psa:settleAfter' in transaction)) {
@@ -156,11 +157,6 @@ api.authorizeTransaction = function(transaction, duplicateQuery, callback) {
   }
   transaction['com:settled'] = false;
   transaction['com:voided'] = false;
-
-  // FIXME: is this the best way to use a date type in the DB?
-  // copy transaction to insert w/parsed date
-  transaction = payswarm.tools.clone(transaction);
-  transaction['com:date'] = Date.parse(transaction['com:date']);
 
   async.waterfall([
     // 1. Insert pending transaction record.
@@ -409,46 +405,82 @@ api.settleTransaction = function(transaction, callback) {
   ], callback);
 };
 
-// FIXME: update docs for this ...
 /**
- * Populates the transactions associated with the given query.
+ * Retrieves all Transactions matching the given query.
  *
- * The query *must* contain "start" and "num" limitations. The query can
- * contain identity, account, asset, and license filtering information. It
- * can also specify a start and end date.
- *
- * start - the starting transaction index, 0 for the first one.
- * num - the maximum number of transactions to return.
- * identityId - the ID of the identity.
- * source - the source account ID.
- * destination - the destination account ID.
- * referenceId - the vendor-specified reference ID.
- * assetHash - the hash of the asset.
- * licenseHash - the hash of the license.
- * date.start - the starting date.
- * date.end - the ending date.
- * purchases - true to return only Contracts for a particular identityId,
- *    account query parameters will be ignored (default: false).
- * details - true to return the full details of the transaction (eg: full
- *    Contract details), (default: true).
- *
- * Advanced options:
- * assetIdxKey - the index key for the asset.
- * identityIdxKey - the index key for the identity.
- * accountSecIdxKey - the index key for the source account.
- * accountDstIdxKey - the index key for the destination account.
- *
- * @param actor the profile performing the action.
- * @param query the query.
- * @param result the result set with transactions.
- *
- * @return true on success, false on failure with exception set.
+ * @param actor the Profile performing the action.
+ * @param [query] the optional query to use (default: {}).
+ * @param [fields] optional fields to include or exclude (default: {}).
+ * @param [options] options (eg: 'sort', 'limit').
+ * @param callback(err, records) called once the operation completes.
  */
-api.getTransactions = function(actor, query, callback) {
-  // FIXME: implement me
+api.getTransactions = function(actor, query, fields, options, callback) {
+  // handle args
+  if(typeof query === 'function') {
+    callback = query;
+    query = null;
+    fields = null;
+  }
+  else if(typeof fields === 'function') {
+    callback = fields;
+    fields = null;
+  }
+  else if(typeof options === 'function') {
+    callback = options;
+    options = null;
+  }
 
-  // FIXME: until mongodb supports sparse multifield indexes, store the
-  // transaction ID in the assetKey position for deposits, withdrawals, etc.
+  query = query || {};
+  fields = fields || {};
+  options = options || {};
+  async.waterfall([
+    function(callback) {
+      // FIXME: check permissions
+      /*api.checkActorPermission(
+        actor, PERMISSIONS.FINANCIAL_ADMIN, callback);*/
+      callback();
+    },
+    function(callback) {
+      payswarm.db.collections.transaction.find(
+        query, fields, options, payswarm.db.readOptions).toArray(callback);
+    }
+  ], callback);
+};
+
+/**
+ * Retrieves a Transaction by its ID.
+ *
+ * @param actor the Profile performing the action.
+ * @param id the ID of the Transaction to retrieve.
+ * @param callback(err, transaction, meta) called once the operation completes.
+ */
+api.getTransaction = function(actor, id, callback) {
+  async.waterfall([
+    function(callback) {
+      payswarm.db.collections.profile.findOne(
+        {id: payswarm.db.hash(id)}, payswarm.db.readOptions, callback);
+    },
+    function(result, callback) {
+      // FIXME: check permissions
+      /*
+      api.checkActorPermissionForObject(
+        actor, result.transaction,
+        PERMISSIONS.FINANCIAL_ADMIN, PERMISSIONS.FINANCIAL_ACCESS,
+        _checkTransactionOwner, callback);*/
+      callback(null, result);
+    },
+    function(result, callback) {
+      if(!result) {
+        return callback(new PaySwarmError(
+          'Transaction not found.',
+          MODULE_TYPE + '.TransactionNotFound',
+          {'@id': id}));
+      }
+      // remove restricted fields
+      delete result.transaction['psa:settleAfter'];
+      callback(null, result.transaction, result.meta);
+    },
+  ], callback);
 };
 
 /**
@@ -482,7 +514,8 @@ function _insertTransaction(transaction, duplicateQuery, callback) {
           function(callback) {
             // get the last identity+asset counter
             payswarm.db.collections.transaction.findOne(
-              {identity: identityId, asset: assetId},
+              {identity: payswarm.db.hash(identityId),
+                asset: payswarm.db.hash(assetId)},
               {counter: true}, {sort: {counter: -1}},
               payswarm.db.readOptions, function(err, record) {
                 if(err) {
@@ -528,11 +561,13 @@ function _insertTransaction(transaction, duplicateQuery, callback) {
               state: SETTLE_STATE.PENDING,
               updateId: 0,
               workerId: 0,
+              date: Date.parse(transaction['com:date']),
               asset: payswarm.db.hash(assetId),
               identity: payswarm.db.hash(identityId),
+              counter: counter,
+              referenceId: payswarm.db.hash(referenceId),
               source: src,
               destination: dsts,
-              counter: counter,
               meta: {
                 created: now,
                 updated: now

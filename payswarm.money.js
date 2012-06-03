@@ -47,6 +47,9 @@ api.Money.ROUND_MODE = api.ROUND_MODE;
 
 // internal helper to wrap BigDecimal
 function _wrapBigDecimal(bd, precision, roundMode) {
+  if(!(bd instanceof bigdecimal.BigDecimal)) {
+    bd = new bigdecimal.BigDecimal(amount);
+  }
   var rval = new api.Money(null, precision, roundMode);
   rval.value = bd.setScale(precision, roundMode);
   return rval;

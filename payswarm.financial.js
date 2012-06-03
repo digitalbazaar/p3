@@ -29,26 +29,6 @@ module.exports = api;
 api.paymentGateways = {};
 
 /**
- * Orders Payees according to their payeePosition.
- *
- * @param payees the Payees to order.
- *
- * @return the ordered Payees.
- */
-// FIXME: remove if payees changed to use lists
-api.sortPayees = function(payees) {
-  if(!payees) {
-    return [];
-  }
-  payees = Array.isArray(payees) ? payees : [payees];
-  payees.sort(function(a, b) {
-    var p1 = a['com:payeePosition'];
-    var p2 = b['com:payeePosition'];
-    return p1 < p2 ? -1 : (p1 > p2 ? 1 : 0);
-  });
-};
-
-/**
  * Signs a Transaction using an authority key-pair.
  *
  * @param transaction the Transaction to sign.
@@ -122,7 +102,7 @@ function _loadPaymentGateways(callback) {
     var mod = require(gateway);
     mod.init(function(err) {
       if(!err) {
-        api.paymentGateways[mod.name] = mod;
+        api.paymentGateways[mod.gatewayName] = mod;
       }
       callback(err);
     });

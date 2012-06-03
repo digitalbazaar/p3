@@ -12,6 +12,7 @@ config.modules = [
   './payswarm.permission',
   './payswarm.profile',
   './payswarm.identity',
+  './payswarm.resource',
   './payswarm.financial',
   './payswarm.website'/*,
   './payswarm.test'*/
@@ -105,6 +106,7 @@ config.authority = {};
 //config.authority.baseUri = 'https://payswarm.dev:8000';
 config.authority.baseUri = 'http://payswarm.dev:8000';
 config.authority.id = config.authority.baseUri + '/i/authority';
+config.authority.name = 'PaySwarm';
 
 // permission config
 config.permission = {};
@@ -148,9 +150,12 @@ config.financial.defaults = {
   paymentTokens: []
 };
 config.financial.accounts = [];
+config.financial.payeeSchemes = {};
 config.financial.paymentGateways = [];
 // 15 minute deposit expiration time
 config.financial.depositExpiration = 1000 * 60 * 15;
+// 24 hour cached contract expiration time in seconds
+config.financial.cachedContractExpiration = 60 * 60 * 24;
 
 // website config
 config.website = {};

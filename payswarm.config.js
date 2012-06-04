@@ -59,7 +59,14 @@ config.logger.email.timestamp = true;
 
 // server info
 config.server = {};
-config.server.port = 8000;
+config.server.port = 19443;
+config.server.httpPort = 19100;
+config.server.domain = 'payswarm.dev';
+if(config.server.port !== 443) {
+  config.server.domain += ':' + config.server.port;
+}
+config.server.key = './pki/test-payswarm-auth.key';
+config.server.cert = './pki/test-payswarm-auth.crt';
 
 // session info
 config.server.session = {};
@@ -103,8 +110,7 @@ config.database.local.path = '/tmp/payswarm-dev.local.db';
 
 // authority config
 config.authority = {};
-//config.authority.baseUri = 'https://payswarm.dev:8000';
-config.authority.baseUri = 'http://payswarm.dev:8000';
+config.authority.baseUri = 'https://payswarm.dev:19443';
 config.authority.id = config.authority.baseUri + '/i/authority';
 config.authority.name = 'PaySwarm Authority';
 

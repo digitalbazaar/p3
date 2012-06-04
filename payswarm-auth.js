@@ -56,9 +56,11 @@ else {
   // create app
   var app = {};
 
-  // create server
-  // FIXME: use TLS (pass 'key', etc to createServer)
-  var server = express.createServer(/*{key: ''}*/);
+  // create TLS server
+  var server = express.createServer({
+    key: fs.readFileSync(config.server.key),
+    cert: fs.readFileSync(config.server.cert)
+  });
   app.server = server;
   app.server.earlyHandlers = [];
   app.server.errorHandlers = [];
@@ -107,6 +109,13 @@ else {
   // start server
   app.server.listen(config.server.port);
   logger.info('started server on port ' + config.server.port);
+
+  // redirect plain http traffic to https
+  var http = express.createServer();
+  http.get('*', function(req, res) {
+    res.redirect('https://' + config.server.domain + req.url);
+  });
+  http.listen(config.server.httpPort);
 
   // switch user
   //process.setgid(userGid);

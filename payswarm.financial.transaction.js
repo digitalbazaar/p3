@@ -131,7 +131,7 @@ api.init = function(callback) {
           options.reschedule =
             payswarm.config.financial.transactionWorkerSchedule;
         }
-        _runWorker(options);
+        process.nextTick(function() {_runWorker(options);});
       });
       // add listener for void events
       payswarm.events.on(EVENT_VOID, function(event) {
@@ -144,18 +144,12 @@ api.init = function(callback) {
           options.reschedule =
             payswarm.config.financial.transactionWorkerSchedule;
         }
-        _runWorker(options);
+        process.nextTick(function() {_runWorker(options);});
       });
 
       // run workers
-      _runWorker({
-        algorithm: 'settle',
-        reschedule: payswarm.config.financial.transactionWorkerSchedule
-      });
-      _runWorker({
-        algorithm: 'void',
-        reschedule: payswarm.config.financial.transactionWorkerSchedule
-      });
+      payswarm.events.emit(EVENT_SETTLE, {details:{}});
+      payswarm.events.emit(EVENT_VOID, {details:{}});
 
       callback();
     }

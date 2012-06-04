@@ -2,6 +2,7 @@
  * Copyright (c) 2012 Digital Bazaar, Inc. All rights reserved.
  */
 var async = require('async');
+var crypto = require('crypto');
 var jsonld = require('./jsonld');
 var payswarm = {
   config: require('./payswarm.config'),
@@ -101,6 +102,11 @@ api.init = function(callback) {
         collection: 'transaction',
         fields: {'transaction.psa:settleAfter': 1, state: 1, 'meta.updated': 1},
         options: {unique: false, background: true}
+      }, {
+        // workerId
+        collection: 'transaction',
+        fields: {workerId: true},
+        options: {unique: false, background: true}
       }], callback);
     },
     //_registerPermissions,
@@ -117,19 +123,41 @@ api.init = function(callback) {
       // add listener for settle events
       payswarm.events.on(EVENT_SETTLE, function(event) {
         payswarm.logger.debug('got event:', event);
-        // FIXME: generate worker ID
-        // FIXME: set worker ID on applicable transactions
-        // FIXME: run settlement algorithm
+        var options = {algorithm: 'settle'};
+        if(event.details.transactionId) {
+          options.transactionId = event.details.transactionId;
+        }
+        else {
+          options.reschedule =
+            payswarm.config.financial.transactionWorkerSchedule;
+        }
+        _runWorker(options);
       });
       // add listener for void events
       payswarm.events.on(EVENT_VOID, function(event) {
         payswarm.logger.debug('got event:', event);
-        // FIXME: generate worker ID
-        // FIXME: set worker ID on applicable transactions
-        // FIXME: run void algorithm
+        /*var options = {algorithm: 'void'};
+        if(event.details.transactionId) {
+          options.transactionId = event.details.transactionId;
+        }
+        else {
+          options.reschedule =
+            payswarm.config.financial.transactionWorkerSchedule;
+        }*/
+        _runWorker(options);
       });
 
-      // FIXME: schedule periodic settle and void events
+      // run workers
+      _runWorker({
+        algorithm: 'settle',
+        reschedule: payswarm.config.financial.transactionWorkerSchedule
+      });
+      /*
+      _runWorker({
+        algorithm: 'void',
+        reschedule: payswarm.config.financial.transactionWorkerSchedule
+      });*/
+
       callback();
     }
   ], callback);
@@ -245,6 +273,7 @@ api.authorizeTransaction = function(transaction, duplicateQuery, callback) {
  * @param callback(err) called once the operation completes.
  */
 api.voidTransaction = function(transaction, callback) {
+  payswarm.logger.debug('voiding transaction', transaction['@id']);
   var transactionHash = payswarm.db.hash(transaction['@id']);
   async.waterfall([
     // 1. Update transaction if it is 'pending', 'authorized', or 'voiding'.
@@ -270,7 +299,7 @@ api.voidTransaction = function(transaction, callback) {
           payswarm.db.readOptions, callback);
       }
       else {
-        callback({state: 'voiding'});
+        callback(null, {state: SETTLE_STATE.VOIDING});
       }
     },
     // 3. If state is not voiding or voided, raise an error.
@@ -303,6 +332,7 @@ api.voidTransaction = function(transaction, callback) {
  * @param callback(err) called once the operation completes.
  */
 api.processTransaction = function(transaction, callback) {
+  payswarm.logger.debug('processing transaction', transaction['@id']);
   var transactionHash = payswarm.db.hash(transaction['@id']);
   async.waterfall([
     // 1. Atomically findAndModify transaction if it is 'authorized'
@@ -324,11 +354,13 @@ api.processTransaction = function(transaction, callback) {
         update,
         payswarm.tools.extend(
           {}, payswarm.db.writeOptions, {
-            upsert: true,
+            upsert: false,
             'new': true,
             fields: {'state': true, 'settleId': true
           }}),
-        callback);
+        function(err, result) {
+          callback(err, result);
+        });
     },
     // 2. Get transaction state if no changes occurred.
     function(result, callback) {
@@ -581,7 +613,7 @@ function _insertTransaction(transaction, duplicateQuery, callback) {
               id: payswarm.db.hash(transaction['@id']),
               state: SETTLE_STATE.PENDING,
               updateId: 0,
-              workerId: 0,
+              workerId: '0',
               date: Date.parse(transaction['com:date']),
               asset: payswarm.db.hash(assetId),
               identity: payswarm.db.hash(identityId),
@@ -919,7 +951,7 @@ function _processTransaction(transaction, settleId, callback) {
             payswarm.db.readOptions, callback);
         }
         else {
-          callback({state: 'settled'});
+          callback(null, {state: SETTLE_STATE.SETTLING});
         }
       },
       // if state is 'settling' or 'settled', finish, otherwise error
@@ -1018,7 +1050,7 @@ function _escrowDestinationFunds(
       };
       update.$set[incoming] = settleId;
       payswarm.db.collections.account.update(
-        {id: payswarm.db.hash(src), updateId: result.updateId},
+        {id: payswarm.db.hash(dst), updateId: result.updateId},
         update, payswarm.db.writeOptions, callback);
     },
     function(n, info, callback) {
@@ -1100,7 +1132,7 @@ function _settleTransaction(transaction, settleId, callback) {
             payswarm.db.readOptions, callback);
         }
         else {
-          callback({state: 'settled'});
+          callback(null, {state: SETTLE_STATE.SETTLED});
         }
       },
       // if state is 'settled', finish, otherwise error
@@ -1139,7 +1171,7 @@ function _settleDestinationAccount(
     function(callback) {
       // get destination account updateId and balance
       var query = {id: payswarm.db.hash(dst)};
-      query[incoming].$exists = true;
+      query[incoming] = {$exists: true};
       payswarm.db.collections.account.findOne(
         query, {
           updateId: true,
@@ -1151,7 +1183,7 @@ function _settleDestinationAccount(
     function(result, callback) {
       if(!result) {
         // account already updated, proceed
-        return callback(null, 1);
+        return callback(null, 1, null);
       }
 
       // remove entries that are less than settle ID
@@ -1160,7 +1192,7 @@ function _settleDestinationAccount(
         update.$unset[incoming] = 1;
         return payswarm.db.collections.account.update(
           {id: payswarm.db.hash(src)}, update,
-          payswarm.db.writeOptions, function(err) {callback(null, 1);});
+          payswarm.db.writeOptions, function(err) {callback(null, 1, null);});
       }
 
       // add account amount to balance and subtract from escrow
@@ -1184,7 +1216,7 @@ function _settleDestinationAccount(
       };
       update.$unset[incoming] = 1;
       payswarm.db.collections.account.update(
-        {id: payswarm.db.hash(src), updateId: result.updateId},
+        {id: payswarm.db.hash(dst), updateId: result.updateId},
         update, payswarm.db.writeOptions, callback);
     },
     function(n, info, callback) {
@@ -1196,4 +1228,224 @@ function _settleDestinationAccount(
       callback();
     }
   ], callback);
+}
+
+/**
+ * Runs a settle or void worker.
+ *
+ * @param options the options to use:
+ *          algorithm: 'settle' or 'void'.
+ *          id: an optional Transaction ID to specifically work on.
+ * @param callback(err) called once the operation completes.
+ */
+function _runWorker(options, callback) {
+  // worker expiration is used to prevent workers from unnecessarily
+  // overriding each other
+  var now = +new Date();
+  var past = now - payswarm.financial.transactionWorkerExpiration;
+
+  // generate worker ID
+  var md = crypto.createHash('sha1');
+  md.update('' + now, 'utf8');
+  md.update('' + (Math.random() * 1000000 + 1));
+  var workerId = md.digest('hex');
+
+  // build query and db options
+  var query = {};
+  if(options.algorithm === 'settle') {
+    /* To Settle:
+       1. The settleAfter date must be now or passed, AND
+       2. If the options include a specific Transaction ID, then the
+         state must be authorized, processing, settling, or settled, OTHERWISE
+       3. The workerId must be '0' and the state must be authorized,
+         processing, or settling, OR
+       4. The last update must be in the past AND the state must be
+         authorized, processing, or settling OR the state must be
+         settled with workerId NOT set to '0'. The latter is a potential
+         ending condition so that settled transactions won't continue to be
+         checked (for cleanup) indefinitely. That is, once the worker
+         completes, it sets the workerId back to zero. */
+    query['transaction.psa:settleAfter'] = {$lte: now};
+    if(options.id) {
+      query.$or = [
+        {state: SETTLE_STATE.AUTHORIZED},
+        {state: SETTLE_STATE.PROCESSING},
+        {state: SETTLE_STATE.SETTLING},
+        {state: SETTLE_STATE.SETTLED}
+      ];
+    }
+    else {
+      query.$or = [{
+        workerId: '0',
+        $or: [
+          {state: SETTLE_STATE.AUTHORIZED},
+          {state: SETTLE_STATE.PROCESSING},
+          {state: SETTLE_STATE.SETTLING}
+        ]
+      }, {
+        'meta.updated':  {$lte: past},
+        $or: [
+          {state: SETTLE_STATE.AUTHORIZED},
+          {state: SETTLE_STATE.PROCESSING},
+          {state: SETTLE_STATE.SETTLING},
+          {state: SETTLE_STATE.SETTLED, workerId: {$ne: '0'}}
+        ]
+      }];
+    }
+  }
+  else if(options.algorithm === 'void') {
+    /* To Void:
+     1. If the options include a specific Transaction ID, then the
+       state must be pending, authorized, voiding, or voided, OTHERWISE
+     2. The settleAfter date must be now or passed AND and the state must
+       be pending or authorized AND the workerId must be '0' or the
+       last update must be in the past.
+     3. The last update must be in the past AND the state must be voiding
+       or the state must be voided with workerId NOT set to '0'. The latter
+       is a potential ending condition so that voided transactions won't
+       continue to be checked (for cleanup) indefinitely. That way, once
+       the work completes, it sets the workerId back to zero. */
+    if(options.id) {
+      query.$or = [
+        {state: SETTLE_STATE.PENDING},
+        {state: SETTLE_STATE.AUTHORIZED},
+        {state: SETTLE_STATE.VOIDING},
+        {state: SETTLE_STATE.VOIDED}
+      ];
+    }
+    else {
+      query.$or = [{
+        'transaction.psa:settleAfter': {$lte: now},
+        $and: [{
+          $or: [
+            {state: SETTLE_STATE.PENDING},
+            {state: SETTLE_STATE.AUTHORIZED}
+          ]
+        }, {
+          $or: [
+            {workerId: '0'},
+            {'meta.updated':  {$lte: past}}
+          ]
+        }]
+      }, {
+        'meta.updated':  {$lte: past},
+        $or: [
+          {state: SETTLE_STATE.VOIDING},
+          {state: SETTLE_STATE.SETTLED, workerId: {$ne: '0'}}
+        ]
+      }];
+    }
+  }
+  else {
+    return callback(new PaySwarmError(
+      'Invalid Transaction worker algorithm.',
+      MODULE_TYPE + '.InvalidWorkerAlgorithm',
+      {algorithm: options.algorithm}));
+  }
+
+  // add specific ID if given
+  if(options.id) {
+    query.id = payswarm.db.hash(options.id);
+  }
+
+  payswarm.logger.debug(
+    'running transaction worker (' + workerId + ') to ' +
+    options.algorithm + ' transactions...');
+
+  async.waterfall([
+    function(callback) {
+      // set worker ID and meta.updated
+      var update = {$set: {workerId: workerId, 'meta.updated': now}};
+      payswarm.db.collections.transaction.update(
+        query, update, payswarm.db.writeOptions, callback);
+    },
+    function(n, info, callback) {
+      if(n === 0) {
+        // nothing to update, done
+        return callback();
+      }
+      // run algorithm on all entries with matching worker ID
+      var done = false;
+      async.until(function() {return done;}, function(callback) {
+        async.waterfall([
+          function(callback) {
+            payswarm.db.collections.transaction.findOne(
+              {workerId: workerId}, {transaction: true},
+              payswarm.db.readOptions, callback);
+          },
+          function(record, callback) {
+            if(!record) {
+              done = true;
+              return callback(null, null);
+            }
+            // handle transaction
+            var transaction = record.transaction;
+            if(options.algorithm === 'settle') {
+              api.processTransaction(transaction, function(err) {
+                if(err) {
+                  payswarm.logger.error(
+                    'error while settling transaction', err);
+                  // FIXME: emit error event?
+                  if(payswarm.db.isDatabaseError(err)) {
+                    return callback(err);
+                  }
+                }
+                // continue on other errors
+                callback(null, transaction);
+              });
+            }
+            else if(options.algorithm === 'void') {
+              api.voidTransaction(transaction, function(err) {
+                if(err) {
+                  payswarm.logger.error(
+                    'error while voiding transaction', err);
+                  // FIXME: emit error event?
+                  if(payswarm.db.isDatabaseError(err)) {
+                    return callback(err);
+                  }
+                }
+                // continue on other errors
+                callback(null, transaction);
+              });
+            }
+          },
+          function(transaction, callback) {
+            if(!transaction) {
+              return callback();
+            }
+            // reset worker ID on transaction
+            payswarm.db.collections.transaction.update(
+              {id: payswarm.db.hash(transaction['@id']),
+                workerId: workerId},
+              {$set: {workerId: '0'}},
+              payswarm.db.writeOptions, callback);
+          }
+        ], function(err) {
+          callback(err);
+        });
+      }, callback);
+    }
+  ], function(err) {
+    payswarm.logger.debug(
+      'transaction worker (' + workerId + ') finished.');
+
+    if(options.reschedule) {
+      // reschedule worker if requested
+      payswarm.logger.debug(
+        'rescheduling transaction worker in ' + options.reschedule + ' ms');
+      setTimeout(function() {
+        var event = {};
+        if(options.algorithm === 'settle') {
+          event.type = EVENT_SETTLE;
+        }
+        else if(options.algorithm === 'void') {
+          event.type = EVENT_VOID;
+        }
+        payswarm.events.emit(event.type, event);
+      }, options.reschedule);
+    }
+    if(callback) {
+      callback(err);
+    }
+  });
 }

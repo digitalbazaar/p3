@@ -261,8 +261,8 @@ function _createAccount(account, callback) {
   var record = {
     id: payswarm.db.hash(account['@id']),
     owner: payswarm.db.hash(account['ps:owner']),
-    incoming: [],
-    outgoing: [],
+    incoming: {},
+    outgoing: {},
     updateId: 0,
     meta: {
       created: now,

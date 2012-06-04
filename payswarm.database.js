@@ -462,7 +462,18 @@ api.isAlreadyExistsError = function(err) {
  * @return true if the error is a duplicate key error, false if not.
  */
 api.isDuplicateError = function(err) {
-  return (err && err.name === MDBE_ERROR && err.code === MDBE_DUPLICATE);
+  return (api.isDatabaseError(err) && err.code === MDBE_DUPLICATE);
+};
+
+/**
+ * Returns true if the given error is a MongoDB error.
+ *
+ * @param err the error to check.
+ *
+ * @return true if the error is a duplicate key error, false if not.
+ */
+api.isDatabaseError = function(err) {
+  return (err && err.name === MDBE_ERROR);
 };
 
 /**

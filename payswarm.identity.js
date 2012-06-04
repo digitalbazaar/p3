@@ -870,7 +870,9 @@ function _addIdentityPublicKey(publicKey) {
         payswarm.tools.extend(
           {}, payswarm.db.writeOptions,
           {upsert: true, 'new': true, fields: {'meta.lastPublicKeyId': true}}),
-        callback);
+        function(err, result) {
+          callback(err, result);
+        });
     },
     function(result, callback) {
       // FIXME: disallow setting public key names for anyone but

@@ -62,8 +62,9 @@ config.server = {};
 config.server.port = 19443;
 config.server.httpPort = 19100;
 config.server.domain = 'payswarm.dev';
+config.server.host = config.server.domain;
 if(config.server.port !== 443) {
-  config.server.domain += ':' + config.server.port;
+  config.server.host += ':' + config.server.port;
 }
 config.server.key = './pki/test-payswarm-auth.key';
 config.server.cert = './pki/test-payswarm-auth.crt';
@@ -110,7 +111,7 @@ config.database.local.path = '/tmp/payswarm-dev.local.db';
 
 // authority config
 config.authority = {};
-config.authority.baseUri = 'https://payswarm.dev:19443';
+config.authority.baseUri = 'https://' + config.server.host;
 config.authority.id = config.authority.baseUri + '/i/authority';
 config.authority.name = 'PaySwarm Authority';
 

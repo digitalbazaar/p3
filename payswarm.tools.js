@@ -13,6 +13,11 @@ var Money = payswarm.money.Money;
 var api = {};
 module.exports = api;
 
+// PaySwarm JSON-LD contexts
+api.PAYSWARM_CONTEXT_V1 = 'http://purl.org/payswarm/v1';
+// Current PaySwarm context
+api.PAYSWARM_CONTEXT = api.PAYSWARM_CONTEXT_V1;
+
 // payee constants
 var PAYEE = api.PAYEE = {};
 PAYEE.RATE_TYPE = {

@@ -113,7 +113,7 @@ else {
   // redirect plain http traffic to https
   var http = express.createServer();
   http.get('*', function(req, res) {
-    res.redirect('https://' + config.server.domain + req.url);
+    res.redirect('https://' + config.server.host + req.url);
   });
   http.listen(config.server.httpPort);
 

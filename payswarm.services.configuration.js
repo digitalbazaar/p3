@@ -5,13 +5,10 @@ var async = require('async');
 var payswarm = {
   config: require('./payswarm.config'),
   logger: require('./payswarm.logger'),
-  resource: require('./payswarm.resource'),
   tools: require('./payswarm.tools'),
   website: require('./payswarm.website')
 };
 var PaySwarmError = payswarm.tools.PaySwarmError;
-var ensureAuthenticated = payswarm.website.ensureAuthenticated;
-var getDefaultViewVars = payswarm.website.getDefaultViewVars;
 
 // constants
 var MODULE_TYPE = payswarm.website.type;
@@ -43,33 +40,27 @@ api.init = function(app, callback) {
  * @param callback(err) called once the services have been added to the server.
  */
 function addServices(app, callback) {
-  app.server.get('/licenses/:license', function(req, res, next) {
-    getDefaultViewVars(req, function(err, vars) {
-      if(err) {
-        return callback(err);
-      }
-      var license = req.params.license;
-      res.render('licenses/' + license + '.tpl', vars);
-    });
-  });
-
-  // FIXME: check signature authenticator as well
-  app.server.post('/licenses', ensureAuthenticated, function(req, res, next) {
-    // FIXME: rate limit particular profiles
-
-    var query = {id: req.body['ps:license']};
-    if('ps:licenseHash' in req.body) {
-      query['ps:licenseHash'] = req.body['ps:licenseHash'];
-    }
-    query.type = 'ps:License';
-    query.strict = true;
-    query.fetch = true;
-    payswarm.resource.license.get(query, function(err, records) {
-      if(err) {
-        return next(err);
-      }
-      res.json(records[0].resource);
-    });
+  app.server.post('/payswarm-v1-config', function(req, res, next) {
+    // FIXME: check Accept for "application/ld+json; form=compacted" or other?
+    var authority = payswarm.config.authority;
+    var baseUri = authority.baseUri;
+    var out = {
+      '@context': payswarm.tools.PAYSWARM_CONTEXT,
+      // Authority IRI
+      '@id': baseUri + '/',
+      // Authority details
+      'ps:authorityIdentity': authority.id,
+      // FIXME: look up and specify the correct key
+      'ps:publicKey': authority.id + '/keys/1',
+      // API services
+      'ps:contractsService': baseUri + '/contracts',
+      'ps:licensesService': baseUri + '/licenses',
+      'ps:publicKeyssService': '/keys',
+      // Form services
+      'ps:paymentService': baseUri + '/transactions?form=pay',
+      'ps:vendorRegistrationService': baseUri + '/i?form=register'
+    };
+    res.json(out);
   });
 
   callback(null);

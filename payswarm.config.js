@@ -159,6 +159,8 @@ config.financial.depositExpiration = 1000 * 60 * 15;
 config.financial.cachedContractExpiration = 60 * 60 * 24;
 // 1 hour transaction worker expiration
 config.financial.transactionWorkerExpiration = 1000 * 60 * 60;
+// maximum number of automatic clean ups
+config.financial.transactionWorkerMaxCleanups = 3;
 // run transaction workers every hour
 config.financial.transactionWorkerSchedule = 1000 * 60 * 60;
 

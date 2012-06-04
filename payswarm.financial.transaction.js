@@ -103,9 +103,9 @@ api.init = function(callback) {
         fields: {'transaction.psa:settleAfter': 1, state: 1, 'meta.updated': 1},
         options: {unique: false, background: true}
       }, {
-        // workerId
+        // workerId+cleanups
         collection: 'transaction',
-        fields: {workerId: true},
+        fields: {workerId: 1, cleanups: 1},
         options: {unique: false, background: true}
       }], callback);
     },
@@ -136,14 +136,14 @@ api.init = function(callback) {
       // add listener for void events
       payswarm.events.on(EVENT_VOID, function(event) {
         payswarm.logger.debug('got event:', event);
-        /*var options = {algorithm: 'void'};
+        var options = {algorithm: 'void'};
         if(event.details.transactionId) {
           options.transactionId = event.details.transactionId;
         }
         else {
           options.reschedule =
             payswarm.config.financial.transactionWorkerSchedule;
-        }*/
+        }
         _runWorker(options);
       });
 
@@ -152,11 +152,10 @@ api.init = function(callback) {
         algorithm: 'settle',
         reschedule: payswarm.config.financial.transactionWorkerSchedule
       });
-      /*
       _runWorker({
         algorithm: 'void',
         reschedule: payswarm.config.financial.transactionWorkerSchedule
-      });*/
+      });
 
       callback();
     }
@@ -614,6 +613,7 @@ function _insertTransaction(transaction, duplicateQuery, callback) {
               state: SETTLE_STATE.PENDING,
               updateId: 0,
               workerId: '0',
+              cleanups: 0,
               date: Date.parse(transaction['com:date']),
               asset: payswarm.db.hash(assetId),
               identity: payswarm.db.hash(identityId),
@@ -894,7 +894,7 @@ function _voidTransaction(transaction, callback) {
         {id: transactionHash},
         {$set: {
           state: SETTLE_STATE.VOIDED,
-          'transaction.com:voided': false,
+          'transaction.com:voided': true,
           'meta.updated': +new Date()}},
         payswarm.db.writeOptions, function(err) {callback(err);});
     }
@@ -1242,7 +1242,9 @@ function _runWorker(options, callback) {
   // worker expiration is used to prevent workers from unnecessarily
   // overriding each other
   var now = +new Date();
-  var past = now - payswarm.financial.transactionWorkerExpiration;
+  var expiration = payswarm.config.financial.transactionWorkerExpiration;
+  var maxCleanups = payswarm.config.financial.transactionWorkerMaxCleanups;
+  var past = now - expiration;
 
   // generate worker ID
   var md = crypto.createHash('sha1');
@@ -1261,10 +1263,12 @@ function _runWorker(options, callback) {
          processing, or settling, OR
        4. The last update must be in the past AND the state must be
          authorized, processing, or settling OR the state must be
-         settled with workerId NOT set to '0'. The latter is a potential
-         ending condition so that settled transactions won't continue to be
-         checked (for cleanup) indefinitely. That is, once the worker
-         completes, it sets the workerId back to zero. */
+         settled with the workerId NOT set to '0'.
+       5. The number of cleanups must be less than the maximum AND the
+         the state must be settled with workerId set to '0'. A workerId
+         of '0' is a potential ending condition used to prevent indefinite
+         clean up of settled transactions. Once a worker completes, it sets
+         the workerId to zero. */
     query['transaction.psa:settleAfter'] = {$lte: now};
     if(options.id) {
       query.$or = [
@@ -1290,6 +1294,10 @@ function _runWorker(options, callback) {
           {state: SETTLE_STATE.SETTLING},
           {state: SETTLE_STATE.SETTLED, workerId: {$ne: '0'}}
         ]
+      }, {
+        workerId: '0',
+        cleanups: {$lt: maxCleanups},
+        state: SETTLE_STATE.SETTLED
       }];
     }
   }
@@ -1300,11 +1308,13 @@ function _runWorker(options, callback) {
      2. The settleAfter date must be now or passed AND and the state must
        be pending or authorized AND the workerId must be '0' or the
        last update must be in the past.
-     3. The last update must be in the past AND the state must be voiding
-       or the state must be voided with workerId NOT set to '0'. The latter
-       is a potential ending condition so that voided transactions won't
-       continue to be checked (for cleanup) indefinitely. That way, once
-       the work completes, it sets the workerId back to zero. */
+     3. The last update must be in the past AND the state must be voiding OR
+       the state must be voided with the workerId NOT set to 0, OR
+     4. The number of cleanups must be less than the maximum AND the state
+       must be voided with workerId set to '0'. A workerId of '0' is a
+       potential ending condition used to prevent indefinite clean up of
+       voided transactions. Once a worker completes, it sets the workerId
+       to zero. */
     if(options.id) {
       query.$or = [
         {state: SETTLE_STATE.PENDING},
@@ -1331,7 +1341,12 @@ function _runWorker(options, callback) {
         'meta.updated':  {$lte: past},
         $or: [
           {state: SETTLE_STATE.VOIDING},
-          {state: SETTLE_STATE.SETTLED, workerId: {$ne: '0'}}
+          {state: SETTLE_STATE.VOIDED, workerId: {$ne: '0'}}
+        ]
+      }, {
+        cleanups:  {$lt: maxCleanups},
+        $or: [
+          {state: SETTLE_STATE.VOIDED, workerId: '0'}
         ]
       }];
     }
@@ -1376,12 +1391,13 @@ function _runWorker(options, callback) {
           function(record, callback) {
             if(!record) {
               done = true;
-              return callback(null, null);
+              return callback(null, null, null);
             }
             // handle transaction
             var transaction = record.transaction;
             if(options.algorithm === 'settle') {
               api.processTransaction(transaction, function(err) {
+                var finished = !err;
                 if(err) {
                   payswarm.logger.error(
                     'error while settling transaction', err);
@@ -1391,11 +1407,12 @@ function _runWorker(options, callback) {
                   }
                 }
                 // continue on other errors
-                callback(null, transaction);
+                callback(null, transaction, finished);
               });
             }
             else if(options.algorithm === 'void') {
               api.voidTransaction(transaction, function(err) {
+                var finished = !err;
                 if(err) {
                   payswarm.logger.error(
                     'error while voiding transaction', err);
@@ -1405,20 +1422,23 @@ function _runWorker(options, callback) {
                   }
                 }
                 // continue on other errors
-                callback(null, transaction);
+                callback(null, transaction, finished);
               });
             }
           },
-          function(transaction, callback) {
+          function(transaction, finished, callback) {
             if(!transaction) {
               return callback();
             }
             // reset worker ID on transaction
+            var update = {$set: {workerId: '0'}};
+            if(finished) {
+              update.$inc = {cleanups: 1};
+            }
             payswarm.db.collections.transaction.update(
               {id: payswarm.db.hash(transaction['@id']),
-                workerId: workerId},
-              {$set: {workerId: '0'}},
-              payswarm.db.writeOptions, callback);
+                workerId: workerId}, update,
+                payswarm.db.writeOptions, callback);
           }
         ], function(err) {
           callback(err);

@@ -6,7 +6,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local');
 var payswarm = {
   config: require('./payswarm.config'),
-  events: require('./payswarm.events'),
+  identity: require('./payswarm.identity'),
   logger: require('./payswarm.logger'),
   profile: require('./payswarm.profile'),
   security: require('./payswarm.security'),
@@ -31,11 +31,52 @@ util.inherits(Strategy, passport.Strategy);
  * @param req the request to authenticate.
  */
 Strategy.prototype.authenticate = function(req) {
-  // FIXME: process request
+  var self = this;
 
-  // FIXME: call error, fail, or success
-  //var self = this;
-  //self.error(err);
-  //self.fail(info);
-  //self.success(user, info);
+  // FIXME: frame message in future?
+
+  // check that message is signed
+  if(!req.body || !req.body['sec:signature'] ||
+    !req.body['sec:signature']['dc:creator']) {
+    return self.fail(new PaySwarmError(
+      'Incoming message is not signed.',
+      'payswarm.SignedGraphStrategy.NotSigned'));
+  }
+
+  var publicKey = {'@id': req.body['sec:signature']['dc:creator']};
+  async.auto({
+    getPublicKey: function(callback) {
+      // get public key
+      paysawrm.identity.getIdentityPublicKey(publicKey,
+        function(err, publicKey) {
+          callback(err, publicKey);
+      });
+    },
+    verify: ['getPublicKey', function(callback, results) {
+      // verify signature
+      payswarm.security.verifyJsonLd(req.body, results.publicKey, callback);
+    }],
+    getIdentity: ['verify', function(callback, results) {
+      // get identity without permission check
+      payswarm.identity.getIdentity(
+        null, results.getPublicKey['ps:owner'], function(err, identity) {
+          callback(err, identity);
+        });
+    }],
+    getProfile: ['getIdentity', function(callback, results) {
+      // get profile without permission check
+      payswarm.profile.getProfile(
+        null, results.getIdentity['ps:owner'], function(err, profile) {
+          callback(err, profile);
+        });
+    }]
+  }, function(err, results) {
+    if(err) {
+      return self.error(err);
+    }
+    self.success({
+      profile: results.getProfile,
+      identity: results.getIdentity
+    });
+  });
 };

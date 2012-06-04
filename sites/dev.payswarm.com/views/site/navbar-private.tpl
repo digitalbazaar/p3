@@ -26,7 +26,7 @@ ${set([
             <li {{if inav == "dashboard"}}class="active"{{/if}}><a href="${session.identity["@id"]}/dashboard"><i class="icon-info-sign{{if style.navbar.isDark}} icon-white{{/if}}"></i> Dashboard</a></li>
           </ul>
         {{else}}
-          <img class="brand-minimal" src="{cacheRoot}/content/payswarm.png" width="182" height="24" alt="PaySwarm" />
+          <img class="brand-minimal" src="${cacheRoot}/content/payswarm.png" width="182" height="24" alt="PaySwarm" />
         {{/if}}
 
         <a class="btn btn-small show pull-right" id="popover-profile-button">

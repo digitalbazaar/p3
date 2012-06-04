@@ -40,7 +40,7 @@ api.init = function(app, callback) {
  * @param callback(err) called once the services have been added to the server.
  */
 function addServices(app, callback) {
-  app.server.post('/payswarm-v1-config', function(req, res, next) {
+  app.server.get('/payswarm-v1-config', function(req, res, next) {
     // FIXME: check Accept for "application/ld+json; form=compacted" or other?
     var authority = payswarm.config.authority;
     var baseUri = authority.baseUri;

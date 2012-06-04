@@ -10,6 +10,7 @@ var payswarm = {
   logger: require('./payswarm.logger'),
   permission: require('./payswarm.permission'),
   profile: require('./payswarm.profile'),
+  security: require('./payswarm.security'),
   tools: require('./payswarm.tools'),
   addressValidator: require('./payswarm.addressValidator')
 };
@@ -69,7 +70,7 @@ api.init = function(app, callback) {
         options: {unique: true, background: true}
       }, {
         collection: 'publicKey',
-        fields: {owner: true, pem: true},
+        fields: {owner: 1, pem: 1},
         options: {unique: true, background: true}
       }], callback);
     },
@@ -467,11 +468,11 @@ api.getIdentityPreferences = function(actor, prefs, callback) {
  * Creates a PublicKeyId from the given IdentityId and key name.
  *
  * @param ownerId the identity ID of the owner of the key.
- * @param keyName the name of the key.
+ * @param name the name of the key.
  *
  * @return the PublicKey ID created from the ownerId and keyName.
  */
-api.createIdentityPublicKeyId = function(ownerId, keyName) {
+api.createIdentityPublicKeyId = function(ownerId, name) {
   return util.format('%s/keys/%s', ownerId, encodeURIComponent(name));
 };
 
@@ -511,7 +512,8 @@ api.addIdentityPublicKey = function(actor, publicKey) {
 /**
  * Retrieves an Identity's PublicKey.
  *
- * @param publicKey the PublicKey with '@id' or 'sec:publicKeyPem' set.
+ * @param publicKey the PublicKey with '@id' or both 'ps:owner' and
+ *          'sec:publicKeyPem' set.
  * @param actor the Profile performing the action (only provide to get
  *          the private key also).
  * @param callback(err, publicKey, meta, privateKey) called once the
@@ -535,19 +537,23 @@ api.getIdentityPublicKey = function(publicKey) {
         query.id = payswarm.db.hash(publicKey['@id']);
       }
       else {
+        query.owner = payswarm.db.hash(publicKey['ps:owner']);
         query.pem = payswarm.db.hash(publicKey['sec:publicKeyPem']);
       }
       payswarm.db.collections.publicKey.findOne(
         query, payswarm.db.readOptions, callback);
     },
-    function(result, callback) {
+    function(record, callback) {
       // no such public key
-      if(result === null) {
-        return callback(null, null, null, null);
+      if(record === null) {
+        return callback(new PaySwarmError(
+          'PublicKey not found.',
+          MODULE_TYPE + '.PublicKeyNotFound',
+          {key: publicKey}));
       }
-      var privateKey = result.publicKey['psa:privateKey'] || null;
-      delete result.publicKey['psa:privateKey'];
-      return callback(null, result.publicKey, result.meta, privateKey);
+      var privateKey = record.publicKey['psa:privateKey'] || null;
+      delete record.publicKey['psa:privateKey'];
+      return callback(null, record.publicKey, record.meta, privateKey);
     },
     function(publicKey, meta, privateKey, callback) {
       if(!actor) {
@@ -741,31 +747,41 @@ api.checkIdentityObjectOwner = function(actor, object, callback) {
  * @param nonce an optional nonce to use when signing (can be null).
  * @param callback(err, encrypted) called once the operation completes.
  */
-api.encryptMessage = function(actor, obj, encryptKeyId, callback) {
+api.encryptMessage = function(obj, encryptKeyId, nonce, callback) {
+  if(typeof nonce === 'function') {
+    callback = nonce;
+    nonce = null;
+  }
   async.auto({
     getEncryptKey: function(callback) {
       // get identity public key to encrypt with
-      payswarm.identity.getIdentityPublicKey(
-        actor, {'@id': encryptKeyId}, callback);
+      api.getIdentityPublicKey({'@id': encryptKeyId}, function(err, key) {
+        callback(err, key);
+      });
     },
     getAuthorityKeys: function(callback) {
       // get authority keys without permission check
-      payswarm.identity.getAuthorityKeyPair(
+      api.getAuthorityKeyPair(
         null, function(err, publicKey, privateKey) {
           callback(err, {publicKey: publicKey, privateKey: privateKey});
         });
     },
-    sign: ['getAuthorityKey', function(callback, results) {
+    sign: ['getAuthorityKeys', function(callback, results) {
       var publicKey = results.getAuthorityKeys.publicKey;
       var privateKey = results.getAuthorityKeys.privateKey;
       payswarm.security.signJsonLd(
-        obj, privateKey, publicKey['@id'], nonce, null, callback);
+        obj, privateKey, publicKey['@id'], nonce, callback);
     }],
     encrypt: ['getEncryptKey', 'sign', function(callback, results) {
       var encryptKey = results.getEncryptKey;
       var signed = results.sign;
       payswarm.security.encryptJsonLd(signed, encryptKey, callback);
     }]
+  }, function(err, results) {
+    if(err) {
+      return callback(err);
+    }
+    callback(null, results.encrypt);
   });
 };
 

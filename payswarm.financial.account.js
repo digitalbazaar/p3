@@ -256,6 +256,11 @@ function _createAccount(account, callback) {
   account = payswarm.tools.extend(
     true, {}, defaults.account, account);
 
+  // allow account default balance of non-zero (for demonstration purposes)
+  if('com:balance' in defaults.account) {
+    account['com:balance'] = defaults.account['com:balance'];
+  }
+
   // insert the account
   var now = +new Date();
   var record = {

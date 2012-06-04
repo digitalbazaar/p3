@@ -80,22 +80,47 @@ api.init = function(app, callback) {
  * @param next the next route handler.
  */
 api.ensureAuthenticated = function(req, res, next) {
+  // already authenticated
   if(req.isAuthenticated()) {
     return next();
   }
-  // include current route as redirect param
-  var parsed = url.parse(req.url, true);
-  var urlObject = {
-    pathname: '/profile/login',
-    query: {}
-  };
-  if(parsed.query.ref) {
-    urlObject.query.ref = parsed.query.ref;
-  }
-  else if(parsed.pathname !== '/profile/login') {
-    urlObject.query.ref = parsed.path;
-  }
-  res.redirect(url.format(urlObject));
+  async.waterfall([
+    function(callback) {
+      // do signature authentication check
+      passport.authenticate('payswarm.signedGraph', function(err, user, info) {
+        if(!user) {
+          err = new PaySwarmError(
+            'The request was not authenticated.',
+            MODULE_TYPE + '.PermissionDenied');
+        }
+        if(err) {
+          return callback(err);
+        }
+        // pass
+        next();
+      })(req, res, next);
+    }
+  ], function(err) {
+    if(req.method === 'GET') {
+      // include current route as redirect param
+      var parsed = url.parse(req.url, true);
+      var urlObject = {
+        pathname: '/profile/login',
+        query: {}
+      };
+      if(parsed.query.ref) {
+        urlObject.query.ref = parsed.query.ref;
+      }
+      else if(parsed.pathname !== '/profile/login') {
+        urlObject.query.ref = parsed.path;
+      }
+      return res.redirect(url.format(urlObject));
+    }
+    // use error handler
+    if(err) {
+      return next(err);
+    }
+  });
 };
 
 /**

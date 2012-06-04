@@ -430,7 +430,7 @@ function _getSignatureData(obj, callback) {
       if(err) {
         return callback(err);
       }
-      callback(null, JSON.stringify(normalized));
+      callback(null, normalized);
     });
   });
 }

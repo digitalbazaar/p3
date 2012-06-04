@@ -53,7 +53,6 @@ function addServices(app, callback) {
     });
   });
 
-  // FIXME: check signature authenticator as well
   app.server.post('/licenses', ensureAuthenticated, function(req, res, next) {
     // FIXME: rate limit particular profiles
 

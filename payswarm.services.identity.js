@@ -309,8 +309,9 @@ function addServices(app, callback) {
             req.user.profile, key, function(err, record) {
               // if error was duplicate public key, populate key by PEM
               if(payswarm.db.isDuplicateError(err)) {
+                delete key['@id'];
                 return payswarm.identity.getIdentityPublicKey(
-                  req.user.profile, key, function(err, key) {
+                  key, function(err, key) {
                     callback(err, key);
                   });
               }
@@ -325,17 +326,8 @@ function addServices(app, callback) {
         },
         setPreferences: ['getAccount', 'handleKey',
           function(callback, results) {
-            var account = results.getAccount.account;
+            var account = results.getAccount;
             var key = results.handleKey;
-            if(key['ps:owner'] !== identityId) {
-              return callback(new PaySwarmError(
-                'The given public key is not owned by the given ' +
-                'identity.', MODULE_TYPE + '.PermissionDenied', {
-                  identity: identityId,
-                  publicKey: key['@id'],
-                  'public': true
-                }));
-            }
             // FIXME: populate with correct preferences (old comment, what
             // does this mean?)
             var prefs = {};
@@ -371,12 +363,12 @@ function addServices(app, callback) {
         },
         function(prefs, callback) {
           // send unencrypted preferences if no nonce is provided
-          if('response-nonce' in req.query) {
+          if(!('response-nonce' in req.query)) {
             return callback(null, prefs);
           }
           // send encrypt preferences
           payswarm.identity.encryptMessage(
-            req.user.profile, prefs['sec:publicKey'],
+            prefs, prefs['sec:publicKey'],
             req.query['response-nonce'], callback);
         }
       ], function(err, prefs) {
@@ -464,15 +456,15 @@ function _getIdentities(req, callback) {
           }
           // add accounts and keys to identity
           identity.accounts = [];
-          for(var i in result.getAccounts[0]) {
-            var account = result.getAccounts[0][i].account;
+          for(var i in result.getAccounts) {
+            var account = result.getAccounts[i].account;
             if(account['psa:status'] !== 'deleted') {
               identity.accounts.push(account);
             }
           }
           identity.keys = [];
-          for(var i in result.getKeys[0]) {
-            var key = result.getKeys[0][i].publicKey;
+          for(var i in result.getKeys) {
+            var key = result.getKeys[i].publicKey;
             if(key['psa:status'] === 'active') {
               identity.keys.push(key);
             }

@@ -149,6 +149,30 @@ config.identity.keys.push({
 
 // accounts
 config.financial.accounts.push({
+  '@id': baseUri + '/i/authority/accounts/main',
+  '@type': 'com:Account',
+  'ps:owner': authorityId,
+  'psa:slug': 'main',
+  'rdfs:label': config.authority.name + ' Main Account',
+  'com:currency': 'USD'
+});
+config.financial.accounts.push({
+  '@id': baseUri + '/i/authority/accounts/escrow',
+  '@type': 'com:Account',
+  'ps:owner': authorityId,
+  'psa:slug': 'escrow',
+  'rdfs:label': config.authority.name + ' Escrow Account',
+  'com:currency': 'USD'
+});
+config.financial.accounts.push({
+  '@id': baseUri + '/i/authority/accounts/fees',
+  '@type': 'com:Account',
+  'ps:owner': authorityId,
+  'psa:slug': 'fees',
+  'rdfs:label': config.authority.name + ' Fees Account',
+  'com:currency': 'USD'
+});
+config.financial.accounts.push({
   '@id': baseUri + '/i/dev/accounts/primary',
   '@type': 'com:Account',
   'ps:owner': baseUri + '/i/dev',

@@ -274,7 +274,7 @@ api.authorizeDeposit = function(deposit, callback) {
         'Could not authorize Deposit; unsupported source of funds.',
         MODULE_TYPE + '.UnsupportedSource'));
     }
-  ], function(err, callback) {
+  ], function(err) {
     payswarm.logger.debug(api.name,
       'gateway approved="' + deposit['psa:approved'] + '", errors:',
       deposit['com:gatewayError']);
@@ -343,7 +343,7 @@ api.chargeDeposit = function(deposit, callback) {
         'Could not charge Deposit; unsupported source of funds.',
         MODULE_TYPE + '.UnsupportedSource'));
     }
-  ], function(err, callback) {
+  ], function(err) {
     payswarm.logger.debug(api.name,
       'gateway approved="' + deposit['psa:approved'] + '", errors:',
       deposit['com:gatewayError']);
@@ -370,6 +370,7 @@ api.blindDeposit = function(deposit, callback) {
   deposit['com:source'] = source;
   // remove signature from deposit
   delete deposit['sec:signature'];
+  callback(null, deposit);
 };
 
 /**

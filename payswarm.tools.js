@@ -233,7 +233,7 @@ api.extend = function() {
     var obj = arguments[i] || {};
     Object.keys(obj).forEach(function(name) {
       var value = obj[name];
-      if(deep && typeof value === 'object' && !(value instanceof Array)) {
+      if(deep && api.isObject(value) && !Array.isArray(value)) {
         target[name] = api.extend(true, target[name], value);
       }
       else {
@@ -242,6 +242,17 @@ api.extend = function() {
     });
   }
   return target;
+};
+
+/**
+ * Returns true if the given value is an Object.
+ *
+ * @param value the value to check.
+ *
+ * @return true if it is an Object, false if not.
+ */
+api.isObject = function(value) {
+  return (Object.prototype.toString.call(value) === '[object Object]');
 };
 
 /**
@@ -259,7 +270,7 @@ api.clone = function(value) {
       rval.push(api.clone(e));
     });
   }
-  else if(typeof value === 'object') {
+  else if(api.isObject(value)) {
     rval = {};
     Object.keys(value).forEach(function(name) {
       rval[name] = api.clone(value[name]);
@@ -299,7 +310,9 @@ api.blindCreditCard = function(card) {
 };
 
 /**
- * Orders Payees according to their payeePosition.
+ * Orders Payees according to their payeePosition. If a payee does not have
+ * a payeePosition, it will be given one that is higher than the highest
+ * given position.
  *
  * @param payees the Payees to order.
  *
@@ -310,7 +323,28 @@ api.sortPayees = function(payees) {
   if(!payees) {
     return [];
   }
+
+  // sanitize payees
   payees = Array.isArray(payees) ? payees : [payees];
+
+  // get highest position
+  var max = -1;
+  for(var i in payees) {
+    var payee = payees[i];
+    var position = payee['com:payeePosition'] || 0;
+    if(position > max) {
+      position = max;
+    }
+  }
+  // assign positions to unassigned payees
+  for(var i in payees) {
+    var payee = payees[i];
+    if(!('com:payeePosition' in payee)) {
+      payee['com:payeePosition'] = ++max;
+    }
+  }
+
+  // sort payees
   payees.sort(function(a, b) {
     var p1 = a['com:payeePosition'];
     var p2 = b['com:payeePosition'];
@@ -328,7 +362,7 @@ api.sortPayees = function(payees) {
 api.appendPayee = function(payees, payee) {
   var last = payees[payees.length - 1];
   payee['com:payeePosition'] = last['com:payeePosition'] + 1;
-  payees.push(payees);
+  payees.push(payee);
 };
 
 /**
@@ -338,8 +372,8 @@ api.appendPayee = function(payees, payee) {
  * @param p2 the list of Payee to append.
  */
 api.appendPayees = function(p1, p2) {
-  api.sortPayees(p1);
-  api.sortPayees(p2);
+  p1 = api.sortPayees(p1);
+  p2 = api.sortPayees(p2);
   for(var i in p2) {
     api.appendPayee(p1, p2[i]);
   }
@@ -508,7 +542,7 @@ api.createTransfers = function(transaction, sourceId, payees) {
   }
 
   // reset initial total to include non-deferred payees (set it to cumulative)
-  initialTotal = cumulativeTotal;
+  totals.initial = totals.cumulative;
 
   // handle deferred exclusive percentage payees
   for(var i in dep) {

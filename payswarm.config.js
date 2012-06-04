@@ -106,7 +106,7 @@ config.authority = {};
 //config.authority.baseUri = 'https://payswarm.dev:8000';
 config.authority.baseUri = 'http://payswarm.dev:8000';
 config.authority.id = config.authority.baseUri + '/i/authority';
-config.authority.name = 'PaySwarm';
+config.authority.name = 'PaySwarm Authority';
 
 // permission config
 config.permission = {};

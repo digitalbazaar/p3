@@ -29,7 +29,7 @@ api.Money = function(amount, precision, roundMode) {
   this.precision = (precision === undefined) ? MONEY_PRECISION : precision;
   this.roundMode = (roundMode === undefined) ? MONEY_ROUND_MODE : roundMode;
 
-  if(typeof(amount) === undefined) {
+  if(amount === undefined) {
     amount = 0;
   }
   if(amount === null) {
@@ -44,11 +44,12 @@ api.Money = function(amount, precision, roundMode) {
   }
 };
 api.Money.ROUND_MODE = api.ROUND_MODE;
+var foo = new api.Money();
 
 // internal helper to wrap BigDecimal
 function _wrapBigDecimal(bd, precision, roundMode) {
   if(!(bd instanceof bigdecimal.BigDecimal)) {
-    bd = new bigdecimal.BigDecimal(amount);
+    bd = new bigdecimal.BigDecimal(bd);
   }
   var rval = new api.Money(null, precision, roundMode);
   rval.value = bd.setScale(precision, roundMode);
@@ -70,13 +71,15 @@ api.Money.prototype.subtract = function(x) {
   if(!(x instanceof api.Money)) {
     x = _wrapBigDecimal(x, this.precision, this.roundMode);
   }
-  return _wrapBigDecimal(this.value.subtract(x.value));
+  return _wrapBigDecimal(
+    this.value.subtract(x.value), this.precision, this.roundMode);
 };
 api.Money.prototype.multiply = function(x) {
   if(!(x instanceof api.Money)) {
     x = _wrapBigDecimal(x, this.precision, this.roundMode);
   }
-  return _wrapBigDecimal(this.value.multiply(x.value));
+  return _wrapBigDecimal(
+    this.value.multiply(x.value), this.precision, this.roundMode);
 };
 api.Money.prototype.divide = function(x) {
   if(!(x instanceof api.Money)) {

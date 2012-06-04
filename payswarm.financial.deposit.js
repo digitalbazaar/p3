@@ -71,13 +71,8 @@ api.signDeposit = function(actor, deposit, callback) {
       var gatewayPayees = payswarm.config.financial.paymentGateway[
         gateway]['com:payee'];
 
-      // set payee positions to appear after highest position
-      var position = payees[payees.length - 1]['com:payeePosition'];
-      for(var i in gatewayPayees) {
-        var payee = gatewayPayees[i];
-        payee['com:payeePosition'] = ++position;
-        payees.push(payee);
-      }
+      // append gateway payees
+      payswarm.tools.appendPayees(payees, gatewayPayees);
 
       // update payees
       deposit['com:payee'] = payees;
@@ -206,7 +201,7 @@ api.processDeposit = function(actor, deposit, callback) {
       // is difficult (look up each deposit account's profile and
       // send emails indicating a deposit of X amount occurred?)
       payswarm.profile.getProfile(
-        actor, {'@id': actor['@id']}, function(err, profile) {
+        actor, actor['@id'], function(err, profile) {
           event.details.profile = profile;
           callback(err);
         });
@@ -234,6 +229,7 @@ api.processDeposit = function(actor, deposit, callback) {
           payswarm.events.emit(event.type, payswarm.tools.clone(event));
           return callback(err);
         }
+        callback();
       });
     },
     function(callback) {

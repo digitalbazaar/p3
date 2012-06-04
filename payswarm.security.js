@@ -63,11 +63,21 @@ api.hashJsonLd = function(obj, frame, callback) {
  * @param obj the JSON-LD object to sign.
  * @param key the private key to sign with.
  * @param creator the URL to the paired public key.
- * @param nonce an optional nonce to include in the signature.
- * @param date an optional date to override the signature date with.
+ * @param [nonce] an optional nonce to include in the signature.
+ * @param [date] an optional date to override the signature date with.
  * @param callback(err, obj) called once the operation completes.
  */
 api.signJsonLd = function(obj, key, creator, nonce, date, callback) {
+  if(typeof nonce === 'function') {
+    callback = nonce;
+    nonce = null;
+    date = null;
+  }
+  if(typeof date === 'function') {
+    callback = date;
+    date = null;
+  }
+
   // check key
   if(!('sec:privateKeyPem' in key)) {
     return callback(new PaySwarmError(
@@ -82,7 +92,7 @@ api.signJsonLd = function(obj, key, creator, nonce, date, callback) {
     },
     function(obj, callback) {
       // get data to be signed
-      _getSignatureData(compacted, function(err, data) {
+      _getSignatureData(obj, function(err, data) {
         callback(err, obj, data);
       });
     },
@@ -155,6 +165,7 @@ api.verifyJsonLd = function(obj, key, callback) {
       if(err) {
         throw err;
       }
+
       // verify signature
       var signInfo = obj['sec:signature'];
       var verifier = crypto.createVerify('RSA-SHA1');

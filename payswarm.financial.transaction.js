@@ -200,7 +200,8 @@ api.authorizeTransaction = function(transaction, duplicateQuery, callback) {
               err = new PaySwarmError(
                 'Could not authorize Transaction; invalid destination ' +
                 'FinancialAccount.',
-                MODULE_TYPE + '.FinancialAccountNotFound');
+                MODULE_TYPE + '.FinancialAccountNotFound',
+                {account: dst});
             }
             // FIXME: do other checks?
             callback(err);
@@ -544,6 +545,7 @@ function _insertTransaction(transaction, duplicateQuery, callback) {
                   // update counter for insert
                   counter = record.counter + 1;
                 }
+                callback();
               });
           },
           function(callback) {
@@ -584,7 +586,7 @@ function _insertTransaction(transaction, duplicateQuery, callback) {
               asset: payswarm.db.hash(assetId),
               identity: payswarm.db.hash(identityId),
               counter: counter,
-              referenceId: payswarm.db.hash(referenceId),
+              referenceId: payswarm.db.hash(transaction['com:referenceId']),
               source: src,
               destination: dsts,
               meta: {
@@ -606,12 +608,7 @@ function _insertTransaction(transaction, duplicateQuery, callback) {
                 callback();
               });
           }
-        ], function(err) {
-          if(err) {
-            return callback(err);
-          }
-          callback(null);
-        });
+        ], callback);
       }, callback);
     }
   ], callback);
@@ -631,7 +628,7 @@ function _getTransactionIdentityAndAsset(transaction, callback) {
       var assetAcquirers = jsonld.getValues(transaction, 'ps:assetAcquirer');
       if(assetAcquirers.length > 0) {
         var assetAcquirer = assetAcquirers[0];
-        if(typeof assetAcquirer === 'object') {
+        if(payswarm.tools.isObject(assetAcquirer)) {
           assetAcquirer = assetAcquirer['@id'];
         }
         return callback(null, assetAcquirer);
@@ -665,7 +662,7 @@ function _getTransactionIdentityAndAsset(transaction, callback) {
       var assets = jsonld.getValues(transaction, 'ps:asset');
       if(assets.length > 0) {
         asset = assets[0];
-       if(typeof asset === 'object') {
+        if(payswarm.tools.isObject(asset)) {
           asset = asset['@id'];
         }
       }
@@ -686,10 +683,19 @@ function _getTransactionIdentityAndAsset(transaction, callback) {
  * @param callback(err) called once the operation completes.
  */
 function _authorizeTransaction(transaction, callback) {
+  // FIXME: ensure there aren't attacks against deposit check,
+  // can an attack add com:Deposit to a transaction and avoid paying?
+  var isDeposit = jsonld.hasValue(transaction, '@type', 'com:Deposit');
   var transactionHash = payswarm.db.hash(transaction['@id']);
-  var src = transaction['com:transfer'][0]['com:source'];
+  var transfers = jsonld.getValues(transaction, 'com:transfer');
+  var src = transfers[0]['com:source'];
   async.waterfall([
     function(callback) {
+      // skip deposit, handled externally
+      if(isDeposit) {
+        return callback(null, null);
+      }
+
       // get source account updateId and balance
       payswarm.db.collections.account.findOne(
         {id: payswarm.db.hash(src)},
@@ -697,10 +703,16 @@ function _authorizeTransaction(transaction, callback) {
         payswarm.db.readOptions, callback);
     },
     function(result, callback) {
+      // skip deposit, handled externally
+      if(isDeposit) {
+        return callback(null, 1, null);
+      }
+
       if(!result) {
         return callback(new PaySwarmError(
           'Could not authorize Transaction, invalid source FinancialAccount.',
-          MODULE_TYPE + '.FinancialAccountNotFound'));
+          MODULE_TYPE + '.FinancialAccountNotFound',
+          {account: src}));
       }
 
       // subject transaction amount from balance
@@ -728,7 +740,8 @@ function _authorizeTransaction(transaction, callback) {
             callback(new PaySwarmError(
               'Could not authorize Transaction; insufficient funds in the ' +
               'source FinancialAccount.',
-              MODULE_TYPE + '.InsufficientFunds'));
+              MODULE_TYPE + '.InsufficientFunds',
+              {account: src}));
           });
       }
 
@@ -791,10 +804,17 @@ function _authorizeTransaction(transaction, callback) {
  * @param callback(err) called once the operation completes.
  */
 function _voidTransaction(transaction, callback) {
+  var isDeposit = jsonld.hasValue(transaction, '@type', 'com:Deposit');
   var transactionHash = payswarm.db.hash(transaction['@id']);
-  var src = transaction['com:transfer'][0]['com:source'];
+  var transfers = jsonld.getValues(transaction, 'com:transfer');
+  var src = transfers[0]['com:source'];
   async.waterfall([
     function(callback) {
+      // skip deposit, handled externally
+      if(isDeposit) {
+        return callback(null, null);
+      }
+
       // get source account updateId and balance
       payswarm.db.collections.account.findOne(
         {id: payswarm.db.hash(src)},
@@ -804,7 +824,7 @@ function _voidTransaction(transaction, callback) {
     function(result, callback) {
       if(!result) {
         // account doesn't exist, proceed as if it was updated
-        return callback(null, 1);
+        return callback(null, 1, null);
       }
 
       // add transaction amount to balance
@@ -862,7 +882,7 @@ function _processTransaction(transaction, settleId, callback) {
   var transactionHash = payswarm.db.hash(transaction['@id']);
 
   // calculate total amounts for each destination account
-  var transfers = transaction['com:transfer'];
+  var transfers = jsonld.getValues(transaction, 'com:transfer');
   var accounts = {};
   for(var i in transfers) {
     var transfer = transfers[i];
@@ -965,7 +985,8 @@ function _escrowDestinationFunds(
         return callback(new PaySwarmError(
           'Could not process Transaction, invalid destination ' +
           'FinancialAccount.',
-          MODULE_TYPE + '.FinancialAccountNotFound'));
+          MODULE_TYPE + '.FinancialAccountNotFound',
+          {account: dst}));
       }
 
       // if a more recent (greater) settle ID is set on the incoming
@@ -1021,8 +1042,10 @@ function _escrowDestinationFunds(
  * @param callback(err) called once the operation completes.
  */
 function _settleTransaction(transaction, settleId, callback) {
+  var isDeposit = jsonld.hasValue(transaction, '@type', 'com:Deposit');
   var transactionHash = payswarm.db.hash(transaction['@id']);
-  var src = transaction['com:transfer'][0]['com:source'];
+  var transfers = jsonld.getValues(transaction, 'com:transfer');
+  var src = transfers[0]['com:source'];
 
   // calculate total amounts for each destination account
   var transfers = transaction['com:transfer'];
@@ -1045,6 +1068,11 @@ function _settleTransaction(transaction, settleId, callback) {
       },
       // 4. Remove source outgoing transaction.
       function(callback) {
+        // skip deposit, handled externally
+        if(isDeposit) {
+          return callback();
+        }
+
         var update = {
           $set: {'meta.updated': +new Date()},
           $unset: {}

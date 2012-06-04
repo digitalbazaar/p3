@@ -339,6 +339,18 @@ function addServices(app, callback) {
   // send errors
   app.server.errorHandlers.push(function(err, req, res, next) {
     if(err) {
+      // handle forbidden
+      if(err instanceof PaySwarmError && err.name ===
+        'payswarm.permission.PermissionDenied') {
+        return api.getDefaultViewVars(req, function(err, vars) {
+          if(err) {
+            return next(err);
+          }
+          res.render('errors/error-403.tpl', vars);
+        });
+      }
+
+      // handle other error
       if(!(err instanceof PaySwarmError)) {
         err = new PaySwarmError(
           'An error occurred.',

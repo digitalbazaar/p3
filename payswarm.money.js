@@ -96,7 +96,7 @@ api.Money.prototype.isNegative = function() {
 };
 api.Money.prototype.setNegative = function(negative) {
   if(this.isNegative() === negative) {
-    return;
+    return _wrapBigDecimal(this.value, this.precision, this.roundMode);
   }
   if(this.isNegative()) {
     return this.abs();

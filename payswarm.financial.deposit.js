@@ -68,10 +68,11 @@ api.signDeposit = function(actor, deposit, callback) {
     function(callback) {
       // add deposit payees for given gateway
       var gateway = deposit['com:source']['com:gateway'];
-      var gatewayPayees = payswarm.config.paymentGateway[gateway]['com:payee'];
+      var gatewayPayees = payswarm.config.financial.paymentGateway[
+        gateway]['com:payee'];
 
       // set payee positions to appear after highest position
-      var position = payees[payees.length]['com:payeePosition'];
+      var position = payees[payees.length - 1]['com:payeePosition'];
       for(var i in gatewayPayees) {
         var payee = gatewayPayees[i];
         payee['com:payeePosition'] = ++position;

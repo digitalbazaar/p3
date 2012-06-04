@@ -50,10 +50,10 @@ api.signTransaction = function(transaction, callback) {
 payswarm.financial = {
   account: require('./payswarm.financial.account'),
   budget: require('./payswarm.financial.budget'),
-  contract: require('./payswarm.financial.contract'),
-  deposit: require('./payswarm.financial.deposit'),
   paymentToken: require('./payswarm.financial.paymentToken'),
   transaction: require('./payswarm.financial.transaction'),
+  contract: require('./payswarm.financial.contract'),
+  deposit: require('./payswarm.financial.deposit'),
   transfer: require('./payswarm.financial.transfer'),
   withdrawal: require('./payswarm.financial.withdrawal')
 };
@@ -65,6 +65,7 @@ payswarm.tools.extend(
   payswarm.financial.account,
   payswarm.financial.budget,
   payswarm.financial.paymentToken,
+  payswarm.financial.transaction,
   payswarm.financial.contract,
   payswarm.financial.deposit,
   payswarm.financial.transfer,
@@ -84,6 +85,7 @@ api.init = function(app, callback) {
     payswarm.financial.account.init,
     payswarm.financial.budget.init,
     payswarm.financial.paymentToken.init,
+    payswarm.financial.transaction.init,
     payswarm.financial.contract.init,
     payswarm.financial.deposit.init,
     payswarm.financial.transfer.init,

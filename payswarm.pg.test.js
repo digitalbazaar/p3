@@ -211,7 +211,7 @@ api.createPaymentToken = function(source, token, callback) {
     }
     var blinded = results.blindSource;
     token['com:paymentToken'] = results.hashSource;
-    token['com:gateway'] = api.name;
+    token['com:gateway'] = api.gatewayName;
     token['com:paymentMethod'] = blinded['@type'];
     if(jsonld.hasValue(source, '@type', 'ccard:CreditCard')) {
       token['ccard:brand'] = blinded['ccard:brand'];

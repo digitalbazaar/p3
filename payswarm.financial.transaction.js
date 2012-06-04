@@ -32,6 +32,9 @@ var SETTLE_STATE = {
   VOIDED: 'voided'
 };
 
+var EVENT_SETTLE = 'payswarm.common.Transaction.settle';
+var EVENT_VOID = 'payswarm.common.Transaction.void';
+
 // sub module API
 var api = {};
 module.exports = api;
@@ -100,7 +103,7 @@ api.init = function(callback) {
         options: {unique: false, background: true}
       }], callback);
     },
-    _registerPermissions,
+    //_registerPermissions,
     function(callback) {
       payswarm.db.getDistributedIdGenerator('transaction',
         function(err, idGenerator) {
@@ -111,7 +114,23 @@ api.init = function(callback) {
       });
     },
     function(callback) {
-      // FIXME: add listener for settle/cleanup events
+      // add listener for settle events
+      payswarm.events.on(EVENT_SETTLE, function(event) {
+        payswarm.logger.debug('got event:', event);
+        // FIXME: generate worker ID
+        // FIXME: set worker ID on applicable transactions
+        // FIXME: run settlement algorithm
+      });
+      // add listener for void events
+      payswarm.events.on(EVENT_VOID, function(event) {
+        payswarm.logger.debug('got event:', event);
+        // FIXME: generate worker ID
+        // FIXME: set worker ID on applicable transactions
+        // FIXME: run void algorithm
+      });
+
+      // FIXME: schedule periodic settle and void events
+      callback();
     }
   ], callback);
 };
@@ -197,7 +216,7 @@ api.authorizeTransaction = function(transaction, duplicateQuery, callback) {
       if(now >= transaction['psa:settleAfter']) {
         // fire an event to settle the transaction
         var event = {
-          type: 'payswarm.common.Transaction.settle',
+          type: EVENT_SETTLE,
           details: {
             transactionId: transaction['@id']
           }
@@ -694,9 +713,9 @@ function _authorizeTransaction(transaction, callback) {
           {id: transactionHash, state: SETTLE_STATE.PENDING},
           {$set: {state: SETTLE_STATE.VOIDING}},
           payswarm.db.writeOptions, function(err) {
-            // fire event to clean up transaction
+            // fire event to void transaction
             var event = {
-              type: 'payswarm.common.Transaction.cleanup',
+              type: EVENT_VOID,
               details: {
                 transactionId: transaction['@id']
               }
@@ -747,9 +766,9 @@ function _authorizeTransaction(transaction, callback) {
     // raise an error if transaction was not authorized
     function(n, info, callback) {
       if(n === 0) {
-        // fire event to clean up transaction
+        // fire event to void transaction
         var event = {
-          type: 'payswarm.common.Transaction.cleanup',
+          type: EVENT_VOID,
           details: {
             transactionId: transaction['@id']
           }

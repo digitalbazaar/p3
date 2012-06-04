@@ -335,7 +335,7 @@ api.updateBudget = function(actor, budgetUpdate, callback) {
 api.removeBudget = function(actor, id, callback) {
   async.waterfall([
     function(callback) {
-      payswarm.profile.checkActorPermission(
+      payswarm.profile.checkActorPermissionForObject(
         actor, {'@id': id},
         PERMISSIONS.BUDGET_ADMIN, PERMISSIONS.BUDGET_REMOVE,
         _checkBudgetOwner, callback);

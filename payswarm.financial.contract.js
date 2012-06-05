@@ -96,7 +96,7 @@ api.createContract = function(actor, options, callback) {
         if(err) {
           return callback(err);
         }
-        var listing = JSON.parse(records[0].resource);
+        var listing = records[0].resource;
         payswarm.logger.debug(
           'create contract listing',
           options.listingId, options.listingHash, listing);
@@ -120,7 +120,7 @@ api.createContract = function(actor, options, callback) {
         if(err) {
           return callback(err);
         }
-        var asset = JSON.parse(records[0].resource);
+        var asset = records[0].resource;
         callback(null, asset);
       });
     }],
@@ -128,7 +128,7 @@ api.createContract = function(actor, options, callback) {
       if(options.license) {
         return callback(null, options.license);
       }
-      // populate asset
+      // populate license
       var listing = results.getListing;
       var query = {
         id: listing['ps:license'],
@@ -141,14 +141,14 @@ api.createContract = function(actor, options, callback) {
         if(err) {
           return callback(err);
         }
-        var license = JSON.parse(records[0].resource);
+        var license = records[0].resource;
         callback(null, license);
       });
     }],
     getAssetProvider: ['getAsset', function(callback, results) {
       var asset = results.getAsset;
       var id = payswarm.tools.clone(asset['ps:assetProvider']);
-      if(typeof assetProvider === 'object') {
+      if(payswarm.tools.isObject(id)) {
         id = id['@id'];
       }
       payswarm.identity.getIdentity(null, id, function(err, identity) {
@@ -570,7 +570,7 @@ api.processContract = function(actor, contract, options, callback) {
   // Note: This method assumes the contract has been finalized.
 
   // attempt to authorize contract
-  payswarm.financial.authorizeContract(
+  payswarm.financial.authorizeTransaction(
     contract, options.duplicateQuery, callback);
 };
 
@@ -599,8 +599,7 @@ api.getContract = function(actor, id, callback) {
  */
 api.getCachedContract = function(actor, id, callback) {
   payswarm.db.collections.contractCache.findOne(
-    {id: payswarm.db.hash(id)}, {contract: true},
-    payswarm.db.readOptions, function(err, record) {
+    {id: payswarm.db.hash(id)}, {contract: true}, function(err, record) {
       if(err) {
         return callback(err);
       }

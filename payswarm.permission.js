@@ -165,8 +165,7 @@ api.getRoles = function(query, callback) {
   query = query || {};
   async.waterfall([
     function(callback) {
-      payswarm.db.collections.role.find(
-        query, payswarm.db.readOptions).toArray(callback);
+      payswarm.db.collections.role.find(query, {}).toArray(callback);
     }
   ], callback);
 };
@@ -181,9 +180,7 @@ api.getRole = function(id, callback) {
   async.waterfall([
     function(callback) {
       payswarm.db.collections.findOne(
-        {id: payswarm.db.hash(id)},
-        payswarm.db.readOptions,
-        callback);
+        {id: payswarm.db.hash(id)}, {}, callback);
     },
     function(result, callback) {
       callback(null, result.role, result.meta);

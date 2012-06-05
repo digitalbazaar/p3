@@ -174,7 +174,7 @@ ResourceStorage.prototype.get = function(query, callback) {
   async.waterfall([
     function(callback) {
       payswarm.db.collections[self.name].find(
-        q, {}. options, payswarm.db.readOptions).toArray(callback);
+        q, {}, options).toArray(callback);
     },
     function(records, callback) {
       // nothing found, do fetch if requested
@@ -266,7 +266,7 @@ ResourceStorage.prototype._fetch = function(query, callback) {
         id: payswarm.db.hash(query.id),
         hash: hash,
         date: now,
-        resource: JSON.stringify(data)
+        resource: data
       };
 
       // not storing so return record

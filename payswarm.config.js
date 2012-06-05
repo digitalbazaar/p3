@@ -98,9 +98,6 @@ config.database.options = {};
 config.database.connectOptions = {
   auto_reconnect: true
 };
-config.database.readOptions = {
-  safe: true
-};
 config.database.writeOptions = {
   safe: true,
   fsync: true,

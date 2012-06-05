@@ -138,17 +138,16 @@ api.getPaymentToken = function(actor, id, callback) {
   async.waterfall([
     function(callback) {
       payswarm.db.collections.paymentToken.findOne(
-        {id: payswarm.db.hash(id)}, {},
-        payswarm.db.readOptions, callback);
+        {id: payswarm.db.hash(id)}, {}, callback);
     },
-    function(result, callback) {
-      if(!result) {
+    function(record, callback) {
+      if(!record) {
         return callback(new PaySwarmError(
           'PaymentToken not found.',
           MODULE_TYPE + '.PaymentTokenNotFound',
           {'@id': id}));
       }
-      callback(null, result.paymentToken, result.meta);
+      callback(null, record.paymentToken, record.meta);
     },
     function(paymentToken, meta, callback) {
       payswarm.profile.checkActorPermissionForObject(
@@ -192,8 +191,7 @@ api.getIdentityPaymentTokens = function(actor, identityId) {
       if(gateway) {
         query['paymentToken.com:gateway'] = gateway;
       }
-      payswarm.db.collections.paymentToken.find(
-        query, payswarm.db.readOptions).toArray(callback);
+      payswarm.db.collections.paymentToken.find(query, {}).toArray(callback);
     },
     function(records, callback) {
       // return records if non-empty
@@ -247,8 +245,7 @@ api.getPaymentTokens = function(actor, query, callback) {
         actor, PERMISSIONS.PTOKEN_ADMIN, callback);
     },
     function(callback) {
-      payswarm.db.collections.paymentToken.find(
-        query, payswarm.db.readOptions).toArray(callback);
+      payswarm.db.collections.paymentToken.find(query, {}).toArray(callback);
     }
   ], callback);
 };

@@ -121,8 +121,7 @@ api.getIdentityAccounts = function(actor, identityId, callback) {
     },
     function(callback) {
       payswarm.db.collections.account.find(
-        {owner: payswarm.db.hash(identityId)},
-        payswarm.db.readOptions).toArray(callback);
+        {owner: payswarm.db.hash(identityId)}).toArray(callback);
     }
   ], callback);
 };
@@ -156,7 +155,7 @@ api.getAccounts = function(actor, query, fields, callback) {
     },
     function(callback) {
       payswarm.db.collections.account.find(
-        query, fields, payswarm.db.readOptions).toArray(callback);
+        query, fields).toArray(callback);
     }
   ], callback);
 };
@@ -172,8 +171,7 @@ api.getAccount = function(actor, id, callback) {
   async.waterfall([
     function(callback) {
       payswarm.db.collections.account.findOne(
-        {id: payswarm.db.hash(id)}, {},
-        payswarm.db.readOptions, callback);
+        {id: payswarm.db.hash(id)}, {}, callback);
     },
     function(result, callback) {
       if(!result) {

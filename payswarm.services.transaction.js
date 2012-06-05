@@ -125,7 +125,7 @@ function _postTransactionsQuote(req, res, next) {
             }, err);
           return callback(err);
         }
-        var listing = JSON.parse(records[0].resource);
+        var listing = records[0].resource;
         // check only one signature exists
         // FIXME: this is a poor constraint
         var signatures = jsonld.getValues(listing, 'sec:signature');
@@ -164,7 +164,7 @@ function _postTransactionsQuote(req, res, next) {
             }, err);
           return callback(err);
         }
-        var asset = JSON.parse(records[0].resource);
+        var asset = records[0].resource;
         // check only one signature exists
         // FIXME: this is a poor constraint
         var signatures = jsonld.getValues(asset, 'sec:signature');
@@ -217,12 +217,12 @@ function _postTransactionsQuote(req, res, next) {
       payswarm.financial.createFinalizedContract(
         req.user.profile, options, callback);
     }]
-  }, function(err, quote) {
+  }, function(err, results) {
     if(err) {
       return next(err);
     }
     // send quote
-    res.json(quote);
+    res.json(results.createQuote);
   });
 }
 
@@ -331,8 +331,9 @@ function _processPartialPurchaseRequest(req, res, next) {
       payswarm.financial.getCachedContract(
         req.user.profile, req.body['ps:transactionId'], callback);
     },
-    getBudget: ['getContract', function(callback) {
+    getBudget: ['getContract', function(callback, results) {
       // get budget based on acquirer ID and asset provider
+      var contract = results.getContract;
       var acquirerId = contract['ps:assetAcquirer']['@id'];
       var asset = contract['ps:asset'];
       var query = {
@@ -434,7 +435,7 @@ function _processPartialPurchaseRequest(req, res, next) {
     }
 
     // send created
-    var encrypted = results.encryptedContract;
+    var encrypted = results.encryptContract;
     var contractId = results.processContract['@id'];
     res.json(encrypted, {'Location': contractId}, 201);
   });

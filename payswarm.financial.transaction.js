@@ -216,7 +216,7 @@ api.authorizeTransaction = function(transaction, duplicateQuery, callback) {
         // check for existence
         payswarm.db.collections.account.findOne(
           {id: payswarm.db.hash(dst)}, {id: true},
-          payswarm.db.readOptions, function(err, result) {
+          function(err, result) {
             if(!err && !result) {
               err = new PaySwarmError(
                 'Could not authorize Transaction; invalid destination ' +
@@ -288,8 +288,7 @@ api.voidTransaction = function(transaction, callback) {
     function(n, info, callback) {
       if(n === 0) {
         payswarm.db.collections.transaction.findOne(
-          {id: transactionHash}, {state: true},
-          payswarm.db.readOptions, callback);
+          {id: transactionHash}, {state: true}, callback);
       }
       else {
         callback(null, {state: SETTLE_STATE.VOIDING});
@@ -360,8 +359,7 @@ api.processTransaction = function(transaction, callback) {
       if(!result) {
         // findAndModify made no changes
         payswarm.db.collections.transaction.findOne(
-          {id: transactionHash}, {state: true},
-          payswarm.db.readOptions, callback);
+          {id: transactionHash}, {state: true}, callback);
       }
       else {
         // findAndModify updated the transaction
@@ -420,8 +418,7 @@ api.settleTransaction = function(transaction, callback) {
     // 2. Get FT's state and settle ID.
     function(n, info, callback) {
       payswarm.db.collections.transaction.findOne(
-        {id: transactionHash}, {state: true, settleId: true},
-        payswarm.db.readOptions, callback);
+        {id: transactionHash}, {state: true, settleId: true}, callback);
     },
     // 3. If state is 'settled', finish, if 'settling' settle, otherwise error.
     function(result, callback) {
@@ -487,7 +484,7 @@ api.getTransactions = function(actor, query, fields, options, callback) {
     },
     function(callback) {
       payswarm.db.collections.transaction.find(
-        query, fields, options, payswarm.db.readOptions).toArray(callback);
+        query, fields, options).toArray(callback);
     }
   ], callback);
 };
@@ -503,8 +500,7 @@ api.getTransaction = function(actor, id, callback) {
   async.waterfall([
     function(callback) {
       payswarm.db.collections.profile.findOne(
-        {id: payswarm.db.hash(id)}, {},
-        payswarm.db.readOptions, callback);
+        {id: payswarm.db.hash(id)}, {}, callback);
     },
     function(result, callback) {
       // FIXME: check permissions
@@ -559,17 +555,17 @@ function _insertTransaction(transaction, duplicateQuery, callback) {
         async.waterfall([
           function(callback) {
             // get the last identity+asset counter
-            payswarm.db.collections.transaction.findOne(
+            payswarm.db.collections.transaction.find(
               {identity: payswarm.db.hash(identityId),
                 asset: payswarm.db.hash(assetId)},
-              {counter: true}, {sort: {counter: -1}},
-              payswarm.db.readOptions, function(err, record) {
+              {counter: true}).sort({counter: -1}).limit(1).toArray(
+              function(err, records) {
                 if(err) {
                   return callback(err);
                 }
-                if(record) {
+                if(records.length > 0) {
                   // update counter for insert
-                  counter = record.counter + 1;
+                  counter = records[0].counter + 1;
                 }
                 callback();
               });
@@ -579,7 +575,7 @@ function _insertTransaction(transaction, duplicateQuery, callback) {
             if(duplicateQuery) {
               payswarm.db.collections.transaction.findOne(
                 duplicateQuery, {'transaction.@id': true},
-                payswarm.db.readOptions, function(err, record) {
+                function(err, record) {
                   if(err) {
                     return callback(err);
                   }
@@ -726,8 +722,7 @@ function _authorizeTransaction(transaction, callback) {
       // get source account updateId and balance
       payswarm.db.collections.account.findOne(
         {id: payswarm.db.hash(src)},
-        {updateId: true, 'account.com:balance': true},
-        payswarm.db.readOptions, callback);
+        {updateId: true, 'account.com:balance': true}, callback);
     },
     function(result, callback) {
       // skip deposit, handled externally
@@ -845,8 +840,7 @@ function _voidTransaction(transaction, callback) {
       // get source account updateId and balance
       payswarm.db.collections.account.findOne(
         {id: payswarm.db.hash(src)},
-        {updateId: true, 'account.com:balance': true},
-        payswarm.db.readOptions, callback);
+        {updateId: true, 'account.com:balance': true}, callback);
     },
     function(result, callback) {
       if(!result) {
@@ -942,8 +936,7 @@ function _processTransaction(transaction, settleId, callback) {
       function(n, info, callback) {
         if(n === 0) {
           payswarm.db.collections.transaction.findOne(
-            {id: transactionHash}, {state: true},
-            payswarm.db.readOptions, callback);
+            {id: transactionHash}, {state: true}, callback);
         }
         else {
           callback(null, {state: SETTLE_STATE.SETTLING});
@@ -1005,7 +998,7 @@ function _escrowDestinationFunds(
           updateId: true,
           incoming: true,
           'account.com:escrow': true
-        }, payswarm.db.readOptions, callback);
+        }, callback);
     },
     function(result, callback) {
       if(!result) {
@@ -1107,7 +1100,9 @@ function _settleTransaction(transaction, settleId, callback) {
         update.$unset['outgoing.' + transactionHash] = 1;
         payswarm.db.collections.account.update(
           {id: payswarm.db.hash(src)}, update,
-          payswarm.db.writeOptions, callback);
+          payswarm.db.writeOptions, function(err) {
+            callback(err);
+          });
       },
       // 5. Set transaction state to settled.
       function(callback) {
@@ -1123,8 +1118,7 @@ function _settleTransaction(transaction, settleId, callback) {
       function(n, info, callback) {
         if(n === 0) {
           payswarm.db.collections.transaction.findOne(
-            {id: transactionHash}, {state: true},
-            payswarm.db.readOptions, callback);
+            {id: transactionHash}, {state: true}, callback);
         }
         else {
           callback(null, {state: SETTLE_STATE.SETTLED});
@@ -1173,7 +1167,7 @@ function _settleDestinationAccount(
           incoming: true,
           'account.com:balance': true,
           'account.com:escrow': true
-        }, payswarm.db.readOptions, callback);
+        }, callback);
     },
     function(result, callback) {
       if(!result) {
@@ -1380,8 +1374,7 @@ function _runWorker(options, callback) {
         async.waterfall([
           function(callback) {
             payswarm.db.collections.transaction.findOne(
-              {workerId: workerId}, {transaction: true},
-              payswarm.db.readOptions, callback);
+              {workerId: workerId}, {transaction: true}, callback);
           },
           function(record, callback) {
             if(!record) {

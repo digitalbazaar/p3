@@ -164,8 +164,7 @@ api.getBudget = function(actor, id, callback) {
   async.waterfall([
     function(callback) {
       payswarm.db.collections.budget.findOne(
-        {id: payswarm.db.hash(id)}, {},
-        payswarm.db.readOptions, callback);
+        {id: payswarm.db.hash(id)}, {}, callback);
     },
     function(result, callback) {
       if(!result) {
@@ -235,8 +234,7 @@ api.getIdentityBudgets = function(actor, identityId) {
       if(vendorId) {
         query.vendors = payswarm.db.hash(vendorId);
       }
-      payswarm.db.collections.budget.find(
-        query, payswarm.db.readOptions).toArray(callback);
+      payswarm.db.collections.budget.find(query, {}).toArray(callback);
     },
     _updateBudgets
   ], callback);
@@ -274,8 +272,7 @@ api.getBudgets = function(actor, query, fields, callback) {
         actor, PERMISSIONS.BUDGET_ADMIN, callback);
     },
     function(callback) {
-      payswarm.db.collections.budget.find(
-        query, fields, payswarm.db.readOptions).toArray(callback);
+      payswarm.db.collections.budget.find(query, fields).toArray(callback);
     },
     _updateBudgets
   ], callback);
@@ -574,7 +571,7 @@ function _updateBalance(id, amountOrDate, callback) {
           'budget.com:amount': true,
           'budget.com:balance': true,
           'budget.psa:maxPerUse': true
-        }, payswarm.db.readOptions, callback);
+        }, callback);
     },
     function(result, callback) {
       if(!result) {

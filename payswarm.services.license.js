@@ -67,7 +67,7 @@ function addServices(app, callback) {
       if(err) {
         return next(err);
       }
-      res.send(records[0].resource, {'Content-Type': 'application/json'});
+      res.json(records[0].resource);
     });
   });
 

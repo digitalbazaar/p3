@@ -193,8 +193,7 @@ api.getProfileDefaultIdentity = function(actor, profileId, callback) {
     },
     function(callback) {
       payswarm.db.collections.identity.findOne(
-        {owner: payswarm.db.hash(profileId)},
-        payswarm.db.readOptions, callback);
+        {owner: payswarm.db.hash(profileId)}, {}, callback);
     },
     function(result, callback) {
       callback(null, result.identity, result.meta);
@@ -218,8 +217,7 @@ api.getProfileIdentities = function(actor, profileId, callback) {
     },
     function(callback) {
       payswarm.db.collections.identity.find(
-        {owner: payswarm.db.hash(profileId)},
-        payswarm.db.readOptions).toArray(callback);
+        {owner: payswarm.db.hash(profileId)}, {}).toArray(callback);
     }
   ], callback);
 };
@@ -252,8 +250,7 @@ api.getIdentities = function(actor, query, fields, callback) {
         actor, PERMISSIONS.IDENTITY_ADMIN, callback);
     },
     function(callback) {
-      payswarm.db.collections.identity.find(
-        query, fields, payswarm.db.readOptions).toArray(callback);
+      payswarm.db.collections.identity.find(query, fields).toArray(callback);
     }
   ], callback);
 };
@@ -269,8 +266,7 @@ api.getIdentity = function(actor, id, callback) {
   async.waterfall([
     function(callback) {
       payswarm.db.collections.identity.findOne(
-        {id: payswarm.db.hash(id)},
-        payswarm.db.readOptions, callback);
+        {id: payswarm.db.hash(id)}, {}, callback);
     },
     function(result, callback) {
       if(!result) {
@@ -389,11 +385,14 @@ api.getIdentityAddresses = function(actor, id, callback) {
     function(callback) {
       payswarm.db.collections.identity.find(
         {id: payswarm.db.hash(id)},
-        ['identity.vcard:adr'],
-        payswarm.db.readOptions).toArray(callback);
+        {'identity.vcard:adr': true}).toArray(callback);
     },
-    function(results, callback) {
-      callback(null, results);
+    function(records, callback) {
+      var addresses = [];
+      for(var i in records) {
+        addresses.push(records.identity['vcard:adr']);
+      }
+      callback(null, addresses);
     }
   ], callback);
 };
@@ -452,14 +451,13 @@ api.getIdentityPreferences = function(actor, prefs, callback) {
     function(callback) {
       payswarm.db.collections.identity.findOne(
         {id: payswarm.db.hash(prefs['ps:owner'])},
-        {'identity.ps:preferences': true},
-        payswarm.db.readOptions, callback);
+        {'identity.ps:preferences': true}, callback);
     },
-    function(result, callback) {
-      if(result) {
-        result = result.identity['ps:preferences'];
+    function(record, callback) {
+      if(record) {
+        record = record.identity['ps:preferences'];
       }
-      callback(null, result);
+      callback(null, record);
     }
   ], callback);
 };
@@ -540,8 +538,7 @@ api.getIdentityPublicKey = function(publicKey) {
         query.owner = payswarm.db.hash(publicKey['ps:owner']);
         query.pem = payswarm.db.hash(publicKey['sec:publicKeyPem']);
       }
-      payswarm.db.collections.publicKey.findOne(
-        query, {}, payswarm.db.readOptions, callback);
+      payswarm.db.collections.publicKey.findOne(query, {}, callback);
     },
     function(record, callback) {
       // no such public key
@@ -598,8 +595,7 @@ api.getIdentityPublicKeys = function(id) {
   async.waterfall([
     function(callback) {
       payswarm.db.collections.publicKey.find(
-        {owner: payswarm.db.hash(id)},
-        payswarm.db.readOptions).toArray(callback);
+        {owner: payswarm.db.hash(id)}, {}).toArray(callback);
     },
     function(records, callback) {
       if(actor) {
@@ -690,7 +686,7 @@ api.getAuthorityKeyPair = function(actor, callback) {
     function(callback) {
       payswarm.db.collections.publicKey.findOne(
         {owner: payswarm.db.hash(authorityId)},
-        {publicKey: true}, payswarm.db.readOptions, callback);
+        {publicKey: true}, callback);
     },
     function(result, callback) {
       // no such public key

@@ -154,8 +154,7 @@ api.getDefaultJsonLdContext = function() {
     'dc:created': {'@type': 'xsd:dateTime'},
     'com:date': {'@type': 'xsd:dateTime'},
     'ps:validFrom': {'@type': 'xsd:dateTime'},
-    'ps:validUntil': {'@type': 'xsd:dateTime'},
-    'ps:licenseTemplate': {'@type': 'rdf:XMLLiteral'}
+    'ps:validUntil': {'@type': 'xsd:dateTime'}
   };
   return ctx;
 };

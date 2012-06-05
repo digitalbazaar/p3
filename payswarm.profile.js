@@ -99,9 +99,7 @@ api.createProfileId = function(name) {
 api.resolveEmail = function(email, callback) {
   payswarm.db.collections.profile.find(
     {'profile.foaf:mbox': email},
-    {'profile.@id': true},
-    payswarm.db.readOptions
-  ).toArray(function(err, result) {
+    {'profile.@id': true}).toArray(function(err, result) {
     if(result) {
       for(var i in result) {
         result[i] = result[i].profile['@id'];
@@ -122,7 +120,6 @@ api.resolveProfilename = function(name, callback) {
   payswarm.db.collections.profile.findOne(
     {'profile.psa:slug': name},
     {'profile.@id': true},
-    payswarm.db.readOptions,
     function(err, result) {
       if(!err && result) {
         result = result.profile['@id'];
@@ -210,8 +207,7 @@ api.getProfiles = function(actor, query, fields, callback) {
         actor, PERMISSIONS.PROFILE_ADMIN, callback);
     },
     function(callback) {
-      payswarm.db.collections.profile.find(
-        query, fields, payswarm.db.readOptions).toArray(callback);
+      payswarm.db.collections.profile.find(query, fields).toArray(callback);
     }
   ], callback);
 };
@@ -232,7 +228,7 @@ api.getProfile = function(actor, id, callback) {
     },
     function(callback) {
       payswarm.db.collections.profile.findOne(
-        {id: payswarm.db.hash(id)}, payswarm.db.readOptions, callback);
+        {id: payswarm.db.hash(id)}, {}, callback);
     },
     function(result, callback) {
       if(!result) {
@@ -458,8 +454,7 @@ function _verifyProfileSaltedHash(profile, type, callback) {
       var fields = {'profile.psa:status': true};
       fields['profile.psa:' + type] = true;
       payswarm.db.collections.profile.findOne(
-        {id: payswarm.db.hash(profile['@id'])},
-        fields, payswarm.db.readOptions, callback);
+        {id: payswarm.db.hash(profile['@id'])}, fields, callback);
     },
     function(result, callback) {
       if(!result) {
@@ -579,7 +574,7 @@ api.checkActorPermissionList = function(actor, permissions, callback) {
       payswarm.db.collections.profile.findOne(
         {id: payswarm.db.hash(actor['@id'])},
         {'profile.psa:role': true},
-        payswarm.db.readOptions, function(err, result) {
+        function(err, result) {
           if(err) {
             return callback(err);
           }

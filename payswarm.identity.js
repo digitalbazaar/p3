@@ -541,11 +541,11 @@ api.getIdentityPublicKey = function(publicKey) {
         query.pem = payswarm.db.hash(publicKey['sec:publicKeyPem']);
       }
       payswarm.db.collections.publicKey.findOne(
-        query, payswarm.db.readOptions, callback);
+        query, {}, payswarm.db.readOptions, callback);
     },
     function(record, callback) {
       // no such public key
-      if(record === null) {
+      if(!record) {
         return callback(new PaySwarmError(
           'PublicKey not found.',
           MODULE_TYPE + '.PublicKeyNotFound',

@@ -9,6 +9,7 @@ var path = require('path');
 var passport = require('passport');
 var config = require('./payswarm.config');
 var program = require('commander');
+var connect = require('connect');
 
 program
   .version('0.0.1')
@@ -70,6 +71,8 @@ else {
     stream: {write: function(str) {logger.log('net', str);}}
   }));
   server.use(express.methodOverride());
+  // parse JSON-LD bodies
+  server.use(_parseJsonLd());
   server.use(express.bodyParser());
   server.use(express.cookieParser());
   server.use(express.session(config.server.session));
@@ -149,4 +152,48 @@ else {
       logger.info('all modules loaded');
     }
   });
+}
+
+// parses a JSON-LD request body
+function _parseJsonLd() {
+  return function(req, res, next) {
+    if(!req.is('application/ld+json')) {
+      return next();
+    }
+    // cribbed from connect bodyParser
+    var limit = connect.middleware.limit('1mb');
+    var strict = false;
+    if(req._body) {
+      return next();
+    }
+    req.body = req.body || {};
+
+    // flag as parsed
+    req._body = true;
+
+    // parse
+    limit(req, res, function(err){
+      if(err) {
+        return next(err);
+      }
+      var buf = '';
+      req.setEncoding('utf8');
+      req.on('data', function(chunk) {
+        buf += chunk;
+      });
+      req.on('end', function(){
+        if(strict && '{' != buf[0] && '[' != buf[0]) {
+          return next(connect.utils.error(400));
+        }
+        try {
+          req.body = JSON.parse(buf);
+          next();
+        }
+        catch (err) {
+          err.status = 400;
+          next(err);
+        }
+      });
+    });
+  };
 }

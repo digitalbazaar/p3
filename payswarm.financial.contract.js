@@ -11,12 +11,15 @@ var payswarm = {
   financial: require('./payswarm.financial'),
   identity: require('./payswarm.identity'),
   logger: require('./payswarm.logger'),
+  money: require('./payswarm.money'),
   permission: require('./payswarm.permission'),
   profile: require('./payswarm.profile'),
+  resource: require('./payswarm.resource'),
   security: require('./payswarm.security'),
   tools: require('./payswarm.tools')
 };
 var PaySwarmError = payswarm.tools.PaySwarmError;
+var Money = payswarm.money.Money;
 
 // constants
 var MODULE_TYPE = payswarm.financial.type;
@@ -93,18 +96,19 @@ api.createContract = function(actor, options, callback) {
         if(err) {
           return callback(err);
         }
-        var listing = records[0].resource;
+        var listing = JSON.parse(records[0].resource);
         payswarm.logger.debug(
           'create contract listing',
           options.listingId, options.listingHash, listing);
         callback(null, listing);
       });
     },
-    getAsset: function(callback) {
+    getAsset: ['getListing', function(callback, results) {
       if(options.asset) {
         return callback(null, options.asset);
       }
       // populate asset
+      var listing = results.getListing;
       var query = {
         id: listing['ps:asset'],
         hash: listing['ps:assetHash'],
@@ -116,15 +120,16 @@ api.createContract = function(actor, options, callback) {
         if(err) {
           return callback(err);
         }
-        var asset = records[0].resource;
+        var asset = JSON.parse(records[0].resource);
         callback(null, asset);
       });
-    },
-    getLicense: function(callback) {
+    }],
+    getLicense: ['getListing', function(callback, results) {
       if(options.license) {
         return callback(null, options.license);
       }
       // populate asset
+      var listing = results.getListing;
       var query = {
         id: listing['ps:license'],
         hash: listing['ps:licenseHash'],
@@ -136,10 +141,10 @@ api.createContract = function(actor, options, callback) {
         if(err) {
           return callback(err);
         }
-        var license = records[0].resource;
+        var license = JSON.parse(records[0].resource);
         callback(null, license);
       });
-    },
+    }],
     getAssetProvider: ['getAsset', function(callback, results) {
       var asset = results.getAsset;
       var id = payswarm.tools.clone(asset['ps:assetProvider']);
@@ -153,7 +158,7 @@ api.createContract = function(actor, options, callback) {
             'provided PaySwarm Authority.',
             MODULE_TYPE + '.AssetProviderNotFound', {
               'public': true,
-              authority: config.authority.id,
+              authority: payswarm.config.authority.id,
               assetProvider: id
             }, err));
         }
@@ -210,7 +215,6 @@ api.addPayeeToContract = function(contract, payee, options, callback) {
   // get payee rules
   var listing = contract['ps:listing'];
   var rules = jsonld.getValues(listing, 'com:payeeRule');
-
   // if there are no payee rules, default behavior is prohibit adding payees
   if(rules.length === 0) {
     return callback(new PaySwarmError(
@@ -231,12 +235,10 @@ api.addPayeeToContract = function(contract, payee, options, callback) {
     // adding the payee
     if('com:limitation' in rule) {
       if(rule['com:limitation'] === 'com:NoAdditionalPayees') {
-        pass = false;
         break;
       }
       // no other limitations are supported, and if found, automatically
       // deny adding any other payees
-      pass = false;
       break;
     }
 
@@ -266,6 +268,7 @@ api.addPayeeToContract = function(contract, payee, options, callback) {
   }
 
   // payee passes a payee rule, append it
+  contract['com:payee'] = payswarm.tools.sortPayees(contract['com:payee']);
   payswarm.tools.appendPayee(contract['com:payee'], payee);
   callback();
 };
@@ -299,13 +302,13 @@ api.createPayeeSchemeId = function(ownerId, name) {
  */
 api.addPayeeSchemeToContract = function(contract, psId, options, callback) {
   // check payee scheme existence
-  if(!(psId in config.financial.payeeSchemes)) {
+  if(!(psId in payswarm.config.financial.payeeSchemes)) {
     return callback(new PaySwarmError(
       'PayeeScheme not found.',
       MODULE_TYPE + '.PayeeSchemeNotFound'));
   }
 
-  var ps = config.financial.payeeSchemes[psId];
+  var ps = payswarm.config.financial.payeeSchemes[psId];
   payswarm.logger.debug('add payee scheme to contract', ps);
 
   // add each payee
@@ -313,7 +316,12 @@ api.addPayeeSchemeToContract = function(contract, psId, options, callback) {
   async.forEachSeries(payees, function(payee, callback) {
     // FIXME: check to ensure owner type is correct?
     api.addPayeeToContract(contract, payee, options, callback);
-  }, callback);
+  }, function(err) {
+    if(err) {
+      return callback(err);
+    }
+    callback(null, contract);
+  });
 };
 
 /**
@@ -387,7 +395,8 @@ api.finalizeContract = function(actor, contract, options, callback) {
 
     // create list of payees to produce transfers
     // add listing and then contract-specific payees
-    var payees = jsonld.getValues(contract['ps:listing'], 'com:payee');
+    var listing = contract['ps:listing'];
+    var payees = jsonld.getValues(listing, 'com:payee');
     var contractPayees = jsonld.getValues(contract, 'com:payee');
     payswarm.tools.appendPayees(payees, contractPayees);
 
@@ -402,7 +411,7 @@ api.finalizeContract = function(actor, contract, options, callback) {
     // later to be processed
     if(!('psa:expires' in contract)) {
       var secs = Math.ceil((+new Date()) / 1000);
-      var expires = config.financial.cachedContractExpiration;
+      var expires = payswarm.config.financial.cachedContractExpiration;
       contract["psa:expires"] = secs + expires;
     }
     var now = +new Date();
@@ -436,14 +445,14 @@ api.finalizeContract = function(actor, contract, options, callback) {
  */
 api.checkPayeeAmounts = function(contract, psId, callback) {
   // check payee scheme existence
-  if(!(psId in config.financial.payeeSchemes)) {
+  if(!(psId in payswarm.config.financial.payeeSchemes)) {
     return callback(new PaySwarmError(
       'PayeeScheme not found.',
       MODULE_TYPE + '.PayeeSchemeNotFound'));
   }
 
   // check minimum amounts on payee scheme
-  var ps = config.financial.payeeSchemes[psId];
+  var ps = payswarm.config.financial.payeeSchemes[psId];
   if('psa:minimumAmounts' in ps) {
     var amountMap = ps['psa:minimumAmounts'];
     var payees = jsonld.getValues(ps, 'com:payee');
@@ -496,7 +505,6 @@ api.checkPayeeAmounts = function(contract, psId, callback) {
  * @see createContract
  *
  * @param actor the Profile performing the action.
- * @param contract the contract to populate (with reference ID if applies).
  * @param options:
  *          referenceId: a reference ID to use.
  *          listingId: the Listing ID (to look up Listing).
@@ -508,9 +516,9 @@ api.checkPayeeAmounts = function(contract, psId, callback) {
  *          acquirerAccountId: the Asset acquirer's Account ID.
  * @param callback(err, contract) called once the operation completes.
  */
-api.createFinalizedContract = function(actor, contract, options, callback) {
+api.createFinalizedContract = function(actor, options, callback) {
   // get the default PaySwarm Authority PayeeScheme ID
-  var psId = api.createPayeeSchemeId(config.authority.id, 'default');
+  var psId = api.createPayeeSchemeId(payswarm.config.authority.id, 'default');
 
   async.waterfall([
     // 1. Create the Contract.
@@ -520,7 +528,7 @@ api.createFinalizedContract = function(actor, contract, options, callback) {
     // 2. Add the PaySwarm Authority PayeeScheme.
     function(contract, callback) {
       api.addPayeeSchemeToContract(
-        contract, psId, {maximizeAmount: true, ownerType: 'authority'},
+        contract, psId, {maximizeAmount: true, ownerType: 'ps:Authority'},
         callback);
     },
     // 3. Finalize the Contract.

@@ -138,7 +138,7 @@ api.getPaymentToken = function(actor, id, callback) {
   async.waterfall([
     function(callback) {
       payswarm.db.collections.paymentToken.findOne(
-        {id: payswarm.db.hash(id)},
+        {id: payswarm.db.hash(id)}, {},
         payswarm.db.readOptions, callback);
     },
     function(result, callback) {

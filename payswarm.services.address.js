@@ -69,7 +69,7 @@ function addServices(app, callback) {
     function(req, res, next) {
       // only validate address if requested
       var address = req.body;
-      if(req.query.validate) {
+      if(req.query.validate === 'true') {
         return payswarm.identity.validateAddress(
           req.user.profile, address, function(err, validatedAddress) {
             if(err) {

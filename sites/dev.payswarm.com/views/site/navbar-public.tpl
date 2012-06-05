@@ -1,5 +1,4 @@
 ${set([
-  jsList.push("common/scripts/jquery.tmpl"),
   jsList.push("common/scripts/website.transmitter"),
   jsList.push("common/scripts/website.util"),
   jsList.push("common/scripts/payswarm.api"),

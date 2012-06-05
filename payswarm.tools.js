@@ -365,8 +365,13 @@ api.sortPayees = function(payees) {
  * @param payee the Payee to append.
  */
 api.appendPayee = function(payees, payee) {
-  var last = payees[payees.length - 1];
-  payee['com:payeePosition'] = last['com:payeePosition'] + 1;
+  if(payees.length === 0) {
+    payee['com:payeePosition'] = 0;
+  }
+  else {
+    var last = payees[payees.length - 1];
+    payee['com:payeePosition'] = last['com:payeePosition'] + 1;
+  }
   payees.push(payee);
 };
 
@@ -391,7 +396,7 @@ api.appendPayees = function(p1, p2) {
  * @param rule the PayeeRule to check.
  * @param payee the Payee to check.
  * @param ownerType the owner type for the Payee destination account (eg:
- *          'identity' or 'authority).
+ *          'ps:PersonalIdentity', 'ps:VendorIdentity', or 'ps:Authority).
  *
  * @return true if the PayeeRule applies, false if not.
  */
@@ -408,10 +413,8 @@ api.checkPayeeRule = function(rule, payee, ownerType) {
   if('com:rateContext' in rule) {
     // if rate context restricts to inclusive and payee is exclusive, fail
     // the rule
-    var ruleInclusive = jsonld.hasValue(
-      rule, 'com:rateContext', PAYEE.RATE_CONTEXT.INCLUSIVE);
-    var ruleExclusive = jsonld.hasValue(
-      rule, 'com:rateContext', PAYEE.RATE_CONTEXT.EXCLUSIVE);
+    var ruleInclusive = _hasRateContext(rule, PAYEE.RATE_CONTEXT.INCLUSIVE);
+    var ruleExclusive = _hasRateContext(rule, PAYEE.RATE_CONTEXT.EXCLUSIVE);
     if(ruleInclusive && !ruleExclusive && _isPayeePercentExclusive(payee)) {
       return false;
     }
@@ -419,7 +422,7 @@ api.checkPayeeRule = function(rule, payee, ownerType) {
     // check other rate contexts
     var rateContexts = jsonld.getValues(payee, 'com:rateContext');
     for(var i in rateContexts) {
-      if(!jsonld.hasValue(rule, 'com:rateContext', rateContexts[i])) {
+      if(!_hasRateContext(rule, rateContexts[i])) {
         return false;
       }
     }
@@ -596,16 +599,16 @@ function _isPayeePercentExclusive(p) {
   // inclusive doesn't appear then the payee is exclusive
   return (
     p['com:rateType'] === PAYEE.RATE_TYPE.PERCENTAGE &&
-    (_hasRateContext(p, PAYEE.RATE_TYPE.EXCLUSIVE) ||
-    !_hasRateContext(p, PAYEE.RATE_TYPE.INCLUSIVE)));
+    (_hasRateContext(p, PAYEE.RATE_CONTEXT.EXCLUSIVE) ||
+    !_hasRateContext(p, PAYEE.RATE_CONTEXT.INCLUSIVE)));
 }
 
 function _isPayeePercentInclusive(p) {
   // a payee is only inclusive if inclusive appears and exclusive doesn't
   return (
     p['com:rateType'] === PAYEE.RATE_TYPE.PERCENTAGE &&
-    _hasRateContext(p, PAYEE.RATE_TYPE.INCLUSIVE) &&
-    !_hasRateContext(p, PAYEE.RATE_TYPE.EXCLUSIVE));
+    _hasRateContext(p, PAYEE.RATE_CONTEXT.INCLUSIVE) &&
+    !_hasRateContext(p, PAYEE.RATE_CONTEXT.EXCLUSIVE));
 }
 
 function _isPayeeTax(p) {

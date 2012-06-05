@@ -124,7 +124,7 @@ api.init = function(callback) {
       payswarm.events.on(EVENT_SETTLE, function(event) {
         payswarm.logger.debug('got event:', event);
         var options = {algorithm: 'settle'};
-        if(event.details.transactionId) {
+        if(event && event.details && event.details.transactionId) {
           options.transactionId = event.details.transactionId;
         }
         else {
@@ -137,7 +137,7 @@ api.init = function(callback) {
       payswarm.events.on(EVENT_VOID, function(event) {
         payswarm.logger.debug('got event:', event);
         var options = {algorithm: 'void'};
-        if(event.details.transactionId) {
+        if(event && event.details && event.details.transactionId) {
           options.transactionId = event.details.transactionId;
         }
         else {
@@ -349,7 +349,7 @@ api.processTransaction = function(transaction, callback) {
           {}, payswarm.db.writeOptions, {
             upsert: false,
             'new': true,
-            fields: {'state': true, 'settleId': true
+            fields: {state: true, settleId: true
           }}),
         function(err, result) {
           callback(err, result);
@@ -503,7 +503,8 @@ api.getTransaction = function(actor, id, callback) {
   async.waterfall([
     function(callback) {
       payswarm.db.collections.profile.findOne(
-        {id: payswarm.db.hash(id)}, payswarm.db.readOptions, callback);
+        {id: payswarm.db.hash(id)}, {},
+        payswarm.db.readOptions, callback);
     },
     function(result, callback) {
       // FIXME: check permissions
@@ -941,7 +942,7 @@ function _processTransaction(transaction, settleId, callback) {
       function(n, info, callback) {
         if(n === 0) {
           payswarm.db.collections.transaction.findOne(
-            {id: transactionHash}, {'state': true},
+            {id: transactionHash}, {state: true},
             payswarm.db.readOptions, callback);
         }
         else {
@@ -1448,7 +1449,7 @@ function _runWorker(options, callback) {
       payswarm.logger.debug(
         'rescheduling transaction worker in ' + options.reschedule + ' ms');
       setTimeout(function() {
-        var event = {};
+        var event = {details:{}};
         if(options.algorithm === 'settle') {
           event.type = EVENT_SETTLE;
         }

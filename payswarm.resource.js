@@ -9,7 +9,8 @@ var payswarm = {
   config: require('./payswarm.config'),
   db: require('./payswarm.database'),
   logger: require('./payswarm.logger'),
-  tools: require('./payswarm.tools')
+  tools: require('./payswarm.tools'),
+  security: require('./payswarm.security')
 };
 var PaySwarmError = payswarm.tools.PaySwarmError;
 
@@ -145,7 +146,7 @@ ResourceStorage.prototype.get = function(query, callback) {
         'Missing type in fetch mode.',
         MODULE_TYPE + '.InvalidQuery'));
     }
-    if(!(type in self.frames)) {
+    if(!(query.type in self.frames)) {
       return callback(new PaySwarmError(
         'Unknown type in fetch mode.',
         MODULE_TYPE + '.InvalidQuery', {type: query.type}));
@@ -173,7 +174,7 @@ ResourceStorage.prototype.get = function(query, callback) {
   async.waterfall([
     function(callback) {
       payswarm.db.collections[self.name].find(
-        q, options, payswarm.db.readOptions).toArray(callback);
+        q, {}. options, payswarm.db.readOptions).toArray(callback);
     },
     function(records, callback) {
       // nothing found, do fetch if requested
@@ -209,6 +210,7 @@ ResourceStorage.prototype._fetch = function(query, callback) {
       // FIXME: support more than HTML+RDFa
       jsdom.env(query.id, function(errors, window) {
         if(errors) {
+          payswarm.logger.debug('ResourceStorage fetch errors:', errors);
           return callback(new PaySwarmError(
             'Could not fetch resource.',
             MODULE_TYPE + '.FetchError',
@@ -226,7 +228,7 @@ ResourceStorage.prototype._fetch = function(query, callback) {
       catch(ex) {
         return callback(new PaySwarmError(
           'Could not parse resource.',
-          MODULE_TYPE + '.ParseError'));
+          MODULE_TYPE + '.ParseError', null, ex));
       }
     },
     function(data, callback) {
@@ -235,23 +237,28 @@ ResourceStorage.prototype._fetch = function(query, callback) {
         'query:', query);
 
       // frame data
-      var frame = self.frames(query.type);
+      var frame = self.frames[query.type];
       jsonld.frame(data, frame, callback);
     },
     function(data, callback) {
+      // FIXME: is this what we want? return first framing result?
+      var context = data['@context'];
+      data = data['@graph'][0];
+      data['@context'] = context;
+
       // FIXME: run resource validator
       callback(null, data);
     },
     function(data, callback) {
       // hash resource
-      payswarm.tools.hashJsonLd(data, function(err, hash) {
+      payswarm.security.hashJsonLd(data, function(err, hash) {
         callback(err, data, hash);
       });
     },
     function(data, hash, callback) {
       // resource w/hash not found
-      if(query.hash !== hash) {
-        return callback(null, null);
+      if('hash' in query && (query.hash !== hash)) {
+        return callback(null, []);
       }
 
       // build record
@@ -259,7 +266,7 @@ ResourceStorage.prototype._fetch = function(query, callback) {
         id: payswarm.db.hash(query.id),
         hash: hash,
         date: now,
-        resource: data
+        resource: JSON.stringify(data)
       };
 
       // not storing so return record
@@ -279,7 +286,8 @@ ResourceStorage.prototype._fetch = function(query, callback) {
             record; this is ignored and the data is read back out. */
           if(payswarm.db.isDuplicateError(err)) {
             payswarm.db.collections[self.name].find(
-              {id: record.id, hash: record.hash}, {limit: 1}).toArray(callback);
+              {id: record.id, hash: record.hash}, {},
+              {limit: 1}).toArray(callback);
           }
           if(err) {
             return callback(err);

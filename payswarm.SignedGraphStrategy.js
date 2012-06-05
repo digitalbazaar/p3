@@ -47,14 +47,14 @@ Strategy.prototype.authenticate = function(req) {
   async.auto({
     getPublicKey: function(callback) {
       // get public key
-      paysawrm.identity.getIdentityPublicKey(publicKey,
+      payswarm.identity.getIdentityPublicKey(publicKey,
         function(err, publicKey) {
           callback(err, publicKey);
       });
     },
     verify: ['getPublicKey', function(callback, results) {
       // verify signature
-      payswarm.security.verifyJsonLd(req.body, results.publicKey, callback);
+      payswarm.security.verifyJsonLd(req.body, results.getPublicKey, callback);
     }],
     getIdentity: ['verify', function(callback, results) {
       // get identity without permission check

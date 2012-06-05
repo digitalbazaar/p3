@@ -10,6 +10,7 @@ var payswarm = {
   financial: require('./payswarm.financial'),
   identity: require('./payswarm.identity'),
   logger: require('./payswarm.logger'),
+  resource: require('./payswarm.resource'),
   security: require('./payswarm.security'),
   tools: require('./payswarm.tools'),
   website: require('./payswarm.website')
@@ -50,7 +51,7 @@ api.init = function(app, callback) {
 function addServices(app, callback) {
   app.server.post('/transactions', ensureAuthenticated,
     function(req, res, next) {
-      if(req.query.quote === true) {
+      if(req.query.quote === 'true') {
         return _postTransactionsQuote(req, res, next);
       }
       if(jsonld.hasValue(req.body, '@type', 'ps:Contract')) {
@@ -117,14 +118,14 @@ function _postTransactionsQuote(req, res, next) {
             'problem with their e-commerce software. You may want to notify ' +
             'them of this issue.',
             MODULE_TYPE + '.InvalidListing', {
-              listing: listingId,
-              listingHash: listingHash,
+              listing: req.body['ps:Listing'],
+              listingHash: req.body['ps:listingHash'],
               'public': true,
               httpStatusCode: 400
             }, err);
           return callback(err);
         }
-        var listing = records[0].resource;
+        var listing = JSON.parse(records[0].resource);
         // check only one signature exists
         // FIXME: this is a poor constraint
         var signatures = jsonld.getValues(listing, 'sec:signature');
@@ -132,8 +133,8 @@ function _postTransactionsQuote(req, res, next) {
           return callback(new PaySwarmError(
             'Listings must have exactly one signature.',
             MODULE_TYPE + '.InvalidSignatureCount', {
-              listing: listingId,
-              listingHash: listingHash
+              listing: req.body['ps:listing'],
+              listingHash: req.body['ps:listingHash']
           }));
         }
         callback(null, listing);
@@ -163,7 +164,7 @@ function _postTransactionsQuote(req, res, next) {
             }, err);
           return callback(err);
         }
-        var asset = records[0].resource;
+        var asset = JSON.parse(records[0].resource);
         // check only one signature exists
         // FIXME: this is a poor constraint
         var signatures = jsonld.getValues(asset, 'sec:signature');
@@ -178,7 +179,7 @@ function _postTransactionsQuote(req, res, next) {
         callback(null, asset);
       });
     }],
-    checkDuplicate: ['getAsset', function(callback) {
+    checkDuplicate: ['getAcquirer', 'getAsset', function(callback, results) {
       var options = {identity: results.getAcquirer['@id']};
       if('com:referenceId' in req.body) {
         options.referenceId = req.body['com:referenceId'];
@@ -494,7 +495,7 @@ function _getPaymentForm(req, res, next) {
       data['ps:listingHash'] = req.query['listing-hash'];
       data.gateway = payswarm.config.financial.defaults.gateway;
       data.allowDuplicatePurchases =
-        payswarm.config.website.paymentDefaults.allowDuplicatePurchases;
+        data.paymentDefaults.allowDuplicatePurchases;
 
       // optional data
       if('reference-id' in req.query) {
@@ -508,7 +509,7 @@ function _getPaymentForm(req, res, next) {
       }
 
       // render view
-      res.render('pay.tpl', data);
+      res.render('pay.tpl', vars);
     }
   ], function(err) {
     if(err) {

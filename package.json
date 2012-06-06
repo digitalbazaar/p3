@@ -1,6 +1,10 @@
 {
   "name": "node-payswarm-auth",
   "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node payswarm-auth.js"
+  },
   "dependencies": {
     "async": "~0.1.22",
     "commander": "~0.6.1",

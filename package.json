@@ -1,0 +1,20 @@
+{
+  "name": "node-payswarm-auth",
+  "version": "0.0.1",
+  "dependencies": {
+    "async": "~0.1.22",
+    "commander": "~0.6.1",
+    "jqtpl": "~1.1.0",
+    "bigdecimal": "~0.6.1",
+    "passport": "~0.1.9",
+    "passport-local": "~0.1.3",
+    "rsa": "v0.0.3",
+    "winston": "~0.6.1",
+    "connect": "~2.3.0",
+    "express": "~2.5.9",
+    "mongodb": "~1.0.2",
+    "jsdom": "~0.2.14",
+    "sqlite3": "~2.1.3",
+    "winston-mail": "~0.2.1"
+  }
+}

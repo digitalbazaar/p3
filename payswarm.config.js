@@ -173,7 +173,7 @@ config.website = {};
 
 // views config
 config.website.views = {};
-config.website.views.path = 'sites/dev.payswarm.com/views';
+config.website.views.path = ['sites/dev.payswarm.com/views'];
 config.website.views.options = {
   layout: false
 };

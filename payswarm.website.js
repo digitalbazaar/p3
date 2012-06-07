@@ -2,6 +2,7 @@
  * Copyright (c) 2012 Digital Bazaar, Inc. All rights reserved.
  */
 var async = require('async');
+var express = require('express');
 var passport = require('passport');
 var path = require('path');
 var url = require('url');
@@ -54,6 +55,11 @@ var modules = [
 api.init = function(app, callback) {
   // do initialization work
   async.waterfall([
+    function(callback) {
+      // permit multiple roots for express views
+      _allowMultipleViewRoots(express);
+      callback();
+    },
     function(callback) {
       // configure the web server
       configureServer(app, callback);
@@ -237,7 +243,17 @@ function configureServer(app, callback) {
   // add jquery template support (turn off debug output)
   var jqtpl = require('jqtpl').express;
   jqtpl.debug = function(){};
-  app.server.set('views', path.resolve(payswarm.config.website.views.path));
+  var viewPaths = payswarm.config.website.views.path;
+  var paths = [];
+  if(Array.isArray(viewPaths)) {
+    for(var i in viewPaths) {
+      paths.push(path.resolve(viewPaths[i]));
+    }
+  }
+  else {
+    paths = path.resolve(viewPaths);
+  }
+  app.server.set('views', paths);
   app.server.set('view options', payswarm.config.website.views.options);
   app.server.register('.tpl', jqtpl);
 
@@ -401,6 +417,31 @@ function addServices(app, callback) {
   });
 
   callback(null);
+}
+
+// Allows multiple view root paths to be used
+// see: https://gist.github.com/995474
+function _allowMultipleViewRoots(express) {
+  var old = express.view.lookup;
+  function lookup(view, options) {
+    // if root is an array, try each path until the view is found
+    if(Array.isArray(options.root)) {
+      var opts = payswarm.tools.extend({}, options);
+      var root = opts.root;
+      var foundView = null;
+      for(var i = root.length - 1; i >= 0; --i) {
+        opts.root = root[i];
+        foundView = lookup.call(this, view, opts);
+        if(foundView.exists) {
+          return foundView;
+        }
+      }
+      return foundView;
+    }
+    // fallback to standard behavior, when root is a single directory
+    return old.call(express.view, view, options);
+  }
+  express.view.lookup = lookup;
 }
 
 // load service sub modules

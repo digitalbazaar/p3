@@ -1,0 +1,52 @@
+<form class="well form-horizontal" action="">
+  <fieldset>
+    <div class="control-group" data-binding="rdfs:label">
+      <label class="control-label" for="label">Name</label>
+      <div class="controls">
+        <div class="input-prepend">
+          <span class="add-on"><i class="icon-tag"></i></span><input
+            type="text" name="label"
+            rel="tooltip" data-original-title="Enter a name for your financial account, like 'primary' or 'secondary'."
+            data-placement="right" data-trigger="focus"
+            {{if !editor}}class="tx" data-tx="account"{{/if}}
+            {{if editor}}value="${account['rdfs:label']}"{{/if}}/>
+          {{if !editor}}
+          <p class="help-block">The name you choose will become part of your account url.</p>
+          <p><small>{{if identity}}${identity}{{else}}${baseUrl}/i/<span data-tx-from="identity" class="slug" data-tx-placeholder="IDENTITY-NAME"></span>{{/if}}/accounts/</small><input data-tx-from="account" data-binding="psa:slug" class="slug" name="slug" placeholder="ACCOUNT-NAME" /></p>
+          <div id="account-duplicate">
+            <div name="available" class="alert alert-success hide">This account name is available!</div>
+            <div name="invalid" class="alert alert-error hide">Account name is invalid.</div>
+            <div name="taken" class="alert alert-error hide">Account name has already been taken.</div>
+            <div name="checking" class="alert hide">Checking Availability...</div>
+          </div>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+    
+    <div class="control-group">
+      <label class="control-label" for="privacy">Privacy</label>
+      <div class="controls">
+        <div class="input-prepend">
+          <span class="add-on"><i class="icon-eye-open"></i></span><select name="privacy">
+            <option value="private"{{if editor && account['psa:privacy'] == 'private'}} selected="selected"{{/if}}>Private</option>
+            <option value="public"{{if editor && account['psa:privacy'] == 'public'}} selected="selected"{{/if}}>Public</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    
+    {{if !editor}}
+    <div class="control-group">
+      <label class="control-label" for="currency">Currency</label>
+      <div class="controls">
+        <div class="input-prepend">
+          <span class="add-on">$</span><select name="currency">
+            <option value="USD"{{if editor && account['com:currency'] == 'USD'}} selected="selected"{{/if}}>US Dollars $</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    {{/if}}
+  </fieldset>
+</form>

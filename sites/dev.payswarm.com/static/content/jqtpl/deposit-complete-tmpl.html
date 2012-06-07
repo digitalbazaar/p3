@@ -1,0 +1,31 @@
+<div class="modal-header">
+  <a class="close">&times;</a>
+  <h3>Deposit Complete</h3>
+</div>
+<div class="modal-body">
+  {{tmpl "demo-warning-tmpl"}}
+
+  <p>
+    You have deposited
+    <span class="money">US $<span class="amount">${deposit["com:transfer"][0]["com:amount"]}</span></span>
+    into &quot;${account}&quot;
+  </p>
+
+  <p>Your {{if deposit["com:source"]["com:paymentMethod"] == "ccard:CreditCard"}}credit card{{else}}bank account{{/if}} has been charged <span class="money">US $${deposit["com:amount"]}</span></p>
+
+  {{each(idx,transfer) deposit["com:transfer"]}} 
+  <div class="p">
+    <span class="inline-block left comment">${accounts[idx]["rdfs:label"]}</span>
+    <span class="inline-block left comment">${transfer["rdfs:comment"]}</span>
+    <span class="inline-block right text-right comment">
+      <span class="money" title="US $${transfer["com:amount"]}">US $${transfer["com:amount"]}</span>
+    </span>
+  </div>
+  {{/each}}
+  <p class="comment">${tmpl.formatDate(deposit["com:date"], true)}</p>
+
+  <p>A copy of this receipt has been sent to your email address.</p>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-primary btn-close">Close</button>
+</div>

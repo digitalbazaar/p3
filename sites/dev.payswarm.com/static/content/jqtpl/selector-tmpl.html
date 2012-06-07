@@ -1,0 +1,29 @@
+<div id="${id}">
+  {{if items.length == 0}}
+  <div class="well well-shallow">
+    None found.
+    {{if addModal}}
+    <div>
+      <button class="btn btn-success" name="selector-add"><i class="icon-plus icon-white"></i> Add ${itemType}</button>
+    </div>
+    {{/if}}
+  </div>
+  {{else}}
+  <div id="${id}-carousel" class="carousel slide">
+    <div class="carousel-inner">
+      {{each(idx, item) items}}
+      <ul class="well unstyled item{{if idx == selectedIndex}} active{{/if}}" data-item-index="${idx}">
+        {{tmpl({item: item}) itemTemplate}}
+        {{if addModal}}
+        <li><button class="btn btn-success" name="selector-add"><i class="icon-plus icon-white"></i> Add ${itemType}</button></li>
+        {{/if}}
+      </ul>
+      {{/each}}
+    </div>
+    {{if items.length > 1}}
+    <!-- <a class="carousel-control left" name="button-prev" data-slide="prev" href="#${id}-carousel">&lsaquo;</a> -->
+    <a class="carousel-control right" name="button-next" data-slide="next" href="#${id}-carousel">&rsaquo;</a>
+    {{/if}}
+  </div>
+  {{/if}}
+</div>

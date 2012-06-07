@@ -1,0 +1,82 @@
+/*
+ * Copyright (c) 2010-2012 Digital Bazaar, Inc.  All rights reserved.
+ */
+
+/* Admin navigation bar */
+.anav {
+background-color: #845;
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#956', endColorstr='#845');
+background: -webkit-gradient(linear, left top, left bottom, from(#956), to(#845));
+background: -moz-linear-gradient(top,  #956,  #845);
+}
+
+.anav .tabs a:hover {
+background-color: #a67;
+}
+
+
+.data {
+clear: both;
+margin-top: 10px;
+padding-top: 10px;
+border-top: 1px dotted #eee;
+}
+
+.managers p {
+padding: 10px;
+border-left: 5px solid #888;
+background-color: #eee;
+
+-moz-box-sizing: border-box;
+-webkit-box-sizing: border-box;
+box-sizing: border-box;
+}
+
+#select-all {
+margin: 0 6px;
+}
+
+.col-select {
+width: 20px;
+text-align: center;
+}
+
+.col-act {
+width: 24px;
+text-align: center;
+}
+
+.col-click {
+cursor: pointer;
+}
+
+.group-row {
+color: #666;
+background-color: #eee;
+font-weight: bold;
+}
+
+div.details, div.options {
+float: left;
+width: 50%;
+}
+
+#roles {
+position: relative;
+}
+
+table.admin td {
+padding: 6px;
+}
+
+table.permission {
+width: 100%;
+}
+
+table.permission td {
+border-top: 1px solid #ccc;
+}
+
+.permission-row label {
+font-weight: normal;
+}

@@ -1,0 +1,85 @@
+<div class="modal-body">
+  {{tmpl "demo-warning-tmpl"}}
+
+  {{if showAlert}}
+  <p class="alert alert-info">
+    <strong>Note:</strong>
+    Before you make your first ${showAlert}, please enter your
+    {{if identity["@type"] == "ps:VendorIdentity"}}
+    business's name and address information.
+    {{else}}
+    name and address information.
+    {{/if}}
+  </p>
+  {{/if}}
+  <form class="well form-horizontal" action="">
+    <fieldset>
+      <div class="control-group" data-binding="rdfs:label">
+        <label class="control-label" for="label">Label</label>
+        <div class="controls">
+          <input type="text" name="label" value="${address["rdfs:label"]}"
+            rel="tooltip" data-original-title="Enter a memorable label for this address."
+            data-placement="right" data-trigger="focus" />
+          <p class="help-block">Label for this address such as &quot;Home&quot; or &quot;Work&quot;.</p>
+        </div>
+      </div>
+      <div class="control-group" data-binding="vcard:fn">
+        <label class="control-label" for="name">Name</label>
+        <div class="controls">
+          <input type="text" name="name" value="${address["vcard:fn"]}"
+            rel="tooltip" data-original-title="You must enter your full name."
+            data-placement="right" data-trigger="focus" />
+          <p class="help-block">Please enter both your first name and last name.</p>
+        </div>
+      </div>
+      <div class="control-group" data-binding="vcard:street-address">
+        <label class="control-label" for="street">Street Address</label>
+        <div class="controls">
+          <input type="text" name="street" value="${address["vcard:street-address"]}"
+            rel="tooltip" data-original-title="You must enter your full street address, including street number, street, and any apartment number, etc."
+            data-placement="right" data-trigger="focus" />
+        </div>
+      </div>
+      <div class="control-group" data-binding="vcard:locality">
+        <label class="control-label" for="locality">City</label>
+        <div class="controls">
+          <input type="text" name="locality" value="${address["vcard:locality"]}"
+            rel="tooltip" data-original-title="You must enter your city or locality."
+            data-placement="right" data-trigger="focus" />
+        </div>
+      </div>
+      <div class="control-group" data-binding="vcard:region">
+        <label class="control-label" for="region">State / Region</label>
+        <div class="controls">
+          <input type="text" name="region" value="${address["vcard:region"]}"
+            rel="tooltip" data-original-title="You must enter your state or region."
+            data-placement="right" data-trigger="focus" />
+        </div>
+      </div>
+      <div class="control-group" data-binding="vcard:postal-code">
+        <label class="control-label" for="postal-code">Postal Code</label>
+        <div class="controls">
+          <input type="text" name="postal-code" value="${address["vcard:postal-code"]}"
+            rel="tooltip" data-original-title="You must enter your zip or postal code."
+            data-placement="right" data-trigger="focus" />
+        </div>
+      </div>
+      <div class="control-group" data-binding="vcard:country-name">
+        <label class="control-label" for="country">Country</label>
+        <div class="controls">
+          <select name="country">
+             <option value="US"{{if address["vcard:country-name"] == "US"}}selected="selected"{{/if}}>United States</option>
+             {{each(code,name) tmpl.countries}}
+             <option value="${code}"{{if address["vcard:country-name"] != "US" && address["vcard:country-name"] == code}}selected="selected"{{/if}}>${name}</option>
+             {{/each}}
+          </select>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+</div>
+<div class="modal-footer">
+  <span name="feedback"></span>
+  <button class="btn btn-primary" name="button-validate-address">Validate</button>
+  <button class="btn btn-close">Cancel</button>
+</div>

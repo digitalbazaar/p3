@@ -1,0 +1,8 @@
+<li>${item["rdfs:label"]}</li>
+{{if item["com:paymentMethod"] == "ccard:CreditCard"}}
+<li>${item["ccard:brand"].substr(6)} ${item["ccard:number"]}</li>
+<li>${item["ccard:expMonth"]}/${item["ccard:expYear"]}</li>
+{{else}}
+<li>${item["bank:account"]}</li>
+<li>${item["bank:routing"]}</li>
+{{/if}}

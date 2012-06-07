@@ -5,24 +5,24 @@
       <footer class="footer row">
         <div class="span12">
           <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/about">About</a></li>
-            <li><a href="http://payswarm.com/wiki/faq">FAQ</a></li>
-            <li><a href="/legal#tos">Terms of Service</a></li>
-            <li><a href="/legal#pp">Privacy Policy</a></li>
-            <li><a href="/contact">Contact</a></li>
-            <li><a href="http://digitalbazaar.com/blog">Blog</a></li>
+            <li><a href="/">Home</a></li><!--
+            --><li><a href="/about">About</a></li><!--
+            --><li><a href="http://payswarm.com/wiki/faq">FAQ</a></li><!--
+            --><li><a href="/legal#tos">Terms of Service</a></li><!--
+            --><li><a href="/legal#pp">Privacy Policy</a></li><!--
+            --><li><a href="/contact">Contact</a></li><!--
+            --><li><a href="http://digitalbazaar.com/blog">Blog</a></li>
           </ul>
         </div>
         <div class="span12">
           <ul>
-            <li>
-              PaySwarm &#169;
+            <li><!--
+              -->PaySwarm &#169;
               <span about="http://digitalbazaar.com/contact#company" 
                 typeof="vcard:VCard commerce:Business gr:BusinessEntity" 
                 property="rdfs:label vcard:fn gr:legalName"><a href="http://digitalbazaar.com/">Digital Bazaar, Inc.</a></span>
-                All rights reserved.
-            </li>
+                All rights reserved.<!--
+            --></li>
           </ul>
         </div>
       </footer>
@@ -30,15 +30,15 @@
       <footer class="footer row">
         <div class="span12">
           <ul>
-            <li><a href="/legal#tos">Terms of Service</a></li>
-            <li><a href="/legal#pp">Privacy Policy</a></li>
-            <li>
-              PaySwarm &#169;
+            <li><a href="/legal#tos">Terms of Service</a></li><!--
+            --><li><a href="/legal#pp">Privacy Policy</a></li><!--
+            --><li><!--
+              -->PaySwarm &#169;
               <span about="http://digitalbazaar.com/contact#company" 
                 typeof="vcard:VCard commerce:Business gr:BusinessEntity" 
                 property="rdfs:label vcard:fn gr:legalName"><a href="http://digitalbazaar.com/">Digital Bazaar, Inc.</a></span>
-                All rights reserved.
-            </li>
+                All rights reserved.<!--
+            --></li>
           </ul>
         </div>
       </footer>

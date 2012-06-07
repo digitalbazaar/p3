@@ -21,7 +21,7 @@ config.website.views.vars = {
   },
   debug: true,
   licenses: {
-    directories: ['../dev.payswarm.com/licenses']
+    directories: ['../licenses']
   },
   minimization: {
     css: false,

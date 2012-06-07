@@ -84,7 +84,7 @@ config.server.cache = {};
 config.server.cache.maxAge = 0;
 
 // server static resource config
-config.server.static = 'sites/dev.payswarm.com/static';
+config.server.static = 'site/static';
 config.server.staticOptions = {
   maxAge: config.server.cache.maxAge
 };
@@ -173,7 +173,7 @@ config.website = {};
 
 // views config
 config.website.views = {};
-config.website.views.path = ['sites/dev.payswarm.com/views'];
+config.website.views.path = ['site/views'];
 config.website.views.options = {
   layout: false
 };

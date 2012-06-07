@@ -1,5 +1,5 @@
 {
-  "name": "node-payswarm-auth",
+  "name": "payswarm-auth",
   "version": "0.0.1",
   "private": true,
   "scripts": {

@@ -30,7 +30,7 @@ ${set([
         {{/if}}
 
         <a class="btn btn-small show pull-right" id="popover-profile-button">
-          <i class="icon-user{:if style.navbar.isDark} icon-white{:end}"></i>
+          <i class="icon-user{{if style.navbar.isDark}} icon-white{{/if}}"></i>
         </a>
         <a id="popover-profile-link" class="navbar-link pull-right" style="line-height:45px">
         {{if session.profile["rdfs:label"] != session.identity["rdfs:label"]}}

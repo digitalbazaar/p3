@@ -1,0 +1,12 @@
+<div class="alert alert-error">
+  ${error["message"]}
+  {{if details}}
+  <div class="container"><em>Issue Details</em>
+    {{each(idx, detail) error["details"]}}
+    <div class="row">
+      <span class="span12"><strong>${idx}</strong>: ${detail}</span>
+    </div>
+    {{/each}}
+  </div>
+  {{/if}}
+</div>

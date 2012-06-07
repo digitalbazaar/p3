@@ -1,0 +1,57 @@
+<div class="modal-header">
+  <a class="close">&times;</a>
+  <h3>Review Deposit</h3>
+</div>
+<div class="modal-body">
+  {{tmpl "demo-warning-tmpl"}}
+
+  <div class="alert alert-info">
+    Your deposit is NOT complete. Please verify your information below.
+  </div>
+
+  <h6>Payment Method</h6>
+  <ul class="well unstyled">
+    {{tmpl({item: paymentToken}) "payment-token-display-tmpl"}}
+  </ul>
+
+  <h6>Details</h6>
+  <div class="well">
+    {{each(idx,transfer) deposit["com:transfer"]}}
+    <p>
+      <span class="inline-block left comment">${accounts[idx]["rdfs:label"]}</span>
+      <span class="inline-block left comment">${transfer["rdfs:comment"]}</span>
+      <span class="inline-block right text-right comment">
+        <span class="money" title="US $${transfer["com:amount"]}">US $${transfer["com:amount"]}</span>
+      </span>
+    </p>
+    {{/each}}
+  </div>
+  
+  <h6>Destination Account</h6>
+  <div class="well">${account}</div>
+  
+  <div class="alert alert-error">
+    Your
+    {{if paymentToken["com:paymentMethod"] == "ccard:CreditCard"}}credit card
+    {{else}}bank account
+    {{/if}}will be charged
+    <span class="money">US $${deposit["com:amount"]}</span>
+  </div>
+
+  <p>Digital Bazaar, Inc. will appear on your billing statement.</p>
+  <ul class="well unstyled">
+    <li>Digital Bazaar, Inc.</li>
+    <li>1700 Kraft Drive, Suite 2408</li>
+    <li>Blacksburg, VA 24060 US</li>
+  </ul>
+   
+  <div class="alert alert-error">
+    Please review and confirm your deposit. If the details are
+    correct, click the Deposit button once.
+  </div>
+</div>
+<div class="modal-footer">
+  <span name="feedback"></span>
+  <button class="btn btn-primary" name="button-confirm-deposit">Deposit</button>
+  <button class="btn" name="button-back">Back</button>
+</div>

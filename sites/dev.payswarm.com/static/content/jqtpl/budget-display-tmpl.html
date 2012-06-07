@@ -1,0 +1,11 @@
+<li>${item["rdfs:label"]}</li>
+<li><span class="currency">USD $</span> ${tmpl.decimal(item["com:amount"])}</li>
+<li>Refill every
+{{if item["psa:refresh"] == "psa:Hourly"}}Hour
+{{else item["psa:refresh"] == "psa:Daily"}}Day
+{{else item["psa:refresh"] == "psa:Weekly"}}Week
+{{else item["psa:refresh"] == "psa:Monthly"}}Month
+{{else item["psa:refresh"] == "psa:Yearly"}}Year
+{{/if}}
+</li>
+<li>Expires on ${tmpl.formatDate(item["psa:expires"], false)}</li>

@@ -1,0 +1,122 @@
+<form class="well form-horizontal" action="">
+  <fieldset>
+    <div class="control-group" data-binding="rdfs:label">
+      <label class="control-label" for="label">Name</label>
+      <div class="controls">
+        <div class="input-prepend">
+          <span class="add-on"><i class="icon-tag"></i></span><input
+            type="text" name="label"
+            rel="tooltip" data-original-title="Enter a memorable name that describes what this budget is for."
+            data-placement="right" data-trigger="focus"
+            {{if editor}}value="${budget['rdfs:label']}"{{/if}}/>
+          <p class="help-block">Suggestions: News, Movies, Favorites</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="control-group" data-binding="com:amount">
+      <label class="control-label" for="amount">Budgeted Amount</label>
+      <div class="controls">
+        <div class="input-prepend">
+          <span class="add-on">$</span><input
+            type="text" name="amount"
+            rel="tooltip" data-original-title="You must enter a valid monetary amount like 20 or 5.00."
+            data-placement="right" data-trigger="focus"
+            {{if editor}}value="${budget['com:amount']}"{{/if}} />
+          <p class="help-block">The maximum amount that can be used before the budget is refilled.</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="control-group" data-binding="psa:maxPerUse">
+      <label class="control-label" for="maxPerUse">Max Per Use</label>
+      <div class="controls">
+        <div class="input-prepend">
+          <span class="add-on">$</span><input
+            type="text" name="maxPerUse"
+            rel="tooltip" data-original-title="You must enter a valid monetary amount like 20 or 5.00."
+            data-placement="right" data-trigger="focus"
+            {{if editor}}value="${budget['psa:maxPerUse']}"{{/if}} />
+          <p class="help-block">The maximum amount that can be used per transaction using this budget.</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="control-group" data-binding="psa:refresh">
+      <label class="control-label" for="refresh">Refill every</label>
+      <div class="controls">
+        <div class="input-prepend">
+          <span class="add-on"><i class="icon-calendar"></i></span><select name="refresh">
+            <option value="psa:Hourly"{{if budget['psa:refresh'] == 'psa:Hourly'}} selected="selected"{{/if}}>Hour</option>
+            <option value="psa:Daily"{{if budget['psa:refresh'] == 'psa:Daily'}} selected="selected"{{/if}}>Day</option>
+            <option value="psa:Weekly"{{if budget['psa:refresh'] == 'psa:Weekly'}} selected="selected"{{/if}}>Week</option>
+            <option value="psa:Monthly"{{if editor}}{{if budget['psa:refresh'] == 'psa:Monthly'}} selected="selected"{{/if}}{{else}} selected="selected"{{/if}}>Month</option>
+            <option value="psa:Yearly"{{if budget['psa:refresh'] == 'psa:Yearly'}} selected="selected"{{/if}}>Year</option>
+          </select>
+          <p class="help-block">The interval between refilling the budget balance to the maximum amount.</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="control-group" data-binding="psa:expires">
+      <label class="control-label" for="expires">Expire after</label>
+      <div class="controls">
+        <div class="input-prepend">
+          <span class="add-on"><i class="icon-calendar"></i></span><select name="expires">
+            {{if editor}}<option value="" selected="selected">Current</option>{{/if}}
+            <option value="2629800">1 month of inactivity</option>
+            <option value="7889400">3 months of inactivity</option>
+            <option value="15778800">6 months of inactivity</option>
+            <option value="31557600">1 year of inactivity</option>
+          </select>
+          <p class="help-block">The length this budget is valid.</p>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</form>
+
+<h6>Select Source Account</h6>
+{{if editor}}
+<div id="edit-budget-account-selector"></div>
+{{else}}
+<div id="add-budget-account-selector"></div>
+{{/if}}
+
+{{! FIXME: vendor editing
+<form id="budget-add-vendor" class="ajax standard"
+   method="post" action="">
+   <h2>Edit Budget Vendors - <span data-tx-from="rdfs:label">{budget.rdfs:label}</span></h2>
+   
+   <p class="clearfix">
+      <label class="block-inline w15 mr1">Vendors
+      {:each from=budget.com:vendor as=vendor}
+      <div class="resource vendor clearfix" about="?vendor={vendor|escape('url')}">
+         <p class="block-inline w62 mr1">
+            <a href="{vendor}">{vendor}</a>
+         </p>
+   
+         <p class="block-inline w6 comment">
+            <a class="resource-delete" href="#">Delete</a>
+         </p>
+      </div>
+      {:eachelse}
+      <div>
+         <p class="center">This budget is not used for any vendors.</p>
+      </div>
+      {:end}
+   </p>
+   
+   <p class="clearfix">
+      <label class="block-inline w31 mr1">Add Vendor
+         <input id="vendor" class="tx" data-tx="vendor" name="com:vendor" type="text" value="" />
+      </label>
+   </p>
+
+   <p class="clear">
+      <button type="submit">Add Vendor</button>
+   </p>
+
+   <div id="budget-add-vendor-feedback"></div>
+</form>
+}}

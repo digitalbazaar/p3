@@ -1,0 +1,35 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th>Item</th>
+      <th class="money">Price</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="${contract["ps:asset"]["ps:contentUrl"]}">${contract["ps:asset"]["dc:title"]}</a></td>
+      <td class="money"><span class="money"><span class="currency">USD $</span> <span title="USD $${contract["com:amount"]}">${tmpl.decimal(contract["com:amount"])}</span></span></td>
+      <td><button class="btn pay-quote-details-toggle">Details</button></td>
+    </tr>
+  </tbody>
+  <tbody class="pay-quote-details hide">
+    <tr>
+      <th>Cost breakdown</th>
+      <th></th>
+      <th></th>
+    </tr>
+    {{each(idx,transfer) contract["com:transfer"]}}
+    <tr>
+      <td class="cart-details-transfer-comment">${transfer["rdfs:comment"]}</td>
+      <td class="money"><span class="money right"><span class="currency">USD $</span> <span title="USD $${transfer["com:amount"]}">${tmpl.decimal(transfer["com:amount"])}</span></span></td>
+      <td><a class="cart-details-link" href="${transfer["com:destination"]}">Destination</a></td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+
+<div>
+  <p>Sold by: <a href="${contract["ps:assetProvider"]["foaf:homepage"]}">${contract["ps:assetProvider"]["rdfs:label"]}</a> - 
+  <span>${contract["ps:assetProvider"]["dc:description"]}</span></p>
+</div>

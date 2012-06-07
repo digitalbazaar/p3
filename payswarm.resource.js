@@ -3,7 +3,7 @@
  */
 var async = require('async');
 var jsdom = require('jsdom');
-var jsonld = require('./jsonld');
+var jsonld = require('jsonld');
 var RDFa = require('./rdfa');
 var payswarm = {
   config: require('./payswarm.config'),

@@ -2,7 +2,7 @@
  * Copyright (c) 2012 Digital Bazaar, Inc. All rights reserved.
  */
 var async = require('async');
-var jsonld = require('./jsonld');
+var jsonld = require('jsonld');
 var util = require('util');
 var payswarm = {
   asset: require('./payswarm.resource'),

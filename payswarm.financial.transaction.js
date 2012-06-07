@@ -3,7 +3,7 @@
  */
 var async = require('async');
 var crypto = require('crypto');
-var jsonld = require('./jsonld');
+var jsonld = require('jsonld');
 var payswarm = {
   config: require('./payswarm.config'),
   db: require('./payswarm.database'),

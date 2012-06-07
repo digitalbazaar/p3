@@ -2,7 +2,7 @@
  * Copyright (c) 2012 Digital Bazaar, Inc. All rights reserved.
  */
 var util = require('util');
-var jsonld = require('./jsonld');
+var jsonld = require('jsonld');
 var payswarm = {
   config: require('./payswarm.config'),
   logger: require('./payswarm.logger'),

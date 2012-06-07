@@ -179,6 +179,18 @@ config.website.views.options = {
 };
 config.website.views.vars = {};
 
+// mail config
+config.mail = {};
+config.mail.events = {};
+config.mail.templates = {};
+config.mail.templateMappers = ['./email-templates/mapper'];
+config.mail.connection = {
+  user: 'username',
+  password: 'password',
+  host: 'smtp.digitalbazaar.com',
+  ssl: true
+};
+
 // external configs
 require('./configs/roles');
 require('./configs/website');

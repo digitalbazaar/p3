@@ -3,7 +3,8 @@
   "version": "0.9.0",
   "private": true,
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "bootstrap": "make -C ../payswarm-bootstrap bootstrap && rsync -av ../payswarm-bootstrap/bootstrap/ ./site/static/common/bootstrap/"
   },
   "dependencies": {
     "async": "~0.1.22",
@@ -18,6 +19,8 @@
     "connect": "~2.3.0",
     "express": "~2.5.9",
     "mongodb": "~1.0.2",
+    "emailjs": "~0.2.9",
+    "mailparser": "~0.2.26",
     "jsdom": "~0.2.14",
     "sqlite3": "~2.1.1",
     "winston-mail": "~0.2.1"

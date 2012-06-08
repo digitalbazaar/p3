@@ -29,7 +29,7 @@ ${set([
           <img class="brand-minimal" src="${cacheRoot}/content/payswarm.png" width="182" height="24" alt="PaySwarm" />
         {{/if}}
 
-        <a class="btn btn-small show pull-right" id="popover-profile-button">
+        <a class="btn btn-nav btn-small show pull-right" id="popover-profile-button">
           <i class="icon-user{{if style.navbar.isDark}} icon-white{{/if}}"></i>
         </a>
         <a id="popover-profile-link" class="navbar-link pull-right" style="line-height:45px">

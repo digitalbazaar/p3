@@ -1,5 +1,5 @@
+// setup the config variable
 var config = {};
-module.exports = config;
 
 // config environment
 config.environment = 'development';
@@ -8,14 +8,14 @@ config.environment = 'development';
 
 // modules to load
 config.modules = [
-  './payswarm.database',
-  './payswarm.permission',
-  './payswarm.profile',
-  './payswarm.identity',
-  './payswarm.resource',
-  './payswarm.financial',
-  './payswarm.website'/*,
-  './payswarm.test'*/
+  'database',
+  'permission',
+  'profile',
+  'identity',
+  'resource',
+  'financial',
+  'website'/*,
+  'test'*/
 ];
 
 // logger config
@@ -189,6 +189,12 @@ config.mail.connection = {
   password: 'password',
   host: 'smtp.digitalbazaar.com',
   ssl: true
+};
+
+// expose all top-level config items for the module
+for(var i in config) {
+  var cfg = config[i];
+  module.exports[i] = cfg;
 };
 
 // external configs

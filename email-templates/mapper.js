@@ -1,8 +1,8 @@
-var config = require('../payswarm.config.js');
+var fs = require('fs');
+var config = require('../lib/payswarm.config.js');
 
 // customize mail template mapping
 var templates = config.mail.templates;
 
-templates.profileCreated = './profile.created';
-templates.depositSuccess = './deposit.success';
-templates.depositFailure = './deposit.failure';
+templates['payswarm.common.Profile.created'] = fs.readFileSync(
+  __dirname + '/payswarm.common.Profile.created.tpl').toString('utf8');

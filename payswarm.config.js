@@ -1,5 +1,6 @@
 // setup the config variable
 var config = {};
+module.exports = config;
 
 // config environment
 config.environment = 'development';
@@ -189,12 +190,6 @@ config.mail.connection = {
   password: 'password',
   host: 'smtp.digitalbazaar.com',
   ssl: true
-};
-
-// expose all top-level config items for the module
-for(var i in config) {
-  var cfg = config[i];
-  module.exports[i] = cfg;
 };
 
 // external configs

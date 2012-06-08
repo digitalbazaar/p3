@@ -1,4 +1,4 @@
-var config = require('../payswarm.config');
+var config = require('../lib/payswarm.config');
 var baseUri = config.authority.baseUri;
 var authorityId = config.authority.id;
 

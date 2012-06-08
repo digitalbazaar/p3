@@ -3,7 +3,8 @@
   "version": "0.9.0",
   "private": true,
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "bootstrap": "make -C ../payswarm-bootstrap bootstrap && rsync -av ../payswarm-bootstrap/bootstrap/ ./site/static/common/bootstrap/"
   },
   "dependencies": {
     "async": "~0.1.22",

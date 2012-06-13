@@ -75,7 +75,7 @@ config.website.views.vars = {
     '.jpeg': 'image/jpeg',
     '.jpg': 'image/jpeg',
     '.jqtpl': 'text/html',
-    '#.jqtpl': 'text/x-jquery-tmpl',
+    //'.jqtpl': 'text/x-jquery-tmpl',
     '.js': 'application/javascript',
     '.json': 'application/json',
     '.mp3': 'audio/mpeg',

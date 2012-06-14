@@ -23,7 +23,8 @@
     "mailparser": "~0.2.26",
     "jsdom": "~0.2.14",
     "sqlite3": "~2.1.1",
-    "winston-mail": "~0.2.1"
+    "winston-mail": "~0.2.1",
+    "json-schema": "git://github.com/digitalbazaar/json-schema.git"
   },
   "directories": {
     "lib": "./lib/payswarm-auth"

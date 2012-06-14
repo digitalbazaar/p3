@@ -1,7 +1,7 @@
 var tools = require('../lib/payswarm-auth/payswarm.tools');
 
 var jsonldType = require('./jsonldType');
-var w3cDateTime = require('./w3cDate');
+var w3cDateTime = require('./w3cDateTime');
 var payswarmId = require('./payswarmId');
 
 var schema = {

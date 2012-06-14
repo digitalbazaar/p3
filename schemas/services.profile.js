@@ -1,6 +1,7 @@
 var url = require('./url');
 var email = require('./email');
 var slug = require('./slug');
+var passcode = require('./passcode');
 var password = require('./password');
 var label = require('./label');
 var payswarmId = require('./payswarmId');

@@ -1,5 +1,7 @@
 var payswarmId = require('./payswarmId');
 var jsonldType = require('./jsonldType');
+var deposit = require('./deposit');
+var url = require('./url');
 
 var postTransactionsQuote = {
   type: 'object',

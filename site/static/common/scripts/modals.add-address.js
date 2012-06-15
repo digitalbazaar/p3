@@ -157,7 +157,7 @@ function hideSelf(options) {
   if(!options.address && options.canceled) {
     options.canceled();
   }
-  if(options.parentModal) {
+  else if(options.parentModal) {
     options.parentModal.modal('show');
   }
 }

@@ -24,7 +24,8 @@
     "jsdom": "~0.2.14",
     "sqlite3": "~2.1.1",
     "winston-mail": "~0.2.1",
-    "json-schema": "git://github.com/digitalbazaar/json-schema.git"
+    "json-schema": "git://github.com/digitalbazaar/json-schema.git",
+    "connect-mongo": "~0.1.9"
   },
   "directories": {
     "lib": "./lib/payswarm-auth"

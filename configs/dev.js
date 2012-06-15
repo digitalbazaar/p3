@@ -26,6 +26,7 @@ config.loggers.email.silent = true;
 config.server.workers = 1;
 config.server.port = 19443;
 config.server.httpPort = 19100;
+config.server.bindAddr = ['payswarm.dev'];
 config.server.domain = 'payswarm.dev';
 config.server.host = 'payswarm.dev:19443';
 config.server.key = __dirname + '/../pki/test-payswarm-auth.key';

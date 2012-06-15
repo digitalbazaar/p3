@@ -17,6 +17,7 @@ config.website.views.vars = {
   },
   cache: {
     static: false,
+    // FIXME
     key: '1.0.0-20120528155338'
   },
   debug: true,

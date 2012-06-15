@@ -7,5 +7,8 @@ if(module.parent) {
   module.exports = pa;
 }
 else {
+  // running in development mode
+  // load dev config and start
+  require('./configs/dev');
   pa.start();
 }

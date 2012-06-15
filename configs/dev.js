@@ -16,9 +16,9 @@ config.environment = 'development';
 //config.environment = 'production';
 
 // logging
-config.loggers.app.filename = '/tmp/payswarm-dev-app.log'
-config.loggers.access.filename = '/tmp/payswarm-dev-access.log'
-config.loggers.error.filename = '/tmp/payswarm-dev-error.log'
+config.loggers.app.filename = '/tmp/payswarm-dev-app.log';
+config.loggers.access.filename = '/tmp/payswarm-dev-access.log';
+config.loggers.error.filename = '/tmp/payswarm-dev-error.log';
 config.loggers.email.silent = true;
 
 // server info

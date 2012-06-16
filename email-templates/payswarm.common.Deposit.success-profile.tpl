@@ -21,7 +21,7 @@ Date and Time  : {{html deposit["com:date"]}}
 {{/each}}
 
 Credit Card Information:
-   Name  : {{html deposit["com:source"]["ccard:name"]}}
+   Name  : {{html deposit["com:source"]["rdfs:label"]}}
    Type  : {{html deposit["com:source"]["ccard:brand"]}}
    Number: {{html deposit["com:source"]["ccard:number"]}}
    Exp   : {{html deposit["com:source"]["ccard:expMonth"]}}/{{html deposit["com:source"]["ccard:expYear"]}}

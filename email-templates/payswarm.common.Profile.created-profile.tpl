@@ -1,19 +1,19 @@
-To: {{html identity["foaf:mbox"]}}
-From: {{html serviceName}} Customer Support" <support@{{html supportDomain}}>
-Subject: {{html profileSubjectPrefix}}Congratulations on joining {{serviceName}}!
+To: {{html profile["foaf:mbox"]}}
+From: "{{html serviceName}} Customer Support" <support@{{html supportDomain}}>
+Subject: {{html profileSubjectPrefix}}Congratulations on joining {{html serviceName}}!
 
 {{if productionMode == false}}
 *******
 NOTE: This is a demonstration website notification. More info is available at http://payswarm.com/wiki/Demo_Warning.
 *******
-{{/if}}
 
+{{/if}}
 Hello {{html identity["rdfs:label"]}},
 
 Congratulations on joining {{html serviceName}}! Your profile has been created.
 
 You can manage your identity here:
-{{identity["@id"]}}/dashboard
+{{html identity["@id"]}}/dashboard
 
 We'd love to hear any feedback you have about {{html serviceName}}. Just send an email to comments@{{html supportDomain}}.
 

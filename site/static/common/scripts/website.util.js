@@ -136,7 +136,7 @@ util.processValidationErrors = function(feedbackTarget, target, ex) {
   // handle form feedback
   switch(ex.type) {
   // generic form errors
-  case 'monarch.validation.ValidationError':
+  case 'payswarm.validation.ValidationError':
     feedbackTarget.text('Please correct the information you entered.');
     $.each(ex.details.errors, function(field, error) {
       if(field !== '') {

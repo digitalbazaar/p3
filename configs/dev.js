@@ -77,15 +77,17 @@ config.financial.defaults = {
 
 // mail config
 config.mail.connection = {
-  host: 'smtp.digitalbazaar.com',
-  ssl: true
+  host: 'mail.digitalbazaar.com',
+  ssl: false
 };
 config.mail.send = false;
 config.mail.vars = {
+  // FIXME
+  productionMode: config.website.views.vars.productionMode,
   serviceDomain: 'payswarm.dev',
   supportDomain: 'payswarm.com',
   subjectPrefix: 'DEV ',
-  serviceName: 'PaySwarm DEV',
+  serviceName: 'PaySwarm Development',
   machine: require('os').hostname()
 };
 

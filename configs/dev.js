@@ -86,7 +86,8 @@ config.mail.vars = {
   productionMode: config.website.views.vars.productionMode,
   serviceDomain: 'payswarm.dev',
   supportDomain: 'payswarm.com',
-  subjectPrefix: 'DEV ',
+  subjectPrefix: '[DEV] ',
+  profileSubjectPrefix: '[DEV] ',
   serviceName: 'PaySwarm Development',
   machine: require('os').hostname()
 };

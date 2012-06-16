@@ -48,7 +48,7 @@ ${set([
         <div class="controls">
           <input id="reset-email" class="auto-tooltip" 
             name="input" type="text" maxlength="320"
-            value="{:if session.loaded}{session.profile.foaf:mbox}{:end}" 
+            value="{{if session.loaded}}${session.profile["foaf:mbox"]}{{/if}}" 
             data-original-title="The e-mail address or profile name that you used above to retrieve reset instructions and a reset passcode."
             data-placement="right" data-trigger="focus" />
         </div>
@@ -59,7 +59,7 @@ ${set([
         <div class="controls">
           <input id="passcode" class="auto-tooltip" 
             name="psa:passcode" type="text" maxlength="8"
-            value="{{if data["psa:passcode"]}${data["psa:passcode"]}{{/if}}" 
+            value="{{if data["psa:passcode"]}}${data["psa:passcode"]}{{/if}}" 
             data-original-title="The passcode that was sent to you in the password reset e-mail from this website."
             data-placement="right" data-trigger="focus" />
         </div>

@@ -19,11 +19,10 @@ https://{{html serviceDomain}}/profile/passcode
 Since you have multiple profiles with the same email address, we sent you
 pass codes for each one:
 {{each(idx,profile) profiles}}
-
 Profile  : {{html profile["psa:slug"]}}
 Pass code: {{html profile["psa:passcode"]}}
-{{/if}}
-{else}}
+{{/each}}
+{{else}}
 Your pass code is: {{html profiles[0]["psa:passcode"]}}
 {{/if}}
 

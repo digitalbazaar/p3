@@ -9,7 +9,7 @@
     {{/if}}
   </div>
   {{else}}
-  <div id="${id}-carousel" class="carousel slide">
+  <div id="${id}-carousel" class="carousel slide" data-interval="false">
     <div class="carousel-inner">
       {{each(idx, item) items}}
       <ul class="well unstyled item{{if idx == selectedIndex}} active{{/if}}" data-item-index="${idx}">

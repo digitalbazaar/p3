@@ -16,7 +16,7 @@ place to start.</p>
 <h2>Technology</h2>
 
 <p>This website would not be possible without the following fantastic 
-open source, open standards and open licensing-based projects:
+open source, open standards, and open licensing-based projects:
 <ul>
 <li>
   <a href="http://en.wikipedia.org/wiki/HTML5">HTML5</a>, 
@@ -26,20 +26,20 @@ open source, open standards and open licensing-based projects:
 </li>
 <li>
   <a href="http://json.org/">JSON</a>,
-  <a href="http://www.w3.org/TR/rdfa-primer/">RDFa</a>, and
-  <a href="http://json-ld.org/">JSON-LD</a>
+  <a href="http://www.w3.org/TR/rdfa-primer/">RDFa</a>,
+  <a href="http://json-ld.org/">JSON-LD</a>, and
+  <a href="https://github.com/digitalbazaar/jsonld">JSON-LD in JavaScript</a> 
 </li>
 <li>
   <a href="http://payswarm.com/">PaySwarm</a> 
   (Web Payments, Web Commerce, and Payment Intents) 
 </li>
 <li>
-  <a href="https://github.com/digitalbazaar/monarch">Monarch</a>, and 
-  <a href="http://www.mysql.com/">MySQL</a>
+  <a href="http://nodejs.org/">Node.js</a> and
+  <a href="http://www.mongodb.org/">MongoDB</a>
 </li>
 <li>
-  <a href="http://en.wikipedia.org/wiki/C++">C++</a>, 
-  <a href="http://en.wikipedia.org/wiki/Javascript">JavaScript</a>, and
+  <a href="http://en.wikipedia.org/wiki/Javascript">JavaScript</a> and
   <a href="http://en.wikipedia.org/wiki/Python_(programming_language)">Python</a>
 </li>
 <li>

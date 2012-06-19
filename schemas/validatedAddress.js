@@ -14,7 +14,7 @@ address['psa:addressHash'] = {
 
 module.exports = function(extend) {
   if(extend) {
-    return tools.extend(tools.clone(schema), extend);
+    return tools.extend(true, tools.clone(schema), extend);
   }
   return schema;
 };

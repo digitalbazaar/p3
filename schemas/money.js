@@ -27,13 +27,13 @@ var precisePositive = {
 
 module.exports.precise = function(extend) {
   if(extend) {
-    return tools.extend(tools.clone(precise), extend);
+    return tools.extend(true, tools.clone(precise), extend);
   }
   return precise;
 };
 module.exports.precisePositive = function(extend) {
   if(extend) {
-    return tools.extend(tools.clone(precisePositive), extend);
+    return tools.extend(true, tools.clone(precisePositive), extend);
   }
   return precisePositive;
 };

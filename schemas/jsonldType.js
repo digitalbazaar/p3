@@ -18,7 +18,10 @@ module.exports = function(types) {
   arr.type = 'array';
   arr.minItems = types.length;
   arr.uniqueItems = true;
-  arr.enum = types;
+  arr.items = {
+    type: 'string',
+    enum: types
+  };
   arr.errors = {
     invalid: 'The JSON-LD type information is invalid.',
     missing: 'The JSON-LD type information is missing.'

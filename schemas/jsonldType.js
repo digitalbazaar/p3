@@ -38,4 +38,6 @@ module.exports = function(types) {
       }
     }, arr];
   }
+
+  return schema;
 };

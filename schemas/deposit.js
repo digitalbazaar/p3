@@ -36,7 +36,7 @@ var schema = {
   }]
 };
 
-module.exports.schema = function(extend) {
+module.exports = function(extend) {
   if(extend) {
     return tools.extend(tools.clone(schema), extend);
   }

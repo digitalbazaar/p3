@@ -11,9 +11,9 @@ var modals = window.modals = window.modals || {};
 
 /**
  * Shows an add Payment Token modal.
- * 
+ *
  * Typical usage:
- * 
+ *
  * modals.addPaymentToken.show({
  *   parent: $('#parent-modal') (optional),
  *   identity: 'https://example.com/i/myidentity',
@@ -31,7 +31,7 @@ modals.addPaymentToken.show = function(options) {
       data: window.data,
       identity: options.identity
     }));
-  
+
   // set up modal
   var target = options.target = $('#modals-add-payment-token');
   $('.btn-close', target).click(function() {
@@ -50,10 +50,10 @@ modals.addPaymentToken.show = function(options) {
     parentModal: target,
     addModal: true
   });
-  
+
   // set up tool tips
   $('[rel="tooltip"]', target).tooltip();
-  
+
   // handle change of payment type
   $('[name="payment-type"]', target).change(function() {
     var type = $(this).val();
@@ -72,39 +72,39 @@ modals.addPaymentToken.show = function(options) {
         }));
     }
   });
-  
+
   // add button clicked
   $('[name="button-add-payment-token"]', target).click(function() {
     // create post data
     var data = {
       '@context': 'http://purl.org/payswarm/v1',
-      'rdfs:label': $('[name="label"]', target).val(),
-      'com:gateway': options.gateway || window.data.gateway
+      label: $('[name="label"]', target).val(),
+      paymentGateway: options.gateway || window.data.gateway
     };
-    
+
     // handle payment method specifics
     var paymentType = $('[name="payment-type"]:checked', target).val();
     if(paymentType === 'ccard:CreditCard') {
-      data['com:source'] = {
-        '@type': paymentType,
-        'ccard:brand': $('[name="ccard-brand"] option:selected', target).val(),
-        'ccard:number': $('[name="ccard-number"]', target).val(),
-        'ccard:expMonth':
-          $('[name="ccard-exp-month"] option:selected', target).val(),
-        'ccard:expYear':
-        $('[name="ccard-exp-year"] option:selected', target).val().substr(2),
-        'ccard:cvm': $('[name="ccard-cvm"]', target).val(),
-        'ccard:address': $('#add-payment-token-address-selector')[0].selected
+      data.source = {
+        type: paymentType,
+        cardBrand: $('[name="card-brand"] option:selected', target).val(),
+        cardNumber: $('[name="card-number"]', target).val(),
+        cardExpMonth:
+          $('[name="card-exp-month"] option:selected', target).val(),
+        cardExpYear:
+          $('[name="card-exp-year"] option:selected', target).val().substr(2),
+        cardCvm: $('[name="card-cvm"]', target).val(),
+        cardAddress: $('#add-payment-token-address-selector')[0].selected
       };
     }
     else if(paymentType === 'bank:BankAccount') {
-      data['com:source'] = {
-        '@type': paymentType,
-        'bank:account': $('[name="bank-account"]', target).val(),
-        'bank:routing': $('[name="bank-routing"]', target).val()
+      data.source = {
+        type: paymentType,
+        bankAccount: $('[name="bank-account"]', target).val(),
+        bankRoutingNumber: $('[name="bank-routing-number"]', target).val()
       };
     }
-    
+
     // add payment token
     payswarm.paymentTokens.add({
       identity: options.identity,
@@ -122,7 +122,7 @@ modals.addPaymentToken.show = function(options) {
       }
     });
   });
-  
+
   // show modal
   target.modal({backdrop: true});
 };

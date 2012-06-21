@@ -11,9 +11,9 @@ var modals = window.modals = window.modals || {};
 
 /**
  * Shows an edit Budget modal.
- * 
+ *
  * Typical usage:
- * 
+ *
  * modals.editBudget.show({
  *   parent: $('#parent-modal') (optional),
  *   identity: 'https://example.com/i/myidentity',
@@ -62,31 +62,31 @@ modals.editBudget.show = function(options) {
           options.parentModal.modal('hide');
         }
       });
-      
+
       // install account selector
       selectors.account.install({
         target: $('#edit-budget-account-selector'),
         identity: options.identity,
-        selectedAccount: results.getBudget['com:account'],
+        selectedAccount: results.getBudget.source,
         parentModal: target,
         addModal: true
       });
-      
+
       // set up tool tips
       $('[rel="tooltip"]', target).tooltip();
-      
+
       // edit button clicked
       $('[name="button-edit-budget"]', target).click(function() {
         payswarm.budgets.update({
           budget: {
             '@context': 'http://purl.org/payswarm/v1',
-            '@id': options.budget,
-            'rdfs:label': $('[name="label"]', target).val(),
-            'com:amount': $('[name="amount"]', target).val(),
-            'psa:maxPerUse': $('[name="maxPerUse"]', target).val(),
-            'psa:refresh': $('[name="refresh"] option:selected', target).val(),
-            'psa:expires': $('[name="expires"] option:selected', target).val(),
-            'com:account': $('#edit-budget-account-selector')[0].selected['@id']
+            id: options.budget,
+            label: $('[name="label"]', target).val(),
+            amount: $('[name="amount"]', target).val(),
+            psaMaxPerUse: $('[name="max-per-use"]', target).val(),
+            psaRefresh: $('[name="refresh"] option:selected', target).val(),
+            psaExpires: $('[name="expires"] option:selected', target).val(),
+            source: $('#edit-budget-account-selector')[0].selected.id
           },
           success: function(response) {
             hideSelf(options, {cancelled: false});
@@ -100,7 +100,7 @@ modals.editBudget.show = function(options) {
           }
         });
       });
-      
+
       // show modal
       target.modal({backdrop: true});
       cb();

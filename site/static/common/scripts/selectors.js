@@ -11,9 +11,9 @@ var selectors = window.selectors = window.selectors || {};
 
 /**
  * Installs a selector.
- * 
+ *
  * Typical usage:
- * 
+ *
  * selectors.install({
  *   target: $('#div-to-replace'),
  *   itemType: 'My Item Type',
@@ -40,7 +40,7 @@ selectors.install = function(options) {
     tmpl: window.tmpl
   }));
   target = options.target = $('#' + id);
-  
+
   target.on('slid', function() {
     changed(options);
   });
@@ -60,7 +60,7 @@ selectors.install = function(options) {
     });
     options.addModal.show(addModalOptions);
   });
-  
+
   // set selected item
   if(options.items.length > 0) {
     var idx = $('.item', target).filter('.active').attr('data-item-index');
@@ -69,7 +69,7 @@ selectors.install = function(options) {
   else {
     target[0].selected = null;
   }
-  
+
   return target;
 };
 
@@ -85,9 +85,9 @@ function changed(options) {
 
 /**
  * Installs an Address selector.
- * 
+ *
  * Typical usage:
- * 
+ *
  * selectors.address.install({
  *   target: $('#div-to-replace'),
  *   identity: 'https://example.com/i/myidentity',
@@ -138,9 +138,9 @@ selectors.address.install = function(options) {
 
 /**
  * Installs an Account selector.
- * 
+ *
  * Typical usage:
- * 
+ *
  * selectors.account.install({
  *   target: $('#div-to-replace'),
  *   identity: 'https://example.com/i/myidentity',
@@ -162,7 +162,7 @@ selectors.account.install = function(options) {
     if(options.selectedAccount) {
       // FIXME: handle not found case
       for(var idx = 0; idx < options.accounts.length; idx++) {
-        if(options.accounts[idx]['@id'] === options.selectedAccount) {
+        if(options.accounts[idx].id === options.selectedAccount) {
           selectedIndex = idx;
           break;
         }
@@ -191,7 +191,7 @@ selectors.account.install = function(options) {
     };
     options.target = selectors.install(selectorOptions);
     bindAccountSelectorDeposit(options);
-    
+
     if(options.ready) {
       options.ready();
     }
@@ -219,15 +219,15 @@ var bindAccountSelectorDeposit = function(options) {
     var selected = target[0].selected;
     modals.deposit.show({
       identity: options.identity,
-      account: selected['@id'],
+      account: selected.id,
       deposited: function(deposit) {
         payswarm.accounts.getOne({
-          account: selected['@id'],
+          account: selected.id,
           success: function(account) {
             // update account balance and reinstall
-            selected['com:balance'] = account['com:balance'];
+            selected.balance = account.balance;
             options.target = target;
-            options.selectedAccount = selected['@id'];
+            options.selectedAccount = selected.id;
             var optionsReadyOld = options.ready;
             options.ready = function() {
               options.ready = optionsReadyOld;
@@ -242,9 +242,9 @@ var bindAccountSelectorDeposit = function(options) {
 
 /**
  * Installs a PaymentToken selector.
- * 
+ *
  * Typical usage:
- * 
+ *
  * selectors.paymentToken.install({
  *   target: $('#div-to-replace'),
  *   identity: 'https://example.com/i/myidentity',
@@ -295,9 +295,9 @@ selectors.paymentToken.install = function(options) {
 
 /**
  * Installs a Budget selector.
- * 
+ *
  * Typical usage:
- * 
+ *
  * selectors.budget.install({
  *   target: $('#div-to-replace'),
  *   identity: 'https://example.com/i/myidentity',
@@ -348,9 +348,9 @@ selectors.budget.install = function(options) {
 
 /**
  * Installs an Identity selector.
- * 
+ *
  * Typical usage:
- * 
+ *
  * selectors.identity.install({
  *   target: $('#div-to-replace'),
  *   identities: [identity] (optional),

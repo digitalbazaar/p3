@@ -8,7 +8,7 @@
 (function($) {
 
 $(document).ready(function() {
-  
+
   // set authority-base
   var authorityBase = window.location.protocol + '//' + window.location.host;
   $('[name="authority-base"]').text(authorityBase);
@@ -17,11 +17,11 @@ $(document).ready(function() {
   $('#login').submit(function(e) {
     // stop default submission
     e.preventDefault();
-    
+
     // disable form field input
     var form = $(this);
     $(':input', form).attr('disabled', true);
-    
+
     // do login
     var ref = $('[name="ref"]', form).val();
     payswarm.profiles.login({
@@ -41,18 +41,18 @@ $(document).ready(function() {
         else {
           // show multiple profiles
           $('#login').replaceWith($('#login-multiple-tmpl').tmpl({
-            email: response['foaf:mbox'],
-            profiles: response['ps:profile'],
+            email: response.email,
+            profiles: response.profile,
             ref: ref
           }));
-          
+
           $('#login').submit(function(e) {
             e.preventDefault();
-            
+
             // disable form field input
             form = $(this);
             $(':input', form).attr('disabled', true);
-            
+
             // do login
             payswarm.profiles.login({
               profile: $('[name="profile"] option:selected', form).val(),
@@ -73,13 +73,13 @@ $(document).ready(function() {
                 var feedback = $('[name="login-feedback"]', form);
                 website.util.processValidationErrors(feedback, form, err);
                 feedback.show();
-                
+
                 // re-enable form field entry
                 $(':input', form).removeAttr('disabled');
               }
             });
           });
-          
+
           // re-enable form field entry
           $(':input', form).removeAttr('disabled');
         }
@@ -100,7 +100,7 @@ $(document).ready(function() {
         setTimeout(function() {
           $('#signin-button').tooltip('hide');
         }, 2000);
-        
+
         // re-enable form field entry
         $(':input', form).removeAttr('disabled');
       }

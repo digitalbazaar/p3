@@ -11,9 +11,9 @@ var modals = window.modals = window.modals || {};
 
 /**
  * Shows an add Account modal.
- * 
+ *
  * Typical usage:
- * 
+ *
  * modals.addAccount.show({
  *   parent: $('#parent-modal') (optional),
  *   identity: 'https://example.com/i/myidentity',
@@ -30,7 +30,7 @@ modals.addAccount.show = function(options) {
     identity: options.identity,
     showAlert: options.showAlert
   }));
-  
+
   // set up modal
   var target = options.target = $('#modals-add-account');
   $('.btn-close', target).click(function() {
@@ -41,20 +41,20 @@ modals.addAccount.show = function(options) {
       options.parentModal.modal('hide');
     }
   });
-  
+
   // set up tool tips
   $('[rel="tooltip"]', target).tooltip();
-  
+
   // bind transmitters
   window.website.setupTransmitters(target);
-  
+
   // check duplicate
   $('[name="slug"]', target).bind('keyup change', function() {
     website.util.checkDuplicateId(
       $(this), 'ps:FinancialAccount', $('#account-duplicate'),
       options.identity);
   });
-  
+
   // add button clicked
   $('[name="button-add-account"]', target).click(function() {
     payswarm.accounts.add({
@@ -62,10 +62,10 @@ modals.addAccount.show = function(options) {
       account: {
         // FIXME: add context for psa:
         '@context': 'http://purl.org/payswarm/v1',
-        'psa:slug': $('[name="slug"]', target).val(),
-        'rdfs:label': $('[name="label"]', target).val(),
-        'psa:privacy': $('[name="privacy"] option:selected', target).val(),
-        'com:currency': $('[name="currency"] option:selected', target).val()
+        psaSlug: $('[name="slug"]', target).val(),
+        label: $('[name="label"]', target).val(),
+        psaPrivacy: $('[name="privacy"] option:selected', target).val(),
+        currency: $('[name="currency"] option:selected', target).val()
       },
       success: function(account) {
         options.account = account;
@@ -80,7 +80,7 @@ modals.addAccount.show = function(options) {
       }
     });
   });
-  
+
   // show modal
   target.modal({backdrop: true});
 };

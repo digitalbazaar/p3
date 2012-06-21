@@ -15,9 +15,9 @@
 function installIdentitySelector() {
   selectors.identity.install({
     target: $('#vendor-identity-selector'),
-    identities: $.map(window.data.session.identities, 
-      function(v) { return v; }).filter(function(v) { 
-        return v['@type'] === 'ps:VendorIdentity';
+    identities: $.map(window.data.session.identities,
+      function(v) { return v; }).filter(function(v) {
+        return v.type === 'ps:VendorIdentity';
       }),
     addModal: true,
     addModalOptions: {
@@ -39,11 +39,11 @@ function installIdentitySelector() {
 function installAccountSelector() {
   var idSelector = $('#vendor-identity-selector');
   var selected = idSelector[0].selected;
-  
+
   if(selected) {
     selectors.account.install({
       target: $('#vendor-account-selector'),
-      identity: selected['@id'],
+      identity: selected.id,
       addModal: true,
       change: enableRegister,
       added: enableRegister,
@@ -61,7 +61,7 @@ function installAccountSelector() {
 function enableRegister() {
   var accountSelector = $('#vendor-account-selector');
   var selected = accountSelector[0].selected;
-  
+
   if(selected) {
     $('#register').removeAttr('disabled');
   } else {
@@ -70,12 +70,12 @@ function enableRegister() {
 }
 
 /**
- * Performs a preferences request and then, if successful, posts the 
+ * Performs a preferences request and then, if successful, posts the
  * preferences back to the original request callback.
  */
 function requestPreferences() {
   // get the required values for the preferences request
-  var identity = $('#vendor-identity-selector')[0].selected['@id'];
+  var identity = $('#vendor-identity-selector')[0].selected.id;
   var nonce = $('#response-nonce').data('nonce');
 
   // retrieve the identity preferences
@@ -90,14 +90,14 @@ function requestPreferences() {
  * Uses the result of a preferences request to build a POST-able form
  * back to the vendor registration callback at the requesting website. The
  * form is then auto-submitted. If the auto-submit fails, the form is shown
- * on-screen for a manual submit. 
+ * on-screen for a manual submit.
  */
 function postPreferencesToCallback(preferences) {
   // update the vendor preferences form
   $('#vendor-register-feedback').replaceWith(
     $('#vendor-preferences').tmpl({
       encryptedMessage: JSON.stringify(preferences),
-      registrationCallback: 
+      registrationCallback:
         $('#registration-callback').data('callback')
     }));
 
@@ -125,24 +125,24 @@ $(document).ready(function() {
   $('#register').attr('disabled', 'disabled');
   $('#register').click(function(e) {
     e.preventDefault();
-    
+
     // get the vendor preference values from the UI
-    var identity = $('#vendor-identity-selector')[0].selected['@id'];
-    var destination = $('#vendor-account-selector')[0].selected['@id'];
+    var identity = $('#vendor-identity-selector')[0].selected.id;
+    var destination = $('#vendor-account-selector')[0].selected.id;
     var label = $('#access-key-label').val();
     var pem = $('#public-key-pem').val();
-    
+
     // update the preferences associated with the vendor identity
     payswarm.identities.preferences.update({
       identity: identity,
       preferences: {
-        'com:destination': destination,
-        'sec:publicKey': {
-          'rdfs:label': label,
-          'sec:publicKeyPem': pem
+        destination: destination,
+        publicKey: {
+          label: label,
+          publicKeyPem: pem
         }
       },
-      success: requestPreferences 
+      success: requestPreferences
     });
   });
 

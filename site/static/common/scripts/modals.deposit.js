@@ -11,9 +11,9 @@ var modals = window.modals = window.modals || {};
 
 /**
  * Shows a Deposit modal.
- * 
+ *
  * Typical usage:
- * 
+ *
  * modals.deposit.show({
  *   parent: $('#parent-modal') (optional),
  *   identity: 'https://example.com/i/myidentity',
@@ -31,7 +31,7 @@ modals.deposit.show = function(options) {
     data: window.data,
     account: options.account
   }));
-  
+
   // set up modal
   var target = options.target = $('#modals-deposit');
   target.on('show', function() {
@@ -39,10 +39,10 @@ modals.deposit.show = function(options) {
       options.parentModal.modal('hide');
     }
   });
-  
+
   // set up review page
   setupReviewPage(options);
-  
+
   // show modal
   target.modal({backdrop: true});
 };
@@ -51,12 +51,12 @@ function setupReviewPage(options) {
   // go to top of page
   var target = options.target;
   $(target).animate({scrollTop: 0}, 0);
-  
+
   // bind close button
   $('.btn-close', target).click(function() {
     hideSelf(options);
   });
-  
+
   // get identity's addresses
   payswarm.addresses.get({
     identity: options.identity,
@@ -94,54 +94,54 @@ function setupReviewPage(options) {
       }
     }
   });
-  
+
   // set up tool tips
   $('[class=auto-tooltip]', target).tooltip();
-  
+
   // bind review button
   $('[name="button-review-deposit"]', target).click(function() {
     var paymentToken = $('#deposit-payment-token-selector', target)[0].selected;
     payswarm.deposit.sign({
       deposit: {
         '@context': 'http://purl.org/payswarm/v1',
-        '@type': ['com:Transaction', 'com:Deposit'],
-        'com:payee': [{
-          '@type': 'com:Payee',
-          'com:rate': $('[name="amount"]', target).val(),
-          'com:rateType': 'com:FlatAmount',
-          'com:destination': options.account
+        type: ['com:Transaction', 'com:Deposit'],
+        payee: [{
+          type: 'com:Payee',
+          payeeRate: $('[name="amount"]', target).val(),
+          payeeRateType: 'com:FlatAmount',
+          destination: options.account
         }],
-        'com:source': paymentToken
+        source: paymentToken
       },
       success: function(deposit) {
         // FIXME: get public account information for all payees
         var accounts = [];
-        for(var i in deposit['com:transfer']) {
+        for(var i in deposit.transfer) {
           accounts.push({
-            'rdfs:label': deposit['com:transfer']['com:destination']
+            label: deposit.transfer[i].destination
           });
         }
-        
+
         // show confirm page
         $('#deposit-content').empty().append(
           $.tmpl('deposit-confirm-tmpl', {
             tmpl: window.tmpl,
             data: window.data,
             deposit: deposit,
-            paymentToken: deposit['com:source'],
+            paymentToken: deposit.source,
             account: options.account,
             accounts: accounts
           }));
-        
+
         // go to top of page
         var target = options.target;
         $(target).animate({scrollTop: 0}, 0);
-        
+
         // bind close button
         $('.btn-close', target).click(function() {
           hideSelf(options);
         });
-        
+
         // bind back button
         $('[name="button-back"]', target).click(function() {
           // show review page again
@@ -153,7 +153,7 @@ function setupReviewPage(options) {
             }));
           setupReviewPage(options);
         });
-        
+
         // bind confirm button
         $('[name="button-confirm-deposit"]', target).click(function() {
           confirmDeposit(options, deposit, accounts);
@@ -166,7 +166,7 @@ function setupReviewPage(options) {
     });
   });
 }
-  
+
 function setupSelectors(options) {
   // install payment token selector
   selectors.paymentToken.install({
@@ -188,20 +188,20 @@ function confirmDeposit(options, deposit, accounts) {
           tmpl: window.tmpl,
           data: window.data,
           deposit: deposit,
-          paymentToken: deposit['com:source'],
+          paymentToken: deposit.source,
           account: options.account,
           accounts: accounts
         }));
-      
+
       // go to top of page
       var target = options.target;
       $(target).animate({scrollTop: 0}, 0);
-      
+
       // bind close button
       $('.btn-close', target).click(function() {
         hideSelf(options);
       });
-      
+
       options.deposit = deposit;
       if(options.deposited) {
         options.deposited(deposit);

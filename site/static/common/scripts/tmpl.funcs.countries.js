@@ -1,6 +1,6 @@
 /**
  * Countries list for templates.
- * 
+ *
  * @author Dave Longley
  *
  * Copyright (c) 2011 Digital Bazaar, Inc. All rights reserved.
@@ -206,6 +206,7 @@ tmpl.countries = {
   'ES': 'Spain',
   'LK': 'Sri Lanka',
   'SD': 'Sudan',
+  'SS': 'South Sudan',
   'SR': 'Suriname',
   'SJ': 'Svalbard and Jan Mayen Islands',
   'SZ': 'Swaziland',

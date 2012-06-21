@@ -14,8 +14,8 @@ var autoPostToVendor = false;
 
 $(document).ready(function() {
   data = window.data;
-  var identity = data.identity = data.session.identity['@id'];
-  
+  var identity = data.identity = data.session.identity.id;
+
   async.auto({
     checkAddresses: function(callback) {
       checkAddresses(identity, callback);
@@ -24,7 +24,7 @@ $(document).ready(function() {
       checkAccounts(identity, callback);
     }],
     getQuote: ['checkAccounts', function(callback) {
-      updateQuote(data.accounts[0]['@id'], callback);
+      updateQuote(data.accounts[0].id, callback);
     }],
     getBudgets: function(callback) {
       payswarm.budgets.get({
@@ -156,14 +156,14 @@ function autoPurchase(identity, callback) {
   // FIXME: add "always confirm" option to budgets and/or to identity prefs
   // check budgets for this vendor, if it exists, auto submit purchase
   var budgets = data.budgets;
-  var assetProvider = data.contract['ps:assetProvider']['@id'];
+  var assetProvider = data.contract.assetProvider.id;
   for(b in budgets) {
     var budget = budgets[b];
-    for(v in budget['com:vendor']) {
-      var vendor = budget['com:vendor'][v];
+    for(v in budget.vendor) {
+      var vendor = budget.vendor[v];
       if(vendor === assetProvider) {
         // found budget for this vendor, auto-purchase
-        return purchase(budget['com:account'], function(err) {
+        return purchase(budget.source, function(err) {
           err = err || {
             type: 'payswarm.website.AutoPurchase',
             message: 'Item was auto-purchased.'
@@ -173,7 +173,7 @@ function autoPurchase(identity, callback) {
       }
     }
   }
-  
+
   callback();
 }
 
@@ -192,7 +192,7 @@ function showPayment(identity, callback) {
       checkBudgetBalance($('#pay-budget-selector')[0].selected);
     }
   });
-  
+
   // bind purchase button
   $('#payment [name="button-purchase"]').click(function() {
     var payType = $('#pay-form [name="pay-type"]:checked').val();
@@ -200,11 +200,11 @@ function showPayment(identity, callback) {
       // first add vendor to budget
       var budget = $('#pay-budget-selector')[0].selected;
       payswarm.budgets.addVendor({
-        budget: budget['@id'],
-        vendor: data.contract['ps:assetProvider']['@id'],
+        budget: budget.id,
+        vendor: data.contract.assetProvider.id,
         success: function() {
           // now do purchase
-          purchase(budget['com:account']);
+          purchase(budget.source);
         },
         error: function(err) {
           // FIXME: better error handling
@@ -214,17 +214,17 @@ function showPayment(identity, callback) {
     }
     else {
       // do purchase
-      purchase($('#pay-account-selector')[0].selected['@id']);
+      purchase($('#pay-account-selector')[0].selected.id);
     }
   });
-  
+
   // bind cancel button
   $('#payment [name="button-cancel-purchase"]').click(function() {
     // FIXME: redirect to vendor w/'canceled purchase' message
   });
-  
+
   $('#payment').show();
-  
+
   callback();
 }
 
@@ -234,7 +234,7 @@ function showPayment(identity, callback) {
  * the quote only needs to be regenerated once the purchase is initiated and
  * only if a different account from the original quote was selected (either
  * through the account selector or the budget selector).
- * 
+ *
  * @param account the account to use to generate the quote.
  * @param callback called once the operation completes.
  */
@@ -244,18 +244,18 @@ function updateQuote(account, callback) {
     purchaseRequest: (function() {
       var rval = {
         '@context': 'http://purl.org/payswarm/v1',
-        'ps:listing': data['ps:listing'],
-        'ps:listingHash': data['ps:listingHash'],
-        'com:source': account
+        listing: data.listing,
+        listingHash: data.listingHash,
+        source: account
       };
-      if('com:referenceId' in data && data['com:referenceId'] !== null) {
-        rval['com:referenceId'] = data['com:referenceId'];
+      if('referenceId' in data && data.referenceId !== null) {
+        rval.referenceId = data.referenceId;
       }
       else if(data.allowDuplicatePurchases) {
-        rval['com:referenceId'] = String(+new Date());
+        rval.referenceId = String(+new Date());
       }
-      if('sec:nonce' in data) {
-        rval['sec:nonce'] = data['sec:nonce'];
+      if('nonce' in data) {
+        rval.nonce = data.nonce;
       }
       return rval;
     })(),
@@ -279,8 +279,8 @@ function updateQuote(account, callback) {
 
 function checkAccountBalance(account) {
   // ensure account balance is >= contract price
-  var balance = parseFloat(account['com:balance']);
-  var price = parseFloat(data.contract['com:amount']);
+  var balance = parseFloat(account.balance);
+  var price = parseFloat(data.contract.amount);
   if(balance < price) {
     // insufficient funds, show deposit
     console.warn('FIXME: insufficient funds, show deposit modal');
@@ -289,8 +289,8 @@ function checkAccountBalance(account) {
 
 function checkBudgetBalance(budget) {
   // ensure budget balance is >= contract price
-  var balance = parseFloat(budget['com:balance']);
-  var price = parseFloat(data.contract['com:amount']);
+  var balance = parseFloat(budget.balance);
+  var price = parseFloat(data.contract.amount);
   if(balance < price) {
     // insufficient funds, show edit budget modal
     console.warn('FIXME: insufficient funds, show edit budget modal');
@@ -299,7 +299,7 @@ function checkBudgetBalance(budget) {
   else {
     for(var i in data.accounts) {
       var account = data.accounts[i];
-      if(budget['com:account'] === account['@id']) {
+      if(budget.source === account.id) {
         checkAccountBalance(account);
         break;
       }
@@ -311,7 +311,7 @@ function purchase(account, callback) {
   async.waterfall([
     function checkQuote(callback) {
       // ensure account matches quote
-      var source = data.contract['com:transfer'][0]['com:source'];
+      var source = data.contract.transfer[0].source;
       if(account !== source) {
         updateQuote(account, callback);
       }
@@ -324,11 +324,11 @@ function purchase(account, callback) {
         purchaseRequest: (function() {
           var rval = {
             '@context': 'http://purl.org/payswarm/v1',
-            '@type': 'ps:PurchaseRequest',
-            'ps:transactionId': data.contract['@id']
+            type: 'ps:PurchaseRequest',
+            transactionId: data.contract.id
           };
-          if('sec:nonce' in data) {
-            rval['sec:nonce'] = data['sec:nonce'];
+          if('nonce' in data) {
+            rval.nonce = data.nonce;
           }
           return rval;
         })(),
@@ -358,7 +358,7 @@ function purchase(account, callback) {
 
 function postToVendor(duplicate, encryptedMessage) {
   console.log("EncryptedReceipt", encryptedMessage);
-  
+
   // show purchase complete template
   $('#payment').empty().append($('#purchase-complete-tmpl').tmpl(
     $.extend({
@@ -366,7 +366,7 @@ function postToVendor(duplicate, encryptedMessage) {
       encryptedMessage: JSON.stringify(encryptedMessage)
     }, data.callback ? {callback: data.callback} : {})
   ));
-  
+
   // show contract for purchased item
   $('#pay-quote').empty().append($.tmpl('quote-tmpl', {
     tmpl: window.tmpl,
@@ -377,7 +377,7 @@ function postToVendor(duplicate, encryptedMessage) {
     $('.pay-quote-details').toggle();
     return false;
   });
-  
+
   // handle forms
   $('#payment [name="button-complete-purchase"]').click(function() {
     $('#vendor-form').submit();
@@ -390,9 +390,9 @@ function postToVendor(duplicate, encryptedMessage) {
 
 function processDuplicatePurchase(contract, encryptedMessage) {
   console.log("Duplicate Purchase:", contract, encryptedMessage);
-  
+
   $('#pay-feedback').hide();
-  
+
   // set duplicate contract
   data.contract = contract;
   postToVendor(true, encryptedMessage);

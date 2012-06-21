@@ -11,9 +11,9 @@ var modals = window.modals = window.modals || {};
 
 /**
  * Shows an add Budget modal.
- * 
+ *
  * Typical usage:
- * 
+ *
  * modals.addBudget.show({
  *   parent: $('#parent-modal') (optional),
  *   identity: 'https://example.com/i/myidentity',
@@ -29,7 +29,7 @@ modals.addBudget.show = function(options) {
     data: window.data,
     identity: options.identity
   }));
-  
+
   // set up modal
   var target = options.target = $('#modals-add-budget');
   $('.btn-close', target).click(function() {
@@ -40,7 +40,7 @@ modals.addBudget.show = function(options) {
       options.parentModal.modal('hide');
     }
   });
-  
+
   // install account selector
   selectors.account.install({
     target: $('#add-budget-account-selector'),
@@ -48,21 +48,21 @@ modals.addBudget.show = function(options) {
     parentModal: target,
     addModal: true
   });
-  
+
   // set up tool tips
   $('[rel="tooltip"]', target).tooltip();
-  
+
   // add button clicked
   $('[name="button-add-budget"]', target).click(function() {
     payswarm.budgets.add({
       identity: options.identity,
       budget: {
         '@context': 'http://purl.org/payswarm/v1',
-        'rdfs:label': $('[name="label"]', target).val(),
-        'com:amount': $('[name="amount"]', target).val(),
-        'psa:refresh': $('[name="refresh"] option:selected', target).val(),
-        'psa:expires': $('[name="expires"] option:selected', target).val(),
-        'com:account': $('#add-budget-account-selector')[0].selected['@id']
+        label: $('[name="label"]', target).val(),
+        amount: $('[name="amount"]', target).val(),
+        psaRefresh: $('[name="refresh"] option:selected', target).val(),
+        psaExpires: $('[name="expires"] option:selected', target).val(),
+        source: $('#add-budget-account-selector')[0].selected.id
       },
       success: function(budget) {
         options.budget = budget;
@@ -77,7 +77,7 @@ modals.addBudget.show = function(options) {
       }
     });
   });
-  
+
   // show modal
   target.modal({backdrop: true});
 };

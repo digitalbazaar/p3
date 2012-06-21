@@ -18,15 +18,15 @@ $(document).ready(function() {
 
     // request a passcode
     payswarm.profiles.passcode({
-      'profile': {
-      'psa:identifier': $('#email').val(),
+      profile: {
+        psaIdentifier: $('#email').val(),
       },
-      'success': function() {
+      success: function() {
         website.util.processSubmissionSuccess(
           $('#passcode-feedback'), $('#request'),
           'An e-mail has been sent to you with password reset instructions.');
       },
-      'error': function(err) {
+      error: function(err) {
         website.util.processValidationErrors(
           $('#passcode-feedback'), $('#request'), err);
       }
@@ -40,17 +40,17 @@ $(document).ready(function() {
 
     // request a password reset using the given passcode
     payswarm.profiles.password({
-      'profile': {
-      'psa:identifier': $('#reset-email').val(),
-      'psa:passcode': $('#passcode').val(),
-      'psa:passwordNew': $('#new-password').val()
+      profile: {
+        psaIdentifier: $('#reset-email').val(),
+        psaPasscode: $('#passcode').val(),
+        psaPasswordNew: $('#new-password').val()
       },
-      'success': function() {
+      success: function() {
         website.util.processSubmissionSuccess(
           $('#password-feedback'), $('#reset'),
           'Your password has been updated successfully.');
       },
-      'error': function(err) {
+      error: function(err) {
         website.util.processValidationErrors(
           $('#password-feedback'), $('#reset'), err);
       }

@@ -1,6 +1,6 @@
 /*!
  * PaySwarm API
- * 
+ *
  * This file provides methods to get data from and post data to the server.
  *
  * @requires jQuery v1.6+ (http://jquery.com/)
@@ -17,9 +17,9 @@ payswarm.addresses = {};
 
 /**
  * Get the addresses for an identity.
- * 
+ *
  * Usage:
- * 
+ *
  * payswarm.addresses.get({
  *   identity: 'https://example.com/i/myidentity',
  *   success: function(addresses) {},
@@ -53,9 +53,9 @@ payswarm.addresses.get = function(options) {
 
 /**
  * Validates an address for an identity.
- * 
+ *
  * Usage:
- * 
+ *
  * payswarm.addresses.validate({
  *   identity: 'https://example.com/i/myidentity',
  *   address: address,
@@ -86,9 +86,9 @@ payswarm.addresses.validate = function(options) {
 
 /**
  * Add an address to an identity.
- * 
+ *
  * Usage:
- * 
+ *
  * payswarm.addresses.add({
  *   identity: 'https://example.com/i/myidentity',
  *   address: address,
@@ -122,9 +122,9 @@ payswarm.accounts = {};
 
 /**
  * Get the accounts for an identity.
- * 
+ *
  * Usage:
- * 
+ *
  * payswarm.accounts.get({
  *   identity: 'https://example.com/i/myidentity',
  *   success: function(accounts) {},
@@ -152,9 +152,9 @@ payswarm.accounts.get = function(options) {
 
 /**
  * Get an account.
- * 
+ *
  * Usage:
- * 
+ *
  * payswarm.accounts.getOne({
  *   account: 'ACCOUNT_ID',
  *   success: function(account) {},
@@ -182,9 +182,9 @@ payswarm.accounts.getOne = function(options) {
 
 /**
  * Adds an account to an identity.
- * 
+ *
  * Usage:
- * 
+ *
  * payswarm.accounts.add({
  *   identity: 'https://example.com/i/myidentity',
  *   account: account,
@@ -215,9 +215,9 @@ payswarm.accounts.add = function(options) {
 
 /**
  * Updates an account.
- * 
+ *
  * Usage:
- * 
+ *
  * payswarm.accounts.update({
  *   account: account,
  *   success: function() {},
@@ -228,7 +228,7 @@ payswarm.accounts.update = function(options) {
   $.ajax({
     async: true,
     type: 'POST',
-    url: options.account['@id'],
+    url: options.account.id,
     dataType: 'json',
     contentType: 'application/json',
     data: JSON.stringify(options.account),
@@ -250,9 +250,9 @@ payswarm.budgets = {};
 
 /**
  * Get the budgets for an identity.
- * 
+ *
  * Usage:
- * 
+ *
  * payswarm.budgets.get({
  *   identity: 'https://example.com/i/myidentity',
  *   success: function(budgets) {},
@@ -280,9 +280,9 @@ payswarm.budgets.get = function(options) {
 
 /**
  * Get a budget.
- * 
+ *
  * Usage:
- * 
+ *
  * payswarm.budgets.getOne({
  *   budget: BUDGET_ID,
  *   success: function(budget) {},
@@ -310,9 +310,9 @@ payswarm.budgets.getOne = function(options) {
 
 /**
  * Adds a budget to an identity.
- * 
+ *
  * Usage:
- * 
+ *
  * payswarm.budgets.add({
  *   identity: 'https://example.com/i/myidentity',
  *   budget: budget,
@@ -343,9 +343,9 @@ payswarm.budgets.add = function(options) {
 
 /**
  * Updates a budget.
- * 
+ *
  * Usage:
- * 
+ *
  * payswarm.budgets.update({
  *   budget: budget,
  *   success: function() {},
@@ -356,7 +356,7 @@ payswarm.budgets.update = function(options) {
   $.ajax({
     async: true,
     type: 'POST',
-    url: options.budget['@id'],
+    url: options.budget.id,
     dataType: 'json',
     contentType: 'application/json',
     data: JSON.stringify(options.budget),
@@ -375,9 +375,9 @@ payswarm.budgets.update = function(options) {
 
 /**
  * Adds a vendor to a budget.
- * 
+ *
  * Usage:
- * 
+ *
  * payswarm.budgets.addVendor({
  *   budget: budgetId,
  *   vendor: vendorId,
@@ -393,7 +393,7 @@ payswarm.budgets.addVendor = function(options) {
     dataType: 'json',
     contentType: 'application/json',
     data: JSON.stringify({
-      'com:vendor': options.vendor
+      vendor: options.vendor
     }),
     success: function(data, textStatus) {
       if(options.success) {
@@ -413,9 +413,9 @@ payswarm.deposit = {};
 
 /**
  * Requests that a deposit be signed.
- * 
+ *
  * Usage:
- * 
+ *
  * payswarm.paymentTokens.get({
  *   deposit: deposit,
  *   success: function(paymentTokens) {},
@@ -445,9 +445,9 @@ payswarm.deposit.sign = function(options) {
 
 /**
  * Confirms a signed deposit.
- * 
+ *
  * Usage:
- * 
+ *
  * payswarm.deposit.add({
  *   identity: 'https://example.com/i/myidentity',
  *   deposit: deposit,
@@ -481,9 +481,9 @@ payswarm.paymentTokens = {};
 
 /**
  * Get the paymentTokens for an identity.
- * 
+ *
  * Usage:
- * 
+ *
  * payswarm.paymentTokens.get({
  *   identity: 'https://example.com/i/myidentity',
  *   success: function(paymentTokens) {},
@@ -511,9 +511,9 @@ payswarm.paymentTokens.get = function(options) {
 
 /**
  * Adds a paymentToken to an identity.
- * 
+ *
  * Usage:
- * 
+ *
  * payswarm.paymentTokens.add({
  *   identity: 'https://example.com/i/myidentity',
  *   data: {label, gateway, source},
@@ -547,9 +547,9 @@ payswarm.identities = {};
 
 /**
  * Adds an identity to the current profile.
- * 
+ *
  * Usage:
- * 
+ *
  * payswarm.identities.add({
  *   identity: identity,
  *   success: function(identity) {},
@@ -582,9 +582,9 @@ payswarm.identities.preferences = {};
 
 /**
  * Updates preference information for a particular identity.
- * 
+ *
  * Usage:
- * 
+ *
  * payswarm.identities.preferences.update({
  *   identity: identity,
  *   preferences: preferences,
@@ -615,9 +615,9 @@ payswarm.identities.preferences.update = function(options) {
 
 /**
  * Retrieves preference information for a particular identity.
- * 
+ *
  * Usage:
- * 
+ *
  * payswarm.identities.preferences.update({
  *   identity: identity,
  *   responseNonce: nonce,
@@ -627,11 +627,11 @@ payswarm.identities.preferences.update = function(options) {
  */
 payswarm.identities.preferences.get = function(options) {
   var prefUrl = options.identity + '/preferences';
-  
+
   if(options.responseNonce) {
     prefUrl += '?response-nonce=' + encodeURIComponent(options.responseNonce);
   }
-  
+
   $.ajax({
     async: true,
     type: 'GET',
@@ -652,9 +652,9 @@ payswarm.identities.preferences.get = function(options) {
 
 /**
  * Switches the current session's identity.
- * 
+ *
  * Usage:
- * 
+ *
  * payswarm.switchIdentity({
  *   identity: 'https://example.com/i/newidentity',
  *   redirect: 'https://example.com/new/page' (optional),
@@ -669,8 +669,8 @@ payswarm.switchIdentity = function(options) {
     contentType: 'application/json',
     dataType: 'json',
     data: JSON.stringify({
-      'identity': options.identity,
-      'redirect': options.redirect || window.location.href
+      identity: options.identity,
+      redirect: options.redirect || window.location.href
     }),
     error: function(xhr, textStatus, errorThrown) {
       if(xhr.status === 200) {
@@ -685,16 +685,16 @@ payswarm.transactions = {};
 
 /**
  * Gets a quote (a Contract) for a purchase.
- * 
+ *
  * Usage:
- * 
+ *
  * payswarm.transactions.getQuote({
  *   purchaseRequest: {
- *     'ps:listing': 'https://merchant.com/listing-url',
- *     'ps:listingHash': 'ab34e87a8d8f5fde3f23f23',
- *     'com:source': 'https://example.com/i/myid/accounts/primary',
- *     'com:referenceId': '12345' (optional),
- *     'sec:nonce': '12345' (optional)
+ *     listing: 'https://merchant.com/listing-url',
+ *     listingHash: 'ab34e87a8d8f5fde3f23f23',
+ *     source 'https://example.com/i/myid/accounts/primary',
+ *     referenceId: '12345' (optional),
+ *     nonce: '12345' (optional)
  *   },
  *   success: function(contract) {},
  *   error: function(err) {}
@@ -723,14 +723,14 @@ payswarm.transactions.getQuote = function(options) {
 
 /**
  * Performs a purchase.
- * 
+ *
  * Usage:
- * 
+ *
  * payswarm.transactions.purchase({
  *   purchaseRequest: {
- *     '@type': 'ps:PurchaseRequest',
- *     'ps:transactionId': 'https://example.com/transactions/1.1.a',
- *     'sec:nonce': '12345' (optional)
+ *     type: 'ps:PurchaseRequest',
+ *     transactionId: 'https://example.com/transactions/1.1.a',
+ *     nonce: '12345' (optional)
  *   },
  *   success: function(contract) {},
  *   error: function(err) {}
@@ -762,9 +762,9 @@ payswarm.profiles = {};
 
 /**
  * Logs in a profile.
- * 
+ *
  * Usage:
- * 
+ *
  * payswarm.profiles.login({
  *   profile: (nick:name or foaf:mbox),
  *   password: password,
@@ -801,11 +801,11 @@ payswarm.profiles.login = function(options) {
 /**
  * Sends a password reset e-mail to the provided and e-mail address or
  * a profile name.
- * 
+ *
  * Usage:
- * 
+ *
  * payswarm.profiles.passcode({
- *   profile: {"psa:identifier": "foo@example.com"},
+ *   profile: {psaIdentifier: "foo@example.com"},
  *   success: function(contract) {},
  *   error: function(err) {}
  * });
@@ -832,17 +832,17 @@ payswarm.profiles.passcode = function(options) {
 };
 
 /**
- * Sets a password given an 
+ * Sets a password given an
  * e-mail to the provided and e-mail address or
  * a profile name.
- * 
+ *
  * Usage:
- * 
+ *
  * payswarm.profiles.password({
  *   profile: {
- *     "psa:identifier": "foo@example.com",
- *     "psa:passcode": "fhj32hfg8",
- *     "psa:passwordNew": "password12345",
+ *     "psaIdentifier": "foo@example.com",
+ *     "psaPasscode": "fhj32hfg8",
+ *     "psaPasswordNew": "password12345",
  *     },
  *   success: function(contract) {},
  *   error: function(err) {}

@@ -158,9 +158,9 @@ util.duplicateIdState = {};
  * Checks for a duplicate ID and updates the UI.
  *
  * @param input the input widget to get input from and disable while checking.
- * @param type the @type for the value.
+ * @param type the type for the value.
  * @param feedback the feedback target.
- * @param owner owner for @type (if required by @type)
+ * @param owner owner for type (if required by type)
  */
 util.checkDuplicateId = function(input, type, feedback, owner) {
   if(!(type in util.duplicateIdState)) {
@@ -203,9 +203,9 @@ util.checkDuplicateId = function(input, type, feedback, owner) {
           dataType: 'json',
           contentType: 'application/json',
           data: JSON.stringify($.extend({
-            '@type': type,
-            'psa:slug': state.lastCheck
-          }, owner ? {'ps:owner': owner} : {})),
+            type: type,
+            psaSlug: state.lastCheck
+          }, owner ? {owner: owner} : {})),
           success: function(response, statusText) {
             // available
             $('[name="checking"]', feedback).hide();

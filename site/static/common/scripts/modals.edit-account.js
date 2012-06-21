@@ -11,9 +11,9 @@ var modals = window.modals = window.modals || {};
 
 /**
  * Shows an edit Account modal.
- * 
+ *
  * Typical usage:
- * 
+ *
  * modals.editAccount.show({
  *   parent: $('#parent-modal') (optional),
  *   identity: 'https://example.com/i/myidentity',
@@ -62,22 +62,22 @@ modals.editAccount.show = function(options) {
           options.parentModal.modal('hide');
         }
       });
-      
+
       // set up tool tips
       $('[rel="tooltip"]', target).tooltip();
-      
+
       // bind transmitters
       window.website.setupTransmitters(target);
-      
+
       // edit button clicked
       $('[name="button-edit-account"]', target).click(function() {
         payswarm.accounts.update({
           account: {
             '@context': 'http://purl.org/payswarm/v1',
-            '@id': options.account,
-            'rdfs:label': $('[name="label"]', target).val(),
-            'psa:privacy': $('[name="privacy"] option:selected', target).val(),
-            'com:currency': $('[name="currency"] option:selected', target).val()
+            id: options.account,
+            label: $('[name="label"]', target).val(),
+            psaPrivacy: $('[name="privacy"] option:selected', target).val(),
+            currency: $('[name="currency"] option:selected', target).val()
           },
           success: function(response) {
             hideSelf(options, {cancelled: false});
@@ -91,7 +91,7 @@ modals.editAccount.show = function(options) {
           }
         });
       });
-      
+
       // show modal
       target.modal({backdrop: true});
       cb();

@@ -11,9 +11,9 @@ var modals = window.modals = window.modals || {};
 
 /**
  * Shows an add Identity modal.
- * 
+ *
  * Typical usage:
- * 
+ *
  * modals.addIdentity.show({
  *   parent: $('#parent-modal') (optional),
  *   identityTypes: ['ps:PersonalIdentity', 'ps:VendorIdentity'] (optional),
@@ -30,16 +30,16 @@ modals.addIdentity.show = function(options) {
     ['ps:PersonalIdentity', 'ps:VendorIdentity'];
   var selectedType = options.selectedType ||
     (identityTypes.length ? identityTypes[0] : null);
-    
+
   $('#modals-add-identity').replaceWith($.tmpl('modals-add-identity-tmpl', {
     tmpl: window.tmpl,
     data: window.data,
     identityTypes: identityTypes,
     selectedType: selectedType,
     baseUrl: baseUrl,
-    profile: window.data.session.profile    
+    profile: window.data.session.profile
   }));
-  
+
   // set up modal
   var target = options.target = $('#modals-add-identity');
   $('.btn-close', target).click(function() {
@@ -50,13 +50,13 @@ modals.addIdentity.show = function(options) {
       options.parentModal.modal('hide');
     }
   });
-  
+
   // set up tool tips
   $('[rel="tooltip"]', target).tooltip();
-  
+
   // bind transmitters
   window.website.setupTransmitters(target);
-  
+
   // check duplicates
   $('#add-identity-form [name="slug"]').bind('keyup change', function() {
     website.util.checkDuplicateId(
@@ -67,7 +67,7 @@ modals.addIdentity.show = function(options) {
     website.util.checkDuplicateId(
       $(this), 'ps:FinancialAccount', $('#account-duplicate'), owner);
   });
-  
+
   // handle change of identity type
   $('#add-identity-form [name="type"]').change(function() {
     var type = $(this).val();
@@ -86,24 +86,22 @@ modals.addIdentity.show = function(options) {
       $('#identity-type-fields').empty();
     }
   });
-  
+
   // add button clicked
   $('[name="button-add-identity"]', target).click(function() {
     // build identity object
     var type = $('[name="type"] option:selected', target).val();
     var identity = {
       '@context': 'http://purl.org/payswarm/v1',
-      '@type': type,
-      'psa:slug': $('[name="slug"]', target).val(),
-      'rdfs:label': $('[name="label"]', target).val()
+      type: type,
+      psaSlug: $('[name="slug"]', target).val(),
+      label: $('[name="label"]', target).val()
     };
     if(type === 'ps:VendorIdentity') {
-      identity['foaf:homepage'] =
-        $('[name="vendor-website"]', target).val(),
-      identity['dc:description'] =
-        $('[name="vendor-description"]', target).val();
+      identity.homepage = $('[name="vendor-website"]', target).val(),
+      identity.description = $('[name="vendor-description"]', target).val();
     }
-    
+
     // add identity
     payswarm.identities.add({
       identity: identity,
@@ -113,7 +111,7 @@ modals.addIdentity.show = function(options) {
       error: function(err) {
         // if identity is a duplicate, add account to it
         if(err.type === 'payswarm.website.DuplicateIdentity') {
-          identity['@id'] = baseUrl + '/i/' + identity['psa:slug'];
+          identity.id = baseUrl + '/i/' + identity.psaSlug;
           addAccount(options, identity);
         }
         else {
@@ -124,7 +122,7 @@ modals.addIdentity.show = function(options) {
       }
     });
   });
-  
+
   // show modal
   target.modal({backdrop: true});
 };
@@ -133,17 +131,13 @@ function addAccount(options, identity) {
   // add account
   var target = options.target;
   payswarm.accounts.add({
-    identity: identity['@id'],
+    identity: identity.id,
     account: {
       '@context': 'http://purl.org/payswarm/v1',
-      'psa:slug':
-        $('#add-account-form [name="slug"]').val(),
-      'rdfs:label':
-        $('#add-account-form [name="label"]').val(),
-      'psa:privacy':
-        $('#add-account-form [name="privacy"] option:selected').val(),
-      'com:currency':
-        $('#add-account-form [name="currency"] option:selected').val()
+      psaSlug: $('#add-account-form [name="slug"]').val(),
+      label: $('#add-account-form [name="label"]').val(),
+      psaPrivacy: $('#add-account-form [name="privacy"] option:selected').val(),
+      currency: $('#add-account-form [name="currency"] option:selected').val()
     },
     success: function(account) {
       options.account = account;

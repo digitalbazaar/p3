@@ -213,7 +213,7 @@ var defaultPayeeScheme = {
   psaMinimumAmounts: {}
 };
 // minimum amounts for default payee scheme
-defaultPayeeScheme[psaMinimumAmounts][
+defaultPayeeScheme.psaMinimumAmounts[
   authorityId + '/accounts/main'] = '0.0002';
 config.financial.payeeSchemes[defaultPayeeSchemeId] = defaultPayeeScheme;
 
@@ -221,7 +221,7 @@ config.financial.payeeSchemes[defaultPayeeSchemeId] = defaultPayeeScheme;
 config.financial.paymentGateways.push('./payswarm.pg.test');
 config.financial.paymentGateway = config.financial.paymentGateway || {};
 config.financial.paymentGateway.Test = {};
-config.financial.paymentGateway.Test[payee] = [{
+config.financial.paymentGateway.Test.payee = [{
   type: 'com:Payee',
   destination: baseUri + '/i/authority/accounts/fees',
   payeeRateType: 'com:Percentage',

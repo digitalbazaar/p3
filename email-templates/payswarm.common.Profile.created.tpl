@@ -1,6 +1,6 @@
 To: registration@{{html supportDomain}}
 From: cluster@{{html supportDomain}}
-Subject: {{html subjectPrefix}}{{html serviceName}} Profile created: {{html profile["psa:slug"]}} ({{html profile["@id"]}})
+Subject: {{html subjectPrefix}}{{html serviceName}} Profile created: {{html profile.psaSlug}} ({{html profile.id}})
 
 -----BEGIN PROFILE-----
 {{html toJson(profile)}}

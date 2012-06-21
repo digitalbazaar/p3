@@ -1,4 +1,4 @@
-To: {{html profile["foaf:mbox"]}}
+To: {{html profile.email}}
 From: "{{html serviceName}} Customer Support" <support@{{html supportDomain}}>
 Subject: {{html profileSubjectPrefix}}Congratulations on joining {{html serviceName}}!
 
@@ -8,12 +8,12 @@ NOTE: This is a demonstration website notification. More info is available at ht
 *******
 
 {{/if}}
-Hello {{html identity["rdfs:label"]}},
+Hello {{html identity.label}},
 
 Congratulations on joining {{html serviceName}}! Your profile has been created.
 
 You can manage your identity here:
-{{html identity["@id"]}}/dashboard
+{{html identity.id}}/dashboard
 
 We'd love to hear any feedback you have about {{html serviceName}}. Just send an email to comments@{{html supportDomain}}.
 

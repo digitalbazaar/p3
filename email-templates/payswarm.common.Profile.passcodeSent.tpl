@@ -2,7 +2,7 @@ To: {{html email}}
 From: "{{html serviceName}} Customer Support" <support@{{html supportDomain}}>
 Subject: {{html profileSubjectPrefix}}Your {{html serviceName}} pass code
 
-Hello {{html profiles[0]["rdfs:label"]}},
+Hello {{html profiles[0].label}},
 
 {{if password}}
 You requested a pass code so you could reset your {{html serviceName}} password. If
@@ -19,11 +19,11 @@ https://{{html serviceDomain}}/profile/passcode
 Since you have multiple profiles with the same email address, we sent you
 pass codes for each one:
 {{each(idx,profile) profiles}}
-Profile  : {{html profile["psa:slug"]}}
-Pass code: {{html profile["psa:passcode"]}}
+Profile  : {{html profile.psaSlug}}
+Pass code: {{html profile.psaPasscode}}
 {{/each}}
 {{else}}
-Your pass code is: {{html profiles[0]["psa:passcode"]}}
+Your pass code is: {{html profiles[0].psaPasscode}}
 {{/if}}
 
 If you have any questions or comments please contact support@{{html supportDomain}}.

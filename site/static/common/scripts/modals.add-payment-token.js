@@ -17,7 +17,7 @@ var modals = window.modals = window.modals || {};
  * modals.addPaymentToken.show({
  *   parent: $('#parent-modal') (optional),
  *   identity: 'https://example.com/i/myidentity',
- *   gateway: 'Test',
+ *   paymentGateway: 'Test',
  *   added: function(paymentToken),
  *   canceled: function() {}
  * });
@@ -79,7 +79,7 @@ modals.addPaymentToken.show = function(options) {
     var data = {
       '@context': 'http://purl.org/payswarm/v1',
       label: $('[name="label"]', target).val(),
-      paymentGateway: options.gateway || window.data.gateway
+      paymentGateway: options.paymentGateway || window.data.paymentGateway
     };
 
     // handle payment method specifics

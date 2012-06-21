@@ -72,7 +72,7 @@ config.addressValidator.module = './payswarm.av.test';
 config.financial.defaults = {
   account: {},
   paymentTokens: [],
-  gateway: 'Test'
+  paymentGateway: 'Test'
 };
 
 // mail config

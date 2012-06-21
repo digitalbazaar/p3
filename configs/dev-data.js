@@ -16,7 +16,7 @@ config.addressValidator.test.address = {
 
 // financial defaults
 config.financial.defaults.account = {
-  type: 'Account',
+  type: 'com:Account',
   // demo with $10
   balance: '10.0000000',
   escrow: '0.0000000',
@@ -203,7 +203,7 @@ var defaultPayeeScheme = {
   id: defaultPayeeSchemeId,
   type: 'com:PayeeScheme',
   payee: [{
-    type: payee,
+    type: 'com:Payee',
     payeeRate: '2.00',
     payeeRateType: 'com:Percentage',
     destination: authorityId + '/accounts/main',
@@ -222,7 +222,7 @@ config.financial.paymentGateways.push('./payswarm.pg.test');
 config.financial.paymentGateway = config.financial.paymentGateway || {};
 config.financial.paymentGateway.Test = {};
 config.financial.paymentGateway.Test[payee] = [{
-  type: payee,
+  type: 'com:Payee',
   destination: baseUri + '/i/authority/accounts/fees',
   payeeRateType: 'com:Percentage',
   payeeRate: '4.1666667',

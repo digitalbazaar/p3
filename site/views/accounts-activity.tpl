@@ -8,7 +8,7 @@ ${set([
 
 <ul class="breadcrumb">
   <li>
-    <a href="${session.identity.id]}/dashboard">Dashboard (${session.identity.label}) </a> <span class="divider">/</span>
+    <a href="${session.identity.id}/dashboard">Dashboard (${session.identity.label}) </a> <span class="divider">/</span>
   </li>
   <li>
     Accounts {{if transactions.account}}<span class="divider">/</span>{{/if}}

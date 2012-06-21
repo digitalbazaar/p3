@@ -93,7 +93,7 @@ config.website.views.vars = {
   },
   // client-side data
   clientData: {
-    gateway: 'Test',
+    paymentGateway: 'Test',
     productionMode: config.website.views.vars.productionMode,
     paymentDefaults: {
       allowDuplicatePurchases: true

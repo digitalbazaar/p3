@@ -8,14 +8,14 @@ ${set([
 
 <ul class="breadcrumb">
   <li>
-    <a href="${session.identity["@id"]}/dashboard">Dashboard (${session.identity["rdfs:label"]}) </a> <span class="divider">/</span>
+    <a href="${session.identity.id]}/dashboard">Dashboard (${session.identity.label}) </a> <span class="divider">/</span>
   </li>
   <li>
     Accounts {{if transactions.account}}<span class="divider">/</span>{{/if}}
   </li>
   {{if transactions.account}}
   <li class="active">
-    ${transactions.account["rdfs:label"]}
+    ${transactions.account.label}
   </li>
   {{/if}}
 </ul>
@@ -51,8 +51,8 @@ ${set([
   <tbody class="resources">
     {{each(tnum,transaction) transactions.resources}}
       ${set(tnum = tnum)}
-      {{! FIXME: the transaction.@type may match more than one }}
-      {{each(idx,ta) transaction["@type"]}}
+      {{! FIXME: the transaction.type may match more than one }}
+      {{each(idx,ta) transaction.type}}
         {{if ta == "ps:Contract"}}
           ${set(contract = transaction)}
           {{partial "activity-contract.tpl"}}

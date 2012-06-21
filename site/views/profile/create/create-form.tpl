@@ -21,24 +21,24 @@ split the cost of a pizza. What you do with your new super power is up to you.
   <fieldset>
     <legend>Your Profile Details</legend>
     
-    <div class="control-group" data-binding="foaf:mbox">
+    <div class="control-group" data-binding="email">
       <label class="control-label" for="email">Email</label>
       <div class="controls">
         <input id="email" class="input-xlarge auto-tooltip form-field-vspaced"
-          name="email" data-binding="foaf:mbox" type="text"
+          name="email" data-binding="email" type="text"
           data-original-title="A valid e-mail address is required so that we can send you receipts and reset your password if you get locked out."
           data-placement="right" data-trigger="focus" />
       </div>
     </div>
 
-    <div class="control-group" data-binding="rdfs:label">
+    <div class="control-group" data-binding="label">
       <label class="control-label" for="profile">Profile Name</label>
       <div class="controls">
         <input id="profile" class="input-xlarge auto-tooltip tx" data-tx="profile" 
-          name="profile-label" data-binding="rdfs:label" type="text" 
+          name="profile-label" data-binding="label" type="text" 
           data-original-title="You can use your profile name to sign into the website. It's best to use something simple. If you would like, you can also customize your profile vanity address below."
           data-placement="right" data-trigger="focus"/>
-        <p class="comment"><small><span name="authority-base">https://payswarm.com</span>/profile/</small><input data-tx-from="profile" class="slug" name="profile-slug" data-binding="psa:slug" type="text" maxlength="32" placeholder="PROFILE_NAME" /></p>
+        <p class="comment"><small><span name="authority-base">https://payswarm.com</span>/profile/</small><input data-tx-from="profile" class="slug" name="profile-slug" data-binding="psaSlug" type="text" maxlength="32" placeholder="PROFILE_NAME" /></p>
         <div id="profile-duplicate">
           <div name="available" class="alert alert-success alert-short hide">This profile is available!</div>
           <div name="invalid" class="alert alert-error alert-short hide">Profile name is invalid.</div>
@@ -48,11 +48,11 @@ split the cost of a pizza. What you do with your new super power is up to you.
       </div>
     </div>
 
-    <div class="control-group" data-binding="psa:password">
+    <div class="control-group" data-binding="psaPassword">
       <label class="control-label" for="password">Password</label>
       <div class="controls">
         <input id="password" class="input-xlarge auto-tooltip"
-          name="password" data-binding="psa:password" 
+          name="password" data-binding="psaPassword" 
           maxlength="32" type="password"
           data-original-title="Please use a secure password, the best passwords are long phrases like: the<strong>lemurs</strong>ride<strong>on</strong>the<strong>fortnight</strong>"
           data-placement="right" data-trigger="focus"/>
@@ -73,14 +73,14 @@ would allow you to buy and/or fund things while protecting your privacy.
       </p>
     </div>
 
-    <div class="control-group" data-binding="psa:identity.rdfs:label">
+    <div class="control-group" data-binding="psaIdentity.label">
       <label class="control-label" for="identity">Identity Name</label>
       <div class="controls">
         <input id="identity" class="input-xlarge tx auto-tooltip" data-tx="identity" 
           name="identity-label" type="text" 
           data-original-title="Enter your online handle, for example, some form of your full name like 'janedoe'. You can also customize your identity vanity address below."
           data-placement="right" data-trigger="focus"/>
-        <p class="comment"><small><span name="authority-base">https://payswarm.com</span>/i/</small><input data-tx="identity-slug" data-tx-from="identity" class="tx slug" name="identity-slug" data-binding="psa:identity.psa:slug" type="text" maxlength="32" placeholder="IDENTITY-NAME" /></p>
+        <p class="comment"><small><span name="authority-base">https://payswarm.com</span>/i/</small><input data-tx="identity-slug" data-tx-from="identity" class="tx slug" name="identity-slug" data-binding="psaIdentity.psaSlug" type="text" maxlength="32" placeholder="IDENTITY-NAME" /></p>
         <div id="identity-duplicate">
           <div name="available" class="alert alert-success alert-short hide">This identity is available!</div>
           <div name="invalid" class="alert alert-error alert-short hide">Identity name is invalid.</div>
@@ -102,14 +102,14 @@ add others at any point at no extra cost.
       </p>
     </div>
 
-    <div class="control-group" data-binding="com:account.rdfs:label">
+    <div class="control-group" data-binding="account.label">
       <label class="control-label" for="account">Account Name</label>
       <div class="controls">
         <input id="account" class="input-xlarge tx auto-tooltip" 
           data-tx="account" name="account-label" 
           type="text" data-original-title="The name of your default financial account. Most people pick 'Primary' for the name of this account. You can change your account's vanity address below."
           data-placement="right" data-trigger="focus" />
-        <p><small><span name="authority-base">https://payswarm.com</span>/i/<span data-tx-from="identity-slug" data-tx-placeholder="IDENTITY-NAME" class="slug"></span>/accounts/</small><input data-tx-from="account" class="slug" name="account-slug" data-binding="com:account.psa:slug" type="text" maxlength="32" placeholder="ACCOUNT-NAME" /></p>
+        <p><small><span name="authority-base">https://payswarm.com</span>/i/<span data-tx-from="identity-slug" data-tx-placeholder="IDENTITY-NAME" class="slug"></span>/accounts/</small><input data-tx-from="account" class="slug" name="account-slug" data-binding="account.psaSlug" type="text" maxlength="32" placeholder="ACCOUNT-NAME" /></p>
       </div>
     </div>
 

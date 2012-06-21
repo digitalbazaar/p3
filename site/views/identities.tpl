@@ -25,22 +25,22 @@ ${set([
 
    {:each from=identities as=identity}
    <div class="well identity">
-      <div id="identity-{identity.@id}" class="clearfix">
-         <span class="inline-edit"><a href="/i/{identity.@id|escape('url')}">Edit</a></span>
+      <div id="identity-{identity.id}" class="clearfix">
+         <span class="inline-edit"><a href="/i/{identity.id|escape('url')}">Edit</a></span>
          <span class="inline-status">Changes Saved</span>
 
-         <h3><a href="{identity.@id}">{identity.rdfs:label}</a>{:if identity.psa:status != "active"} <span class="disabled">(Disabled)</span>{:end}</h3>
+         <h3><a href="{identity.id}">{identity.label}</a>{:if identity.psaStatus != "active"} <span class="disabled">(Disabled)</span>{:end}</h3>
 
-         {:if identity.vcard:adr}
+         {:if identity.address}
          <div class="block-inline w46 mr1">
             <h4>Addresses</h4>
 
-            {:each from=identity.vcard:adr as=address}
+            {:each from=identity.address as=address}
             <address>
-               <strong>{address.vcard:fn}</strong><br/>
-               {address.vcard:street\-address}<br/>
-               {address.vcard:locality}, {address.vcard:region} {address.vcard:postal\-code}<br/>
-               {address.vcard:country\-name}
+               <strong>{address.fullName}</strong><br/>
+               {address.streetAddress}<br/>
+               {address.locality}, {address.region} {address.postalCode}<br/>
+               {address.countryName}
             </address>
             {:end}
          </div>
@@ -52,33 +52,33 @@ ${set([
 
          <p class="hidden">
             <label>Label
-               <input name="rdfs:label" value="{identity.rdfs:label}">
+               <input name="label" value="{identity.label}">
             </label><label>Type
-               <input name="@type" value="{identity.@type}">
+               <input name="type" value="{identity.type}">
             </label><label>Privacy
-               <input name="psa:privacy" value="{identity.psa:privacy|default('private')|capitalize}">
+               <input name="psaPrivacy" value="{identity.psaPrivacy|default('private')|capitalize}">
             </label>
          </p>
       </div>
       
-      <div id="accounts-{identity.@id}" class="accounts">
+      <div id="accounts-{identity.id}" class="accounts">
          <h4>Accounts</h4>
          {:each from=identity.accounts as=account}
-         <div id="account-{account.@id}" class="account">
-            <span class="label"><a href="/financial/activity?account={account.@id|escape('url')}">{account.rdfs:label}</a>{:if account.psa:status != "active"} <span class="disabled">(Disabled)</span>{:end}</span>
-            <span class="balance"><span class="currency">{account.com:currency} $</span> {account.com:balance|decimal('2', 'down')}</span>
-            <span class="inline-edit"><a href="{account.@id}?form=edit">Edit</a></span>
+         <div id="account-{account.id}" class="account">
+            <span class="label"><a href="/financial/activity?account={account.id|escape('url')}">{account.label}</a>{:if account.psaStatus != "active"} <span class="disabled">(Disabled)</span>{:end}</span>
+            <span class="balance"><span class="currency">{account.currency} $</span> {account.balance|decimal('2', 'down')}</span>
+            <span class="inline-edit"><a href="{account.id}?form=edit">Edit</a></span>
          </div>
          {:eachelse}
          <p>No accounts</p>
          {:end}
       </div>
       
-      <div id="keys-{identity.@id}" class="keys">
+      <div id="keys-{identity.id}" class="keys">
          <h4>Keys</h4>
          {:each from=identity.keys as=key}
-         <div id="key-{key.@id}" class="key">
-            <span class="label"><a href="{key.@id}">{key.rdfs:label}</a></span>
+         <div id="key-{key.id}" class="key">
+            <span class="label"><a href="{key.id}">{key.label}</a></span>
             <span class="data"></span>
          </div>
          {:eachelse}

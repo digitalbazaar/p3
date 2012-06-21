@@ -65,7 +65,7 @@
     {{if session.loaded}}
     <script type="text/javascript">
     $.cookie('timezone', new Date().getTimezoneOffset());
-    var currentSlug = '${session.identity["psa:slug"]}';
+    var currentSlug = '${session.identity.psaSlug}';
     $(document).ready(function() {
       $('#identity-selector').change(function() {
         var url = window.location.href;

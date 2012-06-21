@@ -65,7 +65,7 @@
     <div class="span12">
       <select name="profile" autofocus="autofocus">
       {{each(idx,profile) profiles}}
-        <option value="${profile["rdfs:label"]}"{{if idx == 0}} selected="selected"{{/if}}>${profile["rdfs:label"]}</option>
+        <option value="${profile.label}"{{if idx == 0}} selected="selected"{{/if}}>${profile.label}</option>
       {{/each}}
       </select>
     </div>

@@ -18,7 +18,7 @@ ${set([
   <div class="span6 offset3">
     
     <form id="vendor-update" class="form-horizontal" 
-      method="post" action="${session.identity["@id"]}/preferences">
+      method="post" action="${session.identity.id}/preferences">
     
       <fieldset>
         <div class="control-group">

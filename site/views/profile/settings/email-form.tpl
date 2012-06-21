@@ -2,15 +2,15 @@
    method="post" action="/profile/email">
    <h3>Email</h3>
 
-   <input name="@id" type="hidden" value="${profile["@id"]}" />
+   <input name="@id" type="hidden" value="${profile.id}" />
 
    <p class="clearfix">
       <label class="block-inline w29 mr1">Email Address
-         <input name="foaf:mbox" type="text" value="${profile["foaf:mbox"]}"/>
+         <input name="email" type="text" value="${profile.email}"/>
       </label>
       
       <label class="block-inline w30">Current Password
-         <input name="psa:password" type="password" maxlength="32" />
+         <input name="psaPassword" type="password" maxlength="32" />
       </label>
    </p>
 

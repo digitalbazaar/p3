@@ -28,14 +28,14 @@ ${set([
 {{verbatim}}
 <script id="accounts-tmpl" type="text/x-jquery-tmpl">
   {{each(idx, account) accounts}}
-  <tr id="account-${account["@id"]}" about="${account["@id"]}" class="account resource">
+  <tr id="account-${account.id}" about="${account.id}" class="account resource">
     <td>
-      <a href="/financial/activity?account=${encodeURIComponent(account["@id"])}">${account["rdfs:label"]}</a>{{if account["psa:status"] != "active"}} <span class="disabled">(Disabled)</span>{{/if}}
+      <a href="/financial/activity?account=${encodeURIComponent(account.id)}">${account.label}</a>{{if account.psaStatus != "active"}} <span class="disabled">(Disabled)</span>{{/if}}
     </td>
     <td class="money">
       <span class="auto-tooltip" 
-        data-original-title="Since we support micro-payments, we track your account balance very accurately. The exact amount in this account is ${account["com:currency"]} $ ${account["com:balance"]}."
-        data-placement="bottom" data-trigger="hover"><span class="currency">${account["com:currency"]} $</span> ${tmpl.decimal(account["com:balance"], 'down', '2')}</span>
+        data-original-title="Since we support micro-payments, we track your account balance very accurately. The exact amount in this account is ${account.currency} $ ${account.balance}."
+        data-placement="bottom" data-trigger="hover"><span class="currency">${account.currency} $</span> ${tmpl.decimal(account.balance, 'down', '2')}</span>
     </td>
     <td class="action">
       <button class="btn deposit" data-toggle="modal" title="Deposit"><i class="icon-plus"></i></button>
@@ -49,24 +49,24 @@ ${set([
 
 <script id="budgets-tmpl" type="text/x-jquery-tmpl">
   {{each(idx, budget) budgets}}
-  <tr id="budget-${budget["@id"]}" about="${budget["@id"]}" class="budget resource">
+  <tr id="budget-${budget.id}" about="${budget.id}" class="budget resource">
     <td class="name">
-      <!--<a href="${budget["@id"]}">${budget["rdfs:label"]}</a>-->
-      <span title="${budget["@id"]}">${budget["rdfs:label"]}</span>
+      <!--<a href="${budget.id}">${budget.label}</a>-->
+      <span title="${budget.id}">${budget.label}</span>
     </td>
     <td class="money">
       {{! FIXME: add currency }}
-      <div class="progress ${tmpl.progessMeterClass(budget["com:balance"], budget["com:amount"])} progress-striped no-margin">
-        <div class="bar" style="width: ${tmpl.percentage(budget["com:balance"], budget["com:amount"])};"></div>
+      <div class="progress ${tmpl.progessMeterClass(budget.balance, budget.amount)} progress-striped no-margin">
+        <div class="bar" style="width: ${tmpl.percentage(budget.balance, budget.amount)};"></div>
       </div>
-      <span title="$ ${budget["com:balance"]}"><span class="currency">$</span> ${tmpl.decimal(budget["com:balance"], 'down', '2')}</span> /
-      <span title="$ ${budget["com:amount"]}"><span class="currency">$</span> ${tmpl.decimal(budget["com:amount"], 'down', '2')}</span>
+      <span title="$ ${budget.balance}"><span class="currency">$</span> ${tmpl.decimal(budget.balance, 'down', '2')}</span> /
+      <span title="$ ${budget.amount}"><span class="currency">$</span> ${tmpl.decimal(budget.amount, 'down', '2')}</span>
     </td>
     <td>
-      {{if budget["psa:refresh"] == "psa:Hourly"}}Hourly{{/if}}
-      {{if budget["psa:refresh"] == "psa:Daily"}}Daily{{/if}}
-      {{if budget["psa:refresh"] == "psa:Monthly"}}Monthly{{/if}}
-      {{if budget["psa:refresh"] == "psa:Yearly"}}Yearly{{/if}}
+      {{if budget.psaRefresh"] == "psa:Hourly"}}Hourly{{/if}}
+      {{if budget.psaRefresh"] == "psa:Daily"}}Daily{{/if}}
+      {{if budget.psaRefresh"] == "psa:Monthly"}}Monthly{{/if}}
+      {{if budget.psaRefresh"] == "psa:Yearly"}}Yearly{{/if}}
     </td>
     <td class="action">
       <button class="btn edit" data-toggle="modal" title="Edit"><i class="icon-pencil"></i></button>

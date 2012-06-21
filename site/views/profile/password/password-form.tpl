@@ -2,7 +2,7 @@
    method="post" action="/profile/password">
    <h3>Password</h3>
 
-   <input name="@id" type="hidden" value="${profile["@id"]}" />
+   <input name="@id" type="hidden" value="${profile.id}" />
 
    <p class="clearfix">
       <label class="block-inline w29 mr1">New Password

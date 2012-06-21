@@ -15,12 +15,12 @@ ${set([
       method="post" action="/profile/passcode">
       <fieldset>
       <legend>Get Passcode</legend>
-        <div class="control-group" data-binding="psa:identifier">
+        <div class="control-group" data-binding="psaIdentifier">
           <label class="control-label" for="email">E-mail or profile name</label>
           <div class="controls">
             <input id="email" class="auto-tooltip" 
               name="profile" type="text" maxlength="320"
-              value="{{if session.loaded}}${session.profile["foaf:mbox"]}{{/if}}" 
+              value="{{if session.loaded}}${session.profile.email}{{/if}}" 
               data-original-title="The e-mail address that you used when you registered with this website or the profile name associated with the password that you would like to reset."
               data-placement="right" data-trigger="focus" />
           </div>
@@ -48,7 +48,7 @@ ${set([
         <div class="controls">
           <input id="reset-email" class="auto-tooltip" 
             name="input" type="text" maxlength="320"
-            value="{{if session.loaded}}${session.profile["foaf:mbox"]}{{/if}}" 
+            value="{{if session.loaded}}${session.profile.email}{{/if}}" 
             data-original-title="The e-mail address or profile name that you used above to retrieve reset instructions and a reset passcode."
             data-placement="right" data-trigger="focus" />
         </div>
@@ -59,7 +59,7 @@ ${set([
         <div class="controls">
           <input id="passcode" class="auto-tooltip" 
             name="psa:passcode" type="text" maxlength="8"
-            value="{{if data["psa:passcode"]}}${data["psa:passcode"]}{{/if}}" 
+            value="{{if data.psaPasscode}}${data.psaPasscode}{{/if}}" 
             data-original-title="The passcode that was sent to you in the password reset e-mail from this website."
             data-placement="right" data-trigger="focus" />
         </div>

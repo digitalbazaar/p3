@@ -3,8 +3,8 @@ var config = require('../lib/payswarm-auth').config;
 // profile config
 config.profile.defaults = {
   profile: {
-    'psa:status': 'active',
-    'psa:role': [
+    psaStatus: 'active',
+    psaRole: [
       config.authority.baseUri + '/roles/profile_registered',
       config.authority.baseUri + '/roles/identity_manager',
       config.authority.baseUri + '/roles/financial_manager']
@@ -14,10 +14,10 @@ config.profile.defaults = {
 // identity config
 config.identity.defaults = {
   identity: {
-    '@type': 'ps:PersonalIdentity',
-    'vcard:adr': [],
-    'ps:preferences': {
-      '@type': 'ps:Preferences'
+    type: 'ps:PersonalIdentity',
+    address: [],
+    preferences: {
+      type: 'ps:Preferences'
     }
   }
 };
@@ -26,5 +26,5 @@ config.identity.defaults = {
 config.financial.defaults = {
   account: {},
   paymentTokens: [],
-  gateway: 'Test'
+  paymentGateway: 'Test'
 };

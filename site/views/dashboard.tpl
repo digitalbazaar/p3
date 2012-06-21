@@ -63,10 +63,10 @@ ${set([
       <span title="$ ${budget.amount}"><span class="currency">$</span> ${tmpl.decimal(budget.amount, 'down', '2')}</span>
     </td>
     <td>
-      {{if budget.psaRefresh"] == "psa:Hourly"}}Hourly{{/if}}
-      {{if budget.psaRefresh"] == "psa:Daily"}}Daily{{/if}}
-      {{if budget.psaRefresh"] == "psa:Monthly"}}Monthly{{/if}}
-      {{if budget.psaRefresh"] == "psa:Yearly"}}Yearly{{/if}}
+      {{if budget.psaRefresh == "psa:Hourly"}}Hourly{{/if}}
+      {{if budget.psaRefresh == "psa:Daily"}}Daily{{/if}}
+      {{if budget.psaRefresh == "psa:Monthly"}}Monthly{{/if}}
+      {{if budget.psaRefresh == "psa:Yearly"}}Yearly{{/if}}
     </td>
     <td class="action">
       <button class="btn edit" data-toggle="modal" title="Edit"><i class="icon-pencil"></i></button>

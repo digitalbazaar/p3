@@ -1,6 +1,6 @@
 <form class="well form-vertical" action="">
   <fieldset>
-    <div class="control-group" data-binding="rdfs:label">
+    <div class="control-group" data-binding="label">
       <label class="control-label" for="name">Name</label>
       <div class="controls">
         <div class="input-prepend">
@@ -10,7 +10,7 @@
             rel="tooltip" data-original-title="Enter a name for your financial account, for instance 'primary' or 'secondary'."
             data-placement="right" data-trigger="focus" />
           <p class="help-block">The name you choose will become part of your account url.</p>
-          <p><small>{{if identity}}${identity}{{else}}${baseUrl}/i/<span data-tx-from="identity" class="slug" data-tx-placeholder="IDENTITY-NAME"></span>{{/if}}/accounts/</small><input data-tx-from="account" data-binding="psa:slug" class="slug" name="slug" placeholder="ACCOUNT-NAME" /></p>
+          <p><small>{{if identity}}${identity}{{else}}${baseUrl}/i/<span data-tx-from="identity" class="slug" data-tx-placeholder="IDENTITY-NAME"></span>{{/if}}/accounts/</small><input data-tx-from="account" data-binding="psaSlug" class="slug" name="slug" placeholder="ACCOUNT-NAME" /></p>
           <div id="account-duplicate">
             <div name="available" class="alert alert-success hide">This account name is available!</div>
             <div name="invalid" class="alert alert-error hide">Account name is invalid.</div>

@@ -6,11 +6,11 @@
   <div class="modal-body">
     {{tmpl "demo-warning-tmpl"}}
 
-    <p>To add a new identity to your profile &quot;<strong>${profile["rdfs:label"]}</strong>&quot;,
+    <p>To add a new identity to your profile &quot;<strong>${profile.label}</strong>&quot;,
     please fill out the form below.</p>
     <form id="add-identity-form" class="well form-vertical" action="">
       <fieldset>
-        <div class="control-group" data-binding="rdfs:label">
+        <div class="control-group" data-binding="label">
           <label class="control-label" for="name">Name</label>
           <div class="controls">
             <input type="text" name="label"
@@ -18,7 +18,7 @@
               rel="tooltip" data-original-title="Enter your online handle, for example, some form of your full name like 'janedoe'. You can also customize your identity vanity address below."
               data-placement="right" data-trigger="focus" />
             <p class="help-block">The name you choose will become part of your identity url.</p>
-            <p><small>${baseUrl}/i/</small><input data-tx-from="identity" data-binding="psa:slug" class="slug" name="slug" placeholder="IDENTITY-NAME" /></p>
+            <p><small>${baseUrl}/i/</small><input data-tx-from="identity" data-binding="psaSlug" class="slug" name="slug" placeholder="IDENTITY-NAME" /></p>
             <div id="identity-duplicate">
               <div name="available" class="alert alert-success hide">This identity name is available!</div>
               <div name="invalid" class="alert alert-error hide">Identity name is invalid.</div>

@@ -8,8 +8,8 @@
   </thead>
   <tbody>
     <tr>
-      <td><a href="${contract["ps:asset"]["ps:contentUrl"]}">${contract["ps:asset"]["dc:title"]}</a></td>
-      <td class="money"><span class="money"><span class="currency">USD $</span> <span title="USD $${contract["com:amount"]}">${tmpl.decimal(contract["com:amount"])}</span></span></td>
+      <td><a href="${contract.asset.assetContentUrl}">${contract.asset.title}</a></td>
+      <td class="money"><span class="money"><span class="currency">USD $</span> <span title="USD $${contract.amount}">${tmpl.decimal(contract.amount)}</span></span></td>
       <td><button class="btn pay-quote-details-toggle">Details</button></td>
     </tr>
   </tbody>
@@ -19,17 +19,17 @@
       <th></th>
       <th></th>
     </tr>
-    {{each(idx,transfer) contract["com:transfer"]}}
+    {{each(idx,transfer) contract.transfer}}
     <tr>
-      <td class="cart-details-transfer-comment">${transfer["rdfs:comment"]}</td>
-      <td class="money"><span class="money right"><span class="currency">USD $</span> <span title="USD $${transfer["com:amount"]}">${tmpl.decimal(transfer["com:amount"])}</span></span></td>
-      <td><a class="cart-details-link" href="${transfer["com:destination"]}">Destination</a></td>
+      <td class="cart-details-transfer-comment">${transfer.comment}</td>
+      <td class="money"><span class="money right"><span class="currency">USD $</span> <span title="USD $${transfer.amount}">${tmpl.decimal(transfer.amount)}</span></span></td>
+      <td><a class="cart-details-link" href="${transfer.destination}">Destination</a></td>
     </tr>
     {{/each}}
   </tbody>
 </table>
 
 <div>
-  <p>Sold by: <a href="${contract["ps:assetProvider"]["foaf:homepage"]}">${contract["ps:assetProvider"]["rdfs:label"]}</a> - 
-  <span>${contract["ps:assetProvider"]["dc:description"]}</span></p>
+  <p>Sold by: <a href="${contract.assetProvider.homepage}">${contract.assetProvider.label}</a> - 
+  <span>${contract.assetProvider.description}</span></p>
 </div>

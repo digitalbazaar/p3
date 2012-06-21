@@ -1,36 +1,36 @@
-<div class="control-group" data-binding="com:source.ccard:brand">
-  <label class="control-label" for="ccard-brand">Type</label>
+<div class="control-group" data-binding="source.cardBrand">
+  <label class="control-label" for="card-brand">Type</label>
   <div class="controls">
-    <select class="input-small" name="ccard-brand">
+    <select class="input-small" name="card-brand">
       <option selected="selected" value="ccard:Visa">Visa</option>
       <option value="ccard:Mastercard">MasterCard</option>
       <option value="ccard:Discover">Discover</option>
     </select>
   </div>
 </div>
-<div class="control-group" data-binding="com:source.ccard:number">
-  <label class="control-label" for="ccard-number">Card Number</label>
+<div class="control-group" data-binding="source.cardNumber">
+  <label class="control-label" for="card-number">Card Number</label>
   <div class="controls">
-    <input class="input-large" type="text" name="ccard-number" maxlength="16"
+    <input class="input-large" type="text" name="card-number" maxlength="16"
       rel="tooltip" data-original-title="You must enter your credit card number, which must be 16 digits long."
       data-placement="right" data-trigger="focus" />
   </div>
 </div>
 <div></div>
-<div class="control-group" data-binding="com:source.ccard:expMonth">
-  <label class="control-label" for="ccard-exp-month">Expiration Month</label>
+<div class="control-group" data-binding="source.cardExpMonth">
+  <label class="control-label" for="card-exp-month">Expiration Month</label>
   <div class="controls">
-    <select class="input-small" name="ccard-exp-month">
+    <select class="input-small" name="card-exp-month">
       {{each(idx,month) tmpl.monthNumbers}}
       <option value="${month}">${month}</option>
       {{/each}}
     </select>
   </div>
 </div>
-<div class="control-group" data-binding="com:source.ccard:expYear">
-  <label class="control-label" for="ccard-exp-year">Expiration Year</label>
+<div class="control-group" data-binding="source.cardExpYear">
+  <label class="control-label" for="card-exp-year">Expiration Year</label>
   <div class="controls">
-    <select class="input-small" name="ccard-exp-year">
+    <select class="input-small" name="card-exp-year">
       {{each(idx,year) tmpl.years}}
       <option value="${year}">${year}</option>
       {{/each}}
@@ -38,12 +38,12 @@
   </div>
 </div>
 <div></div>
-<div class="control-group" data-binding="com:source.ccard:cvm">
-  <label class="control-label" for="ccard-cvm">Security Code</label>
+<div class="control-group" data-binding="source.cardCvm">
+  <label class="control-label" for="card-cvm">Security Code</label>
   <div class="controls">
     <div class="input-prepend">
       <span class="add-on"><img src="/content/scode.png" /></span><input
-        class="input-small" type="text" name="ccard-cvm" maxlength="4"
+        class="input-small" type="text" name="card-cvm" maxlength="4"
         rel="tooltip" data-original-title="You must enter the security code on the back of your credit card. It will be 3 or 4 digits long."
         data-placement="right" data-trigger="focus" />
     </div>

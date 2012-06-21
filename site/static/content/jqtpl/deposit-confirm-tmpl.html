@@ -16,12 +16,12 @@
 
   <h6>Details</h6>
   <div class="well">
-    {{each(idx,transfer) deposit["com:transfer"]}}
+    {{each(idx,transfer) deposit.transfer}}
     <p>
-      <span class="inline-block left comment">${accounts[idx]["rdfs:label"]}</span>
-      <span class="inline-block left comment">${transfer["rdfs:comment"]}</span>
+      <span class="inline-block left comment">${accounts[idx].label}</span>
+      <span class="inline-block left comment">${transfer.comment}</span>
       <span class="inline-block right text-right comment">
-        <span class="money" title="US $${transfer["com:amount"]}">US $${transfer["com:amount"]}</span>
+        <span class="money" title="US $${transfer.amount}">US $${transfer.amount}</span>
       </span>
     </p>
     {{/each}}
@@ -32,10 +32,10 @@
   
   <div class="alert alert-error">
     Your
-    {{if paymentToken["com:paymentMethod"] == "ccard:CreditCard"}}credit card
+    {{if paymentToken.paymentMethod == "ccard:CreditCard"}}credit card
     {{else}}bank account
     {{/if}}will be charged
-    <span class="money">US $${deposit["com:amount"]}</span>
+    <span class="money">US $${deposit.amount}</span>
   </div>
 
   <p>Digital Bazaar, Inc. will appear on your billing statement.</p>

@@ -1,7 +1,7 @@
 <div class="modal-body">
   {{tmpl "demo-warning-tmpl"}}
   
-  {{if !validatedAddress["psa:validated"]}}
+  {{if !validatedAddress.psaValidated}}
   <p>
     We ran your address through an address validation service, but it could
     not be validated. You may still use the address you entered, but if you

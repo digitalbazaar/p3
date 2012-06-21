@@ -1,7 +1,7 @@
-<li>${item["rdfs:label"]}</li>
-<li>${item["@id"]}</li>
-{{if item["vcard:adr"] && item["vcard:adr"].length > 0}}
-<li>${item["vcard:adr"][0]["vcard:fn"]}</li>
+<li>${item.label}</li>
+<li>${item.id}</li>
+{{if item.address && item.address.length > 0}}
+<li>${item.address[0].fullName}</li>
 {{else}}
 <li>&nbsp;</li>
 {{/if}}

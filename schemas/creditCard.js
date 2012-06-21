@@ -9,13 +9,13 @@ var schema = {
   description: 'A credit card.',
   type: 'object',
   properties: {
-    '@type': jsonldType('ccard:CreditCard'),
-    'ccard:brand': {
+    type: jsonldType('ccard:CreditCard'),
+    cardBrand: {
       required: true,
       type: 'string',
       enum: ['ccard:Visa', 'ccard:Mastercard', 'ccard:Discover']
     },
-    'ccard:number': {
+    cardNumber: {
       required: true,
       type: 'string',
       pattern: '^[0-9]{16}$',
@@ -24,7 +24,7 @@ var schema = {
         missing: 'Please enter a credit card number.'
       }
     },
-    'ccard:expMonth': {
+    cardExpMonth: {
       required: true,
       type: 'string',
       pattern: '^[0-9]{2}$',
@@ -33,7 +33,7 @@ var schema = {
         missing: 'Please enter a credit card expiration month.'
       }
     },
-    'ccard:expYear': {
+    cardExpYear: {
       required: true,
       type: 'string',
       pattern: '^[0-9]{2}$',
@@ -42,8 +42,8 @@ var schema = {
         missing: 'Please enter a credit card expiration year.'
       }
     },
-    'ccard:address': address(),
-    'ccard:cvm': {
+    cardAddress: address(),
+    cardCvm: {
       required: true,
       type: 'string',
       pattern: '^[0-9]{3,4}$',

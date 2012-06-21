@@ -5,16 +5,16 @@ var publicKeyPem = require('./publicKeyPem');
 var postKey = {
   type: 'object',
   properties: {
-    'rdfs:label': label(),
-    'psa:status': status()
+    label: label(),
+    psaStatus: status()
   }
 };
 
 var postKeys = {
   type: 'object',
   properties: {
-    'rdfs:label': label(),
-    'sec:publicKeyPem': publicKeyPem()
+    label: label(),
+    publicKeyPem: publicKeyPem()
   }
 };
 

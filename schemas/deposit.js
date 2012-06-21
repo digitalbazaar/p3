@@ -15,23 +15,23 @@ var schema = {
   type: [{
     type: 'object',
     properties: {
-      '@type': jsonldType(['com:Transaction', 'com:Deposit']),
-      'com:payee': payee(),
-      'com:source': paymentToken()
+      type: jsonldType(['com:Transaction', 'com:Deposit']),
+      payee: payee(),
+      source: paymentToken()
     }
   }, {
     type: 'object',
     properties: {
-      '@type': jsonldType(['com:Transaction', 'com:Deposit']),
-      'com:payee': payee(),
-      'com:transfer': {
+      type: jsonldType(['com:Transaction', 'com:Deposit']),
+      payee: payee(),
+      transfer: {
         required: true,
         type: 'array',
         items: transfer()
       },
-      'com:date': w3cDateTime(),
-      'com:amount': depositAmount(),
-      'sec:signature': graphSignature()
+      created: w3cDateTime(),
+      amount: depositAmount(),
+      signature: graphSignature()
     }
   }]
 };

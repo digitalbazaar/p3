@@ -6,16 +6,16 @@ var url = require('./url');
 var postQuote = {
   type: 'object',
   properties: {
-    'ps:listing': payswarmId(),
-    'ps:listingHash': {
+    listing: payswarmId(),
+    listingHash: {
       type: 'string'
     },
-    'com:source': payswarmId(),
-    'com:referenceId': {
+    source: payswarmId(),
+    referenceId: {
       required: false,
       type: 'string'
     },
-    'sec:nonce': {
+    nonce: {
       required: false,
       type: 'string'
     }
@@ -25,7 +25,7 @@ var postQuote = {
 var postContract = {
   type: 'object',
   properties: {
-    '@type': jsonldType('com:Transaction', 'ps:Contract')
+    type: jsonldType('com:Transaction', 'ps:Contract')
   }
 };
 
@@ -34,17 +34,17 @@ var postDeposit = deposit();
 var postWithdrawal = {
   type: 'object',
   properties: {
-    '@type': jsonldType('com:Transaction', 'com:Withdrawal')
+    type: jsonldType('com:Transaction', 'com:Withdrawal')
   }
 };
 
 var postPurchaseRequest = {
   type: 'object',
   properties: {
-    '@type': jsonldType('com:Transaction', 'ps:PurchaseRequest'),
-    'ps:transactionId': payswarmId(),
-    'callback': url({required: false}),
-    'sec:nonce': {
+    type: jsonldType('com:Transaction', 'ps:PurchaseRequest'),
+    transactionId: payswarmId(),
+    callback: url({required: false}),
+    nonce: {
       required: false,
       type: 'string'
     }
@@ -54,7 +54,7 @@ var postPurchaseRequest = {
 var postTransfer = {
   type: 'object',
   properties: {
-    '@type': jsonldType('com:Transaction', 'com:Transfer')
+    type: jsonldType('com:Transaction', 'com:Transfer')
   }
 };
 

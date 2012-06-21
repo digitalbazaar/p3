@@ -9,7 +9,7 @@ var payswarmId = require('./payswarmId');
 var postPasscode = {
   type: 'object',
   properties: {
-    'psa:identifier': {
+    psaIdentifier: {
       required: true,
       type: [slug(), email()]
     }
@@ -19,47 +19,49 @@ var postPasscode = {
 var postPassword = {
   type: 'object',
   properties: {
-    '@id': payswarmId(),
-    'psa:password': password(),
-    'psa:passwordNew': password()
+    id: payswarmId(),
+    psaPassword: password(),
+    psaPasswordNew: password()
   }
 };
 
 var postPasswordReset = {
   type: 'object',
   properties: {
-    'psa:identifier': {
+    psaIdentifier: {
       required: true,
       type: [slug(), email()]
     },
-    'psa:passcode': passcode(),
-    'psa:passwordNew': password()
+    psaPasscode: passcode(),
+    psaPasswordNew: password()
   }
 };
 
 var postCreate = {
   type: 'object',
   properties: {
-    'psa:slug': slug(),
-    'foaf:mbox': email(),
-    'psa:password': password(),
-    'rdfs:label': label(),
-    'psa:identity': {
+    psaSlug: slug(),
+    email: email(),
+    psaPassword: password(),
+    label: label(),
+    psaIdentity: {
       required: true,
       type: 'object',
-      '@type': {
-        required: true,
-        type: 'string',
-        enum: ['ps:PersonalIdentity', 'ps:VendorIdentity']
-      },
-      'psa:slug': slug(),
-      'rdfs:label': label()
+      properties: {
+        type: {
+          required: true,
+          type: 'string',
+          enum: ['ps:PersonalIdentity', 'ps:VendorIdentity']
+        },
+        psaSlug: slug(),
+        label: label()
+      }
     },
-    'com:account': {
+    account: {
       required: true,
       type: 'object',
-      'psa:slug': slug(),
-      'rdfs:label': label()
+      psaSlug: slug(),
+      label: label()
     }
   }
 };
@@ -68,19 +70,19 @@ var postLogin = {
   type: [{
     type: 'object',
     properties: {
-      'profile': {
+      profile: {
         required: true,
         type: [slug(), email()]
       },
-      'password': password(),
-      'ref': url({required: false})
+      password: password(),
+      ref: url({required: false})
     }
   }, {
     type: 'object',
     properties: {
-      'profilename': slug(),
-      'password': password(),
-      'ref': url({required: false})
+      profilename: slug(),
+      password: password(),
+      ref: url({required: false})
     }
   }]
 };
@@ -88,29 +90,16 @@ var postLogin = {
 var postProfile = {
   type: 'object',
   properties: {
-    'rdfs:label': label({required: false}),
-    'foaf:mbox': email({required: false}),
-    'foaf:gender': {
-      required: false,
-      type: 'string'
-    },
-    'foaf:page': url({required: false}),
-    'foaf:based_near': {
-      required: false,
-      type: 'string'
-    },
-    'psa:bio': {
-      required: false,
-      type: 'string'
-    }
+    label: label({required: false}),
+    email: email({required: false})
   }
 };
 
 var switchIdentity = {
   type: 'object',
   properties: {
-    'identity': payswarmId(),
-    'redirect': url()
+    identity: payswarmId(),
+    redirect: url()
   }
 };
 

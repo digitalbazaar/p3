@@ -12,11 +12,11 @@ var schema = {
   description: 'A financial Transaction.',
   type: 'object',
   properties: {
-    '@type': jsonldType('com:Transaction'),
-    'com:date': w3cDateTime(),
+    type: jsonldType('com:Transaction'),
+    created: w3cDateTime(),
     // FIXME: seems incorrect to use deposit amount here
-    'com:amount': depositAmount(),
-    'com:transfer': {
+    amount: depositAmount(),
+    transfer: {
       type: 'array',
       items: transfer()
     }

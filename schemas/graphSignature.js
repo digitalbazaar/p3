@@ -10,10 +10,10 @@ var schema = {
   description: 'A digital signature on a graph.',
   type: 'object',
   properties: {
-    '@type': jsonldType('sec:GraphSignature2012'),
-    'dc:creator': payswarmId(),
-    'dc:created': w3cDateTime(),
-    'sec:signatureValue': {
+    type: jsonldType('sec:GraphSignature2012'),
+    creator: payswarmId(),
+    created: w3cDateTime(),
+    signatureValue: {
       required: true,
       type: 'string'
     }

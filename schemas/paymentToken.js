@@ -9,19 +9,19 @@ var schema = {
   description: 'A tokenized source of monetary funds.',
   type: 'object',
   properties: {
-    '@type': jsonldType('com:PaymentToken'),
-    'ps:owner': payswarmId(),
-    'com:paymentToken': {
+    type: jsonldType('com:PaymentToken'),
+    owner: payswarmId(),
+    paymentToken: {
       required: true,
       type: 'string'
     },
-    'com:gateway': {
+    paymentGateway: {
       required: false,
       type: 'string',
       minLength: 1,
       errorMessage: 'Gateway too short; 1 character minimum.'
     },
-    'com:paymentMethod': {
+    paymentMethod: {
       required: true,
       type: 'string',
       enum: ['ccard:CreditCard', 'bank:BankAccount']

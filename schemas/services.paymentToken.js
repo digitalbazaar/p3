@@ -5,15 +5,15 @@ var bankAccount = require('./bankAccount');
 var postPaymentTokens = {
   type: 'object',
   properties: {
-    'rdfs:label': label(),
-    'com:gateway': {
+    label: label(),
+    paymentGateway: {
       type: 'string',
       minLength: 1,
       errors: {
         missing: 'No payment gateway was specified.'
       }
     },
-    'com:source': {
+    source: {
       type: [creditCard, bankAccount]
     }
   }

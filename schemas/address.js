@@ -10,10 +10,10 @@ var schema = {
   description: 'A vcard address.',
   type: 'object',
   properties: {
-    '@type': jsonldType('vcard:Address'),
-    'rdfs:label': label(),
-    'vcard:fn': personName(),
-    'vcard:street-address': {
+    type: jsonldType('vcard:Address'),
+    label: label(),
+    fullName: personName(),
+    streetAddress: {
       required: true,
       type: 'string',
       pattern: '^[^\\s](.*)[^\\s]$',
@@ -24,7 +24,7 @@ var schema = {
         missing: 'Please enter a street address.'
       }
     },
-    'vcard:locality': {
+    locality: {
       required: true,
       type: 'string',
       pattern: '^[^\\s](.*)[^\\s]$',
@@ -35,7 +35,7 @@ var schema = {
         missing: 'Please enter a city/locality.'
       }
     },
-    'vcard:postal-code': {
+    postalCode: {
       required: true,
       type: 'string',
       pattern: '^[^\\s](.*)[^\\s]$',
@@ -46,7 +46,7 @@ var schema = {
         missing: 'Please enter a zip/postal code.'
       }
     },
-    'vcard:region': {
+    region: {
       required: true,
       type: 'string',
       pattern: '^[^\\s](.*)[^\\s]$',
@@ -57,7 +57,7 @@ var schema = {
         missing: 'Please enter a state/region.'
       }
     },
-    'vcard:country-name': {
+    countryName: {
       required: true,
       type: 'string',
       pattern: '^[^\\s](.*)[^\\s]$',

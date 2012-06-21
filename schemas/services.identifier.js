@@ -5,26 +5,26 @@ var postIdentifier = {
   type: [{
     type: 'object',
     properties: {
-      '@type': {
+      type: {
         required: true,
         type: 'string',
         enum: ['ps:Profile', 'ps:PersonalIdentity', 'ps:VendorIdentity']
       },
-      'psa:slug': slug()
+      psaSlug: slug()
     }
   }, {
     type: 'object',
     properties: {
-      '@type': {
+      type: {
         required: true,
         type: 'string',
         enum: ['ps:FinancialAccount']
       },
-      'ps:owner': {
+      owner: {
         required: true,
         type: payswarmId()
       },
-      'psa:slug': slug()
+      psaSlug: slug()
     }
   }]
 };

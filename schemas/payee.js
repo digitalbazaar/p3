@@ -11,18 +11,18 @@ var schema = {
   items: {
     type: 'object',
     properties: {
-      'com:destination': payswarmId(),
-      'com:rate': money.precisePositive(),
-      'com:rateType': {
+      destination: payswarmId(),
+      payeeRate: money.precisePositive(),
+      payeeRateType: {
         required: true,
         type: 'string',
         enum: ['com:FlatAmount', 'com:Percentage']
       },
-      'rdfs:comment': {
+      comment: {
         required: true,
         type: 'string'
       },
-      'com:rateContext': {
+      payeeRateContext: {
         required: true,
         type: [{
           type: 'string',
@@ -51,7 +51,7 @@ var schema = {
           }
         }]
       },
-      'com:payeePosition': {
+      payeePosition: {
         required: true,
         type: 'integer'
       }

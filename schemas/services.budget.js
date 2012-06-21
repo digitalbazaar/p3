@@ -5,11 +5,11 @@ var money = require('./money');
 var postBudget = {
   type: 'object',
   properties: {
-    'rdfs:label': label({required: false}),
-    'com:account': payswarmId({required: false}),
-    'com:amount': money.precisePositive({required: false}),
-    'com:vendor': payswarmId({required: false}),
-    'psa:expires': {
+    label: label({required: false}),
+    source: payswarmId({required: false}),
+    amount: money.precisePositive({required: false}),
+    vendor: payswarmId({required: false}),
+    psaExpires: {
       required: false,
       type: [{
         type: 'integer',
@@ -20,8 +20,8 @@ var postBudget = {
         enum: ['']
       }]
     },
-    'psa:maxPerUse': money.precisePositive({required: false}),
-    'psa:refresh': {
+    psaMaxPerUse: money.precisePositive({required: false}),
+    psaRefresh: {
       type: 'string',
       enum: ['psa:Hourly', 'psa:Daily', 'psa:Monthly', 'psa:Yearly'],
       required: false
@@ -32,17 +32,17 @@ var postBudget = {
 var postBudgets = {
   type: 'object',
   properties: {
-    'rdfs:label': label(),
-    'com:account': payswarmId(),
-    'com:amount': money.precisePositive(),
-    'com:vendor': payswarmId({required: false}),
-    'psa:expires': {
+    label: label(),
+    source: payswarmId(),
+    amount: money.precisePositive(),
+    vendor: payswarmId({required: false}),
+    psaExpires: {
       type: 'integer',
       minimum: 0,
       exclusiveMinimum: true
     },
-    'psa:maxPerUse': money.precisePositive({required: false}),
-    'psa:refresh': {
+    psaMaxPerUse: money.precisePositive({required: false}),
+    psaRefresh: {
       type: 'string',
       enum: ['psa:Hourly', 'psa:Daily', 'psa:Monthly', 'psa:Yearly'],
     }

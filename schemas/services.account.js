@@ -5,19 +5,19 @@ var privacy = require('./privacy');
 var postAccounts = {
   type: 'object',
   properties: {
-    'psa:slug': {
+    psaSlug: {
       required: true,
       type: payswarmId()
     },
-    'rdfs:label': {
+    label: {
       required: true,
       type: label()
     },
-    'psa:privacy': {
+    privacy: {
       required: false,
       type: privacy()
     },
-    'com:currency': {
+    currency: {
       required: true,
       type: 'string',
       enum: ['USD']
@@ -28,11 +28,11 @@ var postAccounts = {
 var postAccount = {
   type: 'object',
   properties: {
-    'rdfs:label': {
+    label: {
       required: true,
       type: label()
     },
-    'psa:privacy': {
+    psaPrivacy: {
       required: false,
       type: privacy()
     }

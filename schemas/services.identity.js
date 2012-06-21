@@ -5,25 +5,25 @@ var publicKeyPem = require('./publicKeyPem');
 var postIdentity = {
   type: 'object',
   properties: {
-    'rdfs:label': label()
+    label: label()
   }
 };
 
 var postIdentities = {
   type: 'object',
   properties: {
-    '@type': {
+    type: {
       required: true,
       type: 'string',
       enum: ['ps:PersonalIdentity', 'ps:VendorIdentity']
     },
-    'psa:slug': slug(),
-    'rdfs:label': label(),
-    'foaf:homepage': {
+    psaSlug: slug(),
+    label: label(),
+    homepage: {
       required: false,
       type: 'string'
     },
-    'dc:description': {
+    description: {
       required: false,
       type: 'string'
     }
@@ -33,11 +33,11 @@ var postIdentities = {
 var postPreferences = {
   type: 'object',
   properties: {
-    'com:destination': {
+    destination: {
       required: true,
       type: 'string'
     },
-    'sec:publicKey': {
+    publicKey: {
       required: true,
       type: [{
         // IRI only
@@ -46,8 +46,8 @@ var postPreferences = {
         // label+pem
         type: 'object',
         properties: {
-          'rdfs:label': label(),
-          'sec:publicKeyPem': publicKeyPem()
+          label: label(),
+          publicKeyPem: publicKeyPem()
         }
       }]
     }

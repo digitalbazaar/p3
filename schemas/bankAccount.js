@@ -8,8 +8,8 @@ var schema = {
   description: 'A bank account.',
   type: 'object',
   properties: {
-    '@type': jsonldType('bank:BankAccount'),
-    'bank:account': {
+    type: jsonldType('bank:BankAccount'),
+    bankAccount: {
       required: true,
       type: 'string',
       pattern: '^[0-9]+$',
@@ -17,7 +17,7 @@ var schema = {
         missing: 'Please enter a bank account number.'
       }
     },
-    'bank:routing': {
+    bankRouting: {
       required: true,
       type: 'string',
       pattern: '^[0-9]+$',

@@ -11,12 +11,12 @@ var schema = {
   description: 'A financial Transfer.',
   type: 'object',
   properties: {
-    '@type': jsonldType('com:Transfer'),
-    'ps:forTransaction': payswarmId(),
-    'com:source': payswarmId(),
-    'com:destination': payswarmId(),
-    'com:amount': money.precisePositive(),
-    'rdfs:comment': comment()
+    type: jsonldType('com:Transfer'),
+    forTransaction: payswarmId(),
+    source: payswarmId(),
+    destination: payswarmId(),
+    amount: money.precisePositive(),
+    comment: comment()
   }
 };
 

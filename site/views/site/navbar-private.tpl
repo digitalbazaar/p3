@@ -19,7 +19,7 @@ ${set([
 <div class="navbar">
   <div class="navbar-inner navbar-inner-banner">
     <div class="container">
-      {{if session.loaded && session.identity["ps:owner"] == session.profile["@id"]}}
+      {{if session.loaded && session.identity.owner == session.profile.id}}
         {{if pageLayout == "normal"}}
           <a class="brand" href="/"><img src="${cacheRoot}${style.brand.src}" width="${style.brand.width}" height="${style.brand.height}" alt="${style.brand.alt}" /></a>      
           <ul class="nav">
@@ -33,7 +33,7 @@ ${set([
           <i class="icon-user{{if style.navbar.isDark}} icon-white{{/if}}"></i>
         </a>
         <a id="popover-profile-link" class="navbar-link pull-right" style="line-height:45px">
-        {{if session.profile.label] != session.identity.label}}
+        {{if session.profile.label != session.identity.label}}
           ${display(session.profile.label, "-")} / ${display(session.identity.label, "-")}
         {{else}}
           ${display(session.profile.label, "-")}

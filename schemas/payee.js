@@ -19,11 +19,11 @@ var schema = {
         enum: ['com:FlatAmount', 'com:Percentage']
       },
       comment: {
-        required: true,
+        required: false,
         type: 'string'
       },
       payeeRateContext: {
-        required: true,
+        required: false,
         type: [{
           type: 'string',
           enum: [
@@ -52,7 +52,7 @@ var schema = {
         }]
       },
       payeePosition: {
-        required: true,
+        required: false,
         type: 'integer'
       }
     }

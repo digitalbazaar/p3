@@ -41,7 +41,7 @@ var postWithdrawal = {
 var postPurchaseRequest = {
   type: 'object',
   properties: {
-    type: jsonldType('com:Transaction', 'ps:PurchaseRequest'),
+    type: jsonldType('ps:PurchaseRequest'),
     transactionId: payswarmId(),
     callback: url({required: false}),
     nonce: {

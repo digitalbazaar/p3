@@ -59,7 +59,7 @@ ${set([
         <div class="controls">
           <input id="passcode" class="auto-tooltip" 
             name="psa:passcode" type="text" maxlength="8"
-            value="{{if data.psaPasscode}}${data.psaPasscode}{{/if}}" 
+            value="{{if psaPasscode}}${psaPasscode}{{/if}}" 
             data-original-title="The passcode that was sent to you in the password reset e-mail from this website."
             data-placement="right" data-trigger="focus" />
         </div>

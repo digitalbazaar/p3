@@ -60,8 +60,10 @@ var postCreate = {
     account: {
       required: true,
       type: 'object',
-      psaSlug: slug(),
-      label: label()
+      properties: {
+        psaSlug: slug(),
+        label: label()
+      }
     }
   }
 };

@@ -40,10 +40,10 @@ var postPasswordReset = {
 var postCreate = {
   type: 'object',
   properties: {
-    psaSlug: slug(),
+    psaSlug: slug({required: false}),
     email: email(),
     psaPassword: password(),
-    label: label(),
+    label: label({required: false}),
     psaIdentity: {
       required: true,
       type: 'object',

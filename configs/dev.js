@@ -1,13 +1,12 @@
 var config = require('../lib/payswarm-auth').config;
 
 // app info
-config.app = {};
 config.app.masterTitle = 'payswarm1d';
 config.app.workerTitle = 'payswarm1d-worker';
-config.app.user = {};
+config.app.restartWorkers = false;
 // system group and user IDs (can be groupname/username instead of numbers)
-config.app.user.groupId = 'payswarm';
-config.app.user.userId = 'payswarm';
+config.app.user.groupId = process.getuid();
+config.app.user.userId = process.getgid();
 
 // config environment
 config.environment = 'development';

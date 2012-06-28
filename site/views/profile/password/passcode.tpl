@@ -16,12 +16,12 @@ ${set([
       <fieldset>
       <legend>Get Passcode</legend>
         <div class="control-group" data-binding="psaIdentifier">
-          <label class="control-label" for="email">E-mail or profile name</label>
+          <label class="control-label" for="email">E-mail</label>
           <div class="controls">
             <input id="email" class="auto-tooltip" 
               name="profile" type="text" maxlength="320"
               value="{{if session.loaded}}${session.profile.email}{{/if}}" 
-              data-original-title="The e-mail address that you used when you registered with this website or the profile name associated with the password that you would like to reset."
+              data-original-title="The e-mail address that you used when you registered with this website."
               data-placement="right" data-trigger="focus" />
           </div>
         </div>
@@ -44,12 +44,12 @@ ${set([
       <legend>Update Your Password</legend>
 
       <div class="control-group">
-        <label class="control-label" for="reset-email">E-mail or profile name</label>
+        <label class="control-label" for="reset-email">E-mail</label>
         <div class="controls">
           <input id="reset-email" class="auto-tooltip" 
             name="input" type="text" maxlength="320"
             value="{{if session.loaded}}${session.profile.email}{{/if}}" 
-            data-original-title="The e-mail address or profile name that you used above to retrieve reset instructions and a reset passcode."
+            data-original-title="The e-mail address that you used above to retrieve reset instructions and a reset passcode."
             data-placement="right" data-trigger="focus" />
         </div>
       </div>

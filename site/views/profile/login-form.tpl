@@ -6,7 +6,7 @@
     <div class="row headline">
       <div class="span12">
         <input name="profile" type="text" autofocus="autofocus"
-          placeholder="E-mail or profile name" />
+          placeholder="E-mail" />
       </div>
     </div>
      

@@ -14,7 +14,7 @@ ${set([
       {{if pageLayout == "normal"}}
       <form id="login" class="form-inline form-banner pull-right">
         <fieldset>
-          <input class="input-medium" name="profile" type="text" placeholder="E-mail or profile name" />
+          <input class="input-medium" name="profile" type="text" placeholder="E-mail" />
           <input class="input-medium" name="password" type="password" placeholder="Password" />
           <div class="btn-toolbar btn-group-banner">
             <div class="btn-group btn-group-banner">

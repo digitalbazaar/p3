@@ -2,7 +2,7 @@ To: {{html email}}
 From: "{{html serviceName}} Customer Support" <support@{{html supportDomain}}>
 Subject: {{html profileSubjectPrefix}}Your {{html serviceName}} pass code
 
-Hello {{html profiles[0].label}},
+Hello {{if profiles[0].identity}}{{html profiles[0].identity.label}}{{else}}{{html profiles[0].label}}{{/if}},
 
 {{if password}}
 You requested a pass code so you could reset your {{html serviceName}} password. If
@@ -19,7 +19,11 @@ https://{{html serviceDomain}}/profile/passcode
 Since you have multiple profiles with the same email address, we sent you
 pass codes for each one:
 {{each(idx,profile) profiles}}
+{{if profile.identity}}
+Identity : {{html profile.identity.label}}
+{{else}}
 Profile  : {{html profile.psaSlug}}
+{{/if}}
 Pass code: {{html profile.psaPasscode}}
 {{/each}}
 {{else}}

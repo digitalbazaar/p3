@@ -35,6 +35,8 @@ $(document).ready(function() {
         }
         // FIXME: hack for demo, redir to full login page, change to replace
         // page content in the future with sign in page and profile selector
+        // FIXME: maybe use a small hovercard/similar popup below the navbar
+        // with a drop-down for the possible identities to sign in with
         else if(window.location.pathname !== '/profile/login') {
           window.location = '/profile/login';
         }
@@ -42,7 +44,7 @@ $(document).ready(function() {
           // show multiple profiles
           $('#login').replaceWith($('#login-multiple-tmpl').tmpl({
             email: response.email,
-            profiles: response.profile,
+            profiles: response.profiles,
             ref: ref
           }));
 
@@ -87,9 +89,9 @@ $(document).ready(function() {
       error: function(err) {
         var feedback = $('[name="login-feedback"]', form);
         website.util.processValidationErrors(feedback, form, err);
-        if(err.type === 'monarch.validation.ValidationError') {
+        if(err.type === 'payswarm.validation.ValidationError') {
           feedback.text(
-            'Please enter a profile or email address and a password.');
+            'Please enter your email address and password.');
         }
         // add validation errors
         $('#signin-button').tooltip({

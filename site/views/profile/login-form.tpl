@@ -58,14 +58,17 @@
     <p class="span12 alert alert-info">
       <strong>Note:</strong>
       Your email address (${email}) is associated with multiple
-      profiles. Please select the profile to sign in as.
+      profiles. Please select the identity associated with the profile you'd
+      like to sign in with.
     </p>
   </div>
   <div class="row headline">
     <div class="span12">
       <select name="profile" autofocus="autofocus">
-      {{each(idx,profile) profiles}}
-        <option value="${profile.label}"{{if idx == 0}} selected="selected"{{/if}}>${profile.label}</option>
+      ${set(firstProfile, true)}
+      {{each(key,identity) profiles}}
+        <option value="${key}"{{if firstProfile}} selected="selected"{{/if}}>${identity.label}</option>
+        ${set(firstProfile, false)}
       {{/each}}
       </select>
     </div>

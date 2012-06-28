@@ -73,7 +73,7 @@ var postLogin = {
   properties: {
     profile: {
       required: true,
-      type: [slug(), email()]
+      type: [slug(), email(), payswarmId()]
     },
     password: password(),
     ref: url({required: false})

@@ -53,19 +53,28 @@ $(document).ready(function() {
         error: callback
       });
     }],
-    installBudgetSelector: ['autoPurchase', function(callback) {
-      selectors.budget.install({
-        target: $('#pay-budget-selector'),
-        identity: identity,
-        budgets: data.budgets,
-        addModal: true,
-        ready: function() {
-          $('#pay-budget-selector').hide();
-          callback();
-        },
-        change: checkBudgetBalance,
-        error: callback
-      });
+    installBudgetSelector: ['checkAccounts', 'autoPurchase',
+      function(callback) {
+        // build account map
+        var accountMap = {};
+        for(var ai in data.accounts) {
+          var account = data.accounts[ai];
+          accountMap[account.id] = account;
+        }
+
+        selectors.budget.install({
+          target: $('#pay-budget-selector'),
+          identity: identity,
+          budgets: data.budgets,
+          accountMap: accountMap,
+          addModal: true,
+          ready: function() {
+            $('#pay-budget-selector').hide();
+            callback();
+          },
+          change: checkBudgetBalance,
+          error: callback
+        });
     }],
     showPayment: ['installAccountSelector', 'installBudgetSelector',
       function(callback) {

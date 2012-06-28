@@ -33,8 +33,8 @@ ${set([
           <i class="icon-user{{if style.navbar.isDark}} icon-white{{/if}}"></i>
         </a>
         <a id="popover-profile-link" class="navbar-link pull-right" style="line-height:45px">
-        {{if session.profile.label != session.identity.label}}
-          ${display(session.profile.label, "-")} / ${display(session.identity.label, "-")}
+        {{if session.identity}}
+          ${display(session.identity.label, "-")}
         {{else}}
           ${display(session.profile.label, "-")}
         {{/if}}

@@ -31,23 +31,6 @@ split the cost of a pizza. What you do with your new super power is up to you.
       </div>
     </div>
 
-    <div class="control-group" data-binding="label">
-      <label class="control-label" for="profile">Profile Name</label>
-      <div class="controls">
-        <input id="profile" class="input-xlarge auto-tooltip tx" data-tx="profile" 
-          name="profile-label" data-binding="label" type="text" 
-          data-original-title="You can use your profile name to sign into the website. It's best to use something simple. If you would like, you can also customize your profile vanity address below."
-          data-placement="right" data-trigger="focus"/>
-        <p class="comment"><small><span name="authority-base">https://payswarm.com</span>/profile/</small><input data-tx-from="profile" class="slug" name="profile-slug" data-binding="psaSlug" type="text" maxlength="32" placeholder="PROFILE_NAME" /></p>
-        <div id="profile-duplicate">
-          <div name="available" class="alert alert-success alert-short hide">This profile is available!</div>
-          <div name="invalid" class="alert alert-error alert-short hide">Profile name is invalid.</div>
-          <div name="taken" class="alert alert-error alert-short hide">Profile name has already been taken.</div>
-          <div name="checking" class="alert alert-warning alert-short hide">Checking availability...</div>
-        </div>
-      </div>
-    </div>
-
     <div class="control-group" data-binding="psaPassword">
       <label class="control-label" for="password">Password</label>
       <div class="controls">
@@ -61,14 +44,14 @@ split the cost of a pizza. What you do with your new super power is up to you.
   </fieldset>
 
   <fieldset>
-    <legend>Your Initial Identity</legend>
+    <legend>Your Identity</legend>
 
     <div class="control-group">
       <p class="help-block">
 Your identity will be used to identify you online. It is usually a good idea 
-to use some form of your full name here, similar to how people choose email
-addresses or twitter handles. Keep in mind that you can always create a new
-identity, which could be semi-anonymous or fully-anonymous, later on. This
+to use some shortened form of your full name here, similar to how people choose
+email addresses or twitter handles. Keep in mind that you can always create a
+new identity, which could be semi-anonymous or fully-anonymous, later on. This
 would allow you to buy and/or fund things while protecting your privacy.
       </p>
     </div>
@@ -90,30 +73,36 @@ would allow you to buy and/or fund things while protecting your privacy.
       </div>
     </div>
   </fieldset>
-
-  <fieldset>
-    <legend>Your Default Financial Account</legend>
-
-    <div class="control-group">
-      <p class="help-block">
-Your default financial account is where you will keep your money and have
-others send you money. You start off with one financial account, but you can 
-add others at any point at no extra cost.
-      </p>
-    </div>
-
-    <div class="control-group" data-binding="account.label">
-      <label class="control-label" for="account">Account Name</label>
-      <div class="controls">
-        <input id="account" class="input-xlarge tx auto-tooltip" 
-          data-tx="account" name="account-label" 
-          type="text" data-original-title="The name of your default financial account. Most people pick 'Primary' for the name of this account. You can change your account's vanity address below."
-          data-placement="right" data-trigger="focus" />
-        <p><small><span name="authority-base">https://payswarm.com</span>/i/<span data-tx-from="identity-slug" data-tx-placeholder="IDENTITY-NAME" class="slug"></span>/accounts/</small><input data-tx-from="account" class="slug" name="account-slug" data-binding="account.psaSlug" type="text" maxlength="32" placeholder="ACCOUNT-NAME" /></p>
+  
+  <!-- <button class="btn" data-toggle="collapse" data-target="#account-form">
+    Advanced
+  </button> -->
+ 
+  <div id="account-form" class="collapse">  
+    <fieldset>
+      <legend>Your Default Financial Account</legend>
+  
+      <div class="control-group">
+        <p class="help-block">
+  Your default financial account is where you will keep your money and have
+  others send you money. You start off with one financial account, but you can 
+  add others at any point at no extra cost.
+        </p>
       </div>
-    </div>
-
-  </fieldset>
+  
+      <div class="control-group" data-binding="account.label">
+        <label class="control-label" for="account">Account Name</label>
+        <div class="controls">
+          <input id="account" class="input-xlarge tx auto-tooltip" 
+            data-tx="account" name="account-label" value="primary"
+            type="text" data-original-title="The name of your default financial account. Most people pick 'Primary' for the name of this account. You can change your account's vanity address below."
+            data-placement="right" data-trigger="focus" />
+          <p><small><span name="authority-base">https://payswarm.com</span>/i/<span data-tx-from="identity-slug" data-tx-placeholder="IDENTITY-NAME" class="slug"></span>/accounts/</small><input data-tx-from="account" class="slug" name="account-slug" data-binding="account.psaSlug" type="text" maxlength="32" placeholder="ACCOUNT-NAME" value="primary" /></p>
+        </div>
+      </div>
+  
+    </fieldset>
+  </div>
   
   <p class="comment">By joining you agree to the <a href="/legal#tos">Terms of Service</a> and <a href="/legal#pp">Privacy Policy</a>.</p>
     

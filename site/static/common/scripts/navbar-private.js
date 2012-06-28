@@ -17,7 +17,8 @@ $(document).ready(function() {
   $('#popover-profile-button').popover({
     placement: getPopoverPlacement,
     trigger: 'manual',
-    title: window.data.session.profile.label,
+    title: window.data.session.identity.label ||
+      window.data.session.profile.label,
     content: $.tmpl('navbar-hovercard-tmpl', {
       profile: data.session.profile,
       identity: data.session.identity,

@@ -19,10 +19,6 @@ $(document).ready(function() {
 
   // check duplicates
   var createForm = $('#create');
-  $('[name="profile-slug"]', createForm).bind('keyup change', function() {
-    website.util.checkDuplicateId(
-      $(this), 'ps:Profile', $('#profile-duplicate'));
-  });
   $('[name="identity-slug"]', createForm).bind('keyup change', function() {
     website.util.checkDuplicateId(
       $(this), 'ps:PersonalIdentity', $('#identity-duplicate'));
@@ -45,9 +41,7 @@ $(document).ready(function() {
       data: JSON.stringify({
         '@context': 'http://purl.org/payswarm/v1',
         email: $('[name="email"]', form).val(),
-        label: $('[name="profile-label"]', form).val(),
         psaPassword: $('[name="password"]', form).val(),
-        psaSlug: $('[name="profile-slug"]', form).val(),
         psaIdentity: {
           // FIXME: give option for type
           type: 'ps:PersonalIdentity',

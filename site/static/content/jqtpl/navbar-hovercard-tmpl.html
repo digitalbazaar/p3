@@ -8,14 +8,7 @@
         ${profile.email}
       </div>
     </div>
-    <div class="row-fluid">
-      <div class="span4">
-        <strong>Profile:</strong>
-      </div>
-      <div class="span8">
-        ${profile.label}
-      </div>
-    </div>
+    {{if identity}}
     <div class="row-fluid">
       <div class="span4">
         <strong>Identity:</strong>
@@ -24,6 +17,16 @@
         ${identity.label}
       </div>
     </div>
+    {{else}}
+    <div class="row-fluid">
+      <div class="span4">
+        <strong>Profile:</strong>
+      </div>
+      <div class="span8">
+        ${profile.label}
+      </div>
+    </div>
+    {{/if}}
     <div class="divider"></div>
     <div class="row-fluid">
       <div class="span12">

@@ -69,24 +69,15 @@ var postCreate = {
 };
 
 var postLogin = {
-  type: [{
-    type: 'object',
-    properties: {
-      profile: {
-        required: true,
-        type: [slug(), email()]
-      },
-      password: password(),
-      ref: url({required: false})
-    }
-  }, {
-    type: 'object',
-    properties: {
-      profilename: slug(),
-      password: password(),
-      ref: url({required: false})
-    }
-  }]
+  type: 'object',
+  properties: {
+    profile: {
+      required: true,
+      type: [slug(), email()]
+    },
+    password: password(),
+    ref: url({required: false})
+  }
 };
 
 var postProfile = {

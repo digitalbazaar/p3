@@ -766,7 +766,7 @@ payswarm.profiles = {};
  * Usage:
  *
  * payswarm.profiles.login({
- *   profile: (nick:name or foaf:mbox),
+ *   profile: slug or email,
  *   password: password,
  *   ref: '/redirect/url' (optional),
  *   success: function(response) {},

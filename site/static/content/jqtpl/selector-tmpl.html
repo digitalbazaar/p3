@@ -13,7 +13,7 @@
     <div class="carousel-inner">
       {{each(idx, item) items}}
       <ul class="well unstyled item{{if idx == selectedIndex}} active{{/if}}" data-item-index="${idx}">
-        {{tmpl({item: item}) itemTemplate}}
+        {{tmpl({item: item, vars: vars}) itemTemplate}}
         {{if addModal}}
         <li><button class="btn btn-success" name="selector-add"><i class="icon-plus icon-white"></i> Add ${itemType}</button></li>
         {{/if}}

@@ -1,5 +1,8 @@
 <li>${item.label}</li>
 <li><span class="currency">USD $</span> ${tmpl.decimal(item.amount)}</li>
+{{if vars.accountMap && vars.accountMap[item.source]}}
+<li>Financial Account: ${vars.accountMap[item.source].label}</li>
+{{/if}}
 <li>Refill every
 {{if item.psaRefresh == "psa:Hourly"}}Hour
 {{else item.psaRefresh == "psa:Daily"}}Day

@@ -31,17 +31,17 @@
           <label class="control-label" for="type">Type</label>
           <div class="controls">
             <select name="type">
-               {{if $.inArray('ps:PersonalIdentity', identityTypes)}}
+               {{if $.inArray('ps:PersonalIdentity', identityTypes) != -1}}
                <option value="ps:PersonalIdentity"{{if selectedType == "ps:PersonalIdentity"}}selected="selected"{{/if}}>Personal</option>
                {{/if}}
-               {{if $.inArray('ps:VendorIdentity', identityTypes)}}
+               {{if $.inArray('ps:VendorIdentity', identityTypes) != -1}}
                <option value="ps:VendorIdentity"{{if selectedType == "ps:VendorIdentity"}}selected="selected"{{/if}}>Vendor</option>
                {{/if}}
             </select>
-            {{if $.inArray('ps:PersonalIdentity', identityTypes)}}
+            {{if $.inArray('ps:PersonalIdentity', identityTypes) != -1}}
             <p id="help-personal-identity" class="help-block{{if selectedType != "ps:PersonalIdentity"}} hide{{/if}}">Choose this type if this identity is for a person.</p>
             {{/if}}
-            {{if $.inArray('ps:VendorIdentity', identityTypes)}}
+            {{if $.inArray('ps:VendorIdentity', identityTypes) != -1}}
             <p id="help-vendor-identity" class="help-block{{if selectedType != "ps:VendorIdentity"}} hide{{/if}}">Choose this type if this identity is for a website or business.</p>
             {{/if}}
           </div>

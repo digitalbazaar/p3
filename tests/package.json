@@ -1,0 +1,17 @@
+{
+  "name": "payswarm-auth-test",
+  "version": "0.9.0",
+  "private": true,
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "async": "~0.1.22",
+    "commander": "~0.6.1",
+    "payswarm": "git://github.com/digitalbazaar/payswarm.js.git",
+    "bigdecimal": "~0.6.1",
+    "rsa": "v0.0.3",
+    "winston": "~0.6.1"
+  },
+  "main": "index.js"
+}

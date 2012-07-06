@@ -157,7 +157,7 @@ function _createVendorProfile(vendorProfiles, callback) {
           }
           
           var profile = body;
-          profile.psaPrivateKeyPem = pair.privateKey;
+          profile.psaPublicKey.privateKeyPem = pair.privateKey;
           logger.info('Vendor profile: ' + JSON.stringify(profile, null, 2));
           vendorProfiles.push(profile);
           callback(null);
@@ -215,7 +215,7 @@ function _createBuyerProfile(buyerProfiles, callback) {
         }
 
         var profile = body;
-        profile.identity.privateKeyPem = pair.privateKey;
+        profile.psaPublicKey.privateKeyPem = pair.privateKey;
         logger.info('Buyer profile: ' + JSON.stringify(profile, null, 2));
         buyerProfiles.push(profile);
         callback(null);
@@ -235,7 +235,7 @@ function _createListing(vendorProfile, listings, callback) {
   var md = crypto.createHash('md5');
   md.update(payswarmTools.uuid(), 'utf8');
   var id = md.digest('hex').substr(12);
-  var baseUrl = 'http://listings.dev.payswarm.com/payswarm-auth-tests/' + id;
+  var baseUrl = 'http://listings.dev.payswarm.com/test/' + id;
   var assetId = baseUrl + '#asset';
   var listingId = baseUrl + '#listing';
 
@@ -285,23 +285,23 @@ function _createListing(vendorProfile, listings, callback) {
   };
   logger.info('Listing: ' + JSON.stringify(listing, null, 2));
 
-  /*
+  // generate the asset hash and sign the listing
   async.waterfall([
     function(callback) {
       payswarm.hash(asset, callback);
     },
     function(assetHash, callback) {
       listing.assetHash = assetHash;
-      payswarm.sign(listing, callback);
+      /*payswarm.sign(listing, callback);*/
+      callback(Error('Listing signatures not implemented yet'));
     }
   ], function(err, result) {
     if(err) {
-      logger.error('Failed to generate listing:', err);
+      logger.error('Failed to generate listing:', err.toString());
     }
     else {
       listings.push(listing);
     }
     callback(err);
   });
-  */
 }

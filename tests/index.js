@@ -81,15 +81,16 @@ loadTester.run = function() {
       
       // create all profiles and listings
       async.auto({
-        createProfiles: function(profilesCompleteCallback) {
-          // Create P new profiles in batches
+        createProfiles: function(callback) {
           logger.info(
             util.format('Creating %d profiles...', config.profiles));
+
+          // Create P new profiles in batches
           async.forEachLimit(profilesArr, 25, 
             loadTester.createProfile,
             function(err) {
               if(!err) {
-                profilesCompleteCallback(null, true); 
+                callback(null, true); 
               }
               else {
                 logger.error('Failed to create all profiles', err);
@@ -97,7 +98,7 @@ loadTester.run = function() {
             }
           );
         },
-        createListings: function(listingsCompleteCallback) {
+        createListings: function(callback) {
           logger.info(
             util.format('Creating %d listings...', config.listings));
 
@@ -106,7 +107,7 @@ loadTester.run = function() {
             loadTester.createListing, 
             function(err) {
               if(!err) {
-                listingsCompleteCallback(null, true); 
+                callback(null, true); 
               }
               else {
                 logger.error('Failed to create all listings', err);
@@ -177,13 +178,33 @@ loadTester.createListing = function(item, listingReadyCallback) {
       payeeRateType: 'com:Percentage'
     }],
     asset: assetUrl,
-    assetHash: 'ca1600eb6b7886b180c9a5e26d43aa92947a3c7b',
+    assetHash: '',
     license: 'http://purl.org/payswarm/licenses/blogging',
     licenseHash: 'ad8f72fcb47e867231d957c0bffb4c02d275926a',
     validFrom: '2012-07-05T20:35:21+00:00',
     validUntil: '2012-07-06T20:35:21+00:00',
   }
   logger.info(util.format('Listing: %j', listing));
+  /*
+  async.waterfall([
+    function(callback) {
+      payswarm.hash(asset, callback);
+    },
+    function(assetHash, callback) {
+       listing.assetHash = assetHash;
+       payswarm.sign(listing, callback);
+    }],
+    function(err, result) {
+      if(!err) {
+        listingReadyCallback();
+      }
+      else
+      {
+        logger.error('Failed to generate listing:', err);
+      }
+    }
+  );
+  */
 
   // notify async that the next item should be processed
   listingReadyCallback();

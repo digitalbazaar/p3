@@ -51,82 +51,119 @@ loadTester.run = function() {
   config.profiles = program.profiles || 1;
   config.listings = program.listings || 1;
   config.purchases = program.purchases || 1;
-  config.numProfiles = 0;
-  config.numListings = 0;
 
   // dump out the configuration
   logger.info('Config:', config);
 
-  // setup the event listeners
-  var eventEmitter = new events.EventEmitter();
-  eventEmitter.on('profileCreated', function(profile) {
-    config.numProfiles++;
-    logger.info(util.format('Profile created: %j', profile));
-
-    // start purchasing if all profiles and listings have been created
-    if(config.numProfiles == config.profiles && 
-       config.numListings == config.listings) {
-      loadTester.performPurchases();
-    }
-  });
-  eventEmitter.on('listingCreated', function(listing) {
-    config.numListings++;
-    logger.info(util.format('Listing created: %j', listing));
-
-    // start purchasing if all profiles and listings have been created
-    if(config.numProfiles == config.profiles && 
-       config.numListings == config.listings) {
-      loadTester.performPurchases();
-    }
-  });
-
-  // create all the profiles and listings in parallel
-  async.parallel([
-    function() {
-      // Create P new profiles
-      logger.info(
-        util.format('Creating %d profiles...', config.profiles));
-      for(var p = 0; p < config.profiles; p++) {
-        var profile = {};
-        eventEmitter.emit('profileCreated', profile);
-      }
+  // create the listings array
+  var listingsArr = [];
+  for(var i = 0; i < config.listings; i++) {
+    listingsArr.push(i)
+  }
+  
+  // create the profiles array
+  var profilesArr = [];
+  for(var i = 0; i < config.profiles; i++) {
+    profilesArr.push(i)
+  }
+  
+  async.map(listingsArr, 
+    // generate all of the random assetIds
+    function(item, callback) {
+      crypto.randomBytes(4, function(err, buf) {
+        var assetId = buf.toString('hex');
+        callback(null, assetId);
+      });
     },
-    function() {
-      // Create L new listings
-      logger.info(
-        util.format('Creating %d listings...', config.listings));
-
-      for(var p = 0; p < config.listings; p++) {
-        // generate an asset ID
-        crypto.randomBytes(4, function(ex, buf) {
-          var assetId = assetId = buf.toString('hex');
-          var assetUrl = 
-            'http://listings.dev.payswarm.com/payswarm-auth-tests/' + assetId;
-
-          // generate the asset
-          var asset = {
-            id: assetUrl,
-            type: ['ps:Asset', 'pto:WebPage'],
-            creator: {
-              fullName: 'PaySwarm Test Software'
-            },
-            title : 'Test Asset ' + assetId,
-            assetContent: assetUrl,
-            assetProvider: "https://payswarm.dev:19443/i/vendor",
-          };
-          logger.info(util.format('Asset: %j', asset));
-
-          // generate the listing
-          var listing = {
-            assetUrl: assetUrl,
-            asset: asset,
-          };
-
-          eventEmitter.emit('listingCreated', listing);
-        });
+    // after all random assetIds are generated, perform profile/listing creation
+    function(err, results) {
+      logger.info('assetIDs:', results);
+      
+      // convert the previous step's results into an array of asset IDs
+      var assetIds = [];
+      for(k in results) {
+        assetIds.push(results[k]);
       }
+      
+      // create all profiles and listings
+      async.auto({
+        createProfiles: function(profilesCompleteCallback) {
+          // Create P new profiles in batches
+          logger.info(
+            util.format('Creating %d profiles...', config.profiles));
+          async.forEachLimit(profilesArr, 25, 
+            function(item, profileReadyCallback) {
+              var profile = {};
+              logger.info(util.format('Profile: %j', profile));
+              
+              profileReadyCallback();
+            },
+            function(err) {
+              if(!err) {
+                profilesCompleteCallback(null, true); 
+              }
+              else {
+                logger.error('Failed to create all profiles', err);
+              }
+            }
+          );
+        },
+        createListings: function(listingsCompleteCallback) {
+          // Create L new listings in batches
+          logger.info(
+            util.format('Creating %d listings...', config.listings));
+
+          async.forEachLimit(assetIds, 25, 
+            function(item, listingReadyCallback) {
+              var assetUrl = 
+                'http://listings.dev.payswarm.com/payswarm-auth-tests/' + item;
+
+              // generate the asset
+              var asset = {
+                id: assetUrl,
+                type: ['ps:Asset', 'pto:WebPage'],
+                creator: {
+                  fullName: 'PaySwarm Test Software'
+                },
+                title : 'Test Asset ' + item,
+                assetContent: assetUrl,
+                assetProvider: "https://payswarm.dev:19443/i/vendor",
+              };
+
+              // generate the listing
+              var listing = {
+                assetUrl: assetUrl,
+                asset: asset,
+              };
+              logger.info(util.format('Listing: %j', listing));
+              
+              // notify async that the next item should be processed
+              listingReadyCallback();
+            },
+            function(err) {
+              if(!err) {
+                listingsCompleteCallback(null, true); 
+              }
+              else {
+                logger.error('Failed to create all listings', err);
+              }
+            }
+          );
+        },
+        performPurchases: ['createProfiles', 'createListings', 
+          // perform the purchases after profiles and listings are created
+          function(callback, results) {
+            logger.info('createProfileResults:', results.createProfiles);
+            logger.info('createListingsResults:', results.createListings);
+            if(results.createProfiles && results.createListings) {
+              logger.info(
+                util.format('Performing %d purchases...', config.purchases));
+            }
+          }
+        ]
+      });
     }
-  ]);
+  );
 };
 
 // run the program

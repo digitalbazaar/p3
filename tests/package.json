@@ -11,6 +11,7 @@
     "payswarm": "git://github.com/digitalbazaar/payswarm.js.git",
     "bigdecimal": "~0.6.1",
     "rsa": "v0.0.3",
+    "request": "~2.9.203",
     "winston": "~0.6.1"
   },
   "main": "index.js"

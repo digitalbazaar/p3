@@ -24,13 +24,6 @@ var logger = new (winston.Logger)({
   ]
 });
 
-loadTester.performPurchases = function() {
-  logger.info(
-    util.format('Performing %d purchases...', config.purchases));
-  for(var b = 0; b < config.purchases; b++) {
-  }
-};
-
 loadTester.run = function() {
   program
     .version('0.9.0')
@@ -51,6 +44,7 @@ loadTester.run = function() {
   config.profiles = program.profiles || 1;
   config.listings = program.listings || 1;
   config.purchases = program.purchases || 1;
+  config.vendorKey = 
 
   // dump out the configuration
   logger.info('Config:', config);
@@ -92,12 +86,7 @@ loadTester.run = function() {
           logger.info(
             util.format('Creating %d profiles...', config.profiles));
           async.forEachLimit(profilesArr, 25, 
-            function(item, profileReadyCallback) {
-              var profile = {};
-              logger.info(util.format('Profile: %j', profile));
-              
-              profileReadyCallback();
-            },
+            loadTester.createProfile,
             function(err) {
               if(!err) {
                 profilesCompleteCallback(null, true); 
@@ -109,37 +98,12 @@ loadTester.run = function() {
           );
         },
         createListings: function(listingsCompleteCallback) {
-          // Create L new listings in batches
           logger.info(
             util.format('Creating %d listings...', config.listings));
 
+          // Create L new listings in batches
           async.forEachLimit(assetIds, 25, 
-            function(item, listingReadyCallback) {
-              var assetUrl = 
-                'http://listings.dev.payswarm.com/payswarm-auth-tests/' + item;
-
-              // generate the asset
-              var asset = {
-                id: assetUrl,
-                type: ['ps:Asset', 'pto:WebPage'],
-                creator: {
-                  fullName: 'PaySwarm Test Software'
-                },
-                title : 'Test Asset ' + item,
-                assetContent: assetUrl,
-                assetProvider: "https://payswarm.dev:19443/i/vendor",
-              };
-
-              // generate the listing
-              var listing = {
-                assetUrl: assetUrl,
-                asset: asset,
-              };
-              logger.info(util.format('Listing: %j', listing));
-              
-              // notify async that the next item should be processed
-              listingReadyCallback();
-            },
+            loadTester.createListing, 
             function(err) {
               if(!err) {
                 listingsCompleteCallback(null, true); 
@@ -165,6 +129,65 @@ loadTester.run = function() {
     }
   );
 };
+
+loadTester.createProfile = function(item, profileReadyCallback) {
+  var profile = {};
+  
+  logger.info(util.format('Profile: %j', profile));
+  
+  profileReadyCallback();
+},
+
+loadTester.createListing = function(item, listingReadyCallback) {
+  var assetUrl = 
+    'http://listings.dev.payswarm.com/payswarm-auth-tests/' + item + "#asset";
+  var listingUrl = 
+    'http://listings.dev.payswarm.com/payswarm-auth-tests/' + item + "#listing";
+
+  // generate the asset
+  var asset = {
+    id: assetUrl,
+    type: ['ps:Asset', 'pto:WebPage'],
+    creator: {
+      fullName: 'PaySwarm Test Software'
+    },
+    title : 'Test Asset ' + item,
+    assetContent: assetUrl,
+    assetProvider: "https://payswarm.dev:19443/i/vendor",
+  };
+
+  // generate the listing
+  var listing = {
+    id: listingUrl,
+    type: ['ps:Listing', 'gr:Offering'],
+    payee: [{
+      id: listingUrl + '-payee',
+      type: 'com:Payee',
+      destination: 'https://payswarm.dev:19443/i/vendor/accounts/primary',
+      payeePosition: '0',
+      payeeRate: '0.0500000',
+      payeeRateType: 'com:FlatAmount',
+      comment: 'Payment for Asset ' + item + '.'
+    }],
+    payeeRule : [{
+      type: 'com:PayeeRule',
+      accountOwnerType: 'ps:Authority',
+      maximumPayeeRate: '10.0000000',
+      payeeRateContext: ['com:Inclusive', 'com:Tax', 'com:TaxExempt'],
+      payeeRateType: 'com:Percentage'
+    }],
+    asset: assetUrl,
+    assetHash: 'ca1600eb6b7886b180c9a5e26d43aa92947a3c7b',
+    license: 'http://purl.org/payswarm/licenses/blogging',
+    licenseHash: 'ad8f72fcb47e867231d957c0bffb4c02d275926a',
+    validFrom: '2012-07-05T20:35:21+00:00',
+    validUntil: '2012-07-06T20:35:21+00:00',
+  }
+  logger.info(util.format('Listing: %j', listing));
+
+  // notify async that the next item should be processed
+  listingReadyCallback();
+}
 
 // run the program
 loadTester.run();

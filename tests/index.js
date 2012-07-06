@@ -26,10 +26,10 @@ loadTester.run = function() {
   program
     .version('0.9.0')
     // setup the command line options
-    .option('--state-file <filename>',
-      'The name of the state file to use when performing tests.')
-    .option('--profiles <num>',
-      'The number of profiles to create (default: 1).', Number)
+    .option('--vendor-profiles <num>',
+      'The number of vendor profiles to create (default: 1).', Number)
+    .option('--buyer-profiles <num>',
+      'The number of buyer profiles to create (default: 1).', Number)
     .option('--listings <num>',
       'The number of listings to use when running the tests (default: 1)',
       Number)
@@ -42,7 +42,8 @@ loadTester.run = function() {
     .parse(process.argv);
 
   // initialize the configuration
-  config.profiles = program.profiles || 1;
+  config.vendorProfiles = program.vendorProfiles || 1;
+  config.buyerProfiles = program.buyerProfiles || 1;
   config.listings = program.listings || 1;
   config.purchases = program.purchases || 1;
   config.batchSize = program.batchSize || 10;
@@ -50,26 +51,38 @@ loadTester.run = function() {
   // dump out the configuration
   logger.info('Config:', config);
 
-  var profiles = [];
+  var vendors = [];
+  var buyers = [];
   var listings = [];
 
   async.auto({
-    createProfiles: function(callback) {
-      logger.info(util.format('Creating %d profiles...', config.profiles));
+    createVendorProfiles: function(callback) {
+      logger.info(
+        util.format('Creating %d vendor profiles...', config.vendorProfiles));
       // FIXME: don't use arrays for this
-      async.forEachLimit(new Array(config.profiles), config.batchSize, 
+      async.forEachLimit(new Array(config.vendorProfiles), config.batchSize, 
         function(item, callback) {
-          _createProfile(profiles, callback);
+          _createVendorProfile(vendors, callback);
       }, callback);
     },
-    createListings: function(callback) {
-      logger.info(util.format('Creating %d listings...', config.listings));
-      async.forEachLimit(new Array(config.listings), config.batchSize,
+    createBuyerProfiles: function(callback) {
+      logger.info(
+        util.format('Creating %d buyer profiles...', config.buyerProfiles));
+      // FIXME: don't use arrays for this
+      async.forEachLimit(new Array(config.buyerProfiles), config.batchSize, 
         function(item, callback) {
-          _createListing(listings, callback);
+          _createBuyerProfile(buyers, callback);
       }, callback);
     },
-    performPurchases: ['createProfiles', 'createListings',
+    createListings: ['createVendorProfiles', 
+      function(callback, results) {
+        logger.info(util.format('Creating %d listings...', config.listings));
+        async.forEachLimit(new Array(config.listings), config.batchSize,
+          function(item, callback) {
+            _createListing(vendors, listings, callback);
+        }, callback);
+    }],
+    performPurchases: ['createBuyerProfiles', 'createListings',
       function(callback, results) {
         logger.debug('profiles', profiles);
         logger.debug('listings', listings);
@@ -96,62 +109,129 @@ process.on('uncaughtException', function(err) {
 loadTester.run();
 
 /**
- * Creates a profile.
+ * Creates a vendor profile.
+ *
+ * @param the vendorProfile to set the newly created vendor to. 
+ * @param callback(err) called once the operation completes.
+ */
+function _createVendorProfile(vendorProfiles, callback) {
+  var md = crypto.createHash('md5');
+  md.update(payswarmTools.uuid(), 'utf8');
+  var id = md.digest('hex').substr(12);
+  var email = 'vendor-' + id + '@digitalbazaar.com';
+
+  async.waterfall([
+    function(callback) {
+      payswarm.createKeyPair({keySize: 512}, callback);
+    },
+    function(pair, callback) {
+      // setup the vendor profile creation template
+      var profileTemplate = {
+        '@context': 'http://purl.org/payswarm/v1',
+        email: email,
+        psaPassword: 'password',
+        psaPublicKeyPem: pair.publicKey,
+        psaIdentity: {
+          type: 'ps:VendorIdentity',
+          psaSlug: 'pavendor-' + id,
+          label: 'PaySwarm Vendor Test Identity'
+        },
+        account: {
+          psaSlug: 'vending',
+          label: 'Primary Vending Account'
+        }
+      };
+
+      // create the profile 
+      request.post({
+          url: 'https://payswarm.dev:19443/test/profile/create',
+          json: profileTemplate
+        },
+        function(err, response, body) {
+          if(!err && response.statusCode >= 400) {
+            err = JSON.stringify(body, null, 2);
+          }
+          if(err) {
+            logger.error('Failed to create vendor profile: ', err.toString());
+            return callback(err);
+          }
+          
+          var profile = body;
+          profile.psaPrivateKeyPem = pair.privateKey;
+          logger.info('Vendor profile: ' + JSON.stringify(profile, null, 2));
+          vendorProfiles.push(profile);
+          callback(null);
+        }
+      );
+    }
+  ], callback);
+}
+
+/**
+ * Creates a buyer profile.
  *
  * @param profiles the list of profiles to append to. 
  * @param callback(err) called once the operation completes.
  */
-function _createProfile(profiles, callback) {
+function _createBuyerProfile(buyerProfiles, callback) {
   var md = crypto.createHash('md5');
   md.update(payswarmTools.uuid(), 'utf8');
   var id = md.digest('hex').substr(12);
   var email = 'patest-' + id + '@digitalbazaar.com';
 
-  // setup the profile creation template
-  var profileTemplate = {
-    '@context': 'http://purl.org/payswarm/v1',
-    email: email,
-    psaPassword: 'password',
-    psaIdentity: {
-      type: 'ps:PersonalIdentity',
-      psaSlug: 'patest-' + id,
-      label: 'PaySwarm Authority Test Identity'
+  async.waterfall([
+    function(callback) {
+      payswarm.createKeyPair({keySize: 512}, callback);
     },
-    account: {
-      psaSlug: 'primary',
-      label: 'Primary Account'
+    function(pair, callback) {
+      // setup the buyer profile creation template
+      var profileTemplate = {
+        '@context': 'http://purl.org/payswarm/v1',
+        email: email,
+        psaPassword: 'password',
+        psaPublicKeyPem: pair.publicKey,
+        psaIdentity: {
+          type: 'ps:PersonalIdentity',
+          psaSlug: 'pabuyer-' + id,
+          label: 'PaySwarm Buyer Test Identity',
+        },
+        account: {
+          psaSlug: 'buying',
+          label: 'Primary Buying Account'
+        }
+      };
+
+      // create the profile 
+      request.post({
+        url: 'https://payswarm.dev:19443/test/profile/create',
+        json: profileTemplate
+      }, function(err, response, body) {
+        if(!err && response.statusCode >= 400) {
+          err = JSON.stringify(body, null, 2);
+        }
+        if(err) {
+          logger.error('Failed to create buyer profile: ', err.toString());
+          return callback(err);
+        }
+
+        var profile = body;
+        profile.identity.privateKeyPem = pair.privateKey;
+        logger.info('Buyer profile: ' + JSON.stringify(profile, null, 2));
+        buyerProfiles.push(profile);
+        callback(null);
+      });
     }
-  };
-  
-  // create the profile 
-  request.post({
-      url: 'https://payswarm.dev:19443/test/profile/create',
-      json: profileTemplate
-    },
-    function(err, response, body) {
-      if(!err && response.statusCode >= 400) {
-        err = JSON.stringify(body, null, 2);
-      }
-      if(err) {
-        logger.error('Failed to create profile: ', err.toString());
-        return callback(err);
-      }
-      
-      var profile = body;
-      logger.info('Profile: ' + JSON.stringify(profile, null, 2));
-      profiles.push(profile);
-      callback(null);
-    }
-  );
+  ], callback);
 }
 
 /**
  * Creates a listing.
  *
+ * @param vendorProfile the vendor that is creating all of the listings.
  * @param listings the list of listings to append to. 
  * @param callback(err, listing) called once the operation completes.
  */
-function _createListing(listings, callback) {
+function _createListing(vendorProfile, listings, callback) {
   var md = crypto.createHash('md5');
   md.update(payswarmTools.uuid(), 'utf8');
   var id = md.digest('hex').substr(12);
@@ -175,7 +255,7 @@ function _createListing(listings, callback) {
   var validFrom = new Date();
   var validUntil = new Date();
   validUntil.setFullYear(validFrom.getFullYear() + 1);
-  
+
   // generate the listing
   var listing = {
     id: listingId,

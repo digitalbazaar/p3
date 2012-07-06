@@ -43,10 +43,8 @@ loadTester.run = function() {
   // initialize the configuration
   config.profiles = program.profiles || 1;
   config.listings = program.listings || 1;
-  // FIXME: impose limits?
-  //config.listings = Math.min(25, program.listings);
   config.purchases = program.purchases || 1;
-  config.vendorKey =
+  //config.vendorKey =
 
   // dump out the configuration
   logger.info('Config:', config);
@@ -57,14 +55,17 @@ loadTester.run = function() {
   async.auto({
     createProfiles: function(callback) {
       logger.info(util.format('Creating %d profiles...', config.profiles));
-      async.forEach(new Array(config.profiles), function(item, callback) {
-        _createProfile(profiles, callback);
+      // FIXME: don't use arrays for this
+      async.forEach(new Array(config.profiles), batchSize,
+        function(item, callback) {
+          _createProfile(profiles, callback);
       }, callback);
     },
     createListings: function(callback) {
       logger.info(util.format('Creating %d listings...', config.listings));
-      async.forEach(new Array(config.listings), function(item, callback) {
-        _createListing(listings, callback);
+      async.forEachLimit(new Array(config.listings), batchSize,
+        function(item, callback) {
+          _createListing(listings, callback);
       }, callback);
     },
     performPurchases: ['createProfiles', 'createListings',

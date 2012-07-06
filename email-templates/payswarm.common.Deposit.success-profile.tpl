@@ -1,42 +1,42 @@
-To: {{html profile.email}}
-From: "{{html serviceName}} Customer Support" <support@{{html supportDomain}}>
-Subject: {{html profileSubjectPrefix}}{{html serviceName}} deposit successful
+To: {{profile.email}}
+From: "{{serviceName}} Customer Support" <support@{{supportDomain}}>
+Subject: {{profileSubjectPrefix}}{{serviceName}} deposit successful
 
-{{if productionMode == false}}
+{% if productionMode == false %}
 *******
 NOTE: This is a demonstration website notification and no real money was involved. More info is available at http://payswarm.com/wiki/Demo_Warning.
 *******
 
-{{/if}}
-Hello {{html profile.label}},
+{% endif -%}
+Hello {{profile.label}},
 
-A charge in the amount of USD {{html "$"}}{{html deposit.amount}} has been charged to your credit card. Here is your deposit receipt:
+A charge in the amount of USD ${{deposit.amount}} has been charged to your credit card. Here is your deposit receipt:
 
-Transaction ID : {{html deposit.id}}
-Date and Time  : {{html deposit.created}}
-{{each(idx,transfer) deposit.transfer}}
-{{if transfer.comment == "Deposit"}}{{! FIXME: need a better check for profiles target account}}
-{{html serviceName}} Account: {{html transfer.destination}}{{! FIXME: append "({ {html ...destinationAccountName} })"}}
-{{/if}}
-{{/each}}
+Transaction ID : {{deposit.id}}
+Date and Time  : {{deposit.created}}
+{% for transfer in deposit.transfer -%}
+{%- if transfer.comment == "Deposit" -%}{#- FIXME: need a better check for profiles target account -#}
+{{serviceName}} Account: {{transfer.destination}}{# FIXME: append "({ { ...destinationAccountName} })" #}
+{%- endif -%}
+{%- endfor %}
 
 Credit Card Information:
-   Name  : {{html deposit.source.label}}
-   Type  : {{html deposit.source.cardBrand}}
-   Number: {{html deposit.source.cardNumber}}
-   Exp   : {{html deposit.source.cardExpMonth}}/{{html deposit.source.cardExpYear}}
-   Charge: USD {{html "$"}}{{html deposit.amount}}
+ Name  : {{deposit.source.label}}
+ Type  : {{deposit.source.cardBrand}}
+ Number: {{deposit.source.cardNumber}}
+ Exp   : {{deposit.source.cardExpMonth}}/{{deposit.source.cardExpYear}}
+ Charge: USD ${{deposit.amount}}
 
 Deposit Information:
-{{each(idx,transfer) deposit.transfer}}
-   {{html transfer.comment}}: USD {{html "$"}}{{html transfer.amount}}
-{{/each}}
+{%- for transfer in deposit.transfer %}
+   {{transfer.comment}}: USD ${{transfer.amount}}
+{%- endfor %}
 
 Now that you've deposited money into your account, you can use PaySwarm at many fine services. You can always view your latest activity on your profile page.
 
-https://{{html serviceDomain}}/profile/financial/activity
+https://{{serviceDomain}}/profile/financial/activity
 
-If you have any questions or comments please contact support@{{html supportDomain}}.
+If you have any questions or comments please contact support@{{supportDomain}}.
 
 Digital Bazaar, Inc.
 Blacksburg, VA, USA

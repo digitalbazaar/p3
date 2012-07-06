@@ -25,7 +25,8 @@
     "winston-mail": "~0.2.1",
     "json-schema": "git://github.com/digitalbazaar/json-schema.git",
     "connect-mongo": "~0.1.9",
-    "posix": "~0.0.8"
+    "posix": "~0.0.8",
+    "swig": "~0.11.2"
   },
   "directories": {
     "lib": "./lib/payswarm-auth"

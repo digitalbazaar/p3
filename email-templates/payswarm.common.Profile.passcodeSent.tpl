@@ -1,33 +1,38 @@
-To: {{html email}}
-From: "{{html serviceName}} Customer Support" <support@{{html supportDomain}}>
-Subject: {{html profileSubjectPrefix}}Your {{html serviceName}} pass code
+To: {{email}}
+From: "{{serviceName}} Customer Support" <support@{{supportDomain}}>
+Subject: {{profileSubjectPrefix}}Your {{serviceName}} pass code
 
-Hello {{if profiles[0].identity}}{{html profiles[0].identity.label}}{{else}}{{html profiles[0].label}}{{/if}},
+Hello {% if profiles[0].identity %}{{profiles[0].identity.label}}{% else %}{{profiles[0].label}}{% endif %},
 
-{{if password}}
-You requested a pass code so you could reset your {{html serviceName}} password. If
+{% if password -%}
+You requested a pass code so you could reset your {{serviceName}} password. If
 you did not make this request, simply ignore this email and your password
 will not be changed.
-{{else}}
-You requested a pass code so you could verify your {{html serviceName}} email
+{%- else -%}
+You requested a pass code so you could verify your {{serviceName}} email
 address.
-{{/if}}
+{% endif %}
 You may visit the following page and enter your code manually:
-https://{{html serviceDomain}}/profile/passcode
+https://{{serviceDomain}}/profile/passcode
 
-{{if profiles.length > 1}}
+{%- if profiles.length == 1 %}
+
+Your pass code is: {{profiles[0].psaPasscode}}
+
+{%- else %}
+
 Since you have multiple profiles with the same email address, we sent you
 pass codes for each one:
-{{each(idx,profile) profiles}}
-{{if profile.identity}}
-Identity : {{html profile.identity.label}}
-{{else}}
-Profile  : {{html profile.psaSlug}}
-{{/if}}
-Pass code: {{html profile.psaPasscode}}
-{{/each}}
-{{else}}
-Your pass code is: {{html profiles[0].psaPasscode}}
-{{/if}}
+{%- for profile in profiles -%}
+{%- if profile.identity %}
 
-If you have any questions or comments please contact support@{{html supportDomain}}.
+Identity : {{profile.identity.label}}
+{%- else %}
+
+Profile  : {{profile.psaSlug}}
+{%- endif %}
+Pass code: {{profile.psaPasscode}}
+{%- endfor -%}
+{%- endif %}
+
+If you have any questions or comments please contact support@{{supportDomain}}.

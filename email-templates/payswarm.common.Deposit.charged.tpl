@@ -1,11 +1,11 @@
-To: deposits@{{html supportDomain}}
-From: cluster@{{html supportDomain}}
-Subject: {{html subjectPrefix}}{{html serviceName}} credit card charge: USD ${{html deposit.amount}} ({{html deposit.id}})
+To: deposits@{{supportDomain}}
+From: cluster@{{supportDomain}}
+Subject: {{subjectPrefix}}{{serviceName}} credit card charge: USD ${{deposit.amount}} ({{deposit.id}})
 
-Machine        : {{html machine}}
-Transaction ID : {{html deposit.id}}
-Date           : {{html deposit.created}}
-Charge         : USD ${{html deposit.amount}}
+Machine        : {{machine}}
+Transaction ID : {{deposit.id}}
+Date           : {{deposit.created}}
+Charge         : USD ${{deposit.amount}}
 
 ================================ Request ===================================
 FIXME: internalRequest?

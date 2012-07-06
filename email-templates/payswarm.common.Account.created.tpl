@@ -1,7 +1,7 @@
-To: registration@{{html supportDomain}}
-From: cluster@{{html supportDomain}}
-Subject: {{html subjectPrefix}}{{html serviceName}} Account created: {{html account.id}})
+To: registration@{{supportDomain}}
+From: cluster@{{supportDomain}}
+Subject: {{subjectPrefix}}{{serviceName}} Account created: {{account.id}})
 
 -----BEGIN ACCOUNT-----
-{{html toJson(account)}}
+{{toJson(account)}}
 -----END ACCOUNT-----

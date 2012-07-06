@@ -1,13 +1,13 @@
-To: registration@{{html supportDomain}}
-From: cluster@{{html supportDomain}}
-Subject: {{html subjectPrefix}}{{html serviceName}} Profile created: {{html profile.psaSlug}} ({{html profile.id}})
+To: registration@{{supportDomain}}
+From: cluster@{{supportDomain}}
+Subject: {{subjectPrefix}}{{serviceName}} Profile created: {{profile.psaSlug}} ({{profile.id}})
 
 -----BEGIN PROFILE-----
-{{html toJson(profile)}}
+{{toJson(profile)}}
 -----END PROFILE-----
 -----BEGIN IDENTITY-----
-{{html toJson(identity)}}
+{{toJson(identity)}}
 -----END IDENTITY-----
 -----BEGIN ACCOUNT-----
-{{html toJson(account)}}
+{{toJson(account)}}
 -----END ACCOUNT-----

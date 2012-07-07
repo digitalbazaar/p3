@@ -84,10 +84,8 @@ loadTester.run = function() {
     }],
     performPurchases: ['createBuyerProfiles', 'createListings',
       function(callback, results) {
-        logger.debug('profiles', profiles);
-        logger.debug('listings', listings);
         logger.info(util.format(
-          'Performing %d purchases...', config.purchases));
+          'Performing %d purchases... (not implemented)', config.purchases));
       }
     ]
   }, function(err) {
@@ -133,7 +131,7 @@ function _createVendorProfile(vendorProfiles, callback) {
         psaPublicKeyPem: pair.publicKey,
         psaIdentity: {
           type: 'ps:VendorIdentity',
-          psaSlug: 'pavendor-' + id,
+          psaSlug: 'vendor-' + id,
           label: 'PaySwarm Vendor Test Identity'
         },
         account: {
@@ -192,7 +190,7 @@ function _createBuyerProfile(buyerProfiles, callback) {
         psaPublicKeyPem: pair.publicKey,
         psaIdentity: {
           type: 'ps:PersonalIdentity',
-          psaSlug: 'pabuyer-' + id,
+          psaSlug: 'buyer-' + id,
           label: 'PaySwarm Buyer Test Identity',
         },
         account: {
@@ -231,7 +229,7 @@ function _createBuyerProfile(buyerProfiles, callback) {
  * @param listings the list of listings to append to. 
  * @param callback(err, listing) called once the operation completes.
  */
-function _createListing(vendorProfile, listings, callback) {
+function _createListing(vendorProfiles, listings, callback) {
   var md = crypto.createHash('md5');
   md.update(payswarmTools.uuid(), 'utf8');
   var id = md.digest('hex').substr(12);
@@ -283,7 +281,6 @@ function _createListing(vendorProfile, listings, callback) {
     validFrom: validFrom,
     validUntil: validUntil,
   };
-  logger.info('Listing: ' + JSON.stringify(listing, null, 2));
 
   // generate the asset hash and sign the listing
   async.waterfall([
@@ -292,12 +289,39 @@ function _createListing(vendorProfile, listings, callback) {
     },
     function(assetHash, callback) {
       listing.assetHash = assetHash;
-      /*payswarm.sign(listing, callback);*/
-      callback(Error('Listing signatures not implemented yet'));
+      
+      // grab a random vendor profile to associate with the listing
+      var vendor = 
+        vendorProfiles[Math.floor(Math.random() * vendorProfiles.length)];
+      
+      var options = {};
+      options.publicKeyId = vendor.psaPublicKey.id;
+      options.privateKeyPem = vendor.psaPublicKey.privateKeyPem;
+      payswarm.sign(listing, options, callback);
+    },
+    function(signedListing, callback) {
+      // register the signed listing on listings.dev.payswarm.com
+      request.post({
+        headers: {'content-type': 'application/ld+json'},
+        url: signedListing.id,
+        body: JSON.stringify(signedListing, null, 2)
+      }, function(err, response, body) {
+        if(!err && response.statusCode >= 400) {
+          err = JSON.stringify(body, null, 2);
+        }
+        if(err) {
+          logger.error('Failed to register signed listing: ', err.toString());
+          return callback(err);
+        }
+
+        logger.info('Registered signed listing: ' + 
+          JSON.stringify(signedListing, null, 2));
+        callback(null);
+      });
     }
   ], function(err, result) {
     if(err) {
-      logger.error('Failed to generate listing:', err.toString());
+      logger.error('Failed to register listing:', err.toString());
     }
     else {
       listings.push(listing);

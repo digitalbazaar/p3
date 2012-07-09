@@ -39,16 +39,32 @@ var postWithdrawal = {
 };
 
 var postPurchaseRequest = {
-  type: 'object',
-  properties: {
-    type: jsonldType('ps:PurchaseRequest'),
-    transactionId: payswarmId(),
-    callback: url({required: false}),
-    nonce: {
-      required: false,
-      type: 'string'
+  type: [{
+    type: 'object',
+    properties: {
+      type: jsonldType('ps:PurchaseRequest'),
+      transactionId: payswarmId(),
+      callback: url(),
+      nonce: {
+        type: 'string'
+      }
     }
-  }
+  }, {
+    type: 'object',
+    properties: {
+      type: jsonldType('ps:PurchaseRequest'),
+      identity: payswarmId(),
+      listing: payswarmId(),
+      listingHash: {
+        type: 'string'
+      },
+      source: payswarmId({required: false}),
+      referenceId: {
+        required: false,
+        type: 'string'
+      }
+    }
+  }]
 };
 
 var postTransfer = {

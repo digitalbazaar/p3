@@ -4,7 +4,7 @@
 var async = require('async');
 var crypto = require('crypto');
 var program = require('commander');
-var payswarm = require('payswarm-client');
+var payswarm = require('payswarm');
 var winston = require('winston');
 var util = require('util');
 var payswarmTools = require('../lib/payswarm-auth/payswarm.tools');
@@ -86,8 +86,12 @@ loadTester.run = function() {
       function(callback, results) {
         logger.info(util.format(
           'Performing %d purchases... (not implemented)', config.purchases));
-      }
-    ]
+        // FIXME: Need a better way to limit purchases
+        async.forEachLimit(new Array(config.purchases), config.batchSize,
+          function(item, callback) {
+            _purchaseAsset(buyers, listings, callback);
+        }, callback);
+    }]
   }, function(err) {
     if(err) {
       logger.error('Error', err);
@@ -235,97 +239,178 @@ function _createListing(vendorProfiles, listings, callback) {
   var id = md.digest('hex').substr(12);
   var baseUrl = 'http://listings.dev.payswarm.com/test/' + id;
   var assetId = baseUrl + '#asset';
-  var listingId = baseUrl + '#listing';
+  var listingId = baseUrl + '#listing';  
+  var signingOptions = {};
+  // grab a random vendor profile to associate with the asset and listing
+  var vendor = 
+    vendorProfiles[Math.floor(Math.random() * vendorProfiles.length)];  
 
-  // generate the asset
-  var asset = {
-    id: assetId,
-    type: ['ps:Asset', 'pto:WebPage'],
-    creator: {
-      fullName: 'PaySwarm Test Software'
-    },
-    title : 'Test Asset ' + id,
-    assetContent: assetId,
-    assetProvider: "https://payswarm.dev:19443/i/vendor",
-  };
-
-  // generate the listing validity dates
-  var validFrom = new Date();
-  var validUntil = new Date();
-  validUntil.setFullYear(validFrom.getFullYear() + 1);
-
-  // generate the listing
-  var listing = {
-    id: listingId,
-    type: ['ps:Listing', 'gr:Offering'],
-    payee: [{
-      id: listingId + '-payee',
-      type: 'com:Payee',
-      destination: 'https://payswarm.dev:19443/i/vendor/accounts/primary',
-      payeePosition: 0,
-      payeeRate: '0.0500000',
-      payeeRateType: 'com:FlatAmount',
-      comment: 'Payment for Asset ' + id + '.'
-    }],
-    payeeRule : [{
-      type: 'com:PayeeRule',
-      accountOwnerType: 'ps:Authority',
-      maximumPayeeRate: '10.0000000',
-      payeeRateContext: ['com:Inclusive', 'com:Tax', 'com:TaxExempt'],
-      payeeRateType: 'com:Percentage'
-    }],
-    asset: assetId,
-    assetHash: '',
-    license: 'http://purl.org/payswarm/licenses/blogging',
-    licenseHash: 'ad8f72fcb47e867231d957c0bffb4c02d275926a',
-    validFrom: validFrom,
-    validUntil: validUntil,
-  };
-
-  // generate the asset hash and sign the listing
+  // set the options to use when signing the asset and the listing
+  signingOptions.publicKeyId = vendor.psaPublicKey.id;
+  signingOptions.privateKeyPem = vendor.psaPublicKey.privateKeyPem;
+  
+  // sign the asset, the listing, and upload both to the Web
   async.waterfall([
     function(callback) {
-      payswarm.hash(asset, callback);
-    },
-    function(assetHash, callback) {
-      listing.assetHash = assetHash;
+      // generate the asset
+      var asset = {
+        id: assetId,
+        type: ['ps:Asset', 'pto:WebPage'],
+        creator: {
+          fullName: 'PaySwarm Test Software'
+        },
+        title : 'Test Asset ' + id,
+        assetContent: assetId,
+        assetProvider: vendor.identity.id,
+      };
       
-      // grab a random vendor profile to associate with the listing
-      var vendor = 
-        vendorProfiles[Math.floor(Math.random() * vendorProfiles.length)];
-      
-      var options = {};
-      options.publicKeyId = vendor.psaPublicKey.id;
-      options.privateKeyPem = vendor.psaPublicKey.privateKeyPem;
-      payswarm.sign(listing, options, callback);
+      // sign the asset
+      payswarm.sign(asset, signingOptions, callback);
     },
-    function(signedListing, callback) {
+    function(signedAsset, callback) {
+      // generate a hash for the signed asset
+      payswarm.hash(signedAsset, function(err, assetHash) {
+        callback(err, signedAsset, assetHash);
+      });
+    },
+    function(signedAsset, assetHash, callback) {
+      // generate the listing validity dates
+      var validFrom = new Date();
+      var validUntil = new Date();
+      validUntil.setFullYear(validFrom.getFullYear() + 1);
+
+      // generate the listing
+      var listing = {
+        id: listingId,
+        type: ['ps:Listing', 'gr:Offering'],
+        payee: [{
+          id: listingId + '-payee',
+          type: 'com:Payee',
+          destination: 'https://payswarm.dev:19443/i/vendor/accounts/primary',
+          payeePosition: 0,
+          payeeRate: '0.0500000',
+          payeeRateType: 'com:FlatAmount',
+          comment: 'Payment for Asset ' + id + '.'
+        }],
+        payeeRule : [{
+          type: 'com:PayeeRule',
+          accountOwnerType: 'ps:Authority',
+          maximumPayeeRate: '10.0000000',
+          payeeRateContext: ['com:Inclusive', 'com:Tax', 'com:TaxExempt'],
+          payeeRateType: 'com:Percentage'
+        }],
+        asset: assetId,
+        assetHash: assetHash,
+        license: 'http://purl.org/payswarm/licenses/blogging',
+        licenseHash: 'ad8f72fcb47e867231d957c0bffb4c02d275926a',
+        validFrom: validFrom,
+        validUntil: validUntil,
+      };
+
+      // sign the listing
+      payswarm.sign(listing, signingOptions, 
+        function(err, signedListing) {
+          callback(err, signedAsset, signedListing);
+      });
+    },
+    function(signedAsset, signedListing, callback) {
+      var assetAndListing = {
+        '@context': 'http://purl.org/payswarm/v1',
+        '@graph': [signedAsset, signedListing]
+      };
+      
       // register the signed listing on listings.dev.payswarm.com
       request.post({
         headers: {'content-type': 'application/ld+json'},
-        url: signedListing.id,
-        body: JSON.stringify(signedListing, null, 2)
+        url: signedListing.id.split('#')[0],
+        body: JSON.stringify(assetAndListing, null, 2)
       }, function(err, response, body) {
         if(!err && response.statusCode >= 400) {
           err = JSON.stringify(body, null, 2);
         }
         if(err) {
-          logger.error('Failed to register signed listing: ', err.toString());
+          logger.error('Failed to register signed asset and listing: ', 
+            err.toString());
           return callback(err);
         }
 
-        logger.info('Registered signed listing: ' + 
+        logger.info('Registered signed asset and listing: ' + 
           JSON.stringify(signedListing, null, 2));
-        callback(null);
+        callback(null, signedListing);
+      });
+    },
+    function(signedListing, callback) {
+      // generate the listing hash and store it for later use
+      payswarm.hash(signedListing, function(err, hash) {
+        if(err) {
+          return callback(err);
+        }
+        signedListing.listingHash = hash;
+        listings.push(signedListing);
+        callback();
       });
     }
-  ], function(err, result) {
+  ], function(err) {
     if(err) {
-      logger.error('Failed to register listing:', err.toString());
-    }
-    else {
-      listings.push(listing);
+      logger.error('Failed to register signed asset and listing:', 
+        err.toString());
     }
     callback(err);
+  });
+}
+
+/**
+ * Purchases a single asset given a list of buyers and listings. A single
+ * buyer and listing will be selected.
+ *
+ * @param buyers the list of buyers.
+ * @param listings the list of listings to use when purchasing. 
+ * @param callback(err) called once the operation completes.
+ */
+function _purchaseAsset(buyers, listings, callback) {
+  var referenceId = payswarmTools.uuid();
+  
+  // select a random buyer to perform the purchase
+  var buyer = buyers[Math.floor(Math.random() * buyers.length)];
+  
+  // select a random asset to purchase
+  var listing = listings[Math.floor(Math.random() * listings.length)];
+  
+  // build the purchase request
+  var purchaseRequest = {
+    '@context': 'http://purl.org/payswarm/v1', 
+    type: 'ps:PurchaseRequest',
+    identity: buyer.identity.id,
+    listing: listing.id,
+    listingHash: listing.listingHash,
+    referenceId: referenceId,
+    source: buyer.account.id
+  };
+  
+  payswarm.sign(purchaseRequest, {
+    publicKeyId: buyer.psaPublicKey.id,
+    privateKeyPem: buyer.psaPublicKey.privateKeyPem
+  }, function(err, signedRequest) {
+    if(err) {
+      return callback(err);
+    }
+    
+    // FIXME: This should be performed in payswarm.js 
+    request.post({
+      url: 'https://payswarm.dev:19443/transactions',
+      json: signedRequest
+    }, function(err, response, body) {
+      if(!err && response.statusCode >= 400) {
+        err = JSON.stringify(body, null, 2);
+      }
+      if(err) {
+        logger.error('Failed to purchase asset: ', err.toString());
+        return callback(err);
+      }
+
+      var receipt = body;
+      logger.info('Purchase receipt: ' + JSON.stringify(receipt, null, 2));
+      callback();
+    });    
   });
 }

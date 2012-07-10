@@ -28,6 +28,10 @@
     "posix": "~0.0.8",
     "swig": "~0.11.2"
   },
+  "devDependencies": {
+    "payswarm": "git://github.com/digitalbazaar/payswarm.js.git",
+    "request": "~2.9.203"
+  },
   "directories": {
     "lib": "./lib/payswarm-auth"
   },

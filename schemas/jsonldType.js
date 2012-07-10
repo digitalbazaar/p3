@@ -1,42 +1,68 @@
-module.exports = function(types) {
+module.exports = function(types, alternates) {
   var schema = {
+    required: true,
     title: 'JSON-LD type',
-    description: 'A set of JSON-LD types.'
+    description: 'A set of JSON-LD types.',
+    type: []
   };
 
   types = Array.isArray(types) ? types : [types];
 
-  // create array option for multiple types
-  var arr;
-  if(types.length > 1) {
-    arr = schema;
+  // allow single object
+  if(types.length === 1) {
+    schema.type.push({
+     type: 'string',
+     enum: types,
+     errors: {
+       invalid: 'The JSON-LD type information is invalid.',
+       missing: 'The JSON-LD type information is missing.'
+     }
+    });
   }
-  else {
-    arr = {};
-  }
-  arr.required = true;
-  arr.type = 'array';
-  arr.minItems = types.length;
-  arr.uniqueItems = true;
-  arr.items = {
-    type: 'string',
-    enum: types
-  };
-  arr.errors = {
-    invalid: 'The JSON-LD type information is invalid.',
-    missing: 'The JSON-LD type information is missing.'
-  };
 
-  // add single type option
-  if(arr !== schema) {
-    schema.type = [{
+  // allow array combination of all types
+  schema.type.push({
+    type: 'array',
+    minItems: types.length,
+    uniqueItems: true,
+    items: {
       type: 'string',
-      enum: types,
-      errors: {
-        invalid: 'The JSON-LD type information is invalid.',
-        missing: 'The JSON-LD type information is missing.'
+      enum: types
+    },
+    errors: {
+      invalid: 'The JSON-LD type information is invalid.',
+      missing: 'The JSON-LD type information is missing.'
+    }
+  });
+
+  // HACK: madness to support given types *must* exist, while allowing
+  // up to <alternates> other custom types
+  if(alternates !== undefined) {
+    for(var before = 0; before <= alternates; ++before) {
+      var s = {
+        type: 'array',
+        minItems: types.length,
+        uniqueItems: true,
+        items: [],
+        additionalItems: {
+          type: 'string'
+        },
+        errors: {
+          invalid: 'The JSON-LD type information is invalid.',
+          missing: 'The JSON-LD type information is missing.'
+        }
+      };
+      for(var i = 0; i < before; ++i) {
+        s.items.push({type: 'string'});
       }
-    }, arr];
+      for(var i = 0; i < types.length; ++i) {
+        s.items.push({
+          type: 'string',
+          enum: types
+        });
+      }
+      schema.type.push(s);
+    }
   }
 
   return schema;

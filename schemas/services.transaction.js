@@ -25,7 +25,7 @@ var postQuote = {
 var postContract = {
   type: 'object',
   properties: {
-    type: jsonldType('com:Transaction', 'ps:Contract')
+    type: jsonldType(['com:Transaction', 'ps:Contract'])
   }
 };
 
@@ -34,7 +34,7 @@ var postDeposit = deposit();
 var postWithdrawal = {
   type: 'object',
   properties: {
-    type: jsonldType('com:Transaction', 'com:Withdrawal')
+    type: jsonldType(['com:Transaction', 'com:Withdrawal'])
   }
 };
 
@@ -70,7 +70,7 @@ var postPurchaseRequest = {
 var postTransfer = {
   type: 'object',
   properties: {
-    type: jsonldType('com:Transaction', 'com:Transfer')
+    type: jsonldType(['com:Transaction', 'com:Transfer'])
   }
 };
 

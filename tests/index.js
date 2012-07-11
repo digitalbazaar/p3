@@ -384,7 +384,7 @@ function _purchaseAsset(buyers, listings, callback) {
 
   // build the purchase request
   var purchaseRequest = {
-    '@context': 'http://purl.org/payswarm/v1',
+    '@context': payswarm.createDefaultJsonLdContext(),
     type: 'ps:PurchaseRequest',
     identity: buyer.identity.id,
     listing: listing.id,
@@ -402,6 +402,7 @@ function _purchaseAsset(buyers, listings, callback) {
     }
 
     // FIXME: This should be performed in payswarm.js
+    signedRequest['@context'] = 'http://purl.org/payswarm/v1';
     request.post({
       url: 'https://payswarm.dev:19443/transactions',
       json: signedRequest

@@ -44,7 +44,6 @@ var postPurchaseRequest = {
     properties: {
       type: jsonldType('ps:PurchaseRequest'),
       transactionId: payswarmId(),
-      callback: url(),
       nonce: {
         type: 'string'
       }

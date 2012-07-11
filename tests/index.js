@@ -60,7 +60,7 @@ loadTester.run = function() {
       logger.info(
         util.format('Creating %d vendor profiles...', config.vendorProfiles));
       // FIXME: don't use arrays for this
-      async.forEachLimit(new Array(config.vendorProfiles), config.batchSize, 
+      async.forEachLimit(new Array(config.vendorProfiles), config.batchSize,
         function(item, callback) {
           _createVendorProfile(vendors, callback);
       }, callback);
@@ -69,12 +69,12 @@ loadTester.run = function() {
       logger.info(
         util.format('Creating %d buyer profiles...', config.buyerProfiles));
       // FIXME: don't use arrays for this
-      async.forEachLimit(new Array(config.buyerProfiles), config.batchSize, 
+      async.forEachLimit(new Array(config.buyerProfiles), config.batchSize,
         function(item, callback) {
           _createBuyerProfile(buyers, callback);
       }, callback);
     },
-    createListings: ['createVendorProfiles', 
+    createListings: ['createVendorProfiles',
       function(callback, results) {
         logger.info(util.format('Creating %d listings...', config.listings));
         async.forEachLimit(new Array(config.listings), config.batchSize,
@@ -85,7 +85,7 @@ loadTester.run = function() {
     performPurchases: ['createBuyerProfiles', 'createListings',
       function(callback, results) {
         logger.info(util.format(
-          'Performing %d purchases... (not implemented)', config.purchases));
+          'Performing %d purchases...', config.purchases));
         // FIXME: Need a better way to limit purchases
         async.forEachLimit(new Array(config.purchases), config.batchSize,
           function(item, callback) {
@@ -113,7 +113,7 @@ loadTester.run();
 /**
  * Creates a vendor profile.
  *
- * @param the vendorProfile to set the newly created vendor to. 
+ * @param the vendorProfile to set the newly created vendor to.
  * @param callback(err) called once the operation completes.
  */
 function _createVendorProfile(vendorProfiles, callback) {
@@ -144,7 +144,7 @@ function _createVendorProfile(vendorProfiles, callback) {
         }
       };
 
-      // create the profile 
+      // create the profile
       request.post({
           url: 'https://payswarm.dev:19443/test/profile/create',
           json: profileTemplate
@@ -157,7 +157,7 @@ function _createVendorProfile(vendorProfiles, callback) {
             logger.error('Failed to create vendor profile: ', err.toString());
             return callback(err);
           }
-          
+
           var profile = body;
           profile.psaPublicKey.privateKeyPem = pair.privateKey;
           logger.info('Vendor profile: ' + JSON.stringify(profile, null, 2));
@@ -172,7 +172,7 @@ function _createVendorProfile(vendorProfiles, callback) {
 /**
  * Creates a buyer profile.
  *
- * @param profiles the list of profiles to append to. 
+ * @param profiles the list of profiles to append to.
  * @param callback(err) called once the operation completes.
  */
 function _createBuyerProfile(buyerProfiles, callback) {
@@ -203,7 +203,7 @@ function _createBuyerProfile(buyerProfiles, callback) {
         }
       };
 
-      // create the profile 
+      // create the profile
       request.post({
         url: 'https://payswarm.dev:19443/test/profile/create',
         json: profileTemplate
@@ -230,7 +230,7 @@ function _createBuyerProfile(buyerProfiles, callback) {
  * Creates a listing.
  *
  * @param vendorProfile the vendor that is creating all of the listings.
- * @param listings the list of listings to append to. 
+ * @param listings the list of listings to append to.
  * @param callback(err, listing) called once the operation completes.
  */
 function _createListing(vendorProfiles, listings, callback) {
@@ -239,31 +239,32 @@ function _createListing(vendorProfiles, listings, callback) {
   var id = md.digest('hex').substr(12);
   var baseUrl = 'http://listings.dev.payswarm.com/test/' + id;
   var assetId = baseUrl + '#asset';
-  var listingId = baseUrl + '#listing';  
+  var listingId = baseUrl + '#listing';
   var signingOptions = {};
   // grab a random vendor profile to associate with the asset and listing
-  var vendor = 
-    vendorProfiles[Math.floor(Math.random() * vendorProfiles.length)];  
+  var vendor =
+    vendorProfiles[Math.floor(Math.random() * vendorProfiles.length)];
 
   // set the options to use when signing the asset and the listing
   signingOptions.publicKeyId = vendor.psaPublicKey.id;
   signingOptions.privateKeyPem = vendor.psaPublicKey.privateKeyPem;
-  
+
   // sign the asset, the listing, and upload both to the Web
   async.waterfall([
     function(callback) {
       // generate the asset
       var asset = {
+        '@context': payswarm.createDefaultJsonLdContext(),
         id: assetId,
         type: ['ps:Asset', 'pto:WebPage'],
         creator: {
           fullName: 'PaySwarm Test Software'
         },
-        title : 'Test Asset ' + id,
+        title: 'Test Asset ' + id,
         assetContent: assetId,
         assetProvider: vendor.identity.id,
       };
-      
+
       // sign the asset
       payswarm.sign(asset, signingOptions, callback);
     },
@@ -281,6 +282,7 @@ function _createListing(vendorProfiles, listings, callback) {
 
       // generate the listing
       var listing = {
+        '@context': payswarm.createDefaultJsonLdContext(),
         id: listingId,
         type: ['ps:Listing', 'gr:Offering'],
         payee: [{
@@ -303,22 +305,24 @@ function _createListing(vendorProfiles, listings, callback) {
         assetHash: assetHash,
         license: 'http://purl.org/payswarm/licenses/blogging',
         licenseHash: 'ad8f72fcb47e867231d957c0bffb4c02d275926a',
-        validFrom: validFrom,
-        validUntil: validUntil,
+        validFrom: payswarm.w3cDate(validFrom),
+        validUntil: payswarm.w3cDate(validUntil),
       };
 
       // sign the listing
-      payswarm.sign(listing, signingOptions, 
+      payswarm.sign(listing, signingOptions,
         function(err, signedListing) {
           callback(err, signedAsset, signedListing);
       });
     },
     function(signedAsset, signedListing, callback) {
+      delete signedAsset['@context'];
+      delete signedListing['@context'];
       var assetAndListing = {
         '@context': 'http://purl.org/payswarm/v1',
         '@graph': [signedAsset, signedListing]
       };
-      
+
       // register the signed listing on listings.dev.payswarm.com
       request.post({
         headers: {'content-type': 'application/ld+json'},
@@ -329,22 +333,24 @@ function _createListing(vendorProfiles, listings, callback) {
           err = JSON.stringify(body, null, 2);
         }
         if(err) {
-          logger.error('Failed to register signed asset and listing: ', 
+          logger.error('Failed to register signed asset and listing: ',
             err.toString());
           return callback(err);
         }
 
-        logger.info('Registered signed asset and listing: ' + 
+        logger.info('Registered signed asset and listing: ' +
           JSON.stringify(signedListing, null, 2));
         callback(null, signedListing);
       });
     },
     function(signedListing, callback) {
       // generate the listing hash and store it for later use
+      signedListing['@context'] = payswarm.createDefaultJsonLdContext();
       payswarm.hash(signedListing, function(err, hash) {
         if(err) {
           return callback(err);
         }
+        delete signedListing['@context'];
         signedListing.listingHash = hash;
         listings.push(signedListing);
         callback();
@@ -352,7 +358,7 @@ function _createListing(vendorProfiles, listings, callback) {
     }
   ], function(err) {
     if(err) {
-      logger.error('Failed to register signed asset and listing:', 
+      logger.error('Failed to register signed asset and listing:',
         err.toString());
     }
     callback(err);
@@ -364,21 +370,21 @@ function _createListing(vendorProfiles, listings, callback) {
  * buyer and listing will be selected.
  *
  * @param buyers the list of buyers.
- * @param listings the list of listings to use when purchasing. 
+ * @param listings the list of listings to use when purchasing.
  * @param callback(err) called once the operation completes.
  */
 function _purchaseAsset(buyers, listings, callback) {
   var referenceId = payswarmTools.uuid();
-  
+
   // select a random buyer to perform the purchase
   var buyer = buyers[Math.floor(Math.random() * buyers.length)];
-  
+
   // select a random asset to purchase
   var listing = listings[Math.floor(Math.random() * listings.length)];
-  
+
   // build the purchase request
   var purchaseRequest = {
-    '@context': 'http://purl.org/payswarm/v1', 
+    '@context': 'http://purl.org/payswarm/v1',
     type: 'ps:PurchaseRequest',
     identity: buyer.identity.id,
     listing: listing.id,
@@ -386,7 +392,7 @@ function _purchaseAsset(buyers, listings, callback) {
     referenceId: referenceId,
     source: buyer.account.id
   };
-  
+
   payswarm.sign(purchaseRequest, {
     publicKeyId: buyer.psaPublicKey.id,
     privateKeyPem: buyer.psaPublicKey.privateKeyPem
@@ -394,8 +400,8 @@ function _purchaseAsset(buyers, listings, callback) {
     if(err) {
       return callback(err);
     }
-    
-    // FIXME: This should be performed in payswarm.js 
+
+    // FIXME: This should be performed in payswarm.js
     request.post({
       url: 'https://payswarm.dev:19443/transactions',
       json: signedRequest
@@ -411,6 +417,6 @@ function _purchaseAsset(buyers, listings, callback) {
       var receipt = body;
       logger.info('Purchase receipt: ' + JSON.stringify(receipt, null, 2));
       callback();
-    });    
+    });
   });
 }

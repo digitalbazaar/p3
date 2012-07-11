@@ -5,7 +5,7 @@ var schema = {
   title: 'Date/Time',
   description: 'A date and time combination.',
   type: 'string',
-  pattern: '^[2-9][0-9]{3}-(0[1-9]|1[0-2])-([0-2][0-9]|3[0-1])( |T)([0-1][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])((\\+|-)([0-1][0-9]|2[0-3]):([0-5][0-9]))?$',
+  pattern: '^[2-9][0-9]{3}-(0[1-9]|1[0-2])-([0-2][0-9]|3[0-1])( |T)([0-1][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])(Z|((\\+|-)([0-1][0-9]|2[0-3]):([0-5][0-9])))$',
   errors: {
     invalid: 'The date/time must be of the format "YYYY-MM-DD HH:MM:SS".',
     missing: 'Please enter a date/time.'

@@ -393,6 +393,7 @@ payswarm.budgets.addVendor = function(options) {
     dataType: 'json',
     contentType: 'application/json',
     data: JSON.stringify({
+      '@context': 'http://purl.org/payswarm/v1',
       vendor: options.vendor
     }),
     success: function(data, textStatus) {

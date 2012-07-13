@@ -1,5 +1,6 @@
 var tools = require('../lib/payswarm-auth/payswarm.tools');
 
+var jsonldContext = require('./jsonldContext');
 var jsonldType = require('./jsonldType');
 var payee = require('./payee');
 var payeeRule = require('./payeeRule');
@@ -14,6 +15,7 @@ var schema = {
   description: 'A Listing.',
   type: 'object',
   properties: {
+    '@context': jsonldContext({type: 'object'}),
     id: payswarmId(),
     // allow up to 4 additional custom types
     type: jsonldType('ps:Listing', 4),
@@ -32,7 +34,8 @@ var schema = {
     validFrom: dateTime(),
     validUntil: dateTime(),
     signature: graphSignature()
-  }
+  },
+  additionalProperties: false
 };
 
 module.exports = function(extend) {

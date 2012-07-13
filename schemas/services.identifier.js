@@ -11,7 +11,8 @@ var postIdentifier = {
         enum: ['ps:Profile', 'ps:PersonalIdentity', 'ps:VendorIdentity']
       },
       psaSlug: slug()
-    }
+    },
+    additionalProperties: false
   }, {
     type: 'object',
     properties: {
@@ -25,7 +26,8 @@ var postIdentifier = {
         type: payswarmId()
       },
       psaSlug: slug()
-    }
+    },
+    additionalProperties: false
   }]
 };
 

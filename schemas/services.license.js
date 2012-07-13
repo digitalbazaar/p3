@@ -8,7 +8,8 @@ var cacheLicense = {
       required: false,
       type: 'string'
     }
-  }
+  },
+  additionalProperties: false
 };
 
 module.exports.cacheLicense = function() {

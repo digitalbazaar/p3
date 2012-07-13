@@ -1,10 +1,13 @@
 var payswarmId = require('./payswarmId');
 var label = require('./label');
 var money = require('./money');
+var jsonldContext = require('./jsonldContext');
 
 var postBudget = {
   type: 'object',
   properties: {
+    '@context': jsonldContext(),
+    id: payswarmId(),
     label: label({required: false}),
     source: payswarmId({required: false}),
     amount: money.precisePositive({required: false}),
@@ -26,12 +29,14 @@ var postBudget = {
       enum: ['psa:Hourly', 'psa:Daily', 'psa:Monthly', 'psa:Yearly'],
       required: false
     }
-  }
+  },
+  additionalProperties: false
 };
 
 var postBudgets = {
   type: 'object',
   properties: {
+    '@context': jsonldContext(),
     label: label(),
     source: payswarmId(),
     amount: money.precisePositive(),
@@ -46,7 +51,8 @@ var postBudgets = {
       type: 'string',
       enum: ['psa:Hourly', 'psa:Daily', 'psa:Monthly', 'psa:Yearly'],
     }
-  }
+  },
+  additionalProperties: false
 };
 
 module.exports.postBudget = function() {

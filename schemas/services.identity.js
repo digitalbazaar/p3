@@ -6,7 +6,8 @@ var postIdentity = {
   type: 'object',
   properties: {
     label: label()
-  }
+  },
+  additionalProperties: false
 };
 
 var postIdentities = {
@@ -27,7 +28,8 @@ var postIdentities = {
       required: false,
       type: 'string'
     }
-  }
+  },
+  additionalProperties: false
 };
 
 var postPreferences = {
@@ -51,7 +53,8 @@ var postPreferences = {
         }
       }]
     }
-  }
+  },
+  additionalProperties: false
 };
 
 module.exports.postIdentity = function() {

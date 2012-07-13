@@ -16,7 +16,8 @@ var postPaymentTokens = {
     source: {
       type: [creditCard, bankAccount]
     }
-  }
+  },
+  additionalProperties: false
 };
 
 module.exports.postPaymentTokens = function() {

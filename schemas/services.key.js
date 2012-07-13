@@ -7,7 +7,8 @@ var postKey = {
   properties: {
     label: label(),
     psaStatus: status()
-  }
+  },
+  additionalProperties: false
 };
 
 var postKeys = {
@@ -15,7 +16,8 @@ var postKeys = {
   properties: {
     label: label(),
     publicKeyPem: publicKeyPem()
-  }
+  },
+  additionalProperties: false
 };
 
 module.exports.postKey = function() {

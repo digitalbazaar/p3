@@ -25,7 +25,8 @@ var schema = {
         missing: 'Please enter a bank account routing number.'
       }
     }
-  }
+  },
+  additionalProperties: false
 };
 
 module.exports = function(extend) {

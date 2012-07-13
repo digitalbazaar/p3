@@ -67,7 +67,8 @@ var schema = {
         missing: 'Please enter a country name.'
       }
     }
-  }
+  },
+  additionalProperties: false
 };
 
 module.exports = function(extend) {

@@ -10,6 +10,7 @@ var schema = {
   description: 'A digital signature on a graph.',
   type: 'object',
   properties: {
+    id: payswarmId({required: false}),
     type: jsonldType('sec:GraphSignature2012'),
     creator: payswarmId(),
     created: w3cDateTime(),
@@ -17,7 +18,8 @@ var schema = {
       required: true,
       type: 'string'
     }
-  }
+  },
+  additionalProperties: false
 };
 
 module.exports = function(extend) {

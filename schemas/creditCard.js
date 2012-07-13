@@ -53,7 +53,8 @@ var schema = {
         missing: 'Please enter a Card Verification Method (CVM) code.'
       }
     }
-  }
+  },
+  additionalProperties: false
 };
 
 module.exports = function(extend) {

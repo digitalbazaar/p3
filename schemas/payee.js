@@ -11,6 +11,11 @@ var schema = {
   items: {
     type: 'object',
     properties: {
+      id: payswarmId({required: false}),
+      type: {
+        type: 'string',
+        pattern: '^com:Payee$',
+      },
       destination: payswarmId(),
       payeeRate: money.precisePositive(),
       payeeRateType: {
@@ -55,7 +60,8 @@ var schema = {
         required: false,
         type: 'integer'
       }
-    }
+    },
+    additionalProperties: false
   }
 };
 

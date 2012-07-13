@@ -17,7 +17,8 @@ var schema = {
     destination: payswarmId(),
     amount: money.precisePositive(),
     comment: comment()
-  }
+  },
+  additionalProperties: false
 };
 
 module.exports = function(extend) {

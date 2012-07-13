@@ -5,6 +5,7 @@ var passcode = require('./passcode');
 var password = require('./password');
 var label = require('./label');
 var payswarmId = require('./payswarmId');
+var jsonldContext = require('./jsonldContext');
 
 var postPasscode = {
   type: 'object',
@@ -13,7 +14,8 @@ var postPasscode = {
       required: true,
       type: [slug(), email()]
     }
-  }
+  },
+  additionalProperties: false
 };
 
 var postPassword = {
@@ -22,7 +24,8 @@ var postPassword = {
     id: payswarmId(),
     psaPassword: password(),
     psaPasswordNew: password()
-  }
+  },
+  additionalProperties: false
 };
 
 var postPasswordReset = {
@@ -34,12 +37,14 @@ var postPasswordReset = {
     },
     psaPasscode: passcode(),
     psaPasswordNew: password()
-  }
+  },
+  additionalProperties: false
 };
 
 var postCreate = {
   type: 'object',
   properties: {
+    '@context': jsonldContext(),
     psaSlug: slug({required: false}),
     email: email(),
     psaPassword: password(),
@@ -65,7 +70,8 @@ var postCreate = {
         label: label()
       }
     }
-  }
+  },
+  additionalProperties: false
 };
 
 var postLogin = {
@@ -77,7 +83,8 @@ var postLogin = {
     },
     password: password(),
     ref: url({required: false})
-  }
+  },
+  additionalProperties: false
 };
 
 var postProfile = {
@@ -85,7 +92,8 @@ var postProfile = {
   properties: {
     label: label({required: false}),
     email: email({required: false})
-  }
+  },
+  additionalProperties: false
 };
 
 var switchIdentity = {
@@ -93,7 +101,8 @@ var switchIdentity = {
   properties: {
     identity: payswarmId(),
     redirect: url()
-  }
+  },
+  additionalProperties: false
 };
 
 module.exports.postPasscode = function() {

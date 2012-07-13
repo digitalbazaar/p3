@@ -20,7 +20,8 @@ var schema = {
       type: 'array',
       items: transfer()
     }
-  }
+  },
+  additionalProperties: false
 };
 
 module.exports.schema = function(extend) {

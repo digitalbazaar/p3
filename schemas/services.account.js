@@ -1,10 +1,12 @@
 var payswarmId = require('./payswarmId');
 var label = require('./label');
 var privacy = require('./privacy');
+var jsonldContext = require('./jsonldContext');
 
 var postAccounts = {
   type: 'object',
   properties: {
+    '@context': jsonldContext(),
     psaSlug: {
       required: true,
       type: payswarmId()
@@ -13,7 +15,7 @@ var postAccounts = {
       required: true,
       type: label()
     },
-    privacy: {
+    psaPrivacy: {
       required: false,
       type: privacy()
     },
@@ -22,12 +24,15 @@ var postAccounts = {
       type: 'string',
       enum: ['USD']
     }
-  }
+  },
+  additionalProperties: false
 };
 
 var postAccount = {
   type: 'object',
   properties: {
+    '@context': jsonldContext(),
+    id: payswarmId(),
     label: {
       required: true,
       type: label()
@@ -36,7 +41,8 @@ var postAccount = {
       required: false,
       type: privacy()
     }
-  }
+  },
+  additionalProperties: false
 };
 
 module.exports.postAccounts = function() {

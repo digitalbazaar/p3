@@ -1,4 +1,5 @@
 var payswarmId = require('./payswarmId');
+var jsonldContext = require('./jsonldContext');
 var jsonldType = require('./jsonldType');
 var deposit = require('./deposit');
 var url = require('./url');
@@ -6,6 +7,7 @@ var url = require('./url');
 var postQuote = {
   type: 'object',
   properties: {
+    '@context': jsonldContext(),
     listing: payswarmId(),
     listingHash: {
       type: 'string'
@@ -19,12 +21,15 @@ var postQuote = {
       required: false,
       type: 'string'
     }
-  }
+  },
+  additionalProperties: false
 };
 
 var postContract = {
   type: 'object',
+  // FIXME: We should be more precise about what we allow here
   properties: {
+    '@context': jsonldContext(),
     type: jsonldType(['com:Transaction', 'ps:Contract'])
   }
 };
@@ -33,7 +38,9 @@ var postDeposit = deposit();
 
 var postWithdrawal = {
   type: 'object',
+  // FIXME: We should be more precise about what we allow here
   properties: {
+    '@context': jsonldContext(),
     type: jsonldType(['com:Transaction', 'com:Withdrawal'])
   }
 };
@@ -42,15 +49,18 @@ var postPurchaseRequest = {
   type: [{
     type: 'object',
     properties: {
+      '@context': jsonldContext(),
       type: jsonldType('ps:PurchaseRequest'),
       transactionId: payswarmId(),
       nonce: {
         type: 'string'
       }
-    }
+    },
+    additionalProperties: false
   }, {
     type: 'object',
     properties: {
+      '@context': jsonldContext(),
       type: jsonldType('ps:PurchaseRequest'),
       identity: payswarmId(),
       listing: payswarmId(),
@@ -62,12 +72,14 @@ var postPurchaseRequest = {
         required: false,
         type: 'string'
       }
-    }
+    },
+    additionalProperties: false
   }]
 };
 
 var postTransfer = {
   type: 'object',
+  // FIXME: We should be more precise about what we allow here
   properties: {
     type: jsonldType(['com:Transaction', 'com:Transfer'])
   }

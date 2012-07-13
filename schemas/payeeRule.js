@@ -1,5 +1,6 @@
 var tools = require('../lib/payswarm-auth/payswarm.tools');
 
+var payswarmId = require('./payswarmId');
 var jsonldType = require('./jsonldType');
 var money = require('./money');
 
@@ -11,6 +12,7 @@ var schema = {
   items: {
     type: 'object',
     properties: {
+      id: payswarmId(),
       type: jsonldType('com:PayeeRule'),
       accountOwnerType: {
         required: false,
@@ -51,7 +53,8 @@ var schema = {
         type: 'string',
         enum: ['com:FlatAmount', 'com:Percentage']
       }
-    }
+    },
+    additionalProperties: false
   }
 };
 

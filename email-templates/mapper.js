@@ -11,7 +11,9 @@ module.exports.map = function(mapping) {
     'payswarm.common.Deposit.success-profile',
     'payswarm.common.Profile.created',
     'payswarm.common.Profile.created-profile',
-    'payswarm.common.Profile.passcodeSent'
+    'payswarm.common.Profile.passcodeSent',
+    'payswarm.common.Purchase.success',
+    'payswarm.common.Purchase.success-profile'
   ];
 
   // FIXME: can't just map to filenames because swig can't use more than

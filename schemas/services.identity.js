@@ -1,8 +1,11 @@
 var label = require('./label');
 var slug = require('./slug');
 var publicKeyPem = require('./publicKeyPem');
+var jsonldContext = require('./jsonldContext');
+var graphSignature = require('./graphSignature');
 
 var postIdentity = {
+  title: 'Post Identity',
   type: 'object',
   properties: {
     label: label()
@@ -11,6 +14,7 @@ var postIdentity = {
 };
 
 var postIdentities = {
+  title: 'Post Identities',
   type: 'object',
   properties: {
     type: {
@@ -33,6 +37,7 @@ var postIdentities = {
 };
 
 var postPreferences = {
+  title: 'Post Preferences',
   type: 'object',
   properties: {
     destination: {

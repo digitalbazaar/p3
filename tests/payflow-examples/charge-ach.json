@@ -1,0 +1,10 @@
+{
+  "TRXTYPE": "S",
+  "TENDER": "A",
+  "AUTHTYPE": "WEB",
+  "FIRSTNAME": "Full Name",
+  "ACCT": "12345",
+  "ABA": "12345",
+  "ACCTTYPE": "C",
+  "AMT": "1.00"
+}

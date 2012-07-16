@@ -10,7 +10,7 @@ var payswarm = {
 };
 var PaySwarmError = payswarm.tools.PaySwarmError;
 
-var APP_NAME = 'payswarm.apps.urlinfo.UrlInfo';
+var APP_NAME = 'payswarm.apps.UrlInfo';
 process.title = 'url-info';
 
 program

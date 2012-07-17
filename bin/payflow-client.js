@@ -114,7 +114,8 @@ async.waterfall([
         return callback(null, client.createVerifyRequest(data));
       }
       if(program.charge) {
-        return callback(null, client.createChargeRequest(data));
+        // FIXME: validate program.amount
+        return callback(null, client.createChargeRequest(data, program.amount));
       }
     }
     catch(ex) {

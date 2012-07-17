@@ -35,7 +35,7 @@ if(!program.request) {
 var config = {
   confirm: program.review,
   mode: 'sandbox',
-  timeout: 45 || program.timeout,
+  timeout: program.timeout || 45,
   debug: true
 };
 if(program.live) {
@@ -74,6 +74,7 @@ async.auto({
     }
     var request = results.getRequest;
     console.log('Mode: ' + config.mode);
+    console.log('Timeout: ' + config.timeout);
     console.log('Request: ', JSON.stringify(request, null, 2) + '\n');
     program.confirm('Do you want to send this request? ', function(ok) {
       if(!ok) {

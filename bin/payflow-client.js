@@ -120,35 +120,35 @@ async.waterfall([
       return callback(ex);
     }
   },
-  function(request, callback) {
+  function(req, callback) {
     if(!config.confirm) {
-      return callback(null, request);
+      return callback(null, req);
     }
     console.log('Mode: ' + config.mode);
     console.log('Timeout: ' + config.timeout);
     console.log('Request:');
-    console.log(JSON.stringify(request, null, 2) + '\n');
+    console.log(JSON.stringify(req, null, 2) + '\n');
     program.confirm('Do you want to send this request? ', function(ok) {
       if(!ok) {
         console.log('\nQuitting...');
         process.exit();
       }
       console.log('\nSending request...');
-      client.send(request, callback);
+      client.send(req, callback);
     });
   },
-  function(response, callback) {
+  function(res, callback) {
     if(program.verify) {
-      response.paymentToken = client.createPaymentToken(source, response);
+      res.paymentToken = client.createPaymentToken(source, res);
     }
-    callback(null, response);
+    callback(null, res);
   }
-], function(err, result) {
+], function(err, res) {
   if(err) {
     console.log('\n' + err, err.stack ? err.stack : '');
     process.exit(1);
   }
   console.log('Response:');
-  console.log(JSON.stringify(result, null, 2));
+  console.log(JSON.stringify(res, null, 2));
   process.exit();
 });

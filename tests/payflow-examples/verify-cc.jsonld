@@ -8,7 +8,7 @@
   "cardCvm": "000",
   "address": {
     "fullName": "Full Name",
-    "street": "123 Elm St.",
+    "streetAddress": "123 Elm St.",
     "locality": "Blacksburg",
     "region": "VA",
     "postalCode": "24060",

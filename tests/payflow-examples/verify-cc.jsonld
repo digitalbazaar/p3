@@ -1,0 +1,16 @@
+{
+  "@context": "http://purl.org/payswarm/v1",
+  "cardBrand": "card:Visa",
+  "cardNumber": "4111111111111111",
+  "cardExpMonth": "01",
+  "cardExpYear": "16",
+  "cardCvm": "000",
+  "address": {
+    "fullName": "Full Name",
+    "street": "123 Elm St.",
+    "locality": "Blacksburg",
+    "region": "VA",
+    "postalCode": "24060",
+    "countryName": "US"
+  }
+}

@@ -1,5 +1,6 @@
 {
   "@context": "http://purl.org/payswarm/v1",
+  "type": "card:CreditCard",
   "cardBrand": "card:Visa",
   "cardNumber": "4111111111111111",
   "cardExpMonth": "01",

@@ -12,22 +12,35 @@
 /**
  * Install identity selector with known session identities.
  */
-function installIdentitySelector() {
-  selectors.identity.install({
-    target: $('#vendor-identity-selector'),
-    identities: $.map(window.data.session.identities,
+function installIdentitySelector(registrationType) {
+  var identityTypes = ['ps:VendorIdentity'];
+  var selectedType = 'ps:VendorIdentity';
+  var identities = $.map(window.data.session.identities,
+    function(v) { return v; });
+  if(registrationType != 'Vendor') {
+    identityTypes.push('ps:PersonalIdentity');
+    selectedType = 'ps:PersonalIdentity';
+  }
+  else {
+    // allow only vendor identities to be selected
+    identities = $.map(window.data.session.identities,
       function(v) { return v; }).filter(function(v) {
         return v.type === 'ps:VendorIdentity';
-      }),
+      });
+  }
+
+  selectors.identity.install({
+    target: $('#identity-selector'),
+    identities: identities,
     addModal: true,
     addModalOptions: {
-      identityTypes: ['ps:VendorIdentity'],
-      selectedType: 'ps:VendorIdentity'
+      identityTypes: identityTypes,
+      selectedType: selectedType
     },
     change: installAccountSelector,
     added: installAccountSelector,
     ready: function() {
-      $('.vendor-identity-selector').show();
+      $('.identity-selector').show();
       installAccountSelector();
     }
   });
@@ -37,21 +50,21 @@ function installIdentitySelector() {
  * Install account selector based on selected id.
  */
 function installAccountSelector() {
-  var idSelector = $('#vendor-identity-selector');
+  var idSelector = $('#identity-selector');
   var selected = idSelector[0].selected;
 
   if(selected) {
     selectors.account.install({
-      target: $('#vendor-account-selector'),
+      target: $('#account-selector'),
       identity: selected.id,
       addModal: true,
       change: enableRegister,
       added: enableRegister,
       ready: enableRegister
     });
-    $('.vendor-account-selector').show();
+    $('.account-selector').show();
   } else {
-    $('.vendor-account-selector').hide();
+    $('.account-selector').hide();
   }
 }
 
@@ -59,7 +72,7 @@ function installAccountSelector() {
  * Enabled registration button only if identity and account are selected.
  */
 function enableRegister() {
-  var accountSelector = $('#vendor-account-selector');
+  var accountSelector = $('#account-selector');
   var selected = accountSelector[0].selected;
 
   if(selected) {
@@ -75,7 +88,7 @@ function enableRegister() {
  */
 function requestPreferences() {
   // get the required values for the preferences request
-  var identity = $('#vendor-identity-selector')[0].selected.id;
+  var identity = $('#identity-selector')[0].selected.id;
   var nonce = $('#response-nonce').data('nonce');
 
   // retrieve the identity preferences
@@ -88,26 +101,26 @@ function requestPreferences() {
 
 /**
  * Uses the result of a preferences request to build a POST-able form
- * back to the vendor registration callback at the requesting website. The
+ * back to the registration callback at the requesting website. The
  * form is then auto-submitted. If the auto-submit fails, the form is shown
  * on-screen for a manual submit.
  */
 function postPreferencesToCallback(preferences) {
   // update the vendor preferences form
-  $('#vendor-register-feedback').replaceWith(
-    $('#vendor-preferences').tmpl({
+  $('#register-feedback').replaceWith(
+    $('#preferences').tmpl({
       encryptedMessage: JSON.stringify(preferences),
       registrationCallback:
         $('#registration-callback').data('callback')
     }));
 
   // attempt to auto-submit the form back to the registering site
-  $('#vendor-register-feedback').hide();
+  $('#register-feedback').hide();
   $('#vendor').submit();
 
   // show the manual registration completion button after 5 seconds
   setTimeout(function() {
-    $('#vendor-register-feedback').show();
+    $('#register-feedback').show();
   }, 5000);
 };
 
@@ -127,8 +140,8 @@ $(document).ready(function() {
     e.preventDefault();
 
     // get the vendor preference values from the UI
-    var identity = $('#vendor-identity-selector')[0].selected.id;
-    var destination = $('#vendor-account-selector')[0].selected.id;
+    var identity = $('#identity-selector')[0].selected.id;
+    var destination = $('#account-selector')[0].selected.id;
     var label = $('#access-key-label').val();
     var pem = $('#public-key-pem').val();
 
@@ -146,7 +159,7 @@ $(document).ready(function() {
     });
   });
 
-  installIdentitySelector();
+  installIdentitySelector(registrationType);
 });
 
 })(jQuery);

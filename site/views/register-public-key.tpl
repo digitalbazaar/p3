@@ -1,9 +1,13 @@
 ${set([
-  pageTitle = "Register Vendor",
+  pageTitle = registrationType + " Registration",
+  jsList.push("common/scripts/register"),
   jsList.push("common/scripts/modals.add-account"),
-  jsList.push("common/scripts/vendor"),
   pageLayout = "minimal"
 ])}
+<script type="text/javascript">
+var registrationType = '${registrationType}';
+</script>
+
 {{partial "site/head.tpl"}}
 
 {{if registrationCallback}}
@@ -13,28 +17,45 @@ ${set([
 <div id="response-nonce" data-nonce="${responseNonce}"></div>
 {{/if}}
 
-<h1 class="headline">Vendor Registration</h1>
+<h1 class="headline">${registrationType} Registration</h1>
+
+<div class="row">
+  <div class="span6 offset3">
+{{if registrationType == "Vendor"}}
+<p>
+This page registers a key that your vendor software will use to make trusted
+requests from this website.
+</p>
+{{else}}
+<p>
+This page registers a key that your software will use to make trusted
+requests from this website.
+</p>
+{{/if}}
+  </div>
+</div>
+
 <div class="row">
   <div class="span6 offset3">
     
-    <form id="vendor-update" class="form-horizontal" 
+    <form id="prefs-update" class="form-horizontal" 
       method="post" action="${session.identity.id}/preferences">
     
       <fieldset>
         <div class="control-group">
-          <label class="control-label vendor-identity-selector hide" for="vendor-identity-selector">Identity</label>
-          <div class="controls vendor-identity-selector hide">
-            <div id="vendor-identity-selector"></div>
+          <label class="control-label identity-selector hide" for="identity-selector">Identity</label>
+          <div class="controls identity-selector hide">
+            <div id="identity-selector"></div>
           </div>
           
-          <label class="control-label vendor-account-selector hide" for="vendor-account-selector">Financial Account</label>
-          <div class="controls vendor-account-selector hide">
-            <div id="vendor-account-selector"></div>
+          <label class="control-label account-selector hide" for="account-selector">Financial Account</label>
+          <div class="controls account-selector hide">
+            <div id="account-selector"></div>
           </div>
     
           <label class="control-label" for="access-key-label">Access Key Label</label>
           <div class="controls">
-            <input id="access-key-label" class="form-field-vspaced form-field-constrained" name="sec:publicKey.rdfs:label" type="text" value="Vendor Access Key 1" />
+            <input id="access-key-label" class="form-field-vspaced form-field-constrained" name="sec:publicKey.rdfs:label" type="text" value="${publicKeyLabel}" />
           </div>
     
           <label class="control-label" for="public-key-pem">Access Key</label>
@@ -52,15 +73,15 @@ ${set([
        
     </form>
     
-    <div id="vendor-register-feedback"></div>
+    <div id="register-feedback"></div>
   </div>
 </div>
 
 {{verbatim}}
-<script id="vendor-preferences" type="text/x-jquery-tmpl">
-<div id="vendor-register-feedback">
+<script id="preferences" type="text/x-jquery-tmpl">
+<div id="register-feedback">
    <div class="message success">
-   The vendor has been registered.
+   The access key has been registered.
 
    {{if encryptedMessage}}
    {{if registrationCallback}}
@@ -68,16 +89,15 @@ ${set([
       method="post" action="${registrationCallback}">
       <input name="encrypted-message" value="${encryptedMessage}" type="hidden"/>
       <p>
-        Redirecting to your vendor to complete registration.
+        Redirecting to your ecommerce to complete registration.
         If this does not redirect automatically, please click the following button.
       </p>
       <p><button type="submit">Complete Vendor Registration</button></p>
    </form>
    {{else}}
-   <p>Use the following data to complete initialization of your vendor application:</p>
-   <pre>
-   ${encryptedMessage}
-   </pre>
+   <p>Cut and paste the following data into your software to finish
+   the setup process:</p>
+   <input type="text" value="${encryptedMessage}" />
    {{/if}}
    {{/if}}
    </div>
@@ -85,6 +105,6 @@ ${set([
 </script>
 {{/verbatim}}
 
-<div id="vendor-register-feedback"></div>
+<div id="register-feedback"></div>
 
 {{partial "site/foot.tpl"}}

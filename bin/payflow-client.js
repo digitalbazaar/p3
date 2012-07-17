@@ -17,6 +17,7 @@ program
     'is output.')
   .option('--charge <filename>', 'A JSON-LD file containing a payment ' +
     'token to charge. The "--amount" parameter must also be specified.')
+  .option('--amount <amount>', 'A dollar amount to charge (eg: "1.00").')
   .option('--timeout <timeout>', 'The request timeout in seconds.', parseInt)
   .option('--no-review', 'Do not require confirmation before sending ' +
     'the request.')

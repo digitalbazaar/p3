@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "async": "~0.1.22",
-    "commander": "~0.6.1",
+    "commander": "~1.0.0",
     "jsonld": "git://github.com/digitalbazaar/jsonld.js.git",
     "jqtpl": "~1.1.0",
     "bigdecimal": "~0.6.1",

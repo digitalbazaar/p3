@@ -8,6 +8,8 @@ var payswarmId = require('./payswarmId');
 var jsonldContext = require('./jsonldContext');
 
 var postPasscode = {
+  title: 'Passcode',
+  description: 'Create a passcode.',
   type: 'object',
   properties: {
     psaIdentifier: {
@@ -19,6 +21,8 @@ var postPasscode = {
 };
 
 var postPassword = {
+  title: 'Password',
+  description: 'Create a password.',
   type: 'object',
   properties: {
     id: payswarmId(),
@@ -29,6 +33,8 @@ var postPassword = {
 };
 
 var postPasswordReset = {
+  title: 'Reset password',
+  description: 'Reset a password.',
   type: 'object',
   properties: {
     psaIdentifier: {
@@ -42,6 +48,8 @@ var postPasswordReset = {
 };
 
 var postCreate = {
+  title: 'Create profile',
+  description: 'Create a profile.',
   type: 'object',
   properties: {
     '@context': jsonldContext(),
@@ -75,6 +83,8 @@ var postCreate = {
 };
 
 var postLogin = {
+  title: 'Login',
+  description: 'Login.',
   type: 'object',
   properties: {
     profile: {
@@ -88,6 +98,8 @@ var postLogin = {
 };
 
 var postProfile = {
+  title: 'Update profile',
+  description: 'Update profile.',
   type: 'object',
   properties: {
     label: label({required: false}),
@@ -97,6 +109,8 @@ var postProfile = {
 };
 
 var switchIdentity = {
+  title: 'Switch identity',
+  description: 'Switch identity.',
   type: 'object',
   properties: {
     identity: payswarmId(),

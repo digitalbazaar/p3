@@ -148,6 +148,15 @@ config.identity.keys.push({
 });
 
 // accounts
+// fees first so auto-deposit has a fee account to work with
+config.financial.accounts.push({
+  id: baseUri + '/i/authority/accounts/fees',
+  type: 'com:Account',
+  owner: authorityId,
+  psaSlug: 'fees',
+  label: config.authority.name + ' Fees Account',
+  currency: 'USD'
+});
 config.financial.accounts.push({
   id: baseUri + '/i/authority/accounts/main',
   type: 'com:Account',
@@ -162,14 +171,6 @@ config.financial.accounts.push({
   owner: authorityId,
   psaSlug: 'escrow',
   label: config.authority.name + ' Escrow Account',
-  currency: 'USD'
-});
-config.financial.accounts.push({
-  id: baseUri + '/i/authority/accounts/fees',
-  type: 'com:Account',
-  owner: authorityId,
-  psaSlug: 'fees',
-  label: config.authority.name + ' Fees Account',
   currency: 'USD'
 });
 config.financial.accounts.push({

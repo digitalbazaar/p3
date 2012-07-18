@@ -132,7 +132,10 @@ function _createVendorProfile(vendorProfiles, callback) {
         '@context': 'http://purl.org/payswarm/v1',
         email: email,
         psaPassword: 'password',
-        psaPublicKeyPem: pair.publicKey,
+        psaPublicKey: {
+          publicKeyPem: pair.publicKey,
+          label: 'key-' + id
+        },
         psaIdentity: {
           type: 'ps:VendorIdentity',
           psaSlug: 'vendor-' + id,
@@ -191,11 +194,14 @@ function _createBuyerProfile(buyerProfiles, callback) {
         '@context': 'http://purl.org/payswarm/v1',
         email: email,
         psaPassword: 'password',
-        psaPublicKeyPem: pair.publicKey,
+        psaPublicKey: {
+          publicKeyPem: pair.publicKey,
+          label: 'key-' + id
+        },
         psaIdentity: {
           type: 'ps:PersonalIdentity',
           psaSlug: 'buyer-' + id,
-          label: 'PaySwarm Buyer Test Identity',
+          label: 'PaySwarm Buyer Test Identity'
         },
         account: {
           psaSlug: 'buying',

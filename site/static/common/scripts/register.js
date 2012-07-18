@@ -118,10 +118,14 @@ function postPreferencesToCallback(preferences) {
   $('#register-feedback').hide();
   $('#vendor').submit();
 
-  // show the manual registration completion button after 5 seconds
+  // show the manual registration completion button after a timeout period
+  var registrationDelay = 0;
+  if(registrationType == 'Vendor') {
+    registrationDelay = 5000;
+  }
   setTimeout(function() {
     $('#register-feedback').show();
-  }, 5000);
+  }, registrationDelay);
 };
 
 /**

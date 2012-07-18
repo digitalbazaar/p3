@@ -15,16 +15,18 @@
 function installIdentitySelector(registrationType) {
   var identityTypes = ['ps:VendorIdentity'];
   var selectedType = 'ps:VendorIdentity';
-  var identities = $.map(window.data.session.identities,
-    function(v) { return v; });
-  if(registrationType != 'Vendor') {
+  var identities = $.map(
+    window.data.session.identities, function(v) {return v;});
+  if(registrationType !== 'Vendor') {
     identityTypes.push('ps:PersonalIdentity');
     selectedType = 'ps:PersonalIdentity';
   }
   else {
     // allow only vendor identities to be selected
-    identities = $.map(window.data.session.identities,
-      function(v) { return v; }).filter(function(v) {
+    identities = $.map(
+      window.data.session.identities,
+      function(v) {return v;})
+      .filter(function(v) {
         return v.type === 'ps:VendorIdentity';
       });
   }
@@ -63,7 +65,8 @@ function installAccountSelector() {
       ready: enableRegister
     });
     $('.account-selector').show();
-  } else {
+  }
+  else {
     $('.account-selector').hide();
   }
 }
@@ -77,7 +80,8 @@ function enableRegister() {
 
   if(selected) {
     $('#register').removeAttr('disabled');
-  } else {
+  }
+  else {
     $('#register').attr('disabled', 'disabled');
   }
 }
@@ -120,7 +124,7 @@ function postPreferencesToCallback(preferences) {
 
   // show the manual registration completion button after a timeout period
   var registrationDelay = 0;
-  if(registrationType == 'Vendor') {
+  if(registrationType === 'Vendor') {
     registrationDelay = 5000;
   }
   setTimeout(function() {

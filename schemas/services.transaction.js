@@ -1,7 +1,8 @@
-var payswarmId = require('./payswarmId');
+var deposit = require('./deposit');
+var graphSignature = require('./graphSignature');
 var jsonldContext = require('./jsonldContext');
 var jsonldType = require('./jsonldType');
-var deposit = require('./deposit');
+var payswarmId = require('./payswarmId');
 var url = require('./url');
 
 var postQuote = {
@@ -54,7 +55,8 @@ var postPurchaseRequest = {
       transactionId: payswarmId(),
       nonce: {
         type: 'string'
-      }
+      },
+      signature: graphSignature({required: false})
     },
     additionalProperties: false
   }, {
@@ -71,7 +73,8 @@ var postPurchaseRequest = {
       referenceId: {
         required: false,
         type: 'string'
-      }
+      },
+      signature: graphSignature({required: false})
     },
     additionalProperties: false
   }]

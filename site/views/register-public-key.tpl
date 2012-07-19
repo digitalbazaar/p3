@@ -1,12 +1,9 @@
 ${set([
-  pageTitle = registrationType + " Registration",
+  pageTitle = "Access Key Registration",
   jsList.push("common/scripts/register"),
   jsList.push("common/scripts/modals.add-account"),
   pageLayout = "minimal"
 ])}
-<script type="text/javascript">
-var registrationType = '${registrationType}';
-</script>
 
 {{partial "site/head.tpl"}}
 
@@ -17,21 +14,25 @@ var registrationType = '${registrationType}';
 <div id="response-nonce" data-nonce="${responseNonce}"></div>
 {{/if}}
 
-<h1 class="headline">${registrationType} Registration</h1>
+<h1 class="headline">Access Key Registration</h1>
 
 <div class="row">
   <div class="span6 offset3">
-{{if registrationType == "Vendor"}}
 <p>
-This page registers a key that your vendor software will use to make trusted
-requests from this website.
+This page registers an access key that your software will use to 
+make trusted requests from this website. You may limit the power of this
+access key and only grant the software that is using the key certain rights 
+to access and modify your account.
 </p>
-{{else}}
-<p>
-This page registers a key that your software will use to make trusted
-requests from this website.
-</p>
-{{/if}}
+  </div>
+</div>
+
+<div class="row">
+  <div class="span6 offset3">
+    <form class="form-horizontal" action="">
+      <fieldset>
+      </fieldset>
+    </form>
   </div>
 </div>
 
@@ -42,6 +43,20 @@ requests from this website.
       method="post" action="${session.identity.id}/preferences">
     
       <fieldset>
+        <div class="control-group">
+            <label class="control-label">Purpose</label>
+            <div class="controls">
+            <label>
+              <input type="radio" name="registration-type" value="vendor" checked="checked" />
+              Only for listing things for sale (Vendor)
+            </label>
+            <label>
+              <input type="radio" name="registration-type" value="buyer" />
+              Buying things and listings things for sale (Vendor/Buyer)
+            </label>
+            </div>
+        </div>
+        
         <div class="control-group">
           <label class="control-label identity-selector hide" for="identity-selector">Identity</label>
           <div class="controls identity-selector hide">

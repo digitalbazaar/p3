@@ -9,15 +9,20 @@
  */
 (function($) {
 
+// the type of registration UI to show
+// FIXME: Figure out a way to get the registrationType into window.data
+var registrationType = window.data.registrationType || 'vendor';
+
 /**
  * Install identity selector with known session identities.
  */
-function installIdentitySelector(registrationType) {
+function installIdentitySelector() {
+  console.log("IIS:", registrationType);
   var identityTypes = ['ps:VendorIdentity'];
   var selectedType = 'ps:VendorIdentity';
   var identities = $.map(
     window.data.session.identities, function(v) {return v;});
-  if(registrationType !== 'Vendor') {
+  if(registrationType !== 'vendor') {
     identityTypes.push('ps:PersonalIdentity');
     selectedType = 'ps:PersonalIdentity';
   }
@@ -143,6 +148,12 @@ $(document).ready(function() {
   var authorityBase = window.location.protocol + '//' + window.location.host;
   $('[name="authority-base"]').text(authorityBase);
 
+  // react when a registration type radio button is clicked
+  $('[name="registration-type"]').click(function(e) {
+    registrationType = e.srcElement.value;
+    installIdentitySelector();
+  });
+
   $('#register').attr('disabled', 'disabled');
   $('#register').click(function(e) {
     e.preventDefault();
@@ -167,7 +178,7 @@ $(document).ready(function() {
     });
   });
 
-  installIdentitySelector(registrationType);
+  installIdentitySelector();
 });
 
 })(jQuery);

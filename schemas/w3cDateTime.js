@@ -7,7 +7,7 @@ var schema = {
   type: 'string',
   pattern: '^[2-9][0-9]{3}-(0[1-9]|1[0-2])-([0-2][0-9]|3[0-1])T([0-1][0-9]|2[0-3]):([0-5][0-9]):(([0-5][0-9])|60)(\\.[0-9]+)?(Z|((\\+|-)([0-1][0-9]|2[0-3]):([0-5][0-9])))?$',
   errors: {
-    invalid: 'The date/time must be of the W3C format "YYYY-MM-DDTHH:MM:SS(Z|TZ)".',
+    invalid: 'The date/time must be of the W3C format "YYYY-MM-DD( |T)HH:MM:SS.s(Z|TZOFFSET)".',
     missing: 'Please enter a date/time.'
   }
 };

@@ -7,7 +7,7 @@ var payeeRule = require('./payeeRule');
 var payswarmId = require('./payswarmId');
 var graphSignature = require('./graphSignature');
 var url = require('./url');
-var dateTime = require('./dateTime');
+var w3cDateTime = require('./w3cDateTime');
 
 var schema = {
   required: true,
@@ -31,8 +31,8 @@ var schema = {
       required: true,
       type: 'string'
     },
-    validFrom: dateTime(),
-    validUntil: dateTime(),
+    validFrom: w3cDateTime(),
+    validUntil: w3cDateTime(),
     signature: graphSignature()
   },
   additionalProperties: false

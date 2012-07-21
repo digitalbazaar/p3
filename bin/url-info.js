@@ -2,11 +2,11 @@ var async = require('async');
 var program = require('commander');
 var jsdom = require('jsdom');
 var jsonld = require('jsonld');
-var RDFa = require('./rdfa');
+var RDFa = require('../lib/payswarm-auth/rdfa');
 var util = require('util');
 var payswarm = {
-  security: require('./payswarm.security'),
-  tools: require('./payswarm.tools.js')
+  security: require('../lib/payswarm-auth/payswarm.security'),
+  tools: require('../lib/payswarm-auth/payswarm.tools.js')
 };
 var PaySwarmError = payswarm.tools.PaySwarmError;
 

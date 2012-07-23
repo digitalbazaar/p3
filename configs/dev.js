@@ -55,10 +55,9 @@ config.database.writeOptions = {
   fsync: true,
   multi: true
 };
-config.database.local.path = '/tmp/payswarm-dev.local.db';
+config.database.local.collection = 'payswarm_dev';
 
 // authority config
-config.authority = {};
 config.authority.baseUri = 'https://' + config.server.host;
 config.authority.id = config.authority.baseUri + '/i/authority';
 config.authority.name = 'PaySwarm Dev Authority';

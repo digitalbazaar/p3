@@ -1,17 +1,18 @@
 /*
  * Copyright (c) 2012 Digital Bazaar, Inc. All rights reserved.
  */
+var _ = require('underscore');
 var async = require('async');
 var crypto = require('crypto');
 var events = require('events');
 var payswarm = require('payswarm');
 var payswarmTools = require('../lib/payswarm-auth/payswarm.tools');
+var pkginfo = require('pkginfo')(module, 'version');
 var program = require('commander');
 var request = require('request');
 var sprintf = require('sprintf').sprintf;
 var util = require('util');
 var winston = require('winston');
-var _ = require('underscore');
 
 function LoadTester() {
   events.EventEmitter.call(this);
@@ -42,7 +43,7 @@ var emitter = new events.EventEmitter();
 LoadTester.prototype.run = function() {
   self = this;
   program
-    .version('0.9.0')
+    .version(module.exports.version)
     // setup the command line options
     .option('--log-level <level>',
       'Max console log level (default: info)', String)

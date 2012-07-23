@@ -3,12 +3,13 @@
  */
 var async = require('async');
 var audit = require('../lib/payswarm-auth/payswarm.audit');
-var program = require('commander');
 var payswarm = require('payswarm');
-var winston = require('winston');
-var util = require('util');
 var payswarmTools = require('../lib/payswarm-auth/payswarm.tools');
+var pkginfo = require('pkginfo')(module, 'version');
+var program = require('commander');
 var request = require('request');
+var util = require('util');
+var winston = require('winston');
 
 var main = {};
 var config = {};
@@ -24,7 +25,7 @@ var logger = new (winston.Logger)({
 
 main.run = function() {
   program
-    .version('0.9.0')
+    .version(module.exports.version)
     // setup the command line options
     .option('--account <id>',
       'Audit one account (default: all).', String)

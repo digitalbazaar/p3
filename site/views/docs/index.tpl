@@ -24,17 +24,18 @@ fashion.
   </div>
 </div>
 
+{{each(section, annotations) docs}}
 <div class="row">
-  <div class="span8 offset2">
-    <h2>REST Endpoints</h2>
+  <div class="span10 offset1">
+    <h2>${section}</h2>
+    <dl>
+      {{each(ai, annotation) annotations}}
+      <dt>${annotation.method} ${annotation.path}</dt>
+      <dd>${annotation.description}</dd>
+      {{/each}}
+    </dl>
   </div>
 </div>
-
-<dl>
-{{each(idx, endpoint) endpoints}}
-  <dt>${endpoint.url}</dt>
-  <dd>${endpoint.description}</dd>
 {{/each}}
-</dl>
 
 {{partial "site/foot.tpl"}}

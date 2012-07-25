@@ -27,7 +27,7 @@ fashion.
 {{each(section, annotations) docs}}
 <div class="row">
   <div class="span10 offset1">
-    <h2>${section}</h2>
+    <h2>${__(section)}</h2>
     <dl>
       {{each(ai, annotation) annotations}}
       <dt>${annotation.method} ${annotation.path}</dt>

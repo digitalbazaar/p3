@@ -16,7 +16,6 @@ var winston = require('winston');
 
 function LoadTester() {
   events.EventEmitter.call(this);
-  this.done = false;
   this.stats = {
     counts: {
       vendors: 0,
@@ -41,7 +40,8 @@ var statsLogger = null;
 var emitter = new events.EventEmitter();
 
 LoadTester.prototype.run = function() {
-  self = this;
+  var self = this;
+
   program
     .version(module.exports.version)
     // setup the command line options
@@ -63,6 +63,9 @@ LoadTester.prototype.run = function() {
     .option('--stats-log <name>',
       'The name of the stats log file (default: none)',
       String)
+    .option('-d, --delay <n>',
+      'Number of seconds between progres updates (default: 1)',
+      String)
     .parse(process.argv);
 
   // initialize the configuration
@@ -73,6 +76,7 @@ LoadTester.prototype.run = function() {
   config.purchases = program.purchases || 1;
   config.batchSize = program.batchSize || 10;
   config.statsLog = program.statsLog || null;
+  config.delay = program.delay || 1;
 
   // setup logging
   logger = new (winston.Logger)({
@@ -129,6 +133,7 @@ LoadTester.prototype.run = function() {
     beginPurchases: ['createBuyerProfiles', 'createListings',
       function(callback, results) {
         self.stats.purchasing.begin = +new Date;
+        self.emit('beginPurchases');
         callback();
       }],
     performPurchases: ['beginPurchases',
@@ -144,6 +149,7 @@ LoadTester.prototype.run = function() {
     endPurchases: ['performPurchases',
       function(callback, results) {
         self.stats.purchasing.end = +new Date;
+        self.emit('endPurchases');
         callback();
       }],
     done: ['endPurchases',
@@ -167,28 +173,42 @@ process.on('uncaughtException', function(err) {
 
 // create LoadTester
 var loadTester = new LoadTester();
-var done = false;
+var doProgress = false;
+var progressId;
 
 // setup event handlers
+loadTester.on('beginPurchases', function() {
+  if(config.delay > 0) {
+    progressId = setTimeout(_progress, config.delay * 1000);
+    doProgress = true;
+  }
+});
+loadTester.on('endPurchases', function() {
+  clearTimeout(progressId);
+  doProgress = false;
+  _stats();
+});
 loadTester.on('done', function() {
-  _progress();
-  this.done = true;
   logger.info('Done');
 });
-loadTester.on('purchasedAsset', _.throttle(_progress, 1000));
 
 // run the program
 loadTester.run();
 
 /**
  * Displays progress.
- *
- * @param callback(err) called once the operation completes.
  */
-function _progress(callback) {
-  if(loadTester.done) {
-    return;
+function _progress() {
+  if(doProgress) {
+    progressId = setTimeout(_progress, config.delay * 1000);
   }
+  _stats();
+}
+
+/**
+ * Display stats.
+ */
+function _stats() {
   var now = +new Date;
   // overall
   var p = loadTester.stats.counts.purchases;
@@ -204,18 +224,6 @@ function _progress(callback) {
   logger.info(sprintf(
     'p:%d, dt:%0.3f, p/s:%0.3f rp/s:%0.3f',
     p, dt, p/dt, rdp/rdt));
-}
-
-/**
- * Displays stats.
- *
- * @param callback(err) called once the operation completes.
- */
-function _stats(callback) {
-  if(loadTester.done) {
-    return;
-  }
-  //logger.info(JSON.stringify(loadTester.stats));
 }
 
 /**

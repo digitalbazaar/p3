@@ -31,13 +31,10 @@ main.run = function() {
       'Audit one account (default: all).', String)
     .option('--stop-on-error',
       'Stop when an error is detected (default: no).')
-    .option('--verbose',
-      'Verbose output (default: no).')
     .parse(process.argv);
 
   // initialize the configuration
   config.account = program.account || '*';
-  config.verbose = program.verbose || false;
 
   // dump out the configuration
   logger.info('Config:', config);
@@ -54,7 +51,8 @@ main.run = function() {
     function(callback) {
       // audit accounts
       var opts = {
-        logger: logger
+        logger: logger,
+        verbose: true
       };
       audit.accounts(opts, null, callback);
     }

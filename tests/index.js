@@ -173,19 +173,18 @@ process.on('uncaughtException', function(err) {
 
 // create LoadTester
 var loadTester = new LoadTester();
-var doProgress = false;
-var progressId;
+var progressId = null;
 
 // setup event handlers
 loadTester.on('beginPurchases', function() {
   if(config.delay > 0) {
-    progressId = setTimeout(_progress, config.delay * 1000);
-    doProgress = true;
+    progressId = setInterval(_stats, config.delay * 1000);
   }
 });
 loadTester.on('endPurchases', function() {
-  clearTimeout(progressId);
-  doProgress = false;
+  if(progressId) {
+    clearInterval(progressId);
+  }
   _stats();
 });
 loadTester.on('done', function() {
@@ -194,16 +193,6 @@ loadTester.on('done', function() {
 
 // run the program
 loadTester.run();
-
-/**
- * Displays progress.
- */
-function _progress() {
-  if(doProgress) {
-    progressId = setTimeout(_progress, config.delay * 1000);
-  }
-  _stats();
-}
 
 /**
  * Display stats.

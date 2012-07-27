@@ -1,6 +1,5 @@
 ${set([
   pageTitle = "Identities",
-  cssList.push("identities"),
   jsList.push("common/scripts/website.transmitter"),
   pnav = "identities"
 ])}

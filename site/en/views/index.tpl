@@ -1,6 +1,5 @@
 ${set([
   pageTitle = "Welcome",
-  cssList.push("index")
 ])}
 {{partial "site/head.tpl"}}
 

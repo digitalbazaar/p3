@@ -1,6 +1,5 @@
 ${set([
   pageTitle= "Identity",
-  cssList.push("identities"),
   jsList.push("common/scripts/tmpl.funcs"),
   jsList.push("common/scripts/tmpl.funcs.countries"),
   jsList.push("common/scripts/jquery.tmpl"),

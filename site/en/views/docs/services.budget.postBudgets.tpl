@@ -1,5 +1,5 @@
 ${set([
-  group = "Budgets",
+  category = "Budgets",
   freeLimit = ["by-user"],
   authentication = ["signature"],
   validation = "services.budget.postBudgets",

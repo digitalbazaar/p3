@@ -1,5 +1,5 @@
 ${set([
-  pageTitle = "Welcome"
+  pageTitle = "Documentation"
 ])}
 {{partial "site/head.tpl"}}
 
@@ -22,5 +22,23 @@ fashion.
     </p>
   </div>
 </div>
+
+{{each(category, endpoints) docIndex}}
+<div class="row">
+  <div class="span10 offset1">
+    <h2>${category}</h2>
+  </div>
+</div>
+  {{each(topic, endpoint) endpoints}}
+<div class="row">
+  <div class="span8 offset2 rest-summary ${endpoint.method}-background">
+    <span class="rest-verb ${endpoint.method}">${endpoint.method}</span>
+    <a href="?topic=${topic}" class="rest-path">${endpoint.path}</a>
+    <div class="rest-description">${endpoint.shortDescription}</div>
+  </div>
+</div>
+    
+  {{/each}}
+{{/each}}
 
 {{partial "site/foot.tpl"}}

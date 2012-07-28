@@ -1,10 +1,10 @@
 ${set([
-  category = "Discovery",
-  freeLimit = ["by-ip"],
-  authentication = null,
+  category = "Budgets",
+  freeLimit = ["by-user"],
+  authentication = ["signature"],
   validation = null,
-  shortDescription = "Retrieves the Web Keys service endpoints.",  
-  cssList.push("docs")
+  shortDescription = "Removes an existing budget from the system.",  
+  cssList.push("index")
 ])}
 {{partial "site/head.tpl"}}
 
@@ -19,7 +19,7 @@ ${set([
 <table>
  <tr><td>Topic</td><td>Budgets</td></tr>
  <tr><td>Rate Limit</td><td>${freeLimit[0]}</td></tr>
- <tr><td>Authentication</td><td>None</td></tr>
+ <tr><td>Authentication</td><td>${authentication[0]}</td></tr>
 </table>
 
 <div class="row">

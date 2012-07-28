@@ -3,7 +3,7 @@ ${set([
   freeLimit = ["by-user"],
   authentication = ["signature"],
   validation = "services.budget.postBudgets",
-  shortDescription = "Creates a new budget for restricting certain types of spending",  
+  shortDescription = "Creates a new budget for restricting certain types of spending.",  
   cssList.push("index")
 ])}
 {{partial "site/head.tpl"}}

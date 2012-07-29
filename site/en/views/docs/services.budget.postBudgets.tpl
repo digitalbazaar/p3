@@ -73,13 +73,6 @@ will be deleted.
 
 <div class="row">
   <div class="span12">
-    <h2>Validation</h2>
-    {{html docs.validatorHtml}}
-  </div>
-</div>
-
-<div class="row">
-  <div class="span12">
     <h2>Example</h2>
     <p>
 The example below creates a new budget labeled "Music" and assigns $10.00 to
@@ -117,5 +110,11 @@ purchase is <em>https://${host}/i/jane/accounts/primary</em>.
   </div>
 </div>
 
+<div class="row">
+  <div class="span12">
+    <h2>Validation</h2>
+    {{html docs.validatorHtml}}
+  </div>
+</div>
 
 {{partial "site/foot.tpl"}}

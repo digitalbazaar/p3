@@ -64,7 +64,7 @@ LoadTester.prototype.run = function() {
       'The name of the stats log file (default: none)',
       String)
     .option('-d, --delay <n>',
-      'Number of seconds between progres updates (default: 1)',
+      'Number of seconds between progress updates (default: 1)',
       String)
     .parse(process.argv);
 

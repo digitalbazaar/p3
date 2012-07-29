@@ -3,5 +3,6 @@
 	"Identities": "Identities",
 	"Accounts": "Accounts",
 	"Budgets": "Budgets",
-	"Keys": "Keys"
+	"Keys": "Keys",
+	"Validator not found.": "Validator not found."
 }

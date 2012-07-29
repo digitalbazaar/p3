@@ -2,7 +2,7 @@ ${set([
   category = "Budgets",
   freeLimit = ["by-user"],
   authentication = ["signature"],
-  validation = "services.budget.postBudgets",
+  validator = "services.budget.postBudgets",
   shortDescription = "Creates a new budget for restricting certain types of spending.",  
   cssList.push("index")
 ])}
@@ -10,8 +10,8 @@ ${set([
 
 <h1 class="row">
   <div class="span12 rest-summary">
-    <span class="rest-verb ${method}">${method}</span>
-    <span class="rest-path">${path}</span>
+    <span class="rest-verb ${docs.method}">${docs.method}</span>
+    <span class="rest-path">${docs.path}</span>
   </div>
 </h1>
 
@@ -74,9 +74,7 @@ will be deleted.
 <div class="row">
   <div class="span12">
     <h2>Validation</h2>
-    <p>
-Validation thingie goes here.
-    </p>
+    {{html docs.validatorHtml}}
   </div>
 </div>
 

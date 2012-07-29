@@ -1,6 +1,5 @@
 ${set([
-  pageTitle = "Set Password",
-  cssList.push("profile/password")
+  pageTitle = "Set Password"
 ])}
 {{partial "site/head.tpl"}}
 

@@ -23,6 +23,11 @@
     <link href="${cacheRoot}/common/bootstrap/css/bootstrap-responsive.${cssExt}" rel="stylesheet" type="text/css" />
     <link href="${cacheRoot}/style/custom.${cssExt}" rel="stylesheet" type="text/css" />
     <link href="${cacheRoot}/style/site.${cssExt}" rel="stylesheet" type="text/css" />
+    {{if cssList && cssList.length > 0}}
+    {{each(idx, cssFile) cssList}}
+    <link href="${cacheRoot}/style/${cssFile}.${cssExt}" rel="stylesheet" type="text/css" />
+    {{/each}}
+    {{/if}}
 
     <link rel="shortcut icon" href="/favicon.ico" />
   </head>

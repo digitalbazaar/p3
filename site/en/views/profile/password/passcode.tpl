@@ -1,6 +1,5 @@
 ${set([
   pageTitle = "Reset Password",
-  cssList.push("profile/password"),
   jsList.push("common/scripts/payswarm.api"),
   jsList.push("common/scripts/profile-passcode")
 ])}

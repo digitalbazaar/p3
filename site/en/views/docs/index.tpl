@@ -1,6 +1,5 @@
 ${set([
-  pageTitle = "Welcome",
-  cssList.push("index")
+  pageTitle = "Documentation"
 ])}
 {{partial "site/head.tpl"}}
 
@@ -24,18 +23,22 @@ fashion.
   </div>
 </div>
 
-{{each(section, annotations) docs}}
+{{each(category, endpoints) docIndex}}
 <div class="row">
   <div class="span10 offset1">
-    <h2>${__(section)}</h2>
-    <dl>
-      {{each(ai, annotation) annotations}}
-      <dt>${annotation.method} ${annotation.path}</dt>
-      <dd>${annotation.description}</dd>
-      {{/each}}
-    </dl>
+    <h2>${category}</h2>
   </div>
 </div>
+  {{each(topic, endpoint) endpoints}}
+<div class="row">
+  <div class="span8 offset2 rest-summary ${endpoint.method}-background">
+    <span class="rest-verb ${endpoint.method}">${endpoint.method}</span>
+    <a href="?topic=${topic}" class="rest-path">${endpoint.path}</a>
+    <div class="rest-description">{{html endpoint.shortDescription}}</div>
+  </div>
+</div>
+    
+  {{/each}}
 {{/each}}
 
 {{partial "site/foot.tpl"}}

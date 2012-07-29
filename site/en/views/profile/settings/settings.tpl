@@ -1,6 +1,5 @@
 ${set([
   pageTitle = "Profile Settings",
-  cssList.push("profile/settings"),
   pnav = "settings"
 ])}
 {{partial "site/head.tpl"}}

@@ -1,30 +1,57 @@
 ${set([
-  pageTitle = "Identities",
-  cssList.push("identities"),
+  pageTitle= "Identity",
+  jsList.push("common/scripts/tmpl.funcs"),
+  jsList.push("common/scripts/tmpl.funcs.countries"),
+  jsList.push("common/scripts/jquery.tmpl"),
+  jsList.push("common/scripts/website.util"),
   jsList.push("common/scripts/website.transmitter"),
-  pnav = "identities"
+  jsList.push("common/scripts/address-selector"),
+  jsList.push("common/scripts/identity"),
+  inav = "settings"
 ])}
-{{partial "site/head.tpl"}}
-{{partial "profile/profile-nav.tpl"}}
 
-{{! FIXME: make add identity and edit identity into inline forms }}
-{{! FIXME: convert below to jqtpl}}
+{{partial "site/head.tpl"}}
+{{partial "identity/identity-nav.tpl"}}
+
+{{! FIXME: convert rest to jqtpl }}
 
 <div>
-   <div class="toolbar">
-      <a class="button toolbar" href="/i">Refresh</a>
-      <a class="button toolbar slideout-button" href="#slideout-identity">Add Identity</a>
-      {*<a class="button toolbar" href="/i?form=add">Add Identity</a>*}
+   <div class="p">
+      <h3>Identity Management</h3>
+   
+      <div class="left p widget widget-width">
+         <div class="widget-header">
+            <div class="widget-header-buttons">
+               <button id="edit-identity-sob" class="widget-header-button-first">Edit Identity</button>
+               <button id="add-identity-sob" class="widget-header-button-last">Add Identity</button>
+            </div>
+         </div>
+
+         <div id="identity-edit-slideout" class="widget-body widget-open">
+            {:include file="identities/identity-edit-form.tpl"}
+         </div>
+
+         <div id="identity-add-slideout" class="widget-body widget-closed">
+            {:include file="identities/identity-add-form.tpl"}
+         </div>
+         
+         <!-- <div class="widget-footer"></div> -->
+      </div>
    </div>
 
-   <div id="slideout-identity" class="form dropdown slideout-closed">
-      {:include file="identities/identity-add-form.tpl"}
+   <div class="p">
+      <h3>Default Legal Name and Address</h3>
+   
+      <div id="address-selector" class="left p widget-width"></div>
+   </div>
+</div>
+
+<div>
+   <div class="addresses">
+      <h3>Addresses</h3>
    </div>
 
-   <div id="messages"></div>
-
-   {:each from=identities as=identity}
-   <div class="well identity">
+   <div class="identity">
       <div id="identity-{identity.id}" class="clearfix">
          <span class="inline-edit"><a href="/i/{identity.id|escape('url')}">Edit</a></span>
          <span class="inline-status">Changes Saved</span>
@@ -35,7 +62,7 @@ ${set([
          <div class="block-inline w46 mr1">
             <h4>Addresses</h4>
 
-            {:each from=identity.address as=address}
+            {:each from=identity.address adr as=address}
             <address>
                <strong>{address.fullName}</strong><br/>
                {address.streetAddress}<br/>
@@ -50,7 +77,7 @@ ${set([
          {*identity|json('false')*}
          </div>
 
-         <p class="hidden">
+         <p class="hide">
             <label>Label
                <input name="label" value="{identity.label}">
             </label><label>Type
@@ -78,7 +105,7 @@ ${set([
          <h4>Keys</h4>
          {:each from=identity.keys as=key}
          <div id="key-{key.id}" class="key">
-            <span class="label"><a href="{key.id}">{key.label}</a></span>
+            <span class="label">{key.label}</span>
             <span class="data"></span>
          </div>
          {:eachelse}
@@ -86,11 +113,14 @@ ${set([
          {:end}
       </div>
    </div>
-   {:eachelse}
-   <div>
-      <p class="center">You do not have any Identities.</p>
-   </div>
-   {:end}
 </div>
+
+{* :dump identity *}
+
+{:include file="address/address-selector.tpl"}
+
+<script id="identity-update-success-tmpl" type="text/x-jquery-tmpl">
+   <p class="message success">Your changes have been saved.</p>
+</script>
 
 {:include file="site/foot.tpl"}

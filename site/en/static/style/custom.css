@@ -1,3 +1,20 @@
+/* Use a custom font */
+@font-face {
+  font-family: "Droid Sans";
+  src: url('/content/fonts/DroidSans.ttf');
+}
+
+@font-face {
+  font-family: "Droid Sans Bold";
+  src: url('/content/fonts/DroidSans-Bold.ttf');
+}
+
+body {
+	font-family: "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 1em;
+  line-height: 1.2em;
+}
+
 /* Input */
 input.slug {
   display: inline-block;
@@ -250,4 +267,87 @@ a [class^="icon-"] {
 .carousel-inner > .well {
   padding: 5px;
   margin-bottom: 0px;
+}
+
+/* Documentation classes */
+.rest-summary {
+  float: none;
+  clear: both;
+  display: block;
+  border: 1px solid black;
+  margin-bottom: 0.5em;
+}
+
+h1 > .rest-summary {
+  float: none;
+  clear: both;
+  display: block;
+  border: 0px;
+  margin-bottom: 0.5em;
+}
+
+.post-background {
+  background-color: #E7F6EC;
+  border-color: #C3E8D1;
+}
+
+.get-background {
+	background-color: #E7F0F7;
+	border-color: #C3D9EC;
+}
+
+.delete-background {
+	background-color: #F5E8E8;
+	border: 1px solid black;
+	border-color: #E8C6C7;
+}
+
+.rest-summary > .rest-verb {
+	border-radius: 2px;
+	text-transform: uppercase;
+	color: white;
+	display: inline-block;
+	width: 50px;
+	font-size: 0.8em;
+	text-align: center;
+	padding: 7px 0 4px 0;
+}
+
+h1 > .rest-summary > .rest-verb {
+  border-radius: 4px;
+  text-transform: uppercase;
+  color: white;
+  width: 100px;
+  text-align: center;
+  padding: 0.1em;
+}
+
+.rest-summary > .post {
+ background-color: #10A54A;
+}
+
+.rest-summary > .get {
+  background-color: #0F6AB4;
+}
+
+.rest-summary > .delete {
+  background-color: #A41E22;
+}
+
+.rest-summary > .rest-path {
+	color: #444;
+	font-size: 1.2em;
+  padding: 7px 0 4px 0;
+}
+
+h1 > .rest-summary > .rest-path {
+  color: #444;
+  position: relative;
+  top: 0.125em;
+  padding-left: 0.25em;
+}
+
+.rest-summary > .rest-description {
+	float: right;
+  padding: 7px 0 4px 0;
 }

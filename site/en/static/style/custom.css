@@ -273,9 +273,16 @@ a [class^="icon-"] {
 .rest-summary {
   float: none;
   clear: both;
-  overflow: hidden;
   display: block;
   border: 1px solid black;
+  margin-bottom: 0.5em;
+}
+
+h1 > .rest-summary {
+  float: none;
+  clear: both;
+  display: block;
+  border: 0px;
   margin-bottom: 0.5em;
 }
 
@@ -306,6 +313,15 @@ a [class^="icon-"] {
 	padding: 7px 0 4px 0;
 }
 
+h1 > .rest-summary > .rest-verb {
+  border-radius: 4px;
+  text-transform: uppercase;
+  color: white;
+  width: 100px;
+  text-align: center;
+  padding: 0.1em;
+}
+
 .rest-summary > .post {
  background-color: #10A54A;
 }
@@ -322,6 +338,13 @@ a [class^="icon-"] {
 	color: #444;
 	font-size: 1.2em;
   padding: 7px 0 4px 0;
+}
+
+h1 > .rest-summary > .rest-path {
+  color: #444;
+  position: relative;
+  top: 0.125em;
+  padding-left: 0.25em;
 }
 
 .rest-summary > .rest-description {

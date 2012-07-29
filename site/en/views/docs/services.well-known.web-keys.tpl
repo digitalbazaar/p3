@@ -3,16 +3,17 @@ ${set([
   freeLimit = ["by-ip"],
   authentication = null,
   validation = null,
-  shortDescription = "Retrieves the Web Keys service endpoints.",  
-  cssList.push("docs")
+  shortDescription = "Retrieves the <a href='http://payswarm.com/specs/source/web-keys/'>Web Keys</a> service endpoints."  
 ])}
 {{partial "site/head.tpl"}}
 
-<div class="row">
-  <div class="span10 offset1">
-    <h1 class="headline">METHOD ENDPOINT</h1>
+<h1 class="row">
+  <div class="span12 rest-summary">
+    <span class="rest-verb ${method}">${method}</span>
+    <span class="rest-path">${path}</span>
   </div>
-</div>
+</h1>
+
 
 <hr />
 
@@ -25,7 +26,7 @@ ${set([
 <div class="row">
   <div class="span10 offset1">
     <p>
-${shortDescription}
+{{html shortDescription}}
     </p>
   </div>
 </div>

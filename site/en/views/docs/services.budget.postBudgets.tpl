@@ -8,11 +8,12 @@ ${set([
 ])}
 {{partial "site/head.tpl"}}
 
-<div class="row">
-  <div class="span10 offset1">
-    <h1 class="headline">METHOD ENDPOINT</h1>
+<h1 class="row">
+  <div class="span12 rest-summary">
+    <span class="rest-verb ${method}">${method}</span>
+    <span class="rest-path">${path}</span>
   </div>
-</div>
+</h1>
 
 <hr />
 

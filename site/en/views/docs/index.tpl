@@ -34,7 +34,7 @@ fashion.
   <div class="span8 offset2 rest-summary ${endpoint.method}-background">
     <span class="rest-verb ${endpoint.method}">${endpoint.method}</span>
     <a href="?topic=${topic}" class="rest-path">${endpoint.path}</a>
-    <div class="rest-description">${endpoint.shortDescription}</div>
+    <div class="rest-description">{{html endpoint.shortDescription}}</div>
   </div>
 </div>
     

@@ -19,7 +19,6 @@ config.financial.defaults.account = {
   type: 'com:Account',
   // demo with $10
   balance: '10.0000000',
-  escrow: '0.0000000',
   currency: 'USD',
   psaStatus: 'active',
   psaPrivacy: 'private'

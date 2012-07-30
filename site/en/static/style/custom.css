@@ -351,3 +351,27 @@ h1 > .rest-summary > .rest-path {
 	float: right;
   padding: 7px 0 4px 0;
 }
+
+.indent0 {
+  margin-left: 0em;
+}
+
+.indent1 {
+	margin-left: 2em;
+}
+
+.indent2 {
+  margin-left: 2em;
+}
+
+.indent3 {
+  margin-left: 2em;
+}
+
+.indent4 {
+  margin-left: 2em;
+}
+
+.indent5 {
+  margin-left: 2em;
+}

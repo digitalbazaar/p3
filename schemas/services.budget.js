@@ -16,6 +16,8 @@ var postBudget = {
       amount: money.precisePositive({required: false}),
       vendor: payswarmId({required: false}),
       psaExpires: {
+        title: 'Expiration date',
+        description: 'The number of seconds of spending inactivity before the budget is deleted.',
         required: false,
         type: [{
           type: 'integer',
@@ -28,6 +30,8 @@ var postBudget = {
       },
       psaMaxPerUse: money.precisePositive({required: false}),
       psaRefresh: {
+        title: 'Refresh period',
+        description: 'The period on which the budget refills to the original amount.',
         type: 'string',
         enum: ['psa:Hourly', 'psa:Daily', 'psa:Monthly', 'psa:Yearly'],
         required: false
@@ -54,12 +58,16 @@ var postBudgets = {
     amount: money.precisePositive(),
     vendor: payswarmId({required: false}),
     psaExpires: {
+      title: 'Expiration date',
+      description: 'The number of seconds of spending inactivity before the budget is deleted.',
       type: 'integer',
       minimum: 0,
       exclusiveMinimum: true
     },
     psaMaxPerUse: money.precisePositive({required: false}),
     psaRefresh: {
+      title: 'Refresh period',
+      description: 'The period on which the budget refills to the original amount.',
       type: 'string',
       enum: ['psa:Hourly', 'psa:Daily', 'psa:Monthly', 'psa:Yearly'],
     }

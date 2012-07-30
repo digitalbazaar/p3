@@ -3,7 +3,7 @@ var tools = require('../lib/payswarm-auth/payswarm.tools');
 var schema = {
   required: true,
   title: 'PaySwarm ID',
-  description: 'An PaySwarm unique identifier.',
+  description: 'A PaySwarm unique identifier.',
   type: 'string',
   minLength: 1,
   disallow: {

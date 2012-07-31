@@ -42,6 +42,22 @@ config.financial.defaults.paymentTokens.push({
     countryName: 'US'
   }
 });
+// dev authority payment token for granting funds to new accounts
+config.financial.devPaymentToken = 'urn:dev-authority-bank-account';
+config.financial.paymentTokens.push({
+  source: {
+    type: 'bank:BankAccount',
+    bankAccount: '1234567890',
+    bankRoutingNumber: '987654321'
+  },
+  gateway: 'Test',
+  token: {
+    id: config.financial.devPaymentToken,
+    type: 'com:PaymentToken',
+    label: 'Free Test Money Token',
+    owner: config.authority.id
+  }
+});
 
 // profiles
 config.profile.profiles.push({

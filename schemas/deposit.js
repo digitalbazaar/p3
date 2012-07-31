@@ -21,7 +21,7 @@ var schema = {
       '@context': jsonldContext(),
       type: jsonldType(['com:Transaction', 'com:Deposit']),
       payee: payee(),
-      source: paymentToken()
+      source: payswarmId()
     },
     additionalProperties: false
   }, {

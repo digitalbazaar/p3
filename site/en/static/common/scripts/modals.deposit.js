@@ -101,14 +101,6 @@ function setupReviewPage(options) {
   // bind review button
   $('[name="button-review-deposit"]', target).click(function() {
     var paymentToken = $('#deposit-payment-token-selector', target)[0].selected;
-    var cleanedPaymentToken = {
-      id: paymentToken.id,
-      type: paymentToken.type,
-      owner: paymentToken.owner,
-      paymentToken: paymentToken.paymentToken,
-      paymentGateway: paymentToken.paymentGateway,
-      paymentMethod: paymentToken.paymentMethod
-    };
     payswarm.deposit.sign({
       deposit: {
         '@context': 'http://purl.org/payswarm/v1',
@@ -119,7 +111,7 @@ function setupReviewPage(options) {
           payeeRateType: 'com:FlatAmount',
           destination: options.account
         }],
-        source: cleanedPaymentToken
+        source: paymentToken.id
       },
       success: function(deposit) {
         // FIXME: get public account information for all payees
@@ -188,17 +180,7 @@ function setupSelectors(options) {
 function confirmDeposit(options, deposit, accounts) {
   var target = options.target;
   payswarm.deposit.confirm({
-    deposit: $.extend({}, deposit, {
-      '@context': 'http://purl.org/payswarm/v1',
-      source: {
-        id: deposit.source.id,
-        type: deposit.source.type,
-        owner: deposit.source.owner,
-        paymentToken: deposit.source.paymentToken,
-        paymentGateway: deposit.source.paymentGateway,
-        paymentMethod: deposit.source.paymentMethod
-      }
-    }),
+    deposit: deposit,
     success: function(deposit) {
       // show complete page
       $('#deposit-content').empty().append(

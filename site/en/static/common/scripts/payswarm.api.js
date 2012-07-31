@@ -516,6 +516,7 @@ payswarm.paymentTokens.get = function(options) {
  * Usage:
  *
  * payswarm.paymentTokens.add({
+ *   @context: 'http://purl.org/payswarm/v1',
  *   identity: 'https://example.com/i/myidentity',
  *   data: {label, gateway, source},
  *   success: function(paymentToken) {},

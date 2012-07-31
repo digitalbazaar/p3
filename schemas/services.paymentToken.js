@@ -1,10 +1,12 @@
 var label = require('./label');
 var creditCard = require('./creditCard');
 var bankAccount = require('./bankAccount');
+var jsonldContext = require('./jsonldContext');
 
 var postPaymentTokens = {
   type: 'object',
   properties: {
+    '@context': jsonldContext(),
     label: label(),
     paymentGateway: {
       type: 'string',

@@ -7,7 +7,11 @@ Transaction ID : {{deposit.id}}
 Date           : {{deposit.created}}
 Charge         : USD ${{deposit.amount}}
 
-================================ Request ===================================
-FIXME: internalRequest?
+{% if httpHeaders != null %}
+============================== HTTP Headers ================================
+{{httpHeaders}}
+{% endif -%}
+=============================== Requestor ==================================
+{{profileJson}}
 ================================ Deposit ===================================
-FIXME: internalDeposit?
+{{depositJson}}

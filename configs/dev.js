@@ -84,8 +84,9 @@ config.mail.send = false;
 config.mail.vars = {
   // FIXME
   productionMode: config.website.views.vars.productionMode,
-  serviceDomain: 'payswarm.dev',
-  supportDomain: 'payswarm.com',
+  serviceHost: config.server.host,
+  serviceDomain: config.server.domain,
+  supportDomain: config.server.domain,
   subjectPrefix: '[DEV] ',
   profileSubjectPrefix: '[DEV] ',
   serviceName: 'PaySwarm Development',

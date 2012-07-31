@@ -1,16 +1,16 @@
 To: {{profile.email}}
 From: "{{serviceName}} Customer Support" <support@{{supportDomain}}>
-Subject: {{profileSubjectPrefix}}{{serviceName}} deposit successful
+Subject: {{profileSubjectPrefix}}{{serviceName}} deposit receipt
 
 {% if productionMode == false %}
-*******
-NOTE: This is a demonstration website notification and no real money was involved. More info is available at http://payswarm.com/wiki/Demo_Warning.
+*** NOTE ***
+This is a demonstration website notification and no real money was involved. 
+More info is available at http://payswarm.com/wiki/Demo_Warning.
 *******
 
 {% endif -%}
-Hello {{profile.label}},
-
-A charge in the amount of USD ${{deposit.amount}} has been charged to your credit card. Here is your deposit receipt:
+Your credit card has been charged for USD ${{deposit.amount}}. 
+Here is your deposit receipt:
 
 Transaction ID : {{deposit.id}}
 Date and Time  : {{deposit.created}}
@@ -22,7 +22,6 @@ Date and Time  : {{deposit.created}}
 
 Credit Card Information:
  Name  : {{deposit.source.label}}
- Type  : {{deposit.source.cardBrand}}
  Number: {{deposit.source.cardNumber}}
  Exp   : {{deposit.source.cardExpMonth}}/{{deposit.source.cardExpYear}}
  Charge: USD ${{deposit.amount}}
@@ -32,9 +31,9 @@ Deposit Information:
    {{transfer.comment}}: USD ${{transfer.amount}}
 {%- endfor %}
 
-Now that you've deposited money into your account, you can use PaySwarm at many fine services. You can always view your latest activity on your profile page.
+You can always view your latest financial activity on your profile page.
 
-https://{{serviceDomain}}/profile/financial/activity
+https://{{serviceHost}}/financial/activity
 
 If you have any questions or comments please contact support@{{supportDomain}}.
 

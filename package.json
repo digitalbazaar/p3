@@ -28,7 +28,7 @@
     "redback": "~0.2.8",
     "request": "~2.9.203",
     "rsa": "v0.0.3",
-    "swig": "~0.11.2",
+    "swig": "git://github.com/digitalbazaar/swig.git",
     "winston": "~0.6.1",
     "winston-mail": "~0.2.1"
   },

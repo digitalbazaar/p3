@@ -1,12 +1,11 @@
 To: {{profile.email}}
 From: "{{serviceName}} Customer Support" <support@{{supportDomain}}>
 Subject: {{profileSubjectPrefix}}{{serviceName}} deposit receipt
-
 {% if productionMode == false %}
 *** NOTE ***
 This is a demonstration website notification and no real money was involved. 
 More info is available at http://payswarm.com/wiki/Demo_Warning.
-*******
+*** NOTE ***
 
 {% endif -%}
 Your credit card has been charged for USD ${{deposit.amount}}. 
@@ -37,5 +36,3 @@ https://{{serviceHost}}/financial/activity
 
 If you have any questions or comments please contact support@{{supportDomain}}.
 
-Digital Bazaar, Inc.
-Blacksburg, VA, USA

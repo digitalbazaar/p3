@@ -7,11 +7,13 @@ Transaction ID : {{deposit.id}}
 Date           : {{deposit.created}}
 Charge         : USD ${{deposit.amount}}
 
-{% if httpHeaders != null %}
+{% if headers %}
 ============================== HTTP Headers ================================
-{{httpHeaders}}
+{% for h in headers -%}
+{{loop.key}}: {{h}}
+{% endfor -%}
 {% endif -%}
 =============================== Requestor ==================================
-{{profileJson}}
+{{profile|json_encode(2)}}
 ================================ Deposit ===================================
-{{depositJson}}
+{{deposit|json_encode(2)}}

@@ -83,10 +83,10 @@
     {{/if}}
 
     {{! Analytics }}
-    {{if analytics}}
+    {{if googleAnalytics.enabled}}
       <script type="text/javascript">
         var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-1539674-8']);
+        _gaq.push(['_setAccount', '${googleAnalytics.account}']);
         _gaq.push(['_trackPageview']);
             (function() {
           var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;

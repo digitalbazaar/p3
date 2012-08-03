@@ -3,7 +3,10 @@ var config = require('../lib/payswarm.config');
 config.website.views.vars = {
   releaseMode: 'development',
   productionMode: false,
-  analytics: false,
+  googleAnalytics: {
+    enabled: false,
+    account: ''
+  },
   session: {
     loaded: false,
     auth: false

@@ -3,26 +3,36 @@
   <h3>Deposit Complete</h3>
 </div>
 <div class="modal-body">
-  {{tmpl "demo-warning-tmpl"}}
-
   <p>
     You have deposited
-    <span class="money">US $<span class="amount">${deposit.transfer[0].amount}</span></span>
-    into &quot;${account}&quot;
+    <span class="money">$<span class="amount">${deposit.transfer[0].amount} USD</span></span>
+    into your account named ${account.label}.
   </p>
 
-  <p>Your {{if deposit.source.paymentMethod == "ccard:CreditCard"}}credit card{{else}}bank account{{/if}} has been charged <span class="money">US $${deposit.amount}</span></p>
+  <h6>Details</h6>
 
-  {{each(idx,transfer) deposit.transfer}} 
-  <div class="p">
-    <span class="inline-block left comment">${accounts[idx].label}</span>
-    <span class="inline-block left comment">${transfer.comment}</span>
-    <span class="inline-block right text-right comment">
-      <span class="money" title="US $${transfer.amount}">US $${transfer.amount}</span>
-    </span>
-  </div>
-  {{/each}}
-  <p class="comment">${tmpl.formatDate(deposit.created, true)}</p>
+  <table class="well table table-condensed">
+    <thead><tr><th><em>Amount</em></th><th>Description</th><th>Account</th></tr></thead>
+    {{each(idx,transfer) deposit.transfer}}
+    <tr>
+      <td>
+        <span class="money" title="$${transfer.amount} USD">$${transfer.amount} USD</span>
+      </td>
+      <td>${transfer.comment}</td>
+      <td>
+        <i class="icon-arrow-right"></i>
+        <span title="">${accounts[transfer.destination].label}</span>
+      </td>
+    </tr>
+    {{/each}}
+  </table>
+
+  <p style="margin-top: 10px;">Including fees, your 
+  {{if deposit.source.paymentMethod == "ccard:CreditCard"}}credit card
+  {{else}}bank account{{/if}} 
+  was charged $${deposit.amount} USD on
+  ${tmpl.formatDate(deposit.created, true)}.
+  Digital Bazaar will appear on your billing statement.</p>
 
   <p>A copy of this receipt has been sent to your email address.</p>
 </div>

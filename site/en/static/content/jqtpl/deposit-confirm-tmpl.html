@@ -3,52 +3,40 @@
   <h3>Review Deposit</h3>
 </div>
 <div class="modal-body">
-  {{tmpl "demo-warning-tmpl"}}
-
-  <div class="alert alert-info">
-    Your deposit is NOT complete. Please verify your information below.
+  <div class="alert alert-warning">
+    Your deposit is NOT complete, verify your information below.
   </div>
 
   <h6>Payment Method</h6>
   <ul class="well unstyled">
     {{tmpl({item: paymentToken}) "payment-token-display-tmpl"}}
   </ul>
-
   <h6>Details</h6>
-  <div class="well">
+  <table class="well table table-condensed">
+    <thead><tr><th><em>Amount</em></th><th>Description</th><th>Account</th></tr></thead>
     {{each(idx,transfer) deposit.transfer}}
-    <p>
-      <span class="inline-block left comment">${accounts[idx].label}</span>
-      <span class="inline-block left comment">${transfer.comment}</span>
-      <span class="inline-block right text-right comment">
-        <span class="money" title="US $${transfer.amount}">US $${transfer.amount}</span>
-      </span>
-    </p>
+    <tr>
+      <td>
+        <span class="money" title="$${transfer.amount} USD">$${transfer.amount} USD</span>
+      </td>
+      <td>${transfer.comment}</td>
+      <td>
+        <i class="icon-arrow-right"></i>
+        <span title="">${accounts[transfer.destination].label}</span>
+      </td>
+    </tr>
     {{/each}}
-  </div>
-  
-  <h6>Destination Account</h6>
-  <div class="well">${account}</div>
-  
-  <div class="alert alert-error">
-    Your
+    <tr><td><span class="label label-important">IMPORTANT</span></td>
+    <td colspan="2">Your
     {{if paymentToken.paymentMethod == "ccard:CreditCard"}}credit card
     {{else}}bank account
     {{/if}}will be charged
-    <span class="money">US $${deposit.amount}</span>
-  </div>
+    <span class="money">$${deposit.amount} USD</span></td></tr>
+  </table>
 
-  <p>Digital Bazaar, Inc. will appear on your billing statement.</p>
-  <ul class="well unstyled">
-    <li>Digital Bazaar, Inc.</li>
-    <li>1700 Kraft Drive, Suite 2408</li>
-    <li>Blacksburg, VA 24060 US</li>
-  </ul>
-   
-  <div class="alert alert-error">
-    Please review and confirm your deposit. If the details are
-    correct, click the Deposit button once.
-  </div>
+  <p class="alert alert-warning" style="margin-top: 10px;">
+    If these details are correct, click the Deposit button.
+  </p>
 </div>
 <div class="modal-footer">
   <span name="feedback"></span>

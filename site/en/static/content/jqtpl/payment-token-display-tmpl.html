@@ -1,8 +1,7 @@
-<li>${item.label}</li>
+<li>${item.label}
 {{if item.paymentMethod == "ccard:CreditCard"}}
-<li>${item.cardBrand.substr(6)} ${item.cardNumber}</li>
-<li>${item.cardExpMonth}/${item.cardExpYear}</li>
+(${item.cardNumber})</li>
+<li>Expires on ${item.cardExpMonth}/${item.cardExpYear}</li>
 {{else}}
-<li>${item.bankAccount}</li>
-<li>${item.bankRoutingNumber}</li>
+<li>Routing: ${item.bankRoutingNumber} Account: ${item.bankAccount}</li>
 {{/if}}

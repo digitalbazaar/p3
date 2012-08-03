@@ -101,6 +101,7 @@ function setupReviewPage(options) {
   // bind review button
   $('[name="button-review-deposit"]', target).click(function() {
     var paymentToken = $('#deposit-payment-token-selector', target)[0].selected;
+    var accounts = {};
     payswarm.deposit.sign({
       deposit: {
         '@context': 'http://purl.org/payswarm/v1',
@@ -114,49 +115,59 @@ function setupReviewPage(options) {
         source: paymentToken.id
       },
       success: function(deposit) {
-        // FIXME: get public account information for all payees
-        var accounts = [];
+        // get public account information for all payees
         for(var i in deposit.transfer) {
-          accounts.push({
-            label: deposit.transfer[i].destination
-          });
+          accounts[deposit.transfer[i].destination] = {};
         }
-
-        // show confirm page
-        $('#deposit-content').empty().append(
-          $.tmpl('deposit-confirm-tmpl', {
-            tmpl: window.tmpl,
-            data: window.data,
-            deposit: deposit,
-            paymentToken: paymentToken,
-            account: options.account,
-            accounts: accounts
-          }));
-
-        // go to top of page
-        var target = options.target;
-        $(target).animate({scrollTop: 0}, 0);
-
-        // bind close button
-        $('.btn-close', target).click(function() {
-          hideSelf(options);
-        });
-
-        // bind back button
-        $('[name="button-back"]', target).click(function() {
-          // show review page again
+        async.forEach(Object.keys(accounts), function(account, callback) {
+          payswarm.accounts.getOne({
+            account: account,
+            success: function(response) {
+              accounts[account].label = response.label;
+              callback();
+            },
+            error: function(err) {
+              accounts[account].label = 'Private Account';
+              callback();
+            }
+          });
+        }, function(err) {
+          // show confirm page
           $('#deposit-content').empty().append(
-            $.tmpl('deposit-review-tmpl', {
+            $.tmpl('deposit-confirm-tmpl', {
               tmpl: window.tmpl,
               data: window.data,
-              account: options.account
+              deposit: deposit,
+              paymentToken: paymentToken,
+              account: options.account,
+              accounts: accounts
             }));
-          setupReviewPage(options);
-        });
 
-        // bind confirm button
-        $('[name="button-confirm-deposit"]', target).click(function() {
-          confirmDeposit(options, deposit, accounts);
+          // go to top of page
+          var target = options.target;
+          $(target).animate({scrollTop: 0}, 0);
+
+          // bind close button
+          $('.btn-close', target).click(function() {
+            hideSelf(options);
+          });
+
+          // bind back button
+          $('[name="button-back"]', target).click(function() {
+            // show review page again
+            $('#deposit-content').empty().append(
+              $.tmpl('deposit-review-tmpl', {
+                tmpl: window.tmpl,
+                data: window.data,
+                account: options.account
+              }));
+            setupReviewPage(options);
+          });
+
+          // bind confirm button
+          $('[name="button-confirm-deposit"]', target).click(function() {
+            confirmDeposit(options, deposit, accounts);
+          });
         });
       },
       error: function(err) {
@@ -189,7 +200,10 @@ function confirmDeposit(options, deposit, accounts) {
           data: window.data,
           deposit: deposit,
           paymentToken: deposit.source,
-          account: options.account,
+          account: {
+            id: options.account,
+            label: accounts[options.account].label
+          },
           accounts: accounts
         }));
 

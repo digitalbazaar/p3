@@ -186,7 +186,7 @@ LoadTester.prototype.run = function() {
       }],
     createListings: ['ready', 'createVendorProfiles',
       function(callback, results) {
-        if(config.data.listings.length == 0) {
+        if(config.data.listings.length > 0) {
           return callback();
         }
         logger.info(util.format('Creating %d listings...',

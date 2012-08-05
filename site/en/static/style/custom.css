@@ -1,16 +1,20 @@
 /* Use a custom font */
 @font-face {
-  font-family: "Droid Sans";
-  src: url('/content/fonts/DroidSans.ttf');
+  font-family: 'Droid Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Droid Sans'), local('DroidSans'), url('/content/fonts/DroidSans.ttf');
 }
 
 @font-face {
-  font-family: "Droid Sans Bold";
-  src: url('/content/fonts/DroidSans-Bold.ttf');
+  font-family: 'Droid Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Droid Sans Bold'), local('DroidSans-Bold'), url('/content/fonts/DroidSans-Bold.ttf');
 }
 
 body {
-	font-family: "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-family: 'Droid Sans', sans-serif;
   font-size: 1em;
   line-height: 1.2em;
 }
@@ -22,7 +26,7 @@ input.slug {
   line-height: 18px;
   margin: 0;
   padding: 0;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: 'Droid Sans', sans-serif;
   font-size: 11px;
   font-weight: bold;
   color: #999;
@@ -350,6 +354,18 @@ h1 > .rest-summary > .rest-path {
 .rest-summary > .rest-description {
 	float: right;
   padding: 7px 0 4px 0;
+}
+
+.rest-details th {
+  text-align: left;
+}
+
+.rest-details td {
+  padding-right: 1em;
+}
+
+.rest-parameter {
+	font-style: italic;
 }
 
 .indent0 {

@@ -5,7 +5,7 @@ ${set([
 {{partial "site/head.tpl"}}
 
 {{verbatim}}
-<div ng-app="activity" ng-controller="ActivityCtrl">
+<div data-ng-app="activity" data-ng-controller="ActivityCtrl">
 
 <ul class="breadcrumb">
   <li>
@@ -22,7 +22,7 @@ ${set([
 <h2 class="headline">{{pageTitle}}</h2>
 
 <h3 class="headline">
-  <span ng-repeat="txn in txns" class="pull-right hasresources{{txn.length && ' hidden' || ''}}">
+  <span data-ng-repeat="txn in txns" class="pull-right hasresources{{txn.length && ' hidden' || ''}}">
   Results <span id="resources-start">{{resStart}}</span>-<span id="resources-end">{{resEnd}}</span> of <span id="resources-total">{{total}}{{mode && '+' || ''}}</span>
   </span>
 

@@ -1,8 +1,8 @@
 module.exports = function(types, alternates) {
   var schema = {
     required: true,
-    title: 'JSON-LD type',
-    description: 'A set of JSON-LD types.',
+    title: 'Object Type',
+    description: 'A set of terms, CURIEs, or URLs specifying the type of the object.',
     type: []
   };
 

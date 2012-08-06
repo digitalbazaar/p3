@@ -49,18 +49,8 @@ var postWithdrawal = {
 var postPurchaseRequest = {
   type: [{
     type: 'object',
-    properties: {
-      '@context': jsonldContext(),
-      type: jsonldType('ps:PurchaseRequest'),
-      transactionId: payswarmId(),
-      nonce: {
-        type: 'string'
-      },
-      signature: graphSignature({required: false})
-    },
-    additionalProperties: false
-  }, {
-    type: 'object',
+    title: 'Purchase Request',
+    description: 'Contains all of the details required to perform a purchase',
     properties: {
       '@context': jsonldContext(),
       type: jsonldType('ps:PurchaseRequest'),
@@ -71,7 +61,23 @@ var postPurchaseRequest = {
       },
       source: payswarmId({required: false}),
       referenceId: {
+        title: 'Asset Reference Identifier',
+        description: 'A unique serial number associated with the asset purchase.',
         required: false,
+        type: 'string'
+      },
+      signature: graphSignature({required: false})
+    },
+    additionalProperties: false
+  }, {
+    type: 'object',
+    title: 'Pre-approved Purchase Request',
+    description: 'A purchase request containing a pre-assigned transactionId.',
+    properties: {
+      '@context': jsonldContext(),
+      type: jsonldType('ps:PurchaseRequest'),
+      transactionId: payswarmId(),
+      nonce: {
         type: 'string'
       },
       signature: graphSignature({required: false})

@@ -1,6 +1,6 @@
 var payswarmId = require('./payswarmId');
 var label = require('./label');
-var visibility = require('./resources.visibility');
+var visibility = require('./propertyVisibility');
 var jsonldContext = require('./jsonldContext');
 
 var postAccounts = {

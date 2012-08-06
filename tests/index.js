@@ -5,8 +5,9 @@ var _ = require('underscore');
 var async = require('async');
 var crypto = require('crypto');
 var events = require('events');
+var fs = require('fs');
 var payswarm = require('payswarm');
-var payswarmTools = require('../lib/payswarm-auth/payswarm.tools');
+var tools = require('../lib/payswarm-auth/payswarm.tools');
 var pkginfo = require('pkginfo')(module, 'version');
 var program = require('commander');
 var request = require('request');
@@ -28,7 +29,7 @@ function LoadTester() {
       end: 0
     },
     recent: {
-      being: 0,
+      begin: 0,
       purchases: 0
     }
   };
@@ -46,11 +47,14 @@ LoadTester.prototype.run = function() {
     .version(module.exports.version)
     // setup the command line options
     .option('--log-level <level>',
-      'Max console log level (default: info)', String)
-    .option('--vendor-profiles <num>',
-      'The number of vendor profiles to create (default: 1).', Number)
-    .option('--buyer-profiles <num>',
-      'The number of buyer profiles to create (default: 1).', Number)
+      'Max console log level (default: info)',
+      String)
+    .option('--vendors <num>',
+      'The number of vendor profiles to create (default: 1)',
+      Number)
+    .option('--buyers <num>',
+      'The number of buyer profiles to create (default: 1)',
+      Number)
     .option('--listings <num>',
       'The number of listings to use when running the tests (default: 1)',
       Number)
@@ -66,71 +70,142 @@ LoadTester.prototype.run = function() {
     .option('-d, --delay <n>',
       'Number of seconds between progress updates (default: 1)',
       String)
+    .option('-s, --save <statefile>',
+      'Load state from specified file. (default: no)',
+      String)
+    .option('-l, --load <statefile>',
+      'Load state from specified file. (default: no)',
+      String)
     .parse(process.argv);
 
-  // initialize the configuration
-  config.logLevel = program.logLevel || 'info';
-  config.vendorProfiles = program.vendorProfiles || 1;
-  config.buyerProfiles = program.buyerProfiles || 1;
-  config.listings = program.listings || 1;
-  config.purchases = program.purchases || 1;
-  config.batchSize = program.batchSize || 10;
-  config.statsLog = program.statsLog || null;
-  config.delay = program.delay || 1;
-
-  // setup logging
-  logger = new (winston.Logger)({
-    transports: [
-      new winston.transports.Console({timestamp: true, level: config.logLevel}),
-      new winston.transports.File({
-        json: false, timestamp: true, filename: 'testing.log'})
-    ]
-  });
-  var statsTransports = [];
-  console.log(config);
-  if(config.statsLog) {
-    statsTransports.push(new winston.transports.File({
-        json: true, timestamp: false, filename: config.statsLog}));
-  }
-  statsLogger = new (winston.Logger)({
-    transports: statsTransports
-  });
-
-  // dump out the configuration
-  logger.info('Config:', config);
-
-  var vendors = [];
-  var buyers = [];
-  var listings = [];
-
   async.auto({
-    createVendorProfiles: function(callback) {
-      logger.info(
-        util.format('Creating %d vendor profiles...', config.vendorProfiles));
-      // FIXME: don't use arrays for this
-      async.forEachLimit(new Array(config.vendorProfiles), config.batchSize,
-        function(item, callback) {
-          _createVendorProfile(self, vendors, callback);
-      }, callback);
-    },
-    createBuyerProfiles: function(callback) {
-      logger.info(
-        util.format('Creating %d buyer profiles...', config.buyerProfiles));
-      // FIXME: don't use arrays for this
-      async.forEachLimit(new Array(config.buyerProfiles), config.batchSize,
-        function(item, callback) {
-          _createBuyerProfile(self, buyers, callback);
-      }, callback);
-    },
-    createListings: ['createVendorProfiles',
+    init: [
+      function(callback) {
+        callback();
+      }],
+    loadState: ['init',
+      function(callback) {
+        if(!program.load) {
+          return callback();
+        }
+        async.waterfall([
+          function(callback) {
+            fs.readFile(program.load, callback);
+          },
+          function(data, callback) {
+            config = JSON.parse(data);
+            callback();
+          }
+        ], callback);
+      }],
+    config: ['loadState',
       function(callback, results) {
-        logger.info(util.format('Creating %d listings...', config.listings));
-        async.forEachLimit(new Array(config.listings), config.batchSize,
+        function set(obj, name, defaultValue) {
+          if(name in program) {
+            obj[name] = program[name];
+          } else if(!(name in obj)) {
+            obj[name] = defaultValue;
+          }
+        }
+        // initialize config from program or use defaults
+        set(config, 'logLevel', 'info');
+        set(config, 'vendors', 1);
+        set(config, 'buyers', 1);
+        set(config, 'listings', 1);
+        set(config, 'purchases', 1);
+        set(config, 'batchSize', 10);
+        set(config, 'statsLog', null);
+        set(config, 'delay', 1);
+        config.data = config.data || {};
+        config.data.vendors = config.data.vendors || [];
+        config.data.buyers = config.data.buyers || [];
+        config.data.listings = config.data.listings || [];
+        callback();
+      }],
+    logging: ['config',
+      function(callback) {
+        // setup logging
+        logger = new (winston.Logger)({
+          transports: [
+            new winston.transports.Console(
+              {timestamp: true, level: config.logLevel}),
+            new winston.transports.File(
+              {json: false, timestamp: true, filename: 'testing.log'})
+          ]
+        });
+        var statsTransports = [];
+        if(config.statsLog) {
+          statsTransports.push(new winston.transports.File({
+              json: true, timestamp: false, filename: config.statsLog}));
+        }
+        statsLogger = new (winston.Logger)({
+          transports: statsTransports
+        });
+        callback();
+      }],
+    ready: ['config', 'logging',
+      function(callback, results) {
+        // warn for bad options
+        if(program.load) {
+          if(program.vendors || program.buyers || program.listings) {
+            logging.warn('Options not used when loading state file.');
+          }
+        }
+        // dump out the configuration (so settings are clear in the logs)
+        // don't print out all vebose data
+        var simpleConfig = tools.clone(config);
+        delete simpleConfig.data;
+        logger.info('Config:', simpleConfig);
+        callback();
+      }],
+    createVendorProfiles: ['ready',
+      function(callback) {
+        if(config.data.vendors.length > 0) {
+          return callback();
+        }
+        logger.info(util.format('Creating %d vendor profiles...',
+          config.vendors));
+        // FIXME: don't use arrays for this
+        async.forEachLimit(new Array(config.vendors), config.batchSize,
           function(item, callback) {
-            _createListing(self, vendors, listings, callback);
+            _createVendorProfile(self, config.data.vendors, callback);
         }, callback);
       }],
-    beginPurchases: ['createBuyerProfiles', 'createListings',
+    createBuyerProfiles: ['ready',
+      function(callback) {
+        if(config.data.vendors.length > 0) {
+          return callback();
+        }
+        logger.info(util.format('Creating %d buyer profiles...',
+          config.buyers));
+        // FIXME: don't use arrays for this
+        async.forEachLimit(new Array(config.buyers), config.batchSize,
+          function(item, callback) {
+            _createBuyerProfile(self, config.data.buyers, callback);
+        }, callback);
+      }],
+    createListings: ['ready', 'createVendorProfiles',
+      function(callback, results) {
+        if(config.data.listings.length > 0) {
+          return callback();
+        }
+        logger.info(util.format('Creating %d listings...',
+          config.listings));
+        async.forEachLimit(new Array(config.listings), config.batchSize,
+          function(item, callback) {
+            _createListing(self, config.data.vendors, config.data.listings,
+              callback);
+        }, callback);
+      }],
+    saveState: ['createVendorProfiles', 'createBuyerProfiles', 'createListings',
+      function(callback, results) {
+        if(!program.save) {
+          return callback();
+        }
+        var data = JSON.stringify(config, null, 2);
+        fs.writeFile(program.save, data, callback);
+      }],
+    beginPurchases: ['saveState',
       function(callback, results) {
         self.stats.purchasing.begin = +new Date;
         self.emit('beginPurchases');
@@ -143,7 +218,8 @@ LoadTester.prototype.run = function() {
         // FIXME: Need a better way to limit purchases
         async.forEachLimit(new Array(config.purchases), config.batchSize,
           function(item, callback) {
-            _purchaseAsset(self, buyers, listings, callback);
+            _purchaseAsset(self, config.data.buyers, config.data.listings,
+              callback);
         }, callback);
       }],
     endPurchases: ['performPurchases',
@@ -225,7 +301,7 @@ function _stats() {
 function _createVendorProfile(self, vendorProfiles, callback) {
   var begin = +new Date;
   var md = crypto.createHash('md5');
-  md.update(payswarmTools.uuid(), 'utf8');
+  md.update(tools.uuid(), 'utf8');
   var id = md.digest('hex').substr(12);
   var email = 'vendor-' + id + '@digitalbazaar.com';
 
@@ -296,7 +372,7 @@ function _createVendorProfile(self, vendorProfiles, callback) {
 function _createBuyerProfile(self, buyerProfiles, callback) {
   var begin = +new Date;
   var md = crypto.createHash('md5');
-  md.update(payswarmTools.uuid(), 'utf8');
+  md.update(tools.uuid(), 'utf8');
   var id = md.digest('hex').substr(12);
   var email = 'patest-' + id + '@digitalbazaar.com';
 
@@ -365,7 +441,7 @@ function _createBuyerProfile(self, buyerProfiles, callback) {
  */
 function _createListing(self, vendorProfiles, listings, callback) {
   var md = crypto.createHash('md5');
-  md.update(payswarmTools.uuid(), 'utf8');
+  md.update(tools.uuid(), 'utf8');
   var id = md.digest('hex').substr(12);
   var baseUrl = 'http://listings.dev.payswarm.com/test/' + id;
   var assetId = baseUrl + '#asset';
@@ -508,7 +584,7 @@ function _createListing(self, vendorProfiles, listings, callback) {
  */
 function _purchaseAsset(self, buyers, listings, callback) {
   var begin = +new Date;
-  var referenceId = payswarmTools.uuid();
+  var referenceId = tools.uuid();
 
   // select a random buyer to perform the purchase
   var buyer = buyers[Math.floor(Math.random() * buyers.length)];

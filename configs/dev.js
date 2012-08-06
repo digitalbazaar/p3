@@ -50,13 +50,6 @@ config.database.options = {};
 config.database.connectOptions = {
   auto_reconnect: true
 };
-config.database.writeOptions = {
-  safe: true,
-  j: true,
-  // FIXME: change to 2 for at least 1 replica
-  w: 1,
-  multi: true
-};
 config.database.local.collection = 'payswarm_dev';
 
 // authority config

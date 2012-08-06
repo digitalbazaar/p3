@@ -3,8 +3,7 @@ ${set([
   freeLimit = ["by-user"],
   authentication = ["signature"],
   validator = "services.budget.postBudgets",
-  shortDescription = "Creates a new budget for restricting certain types of spending.",  
-  cssList.push("index")
+  shortDescription = "Creates a new budget for restricting certain types of spending."
 ])}
 {{partial "site/head.tpl"}}
 
@@ -47,23 +46,23 @@ will be deleted.
 
 <div class="row">
   <div class="span8">
-    <table>
-      <th>Path Parameters</th>
-      <tr><td>:identity</td><td>The identity that is creating the budget.</td></tr>
+    <table class="rest-details">
+      <tr><th colspan="2">Path Parameters</th></tr>
+      <tr><td class="rest-parameter">:identity</td><td>The identity that is creating the budget.</td></tr>
     </table>
   </div>
   <div class="span4">
-    <table>
-      <th>Security Info</th>
-      <tr><td>Rate Limit</td><td>${freeLimit[0]}</td></tr>
-      <tr><td>Authentication</td><td>${authentication[0]}</td></tr>
+    <table class="rest-details">
+      <tr><th colspan="2">Security Parameters</th></tr>
+      <tr><td class="rest-parameter">Rate Limit</td><td>${freeLimit[0]}</td></tr>
+      <tr><td class="rest-parameter">Authentication</td><td>${authentication[0]}</td></tr>
     </table>
   </div>
 </div>
 <div class="row">
   <div class="span8">
-    <table>
-      <th>Query Parameters</th>
+    <table class="rest-details">
+      <tr><th colspan="2">Query Parameters</th></tr>
       <tr><td>none</td></tr>
     </table>
   </div>

@@ -15,6 +15,8 @@ var schema = {
     creator: payswarmId(),
     created: w3cDateTime(),
     signatureValue: {
+      title: 'Digital Signature Value',
+      description: 'A base-64 encoded byte string containing the result of the GraphSignature2012 algorithm.',
       required: true,
       type: 'string'
     }

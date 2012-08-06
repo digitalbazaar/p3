@@ -1,0 +1,139 @@
+${set([
+  category = "Transactions",
+  freeLimit = ["by-user"],
+  authentication = ["signature"],
+  validator = "services.transaction.postPurchaseRequest",
+  shortDescription = "Purchases an asset."
+])}
+{{partial "site/head.tpl"}}
+
+<h1 class="row">
+  <div class="span12 rest-summary">
+    <span class="rest-verb ${docs.method}">${docs.method}</span>
+    <span class="rest-path">${docs.path}</span>
+  </div>
+</h1>
+
+<hr />
+
+<div class="row">
+  <div class="span12">
+    <h2>Overview</h2>
+    <p>
+Performs a purchase of an asset given a purchase request. The purchase request
+contains information about the identity acquiring the asset, the source
+account for the funds to pay for the asset, and information about the expected
+terms of the sale (the <em>listing</em>). 
+The listing provides information about the price of the asset as well as the 
+license under which the asset is being purchased. Since the contents of asset 
+and listing URLs can change over time, the asset and listing are hashed by 
+the buyer in order to ensure that the purchase is being performed under the 
+terms that the buyer thinks it is under. 
+    </p>
+    
+    <p>
+If the purchase is successful, a receipt of sale is returned to the caller.
+If the purchase fails, a description of the error is returned.
+    </p>
+  </div>
+</div>
+
+<hr />
+
+<div class="row">
+  <div class="span8">
+    <table class="rest-details">
+      <tr><th colspan="2">Path Parameters</th></tr>
+      <tr><td>None</td></tr>
+    </table>
+  </div>
+  <div class="span4">
+    <table class="rest-details">
+      <tr><th colspan="2">Security Parameters</th></tr>
+      <tr><td class="rest-parameter">Rate Limit</td><td>${freeLimit[0]}</td></tr>
+      <tr><td class="rest-parameter">Authentication</td><td>${authentication[0]}</td></tr>
+    </table>
+  </div>
+</div>
+<div class="row">
+  <div class="span8">
+    <table class="rest-details">
+      <tr><th colspan="2">Query Parameters</th></tr>
+      <tr><td>None</td></tr>
+    </table>
+  </div>
+</div>
+
+<hr />
+
+<div class="row">
+  <div class="span12">
+    <h2>Example</h2>
+    <p>
+The example below is a purchase request sent on behalf of the identity "Bob"
+(<em>https://${host}/i/bob</em>). Bob is attempting to purchase the asset
+described by 
+<em>http://listings.dev.payswarm.com/example/138f89796fc#listing</em>. The
+funds to pay for the asset will come out of the financial account identified by 
+<em>https://${host}/i/bob/accounts/primary</em>. Finally, the purchase
+request is digitally signed by a key that Bob owns. 
+    </p>
+    
+    <p>
+The result is a receipt containing the asset that was purchased, the owner
+of a copy of the asset, the identity that provided the asset for sale,
+the license under which the asset was sold, and the listing details for the
+asset. The receipt is digitally signed by the PaySwarm Authority that 
+processed the purchase request.
+    </p>
+    <table>
+      <tr><td>Request</td><td><pre>{ 
+  "@context": "http://purl.org/payswarm/v1",
+  "type": "ps:PurchaseRequest",
+  "identity": "https://${host}/i/bob",
+  "listing": "http://listings.dev.payswarm.com/example/138f89796fc#listing",
+  "listingHash": "9115532c149a04610b360cebea856b3ab0c685ca",
+  "source": "https://${host}/i/bob/accounts/primary",
+  "signature": 
+  { 
+    "type": "sec:GraphSignature2012",
+    "creator": "https://${host}/i/bob/keys/2",
+    "created": "2012-08-05T21:01:32Z",
+    "signatureValue": "Ws46e8p0uV1O3L7JHmTXPmevgF84SFcwPfT/ls5JA32duUK8eDinHipG0
+      u2/WXrFs/i/EebrnKTetbXuE8664AlmsvHfKIPGmv+ZfPp5+DrPoTWu15asVKPffOoK7BNbKSl
+      xN4yE2NGPjmjDEYLzxP9x6UmUMJEMPcxo0iwsmwY="
+  } 
+}</pre></td></tr>
+      <tr><td>Response</td><td><pre class="span11">{
+  "@context": "http://purl.org/payswarm/v1",
+  "id": "https://${host}/transactions/1.3.25.9",
+  "type": [ "com:Transaction", "ps:Receipt" ],
+  "asset": "http://listings.dev.payswarm.com/example/138f89796fc#asset",
+  "assetAcquirer": "https://${host}/i/bob",
+  "assetProvider": "https://${host}/i/wynona",
+  "license": "http://purl.org/payswarm/licenses/blogging",
+  "listing": "http://listings.dev.payswarm.com/example/138f89796fc#listing",
+  "signature": 
+  {
+    "type": "sec:GraphSignature2012",
+    "creator": "https://${host}/i/authority/keys/1",
+    "created": "2012-08-05T21:01:33Z",
+    "signatureValue": "EawWBnh5PblhxU6PF+T2Vdi34cvO1qSRicSW2bZiV6HXW/pBqiId3dZf
+      QeA7nmoSvhgvI3ae3gpC4ZmUzV99U/23mRPwyTFdJ1xTR5PVlPKLNNLP+uPq70+ll0sg9gm1H
+      Mak8Tm13dWQyvAB4jBQJQk7AicNtje4d97ZwE30M9H6XPCSZJvqTUvtdJLPgL5jaiRsFBgFKF
+      5z1baAJf4Yz4vy+1Qy5zLl63fAmtrnNQ3jO/nNShCEbIHg1xts9Uj1v3gaTe8iUGr4fOLn4Qi
+      YvwhPgmcXdDz9MsHLJ8cE5SyxBBcpunhoyauvPajsN5i51QE7DqNRLlTrylO5KNtxnw==" 
+  } 
+}</pre></td</tr>
+    </table>
+  </div>
+</div>
+
+<div class="row">
+  <div class="span12">
+    <h2>Validation</h2>
+    {{html docs.validatorHtml}}
+  </div>
+</div>
+
+{{partial "site/foot.tpl"}}

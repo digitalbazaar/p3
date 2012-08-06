@@ -14,7 +14,7 @@ run(function() {
 });
 
 module.controller('ActivityCtrl', function($scope) {
-  // initl model
+  // initialize model
   $scope.txns = [];
   $scope.txnBegin = new Date();
   $scope.txnEnd = new Date();

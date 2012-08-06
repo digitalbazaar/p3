@@ -19,7 +19,7 @@ ${set([
   </li>
 </ul>
 
-<h2 class="headline">${pageTitle}</h2>
+<h2 class="headline">{{pageTitle}}</h2>
 
 <h3 class="headline">
   <span ng-repeat="txn in txns" class="pull-right hasresources{{txn.length && ' hidden' || ''}}">

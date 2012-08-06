@@ -87,7 +87,6 @@ modals.editAccount.show = function(options) {
           currency: $('[name="currency"] option:selected', target).val()
         };
         if($('[name="visibility"] :selected', target).val() == 'public') {
-          console.log("VIS PUB");
           account.psaPublic = ['label', 'owner'];
         }
 

@@ -83,7 +83,7 @@ ${set([
             </label><label>Type
                <input name="type" value="{identity.type}">
             </label><label>Privacy
-               <input name="psaPrivacy" value="{identity.psaPrivacy|default('private')|capitalize}">
+               <input name="psaPublic" value="Private">
             </label>
          </p>
       </div>

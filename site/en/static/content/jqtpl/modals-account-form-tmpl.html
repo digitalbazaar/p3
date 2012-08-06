@@ -25,12 +25,12 @@
     </div>
     
     <div class="control-group">
-      <label class="control-label" for="privacy">Privacy</label>
+      <label class="control-label" for="visibility">Visibility</label>
       <div class="controls">
         <div class="input-prepend">
-          <span class="add-on"><i class="icon-eye-open"></i></span><select name="privacy">
-            <option value="private"{{if editor && account.psaPrivacy == 'private'}} selected="selected"{{/if}}>Private</option>
-            <option value="public"{{if editor && account.psaPrivacy == 'public'}} selected="selected"{{/if}}>Public</option>
+          <span class="add-on"><i class="icon-eye-open"></i></span><select name="visibility">
+            <option value="hidden"{{if editor && visibility == 'hidden'}} selected="selected"{{/if}}>Hidden</option>
+            <option value="public"{{if editor && visibility == 'public'}} selected="selected"{{/if}}>Public</option>
           </select>
         </div>
       </div>

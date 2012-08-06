@@ -128,17 +128,21 @@ modals.addIdentity.show = function(options) {
 };
 
 function addAccount(options, identity) {
+  var account = {
+    '@context': 'http://purl.org/payswarm/v1',
+    psaSlug: $('#add-account-form [name="slug"]').val(),
+    label: $('#add-account-form [name="label"]').val(),
+    currency: $('#add-account-form [name="currency"] option:selected').val()
+  };
+  if($('#add-account-form [name="public-account"] ' +
+    ':checkbox:checked').length > 0) {
+    account.psaPublic = ['label', 'owner'];
+  }
   // add account
   var target = options.target;
   payswarm.accounts.add({
     identity: identity.id,
-    account: {
-      '@context': 'http://purl.org/payswarm/v1',
-      psaSlug: $('#add-account-form [name="slug"]').val(),
-      label: $('#add-account-form [name="label"]').val(),
-      psaPrivacy: $('#add-account-form [name="privacy"] option:selected').val(),
-      currency: $('#add-account-form [name="currency"] option:selected').val()
-    },
+    account: account,
     success: function(account) {
       options.account = account;
       hideSelf(options);

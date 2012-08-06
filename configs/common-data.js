@@ -11,17 +11,6 @@ config.profile.defaults = {
   }
 };
 
-// identity config
-config.identity.defaults = {
-  identity: {
-    type: 'ps:PersonalIdentity',
-    address: [],
-    preferences: {
-      type: 'ps:Preferences'
-    }
-  }
-};
-
 // financial config
 config.financial.defaults = {
   account: {},

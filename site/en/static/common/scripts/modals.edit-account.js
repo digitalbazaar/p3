@@ -42,11 +42,18 @@ modals.editAccount.show = function(options) {
       cb();
     },
     loadAccount: ['getAccount', 'loadModal', function(cb, results) {
+      var psaPublic = results.getAccount.psaPublic;
+      var visibility = 'hidden';
+      if(psaPublic.indexOf('owner') != -1 &&
+        psaPublic.indexOf('label') != -1 ) {
+        visibility = 'public';
+      }
       $('#modals-account-form').replaceWith($.tmpl('modals-account-form-tmpl', {
         tmpl: window.tmpl,
         data: window.data,
         identity: options.identity,
         account: results.getAccount,
+        visibility: visibility,
         editor: true
       }));
       cb();
@@ -71,14 +78,21 @@ modals.editAccount.show = function(options) {
 
       // edit button clicked
       $('[name="button-edit-account"]', target).click(function() {
+        // build the account object
+        var account = {
+          '@context': 'http://purl.org/payswarm/v1',
+          id: options.account,
+          label: $('[name="label"]', target).val(),
+          psaPublic: [],
+          currency: $('[name="currency"] option:selected', target).val()
+        };
+        if($('[name="visibility"] :selected', target).val() == 'public') {
+          console.log("VIS PUB");
+          account.psaPublic = ['label', 'owner'];
+        }
+
         payswarm.accounts.update({
-          account: {
-            '@context': 'http://purl.org/payswarm/v1',
-            id: options.account,
-            label: $('[name="label"]', target).val(),
-            psaPrivacy: $('[name="privacy"] option:selected', target).val(),
-            currency: $('[name="currency"] option:selected', target).val()
-          },
+          account: account,
           success: function(response) {
             hideSelf(options, {cancelled: false});
             if(options.success) {

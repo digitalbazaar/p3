@@ -1,6 +1,6 @@
 var payswarmId = require('./payswarmId');
 var label = require('./label');
-var privacy = require('./privacy');
+var visibility = require('./resources.visibility');
 var jsonldContext = require('./jsonldContext');
 
 var postAccounts = {
@@ -15,9 +15,9 @@ var postAccounts = {
       required: true,
       type: label()
     },
-    psaPrivacy: {
+    psaPublic: {
       required: false,
-      type: privacy()
+      type: visibility()
     },
     currency: {
       required: true,
@@ -37,9 +37,9 @@ var postAccount = {
       required: true,
       type: label()
     },
-    psaPrivacy: {
+    psaPublic: {
       required: false,
-      type: privacy()
+      type: visibility()
     }
   },
   additionalProperties: false

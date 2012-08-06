@@ -28,6 +28,7 @@ modals.addAccount.show = function(options) {
     tmpl: window.tmpl,
     data: window.data,
     identity: options.identity,
+    visibility: 'hidden',
     showAlert: options.showAlert
   }));
 
@@ -57,16 +58,22 @@ modals.addAccount.show = function(options) {
 
   // add button clicked
   $('[name="button-add-account"]', target).click(function() {
+    var account = {
+      // FIXME: add context for psa:
+      '@context': 'http://purl.org/payswarm/v1',
+      psaSlug: $('[name="slug"]', target).val(),
+      label: $('[name="label"]', target).val(),
+      psaPublic: [],
+      currency: $('[name="currency"] option:selected', target).val()
+    };
+    if($('[name="visibility"] :selected', target).val() === 'public') {
+      account.psaPublic.push('label');
+      account.psaPublic.push('owner');
+    }
+
     payswarm.accounts.add({
       identity: options.identity,
-      account: {
-        // FIXME: add context for psa:
-        '@context': 'http://purl.org/payswarm/v1',
-        psaSlug: $('[name="slug"]', target).val(),
-        label: $('[name="label"]', target).val(),
-        psaPrivacy: $('[name="privacy"] option:selected', target).val(),
-        currency: $('[name="currency"] option:selected', target).val()
-      },
+      account: account,
       success: function(account) {
         options.account = account;
         hideSelf(options);

@@ -20,8 +20,8 @@ config.financial.defaults.account = {
   // demo with $10
   balance: '10.0000000',
   currency: 'USD',
-  psaStatus: 'active',
-  psaPrivacy: 'private'
+  psaPublic: [],
+  psaStatus: 'active'
 };
 config.financial.defaults.paymentTokens.push({
   // demo payment token source
@@ -170,6 +170,7 @@ config.financial.accounts.push({
   owner: authorityId,
   psaSlug: 'fees',
   label: config.authority.name + ' Fees Account',
+  psaPublic: ['label', 'owner'],
   currency: 'USD'
 });
 config.financial.accounts.push({
@@ -210,6 +211,7 @@ config.financial.accounts.push({
   owner: baseUri + '/i/vendor',
   psaSlug: 'primary',
   label: 'Primary Account',
+  psaPublic: ['label', 'owner'],
   currency: 'USD'
 });
 

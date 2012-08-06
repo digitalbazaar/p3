@@ -49,7 +49,6 @@
     <script type="text/javascript" src="${cacheRoot}/common/scripts/jquery.tmpl.${jsExt}"></script>
     <script type="text/javascript" src="${cacheRoot}/common/scripts/jquery.cookie.${jsExt}"></script>
     <script type="text/javascript" src="${cacheRoot}/common/scripts/async.${jsExt}"></script>
-    <script type="text/javascript" src="${cacheRoot}/common/scripts/angular.${jsExt}"></script>
     <script type="text/javascript" src="${cacheRoot}/common/scripts/template-loader.${jsExt}"></script>
     {{if templateMap}}
     <script type="text/javascript">window.templates.load({{html parsify(templateMap)}});</script>

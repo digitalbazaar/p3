@@ -18,6 +18,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     <title>${siteTitle}{{if pageTitle}}: ${pageTitle}{{/if}}</title>
+    <script type="text/javascript" src="${cacheRoot}/common/scripts/angular.${jsExt}"></script>
 
     <link href="${cacheRoot}/common/bootstrap/css/bootstrap.${cssExt}" rel="stylesheet" type="text/css" />
     <link href="${cacheRoot}/common/bootstrap/css/bootstrap-responsive.${cssExt}" rel="stylesheet" type="text/css" />

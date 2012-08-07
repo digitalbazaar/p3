@@ -29,6 +29,7 @@
     "request": "~2.9.203",
     "rsa": "v0.0.3",
     "swig": "git://github.com/digitalbazaar/swig.git",
+    "walk": "~2.2.1",
     "winston": "~0.6.1",
     "winston-mail": "~0.2.1"
   },

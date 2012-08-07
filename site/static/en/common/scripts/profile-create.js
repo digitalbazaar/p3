@@ -46,11 +46,13 @@ $(document).ready(function() {
           // FIXME: give option for type
           type: 'ps:PersonalIdentity',
           psaSlug: $('[name="identity-slug"]', form).val(),
-          label: $('[name="identity-label"]', form).val()
+          label: $('[name="identity-label"]', form).val(),
+          psaPublic: []
         },
         account: {
           psaSlug: $('[name="account-slug"]', form).val(),
-          label: $('[name="account-label"]', form).val()
+          label: $('[name="account-label"]', form).val(),
+          psaPublic: []
         }
       }),
       beforeSend: function() {

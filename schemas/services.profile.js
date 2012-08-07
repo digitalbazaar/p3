@@ -6,6 +6,7 @@ var password = require('./password');
 var label = require('./label');
 var payswarmId = require('./payswarmId');
 var jsonldContext = require('./jsonldContext');
+var visibility = require('./propertyVisibility');
 
 var postPasscode = {
   title: 'Passcode',
@@ -67,7 +68,11 @@ var postCreate = {
           enum: ['ps:PersonalIdentity', 'ps:VendorIdentity']
         },
         psaSlug: slug(),
-        label: label()
+        label: label(),
+        psaPublic: {
+          required: false,
+          type: visibility()
+        }
       }
     },
     account: {
@@ -75,7 +80,11 @@ var postCreate = {
       type: 'object',
       properties: {
         psaSlug: slug(),
-        label: label()
+        label: label(),
+        psaPublic: {
+          required: false,
+          type: visibility()
+        }
       }
     }
   },

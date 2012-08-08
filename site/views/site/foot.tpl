@@ -8,6 +8,7 @@
             <li><a href="/">Home</a></li><!--
             --><li><a href="/about">About</a></li><!--
             --><li><a href="http://payswarm.com/wiki/faq">FAQ</a></li><!--
+            --><li><a href="/docs">REST API</a></li><!--
             --><li><a href="/legal#tos">Terms of Service</a></li><!--
             --><li><a href="/legal#pp">Privacy Policy</a></li><!--
             --><li><a href="/contact">Contact</a></li><!--

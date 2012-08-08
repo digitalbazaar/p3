@@ -56,7 +56,6 @@ config.database.local.collection = 'payswarm_dev';
 config.authority.baseUri = 'https://' + config.server.host;
 config.authority.id = config.authority.baseUri + '/i/authority';
 config.authority.name = 'PaySwarm Dev Authority';
-config.authority.slug = 'dev';
 
 // address validator
 config.addressValidator.module = './payswarm.av.test';

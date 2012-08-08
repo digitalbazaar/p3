@@ -94,7 +94,7 @@ would allow you to buy and/or fund things while protecting your privacy.
         <label class="control-label" for="account">Account Name</label>
         <div class="controls">
           <input id="account" class="input-xlarge tx auto-tooltip" 
-            data-tx="account" name="account-label" value="primary"
+            data-tx="account" name="account-label" value="Primary Account"
             type="text" data-original-title="The name of your default financial account. Most people pick 'Primary' for the name of this account. You can change your account's vanity address below."
             data-placement="right" data-trigger="focus" />
           <p><small><span name="authority-base">https://payswarm.com</span>/i/<span data-tx-from="identity-slug" data-tx-placeholder="IDENTITY-NAME" class="slug"></span>/accounts/</small><input data-tx-from="account" class="slug" name="account-slug" data-binding="account.psaSlug" type="text" maxlength="32" placeholder="ACCOUNT-NAME" value="primary" /></p>

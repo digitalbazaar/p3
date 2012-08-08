@@ -4,7 +4,6 @@ ${set([
   authentication = ["signature"],
   validation = null,
   shortDescription = "Removes an existing budget from the system.",  
-  cssList.push("index")
 ])}
 {{partial "site/head.tpl"}}
 

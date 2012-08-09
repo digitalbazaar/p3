@@ -5,7 +5,7 @@ ${set([
 {{partial "site/head.tpl"}}
 
 {{verbatim}}
-<div data-ng-app="activity" data-ng-controller="ActivityCtrl">
+<div data-ng-app="activity" data-ng-controller="ActivityCtrl" class="ng-cloak">
 
 <ul class="breadcrumb">
   <li>
@@ -38,7 +38,7 @@ ${set([
       <th class="action">Details</th>
     </tr>
   </thead>
-  <tbody class="ng-cloak resources">
+  <tbody class="resources">
     <tr data-ng-repeat="row in table" class="{{row.hidden && 'hide' || ''}}">
       <!-- Date -->
       <td data-ng-switch="getRowType(row)">

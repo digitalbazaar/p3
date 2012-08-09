@@ -13,12 +13,6 @@ run(function() {
   // FIXME: run init code here
 });
 
-module.value('ui.config', {
-  date: {
-    autoSize: true
-  }
-});
-
 module.controller('ActivityCtrl', function($scope) {
   // initialize model
   $scope.session = window.data.session;

@@ -42,8 +42,8 @@ ${set([
     <tr data-ng-repeat="row in table" class="{{row.hidden && 'hide' || ''}}">
       <!-- Date -->
       <td data-ng-switch="getRowType(row)">
-        <span data-ng-switch-when="deposit" class="date">{{row.created}}</span>
-        <span data-ng-switch-when="contract" class="date">{{row.created}}</span>
+        <span data-ng-switch-when="deposit" class="date">{{row.created | date:'MMMM, dd yyyy @ h:mm:ss a'}}</span>
+        <span data-ng-switch-when="contract" class="date">{{row.created | date:'MMMM, dd yyyy @ h:mm:ss a'}}</span>
         <span data-ng-switch-when="transfer">&nbsp;</span>
       </td>
       <!-- Item -->

@@ -191,6 +191,13 @@ span.currency {
   font-size: small;
 }
 
+/* Activity Spinner */
+.table-spinner {
+  text-align: center;
+  display: inline-block;
+  padding-bottom: 5px;
+}
+
 /* Misc */
 .table .alert {
   text-align: center;

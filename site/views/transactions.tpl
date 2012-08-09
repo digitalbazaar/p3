@@ -41,7 +41,7 @@ ${set([
   </form>
 </div>
 
-<table class="table table-condensed {{!txns.length && ' hide' || ''}}">
+<table class="table table-condensed {{!loading && !txns.length && ' hide' || ''}}">
   <thead>
     <tr>
       <th class="date">Date</th>
@@ -85,8 +85,13 @@ ${set([
   <tfoot>
     <tr>
       <td colspan="4" style="text-align: center">
+        <!-- <span class="center" data-ng-switch="loading">
+          <button data-ng-switch-when="false" class="btn btn-primary" data-ng-click="getMore()">More <i class="icon-chevron-down icon-white"></i></button>
+          <span id="spinner" data-ng-switch-when="true">Loading</span>
+        </span> -->
         <span class="center">
-          <button class="btn btn-primary" data-ng-click="getMore()">More <i class="icon-chevron-down icon-white"></i></button>
+          <button data-ng-hide="loading" class="btn btn-primary" data-ng-click="getMore()">More <i class="icon-chevron-down icon-white"></i></button>
+          <span id="spinner" data-ng-show="loading"></span>
         </span>
       </td>
     </tr>
@@ -96,9 +101,9 @@ ${set([
   </tfoot>
 </table>
 
-<div class="noresources{{txns.length && ' hide' || ''}}">
+<div class="noresources{{(loading || txns.length) && ' hide' || ''}}">
   <h2 class="center">No Transactions</h2>
-  <p class="center">There are no transactions recorded for this account.</p>
+  <p class="center">There are no transactions recorded for this account before the given date.</p>
 </div>
 
 </div>

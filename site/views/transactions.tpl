@@ -59,7 +59,7 @@ ${set([
       <!-- Amount -->
       <td class="money">
         <span class="money right" title="USD ${{row.amount}}">
-          <span class="currency">USD</span> $ {{row.amount}}
+          <span class="currency">USD</span> {{row.amount | currency:"$"}}
         </span>
       </td>
       <!-- Details -->

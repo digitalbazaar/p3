@@ -68,6 +68,12 @@ input.slug.error {
   vertical-align: middle;
 }
 
+/* General table margins/padding */
+td {
+  vertical-align: top;
+  padding-right: 1em;
+}
+
 /* Fix for labeled horizontal fields */
 input.form-field-vspaced,
 textarea.form-field-vspaced,

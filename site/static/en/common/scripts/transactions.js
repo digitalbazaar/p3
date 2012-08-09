@@ -8,9 +8,15 @@
 // FIXME: use RequireJS AMD format
 (function($) {
 
-var module = angular.module('activity', []).
+var module = angular.module('activity', ['ui']).
 run(function() {
   // FIXME: run init code here
+});
+
+module.value('ui.config', {
+  date: {
+    autoSize: true
+  }
 });
 
 module.controller('ActivityCtrl', function($scope) {
@@ -23,9 +29,30 @@ module.controller('ActivityCtrl', function($scope) {
   $scope.first = 1;
   $scope.last = 0;
   $scope.total = 0;
-  $scope.startDate = new Date();
-  $scope.endDate = new Date(+$scope.startDate + 1000*60*60*24);
   $scope.table = [];
+
+  // set start date to last ms of today
+  var now = new Date();
+  $scope.startDate = new Date(
+    now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
+  $scope.textDate = $scope.startDate.toString();
+
+  // convert the text date into the last millisecond of the day, also
+  // separate model vars are used to avoid modifying the text while
+  // typing and to ensure the input blurs when using the calendar selector
+  $scope.dateChanged = function() {
+    var d = new Date($scope.textDate);
+    if(!isNaN(+d)) {
+      $scope.startDate = new Date(
+        d.getFullYear(), d.getMonth(), d.getDate(), 23, 59, 59, 999);
+    }
+  };
+
+  // lose focus and hide datepicker
+  $scope.dateQuitKeyPressed = function($event) {
+    $($event.target).datepicker('hide');
+    $event.target.blur();
+  };
 
   $scope.getRowType = function(row) {
     if(row.type.indexOf('com:Deposit') !== -1) {

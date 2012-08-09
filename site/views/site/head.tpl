@@ -18,10 +18,16 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     <title>${siteTitle}{{if pageTitle}}: ${pageTitle}{{/if}}</title>
-    <script type="text/javascript" src="${cacheRoot}/common/scripts/angular.${jsExt}"></script>
+    <script type="text/javascript" src="${cacheRoot}/common/scripts/jquery.${jsExt}"></script>
+    <script type="text/javascript" src="${cacheRoot}/common/jquery-ui/js/jquery-ui.${jsExt}"></script>
+    <script type="text/javascript" src="${cacheRoot}/common/angular/angular.${jsExt}"></script>
+    <script type="text/javascript" src="${cacheRoot}/common/angular/angular-ui.${jsExt}"></script>
 
     <link href="${cacheRoot}/common/bootstrap/css/bootstrap.${cssExt}" rel="stylesheet" type="text/css" />
     <link href="${cacheRoot}/common/bootstrap/css/bootstrap-responsive.${cssExt}" rel="stylesheet" type="text/css" />
+    <link href="${cacheRoot}/common/jquery-ui/css/jquery-ui.${cssExt}" rel="stylesheet" type="text/css" />
+    <link href="${cacheRoot}/common/jquery-ui/css/jquery-ui.ie.${cssExt}" rel="stylesheet" type="text/css" />
+    <link href="${cacheRoot}/common/angular/angular-ui.${cssExt}" rel="stylesheet" type="text/css" />
     <link href="${cacheRoot}/style/custom.${cssExt}" rel="stylesheet" type="text/css" />
     <link href="${cacheRoot}/style/site.${cssExt}" rel="stylesheet" type="text/css" />
     {{if cssList && cssList.length > 0}}

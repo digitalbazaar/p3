@@ -19,15 +19,27 @@ ${set([
   </li>
 </ul>
 
-<h2 class="headline">{{pageTitle}}</h2>
+<h2 class="headline">Transaction Activity before {{startDate | date:'MMMM, dd yyyy @ h:mm a'}}</h2>
 
-<h3 class="headline">
+<div class="well">
   <span class="pull-right hasresources{{txn.length && ' hide' || ''}}">
   Results <span id="resources-start">{{first}}</span>-<span id="resources-end">{{last}}</span> of <span id="resources-total">{{total}}{{mode && '+' || ''}}</span>
   </span>
-
-  {{startDate | date:'MMMM, dd yyyy @ h:mm a'}} to {{endDate | date:'MMMM, dd yyyy @ h:mm a'}}   
-</h3>
+  
+  <form class="form-horizontal" action="">
+    <fieldset>
+      <div class="control-group">
+        <label class="control-label" for="dateField">Start Date</label> 
+        <div class="controls">
+          <input name="dateField" type="text"
+            data-ng-model="textDate"
+            data-ui-date="" data-ng-change="dateChanged()"
+            data-ui-keypress="{13: 'dateQuitKeyPressed($event)', 27: 'dateQuitKeyPressed($event)'}" />
+        </div>
+      </div>
+    </fieldset>
+  </form>
+</div>
 
 <table class="table table-condensed {{!txns.length && ' hide' || ''}}">
   <thead>

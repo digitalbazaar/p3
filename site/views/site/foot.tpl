@@ -46,7 +46,6 @@
       {{/if}}
     </div>
 
-    <script type="text/javascript" src="${cacheRoot}/common/scripts/jquery.${jsExt}"></script>
     <script type="text/javascript" src="${cacheRoot}/common/scripts/jquery.tmpl.${jsExt}"></script>
     <script type="text/javascript" src="${cacheRoot}/common/scripts/jquery.cookie.${jsExt}"></script>
     <script type="text/javascript" src="${cacheRoot}/common/scripts/async.${jsExt}"></script>

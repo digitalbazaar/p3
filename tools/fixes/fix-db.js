@@ -78,14 +78,14 @@ exports.each = function(options) {
               return callback();
             }
             options.update(record);
-            results.collection.update({_id: record._id}, record, callback);
+            results.collection.update({_id: record._id}, record, function(err) {
+              // prevent stack overflow
+              process.nextTick(function() {
+                callback(err);
+              });
+            });
           });
-        }, function(err) {
-          // prevent stack overflow
-          process.nextTick(function() {
-            callback(err);
-          });
-        });
+        }, callback);
       });
     }],
     done: ['process', function(callback, results) {

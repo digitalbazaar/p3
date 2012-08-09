@@ -15,6 +15,10 @@ run(function() {
 
 module.controller('ActivityCtrl', function($scope) {
   // initialize model
+  $scope.session = window.data.session;
+  $scope.account = {
+    label: 'FIXME'
+  };
   $scope.txns = [];
   $scope.first = 1;
   $scope.last = 0;

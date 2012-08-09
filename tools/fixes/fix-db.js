@@ -80,7 +80,12 @@ exports.each = function(options) {
             options.update(record);
             results.collection.update({_id: record._id}, record, callback);
           });
-        }, callback);
+        }, function(err) {
+          // prevent stack overflow
+          process.nextTick(function() {
+            callback(err);
+          });
+        });
       });
     }],
     done: ['process', function(callback, results) {

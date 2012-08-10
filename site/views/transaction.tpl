@@ -28,8 +28,10 @@ ${set(pageTitle = "Transaction Info")}
     </span> from
     {{if transfer.source === "urn:payswarm-external-account" && transaction.source }}
       ${transaction.source.label}
-      {{if transaction.source.cardNumber}}
+      {{if transaction.source.paymentMethod === "ccard:CreditCard"}}
         (${transaction.source.cardNumber}) 
+      {{else transaction.source.paymentMethod === "bank:BankAccount"}}
+        (${transaction.source.bankAccount})
       {{/if}}
       <br/>
     {{else}}

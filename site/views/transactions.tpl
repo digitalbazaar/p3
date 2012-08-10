@@ -12,14 +12,14 @@ ${set([
     <a href="{{session.identity.id}}/dashboard">Dashboard ({{session.identity.label}}) </a> <span class="divider">/</span>
   </li>
   <li>
-    Accounts <span class="divider">/</span>
+    Accounts <span class="divider" ng-show="account">/</span>
   </li>
   <li class="active">
     {{account.label}}
   </li>
 </ul>
 
-<h2 class="headline">Transaction Activity before {{startDate | date:'MMMM, d yyyy @ h:mm a'}}</h2>
+<h2 class="headline">Account Activity at or before {{startDate | date:'MMMM, d yyyy @ h:mm a'}}</h2>
 
 <div class="well">
   <span class="pull-right hasresources{{txn.length && ' hide' || ''}}">

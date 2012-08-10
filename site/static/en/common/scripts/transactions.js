@@ -15,10 +15,10 @@ run(function() {
 
 module.controller('ActivityCtrl', function($scope) {
   // initialize model
-  $scope.session = window.data.session;
-  $scope.account = {
-    label: 'FIXME'
-  };
+  var data = window.data || {};
+  $scope.session = data.session || null;
+  $scope.identity = data.identity || null;
+  $scope.account = data.account || null;
   $scope.txns = [];
   $scope.first = 1;
   $scope.last = 0;

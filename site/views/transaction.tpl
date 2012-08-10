@@ -1,7 +1,7 @@
 ${set(pageTitle = "Transaction Info")}
 {{partial "site/head.tpl"}}
 
-<h2>{{if isContract}}Contract {{/if}}Summary</h2>
+<h2>{{if isContract}}Contract {{/if}}{{if isDeposit}}Deposit {{/if}}Summary</h2>
 
 <table>
 <tr><td>Date</td><td>${transaction.created}</td></tr>
@@ -15,6 +15,7 @@ ${set(pageTitle = "Transaction Info")}
   <a href="${asset.assetContent}">${asset.title}</a> by 
   ${asset.creator.fullName}</td></tr>
 <tr><td>License</td><td><pre>${license.licenseTemplate}</pre></td></tr>
+{{/if}}
 {{each(idx,transfer) transfers}}
 <tr>
   <td>{{if idx == 0}}Transfers{{else}}&nbsp;{{/if}}</td>
@@ -25,7 +26,17 @@ ${set(pageTitle = "Transaction Info")}
     <span class="money right" title="USD $${transfer.amount}">
       $ ${transfer.amount}
     </span> from
+    {{if transfer.source === "urn:payswarm-external-account" && transaction.source }}
+      ${transaction.source.label}
+      {{if transaction.source.paymentMethod === "ccard:CreditCard"}}
+        (${transaction.source.cardNumber}) 
+      {{else transaction.source.paymentMethod === "bank:BankAccount"}}
+        (${transaction.source.bankAccount})
+      {{/if}}
+      <br/>
+    {{else}}
     <a href="${transfer.source}">${transfer.source}</a><br/>
+    {{/if}}
     <i class="icon-plus" title="Destination Account"></i>
     <span class="money right" title="USD $${transfer.amount}">
       $ ${transfer.amount}
@@ -33,8 +44,6 @@ ${set(pageTitle = "Transaction Info")}
     <a href="${transfer.destination}">${transfer.destination}</a>
 </tr>
 {{/each}}
-{{/if}}
-
 </table>
 
 {{partial "site/foot.tpl"}}

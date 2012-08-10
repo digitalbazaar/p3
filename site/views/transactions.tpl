@@ -19,7 +19,7 @@ ${set([
   </li>
 </ul>
 
-<h2 class="headline">Transaction Activity before {{startDate | date:'MMMM, dd yyyy @ h:mm a'}}</h2>
+<h2 class="headline">Transaction Activity before {{startDate | date:'MMMM, d yyyy @ h:mm a'}}</h2>
 
 <div class="well">
   <span class="pull-right hasresources{{txn.length && ' hide' || ''}}">
@@ -85,10 +85,6 @@ ${set([
   <tfoot>
     <tr>
       <td colspan="4" style="text-align: center">
-        <!-- <span class="center" data-ng-switch="loading">
-          <button data-ng-switch-when="false" class="btn btn-primary" data-ng-click="getMore()">More <i class="icon-chevron-down icon-white"></i></button>
-          <span id="spinner" data-ng-switch-when="true">Loading</span>
-        </span> -->
         <span class="center">
           <button data-ng-hide="loading" class="btn btn-primary" data-ng-click="getMore()">More <i class="icon-chevron-down icon-white"></i></button>
           <span id="spinner" data-ng-show="loading"></span>

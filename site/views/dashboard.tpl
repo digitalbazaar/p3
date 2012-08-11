@@ -29,7 +29,7 @@ ${set([
   {{each(idx, account) accounts}}
   <tr id="account-${account.id}" about="${account.id}" class="account resource">
     <td>
-      <a href="/financial/activity?account=${encodeURIComponent(account.id)}">${account.label}</a>{{if account.psaStatus != "active"}} <span class="disabled">(Disabled)</span>{{/if}}
+      <a href="${account.id}?view=activity">${account.label}</a>{{if account.psaStatus != "active"}} <span class="disabled">(Disabled)</span>{{/if}}
     </td>
     <td class="money">
       <span class="auto-tooltip" 

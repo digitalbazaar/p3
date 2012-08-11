@@ -759,6 +759,63 @@ payswarm.transactions.purchase = function(options) {
   });
 };
 
+/**
+ * Gets transactions before a certain creation date. Results will be
+ * returned in pages. To get the next page, the last transaction from
+ * the previous page and its creation date must be passed. A limit
+ * can be passed for the number of transactions to return, otherwise,
+ * the server maximum-permitted will be used.
+ *
+ * Usage:
+ *
+ * payswarm.transactions.get({
+ *   [createdStart]: new Date('2012-03-01'),
+ *   [account]: 'https://example.com/i/foo/accounts/bar',
+ *   [previous]: 'https://example.com/transactions/1.1.a',
+ *   [limit]: 20,
+ *   success: function(transactions) {},
+ *   error: function(err) {}
+ * });
+ */
+payswarm.transactions.get = function(options) {
+  var query = {};
+  if(options.createdStart) {
+    if(query.createdStart instanceof Date) {
+      query.createdStart = (+options.createdStart / 1000);
+    }
+    else {
+      query.createdStart = options.createdStart;
+    }
+  }
+  if(options.account) {
+    query.account = options.account;
+  }
+  if(options.previous) {
+    query.previous = options.previous;
+  }
+  if(options.limit) {
+    query.limit = options.limit;
+  }
+
+  $.ajax({
+    async: true,
+    type: 'GET',
+    url: '/transactions',
+    data: query,
+    dataType: 'json',
+    success: function(response, statusText) {
+      if(options.success) {
+        options.success(response);
+      }
+    },
+    error: function(xhr, textStatus, errorThrown) {
+      if(options.error) {
+        options.error(website.util.normalizeError(xhr, textStatus));
+      }
+    }
+  });
+};
+
 // profiles API
 payswarm.profiles = {};
 

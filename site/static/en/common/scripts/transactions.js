@@ -20,9 +20,6 @@ module.controller('ActivityCtrl', function($scope) {
   $scope.identity = data.identity || null;
   $scope.account = data.account || null;
   $scope.txns = [];
-  $scope.first = 1;
-  $scope.last = 0;
-  $scope.total = 0;
   $scope.table = [];
   $scope.error = null;
   $scope.loading = false;
@@ -41,6 +38,9 @@ module.controller('ActivityCtrl', function($scope) {
     if(!isNaN(+d)) {
       $scope.startDate = new Date(
         d.getFullYear(), d.getMonth(), d.getDate(), 23, 59, 59, 999);
+      $scope.txns = [];
+      $scope.table = [];
+      $scope.getMore();
     }
   };
 
@@ -99,9 +99,11 @@ module.controller('ActivityCtrl', function($scope) {
       options.createdStart = txn.created;
       options.previous = txn.id;
     }
-    // FIXME: remove limit, done for testing
-    options.limit = 1;
+    else {
+      options.createdStart = $scope.startDate;
+    }
     options.success = function(txns) {
+      $scope.error = null;
       txns.forEach(function(txn) {
         _addTxn($scope, txn);
       });
@@ -111,8 +113,8 @@ module.controller('ActivityCtrl', function($scope) {
     };
     options.error = function(err) {
       // FIXME: show error
-      // $scope.error = err;
       console.log('ERROR', err);
+      $scope.error = err;
       $scope.loading = false;
       spinner.stop();
       $scope.$apply();
@@ -136,7 +138,6 @@ module.controller('ActivityCtrl', function($scope) {
 // adds a txn to the model
 function _addTxn($scope, txn) {
   $scope.txns.push(txn);
-  $scope.last += 1;
   $scope.table.push(txn);
   txn.transfer.forEach(function(transfer) {
     transfer.hidden = true;

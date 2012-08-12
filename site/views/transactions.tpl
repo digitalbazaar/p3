@@ -23,7 +23,9 @@ ${set([
 
 <div class="well">
   <span class="pull-right hasresources{{txn.length && ' hide' || ''}}">
-  Results <span id="resources-start">{{first}}</span>-<span id="resources-end">{{last}}</span> of <span id="resources-total">{{total}}{{mode && '+' || ''}}</span>
+    Showing <span id="resources-total">{{txns.length}}</span> <span
+      data-ng-pluralize="" data-count="txns.length"
+      data-when="{'1': 'transaction', 'other': 'transactions'}"></span>
   </span>
   
   <form class="form-horizontal" action="">

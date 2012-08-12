@@ -49,7 +49,6 @@ ${set([
       <th class="date">Date</th>
       <th class="name">Item</th>
       <th class="money">Amount</th>
-      <th class="action">Details</th>
     </tr>
   </thead>
   <tbody class="resources">
@@ -66,8 +65,8 @@ ${set([
         <span data-ng-switch-when="contract" class="name"><i class="icon-shopping-cart"></i> {{row.asset.title}}</span>
         <span data-ng-switch-when="transfer">
           <i class="icon-info-sign" title="Details"></i> {{row.comment}}<br/>
-          <i class="icon-minus" title="Source Account"></i> <a href="{{row.source}}">{{row.source}}</a><br/>
-          <i class="icon-plus" title="Destination Account"></i> <a href="{{row.destination}}">{{row.destination}}</a>
+          <i class="icon-minus" title="Source Account"></i> <a data-ng-show="row.sourceLink" href="{{row.source}}">{{row.source}}</a><span data-ng-hide="row.sourceLink">{{row.source}}</span> <br/>
+          <i class="icon-plus" title="Destination Account"></i> <a data-ng-show="row.destinationLink" href="{{row.destination}}">{{row.destination}}</a><span data-ng-hide="row.destinationLink">{{row.destination}}</span>
         </span>
       </td>
       <!-- Amount -->
@@ -76,17 +75,11 @@ ${set([
           <span class="currency">USD</span> {{row.amount | currency:"$"}}
         </span>
       </td>
-      <!-- Details -->
-      <td data-ng-switch="getRowType(row)">
-        <span data-ng-switch-when="deposit" class="action"><a class="btn btn-info expand" href="#" title="Details" data-ng-click="toggleDetails(row)"><i class="icon-info-sign"></i></a></span>
-        <span data-ng-switch-when="contract" class="action"><a class="btn btn-info expand" href="#" title="Details" data-ng-click="toggleDetails(row)"><i class="icon-info-sign"></i></a></span>
-        <span data-ng-switch-when="transfer">&nbsp;</span>
-      </td>
     </tr>
   </tbody>
   <tfoot>
     <tr>
-      <td colspan="4" style="text-align: center">
+      <td colspan="3" style="text-align: center">
         <span class="center">
           <button data-ng-hide="loading" class="btn btn-primary" data-ng-click="getMore()">More <i class="icon-chevron-down icon-white"></i></button>
           <span id="spinner" data-ng-show="loading"></span>
@@ -94,7 +87,7 @@ ${set([
       </td>
     </tr>
     <tr>
-      <td colspan="4"><p class="alert alert-info micropayment-note">PaySwarm uses a micro-accounting system that is accurate to 7 monetary digits.<br />Using your mouse, hover over an individual amount to see its exact value.</p></td>
+      <td colspan="3"><p class="alert alert-info micropayment-note">PaySwarm uses a micro-accounting system that is accurate to 7 monetary digits.<br />Using your mouse, hover over an individual amount to see its exact value.</p></td>
     </tr>
   </tfoot>
 </table>

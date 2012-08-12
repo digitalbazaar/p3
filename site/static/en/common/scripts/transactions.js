@@ -125,7 +125,11 @@ module.controller('ActivityCtrl', function($scope) {
   };
 
   // show/hide transaction details
-  $scope.toggleDetails = function(txn) {
+  $scope.toggleDetails = function(row) {
+    var txn = row;
+    if(row.type.indexOf('com:Transfer') !== -1) {
+      txn = row.txn;
+    }
     txn.transfer.forEach(function(transfer) {
       transfer.hidden = !transfer.hidden;
     });
@@ -140,19 +144,25 @@ function _addTxn($scope, txn) {
   $scope.txns.push(txn);
   $scope.table.push(txn);
   txn.transfer.forEach(function(transfer) {
+    transfer.txn = txn;
+    transfer.sourceLink = true;
+    transfer.destinationLink = true;
     if(txn.source) {
       var src = txn.source;
       if(src.paymentMethod === 'ccard:CreditCard') {
         transfer.source = 'Credit Card: ' + src.cardNumber;
+        transfer.sourceLink = false;
       }
       else if(src.paymentMethod === 'bank:BankAccount') {
         transfer.source = 'Bank Account: ' + src.bankAccount;
+        transfer.sourceLink = false;
       }
     }
     else if(txn.destination) {
       var dst = txn.destination;
       if(dst.paymentMethod === 'bank:BankAccount') {
         transfer.destination = 'Bank Account: ' + dst.bankAccount;
+        transfer.destinationLink = false;
       }
     }
     transfer.hidden = true;

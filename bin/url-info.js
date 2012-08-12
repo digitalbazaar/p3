@@ -5,8 +5,8 @@ var jsonld = require('jsonld');
 var RDFa = require('../lib/payswarm-auth/rdfa');
 var util = require('util');
 var payswarm = {
-  security: require('../lib/payswarm-auth/payswarm.security'),
-  tools: require('../lib/payswarm-auth/payswarm.tools.js')
+  security: require('../lib/payswarm-auth/security'),
+  tools: require('../lib/payswarm-auth/tools.js')
 };
 var PaySwarmError = payswarm.tools.PaySwarmError;
 

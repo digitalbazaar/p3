@@ -1,19 +1,19 @@
 var fs = require('fs');
-var config = require('../lib/payswarm.config.js');
+var config = require('../lib/config');
 
 module.exports.map = function(mapping) {
   var ids = [
-    'payswarm.common.Account.created',
-    'payswarm.common.Deposit.charged',
-    'payswarm.common.Deposit.charged-log',
-    'payswarm.common.Deposit.failure',
-    'payswarm.common.Deposit.success',
-    'payswarm.common.Deposit.success-profile',
-    'payswarm.common.Profile.created',
-    'payswarm.common.Profile.created-profile',
-    'payswarm.common.Profile.passcodeSent',
-    'payswarm.common.Purchase.success',
-    'payswarm.common.Purchase.success-profile'
+    'common.Account.created',
+    'common.Deposit.charged',
+    'common.Deposit.charged-log',
+    'common.Deposit.failure',
+    'common.Deposit.success',
+    'common.Deposit.success-profile',
+    'common.Profile.created',
+    'common.Profile.created-profile',
+    'common.Profile.passcodeSent',
+    'common.Purchase.success',
+    'common.Purchase.success-profile'
   ];
 
   // FIXME: can't just map to filenames because swig can't use more than

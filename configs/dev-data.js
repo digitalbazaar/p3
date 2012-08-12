@@ -236,7 +236,7 @@ defaultPayeeScheme.psaMinimumAmounts[
 config.financial.payeeSchemes[defaultPayeeSchemeId] = defaultPayeeScheme;
 
 // gateways
-config.financial.paymentGateways.push('./payswarm.pg.test');
+config.financial.paymentGateways.push('./pg.test');
 config.financial.paymentGateway = config.financial.paymentGateway || {};
 config.financial.paymentGateway.Test = {};
 config.financial.paymentGateway.Test.payee = [{

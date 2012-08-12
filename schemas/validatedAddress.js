@@ -1,5 +1,5 @@
 var address = require('./address');
-var tools = require('../lib/payswarm-auth/payswarm.tools');
+var tools = require('../lib/payswarm-auth/tools');
 
 var schema = address({
   psaValidated: {

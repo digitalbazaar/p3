@@ -58,7 +58,7 @@ config.authority.id = config.authority.baseUri + '/i/authority';
 config.authority.name = 'PaySwarm Dev Authority';
 
 // address validator
-config.addressValidator.module = './payswarm.av.test';
+config.addressValidator.module = './av.test';
 
 // financial config
 config.financial.defaults = {

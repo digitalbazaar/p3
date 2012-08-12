@@ -1,4 +1,4 @@
-var config = require('../lib/payswarm.config');
+var config = require('../lib/config');
 
 config.website.views.vars = {
   releaseMode: 'development',

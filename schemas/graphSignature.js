@@ -1,4 +1,4 @@
-var tools = require('../lib/payswarm-auth/payswarm.tools');
+var tools = require('../lib/payswarm-auth/tools');
 
 var jsonldType = require('./jsonldType');
 var w3cDateTime = require('./w3cDateTime');

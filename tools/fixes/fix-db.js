@@ -4,7 +4,7 @@
 var _ = require('underscore');
 var async = require('async');
 var jsonld = require('jsonld');
-var db = require('../../lib/payswarm-auth/payswarm.database.js')
+var db = require('../../lib/payswarm-auth/database.js')
 
 // FIXME: change to proper config for system you are running on
 //require('/etc/payswarm/staging.payswarm.dev.config');

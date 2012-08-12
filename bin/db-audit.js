@@ -2,9 +2,9 @@
  * Copyright (c) 2012 Digital Bazaar, Inc. All rights reserved.
  */
 var async = require('async');
-var audit = require('../lib/payswarm-auth/payswarm.audit');
+var audit = require('../lib/payswarm-auth/audit');
 var payswarm = require('payswarm');
-var payswarmTools = require('../lib/payswarm-auth/payswarm.tools');
+var payswarmTools = require('../lib/payswarm-auth/tools');
 var pkginfo = require('pkginfo')(module, 'version');
 var program = require('commander');
 var request = require('request');

@@ -32,7 +32,7 @@ Deposit Information:
 
 You can always view your latest financial activity on your profile page.
 
-https://{{serviceHost}}/financial/activity
+{{deposit.transfer[0].destination}}?view=activity
 
 If you have any questions or comments please contact support@{{supportDomain}}.
 

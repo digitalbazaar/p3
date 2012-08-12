@@ -17,7 +17,7 @@ var schema = {
         missing: 'Please enter a bank account number.'
       }
     },
-    bankRouting: {
+    bankRoutingNumber: {
       required: true,
       type: 'string',
       pattern: '^[0-9]+$',

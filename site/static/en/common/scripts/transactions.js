@@ -140,6 +140,21 @@ function _addTxn($scope, txn) {
   $scope.txns.push(txn);
   $scope.table.push(txn);
   txn.transfer.forEach(function(transfer) {
+    if(txn.source) {
+      var src = txn.source;
+      if(src.paymentMethod === 'ccard:CreditCard') {
+        transfer.source = 'Credit Card: ' + src.cardNumber;
+      }
+      else if(src.paymentMethod === 'bank:BankAccount') {
+        transfer.source = 'Bank Account: ' + src.bankAccount;
+      }
+    }
+    else if(txn.destination) {
+      var dst = txn.destination;
+      if(dst.paymentMethod === 'bank:BankAccount') {
+        transfer.destination = 'Bank Account: ' + dst.bankAccount;
+      }
+    }
     transfer.hidden = true;
     $scope.table.push(transfer);
   });

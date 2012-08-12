@@ -53,7 +53,7 @@ ${set([
     </tr>
   </thead>
   <tbody class="resources">
-    <tr data-ng-repeat="row in table" class="{{row.hidden && 'hide' || ''}}">
+    <tr data-ng-repeat="row in table" class="{{row.hidden && 'hide' || ''}}" data-ng-click="toggleDetails(row)">
       <!-- Date -->
       <td data-ng-switch="getRowType(row)">
         <span data-ng-switch-when="deposit" class="date">{{row.created | date:'MMMM, dd yyyy @ h:mm:ss a'}}</span>

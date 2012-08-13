@@ -103,7 +103,7 @@ modals.addPaymentToken.show = function(options) {
     if(paymentType === 'ccard:CreditCard') {
       data.source = {
         type: paymentType,
-        cardBrand: $('[name="card-brand"] option:selected', target).val(),
+        cardBrand: $('[name="card-brand"]', target).attr('data-card-brand'),
         cardNumber: $('[name="card-number"]', target).val(),
         cardExpMonth:
           $('[name="card-exp-month"] option:selected', target).val(),

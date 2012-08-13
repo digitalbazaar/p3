@@ -30,6 +30,7 @@
     <link href="${cacheRoot}/common/angular/angular-ui.${cssExt}" rel="stylesheet" type="text/css" />
     <link href="${cacheRoot}/style/custom.${cssExt}" rel="stylesheet" type="text/css" />
     <link href="${cacheRoot}/style/site.${cssExt}" rel="stylesheet" type="text/css" />
+    <link href="${cacheRoot}/style/cc-logos.${cssExt}" rel="stylesheet" type="text/css" />
     {{if cssList && cssList.length > 0}}
     {{each(idx, cssFile) cssList}}
     <link href="${cacheRoot}/style/${cssFile}.${cssExt}" rel="stylesheet" type="text/css" />

@@ -1,0 +1,34 @@
+[class^="cc-logo-"],
+[class*=" cc-logo-"] {
+  display: inline-block;
+  width: 257px;
+  height: 32px;
+  line-height: 32px;
+  vertical-align: text-top;
+  background-image: url("../content/cc-logos.png");
+  background-repeat: no-repeat;
+}
+
+.cc-logo-all {
+  background-image: url("../content/cc-logos.png");
+}
+
+.cc-logo-visa {
+  background-position: 0px -32px;
+}
+
+.cc-logo-mastercard {
+  background-position: 0px -64px;
+}
+
+.cc-logo-amex {
+  background-position: 0px -96px;
+}
+
+.cc-logo-discover {
+  background-position: 0px -128px;
+}
+
+.cc-logo-china-up {
+  background-position: 0px -160px;
+}

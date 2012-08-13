@@ -13,7 +13,8 @@ var schema = {
     cardBrand: {
       required: true,
       type: 'string',
-      enum: ['ccard:Visa', 'ccard:Mastercard', 'ccard:Discover']
+      enum: ['ccard:Visa', 'ccard:MasterCard',
+        'ccard:Discover', 'ccard:AmericanExpress', 'ccard:ChinaUnionPay']
     },
     cardNumber: {
       required: true,

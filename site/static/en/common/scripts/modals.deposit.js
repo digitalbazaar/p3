@@ -102,6 +102,7 @@ function setupReviewPage(options) {
   $('[name="deposit-modal"]', target).keypress(function(e) {
     if(e.keyCode === 13) {
       e.preventDefault();
+      // go to confirm page
       $('[name="button-review-deposit"]', target).click();
     }
   });

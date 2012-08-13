@@ -73,6 +73,13 @@ modals.addPaymentToken.show = function(options) {
     }
   });
 
+  // disable enter key
+  $('#modals-add-payment-token').keypress(function(e) {
+    if(e.keyCode === 13) {
+      e.preventDefault();
+    }
+  });
+
   // add button clicked
   $('[name="button-add-payment-token"]', target).click(function() {
     // create post data

@@ -98,6 +98,14 @@ function setupReviewPage(options) {
   // set up tool tips
   $('[class=auto-tooltip]', target).tooltip();
 
+  // capture enter key
+  $('[name="deposit-modal"]', target).keypress(function(e) {
+    if(e.keyCode === 13) {
+      e.preventDefault();
+      $('[name="button-review-deposit"]', target).click();
+    }
+  });
+
   // bind review button
   $('[name="button-review-deposit"]', target).click(function() {
     var paymentToken = $('#deposit-payment-token-selector', target)[0].selected;

@@ -22,8 +22,8 @@ ${set([
 <h2 class="headline">Account Activity at or before {{startDate | date:'MMMM, d yyyy @ h:mm a'}}</h2>
 
 <div class="well">
-  <span class="pull-right hasresources{{txn.length && ' hide' || ''}}">
-    Showing <span id="resources-total">{{txns.length}}</span> <span
+  <span class="pull-right" data-ng-show="txn.length > 0">
+    Showing {{txns.length}} <span
       data-ng-pluralize="" data-count="txns.length"
       data-when="{'1': 'transaction', 'other': 'transactions'}"></span>
   </span>
@@ -43,7 +43,7 @@ ${set([
   </form>
 </div>
 
-<table class="table table-condensed {{!loading && !txns.length && ' hide' || ''}}">
+<table class="table table-condensed" data-ng-show="loading || txns.length > 0">
   <thead>
     <tr>
       <th class="date">Date</th>
@@ -51,8 +51,8 @@ ${set([
       <th class="money">Amount</th>
     </tr>
   </thead>
-  <tbody class="resources">
-    <tr data-ng-repeat="row in table" class="{{row.hidden && 'hide' || ''}}" data-ng-click="toggleDetails(row)">
+  <tbody>
+    <tr data-ng-repeat="row in table" data-ng-hide="row.hidden" data-ng-click="toggleDetails(row)">
       <!-- Date -->
       <td data-ng-switch="getRowType(row)">
         <span data-ng-switch-when="deposit" class="date">{{row.created | date:'MMMM, dd yyyy @ h:mm:ss a'}}</span>
@@ -92,7 +92,7 @@ ${set([
   </tfoot>
 </table>
 
-<div class="noresources{{(loading || txns.length) && ' hide' || ''}}">
+<div data-ng-show="!loading && txns.length == 0">
   <h2 class="center">No Transactions</h2>
   <p class="center">There are no transactions recorded for this account before the given date.</p>
 </div>

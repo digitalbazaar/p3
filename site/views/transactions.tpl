@@ -82,7 +82,7 @@ ${set([
       <td colspan="3" style="text-align: center">
         <span class="center">
           <button data-ng-hide="loading" class="btn btn-primary" data-ng-click="getMore()">More <i class="icon-chevron-down icon-white"></i></button>
-          <span id="spinner" data-ng-show="loading"></span>
+          <span data-spinner="loading" data-spinner-class="table-spinner"></span>
         </span>
       </td>
     </tr>

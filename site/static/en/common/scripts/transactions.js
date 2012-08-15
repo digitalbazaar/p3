@@ -8,7 +8,7 @@
 // FIXME: use RequireJS AMD format
 (function($) {
 
-var module = angular.module('activity', ['ui']).
+var module = angular.module('activity', ['spinner', 'ui']).
 run(function() {
   // FIXME: run init code here
 });
@@ -65,28 +65,9 @@ module.controller('ActivityCtrl', function($scope) {
     }
   };
 
-  // create loading activity spinner
-  var spinner = new Spinner({
-    lines: 11, // The number of lines to draw
-    length: 3, // The length of each line
-    width: 3, // The line thickness
-    radius: 5, // The radius of the inner circle
-    rotate: 0, // The rotation offset
-    color: '#000', // #rgb or #rrggbb
-    speed: 1.0, // Rounds per second
-    trail: 100, // Afterglow percentage
-    shadow: false, // Whether to render a shadow
-    hwaccel: false, // Whether to use hardware acceleration
-    className: 'table-spinner inline-block', // CSS class for spinner
-    top: 'auto', // Top position relative to parent in px
-    left: 'auto' // Left position relative to parent in px
-  });
-
   $scope.getMore = function() {
     // show loading indicator
     $scope.loading = true;
-    spinner.spin();
-    $('#spinner').append(spinner.el);
 
     // build options for fetching txns
     var options = {};
@@ -108,7 +89,6 @@ module.controller('ActivityCtrl', function($scope) {
         _addTxn($scope, txn);
       });
       $scope.loading = false;
-      spinner.stop();
       $scope.$apply();
     };
     options.error = function(err) {
@@ -116,7 +96,6 @@ module.controller('ActivityCtrl', function($scope) {
       console.log('ERROR', err);
       $scope.error = err;
       $scope.loading = false;
-      spinner.stop();
       $scope.$apply();
     };
 

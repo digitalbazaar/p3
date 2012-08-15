@@ -1,16 +1,13 @@
 /*!
- * Transaction Activity Support
- *
- * @requires jQuery v1.7+ (http://jquery.com/)
+ * Account Activity
  *
  * @author Dave Longley
  */
 // FIXME: use RequireJS AMD format
-(function($) {
+(function() {
 
 var module = angular.module('activity', ['spinner', 'ui']).
 run(function() {
-  // FIXME: run init code here
 });
 
 module.controller('ActivityCtrl', function($scope) {
@@ -149,4 +146,4 @@ function _addTxn($scope, txn) {
   });
 }
 
-})(jQuery);
+})();

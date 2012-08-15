@@ -8,6 +8,7 @@ var postIdentity = {
   title: 'Post Identity',
   type: 'object',
   properties: {
+    '@context': jsonldContext(),
     label: label()
   },
   additionalProperties: false
@@ -17,6 +18,7 @@ var postIdentities = {
   title: 'Post Identities',
   type: 'object',
   properties: {
+    '@context': jsonldContext(),
     type: {
       required: true,
       type: 'string',
@@ -40,6 +42,7 @@ var postPreferences = {
   title: 'Post Preferences',
   type: 'object',
   properties: {
+    '@context': jsonldContext(),
     destination: {
       required: true,
       type: 'string'

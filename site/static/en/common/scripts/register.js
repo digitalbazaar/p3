@@ -17,7 +17,6 @@ var registrationType = window.data.registrationType || 'vendor';
  * Install identity selector with known session identities.
  */
 function installIdentitySelector() {
-  console.log("IIS:", registrationType);
   var identityTypes = ['ps:VendorIdentity'];
   var selectedType = 'ps:VendorIdentity';
   var identities = $.map(
@@ -168,6 +167,7 @@ $(document).ready(function() {
     payswarm.identities.preferences.update({
       identity: identity,
       preferences: {
+        '@context': 'http://purl.org/payswarm/v1',
         destination: destination,
         publicKey: {
           label: label,

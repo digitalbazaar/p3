@@ -107,8 +107,8 @@ ${set([
             </td>
             <!-- Balance -->
             <td class="money">
-              <div class="progress {{tmpl.progessMeterClass(budget.balance, budget.amount)}} progress-striped no-margin">
-                <div class="bar" style="width: {{tmpl.percentage(budget.balance, budget.amount)}};"></div>
+              <div class="progress progress-striped no-margin" data-progress-divisor="budget.balance" data-progress-dividend="budget.amount">
+                <div class="bar" data-bar-divisor="budget.balance" data-bar-dividend="budget.amount"></div>
               </div>
               <span title="{{account.currency}} {{budget.balance | currency:'$'}}"><span class="currency">{{account.currency}}</span> {{budget.balance | currency:'$'}}</span> /
               <span title="{{account.currency}} {{budget.amount | currency:'$'}}"><span class="currency">{{account.currency}}</span> {{budget.amount | currency:'$'}}</span>

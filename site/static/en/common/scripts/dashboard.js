@@ -6,7 +6,7 @@
  */
 (function() {
 
-var module = angular.module('dashboard', ['spinner']).
+var module = angular.module('dashboard', ['payswarm']).
 run(function() {
 });
 
@@ -66,15 +66,22 @@ module.controller('DashboardCtrl', function($scope) {
     });
   };
   $scope.deleteBudget = function(budget) {
-    // FIXME: do fade out via a directive?
-    // (when fadeout expression is true do element.fadeOut)
+    budget.deleted = true;
     payswarm.budgets.del({
       budget: budget.id,
       success: function() {
-        updateBudgets($scope);
+        for(var i = 0; i < $scope.budgets.length; ++i) {
+          if($scope.budgets[i].id === budget.id) {
+            $scope.budgets.splice(i, 1);
+            break;
+          }
+        }
+        $scope.$apply();
       },
       error: function(err) {
         console.error('deleteBudget:', err);
+        budget.deleted = false;
+        $scope.$apply();
       }
     });
   };

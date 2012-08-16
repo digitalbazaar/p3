@@ -100,7 +100,7 @@ ${set([
           </tr>
         </thead>
         <tbody>
-          <tr data-ng-repeat="budget in budgets" class="budget" about="{{budget.id}}">
+          <tr data-ng-repeat="budget in budgets" class="budget" about="{{budget.id}}" data-fadeout="budget.deleted">
             <!-- Label -->
             <td class="name">
               <span title="{{budget.id}}">{{budget.label}}</span>

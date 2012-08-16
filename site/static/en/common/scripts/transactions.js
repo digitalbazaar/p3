@@ -6,7 +6,7 @@
 // FIXME: use RequireJS AMD format
 (function() {
 
-var module = angular.module('activity', ['spinner', 'ui']).
+var module = angular.module('activity', ['payswarm', 'ui']).
 run(function() {
 });
 

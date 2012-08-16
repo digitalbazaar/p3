@@ -7,7 +7,7 @@
  */
 (function() {
 
-angular.module('spinner', [])
+angular.module('payswarm', [])
 .directive('spinner', function() {
   return function(scope, element, attrs) {
     // default spinner options
@@ -62,6 +62,18 @@ angular.module('spinner', [])
     element.bind('$destroy', function() {
       spinner.stop();
       spinning = false;
+    });
+  };
+})
+.directive('fadeout', function() {
+  return function(scope, element, attrs) {
+    // watch fadeout expression
+    scope.$watch(attrs.fadeout, function(value) {
+      if(value) {
+        element.fadeOut(function() {
+          element.remove();
+        });
+      }
     });
   };
 });

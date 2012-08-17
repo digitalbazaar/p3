@@ -4,8 +4,8 @@ var config = require('../lib/config');
 module.exports.map = function(mapping) {
   var ids = [
     'common.Account.created',
-    'common.Deposit.charged',
-    'common.Deposit.charged-log',
+    'common.Deposit.cc-merchant-account-log',
+    'common.Deposit.ach-merchant-account-log',
     'common.Deposit.failure',
     'common.Deposit.success',
     'common.Deposit.success-profile',

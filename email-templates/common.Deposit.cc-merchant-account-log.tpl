@@ -1,10 +1,10 @@
-To: {{serviceDomain}}-credit-card-logs@digitalbazaar.com
+To: {{serviceDomain}}-merchant-account-logs@digitalbazaar.com
 From: cluster@{{supportDomain}}
-Subject: {{subjectPrefix}}{{serviceName}} credit card charge log ({{deposit.id}}
+Subject: {{subjectPrefix}}{{serviceName}} credit card deposit log ({{deposit.id}})
 
 Merchant Name:               Digital Bazaar, Inc.
 Merchant Location:           Blacksburg, VA, USA
-Merchant Online Address:     http://digitalbazaar.com/
+Merchant Company Address:    http://digitalbazaar.com/
 Merchant Online Address:     http://{{serviceDomain}}/
 Transaction Amount:          USD ${{deposit.amount}}
 Transaction Date:            {{deposit.created}}

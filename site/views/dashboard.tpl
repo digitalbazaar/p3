@@ -83,7 +83,7 @@ ${set([
         <h3 class="center">No Accounts</h3>
         <p class="center">You have no accounts configured for this identity.</p>
       </div>
-      <button data-ng-hide="loading.accounts" class="btn btn-success" data-ng-click="addAccount(account)"><i class="icon-plus icon-white"></i> Add Account</button>
+      <button id="button-add-account" data-ng-hide="loading.accounts" class="btn btn-success" data-ng-click="addAccount(account)"><i class="icon-plus icon-white"></i> Add Account</button>
     </div>
     
     <div class="span6">
@@ -144,7 +144,7 @@ ${set([
         <h3 class="center">No Budgets</h3>
         <p class="center">You have no budgets configured for this identity.</p>
       </div>
-      <button data-ng-hide="loading.budgets" class="btn btn-success" data-ng-click="addBudget(budget)"><i class="icon-plus icon-white"></i> Add Budget</button>
+      <button id="button-add-budget" data-ng-hide="loading.budgets" class="btn btn-success" data-ng-click="addBudget(budget)"><i class="icon-plus icon-white"></i> Add Budget</button>
     </div>
   </div>
 </div>

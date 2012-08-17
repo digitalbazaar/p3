@@ -14,7 +14,7 @@
 }
 
 body {
-	font-family: 'Droid Sans', sans-serif;
+  font-family: 'Droid Sans', sans-serif;
   font-size: 1em;
   line-height: 1.2em;
 }
@@ -308,25 +308,25 @@ h1 > .rest-summary {
 }
 
 .get-background {
-	background-color: #E7F0F7;
-	border-color: #C3D9EC;
+  background-color: #E7F0F7;
+  border-color: #C3D9EC;
 }
 
 .delete-background {
-	background-color: #F5E8E8;
-	border: 1px solid black;
-	border-color: #E8C6C7;
+  background-color: #F5E8E8;
+  border: 1px solid black;
+  border-color: #E8C6C7;
 }
 
 .rest-summary > .rest-verb {
-	border-radius: 2px;
-	text-transform: uppercase;
-	color: white;
-	display: inline-block;
-	width: 50px;
-	font-size: 0.8em;
-	text-align: center;
-	padding: 7px 0 4px 0;
+  border-radius: 2px;
+  text-transform: uppercase;
+  color: white;
+  display: inline-block;
+  width: 50px;
+  font-size: 0.8em;
+  text-align: center;
+  padding: 7px 0 4px 0;
 }
 
 h1 > .rest-summary > .rest-verb {
@@ -351,8 +351,8 @@ h1 > .rest-summary > .rest-verb {
 }
 
 .rest-summary > .rest-path {
-	color: #444;
-	font-size: 1.2em;
+  color: #444;
+  font-size: 1.2em;
   padding: 7px 0 4px 0;
 }
 
@@ -364,7 +364,7 @@ h1 > .rest-summary > .rest-path {
 }
 
 .rest-summary > .rest-description {
-	float: right;
+  float: right;
   padding: 7px 0 4px 0;
 }
 
@@ -377,7 +377,7 @@ h1 > .rest-summary > .rest-path {
 }
 
 .rest-parameter {
-	font-style: italic;
+  font-style: italic;
 }
 
 .indent0 {
@@ -385,7 +385,7 @@ h1 > .rest-summary > .rest-path {
 }
 
 .indent1 {
-	margin-left: 2em;
+  margin-left: 2em;
 }
 
 .indent2 {

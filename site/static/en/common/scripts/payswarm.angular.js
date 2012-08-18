@@ -27,7 +27,7 @@ angular.module('payswarm', [])
       left: 'auto' // Left position relative to parent in px
     };
     if(attrs.spinnerClass) {
-      options.className = attrs.spinnerClass;
+      options.className = scope.$eval(attrs.spinnerClass);
     }
 
     // create spinner
@@ -117,6 +117,27 @@ angular.module('payswarm', [])
       updateBarWidth(scope.$eval(attrs.barDivisor), value);
     });
   };
+})
+.filter('cardBrand', function() {
+  return function(input) {
+    if(input === 'ccard:Visa') {
+      return 'Visa';
+    }
+    if(input === 'ccard:MasterCard') {
+      return 'MasterCard';
+    }
+    if(input === 'ccard:Discover') {
+      return 'Discover';
+    }
+    if(input === 'ccard:AmericanExpress') {
+      return 'American Express';
+    }
+    if(input === 'ccard:ChinaUnionPay') {
+      return 'China Union Pay';
+    }
+  };
 });
+
+// FIXME: add filter to properly round precise currency up
 
 })();

@@ -1,9 +1,14 @@
 ${set([
   pageTitle = "Identity Settings",
   jsList.push("common/scripts/settings"),
+  jsList.push("common/scripts/modals.add-address"),
+  jsList.push("common/scripts/modals.add-payment-token"),
   inav = "settings"
 ])}
+
 {{partial "site/head.tpl"}}
+{{partial "modals/add-address.tpl"}}
+{{partial "modals/add-payment-token.tpl"}}
 
 {{verbatim}}
 <div class="container ng-cloak" data-ng-app="settings"
@@ -49,7 +54,7 @@ ${set([
                     </td>
                     <!-- Brand -->
                     <td>
-                      <span>{{card.cardBrand}}</span>
+                      <span>{{card.cardBrand|cardBrand}}</span>
                     </td>
                     <!-- Number -->
                     <td>
@@ -57,7 +62,7 @@ ${set([
                     </td>
                     <!-- Expiration -->
                     <td>
-                      <span>{{card.cardExpirationMonth}} / {{card.cardExpirationYear}}</span>
+                      <span>{{card.cardExpMonth}} / {{card.cardExpYear}}</span>
                     </td>
                     <!-- Delete -->
                     <td class="action">
@@ -105,7 +110,7 @@ ${set([
                     </td>
                     <!-- Routing -->
                     <td>
-                      <span>{{bankAccount.routingNumber}}</span>
+                      <span>{{bankAccount.bankRoutingNumber}}</span>
                     </td>
                     <!-- Delete -->
                     <td class="action">

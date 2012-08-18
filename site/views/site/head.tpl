@@ -22,7 +22,7 @@
     <script type="text/javascript" src="${cacheRoot}/common/jquery-ui/js/jquery-ui.${jsExt}"></script>
     <script type="text/javascript" src="${cacheRoot}/common/angular/angular.${jsExt}"></script>
     <script type="text/javascript" src="${cacheRoot}/common/angular/angular-ui.${jsExt}"></script>
-    <script type="text/javascript" src="${cacheRoot}/common/scripts/directives.${jsExt}"></script>
+    <script type="text/javascript" src="${cacheRoot}/common/scripts/payswarm.angular.${jsExt}"></script>
 
     <link href="${cacheRoot}/common/bootstrap/css/bootstrap.${cssExt}" rel="stylesheet" type="text/css" />
     <link href="${cacheRoot}/common/bootstrap/css/bootstrap-responsive.${cssExt}" rel="stylesheet" type="text/css" />

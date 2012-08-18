@@ -19,12 +19,44 @@ module.controller('ExternalAccountsCtrl', function($scope) {
   $scope.creditCards = [];
   $scope.bankAccounts = [];
   $scope.loading = false;
+
+  $scope.addToken = function() {
+    window.modals.addPaymentToken.show({
+      identity: $scope.identity,
+      added: function() {
+        updateTokens($scope);
+      }
+    });
+  };
+
+  updateTokens($scope);
 });
 
 module.controller('AddressCtrl', function($scope) {
-  $scope.creditCards = [];
-  $scope.bankAccounts = [];
   $scope.loading = false;
 });
+
+function updateTokens($scope) {
+  payswarm.paymentTokens.get({
+    identity: $scope.identity,
+    success: function(paymentTokens) {
+      $scope.creditCards = [];
+      $scope.bankAccounts = [];
+      angular.forEach(paymentTokens, function(token) {
+        if(token.paymentMethod === 'ccard:CreditCard') {
+          $scope.creditCards.push(token);
+        }
+        else if(token.paymentMethod === 'bank:BankAccount') {
+          $scope.bankAccounts.push(token);
+        }
+      });
+      $scope.$apply();
+    },
+    error: function(err) {
+      console.error('updateTokens:', err);
+      $scope.$apply();
+    }
+  });
+}
 
 })();

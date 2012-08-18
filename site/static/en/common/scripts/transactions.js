@@ -88,7 +88,7 @@ module.controller('ActivityCtrl', function($scope) {
     };
     options.error = function(err) {
       // FIXME: show error
-      console.log('ERROR', err);
+      console.log('getMore:', err);
       $scope.error = err;
       $scope.loading = false;
       $scope.$apply();

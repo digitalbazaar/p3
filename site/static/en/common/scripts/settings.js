@@ -33,7 +33,19 @@ module.controller('ExternalAccountsCtrl', function($scope) {
 });
 
 module.controller('AddressCtrl', function($scope) {
+  $scope.addresses = [];
   $scope.loading = false;
+
+  $scope.addAddress = function() {
+    window.modals.addAddress.show({
+      identity: $scope.identity,
+      added: function(address) {
+        $scope.addresses.push(address);
+      }
+    });
+  };
+
+  updateAddresses($scope);
 });
 
 function updateTokens($scope) {
@@ -54,6 +66,21 @@ function updateTokens($scope) {
     },
     error: function(err) {
       console.error('updateTokens:', err);
+      $scope.$apply();
+    }
+  });
+}
+
+function updateAddresses($scope) {
+  payswarm.addresses.get({
+    identity: $scope.identity,
+    success: function(addresses) {
+      $scope.addresses = addresses;
+      console.log('addresses', addresses);
+      $scope.$apply();
+    },
+    error: function(err) {
+      console.error('updateAddresses:', err);
       $scope.$apply();
     }
   });

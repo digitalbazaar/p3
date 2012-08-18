@@ -149,8 +149,21 @@ ${set([
         <!-- End External Accounts Tab -->
         
         <!-- Address Tab -->
-        <div class="tab-pane" id="address" data-ng-controller="AddressCtrl">
-          FIXME: Addresses go here
+        <div class="container-fluid tab-pane"
+          id="address"
+          data-ng-controller="AddressCtrl">
+          <div class="row-fluid" data-ng-repeat="address in addresses">
+            <div class="span12">
+              <h3 class="headline">Addresses</h3>
+              <ul class="unstyled">
+                <li>{{address.label}}</li>
+                <li>{{address.fullName}}</li>
+                <li>{{address.streetAddress}}</li>
+                <li>{{address.locality}}, {{address.region}} {{address.postalCode}}<li>
+                <li>{{address.countryName}}</li>
+              </ul>
+            </div>
+          </div>
         </div>
         <!-- End Address Tab -->
       </div>

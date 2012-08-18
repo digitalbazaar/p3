@@ -21,7 +21,7 @@ module.controller('DashboardCtrl', function($scope) {
     budgets: true
   };
 
-  $scope.addAccount = function(account) {
+  $scope.addAccount = function() {
     window.modals.addAccount.show({
       identity: $scope.identity,
       added: function() {
@@ -48,7 +48,7 @@ module.controller('DashboardCtrl', function($scope) {
     });
   };
 
-  $scope.addBudget = function(budget) {
+  $scope.addBudget = function() {
     window.modals.addBudget.show({
       identity: $scope.identity,
       added: function() {

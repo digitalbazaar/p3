@@ -2,7 +2,6 @@ ${set([
   pageTitle = "Identity Dashboard",
   jsList.push("common/scripts/tmpl.funcs.countries"),
   jsList.push("common/scripts/dashboard"),
-  jsList.push("common/scripts/website.management"),
   jsList.push("common/scripts/modals.add-account"),
   jsList.push("common/scripts/modals.add-address"),
   jsList.push("common/scripts/modals.add-budget"),
@@ -12,8 +11,6 @@ ${set([
   jsList.push("common/scripts/modals.edit-budget"),
   inav = "dashboard"
 ])}  
-{{! set(jsList.push("common/scripts/identity"))}}
-{{! partial "identity/identity-nav.tpl"}}
 
 {{partial "site/head.tpl"}}
 {{partial "modals/add-account.tpl"}}
@@ -73,22 +70,21 @@ ${set([
           <tr>
             <td colspan="4" style="text-align: center">
               <span class="center">
-                <span data-spinner="loading" data-spinner-class="table-spinner"></span>
+                <span data-spinner="loading.accounts" data-spinner-class="table-spinner"></span>
               </span>
             </td>
           </tr>
         </tfoot>
       </table>
       <div data-ng-show="!loading.accounts && accounts.length == 0">
-        <h3 class="center">No Accounts</h3>
+        <hr />
         <p class="center">You have no accounts configured for this identity.</p>
       </div>
-      <button id="button-add-account" data-ng-hide="loading.accounts" class="btn btn-success" data-ng-click="addAccount(account)"><i class="icon-plus icon-white"></i> Add Account</button>
+      <button id="button-add-account" data-ng-hide="loading.accounts" class="btn btn-success" data-ng-click="addAccount()"><i class="icon-plus icon-white"></i> Add Account</button>
     </div>
     
     <div class="span6">
       <h3 class="headline">Budgets</h3>
-      
       <table class="table table-condensed" data-ng-show="loading.budgets || budgets.length > 0">
         <thead>
           <tr>
@@ -134,17 +130,17 @@ ${set([
           <tr>
             <td colspan="5" style="text-align: center">
               <span class="center">
-                <span data-spinner="loading" data-spinner-class="table-spinner"></span>
+                <span data-spinner="loading.budgets" data-spinner-class="table-spinner"></span>
               </span>
             </td>
           </tr>
         </tfoot>
       </table>
       <div data-ng-show="!loading.budgets && budgets.length == 0">
-        <h3 class="center">No Budgets</h3>
+        <hr />
         <p class="center">You have no budgets configured for this identity.</p>
       </div>
-      <button id="button-add-budget" data-ng-hide="loading.budgets" class="btn btn-success" data-ng-click="addBudget(budget)"><i class="icon-plus icon-white"></i> Add Budget</button>
+      <button id="button-add-budget" data-ng-hide="loading.budgets" class="btn btn-success" data-ng-click="addBudget()"><i class="icon-plus icon-white"></i> Add Budget</button>
     </div>
   </div>
 </div>

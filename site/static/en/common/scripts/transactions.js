@@ -6,9 +6,7 @@
 // FIXME: use RequireJS AMD format
 (function() {
 
-var module = angular.module('activity', ['payswarm', 'ui']).
-run(function() {
-});
+var module = angular.module('activity', ['payswarm', 'ui']);
 
 module.controller('ActivityCtrl', function($scope) {
   // initialize model

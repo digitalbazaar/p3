@@ -16,9 +16,11 @@ module.controller('DashboardCtrl', function($scope) {
   $scope.identity = data.identity;
   $scope.accounts = [];
   $scope.budgets = [];
+  $scope.txns = [];
   $scope.loading = {
     accounts: true,
-    budgets: true
+    budgets: true,
+    txns: true
   };
 
   $scope.addAccount = function() {
@@ -86,8 +88,25 @@ module.controller('DashboardCtrl', function($scope) {
     });
   };
 
+  // FIXME reuse from transactions.js  
+  $scope.getRowType = function(row) {
+    if(row.type.indexOf('com:Deposit') !== -1) {
+      return 'deposit';
+    }
+    else if(row.type.indexOf('ps:Contract') !== -1) {
+      return 'contract';
+    }
+    else if(row.type.indexOf('com:Transfer') !== -1) {
+      return 'transfer';
+    }
+    else {
+      return 'error';
+    }
+  };
+
   updateAccounts($scope);
   updateBudgets($scope);
+  updateTxns($scope);
 });
 
 function updateAccounts($scope) {
@@ -119,6 +138,28 @@ function updateBudgets($scope) {
     error: function(err) {
       console.error('updateBudgets:', err);
       $scope.loading.budgets = false;
+      $scope.$apply();
+    }
+  });
+}
+
+function updateTxns($scope) {
+  $scope.loading.txns = true;
+  // FIXME: remove
+  $scope.txns = [];
+  $scope.loading.txns = false;
+  $scope.$apply();
+  payswarm.transactions.get({
+    // FIXME: all accounts, date ordered, limit of ~10(?)
+    identity: $scope.identity,
+    success: function(txns) {
+      $scope.txns = txns.slice(0,10);
+      $scope.loading.txns = false;
+      $scope.$apply();
+    },
+    error: function(err) {
+      console.error('updateTxns:', err);
+      $scope.loading.txns = false;
       $scope.$apply();
     }
   });

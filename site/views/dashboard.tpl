@@ -22,7 +22,7 @@ ${set([
 {{partial "modals/edit-budget.tpl"}}
 
 {{verbatim}}
-<div class="container ng-cloak" data-ng-app="dashboard"
+<div class="dashboard container ng-cloak" data-ng-app="dashboard"
   data-ng-controller="DashboardCtrl">
 
   <div class="row">
@@ -34,7 +34,7 @@ ${set([
   </div>
     
   <div class="row">
-    <div class="span6">
+    <div class="dashboard-box span6">
       <h3 class="headline">Accounts</h3>
       <table class="table table-condensed" data-ng-show="loading.accounts || accounts.length > 0">
         <thead>
@@ -83,7 +83,7 @@ ${set([
       <button id="button-add-account" data-ng-hide="loading.accounts" class="btn btn-success" data-ng-click="addAccount()"><i class="icon-plus icon-white"></i> Add Account</button>
     </div>
     
-    <div class="span6">
+    <div class="dashboard-box span6">
       <h3 class="headline">Budgets</h3>
       <table class="table table-condensed" data-ng-show="loading.budgets || budgets.length > 0">
         <thead>
@@ -141,6 +141,65 @@ ${set([
         <p class="center">You have no budgets configured for this identity.</p>
       </div>
       <button id="button-add-budget" data-ng-hide="loading.budgets" class="btn btn-success" data-ng-click="addBudget()"><i class="icon-plus icon-white"></i> Add Budget</button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="dashboard-box span6">
+      <h3 class="headline">Recent Transactions</h3>
+      
+      <table class="table table-condensed" data-ng-show="loading.txns || txns.length > 0">
+        <thead>
+          <tr>
+            <th class="date">Date</th>
+            <th class="name">Item</th>
+            <th class="money">Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-ng-repeat="txn in txns" class="txn" data-fadein="txn.added">
+            <!-- Date -->
+            <td data-ng-switch="getRowType(txn)">
+              <span data-ng-switch-when="deposit" class="date">{{txn.created | date:'MMMM, dd yyyy @ h:mm:ss a'}}</span>
+              <span data-ng-switch-when="contract" class="date">{{txn.created | date:'MMMM, dd yyyy @ h:mm:ss a'}}</span>
+              <span data-ng-switch-when="transfer">&nbsp;</span>
+            </td>
+            <!-- Item -->
+            <td data-ng-switch="getRowType(txn)">
+              <span data-ng-switch-when="deposit" class="name"><a href="{{txn.id}}"><i class="icon-plus"></i> Deposit <span data-ng-show="!(txn.settled || txn.voided)" class="label label-info">Pending</span><span data-ng-show="txn.voided" class="label label-important">Voided</span></a></span>
+              <span data-ng-switch-when="contract" class="name"><a href="{{txn.id}}"><i class="icon-shopping-cart"></i> {{txn.asset.title}} <span data-ng-show="!(txn.settled || txn.voided)" class="label label-info">Pending</span><span data-ng-show="txn.voided" class="label label-important">Voided</span></a></span>
+              <span data-ng-switch-when="transfer">
+                <a href="{{txn.id}}">
+                  <i class="icon-info-sign" title="Details"></i> {{txn.comment}}<br/>
+                  <i class="icon-minus" title="Source Account"></i> <a data-ng-show="txn.sourceLink" href="{{txn.source}}">{{txn.source}}</a><span data-ng-hide="txn.sourceLink">{{txn.source}}</span> <br/>
+                  <i class="icon-plus" title="Destination Account"></i> <a data-ng-show="txn.destinationLink" href="{{txn.destination}}">{{txn.destination}}</a><span data-ng-hide="txn.destinationLink">{{txn.destination}}</span>
+                </a>
+              </span>
+            </td>
+            <!-- Amount -->
+            <td class="money">
+              <span class="money right" title="USD ${{txn.amount}}">
+                <span class="currency">USD</span> {{txn.amount | currency:"$"}}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot data-ng-show="loading.txns">
+          <tr>
+            <td colspan="5" style="text-align: center">
+              <span class="center">
+                <span data-spinner="loading" data-spinner-class="table-spinner"></span>
+              </span>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+      <div data-ng-show="!loading.txns && txns.length == 0">
+        <h3 class="center">No Transactions</h3>
+        <p class="center">You have no recent transactions for this identity.</p>
+      </div>
+      <span>
+      <a href="accounts?view=activity"><button id="button-add-budget" class="btn btn-success" data-ng-click="addBudget(budget)"><i class="icon-list icon-white"></i> More...</button></a>
     </div>
   </div>
 </div>

@@ -148,12 +148,12 @@ function updateTxns($scope) {
   // FIXME: remove
   $scope.txns = [];
   $scope.loading.txns = false;
-  $scope.$apply();
   payswarm.transactions.get({
-    // FIXME: all accounts, date ordered, limit of ~10(?)
+    // FIXME: make date ordering explicit
     identity: $scope.identity,
+    limit: 10,
     success: function(txns) {
-      $scope.txns = txns.slice(0,10);
+      $scope.txns = txns;
       $scope.loading.txns = false;
       $scope.$apply();
     },

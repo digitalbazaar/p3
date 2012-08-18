@@ -24,7 +24,7 @@ ${set([
           <a class="brand" href="/"><img src="${cacheRoot}${style.brand.src}" width="${style.brand.width}" height="${style.brand.height}" alt="${style.brand.alt}" /></a>      
           <ul class="nav">
             <li {{if inav == "dashboard"}}class="active"{{/if}}><a href="${session.identity.id}/dashboard"><i class="icon-info-sign{{if style.navbar.isDark}} icon-white{{/if}}"></i> Dashboard</a></li>
-            <li {{if inav == "settings"}}class="active"{{/if}}><a href="${session.identity.id}/settings"><i class="icon-tasks{{if style.navbar.isDark}} icon-white{{/if}}"></i> Settings</a></li>
+            <li {{if inav == "settings"}}class="active"{{/if}}><a href="${session.identity.id}/settings"><i class="icon-cog{{if style.navbar.isDark}} icon-white{{/if}}"></i> Settings</a></li>
           </ul>
         {{else}}
           <img class="brand-minimal" src="${cacheRoot}/content/payswarm.png" width="182" height="24" alt="PaySwarm" />

@@ -76,7 +76,6 @@ function updateAddresses($scope) {
     identity: $scope.identity,
     success: function(addresses) {
       $scope.addresses = addresses;
-      console.log('addresses', addresses);
       $scope.$apply();
     },
     error: function(err) {

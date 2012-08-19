@@ -182,7 +182,7 @@ function selectCardType(target, number) {
   $('[name="card-brand"]', target)
     .attr('data-card-brand', brand)
     .removeClass()
-    .addClass('cc-logo-' + logo);
+    .addClass('cc-logo-' + logo + '-selected');
 }
 
 })(jQuery);

@@ -119,20 +119,35 @@ angular.module('payswarm', [])
   };
 })
 .filter('cardBrand', function() {
-  return function(input) {
+  return function(input, logo) {
     if(input === 'ccard:Visa') {
+      if(logo) {
+        return 'cc-logo-visa';
+      }
       return 'Visa';
     }
     if(input === 'ccard:MasterCard') {
+      if(logo) {
+        return 'cc-logo-mastercard';
+      }
       return 'MasterCard';
     }
     if(input === 'ccard:Discover') {
+      if(logo) {
+        return 'cc-logo-discover';
+      }
       return 'Discover';
     }
     if(input === 'ccard:AmericanExpress') {
+      if(logo) {
+        return 'cc-logo-amex';
+      }
       return 'American Express';
     }
     if(input === 'ccard:ChinaUnionPay') {
+      if(logo) {
+        return 'cc-logo-china-up';
+      }
       return 'China Union Pay';
     }
   };

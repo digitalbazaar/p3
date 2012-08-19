@@ -53,7 +53,7 @@ ${set([
                   </td>
                   <!-- Brand -->
                   <td>
-                    <span>{{card.cardBrand|cardBrand}}</span>
+                    <span><i class="{{card.cardBrand|cardBrand:true}}"></i></span>
                   </td>
                   <!-- Number -->
                   <td>

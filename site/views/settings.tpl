@@ -100,6 +100,7 @@ ${set([
                   <th class="name">Name</th>
                   <th class="name">Number</th>
                   <th class="name">Routing</th>
+                  <th>Status</th>
                   <th class="action">Delete</th>
                 </tr>
               </thead>
@@ -117,6 +118,10 @@ ${set([
                   <td>
                     <span>{{bankAccount.bankRoutingNumber}}</span>
                   </td>
+                  <!-- Status -->
+                  <td>
+                    <span><a href="#">Verify</a></span>
+                  </td>
                   <!-- Delete -->
                   <td class="action">
                     <button class="btn btn-danger" title="Delete" data-ng-click="deleteBankAccount(card)"><i class="icon-remove icon-white"></i></button>
@@ -125,7 +130,7 @@ ${set([
               </tbody>
               <tfoot data-ng-show="loading">
                 <tr>
-                  <td colspan="4" style="text-align: center">
+                  <td colspan="5" style="text-align: center">
                     <span class="center">
                       <span data-spinner="loading" data-spinner-class="table-spinner"></span>
                     </span>

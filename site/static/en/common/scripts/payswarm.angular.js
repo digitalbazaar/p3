@@ -5,7 +5,7 @@
  *
  * @author Dave Longley
  */
-(function() {
+(function($) {
 
 angular.module('payswarm', [])
 .directive('spinner', function() {
@@ -118,41 +118,49 @@ angular.module('payswarm', [])
     });
   };
 })
+.directive('stretchTabs', function() {
+  var stretch = function(tabs, tabContent) {
+    setTimeout(function() {
+      tabs.css('height', tabContent.css('height'));
+    });
+  };
+
+  return {
+    restrict: 'C',
+    controller: function($scope, $timeout) {
+      $timeout(function() {
+        stretch($scope.tabs, $scope.tabContent);
+      });
+    },
+    link: function(scope, element, attrs) {
+      scope.tabs = $('.nav-tabs', element);
+      scope.tabContent = $('.tab-content', element);
+      scope.tabs.click(function() {
+        stretch(scope.tabs, scope.tabContent);
+      });
+    }
+  };
+})
 .filter('cardBrand', function() {
   return function(input, logo) {
     if(input === 'ccard:Visa') {
-      if(logo) {
-        return 'cc-logo-visa';
-      }
-      return 'Visa';
+      return logo ? 'cc-logo-visa' : 'Visa';
     }
     if(input === 'ccard:MasterCard') {
-      if(logo) {
-        return 'cc-logo-mastercard';
-      }
-      return 'MasterCard';
+      return logo ? 'cc-logo-mastercard' : 'MasterCard';
     }
     if(input === 'ccard:Discover') {
-      if(logo) {
-        return 'cc-logo-discover';
-      }
-      return 'Discover';
+      return logo ? 'cc-logo-discover': 'Discover';
     }
     if(input === 'ccard:AmericanExpress') {
-      if(logo) {
-        return 'cc-logo-amex';
-      }
-      return 'American Express';
+      return logo ? 'cc-logo-amex' : 'American Express';
     }
     if(input === 'ccard:ChinaUnionPay') {
-      if(logo) {
-        return 'cc-logo-china-up';
-      }
-      return 'China Union Pay';
+      return logo ? 'cc-logo-china-up' : 'China Union Pay';
     }
   };
 });
 
 // FIXME: add filter to properly round precise currency up
 
-})();
+})(jQuery);

@@ -22,7 +22,7 @@ ${set([
     </div>
   </div>
   
-  <div class="tabbable tabs-left">
+  <div class="tabbable tabs-left stretch-tabs">
     <ul class="nav nav-tabs">
       <li class="active"><a href="#external-accounts" data-toggle="tab">External Accounts</a></li>
       <li><a href="#address" data-toggle="tab">Address</a></li>

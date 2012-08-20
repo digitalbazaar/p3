@@ -40,9 +40,11 @@ angular.module('payswarm.services')
     // open modal when expression is true, close when false
     var opened = false;
     scope.$watch(attrs.modalShow, function(value) {
-      if(value && !opened) {
-        opened = true;
-        open(scope, element, attrs.modalShow, scope[attrs.modalCallback]);
+      if(value) {
+        if(!opened) {
+          opened = true;
+          open(scope, element, attrs.modalShow, scope[attrs.modalCallback]);
+        }
       }
       else if(opened) {
         opened = false;

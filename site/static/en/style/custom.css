@@ -404,18 +404,9 @@ h1 > .rest-summary > .rest-path {
   margin-left: 2em;
 }
 
-/* Dashboard */
-.dashboard {
-}
+/* Sections */
 
-.dashboard-box {
-  box-sizing:border-box;
-  -moz-box-sizing:border-box;
-  -webkit-box-sizing:border-box;
-  padding: .5em;
-}
-
-.dashboard-box .headline {
+.section .headline {
   margin: 0.5em -0.5em 0.5em -0.5em;
   padding: 0.2em 0.5em 0.2em 0.5em;
   border-top: thin solid #ccc;

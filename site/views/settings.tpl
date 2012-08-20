@@ -25,7 +25,7 @@ ${set([
   <div class="tabbable tabs-left stretch-tabs">
     <ul class="nav nav-tabs">
       <li class="active"><a href="#external-accounts" data-toggle="tab">External Accounts</a></li>
-      <li><a href="#address" data-toggle="tab">Address</a></li>
+      <li><a href="#addresses" data-toggle="tab">Addresses</a></li>
     </ul>
     <div class="tab-content">
       <!-- External Accounts Tab -->
@@ -33,7 +33,7 @@ ${set([
         id="external-accounts"
         data-ng-controller="ExternalAccountsCtrl">
         <div class="row-fluid">
-          <div class="span12">
+          <div class="section span12">
             <h3 class="headline">Credit Cards</h3>
             <table class="table table-condensed" data-ng-show="loading || creditCards.length > 0">
               <thead>
@@ -84,15 +84,20 @@ ${set([
             </div>
           </div>
         </div>
-        
-        <!-- Separator -->
+
         <div class="row-fluid">
           <div class="span12">
+            <button id="button-add-token" data-ng-hide="loading" class="btn btn-success" data-ng-click="addToken()"><i class="icon-plus icon-white"></i> Add Credit Card</button>
           </div>
         </div>
         
+        <!-- Separator -->
         <div class="row-fluid">
-          <div class="span12">
+          <div class="span12"></div>
+        </div>
+        
+        <div class="row-fluid">
+          <div class="section span12">
             <h3 class="headline">Bank Accounts</h3>
             <table class="table table-condensed" data-ng-show="loading || bankAccounts.length > 0">
               <thead>
@@ -146,30 +151,65 @@ ${set([
         
         <div class="row-fluid">
           <div class="span12">
-            <button id="button-add-token" data-ng-hide="loading" class="btn btn-success" data-ng-click="addToken()"><i class="icon-plus icon-white"></i> Add External Account</button>
+            <button id="button-add-token" data-ng-hide="loading" class="btn btn-success" data-ng-click="addToken()"><i class="icon-plus icon-white"></i> Add Bank Account</button>
           </div>
         </div>
       </div>
       <!-- End External Accounts Tab -->
       
-      <!-- Address Tab -->
+      <!-- Addresses Tab -->
       <div class="container-fluid tab-pane"
-        id="address"
+        id="addresses"
         data-ng-controller="AddressCtrl">
-        <div class="row-fluid" data-ng-repeat="address in addresses">
-          <div class="span12">
+        <div class="row-fluid">
+          <div class="section span12">
             <h3 class="headline">Addresses</h3>
-            <ul class="unstyled">
-              <li>{{address.label}}</li>
-              <li>{{address.fullName}}</li>
-              <li>{{address.streetAddress}}</li>
-              <li>{{address.locality}}, {{address.region}} {{address.postalCode}}<li>
-              <li>{{address.countryName}}</li>
-            </ul>
+            <table class="table table-condensed" data-ng-show="loading || addresses.length > 0">
+              <thead>
+                <tr>
+                  <th class="name">Name</th>
+                  <th class="address">Address</th>
+                  <th class="action">Delete</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr data-ng-repeat="address in addresses">
+                  <!-- Name -->
+                  <td>
+                    <span>{{address.label}}</span>
+                  </td>
+                  <!-- Address -->
+                  <td>
+                    <span>
+                      {{address.fullName}}<br/>
+                      {{address.streetAddress}}<br/>
+                      {{address.locality}}, {{address.region}} {{address.postalCode}}<br/>
+                      {{address.countryName}}<br/>
+                    </span>
+                  </td>
+                  <!-- Delete -->
+                  <td class="action">
+                    <button class="btn btn-danger" title="Delete" data-ng-click="deleteAddress(address)"><i class="icon-remove icon-white"></i></button>
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot data-ng-show="loading">
+                <tr>
+                  <td colspan="5" style="text-align: center">
+                    <span class="center">
+                      <span data-spinner="loading" data-spinner-class="table-spinner"></span>
+                    </span>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+            <div data-ng-show="!loading && addresses.length == 0">
+              <p class="center">You have no addresses associated with this identity.</p>
+            </div>
           </div>
         </div>
       </div>
-      <!-- End Address Tab -->
+      <!-- End Addresses Tab -->
     </div>
   </div>
 

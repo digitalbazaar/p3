@@ -88,16 +88,13 @@ module.controller('DashboardCtrl', function($scope) {
     });
   };
 
-  // FIXME reuse from transactions.js  
-  $scope.getRowType = function(row) {
+  // FIXME reuse from transactions.js?
+  $scope.getTxnType = function(row) {
     if(row.type.indexOf('com:Deposit') !== -1) {
       return 'deposit';
     }
     else if(row.type.indexOf('ps:Contract') !== -1) {
       return 'contract';
-    }
-    else if(row.type.indexOf('com:Transfer') !== -1) {
-      return 'transfer';
     }
     else {
       return 'error';

@@ -140,6 +140,44 @@ angular.module('payswarm.directives')
       });
     }
   };
+})
+.directive('creditCardSelector', function() {
+  return function(scope, element, attrs) {
+    scope.$watch(attrs.creditCardSelector, function(value) {
+      var logo = 'all';
+      var brand = null;
+
+      if(/^4/.test(number)) {
+        logo = 'visa';
+        brand = 'ccard:Visa';
+      }
+      else if(/^5[1-5]/.test(number)) {
+        logo = 'mastercard';
+        brand = 'ccard:MasterCard';
+      }
+      else if(/^3[47]/.test(number)) {
+        logo = 'amex';
+        brand = 'ccard:AmericanExpress';
+      }
+      // 6011, 622126-622925, 644-649, 65
+      else if(/^(6((011)|(22((1((2[6-9])|([3-9]{1}[0-9])))|([2-8])|(9(([0-1]{1}[0-9])|(2[0-5])))))|(4[4-9])|5))/.test(number)) {
+        logo = 'discover';
+        brand = 'ccard:Discover';
+      }
+      else if(/^62/.test(number)) {
+        logo = 'china-up';
+        brand = 'ccard:ChinaUnionPay';
+      }
+
+      // update brand
+      scope[attrs.ngModel] = brand;
+
+      // remove old cc-logo classes, add new
+      element.removeClass(function(index, css) {
+        return (css.match (/\bcc-logo-\S+/g) || []).join(' ');
+      }).addClass('cc-logo-' + logo + '-selected');
+    });
+  };
 });
 
 })(jQuery);

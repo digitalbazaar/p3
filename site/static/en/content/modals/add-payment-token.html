@@ -42,7 +42,9 @@
             <div class="control-group" data-binding="source.cardBrand">
               <label class="control-label" for="card-brand">Type</label>
               <div class="controls">
-                <i name="card-brand" class="cc-logo-all" data-card-brand=""></i>
+                <i name="card-brand"
+                  data-credit-card-selector="card.cardNumber"
+                  data-ng-model="card.cardBrand"></i>
               </div>
             </div>
             <div class="control-group" data-binding="source.cardNumber">

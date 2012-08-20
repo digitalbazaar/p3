@@ -144,48 +144,4 @@ function AddPaymentTokenCtrl($scope) {
   });
 };
 
-// FIXME: old below ... save selectCardType ... make it a directive
-
-function hideSelf(options) {
-  options.target.modal('hide');
-  if(!options.paymentToken && options.canceled) {
-    options.canceled();
-  }
-  if(options.parentModal) {
-    options.parentModal.modal('show');
-  }
-}
-
-function selectCardType(target, number) {
-  var logo = 'all';
-  var brand = '';
-
-  if(/^4/.test(number)) {
-    logo = 'visa';
-    brand = 'ccard:Visa';
-  }
-  else if(/^5[1-5]/.test(number)) {
-    logo = 'mastercard';
-    brand = 'ccard:MasterCard';
-  }
-  else if(/^3[47]/.test(number)) {
-    logo = 'amex';
-    brand = 'ccard:AmericanExpress';
-  }
-  // 6011, 622126-622925, 644-649, 65
-  else if(/^(6((011)|(22((1((2[6-9])|([3-9]{1}[0-9])))|([2-8])|(9(([0-1]{1}[0-9])|(2[0-5])))))|(4[4-9])|5))/.test(number)) {
-    logo = 'discover';
-    brand = 'ccard:Discover';
-  }
-  else if(/^62/.test(number)) {
-    logo = 'china-up';
-    brand = 'ccard:ChinaUnionPay';
-  }
-
-  $('[name="card-brand"]', target)
-    .attr('data-card-brand', brand)
-    .removeClass()
-    .addClass('cc-logo-' + logo + '-selected');
-}
-
 })(jQuery);

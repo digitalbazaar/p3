@@ -87,7 +87,13 @@ ${set([
 
         <div class="row-fluid">
           <div class="span12">
-            <button id="button-add-token" data-ng-hide="loading" class="btn btn-success" data-ng-click="addToken()"><i class="icon-plus icon-white"></i> Add Credit Card</button>
+            <div data-modal-add-payment-token=""
+              data-modal-enter="false"
+              data-modal-show="showAddToken"
+              data-modal-callback="tokenAdded"></div>
+            <button id="button-add-credit-card" class="btn btn-success"
+              data-ng-hide="loading"
+              data-ng-click="showAddToken=true"><i class="icon-plus icon-white"></i> Add Credit Card</button>
           </div>
         </div>
         
@@ -151,7 +157,7 @@ ${set([
         
         <div class="row-fluid">
           <div class="span12">
-            <button id="button-add-token" data-ng-hide="loading" class="btn btn-success" data-ng-click="addToken()"><i class="icon-plus icon-white"></i> Add Bank Account</button>
+            <button id="button-add-bank-account" data-ng-hide="loading" class="btn btn-success" data-ng-click="showAddTokenModal()"><i class="icon-plus icon-white"></i> Add Bank Account</button>
           </div>
         </div>
       </div>
@@ -212,7 +218,7 @@ ${set([
       <!-- End Addresses Tab -->
     </div>
   </div>
-
+  
 </div>
 {{/verbatim}}
 

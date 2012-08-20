@@ -18,16 +18,11 @@
 angular.module('payswarm.directives')
 .directive('modalAddPaymentToken', function(modals) {
   return {
-    templateUrl: '/content/add-payment-token.html',
+    templateUrl: '/content/modals/add-payment-token.html',
     replace: false,
     controller: AddPaymentTokenCtrl,
     link: function(scope, element, attrs) {
-      // open modal when expression is true
-      scope.$watch(attrs.modalAddPaymentToken, function(value) {
-        if(value) {
-          modals.open(scope, element, attrs.modalCallback);
-        }
-      });
+      modals.watch(scope, element, attrs);
     }
   };
 });
@@ -45,16 +40,8 @@ function AddPaymentTokenCtrl($scope) {
   selectors.address.install({
     target: $('#add-payment-token-address-selector'),
     identity: $scope.identity,
-    parentModal: target,
+    /*parentModal: target,*/
     addModal: true
-  });
-
-  // FIXME: change to a directive
-  // disable enter key
-  $('#modals-add-payment-token').keypress(function(e) {
-    if(e.keyCode === 13) {
-      e.preventDefault();
-    }
   });
 
   $scope.addToken = function() {
@@ -67,11 +54,12 @@ function AddPaymentTokenCtrl($scope) {
 
     // handle payment method specifics
     if($scope.paymentType === 'ccard:CreditCard') {
-      card.cardAddress = $('#add-payment-token-address-selector')[0].selected;
-      data.source = card;
+      $scope.card.cardAddress =
+        $('#add-payment-token-address-selector')[0].selected;
+      data.source = $scope.card;
     }
     else if($scope.paymentType === 'bank:BankAccount') {
-      data.source = bankAccount;
+      data.source = $scope.bankAccount;
     }
 
     // add payment token

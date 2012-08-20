@@ -199,7 +199,7 @@ ${set([
         <p class="center">You have no recent transactions for this identity.</p>
       </div>
       <span>
-      <a href="accounts?view=activity"><button id="button-add-budget" class="btn btn-success" data-ng-click="addBudget(budget)"><i class="icon-list icon-white"></i> More...</button></a>
+      <a href="accounts?view=activity"><button class="btn btn-success"><i class="icon-list icon-white"></i> More...</button></a>
     </div>
   </div>
 </div>

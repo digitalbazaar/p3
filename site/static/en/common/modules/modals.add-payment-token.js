@@ -17,21 +17,11 @@
  */
 angular.module('payswarm.directives')
 .directive('modalAddPaymentToken', function(modals) {
-  return {
+  return modals.directive({
+    name: 'AddPaymentToken',
     templateUrl: '/content/modals/add-payment-token.html',
-    replace: true,
-    scope: {
-      visible: '=modalVisible',
-      show: '&modalShow',
-      callback: '&modalOnClose'
-    },
     controller: AddPaymentTokenCtrl,
-    link: function(scope, element, attrs) {
-      console.log('scope', scope);
-      scope.callback({err: 'canceled'});
-      modals.watch(scope, element, attrs);
-    }
-  };
+  });
 });
 
 function AddPaymentTokenCtrl($scope) {

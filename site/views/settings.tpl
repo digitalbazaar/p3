@@ -87,9 +87,7 @@ ${set([
 
         <div class="row-fluid">
           <div class="span12">
-            <div data-modal-add-payment-token=""
-              data-modal-visible="showAddTokenModal"
-              data-modal-show="showAddTokenModal=true"
+            <div data-modal-add-payment-token="showAddTokenModal"
               data-modal-on-close="tokenAdded(err, result)"></div>
             <button id="button-add-credit-card" class="btn btn-success"
               data-ng-hide="loading"

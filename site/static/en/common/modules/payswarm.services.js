@@ -12,12 +12,8 @@ angular.module('payswarm.services')
   // modals service
   var service = {};
 
-  // previous modals and the current open modal
+  // the stack of currently open modals
   var modals = [];
-  var current = null;
-
-  // a stack of states for when modals close
-  var callbacks = [];
 
   /**
    * Creates a customized modal directive. The return value of this
@@ -25,42 +21,48 @@ angular.module('payswarm.services')
    *
    * @param options the directive options.
    *          templateUrl the URL to the template for the modal.
-   *          [controller] the controller for the modal.
-   *          [link] the a custom link function.
+   *          [scope] optional isolate scope for the modal.
+   *          [controller] optional controller for the modal.
+   *          [link] optional link function for the modal.
    *
    * @return the directive configuration.
    */
-  /*
   service.directive = function(options) {
+    var scope = {
+      visible: '=modalVisible',
+      _callback: '&modalOnClose'
+    };
+    if(options.name) {
+      scope.visible = '=modal' + options.name;
+    }
+    angular.extend(scope, options.scope || {});
     options.controller = options.controller || angular.noop;
     options.link = options.link || angular.noop;
     return {
+      scope: scope,
+      controller: options.controller,
       templateUrl: options.templateUrl,
-      scope: {
-        visible: '@',
-        callback: '&',
-        show: '='
-      },
-
-      compile: function(scope, element, attrs) {
-
-      replace: false,
-      controller: AddPaymentTokenCtrl,
-      link: function(scope, element, attrs) {
-        modals.watch(scope, element, attrs);
+      replace: true,
+      link: function(scope, element, attrs, controller) {
+        // watch visible property, etc.
+        link(scope, element, attrs);
+        options.link(scope, element, attrs, controller);
       }
     };
-  };*/
+  };
 
   /**
+   * Links the modal's element.
+   *
    * Watch the given element's modal attributes for changes; open or close
-   * the modal associated with the element as appropriate.
+   * the modal associated with the element as appropriate, etc.
    *
    * @param scope the scope for the modal.
    * @param element the element for the modal.
    * @param attrs the attributes of the element.
    */
-  service.watch = function(scope, element, attrs) {
+  function link(scope, element, attrs) {
+    // ignore enter presses
     var modalEnter = attrs.modalEnter || 'false';
     if(!scope.$eval(modalEnter)) {
       // disable enter key
@@ -71,78 +73,95 @@ angular.module('payswarm.services')
       });
     }
 
-    console.log('element', element);
-
-    // open modal when expression is true, close when false
-    var opened = false;
+    // open modal when visible is true, close when false
+    scope._open = false;
     scope.$watch('visible', function(value) {
-      console.log('watch', scope);
-      console.log('value', value);
       if(value) {
-        if(!opened) {
-          opened = true;
-          open(scope, element, scope.callback);
-        }
+        open(scope, element);
       }
-      else if(opened) {
-        opened = false;
+      else {
+        // success, hide modal (will trigger event to close it)
+        scope._success = true;
         element.modal('hide');
       }
     });
   };
 
   /**
-   * Shows a modal.
+   * Opens a modal.
    *
-   * @param scope the current scope.
+   * @param scope the modal's scope.
    * @param element the modal element.
-   * @param [callback(err, value)] the modal close callback.
    */
-  function open(scope, element, callback) {
-    // clear error and result
+  function open(scope, element) {
+    // already open
+    if(scope._open) {
+      return;
+    }
+
+    // init scope
+    scope._open = true;
+    scope._success = false;
     scope.error = null;
     scope.result = null;
 
-    callbacks.push({
+    // get the parent modal, if any
+    var parent = (modals.length > 0) ? modals[modals.length - 1] : null;
+
+    // push the modal
+    var modal = {
       scope: scope,
-      fn: callback || angular.noop
-    });
+      element: element,
+      parent: parent,
+      hasChild: false
+    };
+    modals.push(modal);
 
-    // show current (parent) once the modal hides
-    if(current) {
-      var parent = current;
-      modals.push(parent);
-      element.one('show', function() {
-        parent.modal('hide');
-      });
-    }
-
-    // close modal when hidden
+    // close modal when it is hidden, open, and has no child
     element.one('hide', function() {
-      close();
+      if(scope._open && !modal.hasChild) {
+        // set error to canceled if success not set
+        if(!scope.error && !scope._success) {
+          scope.error = 'canceled';
+        }
+        close();
+      }
     });
 
     // auto-bind any .btn-close classes here
     $('.btn-close', element).one('click', function(e) {
-      scope.error = 'canceled';
-      element.modal('hide');
       e.preventDefault();
+      element.modal('hide');
     });
 
-    // set new current modal and show it
-    current = element;
-    current.modal({backdrop: true});
+    // hide parent
+    if(parent) {
+      parent.hasChild = true;
+      parent.element.modal('hide');
+    }
+    // show modal
+    element.modal({backdrop: true});
   }
 
   /**
-   * Called by a modal directive when it wants to close a modal.
+   * Closes a modal.
    */
   function close() {
-    current = (modals.length > 0) ? modals.pop() : null;
-    var callback = callbacks.pop();
-    var scope = callback.scope;
-    scope[callback.visibility] = false;
-    callback.fn.call(scope, scope.error, scope.result);
+    // close the current modal
+    var modal = modals.pop();
+    var scope = modal.scope;
+    scope._open = false;
+    scope.visible = false;
+    scope.$apply();
+
+    // show the parent
+    if(modal.parent) {
+      modal.parent.hasChild = false;
+      modal.parent.element.modal({backdrop: true});
+    }
+
+    // call callback
+    scope._callback.call(scope, {err: scope.error, result: scope.result});
   };
 
   return service;

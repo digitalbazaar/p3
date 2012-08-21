@@ -19,14 +19,19 @@ module.controller('ExternalAccountsCtrl', function($scope) {
   $scope.creditCards = [];
   $scope.bankAccounts = [];
   $scope.loading = false;
+  $scope.showAddTokenModal = false;
 
-  $scope.showAddTokenModal = function() {
+  $scope.addToken = function() {
     window.modals.addPaymentToken.show({
       identity: $scope.identity,
       added: function() {
         updateTokens($scope);
       }
     });
+  };
+
+  $scope.tokenAdded = function(err, result) {
+    console.log('tokenAdded called', arguments);
   };
 
   updateTokens($scope);

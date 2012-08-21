@@ -20,6 +20,39 @@ angular.module('payswarm.services')
   var callbacks = [];
 
   /**
+   * Creates a customized modal directive. The return value of this
+   * method should be passed to a module's directive method.
+   *
+   * @param options the directive options.
+   *          templateUrl the URL to the template for the modal.
+   *          [controller] the controller for the modal.
+   *          [link] the a custom link function.
+   *
+   * @return the directive configuration.
+   */
+  /*
+  service.directive = function(options) {
+    options.controller = options.controller || angular.noop;
+    options.link = options.link || angular.noop;
+    return {
+      templateUrl: options.templateUrl,
+      scope: {
+        visible: '@',
+        callback: '&',
+        show: '='
+      },
+
+      compile: function(scope, element, attrs) {
+
+      replace: false,
+      controller: AddPaymentTokenCtrl,
+      link: function(scope, element, attrs) {
+        modals.watch(scope, element, attrs);
+      }
+    };
+  };*/
+
+  /**
    * Watch the given element's modal attributes for changes; open or close
    * the modal associated with the element as appropriate.
    *
@@ -28,7 +61,8 @@ angular.module('payswarm.services')
    * @param attrs the attributes of the element.
    */
   service.watch = function(scope, element, attrs) {
-    if(!scope.$eval(attrs.modalEnter)) {
+    var modalEnter = attrs.modalEnter || 'false';
+    if(!scope.$eval(modalEnter)) {
       // disable enter key
       element.keypress(function(e) {
         if(e.keyCode === 13) {
@@ -37,13 +71,17 @@ angular.module('payswarm.services')
       });
     }
 
+    console.log('element', element);
+
     // open modal when expression is true, close when false
     var opened = false;
-    scope.$watch(attrs.modalShow, function(value) {
+    scope.$watch('visible', function(value) {
+      console.log('watch', scope);
+      console.log('value', value);
       if(value) {
         if(!opened) {
           opened = true;
-          open(scope, element, attrs.modalShow, scope[attrs.modalCallback]);
+          open(scope, element, scope.callback);
         }
       }
       else if(opened) {
@@ -58,17 +96,15 @@ angular.module('payswarm.services')
    *
    * @param scope the current scope.
    * @param element the modal element.
-   * @param visibility the scope variable that determines show/hide.
    * @param [callback(err, value)] the modal close callback.
    */
-  function open(scope, element, visibility, callback) {
+  function open(scope, element, callback) {
     // clear error and result
     scope.error = null;
     scope.result = null;
 
     callbacks.push({
       scope: scope,
-      visibility: visibility,
       fn: callback || angular.noop
     });
 

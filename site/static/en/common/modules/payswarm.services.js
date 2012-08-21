@@ -62,6 +62,14 @@ angular.module('payswarm.services')
    * @param attrs the attributes of the element.
    */
   function link(scope, element, attrs) {
+    // set up convenience close function
+    scope.close = function(err, result) {
+      scope.error = err;
+      scope.result = result;
+      scope.visible = false;
+      scope.$apply();
+    };
+
     // ignore enter presses
     var modalEnter = attrs.modalEnter || 'false';
     if(!scope.$eval(modalEnter)) {

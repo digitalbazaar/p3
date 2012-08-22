@@ -46,10 +46,6 @@ config.server.staticOptions = {
 config.database.name = 'payswarm_dev';
 config.database.host = 'localhost';
 config.database.port = 27017;
-config.database.options = {};
-config.database.connectOptions = {
-  auto_reconnect: true
-};
 config.database.local.collection = 'payswarm_dev';
 
 // authority config

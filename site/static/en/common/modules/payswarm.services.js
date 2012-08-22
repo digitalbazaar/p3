@@ -15,6 +15,12 @@ angular.module('payswarm.services')
   // the stack of currently open modals
   var modals = [];
 
+  // shared modal options
+  var modalOptions = {
+    keyboard: false,
+    backdrop: 'static'
+  };
+
   /**
    * Creates a customized modal directive. The return value of this
    * method should be passed to a module's directive method.
@@ -62,18 +68,18 @@ angular.module('payswarm.services')
    * @param attrs the attributes of the element.
    */
   function link(scope, element, attrs) {
-    // set up convenience close function
-    scope.close = function(err, result) {
-      scope.error = err;
-      scope.result = result;
-      scope.visible = false;
-      scope.$apply();
-    };
+    // close modal when escape is pressed
+    $(document).keypress(function(e) {
+      if(e.keyCode === 27) {
+        e.preventDefault();
+        element.modal('hide');
+        scope.$apply();
+      }
+    });
 
-    // ignore enter presses
+    // ignore enter presses in the modal by default
     var modalEnter = attrs.modalEnter || 'false';
     if(!scope.$eval(modalEnter)) {
-      // disable enter key
       element.keypress(function(e) {
         if(e.keyCode === 13) {
           e.preventDefault();
@@ -88,11 +94,18 @@ angular.module('payswarm.services')
         open(scope, element);
       }
       else {
-        // success, hide modal (will trigger event to close it)
-        scope._success = true;
+        // hide modal (will trigger event to close it)
         element.modal('hide');
       }
     });
+
+    // closes modal on success
+    scope.close = function(err, result) {
+      scope.error = err;
+      scope.result = result;
+      scope._success = true;
+      element.modal('hide');
+    };
   };
 
   /**
@@ -128,11 +141,14 @@ angular.module('payswarm.services')
     // close modal when it is hidden, open, and has no child
     element.one('hide', function() {
       if(scope._open && !modal.hasChild) {
-        // set error to canceled if success not set
-        if(!scope.error && !scope._success) {
-          scope.error = 'canceled';
-        }
-        close();
+        // FIXME: remove setTimeout hack after modalOptions work
+        setTimeout(function() {
+          // set error to canceled if success not set
+          if(!scope.error && !scope._success) {
+            scope.error = 'canceled';
+          }
+          close();
+        });
       }
     });
 
@@ -140,6 +156,7 @@ angular.module('payswarm.services')
     $('.btn-close', element).one('click', function(e) {
       e.preventDefault();
       element.modal('hide');
+      scope.$apply();
     });
 
     // hide parent
@@ -148,7 +165,7 @@ angular.module('payswarm.services')
       parent.element.modal('hide');
     }
     // show modal
-    element.modal({backdrop: true});
+    element.modal(modalOptions);
   }
 
   /**
@@ -160,12 +177,13 @@ angular.module('payswarm.services')
     var scope = modal.scope;
     scope._open = false;
     scope.visible = false;
+    // FIXME: remove apply once modalOptions work
     scope.$apply();
 
     // show the parent
     if(modal.parent) {
       modal.parent.hasChild = false;
-      modal.parent.element.modal({backdrop: true});
+      modal.parent.element.modal(modalOptions);
     }
 
     // call callback

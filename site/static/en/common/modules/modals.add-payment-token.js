@@ -64,7 +64,7 @@ function AddPaymentTokenCtrl($scope) {
       identity: $scope.identity,
       data: data,
       success: function(paymentToken) {
-        modals.close(null, paymentToken);
+        $scope.close(null, paymentToken);
       },
       error: function(err) {
         // FIXME: change to a directive

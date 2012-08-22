@@ -178,6 +178,15 @@ angular.module('payswarm.directives')
       }).addClass('cc-logo-' + logo + '-selected');
     });
   };
+})
+.directive('tooltipTitle', function() {
+  return function(scope, element, attrs) {
+    attrs.$observe('tooltipTitle', function(value) {
+      $(element).tooltip({
+        title: value
+      });
+    });
+  };
 });
 
 })(jQuery);

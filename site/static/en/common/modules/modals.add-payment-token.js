@@ -25,12 +25,18 @@ angular.module('payswarm.directives')
 });
 
 function AddPaymentTokenCtrl($scope) {
-  $scope.data = window.data || {};
-  $scope.identity = data.identity || {};
-  $scope.paymentGateway = data.paymentGateway || 'Test';
-  $scope.paymentType = 'ccard:CreditCard';
-  $scope.card = {type: 'ccard:CreditCard'};
-  $scope.bankAccount = {type: 'bank:BankAccount'};
+  function init() {
+    $scope.data = window.data || {};
+    $scope.identity = data.identity || {};
+    $scope.paymentGateway = data.paymentGateway || 'Test';
+    $scope.paymentType = 'ccard:CreditCard';
+    $scope.label = '';
+    $scope.card = {type: 'ccard:CreditCard'};
+    $scope.bankAccount = {type: 'bank:BankAccount'};
+    $scope.monthNumbers = window.tmpl.monthNumbers;
+    $scope.years = window.tmpl.years;
+  };
+  init();
 
   // FIXME: change to a directive
   // install address selector
@@ -61,6 +67,7 @@ function AddPaymentTokenCtrl($scope) {
 
     // FIXME: disabled temporarily
     $scope.close(null, null);
+    init();
     return;
 
     // add payment token

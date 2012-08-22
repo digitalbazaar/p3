@@ -39,7 +39,7 @@
           </div>
         </div>
         <div name="payment-type-fields" data-ng-switch="paymentType">
-          <div data-ng-switch-when="paymentType == 'ccard:CreditCard'">
+          <div data-ng-switch-when="ccard:CreditCard">
             <div class="control-group" data-binding="source.cardBrand">
               <label class="control-label" for="card-brand">Type</label>
               <div class="controls">
@@ -62,7 +62,7 @@
               <label class="control-label" for="card-exp-month">Expiration Month</label>
               <div class="controls">
                 <select class="input-small" name="card-exp-month">
-                  <option data-ng-repeat="month in tmpl.monthNumbers"
+                  <option data-ng-repeat="month in monthNumbers"
                     value="{{month}}"
                     data-ng-selected="card.cardExpMonth">{{month}}</option>
                 </select>
@@ -72,7 +72,7 @@
               <label class="control-label" for="card-exp-year">Expiration Year</label>
               <div class="controls">
                 <select class="input-small" name="card-exp-year">
-                  <option data-ng-repeat="year in tmpl.years"
+                  <option data-ng-repeat="year in years"
                     value="{{year.substr(2)}}"
                     data-ng-selected="card.cardExpYear">{{year}}</option>
                 </select>
@@ -92,7 +92,7 @@
               </div>
             </div>
           </div>
-          <div data-ng-switch-when="paymentType == 'bank:BankAccount'">
+          <div data-ng-switch-when="bank:BankAccount">
             <div class="control-group" data-binding="source.bankAccount">
               <label class="control-label" for="bank-account">Account Number</label>
               <div class="controls">

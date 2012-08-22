@@ -53,7 +53,7 @@ ${set([
             </td>
             <!-- Balance -->
             <td class="money">
-              <span data-original-title="Since we support micro-payments, we track your account balance very accurately. The exact amount in this account is {{account.currency}} {{account.balance | currency:'$'}}."
+              <span class="money" data-tooltip-title="Since we support micro-payments, we track your account balance very accurately. The exact amount in this account is {{account.currency}} {{account.balance}}."
                 data-placement="bottom" data-trigger="hover"><span class="currency">{{account.currency}}</span> {{account.balance | currency:'$'}}</span>
             </td>
             <!-- Deposit -->
@@ -106,8 +106,9 @@ ${set([
               <div class="progress progress-striped no-margin" data-progress-divisor="budget.balance" data-progress-dividend="budget.amount">
                 <div class="bar" data-bar-divisor="budget.balance" data-bar-dividend="budget.amount"></div>
               </div>
-              <span title="{{account.currency}} {{budget.balance | currency:'$'}}"><span class="currency">{{account.currency}}</span> {{budget.balance | currency:'$'}}</span> /
-              <span title="{{account.currency}} {{budget.amount | currency:'$'}}"><span class="currency">{{account.currency}}</span> {{budget.amount | currency:'$'}}</span>
+              <span class="currency">USD</span>
+              <span data-tooltip-title="USD ${{budget.balance}}">{{budget.balance | currency:'$'}}</span> /
+              <span data-tooltip-title="USD ${{budget.amount}}">{{budget.amount | currency:'$'}}</span>
             </td>
             <!-- Refresh -->
             <td data-ng-switch="budget.psaRefresh">
@@ -170,9 +171,8 @@ ${set([
             </td>
             <!-- Amount -->
             <td class="money">
-              <span class="money right" title="USD ${{txn.amount}}">
-                <span class="currency">USD</span> {{txn.amount | currency:"$"}}
-              </span>
+              <span class="money" data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact amount of this transaction is {{txn.currency}} {{txn.amount}}."
+                data-placement="bottom" data-trigger="hover"><span class="currency">USD</span> {{txn.amount | currency:'$'}}</span>
             </td>
           </tr>
         </tbody>

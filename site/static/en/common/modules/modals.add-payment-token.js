@@ -59,6 +59,10 @@ function AddPaymentTokenCtrl($scope) {
       data.source = $scope.bankAccount;
     }
 
+    // FIXME: disabled temporarily
+    $scope.close(null, null);
+    return;
+
     // add payment token
     payswarm.paymentTokens.add({
       identity: $scope.identity,

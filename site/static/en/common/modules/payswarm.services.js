@@ -76,8 +76,7 @@ angular.module('payswarm.services')
     $(document).keyup(function(e) {
       if(e.keyCode === 27 && scope._open) {
         e.preventDefault();
-        element.modal('hide');
-        scope.$apply();
+        close(scope, true);
       }
     });
 
@@ -98,8 +97,7 @@ angular.module('payswarm.services')
         open(scope, element);
       }
       else {
-        // hide modal (will trigger event to close it)
-        element.modal('hide');
+        close(scope);
       }
     });
 
@@ -108,7 +106,7 @@ angular.module('payswarm.services')
       scope.error = err;
       scope.result = result;
       scope._success = true;
-      element.modal('hide');
+      close(scope);
     };
   };
 
@@ -135,7 +133,6 @@ angular.module('payswarm.services')
 
     // push the modal
     var modal = {
-      scope: scope,
       element: element,
       parent: parent,
       hasChild: false
@@ -145,19 +142,14 @@ angular.module('payswarm.services')
     // close modal when it is hidden, open, and has no child
     element.one('hide', function() {
       if(scope._open && !modal.hasChild) {
-        // set error to canceled if success not set
-        if(!scope.error && !scope._success) {
-          scope.error = 'canceled';
-        }
-        close();
+        close(scope, true);
       }
     });
 
     // auto-bind any .btn-close classes here
     $('.btn-close', element).one('click', function(e) {
       e.preventDefault();
-      element.modal('hide');
-      scope.$apply();
+      close(scope, true);
     });
 
     // hide parent
@@ -171,15 +163,34 @@ angular.module('payswarm.services')
 
   /**
    * Closes a modal.
+   *
+   * @param scope the modal's scope.
+   * @param apply true if scope.$apply must be called.
    */
-  function close() {
+  function close(scope, apply) {
+    // already closed
+    if(!scope._open) {
+      return;
+    }
+
     // close the current modal
     var modal = modals.pop();
-    var scope = modal.scope;
     scope._open = false;
     scope.visible = false;
 
-    // show the parent
+    // set error to canceled if success is not set
+    if(!scope.error && !scope._success) {
+      scope.error = 'canceled';
+    }
+
+    if(apply) {
+      scope.$apply();
+    }
+
+    // hide modal
+    modal.element.modal('hide');
+
+    // show parent
     if(modal.parent) {
       modal.parent.hasChild = false;
       modal.parent.element.modal('show');

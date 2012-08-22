@@ -71,9 +71,8 @@ ${set([
       </td>
       <!-- Amount -->
       <td class="money">
-        <span class="money right" title="USD ${{row.amount}}">
-          <span class="currency">USD</span> {{row.amount | currency:"$"}}
-        </span>
+        <span class="money" data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact amount of this transaction is USD {{row.amount}}."
+          data-placement="bottom" data-trigger="hover"><span class="currency">USD</span> {{row.amount | currency:'$'}}</span>
       </td>
     </tr>
   </tbody>

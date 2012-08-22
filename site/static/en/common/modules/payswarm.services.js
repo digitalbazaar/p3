@@ -17,8 +17,9 @@ angular.module('payswarm.services')
 
   // shared modal options
   var modalOptions = {
+    backdrop: 'static',
     keyboard: false,
-    backdrop: 'static'
+    show: false
   };
 
   /**
@@ -68,9 +69,12 @@ angular.module('payswarm.services')
    * @param attrs the attributes of the element.
    */
   function link(scope, element, attrs) {
+    // initialize modal
+    element.modal(modalOptions);
+
     // close modal when escape is pressed
-    $(document).keypress(function(e) {
-      if(e.keyCode === 27) {
+    $(document).keyup(function(e) {
+      if(e.keyCode === 27 && scope._open) {
         e.preventDefault();
         element.modal('hide');
         scope.$apply();
@@ -81,7 +85,7 @@ angular.module('payswarm.services')
     var modalEnter = attrs.modalEnter || 'false';
     if(!scope.$eval(modalEnter)) {
       element.keypress(function(e) {
-        if(e.keyCode === 13) {
+        if(e.keyCode === 13 && scope._open) {
           e.preventDefault();
         }
       });
@@ -141,14 +145,11 @@ angular.module('payswarm.services')
     // close modal when it is hidden, open, and has no child
     element.one('hide', function() {
       if(scope._open && !modal.hasChild) {
-        // FIXME: remove setTimeout hack after modalOptions work
-        setTimeout(function() {
-          // set error to canceled if success not set
-          if(!scope.error && !scope._success) {
-            scope.error = 'canceled';
-          }
-          close();
-        });
+        // set error to canceled if success not set
+        if(!scope.error && !scope._success) {
+          scope.error = 'canceled';
+        }
+        close();
       }
     });
 
@@ -165,7 +166,7 @@ angular.module('payswarm.services')
       parent.element.modal('hide');
     }
     // show modal
-    element.modal(modalOptions);
+    element.modal('show');
   }
 
   /**
@@ -177,13 +178,11 @@ angular.module('payswarm.services')
     var scope = modal.scope;
     scope._open = false;
     scope.visible = false;
-    // FIXME: remove apply once modalOptions work
-    scope.$apply();
 
     // show the parent
     if(modal.parent) {
       modal.parent.hasChild = false;
-      modal.parent.element.modal(modalOptions);
+      modal.parent.element.modal('show');
     }
 
     // call callback

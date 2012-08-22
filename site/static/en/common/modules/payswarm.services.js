@@ -8,6 +8,53 @@
 (function($) {
 
 angular.module('payswarm.services')
+.factory('address', function() {
+  // address service
+  var service = {};
+
+  var identity = window.data.identity;
+  service.addresses = [];
+
+  // get all addresses for an identity
+  service.get = function(callback) {
+    payswarm.addresses.get({
+      identity: identity,
+      success: function(addresses) {
+        service.addresses.splice(0, service.addresses.length);
+        angular.forEach(addresses, function(address) {
+          service.addresses.push(address);
+        });
+        callback(null, service.addresses);
+      },
+      error: callback
+    });
+  };
+
+  // validate an address
+  service.validate = function(address, callback) {
+    payswarm.addresses.validate({
+      identity: identity,
+      address: address,
+      success: function(validated) {
+        callback(null, validated);
+      },
+      error: callback
+    });
+  };
+
+  // add a new address
+  service.add = function(address, callback) {
+    payswarm.addresses.add({
+      identity: identity,
+      address: address,
+      success: function(address) {
+        service.addresses.push(address);
+        callback(null, address);
+      },
+      error: callback
+    });
+  };
+})
 .factory('modals', function() {
   // modals service
   var service = {};

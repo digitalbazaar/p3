@@ -247,3 +247,5 @@ config.financial.paymentGateway.Test.payee = [{
   payeeRateContext: 'com:Exclusive',
   comment: 'Deposit Processing Service'
 }];
+// set bank account settlement to 48 hours
+config.financial.paymentGateway.Test.bankAccountSettlement = 1000*60*60*48;

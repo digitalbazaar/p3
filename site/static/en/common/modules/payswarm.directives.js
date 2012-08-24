@@ -187,6 +187,66 @@ angular.module('payswarm.directives')
       });
     });
   };
+})
+.directive('selector', function() {
+  console.log('XXX selector');
+  function Ctrl($scope, $transclude) {
+    console.log('XXX sel ctrl', arguments);
+    //$scope.selectedIndex = 0;
+    $transclude(function() {
+      console.log('XXX sel ctrl trans', arguments);
+    });
+    // = function() {
+    //  console.log('XXX SEL TRANS');
+    //};
+  }
+
+  return {
+    restrict: 'A',
+    //replace: true,
+    transclude: true,
+    scope: {
+      item: '=',
+      items: '=',
+      title: '@',
+      itemType: '@'
+    },
+    controller: Ctrl,
+    /*
+    locals: {
+      title: 'bind'
+    },
+    */
+    templateUrl: '/content/partials/selector.html',
+    link: function(scope, element, attrs, controller) {
+      console.log('XXX SEL LINK', arguments);
+      //scope.item = scope.items[scope.selectedIndex];
+    }
+  };
+})
+.directive('addressSelector', function() {
+  console.log('XXX address selector');
+  function Ctrl($scope) {
+    $scope.selecting = true;
+    $scope.items = [
+      {fullName:'A1'},
+      {fullName:'A2'}
+    ];
+    $scope.selectedIndex = 0;
+    $scope.selected = $scope.items[0];
+  }
+  
+  return {
+    restrict: 'A',
+    scope: {
+      item: '='
+    },
+    controller: Ctrl,
+    templateUrl: '/content/partials/address-selector.html',
+    link: function(scope, element, attrs, controller) {
+      console.log('XXX ADDR SEL LINK', arguments);
+    }
+  };
 });
 
 })(jQuery);

@@ -239,13 +239,20 @@ config.financial.payeeSchemes[defaultPayeeSchemeId] = defaultPayeeScheme;
 config.financial.paymentGateways.push('./pg.test');
 config.financial.paymentGateway = config.financial.paymentGateway || {};
 config.financial.paymentGateway.Test = {};
-config.financial.paymentGateway.Test.payee = [{
+config.financial.paymentGateway.Test.depositPayee = [{
   type: 'com:Payee',
   destination: baseUri + '/i/authority/accounts/fees',
   payeeRateType: 'com:Percentage',
   payeeRate: '4.1666667',
   payeeRateContext: 'com:Exclusive',
   comment: 'Deposit Processing Service'
+}];
+config.financial.paymentGateway.Test.withdrawalPayee = [{
+  type: 'com:Payee',
+  destination: baseUri + '/i/authority/accounts/fees',
+  payeeRateType: 'com:FlatAmount',
+  payeeRate: '0.50',
+  comment: 'Withdrawal Processing Service'
 }];
 // set bank account settlement to 48 hours
 config.financial.paymentGateway.Test.bankAccountSettlement = 1000*60*60*48;

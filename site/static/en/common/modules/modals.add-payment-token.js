@@ -40,12 +40,12 @@ function AddPaymentTokenCtrl($scope) {
 
   // FIXME: change to a directive
   // install address selector
-  selectors.address.install({
-    target: $('#add-payment-token-address-selector'),
-    identity: $scope.identity,
-    /*parentModal: target,*/
-    addModal: true
-  });
+//  selectors.address.install({
+//    target: $('#add-payment-token-address-selector'),
+//    identity: $scope.identity,
+//    /*parentModal: target,*/
+//    addModal: true
+//  });
 
   $scope.addToken = function() {
     // create post data

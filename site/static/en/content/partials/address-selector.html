@@ -1,10 +1,7 @@
-XXX ADD SEL items={{items.length}} XXX
-<div data-selector
-    data-item-type="Address"
-    data-items="items">
-  XXX ADDRESS XXX
-  <strong>{{item.label}}<em data-ng-show="item.psaValidated">(Validated)</em></strong><br/>
-  {{item.fullName}}<br/>
-  {{item.streetAddress}}<br/>
-  {{item.locality}}, {{item.region}} {{item.postalCode}} {{item.countryName}}<br/>
+<div data-selector data-item-type="Address"
+  data-items="addresses" data-selected="selected">
+  <strong>{{selected.label}}<em data-ng-show="selected.psaValidated">(Validated)</em></strong><br/>
+  {{selected.fullName}}<br/>
+  {{selected.streetAddress}}<br/>
+  {{selected.locality}}, {{selected.region}} {{selected.postalCode}} {{selected.countryName}}<br/>
 </div>

@@ -1,29 +1,21 @@
-XXX SEL XXX
 <div>
   <div class="well well-shallow">
-    XXX WELL XXX
-    <div data-ng-show="items.length == 0">
-      None found.
-    </div>
-    <div data-ng-show="items.length > 0">
-      XXX WELL T items={{items.length}} XXX
-      <div data-ng-transclude data-item="{{items[0]}}"></div>
+    <div data-ng-show="selected == null">None found.</div>
+    <div data-ng-show="selected != null">
+      <div data-ng-transclude></div>
     </div>
   </div>
-
+  
   <div>
-    <button class="btn btn-success" name="selector-change" data-ng-show="items.length > 1"><i class="icon-list icon-white"></i> Change</button>
-    <button class="btn btn-success" name="selector-add"><i class="icon-plus icon-white"></i> Add {{itemType}}</button>
+    <button class="btn btn-success" data-ng-show="items.length > 1"><i class="icon-list icon-white"></i> Change</button>
+    <button class="btn btn-success"><i class="icon-plus icon-white"></i> Add {{itemType}}</button>
   </div>
-
-  <div data-ng-show="true">
-    XXX ALL XXX
+  
+  <div>
     <ul class="well unstyled item">
-      <!-- FIXME active class -->
-      <li data-ng-repeat="item in items">
-        XXX ALL ITEM XXX
-        <div data-ng-transclude></div>
-      </li>
+    <li data-ng-repeat="selected in items">
+      <div data-ng-transclude></div>
+    </li>
     </ul>
   </div>
 </div>

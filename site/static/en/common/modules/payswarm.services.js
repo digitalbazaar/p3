@@ -13,21 +13,31 @@ angular.module('payswarm.services')
   var service = {};
 
   var identity = window.data.identity;
+  var expires = 0;
+  var maxAge = 1000*60*2;
   service.addresses = [];
 
   // get all addresses for an identity
-  service.get = function(callback) {
-    payswarm.addresses.get({
-      identity: identity,
-      success: function(addresses) {
-        service.addresses.splice(0, service.addresses.length);
-        angular.forEach(addresses, function(address) {
-          service.addresses.push(address);
-        });
-        callback(null, service.addresses);
-      },
-      error: callback
-    });
+  service.get = function(options, callback) {
+    if(typeof options === 'function') {
+      callback = options;
+      options = {};
+    }
+
+    if(options.force || +new Date() >= expires) {
+      payswarm.addresses.get({
+        identity: identity,
+        success: function(addresses) {
+          service.addresses.splice(0, service.addresses.length);
+          angular.forEach(addresses, function(address) {
+            service.addresses.push(address);
+            expires = +new Date() + maxAge;
+          });
+          callback(null, service.addresses);
+        },
+        error: callback
+      });
+    }
   };
 
   // validate an address
@@ -54,6 +64,8 @@ angular.module('payswarm.services')
       error: callback
     });
   };
+
+  return service;
 })
 .factory('modals', function() {
   // modals service

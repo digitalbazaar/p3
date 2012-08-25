@@ -189,63 +189,35 @@ angular.module('payswarm.directives')
   };
 })
 .directive('selector', function() {
-  console.log('XXX selector');
-  function Ctrl($scope, $transclude) {
-    console.log('XXX sel ctrl', arguments);
-    //$scope.selectedIndex = 0;
-    $transclude(function() {
-      console.log('XXX sel ctrl trans', arguments);
-    });
-    // = function() {
-    //  console.log('XXX SEL TRANS');
-    //};
+  function Ctrl($scope) {
+    $scope.selected = ($scope.items.length > 0) ? $scope.items[0] : null;
   }
 
   return {
-    restrict: 'A',
-    //replace: true,
     transclude: true,
     scope: {
-      item: '=',
       items: '=',
-      title: '@',
-      itemType: '@'
+      itemType: '@',
+      selected: '='
     },
     controller: Ctrl,
-    /*
-    locals: {
-      title: 'bind'
-    },
-    */
-    templateUrl: '/content/partials/selector.html',
-    link: function(scope, element, attrs, controller) {
-      console.log('XXX SEL LINK', arguments);
-      //scope.item = scope.items[scope.selectedIndex];
-    }
+    templateUrl: '/content/partials/selector.html'
   };
 })
-.directive('addressSelector', function() {
-  console.log('XXX address selector');
-  function Ctrl($scope) {
-    $scope.selecting = true;
-    $scope.items = [
-      {fullName:'A1'},
-      {fullName:'A2'}
-    ];
-    $scope.selectedIndex = 0;
-    $scope.selected = $scope.items[0];
+.directive('addressSelector', function(address) {
+  function Ctrl($scope, address) {
+    $scope.addresses = address.addresses;
+    address.get(function(err) {
+      if(!err) {
+        $scope.$apply();
+      }
+    });
   }
-  
+
   return {
-    restrict: 'A',
-    scope: {
-      item: '='
-    },
+    scope: {},
     controller: Ctrl,
-    templateUrl: '/content/partials/address-selector.html',
-    link: function(scope, element, attrs, controller) {
-      console.log('XXX ADDR SEL LINK', arguments);
-    }
+    templateUrl: '/content/partials/address-selector.html'
   };
 });
 

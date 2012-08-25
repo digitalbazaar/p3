@@ -213,13 +213,18 @@ angular.module('payswarm.services')
       close(scope, true);
     });
 
-    // hide parent
     if(parent) {
+      // hide parent first, then show child
       parent.hasChild = true;
+      parent.element.one('hidden', function() {
+        element.modal('show');
+      });
       parent.element.modal('hide');
     }
-    // show modal
-    element.modal('show');
+    else {
+      // show modal
+      element.modal('show');
+    }
   }
 
   /**
@@ -248,14 +253,15 @@ angular.module('payswarm.services')
       scope.$apply();
     }
 
+    if(modal.parent) {
+      // once child is hidden, show parent
+      modal.element.one('hidden', function() {
+        modal.parent.hasChild = false;
+        modal.parent.element.modal('show');
+      });
+    }
     // hide modal
     modal.element.modal('hide');
-
-    // show parent
-    if(modal.parent) {
-      modal.parent.hasChild = false;
-      modal.parent.element.modal('show');
-    }
 
     // call callback
     scope._callback.call(scope, {err: scope.error, result: scope.result});

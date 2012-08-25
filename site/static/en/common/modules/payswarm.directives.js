@@ -191,6 +191,19 @@ angular.module('payswarm.directives')
 .directive('selector', function() {
   function Ctrl($scope) {
     $scope.selected = ($scope.items.length > 0) ? $scope.items[0] : null;
+
+    // called when the selector modal closes
+    $scope.modalClosed = function(err, result) {
+      if(!err) {
+        $scope.selected = result;
+      }
+    };
+
+    // adds a new item
+    $scope.addItem = function() {
+      // FIXME: implement me
+      // FIXME: use ng-include to set a template w/specific add modal?
+    };
   }
 
   return {
@@ -204,11 +217,25 @@ angular.module('payswarm.directives')
     templateUrl: '/content/partials/selector.html'
   };
 })
+.directive('modalSelector', function(modals) {
+  return modals.directive({
+    name: 'Selector',
+    scope: {items: '='},
+    transclude: true,
+    templateUrl: '/content/modals/selector.html',
+    controller: function($scope) {
+      $scope.select = function() {
+      };
+    }
+  });
+})
 .directive('addressSelector', function(address) {
   function Ctrl($scope, address) {
     $scope.addresses = address.addresses;
-    address.get(function(err) {
+    $scope.selected = null;
+    address.get(function(err, addresses) {
       if(!err) {
+        $scope.selected = (addresses.length > 0) ? addresses[0] : null;
         $scope.$apply();
       }
     });

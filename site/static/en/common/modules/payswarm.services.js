@@ -87,6 +87,7 @@ angular.module('payswarm.services')
    *
    * @param options the directive options.
    *          templateUrl the URL to the template for the modal.
+   *          [transclude] optional transclusion setting.
    *          [scope] optional isolate scope for the modal.
    *          [controller] optional controller for the modal.
    *          [link] optional link function for the modal.
@@ -106,6 +107,7 @@ angular.module('payswarm.services')
     options.link = options.link || angular.noop;
     return {
       scope: scope,
+      transclude: options.transclude || false,
       controller: options.controller,
       templateUrl: options.templateUrl,
       replace: true,

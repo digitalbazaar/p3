@@ -192,15 +192,8 @@ angular.module('payswarm.directives')
   function Ctrl($scope) {
     $scope.selected = ($scope.items.length > 0) ? $scope.items[0] : null;
 
-    // adds a new item
-    $scope.addItem = function() {
-      // FIXME: implement me
-      // FIXME: use ng-include to set a template w/specific add modal?
-    };
-
     // called when an item is selected in the selector modal
     $scope.select = function(selected) {
-      console.log('selected', selected);
       $scope.selected = selected;
       $scope.showSelectorModal = false;
     };
@@ -211,7 +204,8 @@ angular.module('payswarm.directives')
     scope: {
       items: '=',
       itemType: '@',
-      selected: '='
+      selected: '=',
+      addItem: '&'
     },
     controller: Ctrl,
     templateUrl: '/content/partials/selector.html'
@@ -235,6 +229,11 @@ angular.module('payswarm.directives')
         $scope.$apply();
       }
     });
+
+    $scope.addAddress = function() {
+      console.log('show address modal');
+      $scope.showAddressModal = true;
+    };
   }
 
   return {

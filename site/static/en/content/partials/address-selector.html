@@ -1,7 +1,14 @@
-<div data-selector data-item-type="Address"
-  data-items="addresses" data-selected="selected">
-  <strong>{{selected.label}}<em data-ng-show="selected.psaValidated">(Validated)</em></strong><br/>
-  {{selected.fullName}}<br/>
-  {{selected.streetAddress}}<br/>
-  {{selected.locality}}, {{selected.region}} {{selected.postalCode}} {{selected.countryName}}<br/>
+<div>
+  <div data-selector data-item-type="Address"
+    data-items="addresses" data-selected="selected"
+    data-add-item="addAddress()">
+    <strong>{{selected.label}}<em data-ng-show="selected.psaValidated">(Validated)</em></strong><br/>
+    {{selected.fullName}}<br/>
+    {{selected.streetAddress}}<br/>
+    {{selected.locality}}, {{selected.region}} {{selected.postalCode}} {{selected.countryName}}<br/>
+  </div>
+  
+  <!-- add address modal goes here -->
+  <div>
+  </div>
 </div>

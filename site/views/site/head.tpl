@@ -26,7 +26,6 @@
     <script type="text/javascript" src="${cacheRoot}/common/modules/payswarm.directives.${jsExt}"></script>
     <script type="text/javascript" src="${cacheRoot}/common/modules/payswarm.filters.${jsExt}"></script>
     <script type="text/javascript" src="${cacheRoot}/common/modules/payswarm.services.${jsExt}"></script>
-    <script type="text/javascript" src="${cacheRoot}/common/modules/modals.add-payment-token.${jsExt}"></script>
 
     <link href="${cacheRoot}/common/bootstrap/css/bootstrap.${cssExt}" rel="stylesheet" type="text/css" />
     <link href="${cacheRoot}/common/bootstrap/css/bootstrap-responsive.${cssExt}" rel="stylesheet" type="text/css" />

@@ -295,7 +295,7 @@ angular.module('payswarm.directives')
         }
       });
     };
-  };
+  }
 
   return modals.directive({
     name: 'AddPaymentToken',

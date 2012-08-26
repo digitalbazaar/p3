@@ -131,6 +131,7 @@ angular.module('payswarm.services')
    */
   function link(scope, element, attrs) {
     // initialize modal
+    element.addClass('hide');
     element.modal(modalOptions);
 
     // close modal when escape is pressed

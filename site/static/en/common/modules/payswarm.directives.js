@@ -242,7 +242,7 @@ angular.module('payswarm.directives')
   }
 
   return {
-    scope: {},
+    scope: {selected: '='},
     controller: Ctrl,
     templateUrl: '/content/partials/address-selector.html'
   };

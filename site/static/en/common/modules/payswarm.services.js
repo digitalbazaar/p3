@@ -112,6 +112,16 @@ angular.module('payswarm.services')
       templateUrl: options.templateUrl,
       replace: true,
       link: function(scope, element, attrs, controller) {
+        // lazily create modals div
+        var $modals = $('#modals');
+        if($modals.length === 0) {
+          $modals = $('<div id="modals"></div>');
+          $('body').append($modals);
+        }
+
+        // move element to modals div
+        $modals.append(element);
+
         // watch visible property, etc.
         link(scope, element, attrs);
         options.link(scope, element, attrs, controller);
@@ -131,7 +141,7 @@ angular.module('payswarm.services')
    */
   function link(scope, element, attrs) {
     // initialize modal
-    element.addClass('hide');
+    element.addClass('hide fade');
     element.modal(modalOptions);
 
     // close modal when escape is pressed

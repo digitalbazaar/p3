@@ -38,15 +38,6 @@ function AddPaymentTokenCtrl($scope) {
   };
   init();
 
-  // FIXME: change to a directive
-  // install address selector
-//  selectors.address.install({
-//    target: $('#add-payment-token-address-selector'),
-//    identity: $scope.identity,
-//    /*parentModal: target,*/
-//    addModal: true
-//  });
-
   $scope.addToken = function() {
     // create post data
     var data = {
@@ -57,8 +48,6 @@ function AddPaymentTokenCtrl($scope) {
 
     // handle payment method specifics
     if($scope.paymentType === 'ccard:CreditCard') {
-      $scope.card.cardAddress =
-        $('#add-payment-token-address-selector')[0].selected;
       data.source = $scope.card;
     }
     else if($scope.paymentType === 'bank:BankAccount') {

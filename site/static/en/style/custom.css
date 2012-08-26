@@ -413,3 +413,7 @@ h1 > .rest-summary > .rest-path {
   text-align: left;
   background: #f9f9f9;
 }
+
+/*.modal-backdrop {
+  background-color: white;
+}*/

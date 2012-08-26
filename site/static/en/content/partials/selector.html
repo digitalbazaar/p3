@@ -7,11 +7,11 @@
   </div>
   
   <div>
-    <div data-modal-selector="showSelectorModal"
-      data-items="items" data-modal-on-close="modalClosed(err, result)">
+    <div data-modal-selector="showSelectorModal" data-items="items">
       <div>
-        <ul class="well unstyled item">
-        <li data-ng-repeat="selected in items">
+        <ul class="unstyled item">
+        <li class="item-hover well" data-ng-repeat="selected in items"
+          data-ng-click="select(selected)">
           <div data-ng-transclude></div>
         </li>
         </ul>

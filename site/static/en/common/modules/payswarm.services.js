@@ -136,7 +136,7 @@ angular.module('payswarm.services')
     // close modal when escape is pressed
     $(document).keyup(function(e) {
       if(e.keyCode === 27 && scope._open) {
-        e.preventDefault();
+        e.stopPropagation();
         close(scope, true);
       }
     });

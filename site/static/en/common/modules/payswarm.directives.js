@@ -214,7 +214,10 @@ angular.module('payswarm.directives')
 .directive('modalSelector', function(modals) {
   return modals.directive({
     name: 'Selector',
-    scope: {items: '='},
+    scope: {
+      items: '=',
+      itemType: '='
+    },
     transclude: true,
     templateUrl: '/content/modals/selector.html'
   });

@@ -257,7 +257,7 @@ angular.module('payswarm.directives')
       $scope.bankAccount = {type: 'bank:BankAccount'};
       $scope.monthNumbers = window.tmpl.monthNumbers;
       $scope.years = window.tmpl.years;
-    };
+    }
     init();
 
     $scope.addToken = function() {

@@ -1,21 +1,21 @@
 ${set([
   pageTitle = "Payment",
-  jsList.push("common/scripts/tmpl.funcs.countries"),
-  jsList.push("common/scripts/pay"),
-  jsList.push("common/scripts/modals.add-account"),
-  jsList.push("common/scripts/modals.add-address"),
-  jsList.push("common/scripts/modals.add-budget"),
-  jsList.push("common/scripts/modals.add-payment-token"),
-  jsList.push("common/scripts/modals.deposit"),
+  jsList.push("legacy/tmpl.funcs.countries"),
+  jsList.push("legacy/pay"),
+  jsList.push("legacy/modals.add-account"),
+  jsList.push("legacy/modals.add-address"),
+  jsList.push("legacy/modals.add-budget"),
+  jsList.push("legacy/modals.add-payment-token"),
+  jsList.push("legacy/modals.deposit"),
   pageLayout = "minimal",
-  templateMap["quote-tmpl"] = cacheRoot + "/content/jqtpl/quote-tmpl.html",
-  templateMap["error-tmpl"] = cacheRoot + "/content/jqtpl/error-tmpl.html"
+  templateMap["quote-tmpl"] = cacheRoot + "/legacy/jqtpl/quote-tmpl.html",
+  templateMap["error-tmpl"] = cacheRoot + "/legacy/jqtpl/error-tmpl.html"
 ])}
-{{partial "site/head.tpl"}}
-{{partial "modals/add-address.tpl"}}
-{{partial "modals/add-budget.tpl"}}
-{{partial "modals/add-payment-token.tpl"}}
-{{partial "modals/deposit.tpl"}}
+{{partial "head.tpl"}}
+{{partial "legacy/modals/add-address.tpl"}}
+{{partial "legacy/modals/add-budget.tpl"}}
+{{partial "legacy/modals/add-payment-token.tpl"}}
+{{partial "legacy/modals/deposit.tpl"}}
 
 <div class="container">
   
@@ -88,7 +88,7 @@ ${set([
 
 <div>
 
-{{partial "site/foot.tpl"}}
+{{partial "foot.tpl"}}
 
 {{verbatim}}
 

@@ -1,11 +1,11 @@
 ${set([
   pageTitle = "Access Key Registration",
-  jsList.push("common/scripts/register"),
-  jsList.push("common/scripts/modals.add-account"),
+  jsList.push("legacy/register"),
+  jsList.push("legacy/modals.add-account"),
   pageLayout = "minimal"
 ])}
 
-{{partial "site/head.tpl"}}
+{{partial "head.tpl"}}
 
 {{if registrationCallback}}
 <div id="registration-callback" data-callback="${registrationCallback}"></div>
@@ -122,4 +122,4 @@ to access and modify your account.
 
 <div id="register-feedback"></div>
 
-{{partial "site/foot.tpl"}}
+{{partial "legacyfoot.tpl"}}

@@ -1,10 +1,10 @@
 ${set([
   pageTitle = "Create a Profile",
-  jsList.push("common/scripts/website.transmitter"),
-  jsList.push("common/scripts/website.util"),
-  jsList.push("common/scripts/profile-create")
+  jsList.push("legacy/website.transmitter"),
+  jsList.push("legacy/website.util"),
+  jsList.push("legacy/profile-create")
 ])}
-{{partial "site/head.tpl"}}
+{{partial "head.tpl"}}
 
 <div class="row">
   <div class="span8 offset2">    
@@ -12,4 +12,4 @@ ${set([
   </div>
 </div>    
 
-{{partial "site/foot.tpl"}}
+{{partial "foot.tpl"}}

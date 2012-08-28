@@ -3,7 +3,7 @@ ${set([
   freeLimit = ["by-ip"],
   shortDescription = "Retrieves the Web Keys configuration for the site."
 ])}
-{{partial "site/head.tpl"}}
+{{partial "head.tpl"}}
 
 <h1 class="row">
   <div class="span12 rest-summary">
@@ -82,4 +82,4 @@ URL: <a href="https://${host}${docs.path}">https://${host}${docs.path}</a>
   </div>
 </div>
 
-{{partial "site/foot.tpl"}}
+{{partial "foot.tpl"}}

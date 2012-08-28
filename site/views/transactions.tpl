@@ -1,8 +1,8 @@
 ${set([
   pageTitle = "Transaction Activity",
-  jsList.push("common/scripts/transactions")
+  jsList.push("modules/activity")
 ])}
-{{partial "site/head.tpl"}}
+{{partial "head.tpl"}}
 
 {{verbatim}}
 <div data-ng-app="activity" data-ng-controller="ActivityCtrl" class="ng-cloak">
@@ -99,4 +99,4 @@ ${set([
 </div>
 {{/verbatim}}
 
-{{partial "site/foot.tpl"}}
+{{partial "foot.tpl"}}

@@ -4,7 +4,7 @@ ${set([
   authentication = ["cookie", "signature"],
   shortDescription = "Retrieves a single existing Transaction."
 ])}
-{{partial "site/head.tpl"}}
+{{partial "head.tpl"}}
 
 <h1 class="row">
   <div class="span12 rest-summary">
@@ -80,4 +80,4 @@ the following URL: <a href="https://${host}/transactions/3.523.2.3">https://${ho
   </div>
 </div>
 
-{{partial "site/foot.tpl"}}
+{{partial "foot.tpl"}}

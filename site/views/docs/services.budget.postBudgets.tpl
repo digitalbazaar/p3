@@ -5,7 +5,7 @@ ${set([
   validator = "services.budget.postBudgets",
   shortDescription = "Creates a new budget for restricting certain types of spending."
 ])}
-{{partial "site/head.tpl"}}
+{{partial "head.tpl"}}
 
 <h1 class="row">
   <div class="span12 rest-summary">
@@ -116,4 +116,4 @@ purchase is <em>https://${host}/i/jane/accounts/primary</em>.
   </div>
 </div>
 
-{{partial "site/foot.tpl"}}
+{{partial "foot.tpl"}}

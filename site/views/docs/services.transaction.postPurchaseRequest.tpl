@@ -5,7 +5,7 @@ ${set([
   validator = "services.transaction.postPurchaseRequest",
   shortDescription = "Purchases an asset."
 ])}
-{{partial "site/head.tpl"}}
+{{partial "head.tpl"}}
 
 <h1 class="row">
   <div class="span12 rest-summary">
@@ -136,4 +136,4 @@ processed the purchase request.
   </div>
 </div>
 
-{{partial "site/foot.tpl"}}
+{{partial "foot.tpl"}}

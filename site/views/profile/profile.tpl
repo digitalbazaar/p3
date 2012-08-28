@@ -2,7 +2,7 @@ ${set([
   pageTitle = "Profile",
   pnav = "profile"
 ])}
-{{partial "site/head.tpl"}}
+{{partial "head.tpl"}}
 {{partial "profile/profile-nav.tpl"}}
 
 <div id="profile" about="{profile.id}">
@@ -14,4 +14,4 @@ ${set([
    </p>
 </div>
 
-{{partial "site/foot.tpl"}}
+{{partial "foot.tpl"}}

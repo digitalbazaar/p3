@@ -1,5 +1,5 @@
 ${set(pageTitle = "About")}
-{{partial "site/head.tpl"}}
+{{partial "head.tpl"}}
 
 <h2>${pageTitle}</h2>
 
@@ -56,4 +56,4 @@ open source, open standards, and open licensing-based projects:
 <li>The many, many <a href="http://www.gnu.org/">GNU utilities</a> we use every day</li>
 <li>Icons from <a href="http://glyphicons.com">Glyphicons Free</a>, licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></li>
 </ul>
-{{partial "site/foot.tpl"}}
+{{partial "foot.tpl"}}

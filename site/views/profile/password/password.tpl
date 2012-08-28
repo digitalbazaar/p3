@@ -1,7 +1,7 @@
 ${set([
   pageTitle = "Set Password"
 ])}
-{{partial "site/head.tpl"}}
+{{partial "head.tpl"}}
 
 <h2>${pageTitle}</h2>
 
@@ -14,4 +14,4 @@ ${set([
   numbers and symbols.</p>
 </div>
 
-{{partial "site/foot.tpl"}}
+{{partial "foot.tpl"}}

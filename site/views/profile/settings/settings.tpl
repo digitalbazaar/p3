@@ -2,7 +2,7 @@ ${set([
   pageTitle = "Profile Settings",
   pnav = "settings"
 ])}
-{{partial "site/head.tpl"}}
+{{partial "head.tpl"}}
 {{partial "profile/profile-nav.tpl"}}
 
 <div class="form">
@@ -17,4 +17,4 @@ ${set([
   {partial "profile/settings/email-form.tpl"}}
 </div>
 
-{{partal "site/foot.tpl"}}
+{{partial "foot.tpl"}}

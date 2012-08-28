@@ -1,5 +1,5 @@
 ${set(pageTitle = "Transaction Info")}
-{{partial "site/head.tpl"}}
+{{partial "head.tpl"}}
 
 <h2>{{if isContract}}Contract {{/if}}{{if isDeposit}}Deposit {{/if}}Summary</h2>
 
@@ -46,4 +46,4 @@ ${set(pageTitle = "Transaction Info")}
 {{/each}}
 </table>
 
-{{partial "site/foot.tpl"}}
+{{partial "foot.tpl"}}

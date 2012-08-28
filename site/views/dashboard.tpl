@@ -1,25 +1,25 @@
 ${set([
   pageTitle = "Identity Dashboard",
-  jsList.push("common/scripts/tmpl.funcs.countries"),
-  jsList.push("common/scripts/dashboard"),
-  jsList.push("common/scripts/modals.add-account"),
-  jsList.push("common/scripts/modals.add-address"),
-  jsList.push("common/scripts/modals.add-budget"),
-  jsList.push("common/scripts/modals.add-payment-token"),
-  jsList.push("common/scripts/modals.deposit"),
-  jsList.push("common/scripts/modals.edit-account"),
-  jsList.push("common/scripts/modals.edit-budget"),
+  jsList.push("legacy/tmpl.funcs.countries"),
+  jsList.push("modules/dashboard"),
+  jsList.push("legacy/modals.add-account"),
+  jsList.push("legacy/modals.add-address"),
+  jsList.push("legacy/modals.add-budget"),
+  jsList.push("legacy/modals.add-payment-token"),
+  jsList.push("legacy/modals.deposit"),
+  jsList.push("legacy/modals.edit-account"),
+  jsList.push("legacy/modals.edit-budget"),
   inav = "dashboard"
 ])}  
 
-{{partial "site/head.tpl"}}
-{{partial "modals/add-account.tpl"}}
-{{partial "modals/add-address.tpl"}}
-{{partial "modals/add-budget.tpl"}}
-{{partial "modals/add-payment-token.tpl"}}
-{{partial "modals/deposit.tpl"}}
-{{partial "modals/edit-account.tpl"}}
-{{partial "modals/edit-budget.tpl"}}
+{{partial "head.tpl"}}
+{{partial "legacy/modals/add-account.tpl"}}
+{{partial "legacy/modals/add-address.tpl"}}
+{{partial "legacy/modals/add-budget.tpl"}}
+{{partial "legacy/modals/add-payment-token.tpl"}}
+{{partial "legacy/modals/deposit.tpl"}}
+{{partial "legacy/modals/edit-account.tpl"}}
+{{partial "legacy/modals/edit-budget.tpl"}}
 
 {{verbatim}}
 <div class="dashboard container ng-cloak" data-ng-app="dashboard"
@@ -205,4 +205,4 @@ ${set([
 </div>
 {{/if}}
 
-{{partial "site/foot.tpl"}}
+{{partial "foot.tpl"}}

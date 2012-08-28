@@ -1,5 +1,5 @@
 ${set(pageTitle = "Contact")}
-{{partial "site/head.tpl"}}
+{{partial "head.tpl"}}
 
 <h2>${pageTitle}</h2>
 
@@ -55,4 +55,4 @@ company that operates this PaySwarm developer sandbox.
   </ul>
 </div>
 
-{{partial "site/foot.tpl"}}
+{{partial "foot.tpl"}}

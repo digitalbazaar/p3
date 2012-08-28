@@ -1,5 +1,5 @@
 ${set(pageTitle = "Legal Information")}
-{{partial "site/head.tpl"}}
+{{partial "head.tpl"}}
 
 <div id="tos" class="block-inline w47 mr1">
    <div id="tos-toc">
@@ -175,4 +175,4 @@ ${set(pageTitle = "Legal Information")}
    information as has been outlined by this policy.</p>
 </div>
 
-{{partial "site/foot.tpl"}}
+{{partial "foot.tpl"}}

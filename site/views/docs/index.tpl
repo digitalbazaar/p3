@@ -1,7 +1,7 @@
 ${set([
   pageTitle = "Documentation"
 ])}
-{{partial "site/head.tpl"}}
+{{partial "head.tpl"}}
 
 <div class="row">
   <div class="span10 offset1">
@@ -41,4 +41,4 @@ fashion.
   {{/each}}
 {{/each}}
 
-{{partial "site/foot.tpl"}}
+{{partial "foot.tpl"}}

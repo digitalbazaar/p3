@@ -1,0 +1,126 @@
+<div class="modal">
+  <div class="modal-header">
+    <a class="close btn-close">&times;</a>
+    <h3>New Payment Method</h3>
+  </div>
+  <div class="modal-body">
+    <div data-ng-include="'/partials/demo-warning.html'"></div>
+
+    <h6>Select Payment Method Name</h6>
+    <form class="well form-horizontal" action="">
+      <fieldset>
+        <div class="control-group" data-binding="label">
+          <label class="control-label" for="name">Name</label>
+          <div class="controls">
+            <input type="text" name="label"
+              rel="tooltip" data-original-title="Enter a memorable name that describes this method of payment. It will be displayed to you later."
+              data-placement="right" data-trigger="focus"
+              data-ng-model="label" />
+            <p class="help-block">Suggestions: My Visa, Checking Account</p>
+          </div>
+        </div>
+      </fieldset>
+    </form>
+    <h6>Select Payment Type</h6>
+    <form class="well form-horizontal" action="">
+      <fieldset>
+        <div class="control-group">
+          <div class="controls">
+            <label class="radio inline">
+              <input type="radio" name="payment-type" value="ccard:CreditCard"
+                checked="checked" data-ng-model="paymentType" />
+              Credit Card
+            </label>
+            <label class="radio inline">
+              <input type="radio" name="payment-type" value="bank:BankAccount"
+                data-ng-model="paymentType" />
+              Bank Account
+            </label>
+          </div>
+        </div>
+        <div name="payment-type-fields" data-ng-switch="paymentType">
+          <div data-ng-switch-when="ccard:CreditCard">
+            <div class="control-group" data-binding="source.cardBrand">
+              <label class="control-label" for="card-brand">Type</label>
+              <div class="controls">
+                <i name="card-brand"
+                  data-credit-card-selector="card.cardNumber"
+                  data-ng-model="card.cardBrand"></i>
+              </div>
+            </div>
+            <div class="control-group" data-binding="source.cardNumber">
+              <label class="control-label" for="card-number">Card Number</label>
+              <div class="controls">
+                <input class="input-large" type="text" name="card-number" maxlength="16"
+                  rel="tooltip" data-original-title="You must enter your credit card number, which must be 16 digits long."
+                  data-placement="right" data-trigger="focus"
+                  data-ng-model="card.cardNumber" />
+              </div>
+            </div>
+            <div></div>
+            <div class="control-group" data-binding="source.cardExpMonth">
+              <label class="control-label" for="card-exp-month">Expiration Month</label>
+              <div class="controls">
+                <select class="input-small" name="card-exp-month">
+                  <option data-ng-repeat="month in monthNumbers"
+                    value="{{month}}"
+                    data-ng-selected="card.cardExpMonth">{{month}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="control-group" data-binding="source.cardExpYear">
+              <label class="control-label" for="card-exp-year">Expiration Year</label>
+              <div class="controls">
+                <select class="input-small" name="card-exp-year">
+                  <option data-ng-repeat="year in years"
+                    value="{{year.substr(2)}}"
+                    data-ng-selected="card.cardExpYear">{{year}}</option>
+                </select>
+              </div>
+            </div>
+            <div></div>
+            <div class="control-group" data-binding="source.cardCvm">
+              <label class="control-label" for="card-cvm">Security Code</label>
+              <div class="controls">
+                <div class="input-prepend">
+                  <span class="add-on"><img src="/img/scode.png" /></span><input
+                    class="input-small" type="text" name="card-cvm" maxlength="4"
+                    rel="tooltip" data-original-title="You must enter the security code on the back of your credit card. It will be 3 or 4 digits long."
+                    data-placement="right" data-trigger="focus"
+                    data-ng-model="card.cardCvm" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div data-ng-switch-when="bank:BankAccount">
+            <div class="control-group" data-binding="source.bankAccount">
+              <label class="control-label" for="bank-account">Account Number</label>
+              <div class="controls">
+                <input type="text" name="bank-account"
+                  rel="tooltip" data-original-title="You must enter your bank account number. This can be found in your checkbook or by signing into your bank online."
+                  data-placement="right" data-trigger="focus"
+                  data-ng-model="bankAccount.bankAccount" />
+              </div>
+            </div>
+            <div class="control-group" data-binding="source.bankRoutingNumber">
+              <label class="control-label" for="bank-routing-number">Routing Number</label>
+              <div class="controls">
+                <input type="text" name="bank-routing-number"
+                  rel="tooltip" data-original-title="You must enter your bank's routing number. This can be found in your checkbook or by signing into your bank online."
+                  data-placement="right" data-trigger="focus"
+                  data-ng-model="bankAccount.bankRoutingNumber" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+    </form>
+    <h6>Select Billing Address</h6>
+    <div data-address-selector data-selected="card.cardAddress"></div>
+  </div>
+  <div class="modal-footer">
+    <span name="feedback"></span>
+    <button class="btn btn-primary" data-ng-click="addToken()">Add</button>
+    <button class="btn btn-close">Cancel</button>
+  </div>
+</div>

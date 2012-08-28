@@ -1,14 +1,14 @@
 ${set([
   pageTitle = "Identity Settings",
-  jsList.push("common/scripts/settings"),
-  jsList.push("common/scripts/modals.add-address"),
-  jsList.push("common/scripts/modals.add-payment-token"),
+  jsList.push("legacy/settings"),
+  jsList.push("legacy/modals.add-address"),
+  jsList.push("legacy/modals.add-payment-token"),
   inav = "settings"
 ])}
 
-{{partial "site/head.tpl"}}
-{{partial "modals/add-address.tpl"}}
-{{partial "modals/add-payment-token.tpl"}}
+{{partial "head.tpl"}}
+{{partial "legacy/modals/add-address.tpl"}}
+{{partial "legacy/modals/add-payment-token.tpl"}}
 
 {{verbatim}}
 <div class="container ng-cloak" data-ng-app="settings"
@@ -230,4 +230,4 @@ ${set([
 </div>
 {{/if}}
 
-{{partial "site/foot.tpl"}}
+{{partial "foot.tpl"}}

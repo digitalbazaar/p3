@@ -1,9 +1,9 @@
 ${set([
   pageTitle = "Reset Password",
-  jsList.push("common/scripts/payswarm.api"),
-  jsList.push("common/scripts/profile-passcode")
+  jsList.push("legacy/payswarm.api"),
+  jsList.push("legacy/profile-passcode")
 ])}
-{{partial "site/head.tpl"}}
+{{partial "head.tpl"}}
 
 <h2 class="headline">${pageTitle}</h2>
 
@@ -84,4 +84,4 @@ ${set([
   </div>
 </div>
 
-{{partial "site/foot.tpl"}}
+{{partial "foot.tpl"}}

@@ -5,7 +5,7 @@ ${set([
   validation = null,
   shortDescription = "Removes an existing budget from the system.",  
 ])}
-{{partial "site/head.tpl"}}
+{{partial "head.tpl"}}
 
 <h1 class="row">
   <div class="span12 rest-summary">
@@ -30,4 +30,4 @@ ${set([
   </div>
 </div>
 
-{{partial "site/foot.tpl"}}
+{{partial "foot.tpl"}}

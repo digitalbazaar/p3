@@ -1,7 +1,7 @@
 ${set([
   pageTitle = "Welcome",
 ])}
-{{partial "site/head.tpl"}}
+{{partial "head.tpl"}}
 
 <div class="row">
   <div class="span10 offset1">
@@ -17,4 +17,4 @@ ${set([
 Dave Lehn will insert stats here 'cause he loves them.
 </p>
 
-{{partial "site/foot.tpl"}}
+{{partial "foot.tpl"}}

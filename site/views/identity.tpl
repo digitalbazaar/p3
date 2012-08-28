@@ -1,7 +1,7 @@
 ${set([
   pageTitle = "Identity"
 ])}
-{{partial "site/head.tpl"}}
+{{partial "head.tpl"}}
 
 <div class="row">
   <div class="span4 offset4">
@@ -41,4 +41,4 @@ ${set([
 </div>
 
 
-{{partial "site/foot.tpl"}}
+{{partial "foot.tpl"}}

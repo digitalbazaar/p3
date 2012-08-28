@@ -38,7 +38,7 @@ config.website.views.vars = {
   style: {
     brand: {
       alt: 'PaySwarm',
-      src: '/content/payswarm.png',
+      src: '/img/payswarm.png',
       height: '24',
       width: '182'
     },
@@ -107,4 +107,4 @@ config.website.views.vars = {
 // FIXME: include cache root automatically
 config.website.views.vars.templateMap['demo-warning-tmpl'] =
   config.website.views.vars.cacheRoot +
-  '/content/jqtpl/demo-warning-tmpl.html';
+  '/legacy/jqtpl/demo-warning-tmpl.html';

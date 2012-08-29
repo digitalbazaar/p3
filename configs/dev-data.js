@@ -215,6 +215,9 @@ config.financial.accounts.push({
   currency: 'USD'
 });
 
+// payment token verification account (for withdrawing funds)
+config.financial.paymentTokenVerifyAccount = authorityId + '/accounts/main';
+
 // payee schemes
 var defaultPayeeSchemeId = authorityId + '/payee-schemes/default';
 var defaultPayeeScheme = {

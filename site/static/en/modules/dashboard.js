@@ -96,6 +96,9 @@ module.controller('DashboardCtrl', function($scope) {
     else if(row.type.indexOf('ps:Contract') !== -1) {
       return 'contract';
     }
+    else if(row.type.indexOf('com:Withdrawal') !== -1) {
+      return 'withdrawal';
+    }
     else {
       return 'error';
     }

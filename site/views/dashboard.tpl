@@ -163,11 +163,13 @@ ${set([
             <td data-ng-switch="getTxnType(txn)">
               <span data-ng-switch-when="deposit" class="date">{{txn.created | date:'MMMM, dd yyyy @ h:mm:ss a'}}</span>
               <span data-ng-switch-when="contract" class="date">{{txn.created | date:'MMMM, dd yyyy @ h:mm:ss a'}}</span>
+              <span data-ng-switch-when="withdrawal" class="date">{{txn.created | date:'MMMM, dd yyyy @ h:mm:ss a'}}</span>
             </td>
             <!-- Item -->
             <td data-ng-switch="getTxnType(txn)">
               <span data-ng-switch-when="deposit" class="name"><a href="{{txn.id}}"><i class="icon-plus"></i> Deposit <span data-ng-show="!(txn.settled || txn.voided)" class="label label-info">Pending</span><span data-ng-show="txn.voided" class="label label-important">Voided</span></a></span>
               <span data-ng-switch-when="contract" class="name"><a href="{{txn.id}}"><i class="icon-shopping-cart"></i> {{txn.asset.title}} <span data-ng-show="!(txn.settled || txn.voided)" class="label label-info">Pending</span><span data-ng-show="txn.voided" class="label label-important">Voided</span></a></span>
+              <span data-ng-switch-when="withdrawal" class="name"><a href="{{txn.id}}"><i class="icon-minus"></i> Withdrawal <span data-ng-show="!(txn.settled || txn.voided)" class="label label-info">Pending</span><span data-ng-show="txn.voided" class="label label-important">Voided</span></a></span>
             </td>
             <!-- Amount -->
             <td class="money">

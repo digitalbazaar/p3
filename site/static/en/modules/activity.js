@@ -55,6 +55,9 @@ module.controller('ActivityCtrl', function($scope) {
     else if(row.type.indexOf('com:Transfer') !== -1) {
       return 'transfer';
     }
+    else if(row.type.indexOf('com:Withdrawal') !== -1) {
+      return 'withdrawal';
+    }
     else {
       return 'error';
     }
@@ -117,7 +120,7 @@ module.controller('ActivityCtrl', function($scope) {
 function _addTxn($scope, txn) {
   $scope.txns.push(txn);
   $scope.table.push(txn);
-  txn.transfer.forEach(function(transfer) {
+  angular.forEach(txn.transfer, function(transfer) {
     transfer.txn = txn;
     transfer.sourceLink = true;
     transfer.destinationLink = true;
@@ -132,7 +135,7 @@ function _addTxn($scope, txn) {
         transfer.sourceLink = false;
       }
     }
-    else if(txn.destination) {
+    if(txn.destination) {
       var dst = txn.destination;
       if(dst.paymentMethod === 'bank:BankAccount') {
         transfer.destination = 'Bank Account: ' + dst.bankAccount;

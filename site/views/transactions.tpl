@@ -57,12 +57,14 @@ ${set([
       <td data-ng-switch="getRowType(row)">
         <span data-ng-switch-when="deposit" class="date">{{row.created | date:'MMMM, dd yyyy @ h:mm:ss a'}}</span>
         <span data-ng-switch-when="contract" class="date">{{row.created | date:'MMMM, dd yyyy @ h:mm:ss a'}}</span>
+        <span data-ng-switch-when="withdrawal" class="date">{{row.created | date:'MMMM, dd yyyy @ h:mm:ss a'}}</span>
         <span data-ng-switch-when="transfer">&nbsp;</span>
       </td>
       <!-- Item -->
       <td data-ng-switch="getRowType(row)">
         <span data-ng-switch-when="deposit" class="name"><i class="icon-plus"></i> Deposit <span data-ng-show="!(row.settled || row.voided)" class="label label-info">Pending</span><span data-ng-show="row.voided" class="label label-important">Voided</span></span>
         <span data-ng-switch-when="contract" class="name"><i class="icon-shopping-cart"></i> {{row.asset.title}} <span data-ng-show="!(row.settled || row.voided)" class="label label-info">Pending</span><span data-ng-show="row.voided" class="label label-important">Voided</span></span>
+        <span data-ng-switch-when="withdrawal" class="name"><i class="icon-minus"></i> Withdrawal <span data-ng-show="!(row.settled || row.voided)" class="label label-info">Pending</span><span data-ng-show="row.voided" class="label label-important">Voided</span></span>
         <span data-ng-switch-when="transfer">
           <i class="icon-info-sign" title="Details"></i> {{row.comment}}<br/>
           <i class="icon-minus" title="Source Account"></i> <a data-ng-show="row.sourceLink" href="{{row.source}}">{{row.source}}</a><span data-ng-hide="row.sourceLink">{{row.source}}</span> <br/>

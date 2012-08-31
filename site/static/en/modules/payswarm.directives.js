@@ -190,7 +190,7 @@ angular.module('payswarm.directives')
 })
 .directive('selector', function() {
   function Ctrl($scope) {
-    $scope.selected = ($scope.items.length > 0) ? $scope.items[0] : null;
+    $scope.selected = $scope.items[0] || null;
 
     // called when an item is selected in the selector modal
     $scope.select = function(selected) {
@@ -228,7 +228,7 @@ angular.module('payswarm.directives')
     $scope.selected = null;
     $address.get(function(err, addresses) {
       if(!err) {
-        $scope.selected = (addresses.length > 0) ? addresses[0] : null;
+        $scope.selected = addresses[0] || null;
         $scope.$apply();
       }
     });
@@ -243,6 +243,26 @@ angular.module('payswarm.directives')
     scope: {selected: '='},
     controller: Ctrl,
     templateUrl: '/partials/address-selector.html'
+  };
+})
+.directive('identitySelector', function() {
+  function Ctrl($scope) {
+    $scope.selected = null;
+    $scope.selected = $scope.identities[0] || null;
+
+    $scope.addIdentity = function() {
+      console.log('show identity modal');
+      $scope.showIdentityModal = true;
+    };
+  }
+
+  return {
+    scope: {
+      identities: '=',
+      selected: '='
+    },
+    controller: Ctrl,
+    templateUrl: '/partials/identity-selector.html'
   };
 })
 .directive('modalAddPaymentToken', function($modal) {
@@ -300,6 +320,35 @@ angular.module('payswarm.directives')
   return $modal.directive({
     name: 'AddPaymentToken',
     templateUrl: '/partials/modals/add-payment-token.html',
+    controller: Ctrl,
+  });
+})
+.directive('modalSwitchIdentity', function($modal) {
+  function Ctrl($scope) {
+    function init() {
+      $scope.identities = window.data.session.identities;
+      $scope.selected = window.data.identity;
+    }
+    init();
+
+    $scope.switchIdentity = function() {
+      // if current url starts with '/i', switch to other identity's dashboard
+      var identity = $scope.selected;
+      var redirect = window.location.href;
+      if(window.location.pathname.indexOf('/i') === 0) {
+        redirect = identity.id + '/dashboard';
+      }
+
+      payswarm.switchIdentity({
+        identity: identity.id,
+        redirect: redirect
+      });
+    };
+  }
+
+  return $modal.directive({
+    name: 'SwitchIdentity',
+    templateUrl: '/partials/modals/switch-identity.html',
     controller: Ctrl,
   });
 });

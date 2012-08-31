@@ -8,7 +8,7 @@
 (function($) {
 
 angular.module('payswarm.services')
-.factory('address', function() {
+.factory('$address', function() {
   // address service
   var service = {};
 
@@ -67,7 +67,7 @@ angular.module('payswarm.services')
 
   return service;
 })
-.factory('account', function() {
+.factory('$account', function() {
   // accounts service
   var service = {};
 
@@ -149,7 +149,7 @@ angular.module('payswarm.services')
 
   return service;
 })
-.factory('budget', function() {
+.factory('$budget', function() {
   // budgets service
   var service = {};
 
@@ -250,7 +250,7 @@ angular.module('payswarm.services')
 
   return service;
 })
-.factory('paymentToken', function() {
+.factory('$paymentToken', function() {
   // paymentTokens service
   var service = {};
 
@@ -306,8 +306,7 @@ angular.module('payswarm.services')
 
   return service;
 })
-// FIXME: change to singular, maybe add a prefix/suffix to all services
-.factory('modals', function() {
+.factory('$modal', function() {
   // modals service
   var service = {};
 
@@ -353,14 +352,14 @@ angular.module('payswarm.services')
       replace: true,
       link: function(scope, element, attrs, controller) {
         // lazily create modals div
-        var $modals = $('#modals');
-        if($modals.length === 0) {
-          $modals = $('<div id="modals"></div>');
-          $('body').append($modals);
+        var modals = $('#modals');
+        if(modals.length === 0) {
+          modals = $('<div id="modals"></div>');
+          $('body').append(modals);
         }
 
         // move element to modals div
-        $modals.append(element);
+        modals.append(element);
 
         // watch visible property, etc.
         link(scope, element, attrs);

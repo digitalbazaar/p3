@@ -211,8 +211,8 @@ angular.module('payswarm.directives')
     templateUrl: '/partials/selector.html'
   };
 })
-.directive('modalSelector', function(modals) {
-  return modals.directive({
+.directive('modalSelector', function($modal) {
+  return $modal.directive({
     name: 'Selector',
     scope: {
       items: '=',
@@ -222,11 +222,11 @@ angular.module('payswarm.directives')
     templateUrl: '/partials/modals/selector.html'
   });
 })
-.directive('addressSelector', function(address) {
-  function Ctrl($scope, address) {
-    $scope.addresses = address.addresses;
+.directive('addressSelector', function($address) {
+  function Ctrl($scope, $address) {
+    $scope.addresses = $address.addresses;
     $scope.selected = null;
-    address.get(function(err, addresses) {
+    $address.get(function(err, addresses) {
       if(!err) {
         $scope.selected = (addresses.length > 0) ? addresses[0] : null;
         $scope.$apply();
@@ -245,7 +245,7 @@ angular.module('payswarm.directives')
     templateUrl: '/partials/address-selector.html'
   };
 })
-.directive('modalAddPaymentToken', function(modals) {
+.directive('modalAddPaymentToken', function($modal) {
   function Ctrl($scope) {
     function init() {
       $scope.data = window.data || {};
@@ -297,7 +297,7 @@ angular.module('payswarm.directives')
     };
   }
 
-  return modals.directive({
+  return $modal.directive({
     name: 'AddPaymentToken',
     templateUrl: '/partials/modals/add-payment-token.html',
     controller: Ctrl,

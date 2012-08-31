@@ -245,6 +245,52 @@ angular.module('payswarm.directives')
     templateUrl: '/partials/address-selector.html'
   };
 })
+.directive('accountSelector', function($account) {
+  function Ctrl($scope, $account) {
+    $scope.accounts = $account.accounts;
+    $scope.selected = null;
+    $account.get(function(err, accounts) {
+      if(!err) {
+        $scope.selected = accounts[0] || null;
+        $scope.$apply();
+      }
+    });
+
+    $scope.addAccount = function() {
+      console.log('show account modal');
+      $scope.showAccountModal = true;
+    };
+  }
+
+  return {
+    scope: {selected: '='},
+    controller: Ctrl,
+    templateUrl: '/partials/account-selector.html'
+  };
+})
+.directive('budgetSelector', function($budget) {
+  function Ctrl($scope, $budget) {
+    $scope.budgets = $budget.budgets;
+    $scope.selected = null;
+    $budget.get(function(err, budgets) {
+      if(!err) {
+        $scope.selected = budgets[0] || null;
+        $scope.$apply();
+      }
+    });
+
+    $scope.addBudget = function() {
+      console.log('show budget modal');
+      $scope.showBudgetModal = true;
+    };
+  }
+
+  return {
+    scope: {selected: '='},
+    controller: Ctrl,
+    templateUrl: '/partials/budget-selector.html'
+  };
+})
 .directive('identitySelector', function() {
   function Ctrl($scope) {
     $scope.selected = null;

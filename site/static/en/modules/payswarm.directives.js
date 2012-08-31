@@ -265,6 +265,71 @@ angular.module('payswarm.directives')
     templateUrl: '/partials/identity-selector.html'
   };
 })
+.directive('modalAddAccount', function($modal, $account) {
+  function Ctrl($scope) {
+    function init() {
+      $scope.data = window.data || {};
+      $scope.identity = data.identity || {};
+      $scope.account = {
+        '@context': 'http://purl.org/payswarm/v1',
+        psaPublic: []
+      };
+    }
+    init();
+
+    $scope.addAccount = function() {
+      $scope.account.psaPublic = [];
+      if($scope.visibility === 'public') {
+        $scope.account.psaPublic.push('label');
+        $scope.account.psaPublic.push('owner');
+      }
+
+      $account.add(account, function(err) {
+        if(!err) {
+          $scope.close(null, account);
+        }
+        // FIXME: change to a directive
+        var feedback = $('[name="feedback"]', target);
+        website.util.processValidationErrors(feedback, target, err);
+      });
+    };
+  }
+
+  return $modal.directive({
+    name: 'AddAccount',
+    templateUrl: '/partials/modals/add-account.html',
+    controller: Ctrl,
+  });
+})
+.directive('modalAddBudget', function($modal, $budget) {
+  function Ctrl($scope) {
+    function init() {
+      $scope.data = window.data || {};
+      $scope.identity = data.identity || {};
+      $scope.budget = {
+        '@context': 'http://purl.org/payswarm/v1'
+      };
+    }
+    init();
+
+    $scope.addBudget = function() {
+      $budget.add(budget, function(err) {
+        if(!err) {
+          $scope.close(null, budget);
+        }
+        // FIXME: change to a directive
+        var feedback = $('[name="feedback"]', target);
+        website.util.processValidationErrors(feedback, target, err);
+      });
+    };
+  }
+
+  return $modal.directive({
+    name: 'AddBudget',
+    templateUrl: '/partials/modals/add-budget.html',
+    controller: Ctrl,
+  });
+})
 .directive('modalAddPaymentToken', function($modal) {
   function Ctrl($scope) {
     function init() {

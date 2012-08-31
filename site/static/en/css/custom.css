@@ -239,7 +239,7 @@ span.currency {
 .center {
   text-align: center;
 }
-.address .validatedNote {
+.address .meta {
   color: gray;
 }
 

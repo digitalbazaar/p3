@@ -65,6 +65,25 @@ angular.module('payswarm.services')
     });
   };
 
+  // delete an address by label
+  service.delete = function(address, callback) {
+    payswarm.addresses.del({
+      identity: identity,
+      addressId: address.label,
+      success: function() {
+        var oldAddresses = service.addresses;
+        service.addresses = [];
+        angular.forEach(oldAddresses, function(_address) {
+          if(_address.label !== address.label) {
+            service.addresses.push(_address);
+          }
+        });
+        callback();
+      },
+      error: callback
+    });
+  };
+
   return service;
 })
 .factory('svcAccount', function() {

@@ -528,7 +528,8 @@ angular.module('payswarm.directives')
 .directive('vcardAddress', function() {
   return {
     scope: {
-      address: '=vcardAddress'
+      address: '=vcardAddress',
+      noLabel: '='
     },
     templateUrl: '/partials/vcard-address.html'
   };

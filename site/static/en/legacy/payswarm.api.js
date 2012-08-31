@@ -117,6 +117,35 @@ payswarm.addresses.add = function(options) {
   });
 };
 
+/**
+ * Deletes an address from an identity.
+ *
+ * Usage:
+ *
+ * payswarm.addresses.del({
+ *   address: address,
+ *   success: function() {},
+ *   error: function(err) {}
+ * });
+ */
+payswarm.addresses.del = function(options) {
+  $.ajax({
+    async: true,
+    type: 'DELETE',
+    url: options.identity + '/addresses?addressId=' + encodeURIComponent(options.addressId),
+    success: function(data, textStatus) {
+      if(options.success) {
+        options.success();
+      }
+    },
+    error: function(xhr, textStatus, errorThrown) {
+      if(options.error) {
+        options.error(website.util.normalizeError(xhr, textStatus));
+      }
+    }
+  });
+};
+
 // accounts API
 payswarm.accounts = {};
 

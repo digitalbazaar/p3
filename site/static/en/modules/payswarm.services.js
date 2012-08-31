@@ -336,6 +336,8 @@ angular.module('payswarm.services')
   service.directive = function(options) {
     var scope = {
       visible: '=modalVisible',
+      result: '=',
+      error: '=',
       _callback: '&modalOnClose'
     };
     if(options.name) {
@@ -514,7 +516,9 @@ angular.module('payswarm.services')
     modal.element.modal('hide');
 
     // call callback
-    scope._callback.call(scope, {err: scope.error, result: scope.result});
+    if(scope._callback) {
+      scope._callback.call(scope, {err: scope.error, result: scope.result});
+    }
   };
 
   return service;

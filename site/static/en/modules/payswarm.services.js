@@ -31,8 +31,8 @@ angular.module('payswarm.services')
           service.addresses.splice(0, service.addresses.length);
           angular.forEach(addresses, function(address) {
             service.addresses.push(address);
-            expires = +new Date() + maxAge;
           });
+          expires = +new Date() + maxAge;
           callback(null, service.addresses);
         },
         error: callback
@@ -61,6 +61,245 @@ angular.module('payswarm.services')
         service.addresses.push(address);
         callback(null, address);
       },
+      error: callback
+    });
+  };
+
+  return service;
+})
+.factory('accounts', function() {
+  // accounts service
+  var service = {};
+
+  var identity = window.data.identity;
+  var expires = 0;
+  var maxAge = 1000*60*2;
+  service.accounts = [];
+
+  // get all accounts for an identity
+  service.get = function(options, callback) {
+    if(typeof options === 'function') {
+      callback = options;
+      options = {};
+    }
+
+    if(options.force || +new Date() >= expires) {
+      payswarm.accounts.get({
+        identity: identity,
+        success: function(accounts) {
+          service.accounts.splice(0, service.accounts.length);
+          angular.forEach(accounts, function(account) {
+            service.accounts.push(account);
+          });
+          expires = +new Date() + maxAge;
+          callback(null, service.accounts);
+        },
+        error: callback
+      });
+    }
+  };
+
+  // get a single account
+  service.getOne = function(accountId, callback) {
+    payswarm.accounts.getOne({
+      account: accountId,
+      success: function(account) {
+        var added = false;
+        for(var i = 0; !added && i < service.accounts.length; ++i) {
+          var account_ = service.accounts[i];
+          if(account_.id === accountId) {
+            service.accounts[i] = account;
+            added = true;
+          }
+        }
+        if(!added) {
+          service.accounts.push(account);
+        }
+        callback(null, account);
+      },
+      error: callback
+    });
+  };
+
+  // add a new account
+  service.add = function(account, callback) {
+    payswarm.accounts.add({
+      identity: identity,
+      account: account,
+      success: function(account) {
+        service.accounts.push(account);
+        callback(null, account);
+      },
+      error: callback
+    });
+  };
+
+  // update an account
+  service.update = function(account, callback) {
+    payswarm.accounts.update({
+      identity: identity,
+      account: account,
+      success: function() {
+        // get account
+        service.getOne(account.id, callback);
+      },
+      error: callback
+    });
+  };
+
+  return service;
+})
+.factory('budgets', function() {
+  // budgets service
+  var service = {};
+
+  var identity = window.data.identity;
+  var expires = 0;
+  var maxAge = 1000*60*2;
+  service.budgets = [];
+
+  // get all budgets for an identity
+  service.get = function(options, callback) {
+    if(typeof options === 'function') {
+      callback = options;
+      options = {};
+    }
+
+    if(options.force || +new Date() >= expires) {
+      payswarm.budgets.get({
+        identity: identity,
+        success: function(budgets) {
+          service.budgets.splice(0, service.budgets.length);
+          angular.forEach(budgets, function(budget) {
+            service.budgets.push(budget);
+          });
+          expires = +new Date() + maxAge;
+          callback(null, service.budgets);
+        },
+        error: callback
+      });
+    }
+  };
+
+  // get a single budget
+  service.getOne = function(budgetId, callback) {
+    payswarm.budgets.getOne({
+      budget: budgetId,
+      success: function(budget) {
+        var added = false;
+        for(var i = 0; !added && i < service.budgets.length; ++i) {
+          var budget_ = service.budgets[i];
+          if(budget_.id === budgetId) {
+            service.budgets[i] = budget;
+            added = true;
+          }
+        }
+        if(!added) {
+          service.budgets.push(budget);
+        }
+        callback(null, budget);
+      },
+      error: callback
+    });
+  };
+
+  // add a new budget
+  service.add = function(budget, callback) {
+    payswarm.budgets.add({
+      identity: identity,
+      budget: budget,
+      success: function(budget) {
+        service.budgets.push(budget);
+        callback(null, budget);
+      },
+      error: callback
+    });
+  };
+
+  // update a budget
+  service.update = function(budget, callback) {
+    payswarm.budgets.update({
+      identity: identity,
+      budget: budget,
+      success: function() {
+        // get budget
+        service.getOne(budget.id, callback);
+      },
+      error: callback
+    });
+  };
+
+  // add a vendor to a budget
+  service.addVendor = function(budgetId, vendorId, callback) {
+    payswarm.budgets.addVendor({
+      budget: budgetId,
+      vendor: vendorId,
+      success: callback,
+      error: callback
+    });
+  };
+
+  // deletes a budget
+  service.del = function(budgetId, callback) {
+    payswarm.budgets.del({
+      budget: budgetId,
+      success: callback,
+      error: callback
+    });
+  };
+
+  return service;
+})
+.factory('paymentTokens', function() {
+  // paymentTokens service
+  var service = {};
+
+  var identity = window.data.identity;
+  var expires = 0;
+  var maxAge = 1000*60*2;
+  service.paymentTokens = [];
+
+  // get all paymentTokens for an identity
+  service.get = function(options, callback) {
+    if(typeof options === 'function') {
+      callback = options;
+      options = {};
+    }
+
+    if(options.force || +new Date() >= expires) {
+      payswarm.paymentTokens.get({
+        identity: identity,
+        success: function(paymentTokens) {
+          service.paymentTokens.splice(0, service.paymentTokens.length);
+          angular.forEach(paymentTokens, function(paymentToken) {
+            service.paymentTokens.push(paymentToken);
+          });
+          expires = +new Date() + maxAge;
+          callback(null, service.paymentTokens);
+        },
+        error: callback
+      });
+    }
+  };
+
+  // add a new paymentToken
+  service.add = function(paymentToken, callback) {
+    payswarm.paymentTokens.add({
+      identity: identity,
+      paymentToken: paymentToken,
+      success: function(paymentToken) {
+        service.paymentTokens.push(paymentToken);
+        callback(null, paymentToken);
+      },
+      error: callback
+    });
+  };
+
+  // deletes a paymentToken
+  service.del = function(paymentTokenId, callback) {
+    payswarm.paymentTokens.del({
+      budget: paymentTokenId,
+      success: callback,
       error: callback
     });
   };

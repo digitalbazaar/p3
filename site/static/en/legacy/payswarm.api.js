@@ -573,6 +573,35 @@ payswarm.paymentTokens.add = function(options) {
   });
 };
 
+/**
+ * Deletes a paymentToken.
+ *
+ * Usage:
+ *
+ * payswarm.paymentTokens.del({
+ *   paymentToken: paymentTokenId,
+ *   success: function() {},
+ *   error: function(err) {}
+ * });
+ */
+payswarm.paymentTokens.del = function(options) {
+  $.ajax({
+    async: true,
+    type: 'DELETE',
+    url: options.paymentToken,
+    success: function(data, textStatus) {
+      if(options.success) {
+        options.success();
+      }
+    },
+    error: function(xhr, textStatus, errorThrown) {
+      if(options.error) {
+        options.error(website.util.normalizeError(xhr, textStatus));
+      }
+    }
+  });
+};
+
 // identities API
 payswarm.identities = {};
 

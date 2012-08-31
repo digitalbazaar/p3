@@ -336,8 +336,6 @@ angular.module('payswarm.services')
   service.directive = function(options) {
     var scope = {
       visible: '=modalVisible',
-      /*result: '=',
-      error: '=',*/
       _callback: '&modalOnClose'
     };
     if(options.name) {

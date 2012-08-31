@@ -67,7 +67,7 @@ angular.module('payswarm.services')
 
   return service;
 })
-.factory('accounts', function() {
+.factory('account', function() {
   // accounts service
   var service = {};
 
@@ -149,7 +149,7 @@ angular.module('payswarm.services')
 
   return service;
 })
-.factory('budgets', function() {
+.factory('budget', function() {
   // budgets service
   var service = {};
 
@@ -250,7 +250,7 @@ angular.module('payswarm.services')
 
   return service;
 })
-.factory('paymentTokens', function() {
+.factory('paymentToken', function() {
   // paymentTokens service
   var service = {};
 
@@ -306,6 +306,7 @@ angular.module('payswarm.services')
 
   return service;
 })
+// FIXME: change to singular, maybe add a prefix/suffix to all services
 .factory('modals', function() {
   // modals service
   var service = {};

@@ -211,8 +211,8 @@ angular.module('payswarm.directives')
     templateUrl: '/partials/selector.html'
   };
 })
-.directive('modalSelector', function($modal) {
-  return $modal.directive({
+.directive('modalSelector', function(svcModal) {
+  return svcModal.directive({
     name: 'Selector',
     scope: {
       items: '=',
@@ -222,11 +222,11 @@ angular.module('payswarm.directives')
     templateUrl: '/partials/modals/selector.html'
   });
 })
-.directive('addressSelector', function($address) {
-  function Ctrl($scope, $address) {
-    $scope.addresses = $address.addresses;
+.directive('addressSelector', function(svcAddress) {
+  function Ctrl($scope, svcAddress) {
+    $scope.addresses = svcAddress.addresses;
     $scope.selected = null;
-    $address.get(function(err, addresses) {
+    svcAddress.get(function(err, addresses) {
       if(!err) {
         $scope.selected = addresses[0] || null;
         $scope.$apply();
@@ -268,11 +268,11 @@ angular.module('payswarm.directives')
     templateUrl: '/partials/account-selector.html'
   };
 })
-.directive('budgetSelector', function($budget) {
-  function Ctrl($scope, $budget) {
-    $scope.budgets = $budget.budgets;
+.directive('budgetSelector', function(svcBudget) {
+  function Ctrl($scope, svcBudget) {
+    $scope.budgets = svcBudget.budgets;
     $scope.selected = null;
-    $budget.get(function(err, budgets) {
+    svcBudget.get(function(err, budgets) {
       if(!err) {
         $scope.selected = budgets[0] || null;
         $scope.$apply();
@@ -311,7 +311,7 @@ angular.module('payswarm.directives')
     templateUrl: '/partials/identity-selector.html'
   };
 })
-.directive('modalAddAccount', function($modal, $account) {
+.directive('modalAddAccount', function(svcModal, $account) {
   function Ctrl($scope) {
     function init() {
       $scope.data = window.data || {};
@@ -341,13 +341,13 @@ angular.module('payswarm.directives')
     };
   }
 
-  return $modal.directive({
+  return svcModal.directive({
     name: 'AddAccount',
     templateUrl: '/partials/modals/add-account.html',
     controller: Ctrl,
   });
 })
-.directive('modalAddBudget', function($modal, $budget) {
+.directive('modalAddBudget', function(svcModal, svcBudget) {
   function Ctrl($scope) {
     function init() {
       $scope.data = window.data || {};
@@ -359,7 +359,7 @@ angular.module('payswarm.directives')
     init();
 
     $scope.addBudget = function() {
-      $budget.add(budget, function(err) {
+      svcBudget.add(budget, function(err) {
         if(!err) {
           $scope.close(null, budget);
         }
@@ -370,13 +370,13 @@ angular.module('payswarm.directives')
     };
   }
 
-  return $modal.directive({
+  return svcModal.directive({
     name: 'AddBudget',
     templateUrl: '/partials/modals/add-budget.html',
     controller: Ctrl,
   });
 })
-.directive('modalAddPaymentToken', function($modal) {
+.directive('modalAddPaymentToken', function(svcModal) {
   function Ctrl($scope) {
     function init() {
       $scope.data = window.data || {};
@@ -428,13 +428,13 @@ angular.module('payswarm.directives')
     };
   }
 
-  return $modal.directive({
+  return svcModal.directive({
     name: 'AddPaymentToken',
     templateUrl: '/partials/modals/add-payment-token.html',
     controller: Ctrl,
   });
 })
-.directive('modalSwitchIdentity', function($modal) {
+.directive('modalSwitchIdentity', function(svcModal) {
   function Ctrl($scope) {
     function init() {
       $scope.identities = window.data.session.identities;
@@ -457,7 +457,7 @@ angular.module('payswarm.directives')
     };
   }
 
-  return $modal.directive({
+  return svcModal.directive({
     name: 'SwitchIdentity',
     templateUrl: '/partials/modals/switch-identity.html',
     controller: Ctrl,

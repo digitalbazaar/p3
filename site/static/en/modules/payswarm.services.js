@@ -8,7 +8,7 @@
 (function($) {
 
 angular.module('payswarm.services')
-.factory('$address', function() {
+.factory('svcAddress', function() {
   // address service
   var service = {};
 
@@ -67,7 +67,7 @@ angular.module('payswarm.services')
 
   return service;
 })
-.factory('$account', function() {
+.factory('svcAccount', function() {
   // accounts service
   var service = {};
 
@@ -149,7 +149,7 @@ angular.module('payswarm.services')
 
   return service;
 })
-.factory('$budget', function() {
+.factory('svcBudget', function() {
   // budgets service
   var service = {};
 
@@ -250,7 +250,7 @@ angular.module('payswarm.services')
 
   return service;
 })
-.factory('$paymentToken', function() {
+.factory('svcPaymentToken', function() {
   // paymentTokens service
   var service = {};
 
@@ -306,7 +306,7 @@ angular.module('payswarm.services')
 
   return service;
 })
-.factory('$modal', function() {
+.factory('svcModal', function() {
   // modals service
   var service = {};
 
@@ -336,8 +336,8 @@ angular.module('payswarm.services')
   service.directive = function(options) {
     var scope = {
       visible: '=modalVisible',
-      result: '=',
-      error: '=',
+      /*result: '=',
+      error: '=',*/
       _callback: '&modalOnClose'
     };
     if(options.name) {

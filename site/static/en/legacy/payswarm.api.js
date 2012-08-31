@@ -67,7 +67,7 @@ payswarm.addresses.validate = function(options) {
   $.ajax({
     async: true,
     type: 'POST',
-    url: options.identity + '/addresses?validate=true',
+    url: options.identity + '/addresses?action=validate',
     dataType: 'json',
     contentType: 'application/json',
     data: JSON.stringify(options.address),

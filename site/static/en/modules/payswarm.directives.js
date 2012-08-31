@@ -234,8 +234,7 @@ angular.module('payswarm.directives')
     });
 
     $scope.addAddress = function() {
-      console.log('show address modal');
-      $scope.showAddressModal = true;
+      $scope.showAddAddressModal = true;
     };
   }
 
@@ -462,6 +461,77 @@ angular.module('payswarm.directives')
     templateUrl: '/partials/modals/switch-identity.html',
     controller: Ctrl,
   });
+})
+.directive('modalAddAddress', function(svcModal, svcAddress) {
+  function Ctrl($scope) {
+    function init() {
+      $scope.data = window.data || {};
+      $scope.countries = window.tmpl.countries || {};
+      $scope.identity = data.identity || {};
+      $scope.originalAddress = {
+        '@context': 'http://purl.org/payswarm/v1',
+        type: 'vcard:Address'
+      };
+      $scope.validatedAddress = null;
+      $scope.selectedAddress = null;
+
+      // state in ('editing', 'adding')
+      $scope.state = 'editing';
+    }
+    init();
+
+    $scope.validate = function() {
+      svcAddress.validate($scope.originalAddress, function(err, validated) {
+        if(err) {
+          // FIXME
+          console.log('validation failed', err);
+          return;
+        }
+        // FIXME: should backend handle this?
+        // copy over non-validation fields
+        $scope.validatedAddress = angular.extend(validated, {
+          '@context': 'http://purl.org/payswarm/v1',
+          type: 'vcard:Address',
+          label: $scope.originalAddress.label,
+          fullName: $scope.originalAddress.fullName
+        });
+        $scope.state = 'adding';
+        $scope.$apply()
+      });
+    };
+
+    $scope.add = function(clickedAddress) {
+      var addressToAdd = clickedAddress || $scope.selectedAddress;
+      svcAddress.add(addressToAdd, function(err, addedAddress) {
+        if(err) {
+          // FIXME
+          console.log('adding failed', err);
+          return;
+        }
+        $scope.close(null, addedAddress);
+        init();
+        $scope.$apply();
+      });
+    };
+
+    $scope.edit = function() {
+      $scope.state = 'editing';
+    };
+  }
+
+  return svcModal.directive({
+    name: 'AddAddress',
+    templateUrl: '/partials/modals/add-address.html',
+    controller: Ctrl,
+  });
+})
+.directive('vcardAddress', function() {
+  return {
+    scope: {
+      address: '=vcardAddress'
+    },
+    templateUrl: '/partials/vcard-address.html'
+  };
 });
 
 })(jQuery);

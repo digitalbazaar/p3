@@ -3,17 +3,16 @@ ${set([
   jsList.push("legacy/settings"),
   jsList.push("legacy/modals.add-address"),
   jsList.push("legacy/modals.add-payment-token"),
+  jsList.push("legacy/tmpl.funcs.countries"),
   inav = "settings"
 ])}
 
 {{partial "head.tpl"}}
-{{partial "legacy/modals/add-address.tpl"}}
-{{partial "legacy/modals/add-payment-token.tpl"}}
 
 {{verbatim}}
 <div class="container ng-cloak" data-ng-app="settings"
   data-ng-controller="SettingsCtrl">
-  
+
   <div class="row">
     <div class="span12">
       <h1 class="headline">Settings</h1>

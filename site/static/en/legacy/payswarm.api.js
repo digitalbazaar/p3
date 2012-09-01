@@ -132,7 +132,8 @@ payswarm.addresses.del = function(options) {
   $.ajax({
     async: true,
     type: 'DELETE',
-    url: options.identity + '/addresses?addressId=' + encodeURIComponent(options.addressId),
+    url: options.identity + '/addresses?addressId=' +
+      encodeURIComponent(options.addressId),
     success: function(data, textStatus) {
       if(options.success) {
         options.success();

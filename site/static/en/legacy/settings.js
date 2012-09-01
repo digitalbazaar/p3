@@ -38,18 +38,16 @@ module.controller('ExternalAccountsCtrl', function($scope) {
 });
 
 module.controller('AddressCtrl', function($scope, svcAddress) {
+  $scope.addresses = svcAddress.addresses;
   $scope.loading = false;
 
   $scope.deleteAddress = function(address) {
-    svcAddress.delete(address, function() {
-      // FIXME: this is due to delete creating a new array w/o deleted items
-      $scope.addresses = svcAddress.addresses;
+    svcAddress.del(address, function() {
       $scope.$apply();
     });
   };
 
   svcAddress.get(function() {
-    $scope.addresses = svcAddress.addresses;
     $scope.$apply();
   });
 });

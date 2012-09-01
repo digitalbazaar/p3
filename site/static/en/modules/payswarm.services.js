@@ -66,18 +66,20 @@ angular.module('payswarm.services')
   };
 
   // delete an address by label
-  service.delete = function(address, callback) {
+  service.del = function(address, callback) {
     payswarm.addresses.del({
       identity: identity,
       addressId: address.label,
       success: function() {
-        var oldAddresses = service.addresses;
-        service.addresses = [];
-        angular.forEach(oldAddresses, function(_address) {
-          if(_address.label !== address.label) {
-            service.addresses.push(_address);
+        for(var i = 0; i < service.addresses.length;) {
+          var address_ = service.addresses[i];
+          if(address_.label === address.label) {
+            service.addresses.splice(i, 1);
           }
-        });
+          else {
+            i += 1;
+          }
+        }
         callback();
       },
       error: callback

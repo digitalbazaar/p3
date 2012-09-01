@@ -267,21 +267,6 @@ span.currency {
   font-style: oblique;
 }
 
-/* Icon positioning */
-.btn [class^="icon-"] {
-  margin-top: 1px;
-}
-.btn.btn-small [class^="icon-"] {
-  margin-top: 0;
-}
-.btn.btn-large [class^="icon-"] {
-  margin-top: 2px;
-}
-
-a [class^="icon-"] {
-  margin-top: 1px;
-}
-
 /* Carousel "fixes" for selectors */
 .carousel-inner > .well {
   padding: 5px;

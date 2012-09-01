@@ -185,7 +185,7 @@ ${set([
                   </td>
                   <!-- Address -->
                   <td>
-                    <span data-vcard-address="address" data-no-label="true" />
+                    <span data-vcard-address="address" data-no-label="true"></span>
                   </td>
                   <!-- Delete -->
                   <td class="action">

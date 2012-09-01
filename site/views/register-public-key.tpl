@@ -122,4 +122,4 @@ to access and modify your account.
 
 <div id="register-feedback"></div>
 
-{{partial "legacyfoot.tpl"}}
+{{partial "foot.tpl"}}

@@ -43,6 +43,7 @@ modals.addPaymentToken.show = function(options) {
     }
   });
 
+  /*
   // install address selector
   selectors.address.install({
     target: $('#add-payment-token-address-selector'),
@@ -50,6 +51,7 @@ modals.addPaymentToken.show = function(options) {
     parentModal: target,
     addModal: true
   });
+  */
 
   // set up tool tips
   $('[rel="tooltip"]', target).tooltip();

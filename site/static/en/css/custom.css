@@ -239,6 +239,9 @@ span.currency {
 .center {
   text-align: center;
 }
+.address .meta {
+  color: gray;
+}
 
 /* Resize rules */
 .resize-both {

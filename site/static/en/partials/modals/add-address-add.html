@@ -1,0 +1,23 @@
+<p data-ng-show="!validatedAddress.psaValidated">
+  We ran your address through an address validation service, but it could
+  not be validated. You may still use the address you entered, but if you
+  would like to make changes please click "Back" below.
+</p>
+<p data-ng-show="validatedAddress.psaValidated">
+  We have run your address through an address validation service. Please
+  choose the validated address unless it does not match your original
+  address.
+</p>
+
+<div>
+  <h6>Entered Address</h6>
+  <div class="item-hover well" data-ng-click="selectedAddress = originalAddress" data-ng-dblclick="add(originalAddress)">
+    <div data-vcard-address="originalAddress"></div>
+  </div>
+</div>
+<div data-ng-show="validatedAddress.psaValidated">
+  <h6>Validated Address</h6>
+  <div class="item-hover well" data-ng-click="selectedAddress = validatedAddress" data-ng-dblclick="add(validatedAddress)">
+    <div data-vcard-address="validatedAddress"></div>
+  </div>
+</div>

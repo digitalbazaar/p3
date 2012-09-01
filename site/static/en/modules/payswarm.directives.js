@@ -190,7 +190,7 @@ angular.module('payswarm.directives')
 })
 .directive('selector', function() {
   function Ctrl($scope) {
-    $scope.selected = ($scope.items.length > 0) ? $scope.items[0] : null;
+    $scope.selected = $scope.items[0] || null;
 
     // called when an item is selected in the selector modal
     $scope.select = function(selected) {
@@ -211,8 +211,8 @@ angular.module('payswarm.directives')
     templateUrl: '/partials/selector.html'
   };
 })
-.directive('modalSelector', function(modals) {
-  return modals.directive({
+.directive('modalSelector', function(svcModal) {
+  return svcModal.directive({
     name: 'Selector',
     scope: {
       items: '=',
@@ -222,20 +222,19 @@ angular.module('payswarm.directives')
     templateUrl: '/partials/modals/selector.html'
   });
 })
-.directive('addressSelector', function(address) {
-  function Ctrl($scope, address) {
-    $scope.addresses = address.addresses;
+.directive('addressSelector', function(svcAddress) {
+  function Ctrl($scope, svcAddress) {
+    $scope.addresses = svcAddress.addresses;
     $scope.selected = null;
-    address.get(function(err, addresses) {
+    svcAddress.get(function(err, addresses) {
       if(!err) {
-        $scope.selected = (addresses.length > 0) ? addresses[0] : null;
+        $scope.selected = addresses[0] || null;
         $scope.$apply();
       }
     });
 
     $scope.addAddress = function() {
-      console.log('show address modal');
-      $scope.showAddressModal = true;
+      $scope.showAddAddressModal = true;
     };
   }
 
@@ -245,7 +244,138 @@ angular.module('payswarm.directives')
     templateUrl: '/partials/address-selector.html'
   };
 })
-.directive('modalAddPaymentToken', function(modals) {
+.directive('accountSelector', function($account) {
+  function Ctrl($scope, $account) {
+    $scope.accounts = $account.accounts;
+    $scope.selected = null;
+    $account.get(function(err, accounts) {
+      if(!err) {
+        $scope.selected = accounts[0] || null;
+        $scope.$apply();
+      }
+    });
+
+    $scope.addAccount = function() {
+      console.log('show account modal');
+      $scope.showAccountModal = true;
+    };
+  }
+
+  return {
+    scope: {selected: '='},
+    controller: Ctrl,
+    templateUrl: '/partials/account-selector.html'
+  };
+})
+.directive('budgetSelector', function(svcBudget) {
+  function Ctrl($scope, svcBudget) {
+    $scope.budgets = svcBudget.budgets;
+    $scope.selected = null;
+    svcBudget.get(function(err, budgets) {
+      if(!err) {
+        $scope.selected = budgets[0] || null;
+        $scope.$apply();
+      }
+    });
+
+    $scope.addBudget = function() {
+      console.log('show budget modal');
+      $scope.showBudgetModal = true;
+    };
+  }
+
+  return {
+    scope: {selected: '='},
+    controller: Ctrl,
+    templateUrl: '/partials/budget-selector.html'
+  };
+})
+.directive('identitySelector', function() {
+  function Ctrl($scope) {
+    $scope.selected = null;
+    $scope.selected = $scope.identities[0] || null;
+
+    $scope.addIdentity = function() {
+      console.log('show identity modal');
+      $scope.showIdentityModal = true;
+    };
+  }
+
+  return {
+    scope: {
+      identities: '=',
+      selected: '='
+    },
+    controller: Ctrl,
+    templateUrl: '/partials/identity-selector.html'
+  };
+})
+.directive('modalAddAccount', function(svcModal, $account) {
+  function Ctrl($scope) {
+    function init() {
+      $scope.data = window.data || {};
+      $scope.identity = data.identity || {};
+      $scope.account = {
+        '@context': 'http://purl.org/payswarm/v1',
+        psaPublic: []
+      };
+    }
+    init();
+
+    $scope.addAccount = function() {
+      $scope.account.psaPublic = [];
+      if($scope.visibility === 'public') {
+        $scope.account.psaPublic.push('label');
+        $scope.account.psaPublic.push('owner');
+      }
+
+      $account.add(account, function(err) {
+        if(!err) {
+          $scope.close(null, account);
+        }
+        // FIXME: change to a directive
+        var feedback = $('[name="feedback"]', target);
+        website.util.processValidationErrors(feedback, target, err);
+      });
+    };
+  }
+
+  return svcModal.directive({
+    name: 'AddAccount',
+    templateUrl: '/partials/modals/add-account.html',
+    controller: Ctrl,
+  });
+})
+.directive('modalAddBudget', function(svcModal, svcBudget) {
+  function Ctrl($scope) {
+    function init() {
+      $scope.data = window.data || {};
+      $scope.identity = data.identity || {};
+      $scope.budget = {
+        '@context': 'http://purl.org/payswarm/v1'
+      };
+    }
+    init();
+
+    $scope.addBudget = function() {
+      svcBudget.add(budget, function(err) {
+        if(!err) {
+          $scope.close(null, budget);
+        }
+        // FIXME: change to a directive
+        var feedback = $('[name="feedback"]', target);
+        website.util.processValidationErrors(feedback, target, err);
+      });
+    };
+  }
+
+  return svcModal.directive({
+    name: 'AddBudget',
+    templateUrl: '/partials/modals/add-budget.html',
+    controller: Ctrl,
+  });
+})
+.directive('modalAddPaymentToken', function(svcModal) {
   function Ctrl($scope) {
     function init() {
       $scope.data = window.data || {};
@@ -297,11 +427,112 @@ angular.module('payswarm.directives')
     };
   }
 
-  return modals.directive({
+  return svcModal.directive({
     name: 'AddPaymentToken',
     templateUrl: '/partials/modals/add-payment-token.html',
     controller: Ctrl,
   });
+})
+.directive('modalSwitchIdentity', function(svcModal) {
+  function Ctrl($scope) {
+    function init() {
+      $scope.identities = window.data.session.identities;
+      $scope.selected = window.data.identity;
+    }
+    init();
+
+    $scope.switchIdentity = function() {
+      // if current url starts with '/i', switch to other identity's dashboard
+      var identity = $scope.selected;
+      var redirect = window.location.href;
+      if(window.location.pathname.indexOf('/i') === 0) {
+        redirect = identity.id + '/dashboard';
+      }
+
+      payswarm.switchIdentity({
+        identity: identity.id,
+        redirect: redirect
+      });
+    };
+  }
+
+  return svcModal.directive({
+    name: 'SwitchIdentity',
+    templateUrl: '/partials/modals/switch-identity.html',
+    controller: Ctrl,
+  });
+})
+.directive('modalAddAddress', function(svcModal, svcAddress) {
+  function Ctrl($scope) {
+    function init() {
+      $scope.data = window.data || {};
+      $scope.countries = window.tmpl.countries || {};
+      $scope.identity = data.identity || {};
+      $scope.originalAddress = {
+        '@context': 'http://purl.org/payswarm/v1',
+        type: 'vcard:Address'
+      };
+      $scope.validatedAddress = null;
+      $scope.selectedAddress = null;
+
+      // state in ('editing', 'adding')
+      $scope.state = 'editing';
+    }
+    init();
+
+    $scope.validate = function() {
+      svcAddress.validate($scope.originalAddress, function(err, validated) {
+        if(err) {
+          // FIXME
+          console.log('validation failed', err);
+          return;
+        }
+        // FIXME: should backend handle this?
+        // copy over non-validation fields
+        $scope.validatedAddress = angular.extend(validated, {
+          '@context': 'http://purl.org/payswarm/v1',
+          type: 'vcard:Address',
+          label: $scope.originalAddress.label,
+          fullName: $scope.originalAddress.fullName
+        });
+        $scope.state = 'adding';
+        $scope.$apply()
+      });
+    };
+
+    $scope.add = function(clickedAddress) {
+      var addressToAdd = clickedAddress || $scope.selectedAddress;
+      svcAddress.add(addressToAdd, function(err, addedAddress) {
+        if(err) {
+          // FIXME
+          console.log('adding failed', err);
+          return;
+        }
+        $scope.close(null, addedAddress);
+        init();
+        $scope.$apply();
+      });
+    };
+
+    $scope.edit = function() {
+      $scope.state = 'editing';
+    };
+  }
+
+  return svcModal.directive({
+    name: 'AddAddress',
+    templateUrl: '/partials/modals/add-address.html',
+    controller: Ctrl,
+  });
+})
+.directive('vcardAddress', function() {
+  return {
+    scope: {
+      address: '=vcardAddress',
+      noLabel: '='
+    },
+    templateUrl: '/partials/vcard-address.html'
+  };
 });
 
 })(jQuery);

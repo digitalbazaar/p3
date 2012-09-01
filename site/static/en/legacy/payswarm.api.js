@@ -67,7 +67,7 @@ payswarm.addresses.validate = function(options) {
   $.ajax({
     async: true,
     type: 'POST',
-    url: options.identity + '/addresses?validate=true',
+    url: options.identity + '/addresses?action=validate',
     dataType: 'json',
     contentType: 'application/json',
     data: JSON.stringify(options.address),
@@ -107,6 +107,35 @@ payswarm.addresses.add = function(options) {
     success: function(response, statusText) {
       if(options.success) {
         options.success(response);
+      }
+    },
+    error: function(xhr, textStatus, errorThrown) {
+      if(options.error) {
+        options.error(website.util.normalizeError(xhr, textStatus));
+      }
+    }
+  });
+};
+
+/**
+ * Deletes an address from an identity.
+ *
+ * Usage:
+ *
+ * payswarm.addresses.del({
+ *   address: address,
+ *   success: function() {},
+ *   error: function(err) {}
+ * });
+ */
+payswarm.addresses.del = function(options) {
+  $.ajax({
+    async: true,
+    type: 'DELETE',
+    url: options.identity + '/addresses?addressId=' + encodeURIComponent(options.addressId),
+    success: function(data, textStatus) {
+      if(options.success) {
+        options.success();
       }
     },
     error: function(xhr, textStatus, errorThrown) {
@@ -563,6 +592,35 @@ payswarm.paymentTokens.add = function(options) {
     success: function(response, statusText) {
       if(options.success) {
         options.success(response);
+      }
+    },
+    error: function(xhr, textStatus, errorThrown) {
+      if(options.error) {
+        options.error(website.util.normalizeError(xhr, textStatus));
+      }
+    }
+  });
+};
+
+/**
+ * Deletes a paymentToken.
+ *
+ * Usage:
+ *
+ * payswarm.paymentTokens.del({
+ *   paymentToken: paymentTokenId,
+ *   success: function() {},
+ *   error: function(err) {}
+ * });
+ */
+payswarm.paymentTokens.del = function(options) {
+  $.ajax({
+    async: true,
+    type: 'DELETE',
+    url: options.paymentToken,
+    success: function(data, textStatus) {
+      if(options.success) {
+        options.success();
       }
     },
     error: function(xhr, textStatus, errorThrown) {

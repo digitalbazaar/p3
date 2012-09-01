@@ -3,17 +3,16 @@ ${set([
   jsList.push("legacy/settings"),
   jsList.push("legacy/modals.add-address"),
   jsList.push("legacy/modals.add-payment-token"),
+  jsList.push("legacy/tmpl.funcs.countries"),
   inav = "settings"
 ])}
 
 {{partial "head.tpl"}}
-{{partial "legacy/modals/add-address.tpl"}}
-{{partial "legacy/modals/add-payment-token.tpl"}}
 
 {{verbatim}}
 <div class="container ng-cloak" data-ng-app="settings"
   data-ng-controller="SettingsCtrl">
-  
+
   <div class="row">
     <div class="span12">
       <h1 class="headline">Settings</h1>
@@ -186,12 +185,7 @@ ${set([
                   </td>
                   <!-- Address -->
                   <td>
-                    <span>
-                      {{address.fullName}}<br/>
-                      {{address.streetAddress}}<br/>
-                      {{address.locality}}, {{address.region}} {{address.postalCode}}<br/>
-                      {{address.countryName}}<br/>
-                    </span>
+                    <span data-vcard-address="address" data-no-label="true" />
                   </td>
                   <!-- Delete -->
                   <td class="action">
@@ -212,6 +206,9 @@ ${set([
             <div data-ng-show="!loading && addresses.length == 0">
               <p class="center">You have no addresses associated with this identity.</p>
             </div>
+            <div data-modal-add-address="showAddAddressModal"></div>
+            <button class="btn btn-success"
+              data-ng-click="showAddAddressModal=true"><i class="icon-plus icon-white"></i> Add Address</button>
           </div>
         </div>
       </div>

@@ -37,20 +37,21 @@ module.controller('ExternalAccountsCtrl', function($scope) {
   updateTokens($scope);
 });
 
-module.controller('AddressCtrl', function($scope) {
-  $scope.addresses = [];
+module.controller('AddressCtrl', function($scope, svcAddress) {
   $scope.loading = false;
 
-  $scope.addAddress = function() {
-    window.modals.addAddress.show({
-      identity: $scope.identity,
-      added: function(address) {
-        $scope.addresses.push(address);
-      }
+  $scope.deleteAddress = function(address) {
+    svcAddress.delete(address, function() {
+      // FIXME: this is due to delete creating a new array w/o deleted items
+      $scope.addresses = svcAddress.addresses;
+      $scope.$apply();
     });
   };
 
-  updateAddresses($scope);
+  svcAddress.get(function() {
+    $scope.addresses = svcAddress.addresses;
+    $scope.$apply();
+  });
 });
 
 function updateTokens($scope) {
@@ -71,20 +72,6 @@ function updateTokens($scope) {
     },
     error: function(err) {
       console.error('updateTokens:', err);
-      $scope.$apply();
-    }
-  });
-}
-
-function updateAddresses($scope) {
-  payswarm.addresses.get({
-    identity: $scope.identity,
-    success: function(addresses) {
-      $scope.addresses = addresses;
-      $scope.$apply();
-    },
-    error: function(err) {
-      console.error('updateAddresses:', err);
       $scope.$apply();
     }
   });

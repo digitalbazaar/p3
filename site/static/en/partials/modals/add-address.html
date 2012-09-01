@@ -1,0 +1,29 @@
+<div class="modal" data-ng-switch="state">
+  <div class="modal-header">
+    <a class="close btn-close">&times;</a>
+    <h3>New Address</h3>
+  </div>
+  <div class="modal-body" data-ng-switch="state">
+    <div data-ng-include="'/partials/demo-warning.html'"></div>
+    <div data-ng-switch-when="editing">
+      <div data-ng-include="'/partials/modals/add-address-edit.html'"></div>
+    </div>
+    <div data-ng-switch-when="adding">
+      <div data-ng-include="'/partials/modals/add-address-add.html'"></div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <span name="feedback"></span>
+
+    <span data-ng-switch="state">
+      <span data-ng-switch-when="editing">
+        <button class="btn btn-primary" data-ng-click="validate()">Validate</button>
+        <button class="btn btn-close">Cancel</button>
+      </span>
+      <span data-ng-switch-when="adding">
+        <button class="btn btn-primary" data-ng-click="add()">Add</button>
+        <button class="btn btn-back" data-ng-click="edit()">Back</button>
+      </span>
+    </span>
+  </div>
+</div>

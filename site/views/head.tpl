@@ -46,7 +46,7 @@
     <link rel="shortcut icon" href="/favicon.ico" />
   </head>
 
-  <body>
+  <body data-ng-app="payswarm">
     {{if session.auth}}
     {{partial "navbar-private.tpl"}}
     {{else}}

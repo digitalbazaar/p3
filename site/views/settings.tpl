@@ -10,8 +10,7 @@ ${set([
 {{partial "head.tpl"}}
 
 {{verbatim}}
-<div class="container ng-cloak" data-ng-app="settings"
-  data-ng-controller="SettingsCtrl">
+<div class="container ng-cloak" data-ng-controller="SettingsCtrl">
 
   <div class="row">
     <div class="span12">

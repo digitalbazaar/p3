@@ -6,7 +6,7 @@
 // FIXME: use RequireJS AMD format
 (function() {
 
-var module = angular.module('settings', ['payswarm']);
+var module = angular.module('payswarm');
 
 module.controller('SettingsCtrl', function($scope) {
   // initialize model

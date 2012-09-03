@@ -45,7 +45,7 @@ ${set([
           </tr>
         </thead>
         <tbody>
-          <tr data-ng-repeat="account in accounts" class="account">
+          <tr data-ng-repeat="account in accounts | orderBy:'label'" class="account">
             <!-- Label -->
             <td>
               <a href="{{account.id}}?view=activity">{{account.label}}</a><span data-ng-show="account.psaStatus != 'active'" class="disabled">(Disabled)</span>
@@ -95,7 +95,7 @@ ${set([
           </tr>
         </thead>
         <tbody>
-          <tr data-ng-repeat="budget in budgets" class="budget" data-fadeout="budget.deleted">
+          <tr data-ng-repeat="budget in budgets | orderBy:'label'" class="budget" data-fadeout="budget.deleted">
             <!-- Label -->
             <td class="name">
               <span title="{{budget.id}}">{{budget.label}}</span>

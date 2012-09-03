@@ -322,10 +322,6 @@ angular.module('payswarm.directives')
         $scope.$apply();
       }
     });
-
-    $scope.addAddress = function() {
-      $scope.showAddAddressModal = true;
-    };
   }
 
   return {

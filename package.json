@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node index.js",
-    "bootstrap": "make -C ../payswarm-bootstrap bootstrap && rsync -av ../payswarm-bootstrap/bootstrap/ ./site/static/common/bootstrap/"
+    "bootstrap": "make -C ../payswarm-bootstrap bootstrap && rsync -av ../payswarm-bootstrap/bootstrap/ ./site/static/en/bootstrap/"
   },
   "dependencies": {
     "async": "~0.1.22",

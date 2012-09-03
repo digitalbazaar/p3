@@ -11,7 +11,7 @@ More info is available at http://payswarm.com/wiki/Demo_Warning.
 {% endif -%}
 Hello {{identity.label}},
 
-Congratulations on joining {{serviceName}}! Your profile has been created.
+Congratulations on joining {{serviceName}}!
 
 You can manage your identity here:
 

@@ -188,6 +188,96 @@ angular.module('payswarm.directives')
     });
   };
 })
+.directive('popoverTitle', function($templateCache, $timeout) {
+  // precache generic popover template
+  $templateCache.put(
+    '/partials/popover.html', '<div data-ng-transclude></div>');
+  return {
+    transclude: true,
+    scope: {
+      title: '@popoverTitle',
+      visible: '=popoverVisible'
+    },
+    templateUrl: '/partials/popover.html',
+    replace: true,
+    controller: function($scope) {
+      $scope.session = window.data.session;
+    },
+    link: function(scope, element, attrs) {
+      element.remove();
+
+      // get popover parent element
+      var el = $(attrs.popoverElement);
+
+      el.popover({
+        placement: 'bottom',
+        trigger: 'manual',
+        title: scope.$eval(attrs.popoverTitle),
+        content: '<div></div>'
+      });
+
+      // update popover to use content element and to position properly
+      var popover = el.data('popover');
+      popover.setContent = function() {
+        var $tip = this.tip();
+        $tip.find('.popover-title').text(scope.$eval(attrs.popoverTitle));
+        $tip.find('.popover-content').empty().append(element);
+        $tip.removeClass('fade top bottom left right in');
+      };
+      var oldShow = popover.show;
+      popover.show = function() {
+        oldShow.call(popover);
+        var $tip = this.tip();
+
+        // get position for popover
+        var pos = popover.getPosition(false);
+        pos = {top: pos.top + pos.height};
+
+        // calculate left position and position arrow
+        var right = el.offset().left + el[0].offsetWidth;
+        pos.left = right - $tip[0].offsetWidth;
+        $('.arrow', $tip).css({
+          left: $tip[0].offsetWidth - el[0].offsetWidth / 2
+        });
+        $tip.css(pos);
+
+        // HACK: $timeout is only used here because the click that shows
+        // the popover is being handled after it is shown which immediately
+        // closes it
+        $timeout(function() {
+          // hide popover when clicking away
+          $(document).one('click', hideOnClick);
+        });
+      };
+
+      function hideOnClick(e) {
+        var $tip = popover.tip();
+        if($(e.target).closest($tip).length === 0) {
+          scope.visible = false;
+          scope.$apply();
+        }
+      }
+
+      // watch for changes to visibility
+      var visible = false;
+      scope.$watch('visible', function(value) {
+        if(value) {
+          if(!visible) {
+            visible = true;
+            el.addClass('active');
+            el.popover('show');
+          }
+        }
+        else if(visible) {
+          visible = false;
+          el.removeClass('active');
+          el.popover('hide');
+          $(document).unbind('click', hideOnClick);
+        }
+      });
+    }
+  };
+})
 .directive('selector', function() {
   function Ctrl($scope) {
     $scope.selected = $scope.items[0] || null;

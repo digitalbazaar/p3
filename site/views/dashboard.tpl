@@ -22,8 +22,7 @@ ${set([
 {{partial "legacy/modals/edit-budget.tpl"}}
 
 {{verbatim}}
-<div class="dashboard container ng-cloak" data-ng-app="dashboard"
-  data-ng-controller="DashboardCtrl">
+<div class="dashboard container ng-cloak" data-ng-controller="DashboardCtrl">
 
   <div class="row">
     <div class="span12">

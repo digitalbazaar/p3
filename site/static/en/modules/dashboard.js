@@ -6,9 +6,7 @@
  */
 (function() {
 
-var module = angular.module('dashboard', ['payswarm']).
-run(function() {
-});
+var module = angular.module('payswarm');
 
 module.controller('DashboardCtrl', function($scope) {
   // initialize model

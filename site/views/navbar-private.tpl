@@ -3,8 +3,6 @@ ${set([
   jsList.push("legacy/payswarm.api"),
   jsList.push("legacy/website.transmitter"),
   jsList.push("legacy/website.util"),
-  jsList.push("legacy/modals.add-identity"),
-  jsList.push("legacy/modals.switch-identity"),
   jsList.push("legacy/selectors"),
   jsList.push("legacy/tmpl.funcs"),
   clientData.session = session,
@@ -12,8 +10,6 @@ ${set([
 ])}
 
 {{partial "legacy/modals/add-account.tpl"}}
-{{partial "legacy/modals/add-identity.tpl"}}
-{{partial "legacy/modals/switch-identity.tpl"}}
 {{partial "selectors.tpl"}}
 
 <div data-ng-controller="NavbarCtrl" class="navbar ng-cloak">
@@ -60,10 +56,10 @@ ${set([
               </div>
             </div>
             <div class="divider"></div>
-            <!-- Add identity switcher modal and var to open it by clicking switch identity -->
+            <div data-modal-switch-identity="showIdentitySwitcher"></div>
             <div class="row-fluid">
               <div class="span12">
-                <a href="#" data-ng-click="showIdentitySwitcher"><i class="icon-random"></i> Switch Identity</a>
+                <a href="#" data-ng-click="showIdentitySwitcher=true"><i class="icon-random"></i> Switch Identity</a>
               </div>
             </div>
             <div class="row-fluid">

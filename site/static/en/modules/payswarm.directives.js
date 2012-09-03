@@ -340,11 +340,6 @@ angular.module('payswarm.directives')
         $scope.$apply();
       }
     });
-
-    $scope.addAccount = function() {
-      console.log('show account modal');
-      $scope.showAccountModal = true;
-    };
   }
 
   return {
@@ -363,11 +358,6 @@ angular.module('payswarm.directives')
         $scope.$apply();
       }
     });
-
-    $scope.addBudget = function() {
-      console.log('show budget modal');
-      $scope.showBudgetModal = true;
-    };
   }
 
   return {
@@ -380,11 +370,6 @@ angular.module('payswarm.directives')
   function Ctrl($scope) {
     $scope.selected = null;
     $scope.selected = $scope.identities[0] || null;
-
-    $scope.addIdentity = function() {
-      console.log('show identity modal');
-      $scope.showIdentityModal = true;
-    };
   }
 
   return {

@@ -8,31 +8,28 @@ More info is available at http://payswarm.com/wiki/Demo_Warning.
 *** NOTE ***
 
 {% endif -%}
-Your credit card has been charged for USD ${{deposit.amount}}. 
+Your {% if deposit.source.cardNumber %}credit card{% else if deposit.source.bankAccount %}bank account{% else %}account{% endif %} has been charged for ${{deposit.amount}} USD. 
+
 Here is your deposit receipt:
 
-Transaction ID : {{deposit.id}}
-Date and Time  : {{deposit.created}}
-{% for transfer in deposit.transfer -%}
-{%- if transfer.comment == "Deposit" -%}{#- FIXME: need a better check for profiles target account -#}
-{{serviceName}} Account: {{transfer.destination}}{# FIXME: append "({ { ...destinationAccountName} })" #}
-{%- endif -%}
-{%- endfor %}
-
-Credit Card Information:
- Name  : {{deposit.source.label}}
- Number: {{deposit.source.cardNumber}}
- Exp   : {{deposit.source.cardExpMonth}}/{{deposit.source.cardExpYear}}
- Charge: USD ${{deposit.amount}}
-
-Deposit Information:
+Transaction ID: {{deposit.id}}
+Date and Time : {{deposit.created}}
+Source:
+ From   : {{deposit.source.label}}
+{% if deposit.source.cardNumber %} Number : {{deposit.source.cardNumber}}
+ Exp    : {{deposit.source.cardExpMonth}}/{{deposit.source.cardExpYear}}
+{% else if deposit.source.bankAccount %} Routing: {{deposit.source.bankRoutingNumber}}
+ Account: {{deposit.source.bankAccount}}
+{% endif %} Charge : ${{deposit.amount}} USD
+Deposit Details*:
 {%- for transfer in deposit.transfer %}
-   {{transfer.comment}}: USD ${{transfer.amount}}
+ {{transfer.comment}}: ${{transfer.amount}} USD
 {%- endfor %}
 
-You can always view your latest financial activity on your profile page.
+You can view your latest financial activity on your account activity page.
 
 {{deposit.transfer[0].destination}}?view=activity
 
 If you have any questions or comments please contact support@{{supportDomain}}.
 
+* All deposit fees are charged by your bank's network, none of it goes to us.

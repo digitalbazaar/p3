@@ -176,7 +176,7 @@ ${set([
                 </tr>
               </thead>
               <tbody>
-                <tr data-ng-repeat="address in addresses">
+                <tr data-ng-repeat="address in addresses | orderBy:'label'">
                   <!-- Name -->
                   <td>
                     <span>{{address.label}}</span>

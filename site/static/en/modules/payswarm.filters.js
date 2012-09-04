@@ -24,6 +24,13 @@ angular.module('payswarm.filters')
       return logo ? 'cc-logo-china-up' : 'China Union Pay';
     }
   };
+})
+.filter('slug', function() {
+  return function(input) {
+    // replace spaces with dashes, make lower case and URI encode
+    return encodeURIComponent(
+      input.replace(/\s+/g, '-').replace(/[^\w-]+/g, '').toLowerCase());
+  };
 });
 
 // FIXME: add filter to properly round precise currency up

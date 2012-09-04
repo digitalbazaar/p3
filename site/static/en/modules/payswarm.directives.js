@@ -179,6 +179,88 @@ angular.module('payswarm.directives')
     });
   };
 })
+.directive('duplicateChecker', function() {
+  return {
+    restrict: 'A',
+    scope: {
+      input: '@duplicateChecker',
+      type: '@duplicateCheckerType',
+      available: '@duplicateCheckerAvailable',
+      invalid: '@duplicateCheckerInvalid',
+      taken: '@duplicateCheckerTaken',
+      checking: '@duplicateCheckerChecking'
+    },
+    link: function(scope, element, attrs) {
+      // hide feedback until input changes
+      element.hide();
+
+      var lastInput = null;
+      var timer = null;
+
+      scope.$watch('input', function(value) {
+        // stop previous check
+        clearTimeout(timer);
+
+        // nothing to check
+        if(value === undefined || value.length === 0) {
+          element.hide();
+        }
+        else if(value !== lastInput) {
+          // show checking
+          element
+            .hide()
+            .removeClass('alert-error alert-success')
+            .text(scope.checking)
+            .fadeIn('show');
+          lastInput = null;
+
+          // start timer to check
+          timer = setTimeout(function() {
+            if(value.length === 0) {
+              element.hide();
+            }
+            else {
+              lastCheck = scope.input;
+              timer = null;
+              $http.post('/identifier', $.extend({
+                type: type,
+                psaSlug: lastCheck
+              }, owner ? {owner: owner} : {}))
+                .success(function() {
+                  // available
+                  element
+                    .hide()
+                    .removeClass('alert-error alert-success')
+                    .addClass('alert-success')
+                    .text(scope.available)
+                    .fadeIn('slow');
+                })
+                .error(function(data, status) {
+                  element.hide().removeClass('alert-error alert-success');
+                  if(status === 400) {
+                    // invalid
+                    element
+                      .text(scope.invalid)
+                      .addClass('alert-error')
+                      .fadeIn('slow');
+                  }
+                  else if(status === 409) {
+                    element
+                      .text(scope.taken)
+                      .addClass('alert-error')
+                      .fadeIn('slow');
+                  }
+                  else {
+                    // FIXME: report server errors
+                  }
+                });
+            }
+          }, 1000);
+        }
+      });
+    }
+  };
+})
 .directive('tooltipTitle', function() {
   return function(scope, element, attrs) {
     attrs.$observe('tooltipTitle', function(value) {
@@ -389,6 +471,7 @@ angular.module('payswarm.directives')
 
   return {
     scope: {
+      identityTypes: '=',
       identities: '=',
       selected: '='
     },
@@ -516,12 +599,72 @@ angular.module('payswarm.directives')
   return svcModal.directive({
     name: 'AddPaymentToken',
     templateUrl: '/partials/modals/add-payment-token.html',
-    controller: Ctrl,
+    controller: Ctrl
+  });
+})
+.directive('modalAddIdentity', function(svcModal) {
+  function Ctrl($scope) {
+    $scope.baseUrl = window.location.protocol + '//' + window.location.host;
+    function init() {
+      $scope.identityType = $scope.identityTypes[0];
+      $scope.identityLabel = '';
+      $scope.identity = {};
+      angular.forEach($scope.identityTypes, function(type) {
+        $scope.identity[type] = {
+          '@context': 'http://purl.org/payswarm/v1',
+          type: type
+        };
+      });
+    }
+    init();
+
+    $scope.addIdentity = function() {
+      // FIXME: add identity service that will add new identities to the
+      // session.identities map ... also determine if we want that to be
+      // a map or an array of identities
+      var identity = $scope.identity[$scope.identityType];
+      identity.label = $scope.identityLabel;
+      identity.psaSlug = $scope.identitySlug;
+      payswarm.identities.add({
+        identity: identity,
+        success: function(identity) {
+          addAccount(identity);
+        },
+        error: function(err) {
+          // if identity is a duplicate, add account to it
+          if(err.type === 'payswarm.website.DuplicateIdentity') {
+            identity.id = $scope.baseUrl + '/i/' + identity.psaSlug;
+            addAccount(options, identity);
+          }
+          else {
+            // FIXME: change to a directive
+            var feedback = $('[name="feedback"]', target);
+            website.util.processValidationErrors(feedback, target, err);
+          }
+        }
+      });
+    };
+
+    function addAccount(identity) {
+      // FIXME: add account stuff here
+
+      $scope.close(null, identity);
+    }
+  }
+
+  return svcModal.directive({
+    name: 'AddIdentity',
+    scope: {
+      identityTypes: '='
+    },
+    templateUrl: '/partials/modals/add-identity.html',
+    controller: Ctrl
   });
 })
 .directive('modalSwitchIdentity', function(svcModal) {
   function Ctrl($scope) {
     function init() {
+      $scope.identityTypes = ['ps:PersonalIdentity', 'ps:VendorIdentity'];
       $scope.identities = [];
       var identityMap = window.data.session.identities;
       for(var id in identityMap) {
@@ -549,7 +692,7 @@ angular.module('payswarm.directives')
   return svcModal.directive({
     name: 'SwitchIdentity',
     templateUrl: '/partials/modals/switch-identity.html',
-    controller: Ctrl,
+    controller: Ctrl
   });
 })
 .directive('modalAddAddress', function(svcModal, svcAddress) {

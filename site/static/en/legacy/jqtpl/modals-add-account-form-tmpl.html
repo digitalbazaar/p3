@@ -9,6 +9,8 @@
             class="tx" data-tx="account"
             rel="tooltip" data-original-title="Enter a name for your financial account, for instance 'primary' or 'secondary'."
             data-placement="right" data-trigger="focus" />
+        </div>
+        <div>
           <p class="help-block">The name you choose will become part of your account url.</p>
           <p><small>{{if identity}}${identity}{{else}}${baseUrl}/i/<span data-tx-from="identity" class="slug" data-tx-placeholder="IDENTITY-NAME"></span>{{/if}}/accounts/</small><input data-tx-from="account" data-binding="psaSlug" class="slug" name="slug" placeholder="ACCOUNT-NAME" /></p>
           <div id="account-duplicate">

@@ -9,6 +9,8 @@
             rel="tooltip" data-original-title="Enter a memorable name that describes what this budget is for."
             data-placement="right" data-trigger="focus"
             {{if editor}}value="${budget.label}"{{/if}}/>
+        </div>
+        <div>
           <p class="help-block">Suggestions: News, Movies, Favorites</p>
         </div>
       </div>
@@ -23,6 +25,8 @@
             rel="tooltip" data-original-title="You must enter a valid monetary amount like 20 or 5.00."
             data-placement="right" data-trigger="focus"
             {{if editor}}value="${budget.amount}"{{/if}} />
+        </div>
+        <div>
           <p class="help-block">The maximum amount that can be used before the budget is refilled.</p>
         </div>
       </div>
@@ -37,6 +41,8 @@
             rel="tooltip" data-original-title="You must enter a valid monetary amount like 20 or 5.00."
             data-placement="right" data-trigger="focus"
             {{if editor}}value="${budget.psaMaxPerUse}"{{/if}} />
+        </div>
+        <div>
           <p class="help-block">The maximum amount that can be used per transaction using this budget.</p>
         </div>
       </div>
@@ -53,6 +59,8 @@
             <option value="psa:Monthly"{{if editor}}{{if budget.budget == 'psa:Monthly'}} selected="selected"{{/if}}{{else}} selected="selected"{{/if}}>Month</option>
             <option value="psa:Yearly"{{if budget.budget == 'psa:Yearly'}} selected="selected"{{/if}}>Year</option>
           </select>
+        </div>
+        <div>
           <p class="help-block">The interval between refilling the budget balance to the maximum amount.</p>
         </div>
       </div>
@@ -69,6 +77,8 @@
             <option value="15778800">6 months of inactivity</option>
             <option value="31557600">1 year of inactivity</option>
           </select>
+        </div>
+        <div>
           <p class="help-block">The length this budget is valid.</p>
         </div>
       </div>

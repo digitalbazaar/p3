@@ -13,9 +13,8 @@ ${set([
 <div class="container ng-cloak" data-ng-controller="SettingsCtrl">
 
   <div class="row">
-    <div class="span12">
-      <h1 class="headline">Settings</h1>
-      <h3 class="subheadline">Configure your stuff</h3>
+    <div class="title-section span12">
+      <h1 class="headline">Settings <span class="subheadline">Configure your stuff</span></h1>
       <hr />
     </div>
   </div>

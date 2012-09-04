@@ -23,6 +23,7 @@ body {
 input.slug {
   display: inline-block;
   height: auto;
+  width: auto;
   line-height: 18px;
   margin: 0;
   padding: 0;
@@ -62,12 +63,6 @@ input.slug.error {
   border-color: #eed3d7;
 }
 
-/* Fix for prepended or appended input fields */
-.form-inline .input-prepend, .form-inline .input-append {
-  margin-bottom: 0;
-  vertical-align: middle;
-}
-
 /* General table margins/padding */
 td {
   vertical-align: top;
@@ -102,11 +97,9 @@ select.form-field-vspaced {
 .navbar .brand {
   padding: 10px 20px 9px;
 }
-
 .navbar .brand-minimal {
   padding: 10px 20px 9px;
 }
-
 .navbar-inner-banner {
   -webkit-border-radius: 0px;
   -moz-border-radius: 0px;
@@ -118,22 +111,21 @@ select.form-field-vspaced {
 .btn .btn-navbar {
   margin-top: 6px;
 }
+/* FIXME: temporary adjustment due to bootstrap changes */
+.navbar .navbar-link {
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+}
 
-@media (max-width: 980px) {
+/*
+@media (max-width: 979px) {
   .navbar .brand {
     float: none;
   }
-  .form-banner {
-    float: none;
-  }
 }
+*/
 
 /* Banner input boxes */
-.form-banner {
-  display: inline-block;
-  margin: 0;
-  padding: 0;
-}
 .navbar .btn-group-banner, .navbar .btn-group-banner .btn {
   display: inline-block;
   margin-top: 0;
@@ -255,16 +247,6 @@ span.currency {
 }
 .resize-none {
   resize: none;
-}
-
-/* Font effects */
-.headline {
-  text-align: center;
-}
-.subheadline {
-  text-align: center;
-  font-size: 1em;
-  font-style: oblique;
 }
 
 /* Icon positioning */
@@ -398,6 +380,14 @@ h1 > .rest-summary > .rest-path {
 }
 
 /* Sections */
+
+.title-section .headline {
+}
+.title-section .subheadline {
+  font-size: 70%;
+  font-style: oblique;
+  color: gray;
+}
 
 .section .headline {
   margin: 0.5em -0.5em 0.5em -0.5em;

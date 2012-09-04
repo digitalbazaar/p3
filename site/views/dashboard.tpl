@@ -25,10 +25,8 @@ ${set([
 <div class="dashboard container ng-cloak" data-ng-controller="DashboardCtrl">
 
   <div class="row">
-    <div class="span12">
-      <h1 class="headline">Dashboard</h1>
-      <h3 class="subheadline">Recent activity and status</h3>
-      <hr />
+    <div class="title-section span12">
+      <h1 class="headline">Dashboard <span class="subheadline">Recent activity and status</span></h3>
     </div>
   </div>
     

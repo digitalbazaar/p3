@@ -26,52 +26,12 @@ ${set([
           <img class="brand-minimal" src="${cacheRoot}/img/payswarm.png" width="182" height="24" alt="PaySwarm" />
         {{/if}}
         {{verbatim}}
-        <div
-          data-popover-title="session.identity.label || session.profile.label"
+        <a class="btn btn-nav btn-small show pull-right{{showHovercard && ' active' || ''}}"
+          data-popover-template="/partials/navbar-hovercard.html"
           data-popover-visible="showHovercard"
-          data-popover-element="#popover-button">
-          <div class="container-fluid no-padding">
-            <div class="row-fluid">
-              <div class="span4">
-                <strong>Email:</strong>
-              </div>
-              <div class="span8">
-                {{session.profile.email}}
-              </div>
-            </div>
-            <div class="row-fluid" data-ng-show="identity">
-              <div class="span4">
-                <strong>Identity:</strong>
-              </div>
-              <div class="span8">
-                {{session.identity.label}}
-              </div>
-            </div>
-            <div class="row-fluid" data-ng-hide="identity">
-              <div class="span4">
-                <strong>Profile:</strong>
-              </div>
-              <div class="span8">
-                {{session.profile.label}}
-              </div>
-            </div>
-            <div class="divider"></div>
-            <div data-modal-switch-identity="showIdentitySwitcher"></div>
-            <div class="row-fluid">
-              <div class="span12">
-                <a href="#" data-ng-click="showIdentitySwitcher=true"><i class="icon-random"></i> Switch Identity</a>
-              </div>
-            </div>
-            <div class="row-fluid">
-              <div class="span12">
-                <a href="/profile/logout"><i class="icon-off"></i> Sign Out</a>
-              </div>
-            </div>
-          </div>
-        </div>
+          data-title="{{$parent.session.identity.label || session.profile.label}}"
+          data-placement="bottom">
         {{/verbatim}}
-        <a class="btn btn-nav btn-small show pull-right{{verbatim}}{{showHovercard && ' active' || ''}}{{/verbatim}}"
-          id="popover-button" data-ng-click="showHovercard=!showHovercard">
           <i class="icon-user{{if style.navbar.isDark}} icon-white{{/if}}"></i>
         </a>
         <a class="navbar-link pull-right" style="line-height:45px"

@@ -522,7 +522,11 @@ angular.module('payswarm.directives')
 .directive('modalSwitchIdentity', function(svcModal) {
   function Ctrl($scope) {
     function init() {
-      $scope.identities = window.data.session.identities;
+      $scope.identities = [];
+      var identityMap = window.data.session.identities;
+      for(var id in identityMap) {
+        $scope.identities.push(identityMap[id]);
+      }
       $scope.selected = window.data.identity;
     }
     init();

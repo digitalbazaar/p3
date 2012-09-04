@@ -249,6 +249,16 @@ span.currency {
   resize: none;
 }
 
+/* Font effects */                                                             
+.headline {                                                                    
+  text-align: center;                                                          
+}                                                                              
+.subheadline {                                                                 
+  text-align: center;                                                          
+  font-size: 1em;                                                              
+  font-style: oblique;                                                         
+}                                                                              
+
 /* Icon positioning */
 a [class^="icon-"] {
   margin-top: 2px;

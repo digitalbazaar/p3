@@ -5,7 +5,7 @@ ${set([
 {{partial "head.tpl"}}
 
 {{verbatim}}
-<div data-ng-app="activity" data-ng-controller="ActivityCtrl" class="ng-cloak">
+<div data-ng-controller="ActivityCtrl" class="ng-cloak">
 
 <ul class="breadcrumb">
   <li>

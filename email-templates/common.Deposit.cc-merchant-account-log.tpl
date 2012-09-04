@@ -6,13 +6,13 @@ Merchant Name:               Digital Bazaar, Inc.
 Merchant Location:           Blacksburg, VA, USA
 Merchant Company Address:    http://digitalbazaar.com/
 Merchant Online Address:     http://{{serviceDomain}}/
-Transaction Amount:          USD ${{deposit.amount}}
+Transaction Amount:          ${{deposit.amount}} USD
 Transaction Date:            {{deposit.created}}
 Transaction Payment Type:    {{deposit.source.cardBrand}}
 Transaction ID:              {{deposit.id}}
-Purchaser Name:              {{deposit.source.cardName}}
-Credit Card Gateway:         {{deposit.paymentGateway}}
-Authorization Approval Code: {{deposit.psaAuthorizationApprovalCode}}
+Purchaser:                   {{deposit.source.owner}}
+ACH Gateway:                 {{deposit.source.paymentGateway}}
+Authorization Approval Code: {{deposit.psaGatewayApprovalCode}}
 Transaction type:            purchase
 Description of merchandise:  {{serviceName}} deposit
 Return/refund policy:        http://{{serviceDomain}}/legal#TermsOfService

@@ -8,6 +8,19 @@
 (function($) {
 
 angular.module('payswarm.services')
+.factory('svcTemplateCache', function($http, $templateCache) {
+  var service = {};
+  service.get = function(url, callback) {
+    $http.get(url, {cache: $templateCache})
+      .success(function(data) {
+        callback(null, data);
+      })
+      .error(function(data, status, headers) {
+        callback('Failed to load template: ' + url);
+      });
+  };
+  return service;
+})
 .factory('svcAddress', function() {
   // address service
   var service = {};
@@ -376,11 +389,11 @@ angular.module('payswarm.services')
         var modals = $('#modals');
         if(modals.length === 0) {
           modals = $('<div id="modals"></div>');
-          $('body').append(modals);
+          $(document.body).append(modals);
         }
 
         // move element to modals div
-        modals.append(element);
+        element.remove().appendTo(modals);
 
         // watch visible property, etc.
         link(scope, element, attrs);

@@ -1,23 +1,23 @@
 To: {{email}}
 From: "{{serviceName}} Customer Support" <support@{{supportDomain}}>
-Subject: {{profileSubjectPrefix}}Your {{serviceName}} pass code
+Subject: {{profileSubjectPrefix}}Your {{serviceName}} passcode
 
-Hello {% if profiles[0].identity %}{{profiles[0].identity.label}}{% else %}{{profiles[0].label}}{% endif %},
-
-{% if password -%}
-You requested a pass code so you could reset your {{serviceName}} password. If
-you did not make this request, simply ignore this email and your password
+{% if usage === "reset" -%}
+You requested a passcode so you could reset your {{serviceName}} password. 
+If you did not make this request, simply ignore this email and your password
 will not be changed.
 {%- else -%}
 You requested a pass code so you could verify your {{serviceName}} email
 address.
 {% endif %}
+
 You may visit the following page and enter your code manually:
-https://{{serviceDomain}}/profile/passcode
+
+https://{{serviceHost}}/profile/passcode
 
 {%- if profiles.length == 1 %}
 
-Your pass code is: {{profiles[0].psaPasscode}}
+Your passcode is: {{profiles[0].psaPasscode}}
 
 {%- else %}
 

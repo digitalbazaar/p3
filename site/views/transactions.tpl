@@ -82,13 +82,11 @@ ${set([
         <span data-ng-switch-when="transfer">&nbsp;</span>
         <button data-ng-switch-default class="btn" title="Details" data-ng-click="toggleDetails(row)"><i class="icon-list-alt"></i></button>
       </td>
-      <td>
-      </td>
     </tr>
   </tbody>
   <tfoot>
     <tr>
-      <td colspan="3" style="text-align: center">
+      <td colspan="4" style="text-align: center">
         <span class="center">
           <button data-ng-hide="loading" class="btn" data-ng-click="getMore()"><i class="icon-list"></i> More <i class="icon-chevron-right"></i></button>
           <span data-spinner="loading" data-spinner-class="table-spinner"></span>
@@ -96,7 +94,7 @@ ${set([
       </td>
     </tr>
     <tr>
-      <td colspan="3"><p class="alert alert-info micropayment-note">PaySwarm uses a micro-accounting system that is accurate to 7 monetary digits.<br />Using your mouse, hover over an individual amount to see its exact value.</p></td>
+      <td colspan="4"><p class="alert alert-info micropayment-note">PaySwarm uses a micro-accounting system that is accurate to 7 monetary digits.<br />Using your mouse, hover over an individual amount to see its exact value.</p></td>
     </tr>
   </tfoot>
 </table>

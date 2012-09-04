@@ -43,7 +43,7 @@ ${set([
                 </tr>
               </thead>
               <tbody>
-                <tr data-ng-repeat="card in creditCards">
+                <tr data-ng-repeat="card in creditCards | orderBy:'label'">
                   <!-- Name -->
                   <td>
                     <span>{{card.label}}</span>
@@ -111,7 +111,7 @@ ${set([
                 </tr>
               </thead>
               <tbody>
-                <tr data-ng-repeat="bankAccount in bankAccounts">
+                <tr data-ng-repeat="bankAccount in bankAccounts | orderBy:'label'">
                   <!-- Name -->
                   <td>
                     <span>{{bankAccount.label}}</span>

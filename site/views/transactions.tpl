@@ -49,10 +49,11 @@ ${set([
       <th class="date">Date</th>
       <th class="name">Item</th>
       <th class="money">Amount</th>
+      <th class="action">Details</th>
     </tr>
   </thead>
   <tbody>
-    <tr data-ng-repeat="row in table" data-ng-hide="row.hidden" data-ng-click="toggleDetails(row)">
+    <tr data-ng-repeat="row in table" data-ng-hide="row.hidden">
       <!-- Date -->
       <td data-ng-switch="getRowType(row)">
         <span data-ng-switch-when="deposit" class="date">{{row.created | date:'MMMM, dd yyyy @ h:mm:ss a'}}</span>
@@ -62,9 +63,9 @@ ${set([
       </td>
       <!-- Item -->
       <td data-ng-switch="getRowType(row)">
-        <span data-ng-switch-when="deposit" class="name"><i class="icon-plus"></i> Deposit <span data-ng-show="!(row.settled || row.voided)" class="label label-info">Pending</span><span data-ng-show="row.voided" class="label label-important">Voided</span></span>
-        <span data-ng-switch-when="contract" class="name"><i class="icon-shopping-cart"></i> {{row.asset.title}} <span data-ng-show="!(row.settled || row.voided)" class="label label-info">Pending</span><span data-ng-show="row.voided" class="label label-important">Voided</span></span>
-        <span data-ng-switch-when="withdrawal" class="name"><i class="icon-minus"></i> Withdrawal <span data-ng-show="!(row.settled || row.voided)" class="label label-info">Pending</span><span data-ng-show="row.voided" class="label label-important">Voided</span></span>
+        <span data-ng-switch-when="deposit" class="name"><a href="{{row.id}}"><i class="icon-plus"></i> Deposit</a> <span data-ng-show="!(row.settled || row.voided)" class="label label-info">Pending</span><span data-ng-show="row.voided" class="label label-important">Voided</span></span>
+        <span data-ng-switch-when="contract" class="name"><a href="{{row.id}}"><i class="icon-shopping-cart"></i> {{row.asset.title}}</a> <span data-ng-show="!(row.settled || row.voided)" class="label label-info">Pending</span><span data-ng-show="row.voided" class="label label-important">Voided</span></span>
+        <span data-ng-switch-when="withdrawal" class="name"><a href="{{row.id}}"><i class="icon-minus"></i> Withdrawal</a> <span data-ng-show="!(row.settled || row.voided)" class="label label-info">Pending</span><span data-ng-show="row.voided" class="label label-important">Voided</span></span>
         <span data-ng-switch-when="transfer">
           <i class="icon-info-sign" title="Details"></i> {{row.comment}}<br/>
           <i class="icon-minus" title="Source Account"></i> <a data-ng-show="row.sourceLink" href="{{row.source}}">{{row.source}}</a><span data-ng-hide="row.sourceLink">{{row.source}}</span> <br/>
@@ -76,13 +77,20 @@ ${set([
         <span class="money" data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact amount of this transaction is USD {{row.amount}}."
           data-placement="bottom" data-trigger="hover"><span class="currency">USD</span> {{row.amount | currency:'$'}}</span>
       </td>
+      <!-- Expand -->
+      <td data-ng-switch="getRowType(row)">
+        <span data-ng-switch-when="transfer">&nbsp;</span>
+        <button data-ng-switch-default class="btn" title="Details" data-ng-click="toggleDetails(row)"><i class="icon-list-alt"></i></button>
+      </td>
+      <td>
+      </td>
     </tr>
   </tbody>
   <tfoot>
     <tr>
       <td colspan="3" style="text-align: center">
         <span class="center">
-          <button data-ng-hide="loading" class="btn btn-primary" data-ng-click="getMore()">More <i class="icon-chevron-down icon-white"></i></button>
+          <button data-ng-hide="loading" class="btn" data-ng-click="getMore()"><i class="icon-list"></i> More <i class="icon-chevron-right"></i></button>
           <span data-spinner="loading" data-spinner-class="table-spinner"></span>
         </span>
       </td>

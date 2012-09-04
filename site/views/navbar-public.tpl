@@ -12,7 +12,7 @@ ${set([
     <div class="container">
       <a class="brand" href="/"><img src="${cacheRoot}${style.brand.src}" width="${style.brand.width}" height="${style.brand.height}" alt="${style.brand.alt}" /></a>      
       {{if pageLayout == "normal"}}
-      <form id="login" class="form-inline form-banner pull-right">
+      <form id="login" class="navbar-form pull-right">
         <fieldset>
           <input class="input-medium" name="profile" type="text" placeholder="E-mail" />
           <input class="input-medium" name="password" type="password" placeholder="Password" />

@@ -179,11 +179,11 @@ angular.module('payswarm.directives')
     });
   };
 })
-.directive('duplicateChecker', function() {
+.directive('duplicateChecker', function($http) {
   return {
     restrict: 'A',
     scope: {
-      input: '@duplicateChecker',
+      input: '=duplicateChecker',
       type: '@duplicateCheckerType',
       available: '@duplicateCheckerAvailable',
       invalid: '@duplicateCheckerInvalid',
@@ -222,8 +222,9 @@ angular.module('payswarm.directives')
             else {
               lastCheck = scope.input;
               timer = null;
+              var owner = attrs.duplicateCheckerOwner || null;
               $http.post('/identifier', $.extend({
-                type: type,
+                type: attrs.duplicateCheckerType,
                 psaSlug: lastCheck
               }, owner ? {owner: owner} : {}))
                 .success(function() {
@@ -493,7 +494,7 @@ angular.module('payswarm.directives')
 
     $scope.addAccount = function() {
       $scope.account.psaPublic = [];
-      if($scope.visibility === 'public') {
+      if($scope.accountVisibility === 'public') {
         $scope.account.psaPublic.push('label');
         $scope.account.psaPublic.push('owner');
       }
@@ -606,15 +607,26 @@ angular.module('payswarm.directives')
   function Ctrl($scope) {
     $scope.baseUrl = window.location.protocol + '//' + window.location.host;
     function init() {
+      // identity
       $scope.identityType = $scope.identityTypes[0];
       $scope.identityLabel = '';
       $scope.identity = {};
+      $scope.identityTypeLabels = {
+        'ps:PersonalIdentity': 'Personal',
+        'ps:VendorIdentity': 'Vendor'
+      };
       angular.forEach($scope.identityTypes, function(type) {
         $scope.identity[type] = {
           '@context': 'http://purl.org/payswarm/v1',
           type: type
         };
       });
+
+      // account
+      $scope.account = {
+        '@context': 'http://purl.org/payswarm/v1',
+        psaPublic: []
+      };
     }
     init();
 
@@ -646,9 +658,26 @@ angular.module('payswarm.directives')
     };
 
     function addAccount(identity) {
-      // FIXME: add account stuff here
+      $scope.account.psaPublic = [];
+      if($scope.accountVisibility === 'public') {
+        $scope.account.psaPublic.push('label');
+        $scope.account.psaPublic.push('owner');
+      }
 
-      $scope.close(null, identity);
+      // add account
+      payswarm.accounts.add({
+        identity: identity.id,
+        account: $scope.account,
+        success: function(account) {
+          $scope.close(null, {identity: identity, account: account});
+        },
+        error: function(err) {
+          // FIXME: change to a directive
+          var feedback = $('[name="feedback"]', target);
+          website.util.processValidationErrors(
+            feedback, $('#add-account-form'), err);
+        }
+      });
     }
   }
 

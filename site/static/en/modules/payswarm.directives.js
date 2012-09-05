@@ -328,7 +328,7 @@ angular.module('payswarm.directives')
             var right = element.offset().left + element[0].offsetWidth;
             pos.left = right - tip[0].offsetWidth;
             $('.arrow', tip).css({
-              left: tip[0].offsetWidth - element[0].offsetWidth / 2
+              left: tip[0].offsetWidth - element[0].offsetWidth / 2 - 1
             });
             tip.css(pos);
           }

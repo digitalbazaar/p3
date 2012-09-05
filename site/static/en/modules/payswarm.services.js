@@ -393,7 +393,7 @@ angular.module('payswarm.services')
         }
 
         // move element to modals div
-        element.remove().appendTo(modals);
+        modals.append(element);
 
         // watch visible property, etc.
         link(scope, element, attrs);

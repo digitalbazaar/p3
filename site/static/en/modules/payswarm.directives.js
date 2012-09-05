@@ -179,7 +179,7 @@ angular.module('payswarm.directives')
     });
   };
 })
-.directive('duplicateChecker', function($http) {
+.directive('duplicateChecker', function($http, $filter) {
   return {
     restrict: 'A',
     scope: {
@@ -220,7 +220,7 @@ angular.module('payswarm.directives')
               element.hide();
             }
             else {
-              lastCheck = scope.input;
+              lastCheck = $filter('slug')(scope.input);
               timer = null;
               var owner = attrs.duplicateCheckerOwner || null;
               $http.post('/identifier', $.extend({
@@ -603,7 +603,7 @@ angular.module('payswarm.directives')
     controller: Ctrl
   });
 })
-.directive('modalAddIdentity', function(svcModal) {
+.directive('modalAddIdentity', function(svcModal, $filter) {
   function Ctrl($scope) {
     $scope.baseUrl = window.location.protocol + '//' + window.location.host;
     function init() {
@@ -636,7 +636,7 @@ angular.module('payswarm.directives')
       // a map or an array of identities
       var identity = $scope.identity[$scope.identityType];
       identity.label = $scope.identityLabel;
-      identity.psaSlug = $scope.identitySlug;
+      identity.psaSlug = $filter('slug')($scope.identitySlug);
       payswarm.identities.add({
         identity: identity,
         success: function(identity) {
@@ -658,6 +658,7 @@ angular.module('payswarm.directives')
     };
 
     function addAccount(identity) {
+      $scope.account.psaSlug = $filter('slug')($scope.account);
       $scope.account.psaPublic = [];
       if($scope.accountVisibility === 'public') {
         $scope.account.psaPublic.push('label');

@@ -15,13 +15,14 @@
           <div class="controls">
             <input type="text" name="label"
               data-ng-model="identityLabel"
+              data-ng-change="identitySlug=identityLabel"
               data-tooltip-title="Enter your online handle, for example, some form of your full name like 'janedoe'. You can also customize your identity vanity address below."
               data-placement="right" data-trigger="focus" />
             <p class="help-block">The name you choose will become part of your identity url.</p>
             <p><small>{{baseUrl}}/i/</small><input
               data-binding="psaSlug" class="slug" name="slug"
               placeholder="IDENTITY-NAME"
-              value="{{identityLabel | slug}}"
+              value="{{identitySlug | slug}}"
               data-ng-model="identitySlug" /></p>
             <div data-duplicate-checker="identitySlug"
               data-duplicate-checker-type="ps:PersonalIdentity"

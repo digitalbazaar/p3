@@ -61,25 +61,6 @@
     {{/each}}
     {{/if}}
 
-    {{if session.loaded}}
-    <script type="text/javascript">
-    var currentSlug = '${session.identity.psaSlug}';
-    $(document).ready(function() {
-      $('#identity-selector').change(function() {
-        var url = window.location.href;
-        if(window.location.pathname.indexOf('/i') === 0) {
-          var nextSlug = $('#identity-selector option:selected').data('slug');
-          url = url.replace(
-            '/i/' + encodeURIComponent(currentSlug),
-            '/i/' + encodeURIComponent(nextSlug));
-        }
-        $('#identity-redirect').val(url);
-        $('#switch-identity').submit();
-      });
-    });
-    </script>
-    {{/if}}
-
     {{! Analytics }}
     {{if googleAnalytics.enabled}}
       <script type="text/javascript">

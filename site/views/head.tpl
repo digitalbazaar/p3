@@ -53,7 +53,7 @@
     {{partial "navbar-public.tpl"}}
     {{/if}}
     
-    <div class="container">
+    <div class="container ng-cloak">
 
       {{! Javascript warning }}
       <noscript>

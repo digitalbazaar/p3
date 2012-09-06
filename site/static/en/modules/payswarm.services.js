@@ -417,6 +417,25 @@ angular.module('payswarm.services')
     element.addClass('hide fade');
     element.modal(modalOptions);
 
+    // make modal full-screen scrollable
+    var modal = element.data('modal');
+    var _backdrop = modal.backdrop;
+    modal.backdrop = function(callback) {
+      _backdrop.call(this, callback);
+      if(this.isShown && this.options.backdrop) {
+        var $elementWrapper = $('<div class="modal-wrapper" />');
+        $elementWrapper.prependTo(this.$backdrop);
+        this.$element.prependTo($elementWrapper);
+        $('body').css({overflow: 'hidden'});
+      }
+    };
+    var _removeBackdrop = modal.removeBackdrop;
+    modal.removeBackdrop = function() {
+      this.$element.insertAfter(this.$backdrop);
+      _removeBackdrop.call(this);
+      $('body').css({overflow: 'auto'});
+    };
+
     // close modal when escape is pressed
     $(document).keyup(function(e) {
       if(e.keyCode === 27 && scope._open) {

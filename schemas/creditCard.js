@@ -22,7 +22,8 @@ var schema = {
       pattern: '^[0-9]{16}$',
       errors: {
         invalid: 'The credit card number must be 16 digits in length.',
-        missing: 'Please enter a credit card number.'
+        missing: 'Please enter a credit card number.',
+        mask: true
       }
     },
     cardExpMonth: {
@@ -31,7 +32,8 @@ var schema = {
       pattern: '^[0-9]{2}$',
       errors: {
         invalid: 'The credit card expiration month must be 2 digits in length.',
-        missing: 'Please enter a credit card expiration month.'
+        missing: 'Please enter a credit card expiration month.',
+        mask: true
       }
     },
     cardExpYear: {
@@ -40,7 +42,8 @@ var schema = {
       pattern: '^[0-9]{2}$',
       errors: {
         invalid: 'The credit card expiration year must be 2 digits in length.',
-        missing: 'Please enter a credit card expiration year.'
+        missing: 'Please enter a credit card expiration year.',
+        mask: true
       }
     },
     cardAddress: address(),
@@ -51,7 +54,8 @@ var schema = {
       errors: {
         invalid: 'The Card Verification Method (CVM) must be either 3 or 4 ' +
           'digits in length.',
-        missing: 'Please enter a Card Verification Method (CVM) code.'
+        missing: 'Please enter a Card Verification Method (CVM) code.',
+        mask: true
       }
     }
   },

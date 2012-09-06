@@ -9,7 +9,8 @@ var schema = {
   maxLength: 32,
   errors: {
     invalid: 'The password must be between 6 and 32 characters in length.',
-    missing: 'Please enter a password.'
+    missing: 'Please enter a password.',
+    mask: true
   }
 };
 

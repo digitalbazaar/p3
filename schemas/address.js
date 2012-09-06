@@ -21,7 +21,8 @@ var schema = {
       errors: {
         invalid: 'The street address must not start or end with ' +
           'whitespace and must be at least 1 character in length.',
-        missing: 'Please enter a street address.'
+        missing: 'Please enter a street address.',
+        mask: true
       }
     },
     locality: {

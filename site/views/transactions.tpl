@@ -4,9 +4,10 @@ ${set([
 ])}
 {{partial "head.tpl"}}
 
-{{verbatim}}
 <div data-ng-controller="ActivityCtrl" class="ng-cloak">
 
+{{if session.auth}}
+{{verbatim}}
 <ul class="breadcrumb">
   <li>
     <a href="{{session.identity.id}}/dashboard">Dashboard ({{session.identity.label}}) </a> <span class="divider">/</span>
@@ -18,7 +19,16 @@ ${set([
     {{account.label}}
   </li>
 </ul>
+{{/verbatim}}
+{{else}}
+  {{if account.label}}
+<ul class="breadcrumb">
+  <li>{{account.label}}</li>
+</ul>
+  {{/if}}
+{{/if}}
 
+{{verbatim}}
 <h2 class="headline">Account Activity at or before {{startDate | date:'MMMM, d yyyy @ h:mm a'}}</h2>
 
 <div class="well">

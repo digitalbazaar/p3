@@ -72,7 +72,9 @@ ${set([
       <div data-ng-show="!state.accounts.loading && accounts.length == 0">
         <p class="center">You have no accounts configured for this identity.</p>
       </div>
-      <button id="button-add-account" data-ng-hide="state.accounts.loading" class="btn btn-success" data-ng-click="addAccount()"><i class="icon-plus icon-white"></i> Add Account</button>
+      <div data-modal-add-account="showAddAccountModal"></div>
+      <button data-ng-hide="state.accounts.loading" class="btn btn-success"
+        data-ng-click="showAddAccountModal=true"><i class="icon-plus icon-white"></i> Add Account</button>
     </div>
     
     <div class="section span6">

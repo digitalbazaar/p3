@@ -9,7 +9,8 @@ var schema = {
   maxLength: 8,
   errors: {
     invalid: 'The passcode must be 8 characters in length.',
-    missing: 'Please enter a passcode.'
+    missing: 'Please enter a passcode.',
+    masked: true
   }
 };
 

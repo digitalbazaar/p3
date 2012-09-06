@@ -14,7 +14,9 @@ var schema = {
       type: 'string',
       pattern: '^[0-9]+$',
       errors: {
-        missing: 'Please enter a bank account number.'
+        invalid: 'The bank account number must be one or more numbers.',
+        missing: 'Please enter a bank account number.',
+        mask: true
       }
     },
     bankRoutingNumber: {
@@ -22,7 +24,9 @@ var schema = {
       type: 'string',
       pattern: '^[0-9]+$',
       errors: {
-        missing: 'Please enter a bank account routing number.'
+        invalid: 'The bank routing number must be one or more numbers.',
+        missing: 'Please enter a bank account routing number.',
+        mask: true
       }
     }
   },

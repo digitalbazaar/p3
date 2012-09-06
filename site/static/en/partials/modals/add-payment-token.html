@@ -21,17 +21,18 @@
         </div>
       </fieldset>
     </form>
-    <h6>Select Payment Type</h6>
+
+    <h6>Enter Payment Details</h6>
     <form class="well form-horizontal" action="">
       <fieldset>
-        <div class="control-group">
+        <div class="control-group" data-ng-show="multiEnabled">
           <div class="controls">
-            <label class="radio inline">
+            <label class="radio inline" data-ng-show="creditCardEnabled">
               <input type="radio" name="payment-type" value="ccard:CreditCard"
                 checked="checked" data-ng-model="paymentType" />
               Credit Card
             </label>
-            <label class="radio inline">
+            <label class="radio inline" data-ng-show="bankAccountEnabled">
               <input type="radio" name="payment-type" value="bank:BankAccount"
                 data-ng-model="paymentType" />
               Bank Account
@@ -61,21 +62,13 @@
             <div class="control-group" data-binding="source.cardExpMonth">
               <label class="control-label" for="card-exp-month">Expiration Month</label>
               <div class="controls">
-                <select class="input-small" name="card-exp-month">
-                  <option data-ng-repeat="month in monthNumbers"
-                    value="{{month}}"
-                    data-ng-selected="card.cardExpMonth">{{month}}</option>
-                </select>
+                <select class="input-small" name="card-exp-month" data-ng-model="card.cardExpMonth" data-ng-options="month for month in monthNumbers"></select>
               </div>
             </div>
             <div class="control-group" data-binding="source.cardExpYear">
               <label class="control-label" for="card-exp-year">Expiration Year</label>
               <div class="controls">
-                <select class="input-small" name="card-exp-year">
-                  <option data-ng-repeat="year in years"
-                    value="{{year.substr(2)}}"
-                    data-ng-selected="card.cardExpYear">{{year}}</option>
-                </select>
+                <select class="input-small" name="card-exp-year" data-ng-model="card.cardExpYear" data-ng-options="year for year in years"></select>
               </div>
             </div>
             <div></div>
@@ -115,12 +108,15 @@
         </div>
       </fieldset>
     </form>
-    <h6>Select Billing Address</h6>
-    <div data-address-selector data-selected="card.cardAddress"></div>
+
+    <h6 data-ng-show="billingAddressRequired">Select Billing Address</h6>
+    <div data-ng-show="billingAddressRequired">
+      <div data-address-selector data-selected="card.cardAddress"></div>
+   </div>
   </div>
   <div class="modal-footer">
     <span name="feedback"></span>
-    <button class="btn btn-primary" data-ng-click="addToken()">Add</button>
+    <button class="btn btn-primary" data-ng-click="add()"><i class="icon-ok icon-white"></i> Add</button>
     <button class="btn btn-close">Cancel</button>
   </div>
 </div>

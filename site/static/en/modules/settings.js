@@ -15,26 +15,30 @@ module.controller('SettingsCtrl', function($scope) {
   $scope.identity = data.identity || null;
 });
 
-module.controller('ExternalAccountsCtrl', function($scope) {
-  $scope.creditCards = [];
-  $scope.bankAccounts = [];
+module.controller('ExternalAccountsCtrl', function($scope, svcPaymentToken) {
+  // types for UI directives
+  $scope.allTypes = ['ccard:CreditCard', 'bank:BankAccount'];
+  $scope.creditCardTypes = ['ccard:CreditCard'];
+  $scope.bankAccountTypes = ['bank:BankAccount'];
+
+  // service data
+  $scope.creditCards = svcPaymentToken.creditCards;
+  $scope.bankAccounts = svcPaymentToken.bankAccounts;
   $scope.loading = false;
-  $scope.showAddTokenModal = false;
 
-  $scope.addToken = function() {
-    window.modals.addPaymentToken.show({
-      identity: $scope.identity,
-      added: function() {
-        updateTokens($scope);
-      }
+  $scope.deletePaymentToken = function(paymentToken) {
+    console.log('XXX dpt', paymentToken);
+    /*
+    svcPaymentToken.del(paymentToken, function() {
+      $scope.$apply();
     });
+    */
   };
 
-  $scope.tokenAdded = function(err, result) {
-    console.log('tokenAdded called', arguments);
-  };
-
-  updateTokens($scope);
+  svcPaymentToken.get(function() {
+    console.log('XXX ptap', $scope, svcPaymentToken);
+    $scope.$apply();
+  });
 });
 
 module.controller('AddressCtrl', function($scope, svcAddress) {
@@ -51,28 +55,5 @@ module.controller('AddressCtrl', function($scope, svcAddress) {
     $scope.$apply();
   });
 });
-
-function updateTokens($scope) {
-  payswarm.paymentTokens.get({
-    identity: $scope.identity,
-    success: function(paymentTokens) {
-      $scope.creditCards = [];
-      $scope.bankAccounts = [];
-      angular.forEach(paymentTokens, function(token) {
-        if(token.paymentMethod === 'ccard:CreditCard') {
-          $scope.creditCards.push(token);
-        }
-        else if(token.paymentMethod === 'bank:BankAccount') {
-          $scope.bankAccounts.push(token);
-        }
-      });
-      $scope.$apply();
-    },
-    error: function(err) {
-      console.error('updateTokens:', err);
-      $scope.$apply();
-    }
-  });
-}
 
 })();

@@ -1,0 +1,22 @@
+<div class="modal">
+  <div class="modal-header">
+    <a class="close btn-close">&times;</a>
+    <h3>New Account</h3>
+  </div>
+  <div class="modal-body">
+    <div data-ng-include="'/partials/demo-warning.html'"></div>
+  
+    <p data-ng-show="showAlert.length > 0" class="alert alert-info">
+      <strong>Note:</strong>
+      Before you make your first {{showAlert}}, please create a
+      financial account.
+    </p>
+    
+    <div data-ng-include="'/partials/add-account-form.html'"></div>
+  </div>
+  <div class="modal-footer">
+    <span name="feedback"></span>
+    <button class="btn btn-primary" data-ng-click="addAccount()">Add</button>
+    <button class="btn btn-close">Cancel</button>
+  </div>
+</div>

@@ -29,6 +29,9 @@ angular.module('payswarm.services')
   var expires = 0;
   var maxAge = 1000*60*2;
   service.addresses = [];
+  service.state = {
+    loading: false
+  };
 
   // get all addresses for an identity
   service.get = function(options, callback) {
@@ -38,6 +41,7 @@ angular.module('payswarm.services')
     }
 
     if(options.force || +new Date() >= expires) {
+      service.state.loading = true;
       payswarm.addresses.get({
         identity: identity,
         success: function(addresses) {
@@ -46,9 +50,13 @@ angular.module('payswarm.services')
             service.addresses.push(address);
           });
           expires = +new Date() + maxAge;
+          service.state.loading = false;
           callback(null, service.addresses);
         },
-        error: callback
+        error: function(err) {
+          service.state.loading = false;
+          callback(err);
+        }
       });
     }
   };
@@ -67,19 +75,25 @@ angular.module('payswarm.services')
 
   // add a new address
   service.add = function(address, callback) {
+    service.state.loading = true;
     payswarm.addresses.add({
       identity: identity,
       address: address,
       success: function(address) {
         service.addresses.push(address);
+        service.state.loading = false;
         callback(null, address);
       },
-      error: callback
+      error: function(err) {
+        service.state.loading = false;
+        callback(err);
+      }
     });
   };
 
   // delete an address by label
   service.del = function(address, callback) {
+    service.state.loading = true;
     payswarm.addresses.del({
       identity: identity,
       addressId: address.label,
@@ -93,9 +107,13 @@ angular.module('payswarm.services')
             i += 1;
           }
         }
+        service.state.loading = false;
         callback();
       },
-      error: callback
+      error: function(err) {
+        service.state.loading = false;
+        callback(err);
+      }
     });
   };
 
@@ -109,6 +127,9 @@ angular.module('payswarm.services')
   var expires = 0;
   var maxAge = 1000*60*2;
   service.accounts = [];
+  service.state = {
+    loading: false
+  };
 
   // get all accounts for an identity
   service.get = function(options, callback) {
@@ -116,6 +137,8 @@ angular.module('payswarm.services')
       callback = options;
       options = {};
     }
+    options = options || {};
+    callback = callback || angular.noop;
 
     if(options.force || +new Date() >= expires) {
       payswarm.accounts.get({
@@ -135,6 +158,8 @@ angular.module('payswarm.services')
 
   // get a single account
   service.getOne = function(accountId, callback) {
+    callback = callback || angular.noop;
+    service.state.loading = true;
     payswarm.accounts.getOne({
       account: accountId,
       success: function(account) {
@@ -149,27 +174,39 @@ angular.module('payswarm.services')
         if(!added) {
           service.accounts.push(account);
         }
+        service.state.loading = false;
         callback(null, account);
       },
-      error: callback
+      error: function(err) {
+        service.state.loading = false;
+        callback(err);
+      }
     });
   };
 
   // add a new account
   service.add = function(account, callback) {
+    callback = callback || angular.noop;
+    service.state.loading = true;
     payswarm.accounts.add({
       identity: identity,
       account: account,
       success: function(account) {
         service.accounts.push(account);
+        service.state.loading = false;
         callback(null, account);
       },
-      error: callback
+      error: function(err) {
+        service.state.loading = false;
+        callback(err);
+      }
     });
   };
 
   // update an account
   service.update = function(account, callback) {
+    callback = callback || angular.noop;
+    service.state.loading = true;
     payswarm.accounts.update({
       identity: identity,
       account: account,
@@ -177,7 +214,10 @@ angular.module('payswarm.services')
         // get account
         service.getOne(account.id, callback);
       },
-      error: callback
+      error: function(err) {
+        service.state.loading = false;
+        callback(err);
+      }
     });
   };
 
@@ -191,6 +231,9 @@ angular.module('payswarm.services')
   var expires = 0;
   var maxAge = 1000*60*2;
   service.budgets = [];
+  service.state = {
+    loading: false
+  };
 
   // get all budgets for an identity
   service.get = function(options, callback) {
@@ -198,8 +241,11 @@ angular.module('payswarm.services')
       callback = options;
       options = {};
     }
+    options = options || {};
+    callback = callback || angular.noop;
 
     if(options.force || +new Date() >= expires) {
+      service.state.loading = true;
       payswarm.budgets.get({
         identity: identity,
         success: function(budgets) {
@@ -208,15 +254,21 @@ angular.module('payswarm.services')
             service.budgets.push(budget);
           });
           expires = +new Date() + maxAge;
+          service.state.loading = false;
           callback(null, service.budgets);
         },
-        error: callback
+        error: function(err) {
+          service.state.loading = false;
+          callback(err);
+        }
       });
     }
   };
 
   // get a single budget
   service.getOne = function(budgetId, callback) {
+    callback = callback || angular.noop;
+    service.state.loading = true;
     payswarm.budgets.getOne({
       budget: budgetId,
       success: function(budget) {
@@ -231,27 +283,38 @@ angular.module('payswarm.services')
         if(!added) {
           service.budgets.push(budget);
         }
+        service.state.loading = false;
         callback(null, budget);
       },
-      error: callback
+      error: function(err) {
+        service.state.loading = false;
+        callback(err);
+      }
     });
   };
 
   // add a new budget
   service.add = function(budget, callback) {
+    callback = callback || angular.noop;
+    service.state.loading = true;
     payswarm.budgets.add({
       identity: identity,
       budget: budget,
       success: function(budget) {
         service.budgets.push(budget);
+        service.state.loading = false;
         callback(null, budget);
       },
-      error: callback
+      error: function(err) {
+        service.state.loading = false;
+        callback(err);
+      }
     });
   };
 
   // update a budget
   service.update = function(budget, callback) {
+    service.state.loading = true;
     payswarm.budgets.update({
       identity: identity,
       budget: budget,
@@ -259,26 +322,51 @@ angular.module('payswarm.services')
         // get budget
         service.getOne(budget.id, callback);
       },
-      error: callback
+      error: function(err) {
+        service.state.loading = false;
+        callback(err);
+      }
     });
   };
 
   // add a vendor to a budget
   service.addVendor = function(budgetId, vendorId, callback) {
+    callback = callback || angular.noop;
+    service.state.loading = true;
     payswarm.budgets.addVendor({
       budget: budgetId,
       vendor: vendorId,
-      success: callback,
-      error: callback
+      success: function() {
+        service.state.loading = false;
+        callback();
+      },
+      error: function(err) {
+        service.state.loading = false;
+        callback(err);
+      }
     });
   };
 
   // deletes a budget
   service.del = function(budgetId, callback) {
+    callback = callback || angular.noop;
+    service.state.loading = true;
     payswarm.budgets.del({
       budget: budgetId,
-      success: callback,
-      error: callback
+      success: function() {
+        for(var i = 0; i < service.budgets.length; ++i) {
+          if(service.budgets[i].id === budget.id) {
+            service.budgets.splice(i, 1);
+            break;
+          }
+        }
+        service.state.loading = false;
+        callback();
+      },
+      error: function(err) {
+        service.state.loading = false;
+        callback(err);
+      }
     });
   };
 
@@ -292,6 +380,9 @@ angular.module('payswarm.services')
   var expires = 0;
   var maxAge = 1000*60*2;
   service.paymentTokens = [];
+  service.state = {
+    loading: false
+  };
 
   // get all paymentTokens for an identity
   service.get = function(options, callback) {
@@ -299,8 +390,11 @@ angular.module('payswarm.services')
       callback = options;
       options = {};
     }
+    options = options || {};
+    callback = callback || angular.noop;
 
     if(options.force || +new Date() >= expires) {
+      service.state.loading = true;
       payswarm.paymentTokens.get({
         identity: identity,
         success: function(paymentTokens) {
@@ -309,38 +403,56 @@ angular.module('payswarm.services')
             service.paymentTokens.push(paymentToken);
           });
           expires = +new Date() + maxAge;
+          service.state.loading = false;
           callback(null, service.paymentTokens);
         },
-        error: callback
+        error: function(err) {
+          service.state.loading = false;
+          callback(err);
+        }
       });
     }
   };
 
   // add a new paymentToken
   service.add = function(paymentToken, callback) {
+    callback = callback || angular.noop;
+    service.state.loading = true;
     payswarm.paymentTokens.add({
       identity: identity,
       paymentToken: paymentToken,
       success: function(paymentToken) {
         service.paymentTokens.push(paymentToken);
+        service.state.loading = false;
         callback(null, paymentToken);
       },
-      error: callback
+      error: function(err) {
+        service.state.loading = false;
+        callback(err);
+      }
     });
   };
 
   // deletes a paymentToken
   service.del = function(paymentTokenId, callback) {
+    callback = callback || angular.noop;
+    service.state.loading = true;
     payswarm.paymentTokens.del({
       budget: paymentTokenId,
-      success: callback,
-      error: callback
+      success: function() {
+        service.state.loading = false;
+        callback();
+      },
+      error: function(err) {
+        service.state.loading = false;
+        callback(err);
+      }
     });
   };
 
   return service;
 })
-.factory('svcModal', function() {
+.factory('svcModal', function($timeout) {
   // modals service
   var service = {};
 
@@ -465,6 +577,9 @@ angular.module('payswarm.services')
       }
     });
 
+    // does any init work when modal opens
+    scope.open = scope.open || angular.noop;
+
     // closes modal on success
     scope.close = function(err, result) {
       scope.error = err;
@@ -516,17 +631,25 @@ angular.module('payswarm.services')
       close(scope, true);
     });
 
+    // do custom open() and then show modal
+    function show(doApply) {
+      scope.open();
+      if(doApply) {
+        scope.$apply();
+      }
+      element.modal('show');
+    };
+
     if(parent) {
       // hide parent first, then show child
       parent.hasChild = true;
       parent.element.one('hidden', function() {
-        element.modal('show');
+        show(true);
       });
       parent.element.modal('hide');
     }
     else {
-      // show modal
-      element.modal('show');
+      show(false);
     }
   }
 

@@ -37,7 +37,7 @@
         <div class="input-prepend">
           <span class="add-on"><i class="icon-eye-open"></i></span><select
             name="visibility" data-ng-model="accountVisibility"
-            data-ng-options="key for (key, value) in {'Hidden': 'hidden', 'Public': 'public'}">
+            data-ng-options="value as key for (key, value) in {Hidden: 'hidden', Public: 'public'}">
           </select>
         </div>
       </div>
@@ -46,8 +46,9 @@
       <label class="control-label" for="currency">Currency</label>
       <div class="controls">
         <div class="input-prepend">
-          <span class="add-on">$</span><select name="currency">
-            <option value="USD">US Dollars $</option>
+          <span class="add-on">$</span><select
+            name="currency" data-ng-model="account.currency"
+            data-ng-options="value as key for (key, value) in {'US Dollars $': 'USD'}">
           </select>
         </div>
       </div>

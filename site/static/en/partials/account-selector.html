@@ -1,0 +1,15 @@
+<div>
+  <div data-selector data-item-type="Account"
+    data-items="accounts" data-selected="selected"
+    data-add-item="showAddAccountModal=true">
+    <div class="account">
+      <strong>{{selected.label}}</strong><br/>
+      <small>{{selected.id}}</small><br/>
+      <span class="money" data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact balance of this account is {{selected.currency}} {{selected.balance}}."
+        data-placement="bottom" data-trigger="hover"><span
+        class="currency">{{selected.currency}}</span> {{selected.balance | currency:'$'}}</span>
+    </div>
+  </div>
+  <div data-modal-add-account="showAddAccountModal"
+    data-modal-on-close="selected=result"></div>
+</div>

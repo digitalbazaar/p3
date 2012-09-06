@@ -14,9 +14,9 @@
         <div>
           <p class="help-block">The name you choose will become part of your account url.</p>
           <p><small><span data-ng-show="identityId">{{identityId}}</span><span
-            data-ng-hide="identityId">{{baseUrl}}/i/</span><input
-            data-ng-hide="identityId" class="slug" disabled="disabled"
-            placeholder="IDENTITY-NAME" value="{{identitySlug}}"></input>/accounts/</small><input
+            data-ng-hide="identityId">{{baseUrl}}/i/</span><span
+            data-ng-hide="identityId"
+            class="slug">{{identitySlug || 'IDENTITY-NAME'}}</span>/accounts/</small><input
             data-binding="psaSlug" class="slug" name="slug"
             placeholder="ACCOUNT-NAME" value="{{account.psaSlug | slug}}"
             data-ng-model="account.psaSlug" /></p>

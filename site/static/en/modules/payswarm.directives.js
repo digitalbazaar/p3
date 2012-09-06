@@ -192,7 +192,7 @@ angular.module('payswarm.directives')
     },
     link: function(scope, element, attrs) {
       // hide feedback until input changes
-      element.hide();
+      element.addClass('alert').hide();
 
       var lastInput = null;
       var timer = null;

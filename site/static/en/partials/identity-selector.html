@@ -4,7 +4,7 @@
     data-add-item="showAddIdentityModal=true">
     <div class="identity">
       <strong>{{selected.label}}</strong><br/>
-      {{selected.id}}<br/>
+      <small>{{selected.id}}</small><br/>
       <span data-ng-show="selected.address.length > 0">
         {{selected.address[0].fullName}}
       </span>

@@ -452,7 +452,7 @@ angular.module('payswarm.services')
 
   return service;
 })
-.factory('svcModal', function() {
+.factory('svcModal', function($timeout) {
   // modals service
   var service = {};
 
@@ -577,6 +577,9 @@ angular.module('payswarm.services')
       }
     });
 
+    // does any init work when modal opens
+    scope.open = scope.open || angular.noop;
+
     // closes modal on success
     scope.close = function(err, result) {
       scope.error = err;
@@ -628,17 +631,25 @@ angular.module('payswarm.services')
       close(scope, true);
     });
 
+    // do custom open() and then show modal
+    function show(doApply) {
+      scope.open();
+      if(doApply) {
+        scope.$apply();
+      }
+      element.modal('show');
+    };
+
     if(parent) {
       // hide parent first, then show child
       parent.hasChild = true;
       parent.element.one('hidden', function() {
-        element.modal('show');
+        show(true);
       });
       parent.element.modal('hide');
     }
     else {
-      // show modal
-      element.modal('show');
+      show(false);
     }
   }
 

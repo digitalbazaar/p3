@@ -480,16 +480,16 @@ angular.module('payswarm.directives')
 })
 .directive('modalAddAccount', function(svcModal, svcAccount) {
   function Ctrl($scope) {
-    function init() {
+    $scope.open = function() {
       $scope.data = window.data || {};
       $scope.identity = data.identity || {};
       $scope.account = {
         '@context': 'http://purl.org/payswarm/v1',
+        currency: 'USD',
         psaPublic: []
       };
       $scope.accountVisibility = 'hidden';
-    }
-    init();
+    };
 
     $scope.addAccount = function() {
       $scope.account.psaPublic = [];
@@ -498,10 +498,11 @@ angular.module('payswarm.directives')
         $scope.account.psaPublic.push('owner');
       }
 
-      svcAccount.add(account, function(err) {
+      svcAccount.add($scope.account, function(err, account) {
         if(!err) {
           $scope.close(null, account);
         }
+        console.log('addAccount error', err);
         // FIXME: change to a directive
         var feedback = $('[name="feedback"]', target);
         website.util.processValidationErrors(feedback, target, err);
@@ -511,6 +512,7 @@ angular.module('payswarm.directives')
 
   return svcModal.directive({
     name: 'AddAccount',
+    scope: {showAlert: '@modalAddAccountAlert'},
     templateUrl: '/partials/modals/add-account.html',
     controller: Ctrl,
   });
@@ -651,6 +653,7 @@ angular.module('payswarm.directives')
       // account
       $scope.account = {
         '@context': 'http://purl.org/payswarm/v1',
+        currency: 'USD',
         psaPublic: []
       };
       $scope.accountVisibility = 'hidden';

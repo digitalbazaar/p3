@@ -208,7 +208,6 @@ angular.module('payswarm.directives')
         else if(value !== lastInput) {
           // show checking
           element
-            .hide()
             .removeClass('alert-error alert-success')
             .text(scope.checking)
             .fadeIn('show');

@@ -488,6 +488,7 @@ angular.module('payswarm.directives')
         '@context': 'http://purl.org/payswarm/v1',
         psaPublic: []
       };
+      $scope.accountVisibility = 'hidden';
     }
     init();
 
@@ -626,6 +627,7 @@ angular.module('payswarm.directives')
         '@context': 'http://purl.org/payswarm/v1',
         psaPublic: []
       };
+      $scope.accountVisibility = 'hidden';
     }
     init();
 

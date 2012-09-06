@@ -6,9 +6,9 @@
         <div class="input-prepend">
           <span class="add-on"><i class="icon-tag"></i></span><input
             type="text" name="label"
-            rel="tooltip" data-original-title="Enter a memorable name that describes what this budget is for."
-            data-placement="right" data-trigger="focus"
-            {{if editor}}value="${budget.label}"{{/if}}/>
+            data-ng-model="budget.label"
+            data-tooltip-title="Enter a memorable name that describes what this budget is for."
+            data-placement="right" data-trigger="focus" />
         </div>
         <div>
           <p class="help-block">Suggestions: News, Movies, Favorites</p>
@@ -22,9 +22,9 @@
         <div class="input-prepend">
           <span class="add-on">$</span><input
             type="text" name="amount"
-            rel="tooltip" data-original-title="You must enter a valid monetary amount like 20 or 5.00."
-            data-placement="right" data-trigger="focus"
-            {{if editor}}value="${budget.amount}"{{/if}} />
+            data-ng-model="budget.amount"
+            data-tooltip-title="You must enter a valid monetary amount like 20 or 5.00."
+            data-placement="right" data-trigger="focus" />
         </div>
         <div>
           <p class="help-block">The maximum amount that can be used before the budget is refilled.</p>
@@ -38,9 +38,9 @@
         <div class="input-prepend">
           <span class="add-on">$</span><input
             type="text" name="max-per-use"
-            rel="tooltip" data-original-title="You must enter a valid monetary amount like 20 or 5.00."
-            data-placement="right" data-trigger="focus"
-            {{if editor}}value="${budget.psaMaxPerUse}"{{/if}} />
+            data-ng-model="budget.psaMaxPerUse"
+            data-tooltip-title="You must enter a valid monetary amount like 20 or 5.00."
+            data-placement="right" data-trigger="focus" />
         </div>
         <div>
           <p class="help-block">The maximum amount that can be used per transaction using this budget.</p>
@@ -52,12 +52,9 @@
       <label class="control-label" for="refresh">Refill every</label>
       <div class="controls">
         <div class="input-prepend">
-          <span class="add-on"><i class="icon-calendar"></i></span><select name="refresh">
-            <option value="psa:Hourly"{{if budget.budget == 'psa:Hourly'}} selected="selected"{{/if}}>Hour</option>
-            <option value="psa:Daily"{{if budget.budget == 'psa:Daily'}} selected="selected"{{/if}}>Day</option>
-            <option value="psa:Weekly"{{if budget.budget == 'psa:Weekly'}} selected="selected"{{/if}}>Week</option>
-            <option value="psa:Monthly"{{if editor}}{{if budget.budget == 'psa:Monthly'}} selected="selected"{{/if}}{{else}} selected="selected"{{/if}}>Month</option>
-            <option value="psa:Yearly"{{if budget.budget == 'psa:Yearly'}} selected="selected"{{/if}}>Year</option>
+          <span class="add-on"><i class="icon-calendar"></i></span><select
+            name="refresh" data-ng-model="budget.psaRefresh"
+            data-ng-options="value as key for (key, value) in {Hour: 'psa:Hourly', Day: 'psa:Daily', Week: 'psa:Weekly', Month: 'psa:Monthly', Year: 'psa:Yearly'}">
           </select>
         </div>
         <div>
@@ -70,12 +67,9 @@
       <label class="control-label" for="expires">Expire after</label>
       <div class="controls">
         <div class="input-prepend">
-          <span class="add-on"><i class="icon-calendar"></i></span><select name="expires">
-            {{if editor}}<option value="" selected="selected">Current</option>{{/if}}
-            <option value="2629800">1 month of inactivity</option>
-            <option value="7889400">3 months of inactivity</option>
-            <option value="15778800">6 months of inactivity</option>
-            <option value="31557600">1 year of inactivity</option>
+          <span class="add-on"><i class="icon-calendar"></i></span><select
+            name="expires" data-ng-model="budget.psaExpires"
+            data-ng-options="value as key for (key, value) in {'1 month': 2629800, '3 months': 7889400, '6 months': 15778800, '1 year': 31557600}">
           </select>
         </div>
         <div>
@@ -87,8 +81,4 @@
 </form>
 
 <h6>Select Source Account</h6>
-{{if editor}}
-<div id="edit-budget-account-selector"></div>
-{{else}}
-<div id="add-budget-account-selector"></div>
-{{/if}}
+<div data-account-selector data-selected="account"></div>

@@ -7,19 +7,15 @@ ${set([
   jsList.push("legacy/modals.add-budget"),
   jsList.push("legacy/modals.add-payment-token"),
   jsList.push("legacy/modals.deposit"),
-  jsList.push("legacy/modals.edit-account"),
-  jsList.push("legacy/modals.edit-budget"),
   inav = "dashboard"
 ])}  
 
 {{partial "head.tpl"}}
 {{partial "legacy/modals/add-account.tpl"}}
 {{partial "legacy/modals/add-address.tpl"}}
-{{partial "legacy/modals/add-budget.tpl"}}
 {{partial "legacy/modals/add-payment-token.tpl"}}
 {{partial "legacy/modals/deposit.tpl"}}
 {{partial "legacy/modals/edit-account.tpl"}}
-{{partial "legacy/modals/edit-budget.tpl"}}
 
 {{verbatim}}
 <div class="dashboard container ng-cloak" data-ng-controller="DashboardCtrl">
@@ -33,7 +29,7 @@ ${set([
   <div class="row">
     <div class="section span6">
       <h3 class="headline">Accounts</h3>
-      <table class="table table-condensed" data-ng-show="loading.accounts || accounts.length > 0">
+      <table class="table table-condensed" data-ng-show="state.accounts.loading || accounts.length > 0">
         <thead>
           <tr>
             <th class="name">Account</th>
@@ -63,26 +59,25 @@ ${set([
             </td>
           </tr>
         </tbody>
-        <tfoot data-ng-show="loading.accounts">
+        <tfoot data-ng-show="state.accounts.loading">
           <tr>
             <td colspan="4" style="text-align: center">
               <span class="center">
-                <span data-spinner="loading.accounts" data-spinner-class="table-spinner"></span>
+                <span data-spinner="state.accounts.loading" data-spinner-class="table-spinner"></span>
               </span>
             </td>
           </tr>
         </tfoot>
       </table>
-      <div data-ng-show="!loading.accounts && accounts.length == 0">
-        <hr />
+      <div data-ng-show="!state.accounts.loading && accounts.length == 0">
         <p class="center">You have no accounts configured for this identity.</p>
       </div>
-      <button id="button-add-account" data-ng-hide="loading.accounts" class="btn btn-success" data-ng-click="addAccount()"><i class="icon-plus icon-white"></i> Add Account</button>
+      <button id="button-add-account" data-ng-hide="state.accounts.loading" class="btn btn-success" data-ng-click="addAccount()"><i class="icon-plus icon-white"></i> Add Account</button>
     </div>
     
     <div class="section span6">
       <h3 class="headline">Budgets</h3>
-      <table class="table table-condensed" data-ng-show="loading.budgets || budgets.length > 0">
+      <table class="table table-condensed" data-ng-show="state.budgets.loading || budgets.length > 0">
         <thead>
           <tr>
             <th class="name">Budget</th>
@@ -116,7 +111,9 @@ ${set([
             </td>
             <!-- Edit -->
             <td class="action">
-              <button class="btn edit" data-toggle="modal" title="Edit" data-ng-click="editBudget(budget)"><i class="icon-pencil"></i></button>
+              <div data-modal-edit-budget="showEditBudgetModal"></div>
+              <button class="btn edit" title="Edit"
+                data-ng-click="showEditBudgetModal=true"><i class="icon-pencil"></i></button>
             </td>
             <!-- Delete -->
             <td class="action">
@@ -124,21 +121,22 @@ ${set([
             </td>
           </tr>
         </tbody>
-        <tfoot data-ng-show="loading.budgets">
+        <tfoot data-ng-show="state.budgets.loading">
           <tr>
             <td colspan="5" style="text-align: center">
               <span class="center">
-                <span data-spinner="loading.budgets" data-spinner-class="table-spinner"></span>
+                <span data-spinner="state.budgets.loading" data-spinner-class="table-spinner"></span>
               </span>
             </td>
           </tr>
         </tfoot>
       </table>
-      <div data-ng-show="!loading.budgets && budgets.length == 0">
-        <hr />
+      <div data-ng-show="!state.budgets.loading && budgets.length == 0">
         <p class="center">You have no budgets configured for this identity.</p>
       </div>
-      <button id="button-add-budget" data-ng-hide="loading.budgets" class="btn btn-success" data-ng-click="addBudget()"><i class="icon-plus icon-white"></i> Add Budget</button>
+      <div data-modal-add-budget="showAddBudgetModal"></div>
+      <button data-ng-hide="state.budgets.loading" class="btn btn-success"
+        data-ng-click="showAddBudgetModal=true"><i class="icon-plus icon-white"></i> Add Budget</button>
     </div>
   </div>
 
@@ -146,7 +144,7 @@ ${set([
     <div class="section span6">
       <h3 class="headline">Recent Transactions</h3>
       
-      <table class="table table-condensed" data-ng-show="loading.txns || txns.length > 0">
+      <table class="table table-condensed" data-ng-show="state.txns.loading || txns.length > 0">
         <thead>
           <tr>
             <th class="date">Date</th>
@@ -175,17 +173,17 @@ ${set([
             </td>
           </tr>
         </tbody>
-        <tfoot data-ng-show="loading.txns">
+        <tfoot data-ng-show="state.txns.loading">
           <tr>
             <td colspan="5" style="text-align: center">
               <span class="center">
-                <span data-spinner="loading" data-spinner-class="table-spinner"></span>
+                <span data-spinner="state.txns.loading" data-spinner-class="table-spinner"></span>
               </span>
             </td>
           </tr>
         </tfoot>
       </table>
-      <div data-ng-show="!loading.txns && txns.length == 0">
+      <div data-ng-show="!state.txns.loading && txns.length == 0">
         <h3 class="center">No Transactions</h3>
         <p class="center">You have no recent transactions for this identity.</p>
       </div>

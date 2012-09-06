@@ -9,58 +9,57 @@
 
 angular.module('payswarm.directives')
 .directive('spinner', function() {
-  return function(scope, element, attrs) {
-    // default spinner options
-    var options = {
-      lines: 11, // The number of lines to draw
-      length: 3, // The length of each line
-      width: 3, // The line thickness
-      radius: 5, // The radius of the inner circle
-      rotate: 0, // The rotation offset
-      color: '#000', // #rgb or #rrggbb
-      speed: 1.0, // Rounds per second
-      trail: 100, // Afterglow percentage
-      shadow: false, // Whether to render a shadow
-      hwaccel: false, // Whether to use hardware acceleration
-      className: 'inline-block', // CSS class for spinner
-      top: 'auto', // Top position relative to parent in px
-      left: 'auto' // Left position relative to parent in px
-    };
-    if(attrs.spinnerClass) {
-      options.className = scope.$eval(attrs.spinnerClass);
-    }
+  return {
+    scope: {
+      spin: '=spinner',
+      className: '@spinnerClass'
+    },
+    link: function(scope, element, attrs) {
+      // default spinner options
+      var options = {
+        lines: 11, // The number of lines to draw
+        length: 3, // The length of each line
+        width: 3, // The line thickness
+        radius: 5, // The radius of the inner circle
+        rotate: 0, // The rotation offset
+        color: '#000', // #rgb or #rrggbb
+        speed: 1.0, // Rounds per second
+        trail: 100, // Afterglow percentage
+        shadow: false, // Whether to render a shadow
+        hwaccel: false, // Whether to use hardware acceleration
+        className: 'inline-block', // CSS class for spinner
+        top: 'auto', // Top position relative to parent in px
+        left: 'auto' // Left position relative to parent in px
+      };
 
-    // create spinner
-    var spinner = new Spinner(options);
-    var spinning = false;
+      // create spinner
+      var spinner = new Spinner(options);
 
-    scope.$watch(attrs.spinner, function(value) {
-      if(value) {
-        spinner.spin();
-        spinning = true;
-        element.append(spinner.el);
-      }
-      else {
+      scope.$watch('spin', function(value) {
+        if(value) {
+          spinner.spin();
+          element.append(spinner.el);
+        }
+        else {
+          spinner.stop();
+        }
+      });
+
+      attrs.$observe('spinnerClass', function(value) {
+        options.className = value;
         spinner.stop();
-        spinning = false;
-      }
-    });
+        spinner = new Spinner(options);
+        if(scope.spin) {
+          spinner.spin();
+          element.append(spinner.el);
+        }
+      });
 
-    scope.$watch(attrs.spinnerClass, function(value) {
-      options.className = attrs.spinnerClass;
-      spinner.stop();
-      spinner = new Spinner(options);
-      if(spinning) {
-        spinner.spin();
-        element.append(spinner.el);
-      }
-    });
-
-    // stop spinning if element is destroyed
-    element.bind('$destroy', function() {
-      spinner.stop();
-      spinning = false;
-    });
+      // stop spinning if element is destroyed
+      element.bind('$destroy', function() {
+        spinner.stop();
+      });
+    }
   };
 })
 .directive('fadeout', function() {
@@ -427,11 +426,11 @@ angular.module('payswarm.directives')
     templateUrl: '/partials/address-selector.html'
   };
 })
-.directive('accountSelector', function($account) {
-  function Ctrl($scope, $account) {
-    $scope.accounts = $account.accounts;
+.directive('accountSelector', function(svcAccount) {
+  function Ctrl($scope, svcAccount) {
+    $scope.accounts = svcAccount.accounts;
     $scope.selected = null;
-    $account.get(function(err, accounts) {
+    svcAccount.get(function(err, accounts) {
       if(!err) {
         $scope.selected = accounts[0] || null;
         $scope.$apply();
@@ -479,7 +478,7 @@ angular.module('payswarm.directives')
     templateUrl: '/partials/identity-selector.html'
   };
 })
-.directive('modalAddAccount', function(svcModal, $account) {
+.directive('modalAddAccount', function(svcModal, svcAccount) {
   function Ctrl($scope) {
     function init() {
       $scope.data = window.data || {};
@@ -499,7 +498,7 @@ angular.module('payswarm.directives')
         $scope.account.psaPublic.push('owner');
       }
 
-      $account.add(account, function(err) {
+      svcAccount.add(account, function(err) {
         if(!err) {
           $scope.close(null, account);
         }
@@ -542,6 +541,33 @@ angular.module('payswarm.directives')
   return svcModal.directive({
     name: 'AddBudget',
     templateUrl: '/partials/modals/add-budget.html',
+    controller: Ctrl,
+  });
+})
+.directive('modalEditBudget', function(svcModal, svcBudget) {
+  function Ctrl($scope) {
+    function init() {
+      $scope.data = window.data || {};
+      $scope.identity = data.identity || {};
+    }
+    init();
+
+    $scope.editBudget = function() {
+      svcBudget.update(budget, function(err) {
+        if(!err) {
+          $scope.close(null, budget);
+        }
+        // FIXME: change to a directive
+        var feedback = $('[name="feedback"]', target);
+        website.util.processValidationErrors(feedback, target, err);
+      });
+    };
+  }
+
+  return svcModal.directive({
+    name: 'EditBudget',
+    scope: {budget: '='},
+    templateUrl: '/partials/modals/edit-budget.html',
     controller: Ctrl,
   });
 })

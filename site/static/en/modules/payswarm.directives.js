@@ -519,14 +519,13 @@ angular.module('payswarm.directives')
 })
 .directive('modalAddBudget', function(svcModal, svcBudget) {
   function Ctrl($scope) {
-    function init() {
+    $scope.open = function() {
       $scope.data = window.data || {};
       $scope.identity = data.identity || {};
       $scope.budget = {
         '@context': 'http://purl.org/payswarm/v1'
       };
-    }
-    init();
+    };
 
     $scope.addBudget = function() {
       svcBudget.add(budget, function(err) {
@@ -548,11 +547,10 @@ angular.module('payswarm.directives')
 })
 .directive('modalEditBudget', function(svcModal, svcBudget) {
   function Ctrl($scope) {
-    function init() {
+    $scope.open = function() {
       $scope.data = window.data || {};
       $scope.identity = data.identity || {};
-    }
-    init();
+    };
 
     $scope.editBudget = function() {
       svcBudget.update(budget, function(err) {
@@ -575,7 +573,7 @@ angular.module('payswarm.directives')
 })
 .directive('modalAddPaymentToken', function(svcModal) {
   function Ctrl($scope) {
-    function init() {
+    $scope.open = function() {
       $scope.data = window.data || {};
       $scope.identity = data.identity || {};
       $scope.paymentGateway = data.paymentGateway || 'Test';
@@ -585,8 +583,7 @@ angular.module('payswarm.directives')
       $scope.bankAccount = {type: 'bank:BankAccount'};
       $scope.monthNumbers = window.tmpl.monthNumbers;
       $scope.years = window.tmpl.years;
-    }
-    init();
+    };
 
     $scope.addToken = function() {
       // create post data
@@ -606,7 +603,6 @@ angular.module('payswarm.directives')
 
       // FIXME: disabled temporarily
       $scope.close(null, null);
-      init();
       return;
 
       // add payment token
@@ -634,7 +630,7 @@ angular.module('payswarm.directives')
 .directive('modalAddIdentity', function(svcModal, $filter) {
   function Ctrl($scope) {
     $scope.baseUrl = window.location.protocol + '//' + window.location.host;
-    function init() {
+    $scope.open = function() {
       // identity
       $scope.identityType = $scope.identityTypes[0];
       $scope.identityLabel = '';
@@ -657,8 +653,7 @@ angular.module('payswarm.directives')
         psaPublic: []
       };
       $scope.accountVisibility = 'hidden';
-    }
-    init();
+    };
 
     $scope.addIdentity = function() {
       // FIXME: add identity service that will add new identities to the
@@ -731,7 +726,7 @@ angular.module('payswarm.directives')
         $scope.identities.push(identityMap[id]);
       }
       $scope.selected = window.data.identity;
-    }
+    };
     init();
 
     $scope.switchIdentity = function() {
@@ -757,7 +752,7 @@ angular.module('payswarm.directives')
 })
 .directive('modalAddAddress', function(svcModal, svcAddress) {
   function Ctrl($scope) {
-    function init() {
+    $scope.open = function() {
       $scope.data = window.data || {};
       $scope.countries = window.tmpl.countries || {};
       $scope.identity = data.identity || {};
@@ -770,8 +765,7 @@ angular.module('payswarm.directives')
 
       // state in ('editing', 'adding')
       $scope.state = 'editing';
-    }
-    init();
+    };
 
     $scope.validate = function() {
       svcAddress.validate($scope.originalAddress, function(err, validated) {
@@ -789,7 +783,7 @@ angular.module('payswarm.directives')
           fullName: $scope.originalAddress.fullName
         });
         $scope.state = 'adding';
-        $scope.$apply()
+        $scope.$apply();
       });
     };
 
@@ -802,8 +796,7 @@ angular.module('payswarm.directives')
           return;
         }
         $scope.close(null, addedAddress);
-        init();
-        $scope.$apply();
+        $scope.apply();
       });
     };
 

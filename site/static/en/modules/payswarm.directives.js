@@ -462,14 +462,49 @@ angular.module('payswarm.directives')
     link: Link
   };
 })
-.directive('budgetSelector', function(svcBudget) {
+.directive('budgetSelector', function(svcBudget, svcAccounts) {
   function Ctrl($scope, svcBudget) {
     $scope.budgets = svcBudget.budgets;
     $scope.selected = null;
+    $scope.account = null;
+    $scope.accounts = svcAccount.accounts;
     svcBudget.get(function(err, budgets) {
       if(!err) {
         $scope.selected = budgets[0] || null;
         $scope.$apply();
+      }
+    });
+  }
+
+  function Link(scope, element, attrs) {
+    scope.$watch('selected', function(value) {
+      // set associated account
+      scope.account = null;
+      for(var i = 0; i < scope.accounts.length; ++i) {
+        var account = scope.accounts[i];
+        if(value.source === account.id) {
+          scope.account = account;
+          break;
+        }
+      }
+
+      // validation
+      scope.balanceTooLow = false;
+      scope.maxPerUseTooLow = false;
+      scope.minBalance = scope.$eval(attrs.minBalance);
+      if(value && attrs.minBalance !== undefined) {
+        scope.minBalance = parseFloat(scope.minBalance);
+        if(value.balance < scope.minBalance) {
+          scope.balanceTooLow = true;
+        }
+        // check max per use
+        else if(value.psaMaxPerUse < scope.minBalance) {
+          scope.maxPerUseTooLow = true;
+        }
+        // check associated account balance is too low
+        else if(scope.account && scope.account.balance < scope.minBalance) {
+          scope.balanceTooLow = true;
+        }
       }
     });
   }

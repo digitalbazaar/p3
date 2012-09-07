@@ -1,0 +1,35 @@
+<div>
+  <div data-selector data-item-type="Budget"
+    data-items="budgets" data-selected="selected"
+    data-add-item="showAddBudgetModal=true">
+    <div class="budget">
+      <strong>{{selected.label}}</strong><br/>
+      <span><span class="money" data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact balance of this budget is {{account.currency}} {{selected.balance}}."
+          data-placement="bottom" data-trigger="hover"><span
+          class="currency">{{account.currency}}</span> {{selected.balance | currency:'$'}}</span>
+        /
+        <span class="money" data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact amount of this budget is {{account.currency}} {{selected.amount}}."
+          data-placement="bottom" data-trigger="hover"><span
+          class="currency">{{account.currency}}</span> {{selected.amount | currency:'$'}}</span>
+      </span>
+      <div data-ng-show="showRefreshButton">
+        <button class="btn btn-success"
+          data-ng-click="refresh(selected)"><i class="icon-refresh icon-white"></i> Refresh</button><br/>
+      </div>
+      <div data-ng-show="balanceTooLow">
+        <hr />
+        <div class="alert alert-error">You must select a budget with a balance of at least <span
+        class="currency">{{selected.currency}}</span> {{minBalance | currency:'$'}}. The budget's
+        associated account must also have enough funds.</div>
+      </div>
+      <div data-ng-show="maxPerUseTooLow">
+        <hr />
+        <div class="alert alert-error">You must choose a budget that allows
+        a single purchase of at least <span
+        class="currency">{{selected.currency}}</span> {{minBalance | currency:'$'}}.</div>
+      </div>
+    </div>
+  </div>
+  <div data-modal-add-budget="showAddBudgetModal"
+    data-modal-on-close="selected=result"></div>
+</div>

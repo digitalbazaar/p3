@@ -62,13 +62,17 @@
             <div class="control-group" data-binding="source.cardExpMonth">
               <label class="control-label" for="card-exp-month">Expiration Month</label>
               <div class="controls">
-                <select class="input-small" name="card-exp-month" data-ng-model="card.cardExpMonth" data-ng-options="month for month in monthNumbers"></select>
+                <select class="input-small" name="card-exp-month" data-ng-model="card.cardExpMonth" data-ng-options="month for month in monthNumbers">
+                  <option value=""></option>
+                </select>
               </div>
             </div>
             <div class="control-group" data-binding="source.cardExpYear">
               <label class="control-label" for="card-exp-year">Expiration Year</label>
               <div class="controls">
-                <select class="input-small" name="card-exp-year" data-ng-model="card.cardExpYear" data-ng-options="year for year in years"></select>
+                <select class="input-small" name="card-exp-year" data-ng-model="card.cardExpYear" data-ng-options="year for year in years">
+                  <option value=""></option>
+                </select>
               </div>
             </div>
             <div></div>

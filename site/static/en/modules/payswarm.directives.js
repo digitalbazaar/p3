@@ -693,12 +693,11 @@ angular.module('payswarm.directives')
       // default to first payment type
       $scope.paymentType = $scope.paymentTypes[0];
       $scope.label = '';
-      var now = new Date;
       $scope.card = {
         '@context': 'http://purl.org/payswarm/v1',
         type: 'ccard:CreditCard',
-        cardExpMonth: $scope.monthNumbers[now.getMonth()],
-        cardExpYear: now.getFullYear()
+        cardExpMonth: '',
+        cardExpYear: ''
       };
       $scope.bankAccount = {
         '@context': 'http://purl.org/payswarm/v1',

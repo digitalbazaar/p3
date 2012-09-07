@@ -438,10 +438,28 @@ angular.module('payswarm.directives')
     });
   }
 
+  function Link(scope, element, attrs) {
+    scope.$watch('selected', function(value) {
+      scope.balanceTooLow = false;
+      scope.minBalance = scope.$eval(attrs.minBalance);
+      if(value && attrs.minBalance !== undefined) {
+        scope.minBalance = parseFloat(scope.minBalance);
+        if(value.balance < scope.minBalance) {
+          scope.balanceTooLow = true;
+        }
+      }
+    });
+  }
+
   return {
-    scope: {selected: '='},
+    scope: {
+      selected: '=',
+      minBalance: '@',
+      showDepositButton: '@'
+    },
     controller: Ctrl,
-    templateUrl: '/partials/account-selector.html'
+    templateUrl: '/partials/account-selector.html',
+    link: Link
   };
 })
 .directive('budgetSelector', function(svcBudget) {

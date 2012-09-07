@@ -8,8 +8,17 @@
       <span class="money" data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact balance of this account is {{selected.currency}} {{selected.balance}}."
         data-placement="bottom" data-trigger="hover"><span
         class="currency">{{selected.currency}}</span> {{selected.balance | currency:'$'}}</span>
+      <div data-ng-show="showDepositButton">
+        <button class="btn btn-success"
+          data-ng-click="showDepositModal"><i class="icon-plus icon-white"></i> Deposit</button><br/>
+      </div>
+      <div data-ng-show="balanceTooLow">
+        <hr />
+        <div class="alert alert-error">You must select an account with a balance of at least <span
+        class="currency">{{selected.currency}}</span> {{minBalance | currency:'$'}}.</div>
+      </div>
     </div>
   </div>
   <div data-modal-add-account="showAddAccountModal"
-    data-modal-on-close="selected=result;console.log('set');"></div>
+    data-modal-on-close="selected=result"></div>
 </div>

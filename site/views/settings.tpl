@@ -171,14 +171,14 @@ ${set([
             <table class="table table-condensed" data-ng-show="loading || addresses.length > 0">
               <thead>
                 <tr>
-                  <th>Label</th>
+                  <th>Name</th>
                   <th>Address</th>
                   <th class="action">Delete</th>
                 </tr>
               </thead>
               <tbody>
                 <tr data-ng-repeat="address in addresses | orderBy:'label'">
-                  <!-- Label -->
+                  <!-- Name -->
                   <td>
                     <span>{{address.label}}</span>
                   </td>

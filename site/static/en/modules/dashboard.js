@@ -21,27 +21,6 @@ module.controller('DashboardCtrl', function($scope, svcAccount, svcBudget) {
     txns: {loading: true}
   };
 
-  $scope.addAccount = function() {
-    window.modals.addAccount.show({
-      identity: $scope.identity,
-      added: function() {
-        svcAccount.get({force: true}, function() {
-          $scope.$apply();
-        });
-      }
-    });
-  };
-  $scope.editAccount = function(account) {
-    window.modals.editAccount.show({
-      identity: $scope.identity,
-      account: account.id,
-      success: function() {
-        svcAccount.get({force: true}, function() {
-          $scope.$apply();
-        });
-      }
-    });
-  };
   $scope.deposit = function(account) {
     window.modals.deposit.show({
       identity: $scope.identity,

@@ -21,7 +21,7 @@ angular.module('payswarm.services')
   };
   return service;
 })
-.factory('svcAddress', function() {
+.factory('svcAddress', function($timeout) {
   // address service
   var service = {};
 
@@ -57,6 +57,11 @@ angular.module('payswarm.services')
           service.state.loading = false;
           callback(err);
         }
+      });
+    }
+    else {
+      $timeout(function() {
+        callback(null, service.addresses);
       });
     }
   };
@@ -119,7 +124,7 @@ angular.module('payswarm.services')
 
   return service;
 })
-.factory('svcAccount', function() {
+.factory('svcAccount', function($timeout) {
   // accounts service
   var service = {};
 
@@ -152,6 +157,11 @@ angular.module('payswarm.services')
           callback(null, service.accounts);
         },
         error: callback
+      });
+    }
+    else {
+      $timeout(function() {
+        callback(null, service.accounts);
       });
     }
   };
@@ -223,7 +233,7 @@ angular.module('payswarm.services')
 
   return service;
 })
-.factory('svcBudget', function() {
+.factory('svcBudget', function($timeout) {
   // budgets service
   var service = {};
 
@@ -261,6 +271,11 @@ angular.module('payswarm.services')
           service.state.loading = false;
           callback(err);
         }
+      });
+    }
+    else {
+      $timeout(function() {
+        callback(null, service.budgets);
       });
     }
   };
@@ -372,7 +387,7 @@ angular.module('payswarm.services')
 
   return service;
 })
-.factory('svcPaymentToken', function() {
+.factory('svcPaymentToken', function($timeout) {
   // paymentTokens service
   var service = {};
 
@@ -410,6 +425,11 @@ angular.module('payswarm.services')
           service.state.loading = false;
           callback(err);
         }
+      });
+    }
+    else {
+      $timeout(function() {
+        callback(null, service.paymentTokens);
       });
     }
   };
@@ -472,6 +492,7 @@ angular.module('payswarm.services')
    *
    * @param options the directive options.
    *          templateUrl the URL to the template for the modal.
+   *          [name] the name of the modal to use, set to the 'visible' var.
    *          [transclude] optional transclusion setting.
    *          [scope] optional isolate scope for the modal.
    *          [controller] optional controller for the modal.

@@ -55,7 +55,10 @@ ${set([
             </td>
             <!-- Edit -->
             <td class="action">
-              <button class="btn edit" data-toggle="modal" title="Edit" data-ng-click="editAccount(account)"><i class="icon-pencil"></i></button>
+              <div data-modal-edit-account="showEditAccountModal"
+                data-account="account"></div>
+              <button class="btn edit" title="Edit"
+                data-ng-click="showEditAccountModal=true"><i class="icon-pencil"></i></button>
             </td>
           </tr>
         </tbody>
@@ -113,7 +116,8 @@ ${set([
             </td>
             <!-- Edit -->
             <td class="action">
-              <div data-modal-edit-budget="showEditBudgetModal"></div>
+              <div data-modal-edit-budget="showEditBudgetModal"
+                data-budget="budget"></div>
               <button class="btn edit" title="Edit"
                 data-ng-click="showEditBudgetModal=true"><i class="icon-pencil"></i></button>
             </td>

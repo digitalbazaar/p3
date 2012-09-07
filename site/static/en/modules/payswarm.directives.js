@@ -517,8 +517,44 @@ angular.module('payswarm.directives')
     controller: Ctrl,
   });
 })
-.directive('modalAddBudget', function(svcModal, svcBudget) {
+.directive('modalEditAccount', function(svcModal, svcAccount) {
   function Ctrl($scope) {
+    $scope.open = function() {
+      $scope.data = window.data || {};
+      $scope.identity = data.identity || {};
+      $scope.accountVisibility = ($scope.account.psaPublic.length === 0) ?
+        'hidden' : 'public';
+    };
+
+    $scope.editAccount = function() {
+      $scope.account.psaPublic = [];
+      if($scope.accountVisibility === 'public') {
+        $scope.account.psaPublic.push('label');
+        $scope.account.psaPublic.push('owner');
+      }
+
+      svcAccount.update($scope.account, function(err, account) {
+        if(!err) {
+          $scope.close(null, account);
+        }
+        console.log('editAccount error', err);
+        // FIXME: change to a directive
+        var feedback = $('[name="feedback"]', target);
+        website.util.processValidationErrors(feedback, target, err);
+      });
+    };
+  }
+
+  return svcModal.directive({
+    name: 'EditAccount',
+    scope: {account: '='},
+    templateUrl: '/partials/modals/edit-account.html',
+    controller: Ctrl,
+  });
+})
+.directive('modalAddBudget', function(svcModal, svcBudget, svcAccount) {
+  function Ctrl($scope) {
+    $scope.account = null;
     $scope.open = function() {
       $scope.data = window.data || {};
       $scope.identity = data.identity || {};
@@ -528,7 +564,8 @@ angular.module('payswarm.directives')
     };
 
     $scope.addBudget = function() {
-      svcBudget.add(budget, function(err) {
+      $scope.budget.source = $scope.account.id;
+      svcBudget.add($scope.budget, function(err) {
         if(!err) {
           $scope.close(null, budget);
         }

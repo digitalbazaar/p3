@@ -635,9 +635,9 @@ angular.module('payswarm.directives')
 
       $scope.multiEnabled = ($scope.paymentTypes.length > 1);
       $scope.creditCardEnabled =
-        ($scope.paymentTypes.indexOf('ccard:CreditCard') != -1)
+        ($scope.paymentTypes.indexOf('ccard:CreditCard') !== -1);
       $scope.bankAccountEnabled =
-        ($scope.paymentTypes.indexOf('bank:BankAccount') != -1)
+        ($scope.paymentTypes.indexOf('bank:BankAccount') !== -1);
 
       $scope.billingAddressRequired = true;
       $scope.$watch('paymentType', function() {

@@ -563,6 +563,12 @@ angular.module('payswarm.directives')
       $scope.budget = {
         '@context': 'http://purl.org/payswarm/v1'
       };
+      $scope.expireChoices = {
+        '1 month': 2629800,
+        '3 months': 7889400,
+        '6 months': 15778800,
+        '1 year': 31557600
+      };
     };
 
     $scope.addBudget = function() {
@@ -592,6 +598,13 @@ angular.module('payswarm.directives')
     $scope.open = function() {
       $scope.data = window.data || {};
       $scope.identity = data.identity || {};
+      $scope.expireChoices = {
+        'Current': $scope.budget.psaExpires,
+        '1 month': 2629800,
+        '3 months': 7889400,
+        '6 months': 15778800,
+        '1 year': 31557600
+      };
     };
 
     $scope.editBudget = function() {

@@ -439,7 +439,6 @@ angular.module('payswarm.services')
       payswarm.paymentTokens.get({
         identity: identity,
         success: function(paymentTokens) {
-          console.log('xxx get suc', paymentTokens);
           updateTokens(paymentTokens);
           expires = +new Date() + maxAge;
           service.state.loading = false;
@@ -483,8 +482,14 @@ angular.module('payswarm.services')
     callback = callback || angular.noop;
     service.state.loading = true;
     payswarm.paymentTokens.del({
-      budget: paymentTokenId,
+      paymentToken: paymentTokenId,
       success: function() {
+        for(var i = service.paymentTokens.length - 1; i >= 0; i--) {
+          if(service.paymentTokens[i].id === paymentTokenId) {
+            service.paymentTokens.splice(i, 1);
+          }
+        }
+        updateTokens();
         service.state.loading = false;
         callback();
       },

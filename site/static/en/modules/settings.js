@@ -27,16 +27,12 @@ module.controller('ExternalAccountsCtrl', function($scope, svcPaymentToken) {
   $scope.loading = false;
 
   $scope.deletePaymentToken = function(paymentToken) {
-    console.log('XXX dpt', paymentToken);
-    /*
-    svcPaymentToken.del(paymentToken, function() {
+    svcPaymentToken.del(paymentToken.id, function() {
       $scope.$apply();
     });
-    */
   };
 
   svcPaymentToken.get(function() {
-    console.log('XXX ptap', $scope, svcPaymentToken);
     $scope.$apply();
   });
 });

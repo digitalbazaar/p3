@@ -700,7 +700,8 @@ angular.module('payswarm.directives')
         '@context': 'http://purl.org/payswarm/v1',
         type: 'ccard:CreditCard',
         cardExpMonth: '',
-        cardExpYear: ''
+        cardExpYear: '',
+        cardAddress: $scope.card ? $scope.card.cardAddress : null
       };
       $scope.bankAccount = {
         '@context': 'http://purl.org/payswarm/v1',

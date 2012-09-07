@@ -394,10 +394,36 @@ angular.module('payswarm.services')
   var identity = window.data.identity;
   var expires = 0;
   var maxAge = 1000*60*2;
-  service.paymentTokens = [];
   service.state = {
     loading: false
   };
+  // all tokens
+  service.paymentTokens = [];
+  // type specific tokens
+  service.creditCards = [];
+  service.bankAccounts = [];
+
+  function updateTokens(paymentTokens) {
+    // update service.paymentTokens if passed new tokens
+    if(paymentTokens) {
+      service.paymentTokens.splice(0, service.paymentTokens.length);
+      angular.forEach(paymentTokens, function(paymentToken) {
+        service.paymentTokens.push(paymentToken);
+      })
+    }
+
+    // update card and bank tokens
+    service.creditCards.splice(0, service.creditCards.length);
+    service.bankAccounts.splice(0, service.bankAccounts.length);
+    angular.forEach(service.paymentTokens, function(paymentToken) {
+      if(paymentToken.paymentMethod === 'ccard:CreditCard') {
+        service.creditCards.push(paymentToken);
+      }
+      else if(paymentToken.paymentMethod === 'bank:BankAccount') {
+        service.bankAccounts.push(paymentToken);
+      }
+    });
+  }
 
   // get all paymentTokens for an identity
   service.get = function(options, callback) {
@@ -413,10 +439,8 @@ angular.module('payswarm.services')
       payswarm.paymentTokens.get({
         identity: identity,
         success: function(paymentTokens) {
-          service.paymentTokens.splice(0, service.paymentTokens.length);
-          angular.forEach(paymentTokens, function(paymentToken) {
-            service.paymentTokens.push(paymentToken);
-          });
+          console.log('xxx get suc', paymentTokens);
+          updateTokens(paymentTokens);
           expires = +new Date() + maxAge;
           service.state.loading = false;
           callback(null, service.paymentTokens);
@@ -440,9 +464,10 @@ angular.module('payswarm.services')
     service.state.loading = true;
     payswarm.paymentTokens.add({
       identity: identity,
-      paymentToken: paymentToken,
+      data: paymentToken,
       success: function(paymentToken) {
         service.paymentTokens.push(paymentToken);
+        updateTokens();
         service.state.loading = false;
         callback(null, paymentToken);
       },

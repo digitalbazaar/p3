@@ -11,7 +11,7 @@
       data-items="items" data-item-type="itemType">
       <div>
         <ul class="unstyled item">
-        <li class="item-hover well" data-ng-repeat="selected in items"
+        <li class="item-hover well" data-ng-repeat="selected in items | orderBy:'label'"
           data-ng-click="select(selected)">
           <div data-ng-transclude></div>
         </li>

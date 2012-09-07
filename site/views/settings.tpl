@@ -29,6 +29,7 @@ ${set([
       <div class="container-fluid tab-pane active"
         id="external-accounts"
         data-ng-controller="ExternalAccountsCtrl">
+
         <div class="row-fluid">
           <div class="section span12">
             <h3 class="headline">Credit Cards</h3>
@@ -62,7 +63,7 @@ ${set([
                   </td>
                   <!-- Delete -->
                   <td class="action">
-                    <button class="btn btn-danger" title="Delete" data-ng-click="deleteCard(card)"><i class="icon-remove icon-white"></i></button>
+                    <button class="btn btn-danger" title="Delete" data-ng-click="deletePaymentToken(card)"><i class="icon-remove icon-white"></i></button>
                   </td>
                 </tr>
               </tbody>
@@ -84,11 +85,10 @@ ${set([
 
         <div class="row-fluid">
           <div class="span12">
-            <div data-modal-add-payment-token="showAddTokenModal"
-              data-modal-on-close="tokenAdded(err, result)"></div>
-            <button id="button-add-credit-card" class="btn btn-success"
+            <div data-modal-add-payment-token="showAddCreditCardModal" data-payment-types="creditCardTypes"></div>
+            <button class="btn btn-success"
               data-ng-hide="loading"
-              data-ng-click="showAddTokenModal=true"><i class="icon-plus icon-white"></i> Add Credit Card</button>
+              data-ng-click="showAddCreditCardModal=true"><i class="icon-plus icon-white"></i> Add Credit Card</button>
           </div>
         </div>
         
@@ -103,9 +103,9 @@ ${set([
             <table class="table table-condensed" data-ng-show="loading || bankAccounts.length > 0">
               <thead>
                 <tr>
-                  <th class="name">Name</th>
-                  <th class="name">Number</th>
-                  <th class="name">Routing</th>
+                  <th>Name</th>
+                  <th>Number</th>
+                  <th>Routing</th>
                   <th>Status</th>
                   <th class="action">Delete</th>
                 </tr>
@@ -130,7 +130,7 @@ ${set([
                   </td>
                   <!-- Delete -->
                   <td class="action">
-                    <button class="btn btn-danger" title="Delete" data-ng-click="deleteBankAccount(card)"><i class="icon-remove icon-white"></i></button>
+                    <button class="btn btn-danger" title="Delete" data-ng-click="deletePaymentToken(bankAccount)"><i class="icon-remove icon-white"></i></button>
                   </td>
                 </tr>
               </tbody>
@@ -152,9 +152,10 @@ ${set([
         
         <div class="row-fluid">
           <div class="span12">
-            <button id="button-add-bank-account"
-              data-ng-hide="loading" class="btn btn-success"
-              data-ng-click="addToken()"><i class="icon-plus icon-white"></i> Add Bank Account</button>
+            <div data-modal-add-payment-token="showAddBankAccountModal" data-payment-types="bankAccountTypes"></div>
+            <button class="btn btn-success"
+              data-ng-hide="loading"
+              data-ng-click="showAddBankAccountModal=true"><i class="icon-plus icon-white"></i> Add Bank Account</button>
           </div>
         </div>
       </div>
@@ -170,14 +171,14 @@ ${set([
             <table class="table table-condensed" data-ng-show="loading || addresses.length > 0">
               <thead>
                 <tr>
-                  <th class="name">Name</th>
-                  <th class="address">Address</th>
+                  <th>Label</th>
+                  <th>Address</th>
                   <th class="action">Delete</th>
                 </tr>
               </thead>
               <tbody>
                 <tr data-ng-repeat="address in addresses | orderBy:'label'">
-                  <!-- Name -->
+                  <!-- Label -->
                   <td>
                     <span>{{address.label}}</span>
                   </td>
@@ -204,6 +205,10 @@ ${set([
             <div data-ng-show="!loading && addresses.length == 0">
               <p class="center">You have no addresses associated with this identity.</p>
             </div>
+          </div>
+        </div>
+        <div class="row-fluid">
+          <div class="span12">
             <div data-modal-add-address="showAddAddressModal"></div>
             <button class="btn btn-success"
               data-ng-click="showAddAddressModal=true"><i class="icon-plus icon-white"></i> Add Address</button>

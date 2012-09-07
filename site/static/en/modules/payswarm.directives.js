@@ -608,23 +608,47 @@ angular.module('payswarm.directives')
     controller: Ctrl,
   });
 })
-.directive('modalAddPaymentToken', function(svcModal) {
+.directive('modalAddPaymentToken', function(svcModal, svcPaymentToken) {
   function Ctrl($scope) {
     $scope.open = function() {
       $scope.data = window.data || {};
-      $scope.identity = data.identity || {};
-      $scope.paymentGateway = data.paymentGateway || 'Test';
-      $scope.paymentType = 'ccard:CreditCard';
-      $scope.label = '';
-      $scope.card = {type: 'ccard:CreditCard'};
-      $scope.bankAccount = {type: 'bank:BankAccount'};
       $scope.monthNumbers = window.tmpl.monthNumbers;
       $scope.years = window.tmpl.years;
+      $scope.identity = data.identity || {};
+      $scope.paymentGateway = data.paymentGateway || 'Test';
+      $scope.paymentTypes =
+        $scope.paymentTypes || ['ccard:CreditCard', 'bank:BankAccount'];
+      // default to first payment type
+      $scope.paymentType = $scope.paymentTypes[0];
+      $scope.label = '';
+      var now = new Date;
+      $scope.card = {
+        '@context': 'http://purl.org/payswarm/v1',
+        type: 'ccard:CreditCard',
+        cardExpMonth: $scope.monthNumbers[now.getMonth()],
+        cardExpYear: now.getFullYear()
+      };
+      $scope.bankAccount = {
+        '@context': 'http://purl.org/payswarm/v1',
+        type: 'bank:BankAccount'
+      };
+
+      $scope.multiEnabled = ($scope.paymentTypes.length > 1);
+      $scope.creditCardEnabled =
+        ($scope.paymentTypes.indexOf('ccard:CreditCard') != -1)
+      $scope.bankAccountEnabled =
+        ($scope.paymentTypes.indexOf('bank:BankAccount') != -1)
+
+      $scope.billingAddressRequired = true;
+      $scope.$watch('paymentType', function() {
+        $scope.billingAddressRequired =
+          ($scope.paymentType === 'ccard:CreditCard');
+      });
     };
 
-    $scope.addToken = function() {
+    $scope.add = function() {
       // create post data
-      var data = {
+      var token = {
         '@context': 'http://purl.org/payswarm/v1',
         label: $scope.label,
         paymentGateway: $scope.paymentGateway
@@ -632,34 +656,35 @@ angular.module('payswarm.directives')
 
       // handle payment method specifics
       if($scope.paymentType === 'ccard:CreditCard') {
-        data.source = $scope.card;
+        token.source = $scope.card;
       }
       else if($scope.paymentType === 'bank:BankAccount') {
-        data.source = $scope.bankAccount;
+        token.source = $scope.bankAccount;
       }
 
-      // FIXME: disabled temporarily
-      $scope.close(null, null);
-      return;
-
       // add payment token
-      payswarm.paymentTokens.add({
-        identity: $scope.identity,
-        data: data,
-        success: function(paymentToken) {
-          $scope.close(null, paymentToken);
-        },
-        error: function(err) {
+      svcPaymentToken.add(token, function(err, addedToken) {
+        if(err) {
+          // FIXME
+          console.log('adding failed', err);
+          /*
           // FIXME: change to a directive
           var feedback = $('[name="feedback"]', target);
           website.util.processValidationErrors(feedback, target, err);
+          */
+          return;
         }
+        $scope.close(null, addedToken);
+        $scope.$apply();
       });
     };
   }
 
   return svcModal.directive({
     name: 'AddPaymentToken',
+    scope: {
+      paymentTypes: '='
+    },
     templateUrl: '/partials/modals/add-payment-token.html',
     controller: Ctrl
   });

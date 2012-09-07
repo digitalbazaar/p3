@@ -554,7 +554,9 @@ angular.module('payswarm.directives')
 })
 .directive('modalAddBudget', function(svcModal, svcBudget, svcAccount) {
   function Ctrl($scope) {
-    $scope.account = null;
+    $scope.selection = {
+      account: null
+    };
     $scope.open = function() {
       $scope.data = window.data || {};
       $scope.identity = data.identity || {};
@@ -564,8 +566,8 @@ angular.module('payswarm.directives')
     };
 
     $scope.addBudget = function() {
-      $scope.budget.source = $scope.account.id;
-      svcBudget.add($scope.budget, function(err) {
+      $scope.budget.source = $scope.selection.account.id;
+      svcBudget.add($scope.budget, function(err, budget) {
         if(!err) {
           $scope.close(null, budget);
         }
@@ -584,13 +586,17 @@ angular.module('payswarm.directives')
 })
 .directive('modalEditBudget', function(svcModal, svcBudget) {
   function Ctrl($scope) {
+    $scope.selection = {
+      account: null
+    };
     $scope.open = function() {
       $scope.data = window.data || {};
       $scope.identity = data.identity || {};
     };
 
     $scope.editBudget = function() {
-      svcBudget.update(budget, function(err) {
+      $scope.budget.source = $scope.selection.account.id;
+      svcBudget.update($scope.budget, function(err) {
         if(!err) {
           $scope.close(null, budget);
         }

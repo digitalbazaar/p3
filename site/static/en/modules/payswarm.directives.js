@@ -141,41 +141,44 @@ angular.module('payswarm.directives')
   };
 })
 .directive('creditCardSelector', function() {
-  return function(scope, element, attrs) {
-    scope.$watch(attrs.creditCardSelector, function(value) {
-      var logo = 'all';
-      var brand = null;
+  return {
+    scope: {
+      number: '=creditCardSelector',
+      brand: '=creditCardBrand'
+    },
+    link: function(scope, element, attrs) {
+      scope.$watch('number', function(value) {
+        var logo = 'all';
+        scope.brand = null;
 
-      if(/^4/.test(value)) {
-        logo = 'visa';
-        brand = 'ccard:Visa';
-      }
-      else if(/^5[1-5]/.test(value)) {
-        logo = 'mastercard';
-        brand = 'ccard:MasterCard';
-      }
-      else if(/^3[47]/.test(value)) {
-        logo = 'amex';
-        brand = 'ccard:AmericanExpress';
-      }
-      // 6011, 622126-622925, 644-649, 65
-      else if(/^(6((011)|(22((1((2[6-9])|([3-9]{1}[0-9])))|([2-8])|(9(([0-1]{1}[0-9])|(2[0-5])))))|(4[4-9])|5))/.test(value)) {
-        logo = 'discover';
-        brand = 'ccard:Discover';
-      }
-      else if(/^62/.test(value)) {
-        logo = 'china-up';
-        brand = 'ccard:ChinaUnionPay';
-      }
+        if(/^4/.test(value)) {
+          logo = 'visa';
+          scope.brand = 'ccard:Visa';
+        }
+        else if(/^5[1-5]/.test(value)) {
+          logo = 'mastercard';
+          scope.brand = 'ccard:MasterCard';
+        }
+        else if(/^3[47]/.test(value)) {
+          logo = 'amex';
+          scope.brand = 'ccard:AmericanExpress';
+        }
+        // 6011, 622126-622925, 644-649, 65
+        else if(/^(6((011)|(22((1((2[6-9])|([3-9]{1}[0-9])))|([2-8])|(9(([0-1]{1}[0-9])|(2[0-5])))))|(4[4-9])|5))/.test(value)) {
+          logo = 'discover';
+          scope.brand = 'ccard:Discover';
+        }
+        else if(/^62/.test(value)) {
+          logo = 'china-up';
+          scope.brand = 'ccard:ChinaUnionPay';
+        }
 
-      // update brand
-      scope[attrs.ngModel] = brand;
-
-      // remove old cc-logo classes, add new
-      element.removeClass(function(index, css) {
-        return (css.match (/\bcc-logo-\S+/g) || []).join(' ');
-      }).addClass('cc-logo-' + logo + '-selected');
-    });
+        // remove old cc-logo classes, add new
+        element.removeClass(function(index, css) {
+          return (css.match (/\bcc-logo-\S+/g) || []).join(' ');
+        }).addClass('cc-logo-' + logo + '-selected');
+      });
+    }
   };
 })
 .directive('duplicateChecker', function($http, $filter) {

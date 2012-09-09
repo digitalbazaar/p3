@@ -465,7 +465,7 @@ angular.module('payswarm.directives')
     link: Link
   };
 })
-.directive('budgetSelector', function(svcBudget, svcAccounts) {
+.directive('budgetSelector', function(svcBudget, svcAccount) {
   function Ctrl($scope, svcBudget) {
     $scope.budgets = svcBudget.budgets;
     $scope.selected = null;

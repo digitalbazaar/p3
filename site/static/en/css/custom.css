@@ -195,6 +195,13 @@ span.currency {
   display: inline-block;
   padding-bottom: 5px;
 }
+.alert-spinner {
+  float: right;
+  display: inline;
+  text-align: right;
+  margin-top: -10px;
+  margin-right: -15px;
+}
 
 /* Misc */
 .table .alert {

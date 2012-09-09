@@ -397,32 +397,42 @@ angular.module('payswarm.services')
   service.state = {
     loading: false
   };
-  // all tokens
-  service.paymentTokens = [];
+  // all tokens indexed by id
+  service._paymentTokens = {};
   // type specific tokens
   service.creditCards = [];
   service.bankAccounts = [];
 
   function updateTokens(paymentTokens) {
-    // update service.paymentTokens if passed new tokens
-    if(paymentTokens) {
-      service.paymentTokens.splice(0, service.paymentTokens.length);
-      angular.forEach(paymentTokens, function(paymentToken) {
-        service.paymentTokens.push(paymentToken);
-      })
-    }
-
     // update card and bank tokens
     service.creditCards.splice(0, service.creditCards.length);
     service.bankAccounts.splice(0, service.bankAccounts.length);
-    angular.forEach(service.paymentTokens, function(paymentToken) {
-      if(paymentToken.paymentMethod === 'ccard:CreditCard') {
-        service.creditCards.push(paymentToken);
+    angular.forEach(service._paymentTokens, function(token) {
+      if(token.paymentMethod === 'ccard:CreditCard') {
+        service.creditCards.push(token);
       }
-      else if(paymentToken.paymentMethod === 'bank:BankAccount') {
-        service.bankAccounts.push(paymentToken);
+      else if(token.paymentMethod === 'bank:BankAccount') {
+        service.bankAccounts.push(token);
       }
     });
+  }
+
+  function _setToken(token) {
+    service._paymentTokens[token.id] = token;
+    updateTokens();
+  }
+
+  function _setTokens(tokens) {
+    service._paymentTokens = {};
+    angular.forEach(tokens, function(token) {
+      _setToken(token);
+    });
+    updateTokens();
+  }
+
+  function _delToken(tokenId) {
+    delete service._paymentTokens[tokenId];
+    updateTokens();
   }
 
   // get all paymentTokens for an identity
@@ -439,7 +449,7 @@ angular.module('payswarm.services')
       payswarm.paymentTokens.get({
         identity: identity,
         success: function(paymentTokens) {
-          updateTokens(paymentTokens);
+          _setTokens(paymentTokens);
           expires = +new Date() + maxAge;
           service.state.loading = false;
           callback(null, service.paymentTokens);
@@ -465,8 +475,7 @@ angular.module('payswarm.services')
       identity: identity,
       data: paymentToken,
       success: function(paymentToken) {
-        service.paymentTokens.push(paymentToken);
-        updateTokens();
+        _setToken(paymentToken);
         service.state.loading = false;
         callback(null, paymentToken);
       },
@@ -477,6 +486,27 @@ angular.module('payswarm.services')
     });
   };
 
+  // update a paymentToken
+  /*
+  service.update = function(paymentToken, callback) {
+    callback = callback || angular.noop;
+    service.state.loading = true;
+    payswarm.paymentTokens.update({
+      identity: identity,
+      data: paymentToken,
+      success: function(paymentToken) {
+        _setToken(paymentToken);
+        service.state.loading = false;
+        callback(null, paymentToken);
+      },
+      error: function(err) {
+        service.state.loading = false;
+        callback(err);
+      }
+    });
+  };
+  */
+
   // deletes a paymentToken
   service.del = function(paymentTokenId, callback) {
     callback = callback || angular.noop;
@@ -484,12 +514,7 @@ angular.module('payswarm.services')
     payswarm.paymentTokens.del({
       paymentToken: paymentTokenId,
       success: function() {
-        for(var i = service.paymentTokens.length - 1; i >= 0; i--) {
-          if(service.paymentTokens[i].id === paymentTokenId) {
-            service.paymentTokens.splice(i, 1);
-          }
-        }
-        updateTokens();
+        _delToken(paymentTokenId);
         service.state.loading = false;
         callback();
       },

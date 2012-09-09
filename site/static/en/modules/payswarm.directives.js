@@ -683,18 +683,18 @@ angular.module('payswarm.directives')
     controller: Ctrl,
   });
 })
-.directive('modalAddPaymentToken', function(svcModal, svcPaymentToken) {
-  function Ctrl($scope) {
+.directive('modalAddPaymentToken', function(svcModal) {
+  function Ctrl($scope, svcPaymentToken) {
     $scope.open = function() {
       $scope.data = window.data || {};
       $scope.monthNumbers = window.tmpl.monthNumbers;
       $scope.years = window.tmpl.years;
       $scope.identity = data.identity || {};
       $scope.paymentGateway = data.paymentGateway || 'Test';
-      $scope.paymentTypes =
-        $scope.paymentTypes || ['ccard:CreditCard', 'bank:BankAccount'];
-      // default to first payment type
-      $scope.paymentType = $scope.paymentTypes[0];
+      $scope.paymentMethods =
+        $scope.paymentMethods || ['ccard:CreditCard', 'bank:BankAccount'];
+      // default to first payment method
+      $scope.paymentMethod = $scope.paymentMethods[0];
       $scope.label = '';
       $scope.card = {
         '@context': 'http://purl.org/payswarm/v1',
@@ -708,16 +708,17 @@ angular.module('payswarm.directives')
         type: 'bank:BankAccount'
       };
 
-      $scope.multiEnabled = ($scope.paymentTypes.length > 1);
+      $scope.multiEnabled = ($scope.paymentMethods.length > 1);
       $scope.creditCardEnabled =
-        ($scope.paymentTypes.indexOf('ccard:CreditCard') !== -1);
+        ($scope.paymentMethods.indexOf('ccard:CreditCard') !== -1);
       $scope.bankAccountEnabled =
-        ($scope.paymentTypes.indexOf('bank:BankAccount') !== -1);
+        ($scope.paymentMethods.indexOf('bank:BankAccount') !== -1);
 
       $scope.billingAddressRequired = true;
-      $scope.$watch('paymentType', function() {
+      // billing address UI depends on payment method
+      $scope.$watch('paymentMethod', function() {
         $scope.billingAddressRequired =
-          ($scope.paymentType === 'ccard:CreditCard');
+          ($scope.paymentMethod === 'ccard:CreditCard');
       });
     };
 
@@ -730,10 +731,10 @@ angular.module('payswarm.directives')
       };
 
       // handle payment method specifics
-      if($scope.paymentType === 'ccard:CreditCard') {
+      if($scope.paymentMethod === 'ccard:CreditCard') {
         token.source = $scope.card;
       }
-      else if($scope.paymentType === 'bank:BankAccount') {
+      else if($scope.paymentMethod === 'bank:BankAccount') {
         token.source = $scope.bankAccount;
       }
 
@@ -758,7 +759,7 @@ angular.module('payswarm.directives')
   return svcModal.directive({
     name: 'AddPaymentToken',
     scope: {
-      paymentTypes: '='
+      paymentMethods: '='
     },
     templateUrl: '/partials/modals/add-payment-token.html',
     controller: Ctrl

@@ -85,7 +85,7 @@ ${set([
 
         <div class="row-fluid">
           <div class="span12">
-            <div data-modal-add-payment-token="showAddCreditCardModal" data-payment-types="creditCardTypes"></div>
+            <div data-modal-add-payment-token="showAddCreditCardModal" data-payment-methods="creditCardMethods"></div>
             <button class="btn btn-success"
               data-ng-hide="loading"
               data-ng-click="showAddCreditCardModal=true"><i class="icon-plus icon-white"></i> Add Credit Card</button>
@@ -152,7 +152,7 @@ ${set([
         
         <div class="row-fluid">
           <div class="span12">
-            <div data-modal-add-payment-token="showAddBankAccountModal" data-payment-types="bankAccountTypes"></div>
+            <div data-modal-add-payment-token="showAddBankAccountModal" data-payment-methods="bankAccountMethods"></div>
             <button class="btn btn-success"
               data-ng-hide="loading"
               data-ng-click="showAddBankAccountModal=true"><i class="icon-plus icon-white"></i> Add Bank Account</button>

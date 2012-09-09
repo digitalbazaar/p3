@@ -29,17 +29,17 @@
           <div class="controls">
             <label class="radio inline" data-ng-show="creditCardEnabled">
               <input type="radio" name="payment-type" value="ccard:CreditCard"
-                checked="checked" data-ng-model="paymentType" />
+                checked="checked" data-ng-model="paymentMethod" />
               Credit Card
             </label>
             <label class="radio inline" data-ng-show="bankAccountEnabled">
               <input type="radio" name="payment-type" value="bank:BankAccount"
-                data-ng-model="paymentType" />
+                data-ng-model="paymentMethod" />
               Bank Account
             </label>
           </div>
         </div>
-        <div name="payment-type-fields" data-ng-switch="paymentType">
+        <div name="payment-type-fields" data-ng-switch="paymentMethod">
           <div data-ng-switch-when="ccard:CreditCard">
             <div class="control-group" data-binding="source.cardBrand">
               <label class="control-label" for="card-brand">Type</label>

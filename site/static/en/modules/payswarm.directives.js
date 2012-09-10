@@ -728,6 +728,7 @@ angular.module('payswarm.directives')
       $scope.data = window.data || {};
       $scope.monthNumbers = window.tmpl.monthNumbers;
       $scope.years = window.tmpl.years;
+      $scope.feedback = {};
       $scope.identity = data.identity || {};
       $scope.paymentGateway = data.paymentGateway || 'Test';
       $scope.paymentMethods =
@@ -782,14 +783,11 @@ angular.module('payswarm.directives')
         if(err) {
           // FIXME
           console.log('adding failed', err);
-          /*
-          // FIXME: change to a directive
-          var feedback = $('[name="feedback"]', target);
-          website.util.processValidationErrors(feedback, target, err);
-          */
-          return;
+          $scope.feedback.validationErrors = err;
         }
-        $scope.close(null, addedToken);
+        else {
+          $scope.close(null, addedToken);
+        }
         $scope.$apply();
       });
     };
@@ -801,7 +799,10 @@ angular.module('payswarm.directives')
       paymentMethods: '='
     },
     templateUrl: '/partials/modals/add-payment-token.html',
-    controller: Ctrl
+    controller: Ctrl,
+    link: function(scope, element, attrs) {
+      scope.feedbackTarget = element;
+    }
   });
 })
 .directive('modalAddIdentity', function(svcModal, $filter) {
@@ -993,6 +994,49 @@ angular.module('payswarm.directives')
     },
     templateUrl: '/partials/vcard-address.html'
   };
-});
+})
+.directive('feedback', function() {
+  function processValidationErrors(feedbackTarget, target, ex) {
+    // clear previous feedback
+    $('[data-binding]', target).removeClass('error');
+    feedbackTarget.empty();
+    // done if no exception
+    if(!ex) {
+      return;
+    }
+  
+    // add error feedback
+    feedbackTarget.addClass('alert');
+    feedbackTarget.addClass('alert-error');
+  
+    // handle form feedback
+    switch(ex.type) {
+    // generic form errors
+    case 'payswarm.validation.ValidationError':
+      feedbackTarget.text('Please correct the information you entered.');
+      $.each(ex.details.errors, function(i, error) {
+        var binding = error.details.path;
+        if(binding) {
+          // highlight element using data-binding
+          $('[data-binding="' + binding + '"]', target).addClass('error');
+        }
+      });
+      break;
+    default:
+      feedbackTarget.text(ex.message);
+    }
+  }
+  return {
+    scope: {
+      feedback: '=',
+      target: '='
+    },
+    link: function(scope, element, attrs) {
+      scope.$watch('feedback.validationErrors', function(value) {
+        processValidationErrors(element, scope.target, value);
+      });
+    }
+  };
+})
 
 })(jQuery);

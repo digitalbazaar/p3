@@ -77,7 +77,9 @@ ${set([
 
           <div class="form-actions">
             <button class="btn btn-large btn-primary"
+              data-ng-disabled="loading"
               data-ng-click="register()">Register</button>
+            <div data-spinner="loading" class="prepend-btn-large-spinner"></div>
           </div>
         </div>
        </fieldset>
@@ -95,7 +97,8 @@ ${set([
         this does not redirect automatically, please click the following
         button.
         </p>
-        <button type="submit">Complete Vendor Registration</button>
+        <button class="btn btn-large btn-primary"
+          type="submit">Complete Vendor Registration</button>
       </form>
       
       <div data-ng-hide="registrationCallback">

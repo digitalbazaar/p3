@@ -11,6 +11,7 @@ var module = angular.module('payswarm');
 module.controller('RegisterCtrl', function($scope, $timeout, svcAccount) {
   // init model
   var data = window.data;
+  $scope.loading = false;
   $scope.registered = false;
   $scope.identities = null;
   $scope.session = data.session;
@@ -45,6 +46,7 @@ module.controller('RegisterCtrl', function($scope, $timeout, svcAccount) {
 
   $scope.register = function() {
     // update the preferences associated with the vendor identity
+    $scope.loading = true;
     var identity = $scope.selection.identity.id;
     payswarm.identities.preferences.update({
       identity: identity,
@@ -60,6 +62,10 @@ module.controller('RegisterCtrl', function($scope, $timeout, svcAccount) {
           responseNonce: $scope.responseNonce,
           success: postPreferencesToCallback
         });
+      },
+      error: function() {
+        $scope.loading = false;
+        $scope.$apply();
       }
     });
   };
@@ -82,6 +88,7 @@ module.controller('RegisterCtrl', function($scope, $timeout, svcAccount) {
     // show the manual registration completion button after a timeout period
     var registrationDelay = ($scope.registrationType === 'vendor') ? 5000 : 0;
     $timeout(function() {
+      $scope.loading = false;
       $scope.registered = true;
     }, registrationDelay);
   }

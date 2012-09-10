@@ -202,6 +202,11 @@ span.currency {
   margin-top: -10px;
   margin-right: -15px;
 }
+.prepend-btn-large-spinner {
+  display: inline-block;
+  margin-left: 20px;
+  margin-bottom: 5px;
+}
 
 /* Misc */
 .table .alert {

@@ -5,8 +5,7 @@ ${set([
   jsList.push("legacy/website.util"),
   jsList.push("legacy/selectors"),
   jsList.push("legacy/tmpl.funcs"),
-  clientData.session = session,
-  templateMap["navbar-hovercard-tmpl"] = cacheRoot + "/legacy/jqtpl/navbar-hovercard-tmpl.html",
+  clientData.session = session
 ])}
 
 {{partial "legacy/modals/add-account.tpl"}}

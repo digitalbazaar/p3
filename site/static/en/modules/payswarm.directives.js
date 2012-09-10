@@ -62,6 +62,20 @@ angular.module('payswarm.directives')
     }
   };
 })
+.directive('submitForm', function() {
+  return function(scope, element, attrs) {
+    element.bind('click', function(e) {
+      e.preventDefault();
+      element.closest('form').submit();
+    });
+    $(':input', element.closest('form')).bind('keypress', function(e) {
+      if(e.which === 13) {
+        e.preventDefault();
+        element.closest('form').submit();
+      }
+    });
+  };
+})
 .directive('fadeout', function() {
   return function(scope, element, attrs) {
     scope.$watch(attrs.fadeout, function(value) {

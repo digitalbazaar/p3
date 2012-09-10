@@ -17,7 +17,7 @@ var postPaymentTokens = {
       }
     },
     source: {
-      type: [creditCard, bankAccount]
+      type: [creditCard(), bankAccount()]
     }
   },
   additionalProperties: false

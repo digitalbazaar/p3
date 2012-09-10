@@ -1,5 +1,6 @@
 var tools = require('../lib/payswarm-auth/tools');
 
+var jsonldContext = require('./jsonldContext');
 var jsonldType = require('./jsonldType');
 
 var schema = {
@@ -8,6 +9,7 @@ var schema = {
   description: 'A bank account.',
   type: 'object',
   properties: {
+    '@context': jsonldContext(),
     type: jsonldType('bank:BankAccount'),
     bankAccount: {
       required: true,

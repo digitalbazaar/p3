@@ -431,9 +431,15 @@ angular.module('payswarm.directives')
 })
 .directive('accountSelector', function(svcAccount) {
   function Ctrl($scope, svcAccount) {
-    $scope.accounts = svcAccount.accounts;
+    $scope.identityId = window.data.session.identity.id;
+    updateAccounts($scope);
+  }
+
+  function updateAccounts($scope) {
+    var identityId = $scope.identityId;
+    $scope.accounts = svcAccount.identities[identityId].accounts;
     $scope.selected = null;
-    svcAccount.get(function(err, accounts) {
+    svcAccount.get({identity: identityId}, function(err, accounts) {
       if(!err) {
         $scope.selected = accounts[0] || null;
         $scope.$apply();
@@ -452,13 +458,22 @@ angular.module('payswarm.directives')
         }
       }
     });
+
+    attrs.$observe('identity', function(value) {
+      value = scope.$eval(value);
+      if(value) {
+        scope.identityId = value;
+        updateAccounts(scope);
+      }
+    });
   }
 
   return {
     scope: {
       selected: '=',
       minBalance: '@',
-      showDepositButton: '@'
+      showDepositButton: '@',
+      identityId: '@'
     },
     controller: Ctrl,
     templateUrl: '/partials/account-selector.html',
@@ -554,7 +569,7 @@ angular.module('payswarm.directives')
         $scope.account.psaPublic.push('owner');
       }
 
-      svcAccount.add($scope.account, function(err, account) {
+      svcAccount.add($scope.account, $scope.identity, function(err, account) {
         if(!err) {
           $scope.close(null, account);
         }
@@ -566,11 +581,21 @@ angular.module('payswarm.directives')
     };
   }
 
+  function Link(scope, element, attrs) {
+    attrs.$observe('identity', function(value) {
+      value = scope.$eval(value);
+      if(value) {
+        scope.identity = value;
+      }
+    });
+  }
+
   return svcModal.directive({
     name: 'AddAccount',
-    scope: {showAlert: '@modalAddAccountAlert'},
+    scope: {showAlert: '@modalAddAccountAlert', identity: '@'},
     templateUrl: '/partials/modals/add-account.html',
     controller: Ctrl,
+    link: Link
   });
 })
 .directive('modalEditAccount', function(svcModal, svcAccount) {
@@ -858,11 +883,8 @@ angular.module('payswarm.directives')
   function Ctrl($scope) {
     function init() {
       $scope.identityTypes = ['ps:PersonalIdentity', 'ps:VendorIdentity'];
-      $scope.identities = [];
-      var identityMap = window.data.session.identities;
-      for(var id in identityMap) {
-        $scope.identities.push(identityMap[id]);
-      }
+      $scope.identities = $.map(
+        window.data.session.identities, function(v) {return v;});
       $scope.selected = window.data.identity;
     };
     init();

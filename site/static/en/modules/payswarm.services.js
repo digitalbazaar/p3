@@ -25,7 +25,7 @@ angular.module('payswarm.services')
   // address service
   var service = {};
 
-  var identity = window.data.identity;
+  var identity = window.data.session.identity;
   var expires = 0;
   var maxAge = 1000*60*2;
   service.addresses = [];
@@ -43,7 +43,7 @@ angular.module('payswarm.services')
     if(options.force || +new Date() >= expires) {
       service.state.loading = true;
       payswarm.addresses.get({
-        identity: identity,
+        identity: identity.id,
         success: function(addresses) {
           service.addresses.splice(0, service.addresses.length);
           angular.forEach(addresses, function(address) {
@@ -69,7 +69,7 @@ angular.module('payswarm.services')
   // validate an address
   service.validate = function(address, callback) {
     payswarm.addresses.validate({
-      identity: identity,
+      identity: identity.id,
       address: address,
       success: function(validated) {
         callback(null, validated);
@@ -82,7 +82,7 @@ angular.module('payswarm.services')
   service.add = function(address, callback) {
     service.state.loading = true;
     payswarm.addresses.add({
-      identity: identity,
+      identity: identity.id,
       address: address,
       success: function(address) {
         service.addresses.push(address);
@@ -100,7 +100,7 @@ angular.module('payswarm.services')
   service.del = function(address, callback) {
     service.state.loading = true;
     payswarm.addresses.del({
-      identity: identity,
+      identity: identity.id,
       addressId: address.label,
       success: function() {
         for(var i = 0; i < service.addresses.length;) {
@@ -128,10 +128,13 @@ angular.module('payswarm.services')
   // accounts service
   var service = {};
 
-  var identity = window.data.identity;
-  var expires = 0;
+  var identity = window.data.session.identity;
   var maxAge = 1000*60*2;
-  service.accounts = [];
+  service.identities = {};
+  angular.forEach(window.data.session.identities, function(identity) {
+    service.identities[identity.id] = {accounts: [], expires: 0};
+  });
+  service.accounts = service.identities[identity.id].accounts;
   service.state = {
     loading: false
   };
@@ -145,23 +148,24 @@ angular.module('payswarm.services')
     options = options || {};
     callback = callback || angular.noop;
 
-    if(options.force || +new Date() >= expires) {
+    var entry = service.identities[options.identity || identity.id];
+    if(options.force || +new Date() >= entry.expires) {
       payswarm.accounts.get({
-        identity: identity,
+        identity: options.identity || identity.id,
         success: function(accounts) {
-          service.accounts.splice(0, service.accounts.length);
+          entry.accounts.splice(0, entry.accounts.length);
           angular.forEach(accounts, function(account) {
-            service.accounts.push(account);
+            entry.accounts.push(account);
           });
-          expires = +new Date() + maxAge;
-          callback(null, service.accounts);
+          entry.expires = +new Date() + maxAge;
+          callback(null, entry.accounts);
         },
         error: callback
       });
     }
     else {
       $timeout(function() {
-        callback(null, service.accounts);
+        callback(null, entry.accounts);
       });
     }
   };
@@ -195,14 +199,17 @@ angular.module('payswarm.services')
   };
 
   // add a new account
-  service.add = function(account, callback) {
+  service.add = function(account, identityId, callback) {
+    if(typeof identityId === 'function') {
+      identityId = identity.id;
+    }
     callback = callback || angular.noop;
     service.state.loading = true;
     payswarm.accounts.add({
-      identity: identity,
+      identity: identityId,
       account: account,
       success: function(account) {
-        service.accounts.push(account);
+        service.identities[identityId].accounts.push(account);
         service.state.loading = false;
         callback(null, account);
       },
@@ -218,7 +225,7 @@ angular.module('payswarm.services')
     callback = callback || angular.noop;
     service.state.loading = true;
     payswarm.accounts.update({
-      identity: identity,
+      identity: identity.id,
       account: account,
       success: function() {
         // get account
@@ -237,7 +244,7 @@ angular.module('payswarm.services')
   // budgets service
   var service = {};
 
-  var identity = window.data.identity;
+  var identity = window.data.session.identity;
   var expires = 0;
   var maxAge = 1000*60*2;
   service.budgets = [];
@@ -257,7 +264,7 @@ angular.module('payswarm.services')
     if(options.force || +new Date() >= expires) {
       service.state.loading = true;
       payswarm.budgets.get({
-        identity: identity,
+        identity: identity.id,
         success: function(budgets) {
           service.budgets.splice(0, service.budgets.length);
           angular.forEach(budgets, function(budget) {
@@ -313,7 +320,7 @@ angular.module('payswarm.services')
     callback = callback || angular.noop;
     service.state.loading = true;
     payswarm.budgets.add({
-      identity: identity,
+      identity: identity.id,
       budget: budget,
       success: function(budget) {
         service.budgets.push(budget);
@@ -331,7 +338,7 @@ angular.module('payswarm.services')
   service.update = function(budget, callback) {
     service.state.loading = true;
     payswarm.budgets.update({
-      identity: identity,
+      identity: identity.id,
       budget: budget,
       success: function() {
         // get budget
@@ -391,7 +398,7 @@ angular.module('payswarm.services')
   // paymentTokens service
   var service = {};
 
-  var identity = window.data.identity;
+  var identity = window.data.session.identity;
   var expires = 0;
   var maxAge = 1000*60*2;
   service.state = {
@@ -447,7 +454,7 @@ angular.module('payswarm.services')
     if(options.force || +new Date() >= expires) {
       service.state.loading = true;
       payswarm.paymentTokens.get({
-        identity: identity,
+        identity: identity.id,
         success: function(paymentTokens) {
           _setTokens(paymentTokens);
           expires = +new Date() + maxAge;
@@ -472,7 +479,7 @@ angular.module('payswarm.services')
     callback = callback || angular.noop;
     service.state.loading = true;
     payswarm.paymentTokens.add({
-      identity: identity,
+      identity: identity.id,
       data: paymentToken,
       success: function(paymentToken) {
         _setToken(paymentToken);
@@ -492,7 +499,7 @@ angular.module('payswarm.services')
     callback = callback || angular.noop;
     service.state.loading = true;
     payswarm.paymentTokens.update({
-      identity: identity,
+      identity: identity.id,
       data: paymentToken,
       success: function(paymentToken) {
         _setToken(paymentToken);

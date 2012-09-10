@@ -277,12 +277,29 @@ angular.module('payswarm.directives')
     }
   };
 })
-.directive('tooltipTitle', function() {
+.directive('tooltipTitle', function($timeout) {
   return function(scope, element, attrs) {
     attrs.$observe('tooltipTitle', function(value) {
-      $(element).tooltip({
+      element.tooltip({
         title: value
       });
+      // scroll tooltips in modals
+      var tip = element.data('tooltip');
+      tip.shown = false;
+      var show = tip.show;
+      tip.show = function() {
+        show.call(tip);
+        tip.shown = true;
+        var pos = tip.getPosition();
+        var actualHeight = tip.tip()[0].offsetHeight;
+        tip.top = pos.top + pos.height / 2 - actualHeight / 2;
+        tip.scrollTop = $('.modal-backdrop').scrollTop();
+      };
+      var hide = tip.hide;
+      tip.hide = function() {
+        hide.call(tip);
+        tip.shown = false;
+      };
     });
   };
 })
@@ -1004,11 +1021,11 @@ angular.module('payswarm.directives')
     if(!ex) {
       return;
     }
-  
+
     // add error feedback
     feedbackTarget.addClass('alert');
     feedbackTarget.addClass('alert-error');
-  
+
     // handle form feedback
     switch(ex.type) {
     // generic form errors

@@ -1,5 +1,4 @@
 ${set([
-  jsList.push("legacy/website.transmitter"),
   jsList.push("legacy/website.util"),
   jsList.push("legacy/payswarm.api"),
   jsList.push("modules/login")

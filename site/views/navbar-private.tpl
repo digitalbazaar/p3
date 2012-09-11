@@ -1,7 +1,6 @@
 ${set([
   jsList.push("modules/navbar"),
   jsList.push("legacy/payswarm.api"),
-  jsList.push("legacy/website.transmitter"),
   jsList.push("legacy/website.util"),
   jsList.push("legacy/selectors"),
   jsList.push("legacy/tmpl.funcs"),

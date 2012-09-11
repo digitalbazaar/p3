@@ -49,7 +49,6 @@ ${set([
               <a class="btn btn-inverse" href="/profile/create">Sign Up</a>
             </div>
           </div>
-          <div name="login-feedback" class="hide"></div>
         </fieldset>
       </form>
       {{/verbatim}}

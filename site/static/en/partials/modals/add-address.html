@@ -8,8 +8,8 @@
     <div data-ng-switch-when="editing">
       <div data-ng-include="'/partials/modals/add-address-edit.html'"></div>
     </div>
-    <div data-ng-switch-when="adding">
-      <div data-ng-include="'/partials/modals/add-address-add.html'"></div>
+    <div data-ng-switch-when="selecting">
+      <div data-ng-include="'/partials/modals/add-address-select.html'"></div>
     </div>
   </div>
   <div class="modal-footer">
@@ -20,7 +20,7 @@
         <button class="btn btn-primary" data-ng-click="validate()">Validate</button>
         <button class="btn btn-close">Cancel</button>
       </span>
-      <span data-ng-switch-when="adding">
+      <span data-ng-switch-when="selecting">
         <button class="btn btn-primary" data-ng-click="add()"><i class="icon-ok icon-white"></i> Add</button>
         <button class="btn btn-back" data-ng-click="edit()">Back</button>
       </span>

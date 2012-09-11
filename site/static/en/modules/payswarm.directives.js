@@ -955,7 +955,7 @@ angular.module('payswarm.directives')
       $scope.validatedAddress = null;
       $scope.selectedAddress = null;
 
-      // state in ('editing', 'adding')
+      // state in ('editing', 'selecting')
       $scope.state = 'editing';
     };
 
@@ -974,7 +974,7 @@ angular.module('payswarm.directives')
           label: $scope.originalAddress.label,
           fullName: $scope.originalAddress.fullName
         });
-        $scope.state = 'adding';
+        $scope.state = 'selecting';
         $scope.$apply();
       });
     };

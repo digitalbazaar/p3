@@ -13,12 +13,22 @@
 var tmpl = window.tmpl = window.tmpl || {};
 
 // months for date handling
-tmpl.months = [
+tmpl.monthNames = [
   'January','February','March','April',
   'May','June','July','August',
   'September','October','November','December'];
 tmpl.monthNumbers = [
   '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+
+// create {index: #, label: "01 - January"} labels
+tmpl.monthLabels = [];
+for(var i = 0; i < 12; ++i) {
+  tmpl.monthLabels[i] = {
+    index: i + 1,
+    label: tmpl.monthNumbers[i] + " - " + tmpl.monthNames[i]
+  }
+}
+
 
 // next ten 10 years for expiration dates (quick hack)
 tmpl.years = [];

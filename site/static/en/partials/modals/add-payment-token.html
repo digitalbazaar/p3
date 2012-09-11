@@ -62,7 +62,7 @@
             <div class="control-group" data-binding="source.cardExpMonth">
               <label class="control-label" for="card-exp-month">Expiration Month</label>
               <div class="controls">
-                <select class="input-small" name="card-exp-month" data-ng-model="card.cardExpMonth" data-ng-options="month for month in monthNumbers">
+                <select class="input-large" name="card-exp-month" data-ng-model="card.cardExpMonth" data-ng-options="month.index as month.label for month in monthLabels">
                   <option value=""></option>
                 </select>
               </div>

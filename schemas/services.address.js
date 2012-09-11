@@ -2,11 +2,11 @@ var address = require('./address');
 var validatedAddress = require('./validatedAddress');
 
 var postAddresses = {
-  type: [address, validatedAddress]
+  type: [address(), validatedAddress()]
 };
 
 var validateAddress = {
-  type: [address, validatedAddress]
+  type: [address(), validatedAddress()]
 };
 
 module.exports.postAddresses = function() {

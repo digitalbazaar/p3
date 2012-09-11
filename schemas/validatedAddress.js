@@ -2,14 +2,15 @@ var address = require('./address');
 var tools = require('../lib/payswarm-auth/tools');
 
 var schema = address({
-  psaValidated: {
-    required: false,
-    type: 'string',
-    pattern: 'true|false'
-  },
-  psaAddressHash: {
-    required: false,
-    type: 'string'
+  properties: {
+    psaValidated: {
+      required: false,
+      type: 'boolean'
+    },
+    psaAddressHash: {
+      required: false,
+      type: 'string'
+    }
   }
 });
 

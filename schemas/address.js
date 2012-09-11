@@ -1,5 +1,6 @@
 var tools = require('../lib/payswarm-auth/tools');
 
+var jsonldContext = require('./jsonldContext');
 var jsonldType = require('./jsonldType');
 var label = require('./label');
 var personName = require('./personName');
@@ -10,13 +11,17 @@ var schema = {
   description: 'A vcard address.',
   type: 'object',
   properties: {
+    '@context': {
+      required: false,
+      type: jsonldContext()
+    },
     type: jsonldType('vcard:Address'),
     label: label(),
     fullName: personName(),
     streetAddress: {
       required: true,
       type: 'string',
-      pattern: '^[^\\s](.*)[^\\s]$',
+      pattern: '^\\S$|^\\S.*\\S$',
       minLength: 1,
       errors: {
         invalid: 'The street address must not start or end with ' +
@@ -28,7 +33,7 @@ var schema = {
     locality: {
       required: true,
       type: 'string',
-      pattern: '^[^\\s](.*)[^\\s]$',
+      pattern: '^\\S$|^\\S.*\\S$',
       minLength: 1,
       errors: {
         invalid: 'The city/locality must not start or end with ' +
@@ -39,7 +44,7 @@ var schema = {
     postalCode: {
       required: true,
       type: 'string',
-      pattern: '^[^\\s](.*)[^\\s]$',
+      pattern: '^\\S$|^\\S.*\\S$',
       minLength: 1,
       errors: {
         invalid: 'The zip/postal code must not start or end with ' +
@@ -50,7 +55,7 @@ var schema = {
     region: {
       required: true,
       type: 'string',
-      pattern: '^[^\\s](.*)[^\\s]$',
+      pattern: '^\\S$|^\\S.*\\S$',
       minLength: 1,
       errors: {
         invalid: 'The state/region must not start or end with ' +
@@ -61,7 +66,7 @@ var schema = {
     countryName: {
       required: true,
       type: 'string',
-      pattern: '^[^\\s](.*)[^\\s]$',
+      pattern: '^\\S$|^\\S.*\\S$',
       minLength: 1,
       errors: {
         invalid: 'The country name must be exactly 2 characters in length.',

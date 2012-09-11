@@ -743,7 +743,7 @@ angular.module('payswarm.directives')
   function Ctrl($scope, svcPaymentToken) {
     $scope.open = function() {
       $scope.data = window.data || {};
-      $scope.monthNumbers = window.tmpl.monthNumbers;
+      $scope.monthLabels = window.tmpl.monthLabels;
       $scope.years = window.tmpl.years;
       $scope.feedback = {};
       $scope.identity = data.identity || {};
@@ -756,8 +756,6 @@ angular.module('payswarm.directives')
       $scope.card = {
         '@context': 'http://purl.org/payswarm/v1',
         type: 'ccard:CreditCard',
-        cardExpMonth: '',
-        cardExpYear: '',
         cardAddress: $scope.card ? $scope.card.cardAddress : null
       };
       $scope.bankAccount = {
@@ -789,17 +787,47 @@ angular.module('payswarm.directives')
 
       // handle payment method specifics
       if($scope.paymentMethod === 'ccard:CreditCard') {
-        token.source = $scope.card;
+        var c = $scope.card;
+        var ca = c.cardAddress;
+
+        // copy required fields
+        token.source = {
+          '@context': c['@context'],
+          type: c.type,
+          cardBrand: c.cardBrand,
+          cardNumber: c.cardNumber,
+          cardExpMonth: c.cardExpMonth,
+          cardExpYear: c.cardExpYear,
+          cardCvm: c.cardCvm,
+          cardAddress: {
+            type: ca.type,
+            label: ca.label,
+            fullName: ca.fullName,
+            streetAddress: ca.streetAddress,
+            locality: ca.locality,
+            region: ca.region,
+            postalCode: ca.postalCode,
+            countryName: ca.countryName
+          }
+        }
       }
       else if($scope.paymentMethod === 'bank:BankAccount') {
-        token.source = $scope.bankAccount;
+        var b = $scope.bankAccount;
+
+        // copy required fields
+        token.source = {
+          '@context': b['@context'],
+          type: b.type,
+          bankAccount: b.bankAccount,
+          bankRoutingNumber: b.bankRoutingNumber
+        }
       }
 
       // add payment token
       svcPaymentToken.add(token, function(err, addedToken) {
         if(err) {
           // FIXME
-          console.log('adding failed', err);
+          console.log('adding failed', token, err);
           $scope.feedback.validationErrors = err;
         }
         else {
@@ -947,6 +975,7 @@ angular.module('payswarm.directives')
     $scope.open = function() {
       $scope.data = window.data || {};
       $scope.countries = window.tmpl.countries || {};
+      $scope.feedback = {};
       $scope.identity = data.identity || {};
       $scope.originalAddress = {
         '@context': 'http://purl.org/payswarm/v1',
@@ -964,17 +993,19 @@ angular.module('payswarm.directives')
         if(err) {
           // FIXME
           console.log('validation failed', err);
-          return;
+          $scope.feedback.validationErrors = err;
         }
-        // FIXME: should backend handle this?
-        // copy over non-validation fields
-        $scope.validatedAddress = angular.extend(validated, {
-          '@context': 'http://purl.org/payswarm/v1',
-          type: 'vcard:Address',
-          label: $scope.originalAddress.label,
-          fullName: $scope.originalAddress.fullName
-        });
-        $scope.state = 'selecting';
+        else {
+          // FIXME: should backend handle this?
+          // copy over non-validation fields
+          $scope.validatedAddress = angular.extend(validated, {
+            '@context': 'http://purl.org/payswarm/v1',
+            type: 'vcard:Address',
+            label: $scope.originalAddress.label,
+            fullName: $scope.originalAddress.fullName
+          });
+          $scope.state = 'selecting';
+        }
         $scope.$apply();
       });
     };
@@ -988,7 +1019,7 @@ angular.module('payswarm.directives')
           return;
         }
         $scope.close(null, addedAddress);
-        $scope.apply();
+        $scope.$apply();
       });
     };
 
@@ -1001,6 +1032,9 @@ angular.module('payswarm.directives')
     name: 'AddAddress',
     templateUrl: '/partials/modals/add-address.html',
     controller: Ctrl,
+    link: function(scope, element, attrs) {
+      scope.feedbackTarget = element;
+    }
   });
 })
 .directive('vcardAddress', function() {

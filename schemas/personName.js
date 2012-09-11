@@ -5,7 +5,7 @@ var schema = {
   title: 'Person Name',
   description: 'The name of a person.',
   type: 'string',
-  pattern: '^[^\\s](.*)[^\\s]$',
+  pattern: '^\\S$|^\\S.*\\S$',
   minLength: 1,
   maxLength: 100,
   errors: {

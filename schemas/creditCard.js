@@ -4,6 +4,8 @@ var jsonldContext = require('./jsonldContext');
 var jsonldType = require('./jsonldType');
 var address = require('./address');
 
+var currentYear = (new Date).getFullYear();
+
 var schema = {
   required: true,
   title: 'CreditCard',
@@ -30,20 +32,23 @@ var schema = {
     },
     cardExpMonth: {
       required: true,
-      type: 'string',
-      pattern: '^[0-9]{2}$',
+      type: 'integer',
+      minimum: 1,
+      maximum: 12,
       errors: {
-        invalid: 'The credit card expiration month must be 2 digits in length.',
+        invalid: 'The credit card expiration month must be an integer between 1 and 12.',
         missing: 'Please enter a credit card expiration month.',
         mask: true
       }
     },
     cardExpYear: {
       required: true,
-      type: 'string',
-      pattern: '^[0-9]{2}$',
+      type: 'integer',
+      minimum: currentYear,
+      maximum: currentYear + 10,
       errors: {
-        invalid: 'The credit card expiration year must be 2 digits in length.',
+        invalid: 'The credit card expiration year must be an integer between ' +
+          currentYear + ' and ' + (currentYear + 10) + '.',
         missing: 'Please enter a credit card expiration year.',
         mask: true
       }

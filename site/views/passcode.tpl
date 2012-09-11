@@ -1,34 +1,40 @@
 ${set([
   pageTitle = "Reset Password",
   jsList.push("legacy/payswarm.api"),
-  jsList.push("legacy/profile-passcode")
+  jsList.push("modules/passcode")
 ])}
 {{partial "head.tpl"}}
 
 <h2 class="headline">${pageTitle}</h2>
 
+{{verbatim}}
+<div class="ng-cloak" data-ng-controller="PasscodeCtrl">
+
 <div class="row">
   <div class="span6 offset3">
   
-    <form id="request" class="form-horizontal ajax standard"
-      method="post" action="/profile/passcode">
+    <form class="form-horizontal" action="" data-ng-submit="sendReset()">
       <fieldset>
       <legend>Get Passcode</legend>
         <div class="control-group" data-binding="psaIdentifier">
           <label class="control-label" for="email">E-mail</label>
           <div class="controls">
-            <input id="email" class="auto-tooltip" 
-              name="profile" type="text" maxlength="320"
-              value="{{if session.loaded}}${session.profile.email}{{/if}}" 
-              data-original-title="The e-mail address that you used when you registered with this website."
-              data-placement="right" data-trigger="focus" />
+            <input name="profile" type="text" maxlength="320"
+              data-ng-model="email"
+              data-tooltip-title="The e-mail address that you used when you registered with this website."
+              data-placement="right" data-trigger="focus"
+              data-ng-disabled="loading" />
           </div>
         </div>
       <div class="form-actions">
-        <button class="btn btn-primary" type="submit">Send Reset Instructions</button>
+        <button data-ng-hide="loading"
+          class="btn btn-primary" data-submit-form>Send Reset Instructions</button>
+        <div data-spinner="loading"
+          data-spinner-class="prepend-btn-large-spinner"></div>
       </div>
-      <div id="passcode-feedback"></div>
       </fieldset>
+      <div data-ng-show="feedback.email.text"
+        class="alert alert-{{(feedback.email.error && 'error') || 'success'}}">{{feedback.email.text}}</div>
     </form>
 
   </div>
@@ -37,51 +43,58 @@ ${set([
 <div class="row">
   <div class="span6 offset3">
   
-    <form id="reset" class="form-horizontal ajax standard"
-      method="post" action="/profile/password">
+    <form class="form-horizontal" action="" data-ng-submit="updatePassword()">
       <fieldset>
       <legend>Update Your Password</legend>
 
       <div class="control-group">
         <label class="control-label" for="reset-email">E-mail</label>
         <div class="controls">
-          <input id="reset-email" class="auto-tooltip" 
-            name="input" type="text" maxlength="320"
-            value="{{if session.loaded}}${session.profile.email}{{/if}}" 
-            data-original-title="The e-mail address that you used above to retrieve reset instructions and a reset passcode."
-            data-placement="right" data-trigger="focus" />
+          <input name="input" type="text" maxlength="320"
+            data-ng-model="email" 
+            data-tooltip-title="The e-mail address that you used above to retrieve reset instructions and a reset passcode."
+            data-placement="right" data-trigger="focus"
+            data-ng-disabled="loading" />
         </div>
       </div>
       
       <div class="control-group">
         <label class="control-label" for="passcode">Passcode</label>
         <div class="controls">
-          <input id="passcode" class="auto-tooltip" 
-            name="psa:passcode" type="text" maxlength="8"
-            value="{{if psaPasscode}}${psaPasscode}{{/if}}" 
+          <input name="psaPasscode" type="text" maxlength="8"
+            data-ng-model="psaPasscode"
             data-original-title="The passcode that was sent to you in the password reset e-mail from this website."
-            data-placement="right" data-trigger="focus" />
+            data-placement="right" data-trigger="focus"
+            data-ng-disabled="loading" />
         </div>
       </div>
       
       <div class="control-group">
         <label class="control-label" for="new-password">New Password</label>
         <div class="controls">
-          <input id="new-password" class="auto-tooltip"
-            name="psa:passwordNew" type="password" maxlength="32" 
-            data-original-title="The new password that you would like to use when accessing this website."
-            data-placement="right" data-trigger="focus" />
+          <input name="psaPasswordNew" type="password" maxlength="32"
+            data-ng-model= "psaPasswordNew"
+            data-tooltip-title="The new password that you would like to use when accessing this website."
+            data-placement="right" data-trigger="focus"
+            data-ng-disabled="loading" />
         </div>
       </div>
 
       <div class="form-actions">
-         <button class="btn btn-primary" type="submit">Set Password</button>
+         <button data-ng-hide="loading"
+           class="btn btn-primary" data-submit-form>Set Password</button>
+         <div data-spinner="loading"
+           data-spinner-class="prepend-btn-large-spinner"></div>
       </div>
-      <div id="password-feedback" class="feedback"></div>
       </fieldset>
+      <div data-ng-show="feedback.password.text"
+        class="alert alert-{{(feedback.password.error && 'error') || 'success'}}">{{feedback.password.text}}</div>
     </form>
 
   </div>
 </div>
+
+</div>
+{{/verbatim}}
 
 {{partial "foot.tpl"}}

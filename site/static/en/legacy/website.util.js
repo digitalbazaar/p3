@@ -11,9 +11,6 @@
 window.website = window.website || {};
 var util = window.website.util = window.website.util || {};
 
-// logging category
-var cat = 'website.util';
-
 /**
  * Regex for escapeId().
  */
@@ -32,7 +29,7 @@ util.escapeId = function(id) {
  */
 util.redirect = function() {
   window.location = '/profile/login?ref=' +
-    encodeURIComponent(window.location.pathname)
+    encodeURIComponent(window.location.pathname);
 };
 
 /**
@@ -148,87 +145,6 @@ util.processValidationErrors = function(feedbackTarget, target, ex) {
     break;
   default:
     feedbackTarget.text(ex.message);
-  }
-};
-
-// state used for checking duplicates
-util.duplicateIdState = {};
-
-/**
- * Checks for a duplicate ID and updates the UI.
- *
- * @param input the input widget to get input from and disable while checking.
- * @param type the type for the value.
- * @param feedback the feedback target.
- * @param owner owner for type (if required by type)
- */
-util.checkDuplicateId = function(input, type, feedback, owner) {
-  if(!(type in util.duplicateIdState)) {
-    util.duplicateIdState[type] = {
-      lastCheck: null,
-      duplicateTimer: null
-    };
-  }
-
-  // clear any previous check
-  var state = util.duplicateIdState[type];
-  clearTimeout(state.duplicateTimer);
-
-  if(input.val().length === 0) {
-    // nothing to check
-    feedback.hide();
-  }
-  else if(input.val() !== state.lastCheck) {
-    // show checking alert
-    feedback.show();
-    $('[name="available"]', feedback).hide();
-    $('[name="invalid"]', feedback).hide();
-    $('[name="taken"]', feedback).hide();
-    $('[name="checking"]', feedback).fadeIn('slow');
-    state.lastCheck = null;
-
-    // start timer to check
-    state.duplicateTimer = setTimeout(function() {
-      if(input.val().length === 0) {
-        feedback.hide();
-      }
-      else {
-        state.lastCheck = input.val();
-        state.duplicateTimer = null;
-        input.attr('disabled', true);
-        $.ajax({
-          async: true,
-          type: 'POST',
-          url: '/identifier',
-          dataType: 'json',
-          contentType: 'application/json',
-          data: JSON.stringify($.extend({
-            type: type,
-            psaSlug: state.lastCheck
-          }, owner ? {owner: owner} : {})),
-          success: function(response, statusText) {
-            // available
-            $('[name="checking"]', feedback).hide();
-            $('[name="available"]', feedback).fadeIn('slow');
-          },
-          error: function(xhr, textStatus, errorThrown) {
-            // not available/error
-            $('[name="checking"]', feedback).hide();
-            if(xhr.status === 400) {
-              // FIXME: process and display specific exception errors
-              $('[name="invalid"]', feedback).fadeIn('slow');
-            } else if(xhr.status == 409) {
-              $('[name="taken"]', feedback).fadeIn('slow');
-            } else if(xhr.status >= 500) {
-              // FIXME: support server errors
-            }
-          },
-          complete: function() {
-            input.removeAttr('disabled');
-          }
-        });
-      }
-    }, 1000);
   }
 };
 

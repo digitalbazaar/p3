@@ -24,7 +24,6 @@ module.controller('ExternalAccountsCtrl', function($scope, svcPaymentToken) {
   // service data
   $scope.creditCards = svcPaymentToken.creditCards;
   $scope.bankAccounts = svcPaymentToken.bankAccounts;
-  $scope.loading = false;
 
   $scope.deletePaymentToken = function(paymentToken) {
     svcPaymentToken.del(paymentToken.id, function() {

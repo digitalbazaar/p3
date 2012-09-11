@@ -620,6 +620,7 @@ angular.module('payswarm.directives')
   function Ctrl($scope) {
     $scope.open = function() {
       $scope.data = window.data || {};
+      $scope.feedback = {};
       $scope.identityId = data.session.identity.id || {};
       $scope.account = {
         '@context': 'http://purl.org/payswarm/v1',
@@ -641,15 +642,14 @@ angular.module('payswarm.directives')
         if(!err) {
           $scope.close(null, account);
         }
-        console.log('addAccount error', err);
-        // FIXME: change to a directive
-        var feedback = $('[name="feedback"]', target);
-        website.util.processValidationErrors(feedback, target, err);
+        $scope.feedback.validationErrors = err;
+        $scope.$apply();
       });
     };
   }
 
   function Link(scope, element, attrs) {
+    scope.feedbackTarget = element;
     attrs.$observe('identity', function(value) {
       value = scope.$eval(value);
       if(value) {
@@ -670,26 +670,31 @@ angular.module('payswarm.directives')
   function Ctrl($scope) {
     $scope.open = function() {
       $scope.data = window.data || {};
+      $scope.feedback = {};
       $scope.identity = data.identity || {};
       $scope.accountVisibility = ($scope.account.psaPublic.length === 0) ?
         'hidden' : 'public';
+      $scope.editing = true;
     };
 
     $scope.editAccount = function() {
-      $scope.account.psaPublic = [];
+      var account = {
+        '@context': 'http://purl.org/payswarm/v1',
+        id: $scope.account.id,
+        label: $scope.account.label,
+        psaPublic: []
+      };
       if($scope.accountVisibility === 'public') {
-        $scope.account.psaPublic.push('label');
-        $scope.account.psaPublic.push('owner');
+        account.psaPublic.push('label');
+        account.psaPublic.push('owner');
       }
 
-      svcAccount.update($scope.account, function(err, account) {
+      svcAccount.update(account, function(err, account) {
         if(!err) {
           $scope.close(null, account);
         }
-        console.log('editAccount error', err);
-        // FIXME: change to a directive
-        var feedback = $('[name="feedback"]', target);
-        website.util.processValidationErrors(feedback, target, err);
+        $scope.feedback.validationErrors = err;
+        $scope.$apply();
       });
     };
   }
@@ -699,6 +704,9 @@ angular.module('payswarm.directives')
     scope: {account: '='},
     templateUrl: '/partials/modals/edit-account.html',
     controller: Ctrl,
+    link: function(scope, element, attrs) {
+      scope.feedbackTarget = element;
+    }
   });
 })
 .directive('modalAddBudget', function(svcModal, svcBudget, svcAccount) {
@@ -708,6 +716,7 @@ angular.module('payswarm.directives')
     };
     $scope.open = function() {
       $scope.data = window.data || {};
+      $scope.feedback = {};
       $scope.identity = data.identity || {};
       $scope.budget = {
         '@context': 'http://purl.org/payswarm/v1'
@@ -726,9 +735,8 @@ angular.module('payswarm.directives')
         if(!err) {
           $scope.close(null, budget);
         }
-        // FIXME: change to a directive
-        var feedback = $('[name="feedback"]', target);
-        website.util.processValidationErrors(feedback, target, err);
+        $scope.feedback.validationErrors = err;
+        $scope.$apply();
       });
     };
   }
@@ -737,6 +745,9 @@ angular.module('payswarm.directives')
     name: 'AddBudget',
     templateUrl: '/partials/modals/add-budget.html',
     controller: Ctrl,
+    link: function(scope, element, attrs) {
+      scope.feedbackTarget = element;
+    }
   });
 })
 .directive('modalEditBudget', function(svcModal, svcBudget) {
@@ -863,13 +874,9 @@ angular.module('payswarm.directives')
       // add payment token
       svcPaymentToken.add(token, function(err, addedToken) {
         if(err) {
-          // FIXME
-          console.log('adding failed', token, err);
-          $scope.feedback.validationErrors = err;
-        }
-        else {
           $scope.close(null, addedToken);
         }
+        $scope.feedback.validationErrors = err;
         $scope.$apply();
       });
     };

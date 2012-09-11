@@ -8,7 +8,6 @@ ${set([
   clientData.session = session
 ])}
 
-{{partial "legacy/modals/add-account.tpl"}}
 {{partial "selectors.tpl"}}
 
 <div data-ng-controller="NavbarCtrl" class="navbar ng-cloak">

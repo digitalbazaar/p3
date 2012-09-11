@@ -2,20 +2,16 @@ ${set([
   pageTitle = "Identity Dashboard",
   jsList.push("legacy/tmpl.funcs.countries"),
   jsList.push("modules/dashboard"),
-  jsList.push("legacy/modals.add-account"),
   jsList.push("legacy/modals.add-address"),
-  jsList.push("legacy/modals.add-budget"),
   jsList.push("legacy/modals.add-payment-token"),
   jsList.push("legacy/modals.deposit"),
   inav = "dashboard"
 ])}  
 
 {{partial "head.tpl"}}
-{{partial "legacy/modals/add-account.tpl"}}
 {{partial "legacy/modals/add-address.tpl"}}
 {{partial "legacy/modals/add-payment-token.tpl"}}
 {{partial "legacy/modals/deposit.tpl"}}
-{{partial "legacy/modals/edit-account.tpl"}}
 
 {{verbatim}}
 <div class="dashboard container ng-cloak" data-ng-controller="DashboardCtrl">

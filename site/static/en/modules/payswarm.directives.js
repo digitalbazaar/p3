@@ -290,9 +290,7 @@ angular.module('payswarm.directives')
       tip.show = function() {
         show.call(tip);
         tip.shown = true;
-        var pos = tip.getPosition();
-        var actualHeight = tip.tip()[0].offsetHeight;
-        tip.top = pos.top + pos.height / 2 - actualHeight / 2;
+        tip.top = parseInt(tip.tip().css('top'));
         tip.scrollTop = $('.modal-backdrop').scrollTop();
       };
       var hide = tip.hide;

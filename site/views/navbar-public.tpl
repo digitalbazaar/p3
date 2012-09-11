@@ -36,14 +36,14 @@ ${set([
             data-trigger="hover" />
           <div class="btn-toolbar btn-group-banner">
             <div class="btn-group btn-group-banner">
-              <button class="btn btn-primary" data-submit-form>Sign In</button>
-              <button class="btn btn-primary"
+              <a class="btn btn-primary" data-submit-form>Sign In</a>
+              <a class="btn btn-primary"
                 data-popover-template="/partials/navbar-profile-actions.html"
                 data-popover-visible="showProfileActions"
                 data-title="Profile Actions"
                 data-placement="bottom">
                   <i class="caret"></i>
-              </button>
+              </a>
             </div>
             <div class="btn-group btn-group-banner">
               <a class="btn btn-inverse" href="/profile/create">Sign Up</a>

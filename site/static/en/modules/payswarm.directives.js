@@ -76,6 +76,40 @@ angular.module('payswarm.directives')
     });
   };
 })
+.directive('slugIn', function($filter) {
+  return {
+    restrict: 'A',
+    require: 'ngModel',
+    link: function(scope, element, attrs, ngModel) {
+      var slug = $filter('slug');
+      ngModel.$parsers.push(function(v) {
+        return slug(v);
+      });
+    }
+  };
+})
+.directive('slugOut', function($filter) {
+  return {
+    restrict: 'A',
+    require: 'ngModel',
+    scope: {
+      slugOut: '=',
+      ngModel: '='
+    },
+    link: function(scope, element, attrs, ngModel) {
+      var slug = $filter('slug');
+      ngModel.$parsers.push(function(v) {
+        scope.slugOut = slug(v);
+        scope.ngModel = v;
+        return v;
+      });
+      ngModel.$formatters.push(function(v) {
+        scope.slugOut = slug(scope.ngModel);
+        return scope.ngModel;
+      });
+    }
+  };
+})
 .directive('fadeout', function() {
   return function(scope, element, attrs) {
     scope.$watch(attrs.fadeout, function(value) {
@@ -586,7 +620,7 @@ angular.module('payswarm.directives')
   function Ctrl($scope) {
     $scope.open = function() {
       $scope.data = window.data || {};
-      $scope.identity = data.identity || {};
+      $scope.identityId = data.session.identity.id || {};
       $scope.account = {
         '@context': 'http://purl.org/payswarm/v1',
         currency: 'USD',
@@ -602,7 +636,8 @@ angular.module('payswarm.directives')
         $scope.account.psaPublic.push('owner');
       }
 
-      svcAccount.add($scope.account, $scope.identity, function(err, account) {
+      svcAccount.add(
+        $scope.account, $scope.identityId, function(err, account) {
         if(!err) {
           $scope.close(null, account);
         }
@@ -618,14 +653,14 @@ angular.module('payswarm.directives')
     attrs.$observe('identity', function(value) {
       value = scope.$eval(value);
       if(value) {
-        scope.identity = value;
+        scope.identityId = value;
       }
     });
   }
 
   return svcModal.directive({
     name: 'AddAccount',
-    scope: {showAlert: '@modalAddAccountAlert', identity: '@'},
+    scope: {showAlert: '@modalAddAccountAlert', identityId: '@'},
     templateUrl: '/partials/modals/add-account.html',
     controller: Ctrl,
     link: Link
@@ -852,7 +887,7 @@ angular.module('payswarm.directives')
     }
   });
 })
-.directive('modalAddIdentity', function(svcModal, $filter) {
+.directive('modalAddIdentity', function(svcModal) {
   function Ctrl($scope) {
     $scope.baseUrl = window.location.protocol + '//' + window.location.host;
     $scope.open = function() {
@@ -886,7 +921,7 @@ angular.module('payswarm.directives')
       // a map or an array of identities
       var identity = $scope.identity[$scope.identityType];
       identity.label = $scope.identityLabel;
-      identity.psaSlug = $filter('slug')($scope.identitySlug);
+      identity.psaSlug = $scope.identitySlug;
       payswarm.identities.add({
         identity: identity,
         success: function(identity) {
@@ -908,7 +943,6 @@ angular.module('payswarm.directives')
     };
 
     function addAccount(identity) {
-      $scope.account.psaSlug = $filter('slug')($scope.account);
       $scope.account.psaPublic = [];
       if($scope.accountVisibility === 'public') {
         $scope.account.psaPublic.push('label');

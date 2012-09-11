@@ -7,7 +7,7 @@
           <span class="add-on"><i class="icon-tag"></i></span><input
             type="text" name="label"
             data-ng-model="account.label"
-            data-ng-change="account.psaSlug=account.label"
+            data-slug-out="account.psaSlug"
             data-tooltip-title="Enter a name for your financial account, for instance 'primary' or 'secondary'."
             data-placement="right" data-trigger="focus" />
         </div>
@@ -17,9 +17,10 @@
             data-ng-hide="identityId">{{baseUrl}}/i/</span><span
             data-ng-hide="identityId"
             class="slug">{{identitySlug || 'IDENTITY-NAME'}}</span>/accounts/</small><input
+            type="text" maxlength="32"
             data-binding="psaSlug" class="slug" name="slug"
-            placeholder="ACCOUNT-NAME" value="{{account.psaSlug | slug}}"
-            data-ng-model="account.psaSlug" /></p>
+            placeholder="ACCOUNT-NAME" value="{{account.psaSlug}}"
+            data-slug-in data-ng-model="account.psaSlug" /></p>
           <div data-duplicate-checker="accountSlug"
             data-duplicate-checker-type="ps:FinancialAccount"
             data-duplicate-checker-owner="identityId || (baseUrl+'/i/'+identitySlug)"

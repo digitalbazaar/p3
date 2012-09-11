@@ -1,11 +1,11 @@
 /**
  * Functions for manipulating web forms.
- * 
+ *
  * @author David I. Lehn <dlehn@digitalbazaar.com>
  * @author Dave Longley
  * @author Mike Johnson
  *
- * Copyright (c) 2011 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2012 Digital Bazaar, Inc. All rights reserved.
  */
 (function($) {
 
@@ -26,7 +26,7 @@ for(var i = 0; i < 12; ++i) {
   tmpl.monthLabels[i] = {
     index: i + 1,
     label: tmpl.monthNumbers[i] + " - " + tmpl.monthNames[i]
-  }
+  };
 }
 
 
@@ -39,9 +39,9 @@ for(var i = 0; i < 10; ++i) {
 
 /**
  * Capitalizes the given str.
- * 
+ *
  * @param str the string to capitalize.
- *  
+ *
  * @return the capitalized string.
  */
 tmpl.capitalize = function(str) {
@@ -58,11 +58,11 @@ tmpl.capitalize = function(str) {
 
 /**
  * Displays a decimal amount.
- * 
+ *
  * @param str the string input.
  * @param round 'up' to round up, 'down' to round down, default: 'up'.
  * @param digits the number of digits to use, default: '2'.
- *  
+ *
  * @return the decimal as a string.
  */
 tmpl.decimal = function(str, round, digits) {
@@ -75,15 +75,15 @@ tmpl.decimal = function(str, round, digits) {
 
 /**
  * Formats a date in the client's timezone.
- * 
+ *
  * @param str the UTC date as a string or in seconds.
  * @param time true to include the time.
- * 
+ *
  * @return the formatted date.
  */
 tmpl.formatDate = function(str, time) {
   var rval = '';
-  
+
   // assume seconds
   if(str.constructor === Number) {
     str = str * 1000;
@@ -112,9 +112,9 @@ tmpl.formatDate = function(str, time) {
 
 /**
  * Converts the given input into an array, if it isn't one already.
- * 
+ *
  * @param input the input.
- * 
+ *
  * @return the arrayified input.
  */
 tmpl.arrayify = function(input) {
@@ -126,10 +126,10 @@ tmpl.arrayify = function(input) {
 
 /**
  * Calculates a percentage.
- * 
+ *
  * @param divisor the divisor.
  * @param dividend the dividend.
- * 
+ *
  * @return the rounded percentage result.
  */
 tmpl.percentage = function(divisor, dividend) {
@@ -139,10 +139,10 @@ tmpl.percentage = function(divisor, dividend) {
 /**
  * Determines the class to use for a progress meter based on its percentage
  * in order to colorize it.
- * 
+ *
  * @param divisor the divisor.
  * @param dividend the dividend.
- * 
+ *
  * @return the class to use.
  */
 tmpl.progessMeterClass = function(divisor, dividend) {

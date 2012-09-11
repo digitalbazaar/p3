@@ -280,6 +280,10 @@ angular.module('payswarm.directives')
 .directive('tooltipTitle', function($timeout) {
   return function(scope, element, attrs) {
     attrs.$observe('tooltipTitle', function(value) {
+      if(element.data('tooltip')) {
+        element.tooltip('hide');
+        element.removeData('tooltip');
+      }
       element.tooltip({
         title: value
       });

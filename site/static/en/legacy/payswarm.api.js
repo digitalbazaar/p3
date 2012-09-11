@@ -930,8 +930,7 @@ payswarm.profiles.login = function(options) {
     data: JSON.stringify($.extend({
       profile: options.profile,
       password: options.password,
-    }, ('ref' in options && options.ref !== undefined) ?
-      {ref: options.ref} : {})),
+    }, (options.ref) ? {ref: options.ref} : {})),
     success: function(response, statusText) {
       if(options.success) {
         options.success(response);

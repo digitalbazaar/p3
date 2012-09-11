@@ -190,6 +190,10 @@ span.currency {
 }
 
 /* Activity Spinner */
+.center-spinner {
+  text-align: center;
+  display: inline-block;
+}
 .table-spinner {
   text-align: center;
   display: inline-block;

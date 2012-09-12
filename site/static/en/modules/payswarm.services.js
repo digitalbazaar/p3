@@ -377,7 +377,7 @@ angular.module('payswarm.services')
       budget: budgetId,
       success: function() {
         for(var i = 0; i < service.budgets.length; ++i) {
-          if(service.budgets[i].id === budget.id) {
+          if(service.budgets[i].id === budgetId) {
             service.budgets.splice(i, 1);
             break;
           }

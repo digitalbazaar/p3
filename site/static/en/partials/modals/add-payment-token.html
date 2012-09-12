@@ -90,15 +90,6 @@
             </div>
           </div>
           <div data-ng-switch-when="bank:BankAccount">
-            <div class="control-group" data-binding="source.bankAccount">
-              <label class="control-label" for="bank-account">Account Number</label>
-              <div class="controls">
-                <input type="text" name="bank-account"
-                  data-tooltip-title="You must enter your bank account number. This can be found in your checkbook or by signing into your bank online."
-                  data-placement="right" data-trigger="focus"
-                  data-ng-model="bankAccount.bankAccount" />
-              </div>
-            </div>
             <div class="control-group" data-binding="source.bankRoutingNumber">
               <label class="control-label" for="bank-routing-number">Routing Number</label>
               <div class="controls">
@@ -106,6 +97,15 @@
                   data-tooltip-title="You must enter your bank's routing number. This can be found in your checkbook or by signing into your bank online."
                   data-placement="right" data-trigger="focus"
                   data-ng-model="bankAccount.bankRoutingNumber" />
+              </div>
+            </div>
+            <div class="control-group" data-binding="source.bankAccount">
+              <label class="control-label" for="bank-account">Account Number</label>
+              <div class="controls">
+                <input type="text" name="bank-account"
+                  data-tooltip-title="You must enter your bank account number. This can be found in your checkbook or by signing into your bank online."
+                  data-placement="right" data-trigger="focus"
+                  data-ng-model="bankAccount.bankAccount" />
               </div>
             </div>
           </div>

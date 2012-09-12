@@ -1100,8 +1100,12 @@ angular.module('payswarm.directives')
     // clear previous feedback
     $('[data-binding]', target).removeClass('error');
     feedbackTarget.empty();
+
     // done if no exception
     if(!ex) {
+      // clear alert style
+      feedbackTarget.removeClass('alert');
+      feedbackTarget.removeClass('alert-error');
       return;
     }
 

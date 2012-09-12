@@ -35,14 +35,8 @@
     <![endif]-->
     <link href="${cacheRoot}/angular/angular-ui.${cssExt}" rel="stylesheet" type="text/css" />
     <link href="${cacheRoot}/css/custom.${cssExt}" rel="stylesheet" type="text/css" />
-    <link href="${cacheRoot}/css/site.${cssExt}" rel="stylesheet" type="text/css" />
     <link href="${cacheRoot}/css/cc-logos.${cssExt}" rel="stylesheet" type="text/css" />
-    {{if cssList && cssList.length > 0}}
-    {{each(idx, cssFile) cssList}}
-    <link href="${cacheRoot}/css/${cssFile}.${cssExt}" rel="stylesheet" type="text/css" />
-    {{/each}}
-    {{/if}}
-
+    
     <link rel="shortcut icon" href="/favicon.ico" />
   </head>
 

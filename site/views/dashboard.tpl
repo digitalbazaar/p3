@@ -105,6 +105,7 @@ ${set([
             </td>
             <!-- Refresh -->
             <td data-ng-switch="budget.psaRefresh">
+              <span data-ng-switch-when="psa:Never">Never</span>
               <span data-ng-switch-when="psa:Hourly">Hourly</span>
               <span data-ng-switch-when="psa:Daily">Daily</span>
               <span data-ng-switch-when="psa:Monthly">Monthly</span>

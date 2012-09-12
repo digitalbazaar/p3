@@ -49,12 +49,12 @@
     </div>
     
     <div class="control-group" data-binding="psaRefresh">
-      <label class="control-label" for="refresh">Refill every</label>
+      <label class="control-label" for="refresh">Refill</label>
       <div class="controls">
         <div class="input-prepend">
           <span class="add-on"><i class="icon-calendar"></i></span><select
             name="refresh" data-ng-model="budget.psaRefresh"
-            data-ng-options="value as key for (key, value) in {Hour: 'psa:Hourly', Day: 'psa:Daily', Week: 'psa:Weekly', Month: 'psa:Monthly', Year: 'psa:Yearly'}">
+            data-ng-options="refresh.id as refresh.label for refresh in refreshChoices">
           </select>
         </div>
         <div>

@@ -484,7 +484,7 @@ angular.module('payswarm.directives')
     templateUrl: '/partials/modals/selector.html'
   });
 })
-.directive('addressSelector', function(svcAddress) {
+.directive('addressSelector', function() {
   function Ctrl($scope, svcAddress) {
     $scope.addresses = svcAddress.addresses;
     $scope.selected = null;
@@ -503,7 +503,7 @@ angular.module('payswarm.directives')
   };
 })
 .directive('accountSelector', function(svcAccount) {
-  function Ctrl($scope, svcAccount) {
+  function Ctrl($scope) {
     $scope.identityId = window.data.session.identity.id;
     updateAccounts($scope);
   }
@@ -715,8 +715,8 @@ angular.module('payswarm.directives')
     }
   });
 })
-.directive('modalAddBudget', function(svcModal, svcBudget, svcAccount) {
-  function Ctrl($scope) {
+.directive('modalAddBudget', function(svcModal) {
+  function Ctrl($scope, svcBudget) {
     $scope.selection = {
       account: null
     };
@@ -725,8 +725,17 @@ angular.module('payswarm.directives')
       $scope.feedback = {};
       $scope.identity = data.identity || {};
       $scope.budget = {
-        '@context': 'http://purl.org/payswarm/v1'
+        '@context': 'http://purl.org/payswarm/v1',
+        psaRefresh: 'psa:Never'
       };
+      $scope.refreshChoices = [
+        {id: 'psa:Never', label: 'Never'},
+        {id: 'psa:Hourly', label: 'Hourly'},
+        {id: 'psa:Daily', label: 'Daily'},
+        {id: 'psa:Weekly', label: 'Weekly'},
+        {id: 'psa:Monthly', label: 'Monthly'},
+        {id: 'psa:Yearly', label: 'Yearly'}
+      ];
       $scope.expireChoices = {
         '1 month': 2629800,
         '3 months': 7889400,
@@ -756,14 +765,23 @@ angular.module('payswarm.directives')
     }
   });
 })
-.directive('modalEditBudget', function(svcModal, svcBudget) {
-  function Ctrl($scope) {
+.directive('modalEditBudget', function(svcModal) {
+  function Ctrl($scope, svcBudget) {
     $scope.selection = {
       account: null
     };
     $scope.open = function() {
       $scope.data = window.data || {};
+      $scope.feedback = {};
       $scope.identity = data.identity || {};
+      $scope.refreshChoices = [
+        {id: 'psa:Never', label: 'Never'},
+        {id: 'psa:Hourly', label: 'Hourly'},
+        {id: 'psa:Daily', label: 'Daily'},
+        {id: 'psa:Weekly', label: 'Weekly'},
+        {id: 'psa:Monthly', label: 'Monthly'},
+        {id: 'psa:Yearly', label: 'Yearly'}
+      ];
       $scope.expireChoices = {
         'Current': $scope.budget.psaExpires,
         '1 month': 2629800,
@@ -774,14 +792,33 @@ angular.module('payswarm.directives')
     };
 
     $scope.editBudget = function() {
-      $scope.budget.source = $scope.selection.account.id;
-      svcBudget.update($scope.budget, function(err) {
+      // set all update from UI
+      var b = $scope.budget;
+      var budget = {
+        '@context': 'http://purl.org/payswarm/v1',
+        id: b.id,
+        label: b.label,
+        source: $scope.selection.account.id,
+        amount: b.amount,
+        vendor: b.vendor,
+        psaExpires: b.psaExpires,
+        psaMaxPerUse: b.maxPerUse,
+        psaRefresh: b.psaRefresh
+      };
+      // remove elements not being updated
+      delete budget['vendor'];
+      angular.forEach(budget, function(value, key) {
+        if(!value) {
+          delete budget[key];
+        }
+      });
+
+      svcBudget.update(budget, function(err, budget) {
         if(!err) {
           $scope.close(null, budget);
         }
-        // FIXME: change to a directive
-        var feedback = $('[name="feedback"]', target);
-        website.util.processValidationErrors(feedback, target, err);
+        $scope.feedback.validationErrors = err;
+        $scope.$apply();
       });
     };
   }
@@ -791,6 +828,9 @@ angular.module('payswarm.directives')
     scope: {budget: '='},
     templateUrl: '/partials/modals/edit-budget.html',
     controller: Ctrl,
+    link: function(scope, element, attrs) {
+      scope.feedbackTarget = element;
+    }
   });
 })
 .directive('modalAddPaymentToken', function(svcModal) {

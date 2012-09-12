@@ -33,7 +33,7 @@ var postBudget = {
         title: 'Refresh period',
         description: 'The period on which the budget refills to the original amount.',
         type: 'string',
-        enum: ['psa:Hourly', 'psa:Daily', 'psa:Monthly', 'psa:Yearly'],
+        enum: ['psa:Never', 'psa:Hourly', 'psa:Daily', 'psa:Monthly', 'psa:Yearly'],
         required: false
       }
     }
@@ -42,9 +42,9 @@ var postBudget = {
     properties: {
       '@context': jsonldContext(),
       vendor: payswarmId()
-    },
-    additionalProperties: false
-  }]
+    }
+  }],
+  additionalProperties: false
 };
 
 var postBudgets = {
@@ -69,7 +69,7 @@ var postBudgets = {
       title: 'Refresh period',
       description: 'The period on which the budget refills to the original amount.',
       type: 'string',
-      enum: ['psa:Hourly', 'psa:Daily', 'psa:Monthly', 'psa:Yearly'],
+      enum: ['psa:Never', 'psa:Hourly', 'psa:Daily', 'psa:Monthly', 'psa:Yearly'],
     }
   },
   additionalProperties: false

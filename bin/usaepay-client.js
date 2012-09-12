@@ -1,26 +1,29 @@
 var async = require('async');
 var program = require('commander');
 var fs = require('fs');
-var pfc = require('../lib/payswarm-auth/payflow-client');
-var PayflowClient = pfc.PayflowClient;
+var uepc = require('../lib/payswarm-auth/usaepay-client');
+var USAePayClient = uepc.USAePayClient;
 
-var APP_NAME = 'payswarm.apps.PayflowClient';
-process.title = 'payflow-client';
+var APP_NAME = 'payswarm.apps.USAePayClient';
+process.title = 'usaepay-client';
 
 program
   .version('0.0.1')
   .option('--auth <filename>', 'The JSON file containing gateway credentials.')
   .option('--request <filename>', 'A JSON file containing a request to ' +
     'send to the gateway.')
-  .option('--verify <filename>', 'A JSON-LD file containing credit card ' +
-    'information that is to be verified. A payment token is output.')
+  .option('--verify <filename>', 'A JSON-LD file containing ' +
+    'bank account information that is to be verified. A payment token ' +
+    'is output.')
   .option('--charge <filename>', 'A JSON-LD file containing a payment ' +
     'token to charge. The "--amount" parameter must also be specified.')
-  .option('--amount <amount>', 'A dollar amount to charge (eg: "1.00").')
+  .option('--credit <filename>', 'A JSON-LD file containing a payment ' +
+    'token to credit. The "--amount" parameter must also be specified.')
+  .option('--amount <amount>', 'A dollar amount to charge/credit (eg: "1.00").')
   .option('--timeout <timeout>', 'The request timeout in seconds.', parseInt)
   .option('--no-review', 'Do not require confirmation before sending ' +
     'the request.')
-  .option('--live', 'Use the Payflow Gateway in live mode. *DANGER* this ' +
+  .option('--live', 'Use the USAePay Gateway in live mode. *DANGER* this ' +
     'uses *REAL* money.')
   .option('--debug', 'Write debug output to the console.')
   .parse(process.argv);
@@ -47,6 +50,16 @@ if(program.request && program.charge) {
   process.stdout.write(program.helpInformation());
   process.exit(1);
 }
+if(program.request && program.credit) {
+  console.log('\nError: Incompatible options "--request" and "--credit".');
+  process.stdout.write(program.helpInformation());
+  process.exit(1);
+}
+if(program.charge && program.credit) {
+  console.log('\nError: Incompatible options "--charge" and "--credit".');
+  process.stdout.write(program.helpInformation());
+  process.exit(1);
+}
 if(program.request && program.amount) {
   console.log('\nError: Incompatible options "--request" and "--amount".');
   process.stdout.write(program.helpInformation());
@@ -59,6 +72,11 @@ if(program.verify && program.amount) {
 }
 if(program.charge && !program.amount) {
   console.log('\nError: You must provide an "--amount" with "--charge".');
+  process.stdout.write(program.helpInformation());
+  process.exit(1);
+}
+if(program.credit && !program.amount) {
+  console.log('\nError: You must provide an "--amount" with "--credit".');
   process.stdout.write(program.helpInformation());
   process.exit(1);
 }
@@ -78,7 +96,7 @@ if(config.mode === 'live') {
   process.exit(1);
 }
 
-console.log('\nPayflow Client:\n');
+console.log('\nUSAePay Client:\n');
 var client;
 var source;
 
@@ -86,7 +104,7 @@ async.waterfall([
   function(callback) {
     try {
       var auth = JSON.parse(fs.readFileSync(program.auth, 'utf8'));
-      client = new PayflowClient({
+      client = new USAePayClient({
         mode: config.mode,
         timeout: config.timeout,
         user: auth.user,
@@ -102,7 +120,8 @@ async.waterfall([
     }
   },
   function(callback) {
-    var filename = program.request || program.verify || program.charge;
+    var filename = program.request || program.verify ||
+      program.charge || program.credit;
     try {
       var data = JSON.parse(fs.readFileSync(filename, 'utf8'));
       if(program.request) {

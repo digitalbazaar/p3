@@ -26,6 +26,7 @@ ${set([
         <a class="btn btn-nav btn-small show pull-right{{showHovercard && ' active' || ''}}"
           data-popover-template="/partials/navbar-hovercard.html"
           data-popover-visible="showHovercard"
+          data-popover-min-width="minWidth()"
           data-title="{{$parent.session.identity.label || session.profile.label}}"
           data-placement="bottom">
         {{/verbatim}}

@@ -343,7 +343,8 @@ angular.module('payswarm.directives')
   return {
     restrict: 'A',
     scope: {
-      visible: '=popoverVisible'
+      visible: '=popoverVisible',
+      minWidth: '&popoverMinWidth'
     },
     controller: function($scope) {
       // manually inherit from parent scope because scope is auto-isolated
@@ -386,6 +387,11 @@ angular.module('payswarm.directives')
         popover.show = function() {
           oldShow.call(popover);
           var tip = this.tip();
+
+          // resize width to fix minimum width
+          var minWidth = Math.max(
+            scope.minWidth(tip) || 0, tip.outerWidth(true));
+          tip.css({width: minWidth});
 
           // fix positioning for bottom popover
           if(popover.options.placement === 'bottom') {

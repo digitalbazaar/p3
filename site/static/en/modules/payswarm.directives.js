@@ -792,7 +792,7 @@ angular.module('payswarm.directives')
     };
 
     $scope.editBudget = function() {
-      // set all update from UI
+      // set all fields from UI
       var b = $scope.budget;
       var budget = {
         '@context': 'http://purl.org/payswarm/v1',
@@ -805,10 +805,10 @@ angular.module('payswarm.directives')
         psaMaxPerUse: b.maxPerUse,
         psaRefresh: b.psaRefresh
       };
-      // remove elements not being updated
+      // remove fields not being updated
       delete budget['vendor'];
       angular.forEach(budget, function(value, key) {
-        if(!value) {
+        if(value !== null && value !== undefined && value.length !== 0) {
           delete budget[key];
         }
       });

@@ -15,15 +15,13 @@
   <div class="modal-footer">
     <span data-feedback="feedback" data-target="feedbackTarget"></span>
 
-    <span data-ng-switch="state">
-      <span data-ng-switch-when="editing">
-        <button class="btn btn-primary" data-ng-click="validate()">Validate</button>
-        <button class="btn btn-close">Cancel</button>
-      </span>
-      <span data-ng-switch-when="selecting">
-        <button class="btn btn-primary" data-ng-click="add()"><i class="icon-ok icon-white"></i> Add</button>
-        <button class="btn" data-ng-click="edit()">Back</button>
-      </span>
+    <span data-ng-show="state == 'editing'">
+      <button class="btn btn-primary" data-ng-click="validate()">Validate</button>
+      <button class="btn btn-close">Cancel</button>
+    </span>
+    <span data-ng-show="state == 'selecting'">
+      <button class="btn btn-primary" data-ng-click="add()"><i class="icon-ok icon-white"></i> Add</button>
+      <button class="btn" data-ng-click="edit()">Back</button>
     </span>
   </div>
 </div>

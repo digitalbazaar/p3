@@ -106,6 +106,9 @@ async.waterfall([
     }
   },
   function(callback) {
+    client.init(callback);
+  },
+  function(callback) {
     var filename = program.verify || program.charge || program.credit;
     try {
       var paymentMethod = JSON.parse(fs.readFileSync(filename, 'utf8'));
@@ -129,11 +132,11 @@ async.waterfall([
       JSON.stringify(paymentMethod, null, 2) + '\n');
     var prompt = 'Do you want to ';
     if(program.verify) {
-      prompt += 'verify this bank account?';
+      prompt += 'verify this bank account? ';
     }
     else {
       prompt += program.charge ? 'charge' : 'credit';
-      prompt += ' this payment token?';
+      prompt += ' this payment token? ';
     }
 
     program.confirm(prompt, function(ok) {

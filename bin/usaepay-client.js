@@ -94,7 +94,7 @@ async.waterfall([
       var auth = JSON.parse(fs.readFileSync(program.auth, 'utf8'));
       client = new USAePayClient({
         mode: config.mode,
-        wsdlKey: auth.wsdlKey,
+        wsdlDir: auth.wsdlDir,
         sourceKey: auth.sourceKey,
         timeout: config.timeout,
         debug: config.debug

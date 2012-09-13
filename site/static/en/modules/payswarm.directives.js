@@ -944,6 +944,7 @@ angular.module('payswarm.directives')
   function Ctrl($scope) {
     $scope.baseUrl = window.location.protocol + '//' + window.location.host;
     $scope.open = function() {
+      $scope.feedback = {};
       // identity
       $scope.identityType = $scope.identityTypes[0];
       $scope.identityLabel = '';
@@ -962,6 +963,8 @@ angular.module('payswarm.directives')
       // account
       $scope.account = {
         '@context': 'http://purl.org/payswarm/v1',
+        label: 'Primary Account',
+        psaSlug: 'primary',
         currency: 'USD',
         psaPublic: []
       };
@@ -987,9 +990,8 @@ angular.module('payswarm.directives')
             addAccount(options, identity);
           }
           else {
-            // FIXME: change to a directive
-            var feedback = $('[name="feedback"]', target);
-            website.util.processValidationErrors(feedback, target, err);
+            $scope.feedback.validationErrors = err;
+            $scope.$apply();
           }
         }
       });
@@ -1010,10 +1012,9 @@ angular.module('payswarm.directives')
           $scope.close(null, {identity: identity, account: account});
         },
         error: function(err) {
-          // FIXME: change to a directive
-          var feedback = $('[name="feedback"]', target);
-          website.util.processValidationErrors(
-            feedback, $('#add-account-form'), err);
+          // FIXME: identity vs account feedback
+          $scope.feedback.validationErrors = err;
+          $scope.$apply();
         }
       });
     }
@@ -1025,7 +1026,10 @@ angular.module('payswarm.directives')
       identityTypes: '='
     },
     templateUrl: '/partials/modals/add-identity.html',
-    controller: Ctrl
+    controller: Ctrl,
+    link: function(scope, element, attrs) {
+      scope.feedbackTarget = element;
+    }
   });
 })
 .directive('modalSwitchIdentity', function(svcModal) {

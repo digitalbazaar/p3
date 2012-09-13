@@ -125,8 +125,8 @@ async.waterfall([
     }
     console.log('Mode: ' + config.mode);
     console.log('Timeout: ' + config.timeout);
-    console.log('Args:');
-    console.log(JSON.stringify(args, null, 2) + '\n');
+    console.log('Payment Method: ' +
+      JSON.stringify(paymentMethod, null, 2) + '\n');
     var prompt = 'Do you want to ';
     if(program.verify) {
       prompt += 'verify this bank account?';

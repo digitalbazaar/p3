@@ -10,11 +10,9 @@ process.title = 'usaepay-client';
 program
   .version('0.0.1')
   .option('--auth <filename>', 'The JSON file containing gateway credentials.')
-  .option('--request <filename>', 'A JSON file containing a request to ' +
-    'send to the gateway.')
   .option('--verify <filename>', 'A JSON-LD file containing ' +
     'bank account information that is to be verified. A payment token ' +
-    'is output.')
+    'will be output on success.')
   .option('--charge <filename>', 'A JSON-LD file containing a payment ' +
     'token to charge. The "--amount" parameter must also be specified.')
   .option('--credit <filename>', 'A JSON-LD file containing a payment ' +
@@ -34,34 +32,24 @@ if(!program.auth) {
   process.stdout.write(program.helpInformation());
   process.exit(1);
 }
-if(!program.request && !program.verify && !program.charge) {
+if(!program.verify && !program.charge && !program.credit) {
   console.log('\nError: Missing required option ' +
-    '"--request" or "--verify" or "--charge".');
+    '"--verify" or "--charge" or "--credit".');
   process.stdout.write(program.helpInformation());
   process.exit(1);
 }
-if(program.request && program.verify) {
-  console.log('\nError: Incompatible options "--request" and "--verify".');
+if(program.verify && program.charge) {
+  console.log('\nError: Incompatible options "--verify" and "--charge".');
   process.stdout.write(program.helpInformation());
   process.exit(1);
 }
-if(program.request && program.charge) {
-  console.log('\nError: Incompatible options "--request" and "--charge".');
-  process.stdout.write(program.helpInformation());
-  process.exit(1);
-}
-if(program.request && program.credit) {
-  console.log('\nError: Incompatible options "--request" and "--credit".');
+if(program.verify && program.credit) {
+  console.log('\nError: Incompatible options "--verify" and "--credit".');
   process.stdout.write(program.helpInformation());
   process.exit(1);
 }
 if(program.charge && program.credit) {
   console.log('\nError: Incompatible options "--charge" and "--credit".');
-  process.stdout.write(program.helpInformation());
-  process.exit(1);
-}
-if(program.request && program.amount) {
-  console.log('\nError: Incompatible options "--request" and "--amount".');
   process.stdout.write(program.helpInformation());
   process.exit(1);
 }
@@ -71,12 +59,12 @@ if(program.verify && program.amount) {
   process.exit(1);
 }
 if(program.charge && !program.amount) {
-  console.log('\nError: You must provide an "--amount" with "--charge".');
+  console.log('\nError: You must provide "--amount" with "--charge".');
   process.stdout.write(program.helpInformation());
   process.exit(1);
 }
 if(program.credit && !program.amount) {
-  console.log('\nError: You must provide an "--amount" with "--credit".');
+  console.log('\nError: You must provide "--amount" with "--credit".');
   process.stdout.write(program.helpInformation());
   process.exit(1);
 }
@@ -106,11 +94,9 @@ async.waterfall([
       var auth = JSON.parse(fs.readFileSync(program.auth, 'utf8'));
       client = new USAePayClient({
         mode: config.mode,
+        wsdlKey: auth.wsdlKey,
+        sourceKey: auth.sourceKey,
         timeout: config.timeout,
-        user: auth.user,
-        vendor: auth.vendor,
-        partner: auth.partner,
-        password: auth.password,
         debug: config.debug
       });
       callback();
@@ -120,55 +106,59 @@ async.waterfall([
     }
   },
   function(callback) {
-    var filename = program.request || program.verify ||
-      program.charge || program.credit;
+    var filename = program.verify || program.charge || program.credit;
     try {
-      var data = JSON.parse(fs.readFileSync(filename, 'utf8'));
-      if(program.request) {
-        return callback(null, data);
-      }
-      if(program.verify) {
-        source = data;
-        return callback(null, client.createVerifyRequest(data));
-      }
-      if(program.charge) {
+      var paymentMethod = JSON.parse(fs.readFileSync(filename, 'utf8'));
+      // FIXME: validate payment method
+      if(program.charge || program.credit) {
         // FIXME: validate program.amount
-        return callback(null, client.createChargeRequest(data, program.amount));
       }
+      return callback(null, paymentMethod);
     }
     catch(ex) {
       return callback(ex);
     }
   },
-  function(req, callback) {
+  function(paymentMethod, callback) {
     if(!config.confirm) {
-      return callback(null, req);
+      return callback(null, paymentMethod);
     }
     console.log('Mode: ' + config.mode);
     console.log('Timeout: ' + config.timeout);
-    console.log('Request:');
-    console.log(JSON.stringify(req, null, 2) + '\n');
-    program.confirm('Do you want to send this request? ', function(ok) {
+    console.log('Args:');
+    console.log(JSON.stringify(args, null, 2) + '\n');
+    var prompt = 'Do you want to ';
+    if(program.verify) {
+      prompt += 'verify this bank account?';
+    }
+    else {
+      prompt += program.charge ? 'charge' : 'credit';
+      prompt += ' this payment token?';
+    }
+
+    program.confirm(prompt, function(ok) {
       if(!ok) {
         console.log('\nQuitting...');
         process.exit();
       }
-      console.log('\nSending request...');
-      client.send(req, callback);
+      callback(null, paymentMethod);
     });
   },
-  function(res, callback) {
+  function(paymentMethod, callback) {
+    console.log('\nSending request...');
     if(program.verify) {
-      res.paymentToken = client.createPaymentToken(source, res);
+      client.verify(paymentMethod, callback);
     }
-    callback(null, res);
+    else {
+      var method = program.charge ? client.charge : client.credit;
+      method.call(client, paymentMethod, program.amount, callback);
+    }
   }
 ], function(err, res) {
   if(err) {
     console.log('\n' + err, err.stack ? err.stack : '');
     process.exit(1);
   }
-  console.log('Response:');
-  console.log(JSON.stringify(res, null, 2));
+  console.log('Response: ' + JSON.stringify(res, null, 2));
   process.exit();
 });

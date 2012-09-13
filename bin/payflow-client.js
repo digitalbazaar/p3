@@ -13,7 +13,8 @@ program
   .option('--request <filename>', 'A JSON file containing a request to ' +
     'send to the gateway.')
   .option('--verify <filename>', 'A JSON-LD file containing credit card ' +
-    'information that is to be verified. A payment token is output.')
+    'information that is to be verified. A payment token will be output ' +
+    'on success.')
   .option('--charge <filename>', 'A JSON-LD file containing a payment ' +
     'token to charge. The "--amount" parameter must also be specified.')
   .option('--amount <amount>', 'A dollar amount to charge (eg: "1.00").')
@@ -58,7 +59,7 @@ if(program.verify && program.amount) {
   process.exit(1);
 }
 if(program.charge && !program.amount) {
-  console.log('\nError: You must provide an "--amount" with "--charge".');
+  console.log('\nError: You must provide "--amount" with "--charge".');
   process.stdout.write(program.helpInformation());
   process.exit(1);
 }
@@ -134,9 +135,12 @@ async.waterfall([
         console.log('\nQuitting...');
         process.exit();
       }
-      console.log('\nSending request...');
-      client.send(req, callback);
+      callback(null, req);
     });
+  },
+  function(req, callback) {
+    console.log('\nSending request...');
+    client.send(req, callback);
   },
   function(res, callback) {
     if(program.verify) {
@@ -149,7 +153,6 @@ async.waterfall([
     console.log('\n' + err, err.stack ? err.stack : '');
     process.exit(1);
   }
-  console.log('Response:');
-  console.log(JSON.stringify(res, null, 2));
+  console.log('Response:' + JSON.stringify(res, null, 2));
   process.exit();
 });

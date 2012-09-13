@@ -28,6 +28,7 @@
     "redback": "~0.2.8",
     "request": "~2.9.203",
     "rsa": "v0.0.3",
+    "soap": "git://github.com/digitalbazaar/node-soap.git",
     "swig": "git://github.com/digitalbazaar/swig.git",
     "walk": "~2.2.1",
     "winston": "~0.6.1",

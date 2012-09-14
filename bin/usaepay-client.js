@@ -13,6 +13,8 @@ program
   .option('--tokenize <filename>', 'A JSON-LD file containing ' +
     'bank account information that is to be verified. A payment token ' +
     'will be output on success.')
+  .option('--get <filename>', 'A JSON-LD file containing ' +
+    'a payment token to get the associated bank account for.')
   .option('--charge <filename>', 'A JSON-LD file containing a payment ' +
     'token to charge. The "--amount" parameter must also be specified.')
   .option('--credit <filename>', 'A JSON-LD file containing a payment ' +
@@ -32,9 +34,14 @@ if(!program.auth) {
   process.stdout.write(program.helpInformation());
   process.exit(1);
 }
-if(!program.tokenize && !program.charge && !program.credit) {
+if(!program.tokenize && !program.get && !program.charge && !program.credit) {
   console.log('\nError: Missing required option ' +
-    '"--tokenize" or "--charge" or "--credit".');
+    '"--tokenize", "--get", "--charge", or "--credit".');
+  process.stdout.write(program.helpInformation());
+  process.exit(1);
+}
+if(program.tokenize && program.get) {
+  console.log('\nError: Incompatible options "--tokenize" and "--get".');
   process.stdout.write(program.helpInformation());
   process.exit(1);
 }
@@ -48,6 +55,16 @@ if(program.tokenize && program.credit) {
   process.stdout.write(program.helpInformation());
   process.exit(1);
 }
+if(program.get && program.charge) {
+  console.log('\nError: Incompatible options "--get" and "--charge".');
+  process.stdout.write(program.helpInformation());
+  process.exit(1);
+}
+if(program.get && program.credit) {
+  console.log('\nError: Incompatible options "--get" and "--credit".');
+  process.stdout.write(program.helpInformation());
+  process.exit(1);
+}
 if(program.charge && program.credit) {
   console.log('\nError: Incompatible options "--charge" and "--credit".');
   process.stdout.write(program.helpInformation());
@@ -55,6 +72,11 @@ if(program.charge && program.credit) {
 }
 if(program.tokenize && program.amount) {
   console.log('\nError: Incompatible options "--tokenize" and "--amount".');
+  process.stdout.write(program.helpInformation());
+  process.exit(1);
+}
+if(program.get && program.amount) {
+  console.log('\nError: Incompatible options "--get" and "--amount".');
   process.stdout.write(program.helpInformation());
   process.exit(1);
 }
@@ -96,6 +118,7 @@ async.waterfall([
         mode: config.mode,
         wsdlDir: auth.wsdlDir,
         sourceKey: auth.sourceKey,
+        pin: auth.pin,
         timeout: config.timeout,
         debug: config.debug
       });
@@ -109,30 +132,33 @@ async.waterfall([
     client.init(callback);
   },
   function(callback) {
-    var filename = program.tokenize || program.charge || program.credit;
+    var filename = program.tokenize || program.get ||
+      program.charge || program.credit;
     try {
-      var paymentMethod = JSON.parse(fs.readFileSync(filename, 'utf8'));
-      // FIXME: validate payment method
+      // FIXME: validate input
+      var input = JSON.parse(fs.readFileSync(filename, 'utf8'));
       if(program.charge || program.credit) {
         // FIXME: validate program.amount
       }
-      return callback(null, paymentMethod);
+      return callback(null, input);
     }
     catch(ex) {
       return callback(ex);
     }
   },
-  function(paymentMethod, callback) {
+  function(input, callback) {
     if(!config.confirm) {
-      return callback(null, paymentMethod);
+      return callback(null, input);
     }
     console.log('Mode: ' + config.mode);
     console.log('Timeout: ' + config.timeout);
-    console.log('Payment Method: ' +
-      JSON.stringify(paymentMethod, null, 2) + '\n');
+    console.log('Input: ' + JSON.stringify(input, null, 2) + '\n');
     var prompt = 'Do you want to ';
     if(program.tokenize) {
       prompt += 'tokenize this bank account? ';
+    }
+    else if(program.get) {
+      prompt += 'get the bank account associated with this payment token? ';
     }
     else {
       prompt += program.charge ? 'charge' : 'credit';
@@ -144,17 +170,20 @@ async.waterfall([
         console.log('\nQuitting...');
         process.exit();
       }
-      callback(null, paymentMethod);
+      callback(null, input);
     });
   },
-  function(paymentMethod, callback) {
+  function(input, callback) {
     console.log('\nSending request...');
     if(program.tokenize) {
-      client.tokenize(paymentMethod, callback);
+      client.tokenize(input, callback);
+    }
+    else if(program.get) {
+      client.getBankAccount(input, callback);
     }
     else {
       var method = program.charge ? client.charge : client.credit;
-      method.call(client, paymentMethod, program.amount, callback);
+      method.call(client, input, program.amount, callback);
     }
   }
 ], function(err, res) {

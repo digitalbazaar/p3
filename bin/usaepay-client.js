@@ -13,8 +13,9 @@ program
   .option('--tokenize <filename>', 'A JSON-LD file containing ' +
     'bank account information that is to be verified. A payment token ' +
     'will be output on success.')
-  .option('--get <filename>', 'A JSON-LD file containing ' +
-    'a payment token to get the associated bank account for.')
+  .option('--get <filename>', 'A JSON-LD file containing either ' +
+    'a payment token to get the associated bank account for or a ' +
+    'transaction to get the status for.')
   .option('--charge <filename>', 'A JSON-LD file containing a payment ' +
     'token to charge. The "--amount" parameter must also be specified.')
   .option('--credit <filename>', 'A JSON-LD file containing a payment ' +
@@ -152,13 +153,22 @@ async.waterfall([
     }
     console.log('Mode: ' + config.mode);
     console.log('Timeout: ' + config.timeout);
-    console.log('Input: ' + JSON.stringify(input, null, 2) + '\n');
+    console.log('Input: ' + JSON.stringify(input, null, 2));
+    if(program.amount) {
+      console.log('Amount: ' + program.amount);
+    }
+    console.log();
     var prompt = 'Do you want to ';
     if(program.tokenize) {
       prompt += 'tokenize this bank account? ';
     }
     else if(program.get) {
-      prompt += 'get the bank account associated with this payment token? ';
+      if(input.type === 'com:PaymentToken') {
+        prompt += 'get the bank account associated with this payment token? ';
+      }
+      else {
+        prompt += 'get the status associated with this transaction? ';
+      }
     }
     else {
       prompt += program.charge ? 'charge' : 'credit';
@@ -179,7 +189,12 @@ async.waterfall([
       client.tokenize(input, callback);
     }
     else if(program.get) {
-      client.getBankAccount(input, callback);
+      if(input.type === 'com:PaymentToken') {
+        client.getBankAccount(input, callback);
+      }
+      else {
+        client.inquire(input, callback);
+      }
     }
     else {
       var method = program.charge ? client.charge : client.credit;

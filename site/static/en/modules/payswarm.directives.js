@@ -92,20 +92,10 @@ angular.module('payswarm.directives')
   return {
     restrict: 'A',
     require: 'ngModel',
-    scope: {
-      slugOut: '=',
-      ngModel: '='
-    },
-    link: function(scope, element, attrs, ngModel) {
+    link: function(scope, element, attrs) {
       var slug = $filter('slug');
-      ngModel.$parsers.push(function(v) {
-        scope.slugOut = slug(v);
-        scope.ngModel = v;
-        return v;
-      });
-      ngModel.$formatters.push(function(v) {
-        scope.slugOut = slug(scope.ngModel);
-        return scope.ngModel;
+      scope.$parent.$watch(attrs.ngModel, function(value) {
+        scope.$parent.$eval(attrs.slugOut + '=\'' + slug(value) + '\'');
       });
     }
   };

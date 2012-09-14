@@ -10,7 +10,7 @@ process.title = 'usaepay-client';
 program
   .version('0.0.1')
   .option('--auth <filename>', 'The JSON file containing gateway credentials.')
-  .option('--verify <filename>', 'A JSON-LD file containing ' +
+  .option('--tokenize <filename>', 'A JSON-LD file containing ' +
     'bank account information that is to be verified. A payment token ' +
     'will be output on success.')
   .option('--charge <filename>', 'A JSON-LD file containing a payment ' +
@@ -32,19 +32,19 @@ if(!program.auth) {
   process.stdout.write(program.helpInformation());
   process.exit(1);
 }
-if(!program.verify && !program.charge && !program.credit) {
+if(!program.tokenize && !program.charge && !program.credit) {
   console.log('\nError: Missing required option ' +
-    '"--verify" or "--charge" or "--credit".');
+    '"--tokenize" or "--charge" or "--credit".');
   process.stdout.write(program.helpInformation());
   process.exit(1);
 }
-if(program.verify && program.charge) {
-  console.log('\nError: Incompatible options "--verify" and "--charge".');
+if(program.tokenize && program.charge) {
+  console.log('\nError: Incompatible options "--tokenize" and "--charge".');
   process.stdout.write(program.helpInformation());
   process.exit(1);
 }
-if(program.verify && program.credit) {
-  console.log('\nError: Incompatible options "--verify" and "--credit".');
+if(program.tokenize && program.credit) {
+  console.log('\nError: Incompatible options "--tokenize" and "--credit".');
   process.stdout.write(program.helpInformation());
   process.exit(1);
 }
@@ -53,8 +53,8 @@ if(program.charge && program.credit) {
   process.stdout.write(program.helpInformation());
   process.exit(1);
 }
-if(program.verify && program.amount) {
-  console.log('\nError: Incompatible options "--verify" and "--amount".');
+if(program.tokenize && program.amount) {
+  console.log('\nError: Incompatible options "--tokenize" and "--amount".');
   process.stdout.write(program.helpInformation());
   process.exit(1);
 }
@@ -109,7 +109,7 @@ async.waterfall([
     client.init(callback);
   },
   function(callback) {
-    var filename = program.verify || program.charge || program.credit;
+    var filename = program.tokenize || program.charge || program.credit;
     try {
       var paymentMethod = JSON.parse(fs.readFileSync(filename, 'utf8'));
       // FIXME: validate payment method
@@ -131,8 +131,8 @@ async.waterfall([
     console.log('Payment Method: ' +
       JSON.stringify(paymentMethod, null, 2) + '\n');
     var prompt = 'Do you want to ';
-    if(program.verify) {
-      prompt += 'verify this bank account? ';
+    if(program.tokenize) {
+      prompt += 'tokenize this bank account? ';
     }
     else {
       prompt += program.charge ? 'charge' : 'credit';
@@ -149,8 +149,8 @@ async.waterfall([
   },
   function(paymentMethod, callback) {
     console.log('\nSending request...');
-    if(program.verify) {
-      client.verify(paymentMethod, callback);
+    if(program.tokenize) {
+      client.tokenize(paymentMethod, callback);
     }
     else {
       var method = program.charge ? client.charge : client.credit;

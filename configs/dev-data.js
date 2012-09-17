@@ -48,6 +48,7 @@ config.financial.paymentTokens.push({
   source: {
     type: 'bank:BankAccount',
     bankAccount: '1234567890',
+    bankAccountType: 'bank:Checking',
     bankRoutingNumber: '987654321'
   },
   gateway: 'Test',

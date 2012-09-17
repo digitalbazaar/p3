@@ -62,7 +62,9 @@
             <div class="control-group" data-binding="source.cardExpMonth">
               <label class="control-label" for="card-exp-month">Expiration Month</label>
               <div class="controls">
-                <select class="input-large" name="card-exp-month" data-ng-model="card.cardExpMonth" data-ng-options="month.index as month.label for month in monthLabels">
+                <select class="input-large" name="card-exp-month"
+                  data-ng-model="card.cardExpMonth"
+                  data-ng-options="month.index as month.label for month in monthLabels">
                   <option value=""></option>
                 </select>
               </div>
@@ -70,7 +72,9 @@
             <div class="control-group" data-binding="source.cardExpYear">
               <label class="control-label" for="card-exp-year">Expiration Year</label>
               <div class="controls">
-                <select class="input-small" name="card-exp-year" data-ng-model="card.cardExpYear" data-ng-options="year for year in years">
+                <select class="input-small" name="card-exp-year"
+                  data-ng-model="card.cardExpYear"
+                  data-ng-options="year for year in years">
                   <option value=""></option>
                 </select>
               </div>
@@ -97,6 +101,17 @@
                   data-tooltip-title="You must enter your bank's routing number. This can be found in your checkbook or by signing into your bank online."
                   data-placement="right" data-trigger="focus"
                   data-ng-model="bankAccount.bankRoutingNumber" />
+              </div>
+            </div>
+            <div class="control-group" data-binding="source.bankAccountType">
+              <label class="control-label" for="bank-account-type">Account Type</label>
+              <div class="controls">
+                <select class="input-medium" name="bank-account-type"
+                  data-tooltip-title="If your bank account does not have a type, choose 'Checking'."
+                  data-placement="right" data-trigger="focus"
+                  data-ng-model="bankAccount.bankAccountType"
+                  data-ng-options="type.id as type.label for type in bankAccountTypes">
+                </select>
               </div>
             </div>
             <div class="control-group" data-binding="source.bankAccount">

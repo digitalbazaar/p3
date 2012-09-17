@@ -852,9 +852,14 @@ angular.module('payswarm.directives')
         type: 'ccard:CreditCard',
         address: $scope.card ? $scope.card.address : null
       };
+      $scope.bankAccountTypes = [
+        {id: 'bank:Checking', label: 'Checking'},
+        {id: 'bank:Savings', label: 'Savings'},
+      ];
       $scope.bankAccount = {
         '@context': 'http://purl.org/payswarm/v1',
-        type: 'bank:BankAccount'
+        type: 'bank:BankAccount',
+        bankAccountType: 'bank:Checking'
       };
 
       $scope.multiEnabled = ($scope.paymentMethods.length > 1);
@@ -913,6 +918,7 @@ angular.module('payswarm.directives')
           '@context': b['@context'],
           type: b.type,
           bankAccount: b.bankAccount,
+          bankAccountType: b.bankAccountType,
           bankRoutingNumber: b.bankRoutingNumber
         };
       }

@@ -21,6 +21,11 @@ var schema = {
         mask: true
       }
     },
+    bankAccountType: {
+      required: true,
+      type: 'string',
+      enum: ['bank:Checking', 'bank:Savings']
+    },
     bankRoutingNumber: {
       required: true,
       type: 'string',

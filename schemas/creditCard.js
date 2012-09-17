@@ -53,7 +53,7 @@ var schema = {
         mask: true
       }
     },
-    cardAddress: address(),
+    address: address(),
     cardCvm: {
       required: true,
       type: 'string',

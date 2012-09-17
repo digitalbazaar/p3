@@ -33,7 +33,7 @@ config.financial.defaults.paymentTokens.push({
   cardExpMonth: '11',
   cardExpYear: '16',
   cardCvm: '111',
-  cardAddress: {
+  address: {
     fullName: 'Billing Name',
     streetAddress: '1 Billing Lane',
     locality: 'Locality',

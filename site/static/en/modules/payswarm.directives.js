@@ -850,7 +850,7 @@ angular.module('payswarm.directives')
       $scope.card = {
         '@context': 'http://purl.org/payswarm/v1',
         type: 'ccard:CreditCard',
-        cardAddress: $scope.card ? $scope.card.cardAddress : null
+        address: $scope.card ? $scope.card.address : null
       };
       $scope.bankAccount = {
         '@context': 'http://purl.org/payswarm/v1',
@@ -882,7 +882,7 @@ angular.module('payswarm.directives')
       // handle payment method specifics
       if($scope.paymentMethod === 'ccard:CreditCard') {
         var c = $scope.card;
-        var ca = c.cardAddress;
+        var ca = c.address;
 
         // copy required fields
         token.source = {
@@ -893,7 +893,7 @@ angular.module('payswarm.directives')
           cardExpMonth: c.cardExpMonth,
           cardExpYear: c.cardExpYear,
           cardCvm: c.cardCvm,
-          cardAddress: {
+          address: {
             type: ca.type,
             label: ca.label,
             fullName: ca.fullName,

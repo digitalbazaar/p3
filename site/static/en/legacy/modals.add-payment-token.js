@@ -112,7 +112,7 @@ modals.addPaymentToken.show = function(options) {
         cardExpYear:
           $('[name="card-exp-year"] option:selected', target).val().substr(2),
         cardCvm: $('[name="card-cvm"]', target).val(),
-        cardAddress: $('#add-payment-token-address-selector')[0].selected
+        address: $('#add-payment-token-address-selector')[0].selected
       };
     }
     else if(paymentType === 'bank:BankAccount') {

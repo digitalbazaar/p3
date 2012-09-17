@@ -21,11 +21,11 @@ angular.module('payswarm.services')
   };
   return service;
 })
-.factory('svcAddress', function($timeout) {
+.factory('svcAddress', function($timeout, svcIdentity) {
   // address service
   var service = {};
 
-  var identity = window.data.session.identity;
+  var identity = svcIdentity.identity;
   var expires = 0;
   var maxAge = 1000*60*2;
   service.addresses = [];
@@ -124,14 +124,14 @@ angular.module('payswarm.services')
 
   return service;
 })
-.factory('svcAccount', function($timeout) {
+.factory('svcAccount', function($timeout, svcIdentity) {
   // accounts service
   var service = {};
 
-  var identity = window.data.session.identity;
+  var identity = svcIdentity.identity;
   var maxAge = 1000*60*2;
   service.identities = {};
-  angular.forEach(window.data.session.identities, function(identity) {
+  angular.forEach(svcIdentity.identities, function(identity) {
     service.identities[identity.id] = {accounts: [], expires: 0};
   });
   service.accounts = service.identities[identity.id].accounts;
@@ -240,11 +240,11 @@ angular.module('payswarm.services')
 
   return service;
 })
-.factory('svcBudget', function($timeout) {
+.factory('svcBudget', function($timeout, svcIdentity) {
   // budgets service
   var service = {};
 
-  var identity = window.data.session.identity;
+  var identity = svcIdentity.identity;
   var expires = 0;
   var maxAge = 1000*60*2;
   service.budgets = [];
@@ -394,13 +394,14 @@ angular.module('payswarm.services')
 
   return service;
 })
-.factory('svcIdentity', function() {
+.factory('svcIdentity', function($rootScope) {
   // identity service
   var service = {};
 
   service.identity = window.data.session.identity;
   service.identityMap = window.data.session.identities;
-  angular.forEach(window.data.session.identities, function(identity) {
+  service.identities = [];
+  angular.forEach(service.identityMap, function(identity) {
     service.identities.push(identity);
   });
   service.state = {
@@ -417,10 +418,12 @@ angular.module('payswarm.services')
         service.identityMap[identity.id] = identity;
         service.identities.push(identity);
         service.state.loading = false;
+        $rootScope.$apply();
         callback(null, identity);
       },
       error: function(err) {
         service.state.loading = false;
+        $rootScope.$apply();
         callback(err);
       }
     });
@@ -445,16 +448,19 @@ angular.module('payswarm.services')
           responseNonce: nonce,
           success: function(prefs) {
             service.state.loading = false;
+            $rootScope.$apply();
             callback(null, prefs);
           },
           error: function(err) {
             service.state.loading = false;
+            $rootScope.$apply();
             callback(err);
           }
         });
       },
       error: function(err) {
         service.state.loading = false;
+        $rootScope.$apply();
         callback(err);
       }
     });
@@ -462,11 +468,11 @@ angular.module('payswarm.services')
 
   return service;
 })
-.factory('svcPaymentToken', function($timeout) {
+.factory('svcPaymentToken', function($timeout, svcIdentity) {
   // paymentTokens service
   var service = {};
 
-  var identity = window.data.session.identity;
+  var identity = svcIdentity.identity;
   var expires = 0;
   var maxAge = 1000*60*2;
   service.state = {

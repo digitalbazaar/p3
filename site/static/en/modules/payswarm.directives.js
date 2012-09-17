@@ -92,10 +92,20 @@ angular.module('payswarm.directives')
   return {
     restrict: 'A',
     require: 'ngModel',
+    scope: {
+      ngModel: '=',
+      slugOut: '='
+    },
     link: function(scope, element, attrs) {
+      scope.$watch('ngModel', function(value) {
+        element.val(value);
+      });
+
       var slug = $filter('slug');
-      scope.$parent.$watch(attrs.ngModel, function(value) {
-        scope.$parent.$eval(attrs.slugOut + '=\'' + slug(value) + '\'');
+      element.on('propertychange input keyup paste', function(e) {
+        scope.ngModel = element.val();
+        scope.slugOut = slug(scope.ngModel);
+        scope.$apply();
       });
     }
   };
@@ -492,9 +502,9 @@ angular.module('payswarm.directives')
     templateUrl: '/partials/address-selector.html'
   };
 })
-.directive('accountSelector', function(svcAccount) {
+.directive('accountSelector', function(svcAccount, svcIdentity) {
   function Ctrl($scope) {
-    $scope.identityId = window.data.session.identity.id;
+    $scope.identityId = svcIdentity.identity.id;
     updateAccounts($scope);
   }
 
@@ -612,12 +622,12 @@ angular.module('payswarm.directives')
     templateUrl: '/partials/identity-selector.html'
   };
 })
-.directive('modalAddAccount', function(svcModal, svcAccount) {
+.directive('modalAddAccount', function(svcModal, svcIdentity, svcAccount) {
   function Ctrl($scope) {
     $scope.open = function() {
       $scope.data = window.data || {};
       $scope.feedback = {};
-      $scope.identityId = data.session.identity.id || {};
+      $scope.identityId = svcIdentity.identity.id || {};
       $scope.account = {
         '@context': 'http://purl.org/payswarm/v1',
         currency: 'USD',
@@ -930,7 +940,7 @@ angular.module('payswarm.directives')
     }
   });
 })
-.directive('modalAddIdentity', function(svcModal) {
+.directive('modalAddIdentity', function(svcModal, svcIdentity) {
   function Ctrl($scope) {
     $scope.baseUrl = window.location.protocol + '//' + window.location.host;
     $scope.open = function() {
@@ -938,6 +948,7 @@ angular.module('payswarm.directives')
       // identity
       $scope.identityType = $scope.identityTypes[0];
       $scope.identityLabel = '';
+      $scope.identitySlug = '';
       $scope.identity = {};
       $scope.identityTypeLabels = {
         'ps:PersonalIdentity': 'Personal',
@@ -962,27 +973,22 @@ angular.module('payswarm.directives')
     };
 
     $scope.addIdentity = function() {
-      // FIXME: add identity service that will add new identities to the
-      // session.identities map ... also determine if we want that to be
-      // a map or an array of identities
       var identity = $scope.identity[$scope.identityType];
       identity.label = $scope.identityLabel;
       identity.psaSlug = $scope.identitySlug;
-      payswarm.identities.add({
-        identity: identity,
-        success: function(identity) {
-          addAccount(identity);
-        },
-        error: function(err) {
-          // if identity is a duplicate, add account to it
-          if(err.type === 'payswarm.website.DuplicateIdentity') {
-            identity.id = $scope.baseUrl + '/i/' + identity.psaSlug;
-            addAccount(options, identity);
-          }
-          else {
-            $scope.feedback.validationErrors = err;
-            $scope.$apply();
-          }
+      svcIdentity.add(identity, function(err, identity) {
+        if(!err) {
+          return addAccount(identity);
+        }
+
+        // if identity is a duplicate, add account to it
+        if(err.type === 'payswarm.website.DuplicateIdentity') {
+          identity.id = $scope.baseUrl + '/i/' + identity.psaSlug;
+          addAccount(options, identity);
+        }
+        else {
+          $scope.feedback.validationErrors = err;
+          $scope.$apply();
         }
       });
     };
@@ -1022,13 +1028,12 @@ angular.module('payswarm.directives')
     }
   });
 })
-.directive('modalSwitchIdentity', function(svcModal) {
+.directive('modalSwitchIdentity', function(svcModal, svcIdentity) {
   function Ctrl($scope) {
     function init() {
       $scope.identityTypes = ['ps:PersonalIdentity', 'ps:VendorIdentity'];
-      $scope.identities = $.map(
-        window.data.session.identities, function(v) {return v;});
-      $scope.selected = window.data.identity;
+      $scope.identities = svcIdentity.identities;
+      $scope.selected = svcIdentity.identity;
     };
     init();
 

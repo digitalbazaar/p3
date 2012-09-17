@@ -8,12 +8,13 @@
 
 var module = angular.module('payswarm');
 
-module.controller('RegisterCtrl', function($scope, $timeout, svcAccount) {
+module.controller('RegisterCtrl', function(
+  $scope, $timeout, svcIdentity, svcAccount) {
   // init model
   var data = window.data;
   $scope.loading = false;
   $scope.registered = false;
-  $scope.identities = null;
+  $scope.identities = [];
   $scope.session = data.session;
   $scope.publicKey = {
     label: data.publicKey.label,
@@ -29,7 +30,8 @@ module.controller('RegisterCtrl', function($scope, $timeout, svcAccount) {
     account: null
   };
   $scope.filterIdentities = function() {
-    $scope.identities = $.map(data.session.identities, function(v) {return v;});
+    $scope.identities = svcIdentity.identities;
+    console.log('filtering', svcIdentity.identities);
     if($scope.registrationType === 'vendor') {
       // allow only vendor identities to be selected
       $scope.identityTypes = ['ps:VendorIdentity'];
@@ -42,7 +44,11 @@ module.controller('RegisterCtrl', function($scope, $timeout, svcAccount) {
     }
     $scope.selection.identity = $scope.identities[0] || null;
   };
-  $scope.filterIdentities();
+
+  $scope.allIdentities = svcIdentity.identities;
+  $scope.$watch('allIdentities', function(value) {
+    $scope.filterIdentities();
+  }, true);
 
   $scope.register = function() {
     // update the preferences associated with the vendor identity

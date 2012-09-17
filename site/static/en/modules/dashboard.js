@@ -26,9 +26,7 @@ module.controller('DashboardCtrl', function($scope, svcAccount, svcBudget) {
       identity: $scope.identity,
       account: account.id,
       deposited: function() {
-        svcAccount.get({force: true}, function() {
-          $scope.$apply();
-        });
+        svcAccount.get({force: true});
       }
     });
   };
@@ -38,8 +36,8 @@ module.controller('DashboardCtrl', function($scope, svcAccount, svcBudget) {
     svcBudget.del(budget.id, function(err) {
       if(err) {
         budget.deleted = false;
+        $scope.$apply();
       }
-      $scope.$apply();
     });
   };
 
@@ -59,12 +57,8 @@ module.controller('DashboardCtrl', function($scope, svcAccount, svcBudget) {
     }
   };
 
-  svcAccount.get({force: true}, function() {
-    $scope.$apply();
-  });
-  svcBudget.get({force: true}, function() {
-    $scope.$apply();
-  });
+  svcAccount.get({force: true});
+  svcBudget.get({force: true});
   updateTxns($scope);
 });
 

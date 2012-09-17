@@ -903,7 +903,7 @@ angular.module('payswarm.directives')
             postalCode: ca.postalCode,
             countryName: ca.countryName
           }
-        }
+        };
       }
       else if($scope.paymentMethod === 'bank:BankAccount') {
         var b = $scope.bankAccount;
@@ -914,7 +914,7 @@ angular.module('payswarm.directives')
           type: b.type,
           bankAccount: b.bankAccount,
           bankRoutingNumber: b.bankRoutingNumber
-        }
+        };
       }
 
       // add payment token
@@ -1180,6 +1180,6 @@ angular.module('payswarm.directives')
       });
     }
   };
-})
+});
 
 })(jQuery);

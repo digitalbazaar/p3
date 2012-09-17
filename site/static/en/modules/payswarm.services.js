@@ -21,7 +21,7 @@ angular.module('payswarm.services')
   };
   return service;
 })
-.factory('svcAddress', function($timeout, svcIdentity) {
+.factory('svcAddress', function($timeout, $rootScope, svcIdentity) {
   // address service
   var service = {};
 
@@ -51,10 +51,12 @@ angular.module('payswarm.services')
           });
           expires = +new Date() + maxAge;
           service.state.loading = false;
+          $rootScope.$apply();
           callback(null, service.addresses);
         },
         error: function(err) {
           service.state.loading = false;
+          $rootScope.$apply();
           callback(err);
         }
       });
@@ -87,10 +89,12 @@ angular.module('payswarm.services')
       success: function(address) {
         service.addresses.push(address);
         service.state.loading = false;
+        $rootScope.$apply();
         callback(null, address);
       },
       error: function(err) {
         service.state.loading = false;
+        $rootScope.$apply();
         callback(err);
       }
     });
@@ -113,10 +117,12 @@ angular.module('payswarm.services')
           }
         }
         service.state.loading = false;
+        $rootScope.$apply();
         callback();
       },
       error: function(err) {
         service.state.loading = false;
+        $rootScope.$apply();
         callback(err);
       }
     });
@@ -124,7 +130,7 @@ angular.module('payswarm.services')
 
   return service;
 })
-.factory('svcAccount', function($timeout, svcIdentity) {
+.factory('svcAccount', function($timeout, $rootScope, svcIdentity) {
   // accounts service
   var service = {};
 
@@ -150,6 +156,7 @@ angular.module('payswarm.services')
 
     var entry = service.identities[options.identity || identity.id];
     if(options.force || +new Date() >= entry.expires) {
+      service.state.loading = true;
       payswarm.accounts.get({
         identity: options.identity || identity.id,
         success: function(accounts) {
@@ -158,9 +165,15 @@ angular.module('payswarm.services')
             entry.accounts.push(account);
           });
           entry.expires = +new Date() + maxAge;
+          service.state.loading = false;
+          $rootScope.$apply();
           callback(null, entry.accounts);
         },
-        error: callback
+        error: function(err) {
+          service.state.loading = false;
+          $rootScope.$apply();
+          callback(err);
+        }
       });
     }
     else {
@@ -189,10 +202,12 @@ angular.module('payswarm.services')
           service.accounts.push(account);
         }
         service.state.loading = false;
+        $rootScope.$apply();
         callback(null, account);
       },
       error: function(err) {
         service.state.loading = false;
+        $rootScope.$apply();
         callback(err);
       }
     });
@@ -211,10 +226,12 @@ angular.module('payswarm.services')
       success: function(account) {
         service.identities[identityId].accounts.push(account);
         service.state.loading = false;
+        $rootScope.$apply();
         callback(null, account);
       },
       error: function(err) {
         service.state.loading = false;
+        $rootScope.$apply();
         callback(err);
       }
     });
@@ -233,6 +250,7 @@ angular.module('payswarm.services')
       },
       error: function(err) {
         service.state.loading = false;
+        $rootScope.$apply();
         callback(err);
       }
     });
@@ -240,7 +258,7 @@ angular.module('payswarm.services')
 
   return service;
 })
-.factory('svcBudget', function($timeout, svcIdentity) {
+.factory('svcBudget', function($timeout, $rootScope, svcIdentity) {
   // budgets service
   var service = {};
 
@@ -272,10 +290,12 @@ angular.module('payswarm.services')
           });
           expires = +new Date() + maxAge;
           service.state.loading = false;
+          $rootScope.$apply();
           callback(null, service.budgets);
         },
         error: function(err) {
           service.state.loading = false;
+          $rootScope.$apply();
           callback(err);
         }
       });
@@ -306,10 +326,12 @@ angular.module('payswarm.services')
           service.budgets.push(budget);
         }
         service.state.loading = false;
+        $rootScope.$apply();
         callback(null, budget);
       },
       error: function(err) {
         service.state.loading = false;
+        $rootScope.$apply();
         callback(err);
       }
     });
@@ -325,10 +347,12 @@ angular.module('payswarm.services')
       success: function(budget) {
         service.budgets.push(budget);
         service.state.loading = false;
+        $rootScope.$apply();
         callback(null, budget);
       },
       error: function(err) {
         service.state.loading = false;
+        $rootScope.$apply();
         callback(err);
       }
     });
@@ -346,6 +370,7 @@ angular.module('payswarm.services')
       },
       error: function(err) {
         service.state.loading = false;
+        $rootScope.$apply();
         callback(err);
       }
     });
@@ -360,10 +385,12 @@ angular.module('payswarm.services')
       vendor: vendorId,
       success: function() {
         service.state.loading = false;
+        $rootScope.$apply();
         callback();
       },
       error: function(err) {
         service.state.loading = false;
+        $rootScope.$apply();
         callback(err);
       }
     });
@@ -383,10 +410,12 @@ angular.module('payswarm.services')
           }
         }
         service.state.loading = false;
+        $rootScope.$apply();
         callback();
       },
       error: function(err) {
         service.state.loading = false;
+        $rootScope.$apply();
         callback(err);
       }
     });
@@ -468,7 +497,7 @@ angular.module('payswarm.services')
 
   return service;
 })
-.factory('svcPaymentToken', function($timeout, svcIdentity) {
+.factory('svcPaymentToken', function($timeout, $rootScope, svcIdentity) {
   // paymentTokens service
   var service = {};
 
@@ -533,10 +562,12 @@ angular.module('payswarm.services')
           _setTokens(paymentTokens);
           expires = +new Date() + maxAge;
           service.state.loading = false;
+          $rootScope.$apply();
           callback(null, service.paymentTokens);
         },
         error: function(err) {
           service.state.loading = false;
+          $rootScope.$apply();
           callback(err);
         }
       });
@@ -558,10 +589,12 @@ angular.module('payswarm.services')
       success: function(paymentToken) {
         _setToken(paymentToken);
         service.state.loading = false;
+        $rootScope.$apply();
         callback(null, paymentToken);
       },
       error: function(err) {
         service.state.loading = false;
+        $rootScope.$apply();
         callback(err);
       }
     });
@@ -578,10 +611,12 @@ angular.module('payswarm.services')
       success: function(paymentToken) {
         _setToken(paymentToken);
         service.state.loading = false;
+        $rootScope.$apply();
         callback(null, paymentToken);
       },
       error: function(err) {
         service.state.loading = false;
+        $rootScope.$apply();
         callback(err);
       }
     });
@@ -597,10 +632,12 @@ angular.module('payswarm.services')
       success: function() {
         _delToken(paymentTokenId);
         service.state.loading = false;
+        $rootScope.$apply();
         callback();
       },
       error: function(err) {
         service.state.loading = false;
+        $rootScope.$apply();
         callback(err);
       }
     });

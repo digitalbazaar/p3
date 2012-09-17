@@ -49,7 +49,7 @@ ${set([
             <td class="money"><span class="money"
               data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact amount of this transaction is USD {{contract.amount}}."
               data-placement="bottom" data-trigger="hover"><span
-              class="currency">USD</span> {{contract.amount | currency:'$'}}</span></td>
+              class="currency">USD</span> {{contract.amount | ceil | currency:'$'}}</span></td>
             <td><button class="btn" data-ng-click="showDetails=!showDetails"><i class="icon-info-sign" title="Details"></i> Details</button></td>
           </tr>
         </tbody>
@@ -64,7 +64,7 @@ ${set([
             <td class="money"><span class="money right"
               data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact amount of this transfer is USD {{transfer.amount}}."
               data-placement="bottom" data-trigger="hover"><span
-              class="currency">USD</span> {{transfer.amount | currency:'$'}}</span></td>
+              class="currency">USD</span> {{transfer.amount | ceil | currency:'$'}}</span></td>
             <td><a href="{{transfer.destination}}">Destination</a></td>
           </tr>
         </tbody>

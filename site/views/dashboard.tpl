@@ -43,7 +43,7 @@ ${set([
             <!-- Balance -->
             <td class="money">
               <span class="money" data-tooltip-title="Since we support micro-payments, we track your account balance very accurately. The exact amount in this account is {{account.currency}} {{account.balance}}."
-                data-placement="bottom" data-trigger="hover"><span class="currency">{{account.currency}}</span> {{account.balance | currency:'$'}}</span>
+                data-placement="bottom" data-trigger="hover"><span class="currency">{{account.currency}}</span> {{account.balance | floor | currency:'$'}}</span>
             </td>
             <!-- Deposit -->
             <td class="action">
@@ -100,8 +100,8 @@ ${set([
                 <div class="bar" data-bar-divisor="budget.balance" data-bar-dividend="budget.amount"></div>
               </div>
               <span class="currency">USD</span>
-              <span data-tooltip-title="USD ${{budget.balance}}">{{budget.balance | currency:'$'}}</span> /
-              <span data-tooltip-title="USD ${{budget.amount}}">{{budget.amount | currency:'$'}}</span>
+              <span data-tooltip-title="USD ${{budget.balance}}">{{budget.balance | floor | currency:'$'}}</span> /
+              <span data-tooltip-title="USD ${{budget.amount}}">{{budget.amount | floor | currency:'$'}}</span>
             </td>
             <!-- Refresh -->
             <td data-ng-switch="budget.psaRefresh">
@@ -172,7 +172,7 @@ ${set([
             <!-- Amount -->
             <td class="money">
               <span class="money" data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact amount of this transaction is {{txn.currency}} {{txn.amount}}."
-                data-placement="bottom" data-trigger="hover"><span class="currency">USD</span> {{txn.amount | currency:'$'}}</span>
+                data-placement="bottom" data-trigger="hover"><span class="currency">USD</span> {{txn.amount | ceil | currency:'$'}}</span>
             </td>
           </tr>
         </tbody>

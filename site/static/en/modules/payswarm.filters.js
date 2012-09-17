@@ -34,8 +34,22 @@ angular.module('payswarm.filters')
     return encodeURIComponent(
       input.replace(/\s+/g, '-').replace(/[^\w-]+/g, '').toLowerCase());
   };
+})
+.filter('ceil', function($filter) {
+  return function(value, digits) {
+    if(digits === undefined) {
+      digits = 2;
+    }
+    return (Math.ceil(value * 100) / 100).toFixed(2);
+  };
+})
+.filter('floor', function($filter) {
+  return function(value, digits) {
+    if(digits === undefined) {
+      digits = 2;
+    }
+    return (Math.floor(value * 100) / 100).toFixed(2);
+  };
 });
-
-// FIXME: add filter to properly round precise currency up
 
 })();

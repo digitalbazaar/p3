@@ -85,7 +85,7 @@ ${set([
       <!-- Amount -->
       <td class="money">
         <span class="money" data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact amount of this transaction is USD {{row.amount}}."
-          data-placement="bottom" data-trigger="hover"><span class="currency">USD</span> {{row.amount | currency:'$'}}</span>
+          data-placement="bottom" data-trigger="hover"><span class="currency">USD</span> {{row.amount | ceil | currency:'$'}}</span>
       </td>
       <!-- Expand -->
       <td data-ng-switch="getRowType(row)">

@@ -90,30 +90,6 @@ util.processSubmissionSuccess = function(feedbackTarget, target, txt) {
 };
 
 /**
- * Processes monarch errors in the given exception by updating
- * the feedback element with the given ID and the given target element.
- *
- * @param feedbackTarget the feedback target to update.
- * @param target the target element to update.
- * @param ex the exception.
- * @param details if true, show the exception details.
- */
-util.processErrors = function(feedbackTarget, target, ex, details) {
-  // clear previous feedback
-  feedbackTarget.empty();
-
-  // handle form feedback
-  switch(ex.type) {
-    default:
-      feedbackTarget.append($.tmpl('error-tmpl', {
-        tmpl: window.tmpl,
-        error: ex,
-        details: details
-      }));
-  }
-};
-
-/**
  * Processes monarch validation errors in the given exception by updating
  * the feedback element with the given ID and the given target element.
  *

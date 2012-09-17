@@ -109,10 +109,6 @@ module.controller('PurchaseCtrl', function(
       else if(err.type !== 'payswarm.website.AutoPurchase') {
         $scope.error = err;
         $scope.$apply();
-
-        // FIXME: use directive
-        website.util.processErrors(
-          $('#pay-feedback'), $('#pay-feedback'), err, true);
       }
     }
   });

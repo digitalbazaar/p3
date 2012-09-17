@@ -32,6 +32,7 @@ module.controller('PurchaseCtrl', function(
   };
   // default to one-time purchase
   $scope.sourceType = 'account';
+  $scope.error = null;
 
   // purchase clicked
   $scope.purchase = function() {
@@ -47,8 +48,8 @@ module.controller('PurchaseCtrl', function(
           purchase(budget.source);
         },
         error: function(err) {
-          // FIXME: better error handling
-          //console.log('error', err);
+          $scope.error = err;
+          $scope.$apply();
         }
       });
     }
@@ -106,6 +107,9 @@ module.controller('PurchaseCtrl', function(
       }
       // error other than auto-purchase
       else if(err.type !== 'payswarm.website.AutoPurchase') {
+        $scope.error = err;
+        $scope.$apply();
+
         // FIXME: use directive
         website.util.processErrors(
           $('#pay-feedback'), $('#pay-feedback'), err, true);
@@ -186,11 +190,14 @@ module.controller('PurchaseCtrl', function(
             callback();
           },
           error: function(err) {
+            $scope.error = err;
+            $scope.$apply();
+
             // FIXME: better error handling
             //console.log('error', err);
             if(err.type === 'payswarm.financial.BudgetExceeded') {
-              console.warn('Handle budget exceeded exception:',
-                err.details.budget);
+              console.warn(
+                'Handle budget exceeded exception:', err.details.budget);
             }
             else {
               callback(err);

@@ -11,6 +11,8 @@ ${set([
 {{verbatim}}
 <div class="container" data-ng-controller="PurchaseCtrl" class="ng-cloak">
 
+<div data-ng-hide="error">
+
   <div data-ng-show="loading" class="row">
     <div class="span6 offset3">
       <div class="alert alert-info">Loading purchase details...
@@ -164,6 +166,24 @@ ${set([
     
   </div>
   
+</div>
+
+<!-- div ends non-error case -->
+</div>
+
+<div data-ng-show="error" class="alert alert-error">
+  <em>Error</em>
+  <br/>
+  {{error.message}}
+  <div data-ng-show="error.details" class="container">
+    <br/>
+    <em>Error Details</em>
+    <div class="row" data-ng-repeat="(key, detail) in error.details">
+      <span class="span12"><strong>{{key}}</strong>: {{detail}}</span>
+    </div>
+  </div>
+</div>
+
 </div>
 
 <!-- div ends in footer -->

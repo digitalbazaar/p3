@@ -1,0 +1,46 @@
+<div class="alert alert-error">
+  Your deposit is NOT complete, verify your information below.
+</div>
+
+<h6>Payment Method</h6>
+<div data-payment-token-selector data-selected="selection.source" data-fixed="true"></div>
+<h6>Details</h6>
+<table class="well table table-condensed">
+  <thead>
+    <tr>
+      <th class="money"><em>Amount</em></th>
+      <th>Description</th>
+      <th>Account</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr data-ng-repeat="transfer in deposit.transfer">
+      <td>
+        <span class="money" data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact amount of this transfer is USD {{transfer.amount}}."
+          data-placement="bottom" data-trigger="hover"><span class="currency">USD</span> {{transfer.amount | currency:'$'}}</span>
+      </td>
+      <td>{{transfer.comment}}</td>
+      <td>
+        <i class="icon-arrow-right"></i>
+        <span title="">{{accounts[transfer.destination].label}}</span>
+      </td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr><td><span class="label label-important">IMPORTANT</span></td>
+      <td colspan="2">Your
+        <span data-ng-switch="selection.source.paymentMethod">
+          <span data-ng-switch-when="ccard:CreditCard">credit card</span>
+          <span data-ng-switch-when="bank:BankAccount">bank account</span>
+          <span data-ng-switch-default>external account</span>
+        </span>
+        will be charged
+        <span class="money">USD {{deposit.amount | currency:'$'}}</span>.
+      </td>
+    </tr>
+  </tfoot>
+</table>
+
+<p class="alert alert-info" style="margin-top: 10px;">
+  If these details are correct, click the Deposit button.
+</p>

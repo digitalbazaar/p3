@@ -1,0 +1,47 @@
+<p>
+  You have deposited
+  <strong><span class="money">USD $<span class="amount">{{deposit.transfer[0].amount}}</span></span></strong>
+  into your account named
+  "<strong>{{accounts[account.id].label}}</strong>".
+</p>
+
+<h6>Details</h6>
+
+<table class="well table table-condensed">
+  <thead>
+    <tr>
+      <th class="money"><em>Amount</em></th>
+      <th>Description</th>
+      <th>Account</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr data-ng-repeat="transfer in deposit.transfer">
+      <td>
+        <span class="money" data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact amount of this transfer is USD {{transfer.amount}}."
+          data-placement="bottom" data-trigger="hover"><span class="currency">USD</span> {{transfer.amount | currency:'$'}}</span>
+      </td>
+      <td>{{transfer.comment}}</td>
+      <td>
+        <i class="icon-arrow-right"></i>
+        <span title="">{{accounts[transfer.destination].label}}</span>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<p style="margin-top: 10px;">
+  Including fees, your 
+  <span data-ng-switch="selection.source.paymentMethod">
+    <span data-ng-switch-when="ccard:CreditCard">credit card</span>
+    <span data-ng-switch-when="bank:BankAccount">bank account</span>
+    <span data-ng-switch-default>external account</span>
+  </span>
+  was charged
+  <strong><span class="money">USD {{deposit.amount | currency:'$'}}</span></strong>
+  on
+  <span class="date">{{deposit.created | date:'MMMM, dd yyyy @ h:mm:ss a'}}</span>.
+  Digital Bazaar will appear on your billing statement.
+</p>
+
+<p>A copy of this receipt has been sent to your email address.</p>

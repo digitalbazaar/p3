@@ -1,0 +1,26 @@
+<p>Fill out the form below to deposit money into your financial account.
+You can deposit using a credit card or bank account. Once you have deposited
+funds into your account, you can use it to pay for content on any
+PaySwarm-enabled website that you visit.</p>
+
+<p>Please select a payment method below and the amount that you would
+like to deposit.</p>
+
+<h6>Payment Method</h6>
+<div data-payment-token-selector data-selected="selection.source"></div>
+<form class="form-vertical" action="">
+  <fieldset>
+    <div class="control-group" data-binding="payee[0].payeeRate">
+      <div class="controls">
+        <div class="input-prepend">
+          <span class="add-on">$</span><input
+            type="text" name="amount" placeholder="Enter deposit amount..."
+            class="auto-tooltip"
+            data-ng-model="selection.amount"
+            data-tooltip-title="You must enter a valid monetary amount, like 25 or 25.82."
+            data-placement="right" data-trigger="focus" />
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</form>

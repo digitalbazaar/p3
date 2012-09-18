@@ -2,16 +2,10 @@ ${set([
   pageTitle = "Identity Dashboard",
   jsList.push("legacy/tmpl.funcs.countries"),
   jsList.push("modules/dashboard"),
-  jsList.push("legacy/modals.add-address"),
-  jsList.push("legacy/modals.add-payment-token"),
-  jsList.push("legacy/modals.deposit"),
   inav = "dashboard"
 ])}  
 
 {{partial "head.tpl"}}
-{{partial "legacy/modals/add-address.tpl"}}
-{{partial "legacy/modals/add-payment-token.tpl"}}
-{{partial "legacy/modals/deposit.tpl"}}
 
 {{verbatim}}
 <div class="dashboard container ng-cloak" data-ng-controller="DashboardCtrl">
@@ -47,7 +41,10 @@ ${set([
             </td>
             <!-- Deposit -->
             <td class="action">
-              <button class="btn deposit" data-toggle="modal" title="Deposit" data-ng-click="deposit(account)"><i class="icon-plus"></i></button>
+              <button class="btn depost" title="Deposit"
+                data-ng-click="showDepositModal=true"><i class="icon-plus"></i></button>
+              <span data-modal-deposit="showDepositModal"
+                data-account="account"></span>
             </td>
             <!-- Edit -->
             <td class="action">

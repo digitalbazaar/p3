@@ -451,8 +451,12 @@ angular.module('payswarm.directives')
   };
 })
 .directive('selector', function() {
-  function Ctrl($scope) {
-    $scope.selected = $scope.items[0] || null;
+  function Ctrl($scope, $attrs) {
+    $scope.$watch('selected', function(value) {
+      if(value === undefined) {
+        $scope.selected = $scope.items[0] || null;
+      }
+    });
 
     // called when an item is selected in the selector modal
     $scope.select = function(selected) {
@@ -461,16 +465,24 @@ angular.module('payswarm.directives')
     };
   }
 
+  function Link(scope, element, attrs) {
+    attrs.$observe('fixed', function(value) {
+      scope.fixed = value;
+    });
+  }
+
   return {
     transclude: true,
     scope: {
+      fixed: '@',
       items: '=',
       itemType: '@',
       selected: '=',
       addItem: '&'
     },
     controller: Ctrl,
-    templateUrl: '/partials/selector.html'
+    templateUrl: '/partials/selector.html',
+    link: Link
   };
 })
 .directive('modalSelector', function(svcModal) {
@@ -487,9 +499,8 @@ angular.module('payswarm.directives')
 .directive('addressSelector', function() {
   function Ctrl($scope, svcAddress) {
     $scope.addresses = svcAddress.addresses;
-    $scope.selected = null;
     svcAddress.get(function(err, addresses) {
-      if(!err) {
+      if(!err && !$scope.selected) {
         $scope.selected = addresses[0] || null;
         $scope.$apply();
       }
@@ -511,9 +522,8 @@ angular.module('payswarm.directives')
   function updateAccounts($scope) {
     var identityId = $scope.identityId;
     $scope.accounts = svcAccount.identities[identityId].accounts;
-    $scope.selected = null;
     svcAccount.get({identity: identityId}, function(err, accounts) {
-      if(!err) {
+      if(!err && !$scope.selected) {
         $scope.selected = accounts[0] || null;
         $scope.$apply();
       }
@@ -556,11 +566,10 @@ angular.module('payswarm.directives')
 .directive('budgetSelector', function(svcBudget, svcAccount) {
   function Ctrl($scope, svcBudget) {
     $scope.budgets = svcBudget.budgets;
-    $scope.selected = null;
     $scope.account = null;
     $scope.accounts = svcAccount.accounts;
     svcBudget.get(function(err, budgets) {
-      if(!err) {
+      if(!err && !scope.selected) {
         $scope.selected = budgets[0] || null;
         $scope.$apply();
       }
@@ -607,19 +616,40 @@ angular.module('payswarm.directives')
   };
 })
 .directive('identitySelector', function() {
-  function Ctrl($scope) {
-    $scope.selected = null;
-    $scope.selected = $scope.identities[0] || null;
-  }
-
   return {
     scope: {
       identityTypes: '=',
       identities: '=',
       selected: '='
     },
-    controller: Ctrl,
     templateUrl: '/partials/identity-selector.html'
+  };
+})
+.directive('paymentTokenSelector', function(svcPaymentToken) {
+  function Ctrl($scope) {
+    $scope.paymentTokens = svcPaymentToken.paymentTokens;
+    svcPaymentToken.get(function(err, tokens) {
+      if(!err && !$scope.selected) {
+        $scope.selected = tokens[0] || null;
+        $scope.$apply();
+      }
+    });
+  }
+
+  function Link(scope, element, attrs) {
+    attrs.$observe('fixed', function(value) {
+      scope.fixed = value;
+    });
+  }
+
+  return {
+    scope: {
+      selected: '=',
+      fixed: '@'
+    },
+    controller: Ctrl,
+    templateUrl: '/partials/payment-token-selector.html',
+    link: Link
   };
 })
 .directive('modalAddAccount', function(svcModal, svcIdentity, svcAccount) {
@@ -1186,6 +1216,126 @@ angular.module('payswarm.directives')
       });
     }
   };
+})
+.directive('modalDeposit', function(svcModal) {
+  function Ctrl($scope, svcPaymentToken, svcAccount) {
+    $scope.open = function() {
+      $scope.selection = {
+        // payment token source
+        source: null,
+        amount: ''
+      };
+      $scope.data = window.data || {};
+      $scope.feedback = {};
+
+      // state in ('preparing', 'reviewing', 'complete')
+      $scope.state = 'preparing';
+    };
+
+    $scope.prepare = function() {
+      $scope.state = 'preparing';
+    }
+
+    $scope.review = function() {
+      // clean deposit
+      var deposit = {
+        '@context': 'http://purl.org/payswarm/v1',
+        type: ['com:Transaction', 'com:Deposit'],
+        payee: [{
+          type: 'com:Payee',
+          payeeRate: $scope.selection.amount,
+          payeeRateType: 'com:FlatAmount',
+          destination: $scope.account.id
+        }],
+        source: $scope.selection.source.id
+      };
+      payswarm.deposit.sign({
+        deposit: deposit,
+        success: function(deposit) {
+          // get public account information for all payees
+          $scope.accounts = [];
+          for(var i in deposit.transfer) {
+            $scope.accounts[deposit.transfer[i].destination] = {};
+          }
+          async.forEach(Object.keys($scope.accounts),
+            function(account, callback) {
+            payswarm.accounts.getOne({
+              account: account,
+              success: function(response) {
+                $scope.accounts[account].label = response.label;
+                callback();
+              },
+              error: function(err) {
+                $scope.accounts[account].label = 'Private Account';
+                callback();
+              }
+            });
+          }, function(err) {
+            // FIXME: handle err
+            //
+            // go to top of page
+            //var target = options.target;
+            //$(target).animate({scrollTop: 0}, 0);
+
+            // copy to avoid angular keys in POSTed data
+            $scope.deposit = angular.copy(deposit);
+            $scope._deposit = deposit;
+            $scope.state = 'reviewing';
+            $scope.$apply();
+          });
+        },
+        error: function(err) {
+          $scope.feedback.validationErrors = err;
+          $scope.$apply();
+        }
+      });
+    };
+
+    $scope.confirm = function() {
+      payswarm.deposit.confirm({
+        deposit: $scope._deposit,
+        success: function(deposit) {
+          // show complete page
+          $scope.deposit = deposit;
+          $scope.state = 'complete';
+          $scope.$apply();
+
+          // get updated balance
+          svcAccount.getOne($scope.account.id);
+          /*
+              account: {
+                id: options.account,
+                label: accounts[options.account].label
+              },
+          */
+
+          // go to top of page
+          //var target = options.target;
+          //$(target).animate({scrollTop: 0}, 0);
+        },
+        error: function(err) {
+          $scope.feedback.validationErrors = err;
+          $scope.$apply();
+        }
+      });
+    };
+
+    //$scope.done = function() {
+    //  $scope.close(null, $scope.deposit);
+    //}
+  }
+
+  return svcModal.directive({
+    name: 'Deposit',
+    scope: {
+      account: '='
+    },
+    templateUrl: '/partials/modals/deposit.html',
+    controller: Ctrl,
+    link: function(scope, element, attrs) {
+      scope.feedbackTarget = element;
+    }
+  });
 });
 
 })(jQuery);

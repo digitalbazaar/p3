@@ -1,0 +1,21 @@
+<div>
+  <div data-selector data-item-type="Payment Method"
+    data-items="paymentTokens" data-selected="selected"
+    data-add-item="showAddPaymentTokenModal=true"
+    data-fixed="{{fixed}}">
+    <div class="paymentToken" data-ng-switch="selected.paymentMethod">
+      <strong>{{selected.label}}</strong><br/>
+      <p data-ng-switch-when="ccard:CreditCard">
+        <i class="{{selected.cardBrand|cardBrand:true}}"></i>
+        <span>{{selected.cardNumber}}</span>
+        <span>{{selected.cardExpMonth}} / {{selected.cardExpYear}}</span>
+      </p>
+      <p data-ng-switch-when="bank:BankAccount">
+        {{selected.bankAccount}}<br/>
+        {{selected.bankRoutingNumber}}
+      </p>
+    </div>
+  </div>
+  <div data-modal-add-payment-token="showAddPaymentTokenModal"
+    data-modal-on-close="selected=result"></div>
+</div>

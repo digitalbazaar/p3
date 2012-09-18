@@ -509,15 +509,19 @@ angular.module('payswarm.services')
   };
   // all tokens indexed by id
   service._paymentTokens = {};
+  // all tokens
+  service.paymentTokens = [];
   // type specific tokens
   service.creditCards = [];
   service.bankAccounts = [];
 
-  function updateTokens(paymentTokens) {
-    // update card and bank tokens
+  function _updateTokens(paymentTokens) {
+    // update token lists
+    service.paymentTokens.splice(0, service.paymentTokens.length);
     service.creditCards.splice(0, service.creditCards.length);
     service.bankAccounts.splice(0, service.bankAccounts.length);
     angular.forEach(service._paymentTokens, function(token) {
+      service.paymentTokens.push(token);
       if(token.paymentMethod === 'ccard:CreditCard') {
         service.creditCards.push(token);
       }
@@ -529,7 +533,7 @@ angular.module('payswarm.services')
 
   function _setToken(token) {
     service._paymentTokens[token.id] = token;
-    updateTokens();
+    _updateTokens();
   }
 
   function _setTokens(tokens) {
@@ -537,12 +541,12 @@ angular.module('payswarm.services')
     angular.forEach(tokens, function(token) {
       _setToken(token);
     });
-    updateTokens();
+    _updateTokens();
   }
 
   function _delToken(tokenId) {
     delete service._paymentTokens[tokenId];
-    updateTokens();
+    _updateTokens();
   }
 
   // get all paymentTokens for an identity

@@ -15,8 +15,10 @@ var schema = {
       required: true,
       type: 'string',
       pattern: '^[0-9]+$',
+      minLength: 5,
+      maxLength: 30,
       errors: {
-        invalid: 'The bank account number must be one or more numbers.',
+        invalid: 'The bank account number is invalid.',
         missing: 'Please enter a bank account number.',
         mask: true
       }
@@ -30,8 +32,10 @@ var schema = {
       required: true,
       type: 'string',
       pattern: '^[0-9]+$',
+      minLength: 5,
+      maxLength: 30,
       errors: {
-        invalid: 'The bank routing number must be one or more numbers.',
+        invalid: 'The bank routing number in invalid.',
         missing: 'Please enter a bank account routing number.',
         mask: true
       }

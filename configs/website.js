@@ -46,7 +46,6 @@ config.website.views.vars = {
   jsExt: 'js',
   jsList: [],
   cacheRoot: '',
-  templateMap: {},
   // client-side data
   clientData: {
     paymentGateway: 'Test',
@@ -56,8 +55,3 @@ config.website.views.vars = {
     }
   }
 };
-// add demo warning template
-// FIXME: include cache root automatically
-config.website.views.vars.templateMap['demo-warning-tmpl'] =
-  config.website.views.vars.cacheRoot +
-  '/legacy/jqtpl/demo-warning-tmpl.html';

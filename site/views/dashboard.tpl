@@ -1,6 +1,5 @@
 ${set([
   pageTitle = "Identity Dashboard",
-  jsList.push("legacy/tmpl.funcs.countries"),
   jsList.push("modules/dashboard"),
   inav = "dashboard"
 ])}  

@@ -280,12 +280,6 @@ ul.nav a [class^="icon-"] {
   margin-top: 2px;
 }
 
-/* Carousel "fixes" for selectors */
-.carousel-inner > .well {
-  padding: 5px;
-  margin-bottom: 0px;
-}
-
 /* Documentation classes */
 .rest-summary {
   float: none;

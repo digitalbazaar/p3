@@ -1,9 +1,6 @@
 ${set([
   pageTitle = "Identity Settings",
   jsList.push("modules/settings"),
-  jsList.push("legacy/modals.add-address"),
-  jsList.push("legacy/modals.add-payment-token"),
-  jsList.push("legacy/tmpl.funcs.countries"),
   inav = "settings"
 ])}
 

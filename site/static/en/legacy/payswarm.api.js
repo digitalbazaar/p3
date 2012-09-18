@@ -45,7 +45,7 @@ payswarm.addresses.get = function(options) {
         }
       }
       else if(options.error) {
-        options.error(website.util.normalizeError(xhr, textStatus));
+        options.error(normalizeError(xhr, textStatus));
       }
     }
   });
@@ -78,7 +78,7 @@ payswarm.addresses.validate = function(options) {
     },
     error: function(xhr, textStatus, errorThrown) {
       if(options.error) {
-        options.error(website.util.normalizeError(xhr, textStatus));
+        options.error(normalizeError(xhr, textStatus));
       }
     }
   });
@@ -111,7 +111,7 @@ payswarm.addresses.add = function(options) {
     },
     error: function(xhr, textStatus, errorThrown) {
       if(options.error) {
-        options.error(website.util.normalizeError(xhr, textStatus));
+        options.error(normalizeError(xhr, textStatus));
       }
     }
   });
@@ -141,7 +141,7 @@ payswarm.addresses.del = function(options) {
     },
     error: function(xhr, textStatus, errorThrown) {
       if(options.error) {
-        options.error(website.util.normalizeError(xhr, textStatus));
+        options.error(normalizeError(xhr, textStatus));
       }
     }
   });
@@ -174,7 +174,7 @@ payswarm.accounts.get = function(options) {
     },
     error: function(xhr, textStatus, errorThrown) {
       if(options.error) {
-        options.error(website.util.normalizeError(xhr, textStatus));
+        options.error(normalizeError(xhr, textStatus));
       }
     }
   });
@@ -204,7 +204,7 @@ payswarm.accounts.getOne = function(options) {
     },
     error: function(xhr, textStatus, errorThrown) {
       if(options.error) {
-        options.error(website.util.normalizeError(xhr, textStatus));
+        options.error(normalizeError(xhr, textStatus));
       }
     }
   });
@@ -237,7 +237,7 @@ payswarm.accounts.add = function(options) {
     },
     error: function(xhr, textStatus, errorThrown) {
       if(options.error) {
-        options.error(website.util.normalizeError(xhr, textStatus));
+        options.error(normalizeError(xhr, textStatus));
       }
     }
   });
@@ -269,7 +269,7 @@ payswarm.accounts.update = function(options) {
     },
     error: function(xhr, textStatus, errorThrown) {
       if(options.error) {
-        options.error(website.util.normalizeError(xhr, textStatus));
+        options.error(normalizeError(xhr, textStatus));
       }
     }
   });
@@ -302,7 +302,7 @@ payswarm.budgets.get = function(options) {
     },
     error: function(xhr, textStatus, errorThrown) {
       if(options.error) {
-        options.error(website.util.normalizeError(xhr, textStatus));
+        options.error(normalizeError(xhr, textStatus));
       }
     }
   });
@@ -332,7 +332,7 @@ payswarm.budgets.getOne = function(options) {
     },
     error: function(xhr, textStatus, errorThrown) {
       if(options.error) {
-        options.error(website.util.normalizeError(xhr, textStatus));
+        options.error(normalizeError(xhr, textStatus));
       }
     }
   });
@@ -365,7 +365,7 @@ payswarm.budgets.add = function(options) {
     },
     error: function(xhr, textStatus, errorThrown) {
       if(options.error) {
-        options.error(website.util.normalizeError(xhr, textStatus));
+        options.error(normalizeError(xhr, textStatus));
       }
     }
   });
@@ -397,7 +397,7 @@ payswarm.budgets.update = function(options) {
     },
     error: function(xhr, textStatus, errorThrown) {
       if(options.error) {
-        options.error(website.util.normalizeError(xhr, textStatus));
+        options.error(normalizeError(xhr, textStatus));
       }
     }
   });
@@ -433,7 +433,7 @@ payswarm.budgets.addVendor = function(options) {
     },
     error: function(xhr, textStatus, errorThrown) {
       if(options.error) {
-        options.error(website.util.normalizeError(xhr, textStatus));
+        options.error(normalizeError(xhr, textStatus));
       }
     }
   });
@@ -462,7 +462,7 @@ payswarm.budgets.del = function(options) {
     },
     error: function(xhr, textStatus, errorThrown) {
       if(options.error) {
-        options.error(website.util.normalizeError(xhr, textStatus));
+        options.error(normalizeError(xhr, textStatus));
       }
     }
   });
@@ -497,7 +497,7 @@ payswarm.deposit.sign = function(options) {
     },
     error: function(xhr, textStatus, errorThrown) {
       if(options.error) {
-        options.error(website.util.normalizeError(xhr, textStatus));
+        options.error(normalizeError(xhr, textStatus));
       }
     }
   });
@@ -530,7 +530,7 @@ payswarm.deposit.confirm = function(options) {
     },
     error: function(xhr, textStatus, errorThrown) {
       if(options.error) {
-        options.error(website.util.normalizeError(xhr, textStatus));
+        options.error(normalizeError(xhr, textStatus));
       }
     }
   });
@@ -563,7 +563,7 @@ payswarm.paymentTokens.get = function(options) {
     },
     error: function(xhr, textStatus, errorThrown) {
       if(options.error) {
-        options.error(website.util.normalizeError(xhr, textStatus));
+        options.error(normalizeError(xhr, textStatus));
       }
     }
   });
@@ -597,7 +597,7 @@ payswarm.paymentTokens.add = function(options) {
     },
     error: function(xhr, textStatus, errorThrown) {
       if(options.error) {
-        options.error(website.util.normalizeError(xhr, textStatus));
+        options.error(normalizeError(xhr, textStatus));
       }
     }
   });
@@ -626,7 +626,7 @@ payswarm.paymentTokens.del = function(options) {
     },
     error: function(xhr, textStatus, errorThrown) {
       if(options.error) {
-        options.error(website.util.normalizeError(xhr, textStatus));
+        options.error(normalizeError(xhr, textStatus));
       }
     }
   });
@@ -661,7 +661,7 @@ payswarm.identities.add = function(options) {
     },
     error: function(xhr, textStatus, errorThrown) {
       if(options.error) {
-        options.error(website.util.normalizeError(xhr, textStatus));
+        options.error(normalizeError(xhr, textStatus));
       }
     }
   });
@@ -697,7 +697,7 @@ payswarm.identities.preferences.update = function(options) {
     },
     error: function(xhr, textStatus, errorThrown) {
       if(options.error) {
-        options.error(website.util.normalizeError(xhr, textStatus));
+        options.error(normalizeError(xhr, textStatus));
       }
     }
   });
@@ -734,7 +734,7 @@ payswarm.identities.preferences.get = function(options) {
     },
     error: function(xhr, textStatus, errorThrown) {
       if(options.error) {
-        options.error(website.util.normalizeError(xhr, textStatus));
+        options.error(normalizeError(xhr, textStatus));
       }
     }
   });
@@ -805,7 +805,7 @@ payswarm.transactions.getQuote = function(options) {
     },
     error: function(xhr, textStatus, errorThrown) {
       if(options.error) {
-        options.error(website.util.normalizeError(xhr, textStatus));
+        options.error(normalizeError(xhr, textStatus));
       }
     }
   });
@@ -841,7 +841,7 @@ payswarm.transactions.purchase = function(options) {
     },
     error: function(xhr, textStatus, errorThrown) {
       if(options.error) {
-        options.error(website.util.normalizeError(xhr, textStatus));
+        options.error(normalizeError(xhr, textStatus));
       }
     }
   });
@@ -898,7 +898,7 @@ payswarm.transactions.get = function(options) {
     },
     error: function(xhr, textStatus, errorThrown) {
       if(options.error) {
-        options.error(website.util.normalizeError(xhr, textStatus));
+        options.error(normalizeError(xhr, textStatus));
       }
     }
   });
@@ -938,7 +938,7 @@ payswarm.profiles.login = function(options) {
     },
     error: function(xhr, textStatus, errorThrown) {
       if(options.error) {
-        options.error(website.util.normalizeError(xhr, textStatus));
+        options.error(normalizeError(xhr, textStatus));
       }
     }
   });
@@ -971,7 +971,7 @@ payswarm.profiles.passcode = function(options) {
     },
     error: function(xhr, textStatus, errorThrown) {
       if(options.error) {
-        options.error(website.util.normalizeError(xhr, textStatus));
+        options.error(normalizeError(xhr, textStatus));
       }
     }
   });
@@ -1009,10 +1009,46 @@ payswarm.profiles.password = function(options) {
     },
     error: function(xhr, textStatus, errorThrown) {
       if(options.error) {
-        options.error(website.util.normalizeError(xhr, textStatus));
+        options.error(normalizeError(xhr, textStatus));
       }
     }
   });
 };
+
+/**
+ * Normalizes an error that occurred during an XHR.
+ *
+ * @param xhr the XHR.
+ * @param textStatus the error status as text.
+ *
+ * @return the normalized error.
+ */
+function normalizeError(xhr, textStatus) {
+  try {
+    var error = JSON.parse(xhr.responseText);
+    if(error.type === undefined) {
+      error.type = 'website.Exception';
+      error.message = 'Request Error: ' + textStatus;
+      // FIXME: make message user-friendly
+    }
+    // check for invalid session or missing session
+    else if(error.type === 'monarch.ws.AccessDenied' &&
+      error.cause && error.cause.type === 'payswarm.website.InvalidSession') {
+      // redirect to login
+      // FIXME: support modal login to keep current state vs forced redirect
+      window.location = '/profile/login?ref=' +
+        encodeURIComponent(window.location.pathname);
+    }
+  }
+  catch(e) {
+    // not a json-formatted exception
+    var error = {
+      type: 'website.Exception',
+      message: 'Request Error: ' + textStatus
+      // FIXME: make message user-friendly
+    };
+  }
+  return error;
+}
 
 })(jQuery);

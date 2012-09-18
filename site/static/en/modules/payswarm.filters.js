@@ -40,7 +40,9 @@ angular.module('payswarm.filters')
     if(digits === undefined) {
       digits = 2;
     }
-    return (Math.ceil(value * 100) / 100).toFixed(2);
+    var num = parseFloat(value);
+    var k = Math.pow(10, digits);
+    return '' + (Math.ceil(num * k) / k).toFixed(digits);
   };
 })
 .filter('floor', function($filter) {
@@ -48,7 +50,9 @@ angular.module('payswarm.filters')
     if(digits === undefined) {
       digits = 2;
     }
-    return (Math.floor(value * 100) / 100).toFixed(2);
+    var num = parseFloat(value);
+    var k = Math.pow(10, digits);
+    return '' + (Math.floor(num * k) / k).toFixed(digits);
   };
 });
 

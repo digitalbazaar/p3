@@ -1,12 +1,9 @@
 ${set([
   pageTitle = "Payment",
   jsList.push("modules/purchase"),
-  jsList.push("legacy/tmpl.funcs.countries"),
-  jsList.push("legacy/modals.deposit"),
   pageLayout = "minimal"
 ])}
 {{partial "head.tpl"}}
-{{partial "legacy/modals/deposit.tpl"}}
 
 {{verbatim}}
 <div class="container" data-ng-controller="PurchaseCtrl" class="ng-cloak">

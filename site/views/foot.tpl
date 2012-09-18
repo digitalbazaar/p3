@@ -49,11 +49,6 @@
     <script type="text/javascript" src="${cacheRoot}/jquery/jquery.tmpl.${jsExt}"></script>
     <script type="text/javascript" src="${cacheRoot}/async/async.${jsExt}"></script>
     <script type="text/javascript" src="${cacheRoot}/spin/spin.${jsExt}"></script>
-    <script type="text/javascript" src="${cacheRoot}/legacy/template-loader.${jsExt}"></script>
-    {{if templateMap}}
-    <script type="text/javascript">window.templates.load({{html parsify(templateMap)}});</script>
-    {{/if}}
-    
     <script type="text/javascript" src="${cacheRoot}/bootstrap/js/bootstrap.${jsExt}"></script>
     {{if jsList && jsList.length > 0}}
     {{each(idx, jsFile) jsList}}

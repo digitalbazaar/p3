@@ -1,13 +1,7 @@
 ${set([
   jsList.push("modules/navbar"),
-  jsList.push("legacy/payswarm.api"),
-  jsList.push("legacy/website.util"),
-  jsList.push("legacy/selectors"),
-  jsList.push("legacy/tmpl.funcs"),
-  clientData.session = session
+  jsList.push("legacy/payswarm.api")
 ])}
-
-{{partial "selectors.tpl"}}
 
 <div data-ng-controller="NavbarCtrl" class="navbar ng-cloak">
   <div class="navbar-inner navbar-inner-banner">

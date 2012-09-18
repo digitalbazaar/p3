@@ -1,6 +1,5 @@
 ${set([
   pageTitle = "Create a Profile",
-  jsList.push("legacy/website.util"),
   jsList.push("modules/createProfile")
 ])}
 {{partial "head.tpl"}}

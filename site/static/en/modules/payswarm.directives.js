@@ -864,11 +864,11 @@ angular.module('payswarm.directives')
   });
 })
 .directive('modalAddPaymentToken', function(svcModal) {
-  function Ctrl($scope, svcPaymentToken) {
+  function Ctrl($scope, svcPaymentToken, svcConstant) {
     $scope.open = function() {
       $scope.data = window.data || {};
-      $scope.monthLabels = window.tmpl.monthLabels;
-      $scope.years = window.tmpl.years;
+      $scope.monthLabels = svcConstant.monthLabels;
+      $scope.years = svcConstant.years;
       $scope.feedback = {};
       $scope.identity = data.identity || {};
       $scope.paymentGateway = data.paymentGateway || 'Test';
@@ -1094,11 +1094,11 @@ angular.module('payswarm.directives')
     controller: Ctrl
   });
 })
-.directive('modalAddAddress', function(svcModal, svcAddress) {
+.directive('modalAddAddress', function(svcModal, svcAddress, svcConstant) {
   function Ctrl($scope) {
     $scope.open = function() {
       $scope.data = window.data || {};
-      $scope.countries = window.tmpl.countries || {};
+      $scope.countries = svcConstant.countries || {};
       $scope.feedback = {};
       $scope.identity = data.identity || {};
       $scope.originalAddress = {

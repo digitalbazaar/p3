@@ -29,7 +29,7 @@ ${set([
 {{/if}}
 
 {{verbatim}}
-<h2 class="headline">Account Activity at or before {{startDate | date:'MMMM, d yyyy @ h:mm a'}}</h2>
+<h2 class="headline">Account Activity at or before {{startDate | date:'medium'}}</h2>
 
 <div class="well">
   <span class="pull-right" data-ng-show="txn.length > 0">
@@ -66,9 +66,9 @@ ${set([
     <tr data-ng-repeat="row in table" data-ng-hide="row.hidden">
       <!-- Date -->
       <td data-ng-switch="getRowType(row)">
-        <span data-ng-switch-when="deposit" class="date">{{row.created | date:'MMMM, dd yyyy @ h:mm:ss a'}}</span>
-        <span data-ng-switch-when="contract" class="date">{{row.created | date:'MMMM, dd yyyy @ h:mm:ss a'}}</span>
-        <span data-ng-switch-when="withdrawal" class="date">{{row.created | date:'MMMM, dd yyyy @ h:mm:ss a'}}</span>
+        <span data-ng-switch-when="deposit" class="date">{{row.created | date:'medium'}}</span>
+        <span data-ng-switch-when="contract" class="date">{{row.created | date:'medium'}}</span>
+        <span data-ng-switch-when="withdrawal" class="date">{{row.created | date:'medium'}}</span>
         <span data-ng-switch-when="transfer">&nbsp;</span>
       </td>
       <!-- Item -->

@@ -156,9 +156,9 @@ ${set([
           <tr data-ng-repeat="txn in txns" class="txn" data-fadein="txn.added">
             <!-- Date -->
             <td data-ng-switch="getTxnType(txn)">
-              <span data-ng-switch-when="deposit" class="date">{{txn.created | date:'MMMM, dd yyyy @ h:mm:ss a'}}</span>
-              <span data-ng-switch-when="contract" class="date">{{txn.created | date:'MMMM, dd yyyy @ h:mm:ss a'}}</span>
-              <span data-ng-switch-when="withdrawal" class="date">{{txn.created | date:'MMMM, dd yyyy @ h:mm:ss a'}}</span>
+              <span data-ng-switch-when="deposit" class="date">{{txn.created | date:'medium'}}</span>
+              <span data-ng-switch-when="contract" class="date">{{txn.created | date:'medium'}}</span>
+              <span data-ng-switch-when="withdrawal" class="date">{{txn.created | date:'medium'}}</span>
             </td>
             <!-- Item -->
             <td data-ng-switch="getTxnType(txn)">

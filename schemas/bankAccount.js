@@ -2,6 +2,7 @@ var tools = require('../lib/payswarm-auth/tools');
 
 var jsonldContext = require('./jsonldContext');
 var jsonldType = require('./jsonldType');
+var address = require('./address');
 
 var schema = {
   required: true,
@@ -39,7 +40,8 @@ var schema = {
         missing: 'Please enter a bank account routing number.',
         mask: true
       }
-    }
+    },
+    address: address(),
   },
   additionalProperties: false
 };

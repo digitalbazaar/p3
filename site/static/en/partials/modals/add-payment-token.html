@@ -100,7 +100,8 @@
                 <input type="text" name="bank-routing-number"
                   data-tooltip-title="You must enter your bank's routing number. This can be found in your checkbook or by signing into your bank online."
                   data-placement="right" data-trigger="focus"
-                  data-ng-model="bankAccount.bankRoutingNumber" />
+                  data-ng-model="bankAccount.bankRoutingNumber"
+                  maxlength="30" />
               </div>
             </div>
             <div class="control-group" data-binding="source.bankAccountType">
@@ -120,7 +121,8 @@
                 <input type="text" name="bank-account"
                   data-tooltip-title="You must enter your bank account number. This can be found in your checkbook or by signing into your bank online."
                   data-placement="right" data-trigger="focus"
-                  data-ng-model="bankAccount.bankAccount" />
+                  data-ng-model="bankAccount.bankAccount"
+                  maxlength="30" />
               </div>
             </div>
           </div>
@@ -130,7 +132,7 @@
 
     <h6 data-ng-show="billingAddressRequired">Select Billing Address</h6>
     <div data-ng-show="billingAddressRequired">
-      <div data-address-selector data-selected="card.address"></div>
+      <div data-address-selector data-selected="selection.address"></div>
     </div>
   </div>
   <div class="modal-footer">

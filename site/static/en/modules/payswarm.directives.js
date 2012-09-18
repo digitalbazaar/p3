@@ -750,6 +750,7 @@ angular.module('payswarm.directives')
     $scope.selection = {
       account: null
     };
+
     $scope.open = function() {
       $scope.data = window.data || {};
       $scope.feedback = {};
@@ -800,6 +801,7 @@ angular.module('payswarm.directives')
     $scope.selection = {
       account: null
     };
+
     $scope.open = function() {
       $scope.data = window.data || {};
       $scope.feedback = {};
@@ -865,6 +867,10 @@ angular.module('payswarm.directives')
 })
 .directive('modalAddPaymentToken', function(svcModal) {
   function Ctrl($scope, svcPaymentToken, svcConstant) {
+    $scope.selection = {
+      address: null
+    };
+
     $scope.open = function() {
       $scope.data = window.data || {};
       $scope.monthLabels = svcConstant.monthLabels;
@@ -879,8 +885,7 @@ angular.module('payswarm.directives')
       $scope.label = '';
       $scope.card = {
         '@context': 'http://purl.org/payswarm/v1',
-        type: 'ccard:CreditCard',
-        address: $scope.card ? $scope.card.address : null
+        type: 'ccard:CreditCard'
       };
       $scope.bankAccountTypes = [
         {id: 'bank:Checking', label: 'Checking'},
@@ -902,11 +907,25 @@ angular.module('payswarm.directives')
       // billing address UI depends on payment method
       $scope.$watch('paymentMethod', function() {
         $scope.billingAddressRequired =
-          ($scope.paymentMethod === 'ccard:CreditCard');
+          ($scope.paymentMethod === 'ccard:CreditCard') ||
+          ($scope.paymentMethod === 'bank:BankAccount');
       });
     };
 
     $scope.add = function() {
+      function getAddress() {
+        var a = $scope.selection.address;
+        return {
+            type: a.type,
+            label: a.label,
+            fullName: a.fullName,
+            streetAddress: a.streetAddress,
+            locality: a.locality,
+            region: a.region,
+            postalCode: a.postalCode,
+            countryName: a.countryName
+        };
+      };
       // create post data
       var token = {
         '@context': 'http://purl.org/payswarm/v1',
@@ -917,7 +936,6 @@ angular.module('payswarm.directives')
       // handle payment method specifics
       if($scope.paymentMethod === 'ccard:CreditCard') {
         var c = $scope.card;
-        var ca = c.address;
 
         // copy required fields
         token.source = {
@@ -928,16 +946,7 @@ angular.module('payswarm.directives')
           cardExpMonth: c.cardExpMonth,
           cardExpYear: c.cardExpYear,
           cardCvm: c.cardCvm,
-          address: {
-            type: ca.type,
-            label: ca.label,
-            fullName: ca.fullName,
-            streetAddress: ca.streetAddress,
-            locality: ca.locality,
-            region: ca.region,
-            postalCode: ca.postalCode,
-            countryName: ca.countryName
-          }
+          address: getAddress()
         };
       }
       else if($scope.paymentMethod === 'bank:BankAccount') {
@@ -949,7 +958,8 @@ angular.module('payswarm.directives')
           type: b.type,
           bankAccount: b.bankAccount,
           bankAccountType: b.bankAccountType,
-          bankRoutingNumber: b.bankRoutingNumber
+          bankRoutingNumber: b.bankRoutingNumber,
+          address: getAddress()
         };
       }
 
@@ -1219,12 +1229,13 @@ angular.module('payswarm.directives')
 })
 .directive('modalDeposit', function(svcModal) {
   function Ctrl($scope, svcPaymentToken, svcAccount) {
+    $scope.selection = {
+      // payment token source
+      source: null,
+      amount: ''
+    };
+
     $scope.open = function() {
-      $scope.selection = {
-        // payment token source
-        source: null,
-        amount: ''
-      };
       $scope.data = window.data || {};
       $scope.feedback = {};
 

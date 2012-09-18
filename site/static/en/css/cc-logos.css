@@ -62,3 +62,14 @@
   height: 30px;
   background-position: -208px -161px;
 }
+
+.bank-logo {
+  display: inline-block;
+  width: 47px;
+  height: 30px;
+  line-height: 32px;
+  vertical-align: text-top;
+  background-image: url("../img/cc-logos.png");
+  background-repeat: no-repeat;
+  background-position: -259px -193px;
+}

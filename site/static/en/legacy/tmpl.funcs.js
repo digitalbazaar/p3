@@ -89,7 +89,7 @@ tmpl.formatDate = function(str, time) {
     str = str * 1000;
   }
   var date = new Date(str);
-  rval = tmpl.months[date.getMonth()] + ' ' +
+  rval = tmpl.monthNames[date.getMonth()] + ' ' +
     date.getDate() + ', ' + date.getFullYear();
   if(time) {
      var minute = date.getMinutes();

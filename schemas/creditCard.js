@@ -4,7 +4,7 @@ var jsonldContext = require('./jsonldContext');
 var jsonldType = require('./jsonldType');
 var address = require('./address');
 
-var currentYear = (new Date).getFullYear();
+var currentYear = new Date().getFullYear();
 
 var schema = {
   required: true,

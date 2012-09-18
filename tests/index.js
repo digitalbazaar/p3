@@ -207,7 +207,7 @@ LoadTester.prototype.run = function() {
       }],
     beginPurchases: ['saveState',
       function(callback, results) {
-        self.stats.purchasing.begin = +new Date;
+        self.stats.purchasing.begin = +new Date();
         self.emit('beginPurchases');
         callback();
       }],
@@ -224,7 +224,7 @@ LoadTester.prototype.run = function() {
       }],
     endPurchases: ['performPurchases',
       function(callback, results) {
-        self.stats.purchasing.end = +new Date;
+        self.stats.purchasing.end = +new Date();
         self.emit('endPurchases');
         callback();
       }],
@@ -274,7 +274,7 @@ loadTester.run();
  * Display stats.
  */
 function _stats() {
-  var now = +new Date;
+  var now = +new Date();
   // overall
   var p = loadTester.stats.counts.purchases;
   var dt = (now - loadTester.stats.purchasing.begin) / 1000;
@@ -299,7 +299,7 @@ function _stats() {
  * @param callback(err) called once the operation completes.
  */
 function _createVendorProfile(self, vendorProfiles, callback) {
-  var begin = +new Date;
+  var begin = +new Date();
   var md = crypto.createHash('md5');
   md.update(tools.uuid(), 'utf8');
   var id = md.digest('hex').substr(12);
@@ -352,7 +352,7 @@ function _createVendorProfile(self, vendorProfiles, callback) {
           statsLogger.info(profileTemplate.psaIdentity.psaSlug, {
             type: 'createdVendorProfile',
             begin: begin,
-            end: +new Date
+            end: +new Date()
           });
           self.emit('createdVendorProfile', profile);
           callback(null);
@@ -370,7 +370,7 @@ function _createVendorProfile(self, vendorProfiles, callback) {
  * @param callback(err) called once the operation completes.
  */
 function _createBuyerProfile(self, buyerProfiles, callback) {
-  var begin = +new Date;
+  var begin = +new Date();
   var md = crypto.createHash('md5');
   md.update(tools.uuid(), 'utf8');
   var id = md.digest('hex').substr(12);
@@ -422,7 +422,7 @@ function _createBuyerProfile(self, buyerProfiles, callback) {
         statsLogger.info(profileTemplate.psaIdentity.psaSlug, {
           type: 'createdBuyerProfile',
           begin: begin,
-          end: +new Date
+          end: +new Date()
         });
         self.emit('createdBuyerProfile', profile);
         callback(null);
@@ -583,7 +583,7 @@ function _createListing(self, vendorProfiles, listings, callback) {
  * @param callback(err) called once the operation completes.
  */
 function _purchaseAsset(self, buyers, listings, callback) {
-  var begin = +new Date;
+  var begin = +new Date();
   var referenceId = tools.uuid();
 
   // select a random buyer to perform the purchase

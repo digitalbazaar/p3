@@ -46,7 +46,6 @@
       {{/if}}
     </div>
 
-    <script type="text/javascript" src="${cacheRoot}/jquery/jquery.tmpl.${jsExt}"></script>
     <script type="text/javascript" src="${cacheRoot}/async/async.${jsExt}"></script>
     <script type="text/javascript" src="${cacheRoot}/spin/spin.${jsExt}"></script>
     <script type="text/javascript" src="${cacheRoot}/bootstrap/js/bootstrap.${jsExt}"></script>

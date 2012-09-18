@@ -31,7 +31,7 @@ ${set([
       </div>
     </div>
   </div>
-    
+  
   <div data-ng-hide="loading" class="row">
     <div class="span6 offset3">
       <table class="table">
@@ -124,6 +124,7 @@ ${set([
             data-budget-selector
             data-selected="selection.budget"
             data-min-balance="contract.amount"></div>
+        </div>
       </div>
     </div>
     
@@ -154,7 +155,7 @@ ${set([
           </div>
         </form>
       </div>
-      <div data-ng-show="!callback" class="span6 offset3">
+      <div data-ng-hide="callback" class="span6 offset3">
         <div class="alert alert-success">
           Return to the vendor's website to view the item you purchased.
         </div>

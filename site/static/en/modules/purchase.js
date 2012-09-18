@@ -108,9 +108,9 @@ module.controller('PurchaseCtrl', function(
       // error other than auto-purchase
       else if(err.type !== 'payswarm.website.AutoPurchase') {
         $scope.error = err;
-        $scope.$apply();
       }
     }
+    $scope.$apply();
   });
 
   /**
@@ -183,6 +183,8 @@ module.controller('PurchaseCtrl', function(
           success: function(encryptedMessage) {
             $scope.purchased = true;
             $scope.encryptedMessage = encryptedMessage;
+            console.log('purchased', $scope);
+            $scope.$apply();
             callback();
           },
           error: function(err) {

@@ -916,16 +916,17 @@ angular.module('payswarm.directives')
       function getAddress() {
         var a = $scope.selection.address;
         return {
-            type: a.type,
-            label: a.label,
-            fullName: a.fullName,
-            streetAddress: a.streetAddress,
-            locality: a.locality,
-            region: a.region,
-            postalCode: a.postalCode,
-            countryName: a.countryName
+          type: a.type,
+          label: a.label,
+          fullName: a.fullName,
+          streetAddress: a.streetAddress,
+          locality: a.locality,
+          region: a.region,
+          postalCode: a.postalCode,
+          countryName: a.countryName
         };
       };
+
       // create post data
       var token = {
         '@context': 'http://purl.org/payswarm/v1',

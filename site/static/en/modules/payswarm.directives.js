@@ -955,7 +955,7 @@ angular.module('payswarm.directives')
 
       // add payment token
       svcPaymentToken.add(token, function(err, addedToken) {
-        if(err) {
+        if(!err) {
           $scope.close(null, addedToken);
         }
         $scope.feedback.validationErrors = err;

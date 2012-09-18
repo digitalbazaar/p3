@@ -33,8 +33,8 @@ var schema = {
       required: true,
       type: 'string',
       pattern: '^[0-9]+$',
-      minLength: 5,
-      maxLength: 30,
+      minLength: 9,
+      maxLength: 9,
       errors: {
         invalid: 'The bank routing number in invalid.',
         missing: 'Please enter a bank account routing number.',

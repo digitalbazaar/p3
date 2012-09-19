@@ -567,7 +567,7 @@ angular.module('payswarm.directives')
     $scope.account = null;
     $scope.accounts = svcAccount.accounts;
     svcBudget.get(function(err, budgets) {
-      if(!err && !scope.selected) {
+      if(!err && !$scope.selected) {
         $scope.selected = budgets[0] || null;
       }
     });

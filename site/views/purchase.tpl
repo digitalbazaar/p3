@@ -114,14 +114,14 @@ ${set([
     <div data-ng-hide="purchased" class="row">
       <div class="span6 offset3">
         <h6>Source of Funds</h6>
-        <div data-ng-switch="sourceType">
-          <div data-ng-switch-when="account"
-            data-account-selector
+        <div data-ng-show="sourceType == 'account'">
+          <div data-account-selector
             data-selected="selection.account"
             data-show-deposit-button="true"
             data-min-balance="contract.amount"></div>
-          <div data-ng-switch-when="budget"
-            data-budget-selector
+        </div>
+        <div data-ng-show="sourceType == 'budget'">
+          <div data-budget-selector
             data-selected="selection.budget"
             data-min-balance="contract.amount"></div>
         </div>

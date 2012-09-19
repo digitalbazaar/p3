@@ -462,7 +462,7 @@ angular.module('payswarm.services')
         for(var i = 0; !added && i < service.accounts.length; ++i) {
           var account_ = service.accounts[i];
           if(account_.id === accountId) {
-            service.accounts[i] = account;
+            angular.extend(service.accounts[i], account);
             added = true;
           }
         }
@@ -586,7 +586,7 @@ angular.module('payswarm.services')
         for(var i = 0; !added && i < service.budgets.length; ++i) {
           var budget_ = service.budgets[i];
           if(budget_.id === budgetId) {
-            service.budgets[i] = budget;
+            angular.extend(service.budgets[i], budget);
             added = true;
           }
         }

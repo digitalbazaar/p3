@@ -10,7 +10,8 @@
         class="currency">{{selected.currency}}</span> {{selected.balance | floor | currency:'$'}}</span>
       <div data-ng-show="showDepositButton">
         <button class="btn btn-success"
-          data-ng-click="showDepositModal"><i class="icon-plus icon-white"></i> Deposit</button><br/>
+          data-ng-click="showDepositModal=true"><i class="icon-plus icon-white"></i> Deposit</button><br/>
+        <div data-modal-deposit="showDepositModal" data-account="selected"></div>
       </div>
       <div data-ng-show="balanceTooLow">
         <hr />

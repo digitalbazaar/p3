@@ -502,7 +502,6 @@ angular.module('payswarm.directives')
     svcAddress.get(function(err, addresses) {
       if(!err && !$scope.selected) {
         $scope.selected = addresses[0] || null;
-        $scope.$apply();
       }
     });
   }
@@ -525,7 +524,6 @@ angular.module('payswarm.directives')
     svcAccount.get({identity: identityId}, function(err, accounts) {
       if(!err && !$scope.selected) {
         $scope.selected = accounts[0] || null;
-        $scope.$apply();
       }
     });
   }
@@ -571,7 +569,6 @@ angular.module('payswarm.directives')
     svcBudget.get(function(err, budgets) {
       if(!err && !scope.selected) {
         $scope.selected = budgets[0] || null;
-        $scope.$apply();
       }
     });
   }
@@ -631,7 +628,6 @@ angular.module('payswarm.directives')
     svcPaymentToken.get(function(err, tokens) {
       if(!err && !$scope.selected) {
         $scope.selected = tokens[0] || null;
-        $scope.$apply();
       }
     });
   }
@@ -679,7 +675,6 @@ angular.module('payswarm.directives')
           $scope.close(null, account);
         }
         $scope.feedback.validationErrors = err;
-        $scope.$apply();
       });
     };
   }
@@ -730,7 +725,6 @@ angular.module('payswarm.directives')
           $scope.close(null, account);
         }
         $scope.feedback.validationErrors = err;
-        $scope.$apply();
       });
     };
   }
@@ -782,7 +776,6 @@ angular.module('payswarm.directives')
           $scope.close(null, budget);
         }
         $scope.feedback.validationErrors = err;
-        $scope.$apply();
       });
     };
   }
@@ -850,7 +843,6 @@ angular.module('payswarm.directives')
           $scope.close(null, budget);
         }
         $scope.feedback.validationErrors = err;
-        $scope.$apply();
       });
     };
   }
@@ -970,7 +962,6 @@ angular.module('payswarm.directives')
           $scope.close(null, addedToken);
         }
         $scope.feedback.validationErrors = err;
-        $scope.$apply();
       });
     };
   }
@@ -1035,7 +1026,6 @@ angular.module('payswarm.directives')
         }
         else {
           $scope.feedback.validationErrors = err;
-          $scope.$apply();
         }
       });
     };
@@ -1154,7 +1144,6 @@ angular.module('payswarm.directives')
           return;
         }
         $scope.close(null, addedAddress);
-        $scope.$apply();
       });
     };
 

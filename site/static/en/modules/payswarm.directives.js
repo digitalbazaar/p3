@@ -978,7 +978,7 @@ angular.module('payswarm.directives')
     }
   });
 })
-.directive('modalAddIdentity', function(svcModal, svcIdentity) {
+.directive('modalAddIdentity', function(svcModal, svcIdentity, svcAccount) {
   function Ctrl($scope) {
     $scope.baseUrl = window.location.protocol + '//' + window.location.host;
     $scope.open = function() {
@@ -1038,17 +1038,12 @@ angular.module('payswarm.directives')
       }
 
       // add account
-      payswarm.accounts.add({
-        identity: identity.id,
-        account: $scope.account,
-        success: function(account) {
+      svcAccount.add($scope.account, identity.id, function(err, account) {
+        if(!err) {
           $scope.close(null, {identity: identity, account: account});
-        },
-        error: function(err) {
-          // FIXME: identity vs account feedback
-          $scope.feedback.validationErrors = err;
-          $scope.$apply();
         }
+        // FIXME: identity vs account feedback
+        $scope.feedback.validationErrors = err;
       });
     }
   }

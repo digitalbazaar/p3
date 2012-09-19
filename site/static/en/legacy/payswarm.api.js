@@ -1032,8 +1032,7 @@ function normalizeError(xhr, textStatus) {
       // FIXME: make message user-friendly
     }
     // check for invalid session or missing session
-    else if(error.type === 'monarch.ws.AccessDenied' &&
-      error.cause && error.cause.type === 'payswarm.website.InvalidSession') {
+    else if(error.type === 'payswarm.website.PermissionDenied') {
       // redirect to login
       // FIXME: support modal login to keep current state vs forced redirect
       window.location = '/profile/login?ref=' +

@@ -1298,12 +1298,6 @@ angular.module('payswarm.directives')
 
           // get updated balance
           svcAccount.getOne($scope.account.id);
-          /*
-              account: {
-                id: options.account,
-                label: accounts[options.account].label
-              },
-          */
 
           // go to top of page
           //var target = options.target;

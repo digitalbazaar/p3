@@ -2,7 +2,9 @@
   <div data-selector data-item-type="Budget"
     data-items="budgets" data-selected="selected"
     data-add-item="showAddBudgetModal=true">
-    <div class="budget">
+    <div data-spinner="services.budget.loading"
+      data-spinner-class="selector-spinner"></div>
+    <div data-ng-hide="services.budget.loading" class="budget">
       <strong>{{selected.label}}</strong><br/>
       <span><span class="money" data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact balance of this budget is {{account.currency}} {{selected.balance}}."
           data-placement="bottom" data-trigger="hover"><span

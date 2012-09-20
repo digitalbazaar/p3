@@ -3,7 +3,10 @@
     data-items="paymentTokens" data-selected="selected"
     data-add-item="showAddPaymentTokenModal=true"
     data-fixed="{{fixed}}">
-    <div class="paymentToken" data-ng-switch="selected.paymentMethod">
+    <div data-spinner="services.token.loading"
+      data-spinner-class="selector-spinner"></div>
+    <div data-ng-hide="services.token.loading"
+      class="paymentToken" data-ng-switch="selected.paymentMethod">
       <strong>{{selected.label}}</strong><br/>
       <p data-ng-switch-when="ccard:CreditCard">
         <i class="{{selected.cardBrand|cardBrand:true}}"></i>

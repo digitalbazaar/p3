@@ -498,6 +498,9 @@ angular.module('payswarm.directives')
 })
 .directive('addressSelector', function() {
   function Ctrl($scope, svcAddress) {
+    $scope.services = {
+      address: svcAddress.state
+    };
     $scope.addresses = svcAddress.addresses;
     svcAddress.get(function(err, addresses) {
       if(!err && !$scope.selected) {
@@ -514,6 +517,9 @@ angular.module('payswarm.directives')
 })
 .directive('accountSelector', function(svcAccount, svcIdentity) {
   function Ctrl($scope) {
+    $scope.services = {
+      account: svcAccount.state
+    };
     $scope.identityId = svcIdentity.identity.id;
     updateAccounts($scope);
   }
@@ -563,6 +569,10 @@ angular.module('payswarm.directives')
 })
 .directive('budgetSelector', function(svcBudget, svcAccount) {
   function Ctrl($scope, svcBudget) {
+    $scope.services = {
+      account: svcAccount.state,
+      budget: svcBudget.state
+    };
     $scope.budgets = svcBudget.budgets;
     $scope.account = null;
     $scope.accounts = svcAccount.accounts;
@@ -624,6 +634,9 @@ angular.module('payswarm.directives')
 })
 .directive('paymentTokenSelector', function(svcPaymentToken) {
   function Ctrl($scope) {
+    $scope.services = {
+      token: svcPaymentToken.state
+    };
     $scope.paymentTokens = svcPaymentToken.paymentTokens;
     svcPaymentToken.get(function(err, tokens) {
       if(!err && !$scope.selected) {
@@ -1230,7 +1243,7 @@ angular.module('payswarm.directives')
 
     $scope.prepare = function() {
       $scope.state = 'preparing';
-    }
+    };
 
     $scope.review = function() {
       // clean deposit
@@ -1270,6 +1283,7 @@ angular.module('payswarm.directives')
             // FIXME: handle err
             //
             // go to top of page
+            // FIXME: use directive to do this
             //var target = options.target;
             //$(target).animate({scrollTop: 0}, 0);
 
@@ -1296,8 +1310,8 @@ angular.module('payswarm.directives')
           $scope.state = 'complete';
           $scope.$apply();
 
-          // get updated balance
-          svcAccount.getOne($scope.account.id);
+          // get updated balance after a delay
+          svcAccount.getOne($scope.account.id, {delay: 500});
 
           // go to top of page
           //var target = options.target;

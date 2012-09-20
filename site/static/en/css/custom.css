@@ -194,6 +194,11 @@ span.currency {
   text-align: center;
   display: inline-block;
 }
+.selector-spinner {
+  text-align: center;
+  display: inline-block;
+  padding-bottom: 5px;
+}
 .table-spinner {
   text-align: center;
   display: inline-block;

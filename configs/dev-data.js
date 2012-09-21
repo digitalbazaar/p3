@@ -56,7 +56,8 @@ config.financial.paymentTokens.push({
     id: config.financial.devPaymentToken,
     type: 'com:PaymentToken',
     label: 'Free Test Money Token',
-    owner: config.authority.id
+    owner: config.authority.id,
+    psaVerified: true
   }
 });
 

@@ -64,6 +64,12 @@ angular.module('payswarm.directives')
 })
 .directive('submitForm', function() {
   return function(scope, element, attrs) {
+    // manually prevent form default action
+    element.closest('form').bind('submit', function(e) {
+      e.preventDefault();
+    });
+
+    // submit form on button click or enter press
     element.bind('click', function(e) {
       e.preventDefault();
       element.closest('form').submit();

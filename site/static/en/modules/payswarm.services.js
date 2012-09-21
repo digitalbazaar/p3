@@ -773,6 +773,11 @@ angular.module('payswarm.services')
   // type specific tokens
   service.creditCards = [];
   service.bankAccounts = [];
+  // class specific tokens
+  // 'instant' refers to the time it takes for the authority to be notified of
+  // successful transfer of funds. This class can be used in selectors where
+  // only immediate availability of funds is desired.
+  service.instant = [];
 
   function _updateTokens(paymentTokens) {
     if(paymentTokens) {
@@ -780,12 +785,14 @@ angular.module('payswarm.services')
       _replaceArray(service.paymentTokens, paymentTokens);
     }
 
-    // filter cards and bank accounts
+    // filter cards, bank accounts, and instant methods
     var creditCards = [];
     var bankAccounts = [];
+    var instant = [];
     angular.forEach(service.paymentTokens, function(token) {
       if(token.paymentMethod === 'ccard:CreditCard') {
         creditCards.push(token);
+        instant.push(token);
       }
       else if(token.paymentMethod === 'bank:BankAccount') {
         bankAccounts.push(token);
@@ -793,6 +800,7 @@ angular.module('payswarm.services')
     });
     _replaceArray(service.creditCards, creditCards);
     _replaceArray(service.bankAccounts, bankAccounts);
+    _replaceArray(service.instant, instant);
   }
 
   // get all paymentTokens for an identity

@@ -339,6 +339,7 @@ angular.module('payswarm.services')
 
   // validate an address
   service.validate = function(address, callback) {
+    callback = callback || angular.noop;
     payswarm.addresses.validate({
       identity: identity.id,
       address: address,
@@ -351,6 +352,7 @@ angular.module('payswarm.services')
 
   // add a new address
   service.add = function(address, callback) {
+    callback = callback || angular.noop;
     service.state.loading = true;
     payswarm.addresses.add({
       identity: identity.id,
@@ -371,20 +373,13 @@ angular.module('payswarm.services')
 
   // delete an address by label
   service.del = function(address, callback) {
+    callback = callback || angular.noop;
     service.state.loading = true;
     payswarm.addresses.del({
       identity: identity.id,
       addressId: address.label,
       success: function() {
-        for(var i = 0; i < service.addresses.length;) {
-          var address_ = service.addresses[i];
-          if(address_.label === address.label) {
-            service.addresses.splice(i, 1);
-          }
-          else {
-            i += 1;
-          }
-        }
+        _replaceInArray(service.addresses, address, 'label');
         service.state.loading = false;
         callback();
         $rootScope.$apply();

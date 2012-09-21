@@ -43,7 +43,7 @@ ${set([
               <button class="btn depost" title="Deposit"
                 data-ng-click="showDepositModal=true"><i class="icon-plus"></i></button>
               <span data-modal-deposit="showDepositModal"
-                data-account="account"></span>
+                data-account="account" data-instant="false"></span>
             </td>
             <!-- Edit -->
             <td class="action">

@@ -566,7 +566,8 @@ angular.module('payswarm.directives')
       selected: '=',
       minBalance: '@',
       showDepositButton: '@',
-      identityId: '@'
+      identityId: '@',
+      instant: '='
     },
     controller: Ctrl,
     templateUrl: '/partials/account-selector.html',
@@ -655,12 +656,21 @@ angular.module('payswarm.directives')
     attrs.$observe('fixed', function(value) {
       scope.fixed = value;
     });
+    scope.$watch('instant', function(value) {
+      if(value) {
+        scope.paymentTokens = svcPaymentToken.instant;
+      }
+      else {
+        scope.paymentTokens = svcPaymentToken.paymentTokens;
+      }
+    });
   }
 
   return {
     scope: {
       selected: '=',
-      fixed: '@'
+      fixed: '@',
+      instant: '='
     },
     controller: Ctrl,
     templateUrl: '/partials/payment-token-selector.html',
@@ -1338,7 +1348,8 @@ angular.module('payswarm.directives')
   return svcModal.directive({
     name: 'Deposit',
     scope: {
-      account: '='
+      account: '=',
+      instant: '='
     },
     templateUrl: '/partials/modals/deposit.html',
     controller: Ctrl,

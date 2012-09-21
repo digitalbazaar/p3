@@ -307,6 +307,8 @@ angular.module('payswarm.services')
       callback = options;
       options = {};
     }
+    options = options || {};
+    callback = callback || angular.noop;
 
     if(options.force || +new Date() >= expires) {
       service.state.loading = true;
@@ -314,10 +316,7 @@ angular.module('payswarm.services')
         payswarm.addresses.get({
           identity: identity.id,
           success: function(addresses) {
-            service.addresses.splice(0, service.addresses.length);
-            angular.forEach(addresses, function(address) {
-              service.addresses.push(address);
-            });
+            _replaceArray(service.addresses, addresses, 'label');
             expires = +new Date() + maxAge;
             service.state.loading = false;
             callback(null, service.addresses);
@@ -431,10 +430,7 @@ angular.module('payswarm.services')
         payswarm.accounts.get({
           identity: options.identity || identity.id,
           success: function(accounts) {
-            entry.accounts.splice(0, entry.accounts.length);
-            angular.forEach(accounts, function(account) {
-              entry.accounts.push(account);
-            });
+            _replaceArray(entry.accounts, accounts);
             entry.expires = +new Date() + maxAge;
             service.state.loading = false;
             callback(null, entry.accounts);
@@ -469,17 +465,7 @@ angular.module('payswarm.services')
       payswarm.accounts.getOne({
         account: accountId,
         success: function(account) {
-          var added = false;
-          for(var i = 0; !added && i < service.accounts.length; ++i) {
-            var account_ = service.accounts[i];
-            if(account_.id === accountId) {
-              angular.extend(service.accounts[i], account);
-              added = true;
-            }
-          }
-          if(!added) {
-            service.accounts.push(account);
-          }
+          _replaceInArray(service.accounts, account);
           service.state.loading = false;
           callback(null, account);
           $rootScope.$apply();
@@ -508,6 +494,9 @@ angular.module('payswarm.services')
         service.state.loading = false;
         callback(null, account);
         $rootScope.$apply();
+        // update account to get latest balance
+        // FIXME: in future, use real time events
+        service.getOne(account.id, {delay: 500});
       },
       error: function(err) {
         service.state.loading = false;
@@ -565,10 +554,7 @@ angular.module('payswarm.services')
         payswarm.budgets.get({
           identity: identity.id,
           success: function(budgets) {
-            service.budgets.splice(0, service.budgets.length);
-            angular.forEach(budgets, function(budget) {
-              service.budgets.push(budget);
-            });
+            _replaceArray(service.budgets, budgets);
             expires = +new Date() + maxAge;
             service.state.loading = false;
             callback(null, service.budgets);
@@ -603,17 +589,7 @@ angular.module('payswarm.services')
       payswarm.budgets.getOne({
         budget: budgetId,
         success: function(budget) {
-          var added = false;
-          for(var i = 0; !added && i < service.budgets.length; ++i) {
-            var budget_ = service.budgets[i];
-            if(budget_.id === budgetId) {
-              angular.extend(service.budgets[i], budget);
-              added = true;
-            }
-          }
-          if(!added) {
-            service.budgets.push(budget);
-          }
+          _replaceInArray(service.budgets, budget);
           service.state.loading = false;
           callback(null, budget);
           $rootScope.$apply();
@@ -797,8 +773,6 @@ angular.module('payswarm.services')
   service.state = {
     loading: false
   };
-  // all tokens indexed by id
-  service._paymentTokens = {};
   // all tokens
   service.paymentTokens = [];
   // type specific tokens
@@ -806,37 +780,24 @@ angular.module('payswarm.services')
   service.bankAccounts = [];
 
   function _updateTokens(paymentTokens) {
-    // update token lists
-    service.paymentTokens.splice(0, service.paymentTokens.length);
-    service.creditCards.splice(0, service.creditCards.length);
-    service.bankAccounts.splice(0, service.bankAccounts.length);
-    angular.forEach(service._paymentTokens, function(token) {
-      service.paymentTokens.push(token);
+    if(paymentTokens) {
+      // update tokens
+      _replaceArray(service.paymentTokens, paymentTokens);
+    }
+
+    // filter cards and bank accounts
+    var creditCards = [];
+    var bankAccounts = [];
+    angular.forEach(service.paymentTokens, function(token) {
       if(token.paymentMethod === 'ccard:CreditCard') {
-        service.creditCards.push(token);
+        creditCards.push(token);
       }
       else if(token.paymentMethod === 'bank:BankAccount') {
-        service.bankAccounts.push(token);
+        bankAccounts.push(token);
       }
     });
-  }
-
-  function _setToken(token) {
-    service._paymentTokens[token.id] = token;
-    _updateTokens();
-  }
-
-  function _setTokens(tokens) {
-    service._paymentTokens = {};
-    angular.forEach(tokens, function(token) {
-      _setToken(token);
-    });
-    _updateTokens();
-  }
-
-  function _delToken(tokenId) {
-    delete service._paymentTokens[tokenId];
-    _updateTokens();
+    _replaceArray(service.creditCards, creditCards);
+    _replaceArray(service.bankAccounts, bankAccounts);
   }
 
   // get all paymentTokens for an identity
@@ -854,7 +815,7 @@ angular.module('payswarm.services')
         payswarm.paymentTokens.get({
           identity: identity.id,
           success: function(paymentTokens) {
-            _setTokens(paymentTokens);
+            _updateTokens(paymentTokens);
             expires = +new Date() + maxAge;
             service.state.loading = false;
             callback(null, service.paymentTokens);
@@ -883,7 +844,8 @@ angular.module('payswarm.services')
       identity: identity.id,
       data: paymentToken,
       success: function(paymentToken) {
-        _setToken(paymentToken);
+        _replaceInArray(service.paymentTokens, paymentToken);
+        _updateTokens();
         service.state.loading = false;
         callback(null, paymentToken);
         $rootScope.$apply();
@@ -905,7 +867,8 @@ angular.module('payswarm.services')
       identity: identity.id,
       data: paymentToken,
       success: function(paymentToken) {
-        _setToken(paymentToken);
+        _replaceInArray(service.paymentTokens, paymentToken);
+        _updateTokens();
         service.state.loading = false;
         callback(null, paymentToken);
         $rootScope.$apply();
@@ -926,7 +889,8 @@ angular.module('payswarm.services')
     payswarm.paymentTokens.del({
       paymentToken: paymentTokenId,
       success: function() {
-        _delToken(paymentTokenId);
+        _removeFromArray(paymentTokenId, service.paymentTokens);
+        _updateTokens();
         service.state.loading = false;
         callback();
         $rootScope.$apply();
@@ -1199,5 +1163,63 @@ angular.module('payswarm.services')
 
   return service;
 });
+
+function _replace(dst, src) {
+  if(dst !== src) {
+    angular.forEach(dst, function(value, key) {
+      delete dst[key];
+    });
+    angular.extend(dst, src);
+  }
+  return dst;
+}
+
+function _replaceInArray(array, src, id) {
+  id = id || 'id';
+  var found = false;
+  for(var i = 0; !found && i < array.length; ++i) {
+    if(array[i][id] === src[id]) {
+      _replace(array[i], src);
+      found = true;
+    }
+  }
+  if(!found) {
+    array.push(src);
+  }
+}
+
+function _replaceArray(dst, src, id) {
+  id = id || 'id';
+  var dst_ = dst.slice();
+  dst.splice(0, dst.length);
+  angular.forEach(src, function(value) {
+    // overwrite existing value in dst_ if exists
+    for(var i = 0; i < dst_.length; ++i) {
+      if(dst_[i][id] === value[id]) {
+        value = _replace(dst_[i], value);
+        dst_.splice(i, 1);
+        break;
+      }
+    }
+    dst.push(value);
+  });
+  return dst;
+}
+
+function _removeFromArray(target, array, id) {
+  id = id || 'id';
+  for(var i = 0; i < array.length; ++i) {
+    if(typeof target === 'object') {
+      if(array[i][id] === target[id]) {
+        array.splice(i, 1);
+        break;
+      }
+    }
+    else if(array[i][id] === target) {
+      array.splice(i, 1);
+      break;
+    }
+  }
+}
 
 })(jQuery);

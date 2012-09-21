@@ -26,14 +26,10 @@ module.controller('ExternalAccountsCtrl', function($scope, svcPaymentToken) {
   $scope.bankAccounts = svcPaymentToken.bankAccounts;
 
   $scope.deletePaymentToken = function(paymentToken) {
-    svcPaymentToken.del(paymentToken.id, function() {
-      $scope.$apply();
-    });
+    svcPaymentToken.del(paymentToken.id);
   };
 
-  svcPaymentToken.get(function() {
-    $scope.$apply();
-  });
+  svcPaymentToken.get();
 });
 
 module.controller('AddressCtrl', function($scope, svcAddress) {
@@ -41,14 +37,10 @@ module.controller('AddressCtrl', function($scope, svcAddress) {
   $scope.loading = false;
 
   $scope.deleteAddress = function(address) {
-    svcAddress.del(address, function() {
-      $scope.$apply();
-    });
+    svcAddress.del(address);
   };
 
-  svcAddress.get(function() {
-    $scope.$apply();
-  });
+  svcAddress.get();
 });
 
 })();

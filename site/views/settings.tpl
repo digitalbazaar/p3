@@ -123,7 +123,12 @@ ${set([
                   </td>
                   <!-- Status -->
                   <td>
-                    <span><a href="#">Verify</a></span>
+                    <a data-ng-hide="bankAccount.psaVerified" href="#"
+                      data-ng-click="showVerifyBankAccountModal=true">Verify</a></span>
+                    <span data-ng-show="bankAccount.psaVerified">Verified</span>
+                    <span
+                      data-modal-verify-bank-account="showVerifyBankAccountModal"
+                      data-token="bankAccount"></span>
                   </td>
                   <!-- Delete -->
                   <td class="action">

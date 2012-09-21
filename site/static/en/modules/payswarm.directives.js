@@ -1007,6 +1007,35 @@ angular.module('payswarm.directives')
     }
   });
 })
+.directive('modalVerifyBankAccount', function(svcModal, svcPaymentToken) {
+  function Ctrl($scope) {
+    $scope.open = function() {
+      $scope.feedback = {};
+    };
+
+    $scope.verify = function() {
+      return;
+      svcPaymentToken.verify(token.id, function(err, token) {
+        if(err) {
+          // FIXME: handle verification failure error
+          $scope.feedback.validationErrors = err;
+        }
+      });
+    };
+  }
+
+  return svcModal.directive({
+    name: 'VerifyBankAccount',
+    scope: {
+      token: '='
+    },
+    templateUrl: '/partials/modals/verify-bank-account.html',
+    controller: Ctrl,
+    link: function(scope, element, attrs) {
+      scope.feedbackTarget = element;
+    }
+  });
+})
 .directive('modalAddIdentity', function(svcModal, svcIdentity, svcAccount) {
   function Ctrl($scope) {
     $scope.baseUrl = window.location.protocol + '//' + window.location.host;

@@ -261,3 +261,5 @@ config.financial.paymentGateway.Test.withdrawalPayee = [{
 }];
 // set bank account settlement to 48 hours
 config.financial.paymentGateway.Test.bankAccountSettlement = 1000*60*60*48;
+// bank settlement delay (delay after waiting bankAccountSettlement)
+config.financial.paymentGateway.Test.settlementDelayed = 1000*60*60*24;

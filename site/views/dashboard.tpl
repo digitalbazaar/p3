@@ -79,7 +79,7 @@ ${set([
           <tr>
             <th class="name">Budget</th>
             <th class="money">Balance</th>
-            <th>Refresh</th>
+            <th>Refill</th>
             <th class="action">Edit</th>
             <th class="action">Delete</th>
           </tr>

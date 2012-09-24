@@ -69,7 +69,7 @@
         <div class="input-prepend">
           <span class="add-on"><i class="icon-calendar"></i></span><select
             name="expires" data-ng-model="budget.psaExpires"
-            data-ng-options="value as key for (key, value) in expireChoices">
+            data-ng-options="expire.value as expire.label for expire in expireChoices">
           </select>
         </div>
         <div>

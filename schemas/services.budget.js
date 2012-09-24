@@ -16,25 +16,22 @@ var postBudget = {
       amount: money.precisePositive({required: false}),
       vendor: payswarmId({required: false}),
       psaExpires: {
+        required: false,
         title: 'Expiration date',
         description: 'The number of seconds of spending inactivity before the budget is deleted.',
-        required: false,
-        type: [{
+        type: {
           type: 'integer',
           minimum: 0,
-          exclusiveMinimum: true,
-        }, {
-          type: 'string',
-          enum: ['']
-        }]
+          exclusiveMinimum: true
+        }
       },
       psaMaxPerUse: money.precisePositive({required: false}),
       psaRefresh: {
+        required: false,
         title: 'Refresh period',
         description: 'The period on which the budget refills to the original amount.',
         type: 'string',
-        enum: ['psa:Never', 'psa:Hourly', 'psa:Daily', 'psa:Monthly', 'psa:Yearly'],
-        required: false
+        enum: ['psa:Never', 'psa:Hourly', 'psa:Daily', 'psa:Monthly', 'psa:Yearly']
       }
     }
   }, {
@@ -58,6 +55,7 @@ var postBudgets = {
     amount: money.precisePositive(),
     vendor: payswarmId({required: false}),
     psaExpires: {
+      required: true,
       title: 'Expiration date',
       description: 'The number of seconds of spending inactivity before the budget is deleted.',
       type: 'integer',
@@ -66,10 +64,11 @@ var postBudgets = {
     },
     psaMaxPerUse: money.precisePositive({required: false}),
     psaRefresh: {
+      required: false,
       title: 'Refresh period',
       description: 'The period on which the budget refills to the original amount.',
       type: 'string',
-      enum: ['psa:Never', 'psa:Hourly', 'psa:Daily', 'psa:Monthly', 'psa:Yearly'],
+      enum: ['psa:Never', 'psa:Hourly', 'psa:Daily', 'psa:Monthly', 'psa:Yearly']
     }
   },
   additionalProperties: false

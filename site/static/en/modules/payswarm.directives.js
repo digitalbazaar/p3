@@ -785,7 +785,8 @@ angular.module('payswarm.directives')
       $scope.identity = data.identity || {};
       $scope.budget = {
         '@context': 'http://purl.org/payswarm/v1',
-        psaRefresh: 'psa:Never'
+        psaRefresh: 'psa:Never',
+        psaExpires: 7889400 /* 3 months */
       };
       $scope.refreshChoices = [
         {id: 'psa:Never', label: 'Never'},
@@ -795,12 +796,12 @@ angular.module('payswarm.directives')
         {id: 'psa:Monthly', label: 'Monthly'},
         {id: 'psa:Yearly', label: 'Yearly'}
       ];
-      $scope.expireChoices = {
-        '1 month': 2629800,
-        '3 months': 7889400,
-        '6 months': 15778800,
-        '1 year': 31557600
-      };
+      $scope.expireChoices = [
+        {label: '1 month', value: 2629800},
+        {label: '3 months', value: 7889400},
+        {label: '6 months', value: 15778800},
+        {label: '1 year', value: 31557600}
+      ];
     };
 
     $scope.addBudget = function() {
@@ -841,13 +842,15 @@ angular.module('payswarm.directives')
         {id: 'psa:Monthly', label: 'Monthly'},
         {id: 'psa:Yearly', label: 'Yearly'}
       ];
-      $scope.expireChoices = {
-        'Current': $scope.budget.psaExpires,
-        '1 month': 2629800,
-        '3 months': 7889400,
-        '6 months': 15778800,
-        '1 year': 31557600
-      };
+      $scope.expireChoices = [
+        {label: 'Current', value: ''},
+        {label: '1 month', value: 2629800},
+        {label: '3 months', value: 7889400},
+        {label: '6 months', value: 15778800},
+        {label: '1 year', value: 31557600}
+      ];
+      // default to current value
+      $scope.budget.psaExpires = '';
     };
 
     $scope.editBudget = function() {

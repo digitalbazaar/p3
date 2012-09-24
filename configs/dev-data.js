@@ -259,5 +259,5 @@ config.financial.paymentGateway.Test.withdrawalPayee = [{
   payeeRate: '0.50',
   comment: 'Withdrawal Processing Service'
 }];
-// set bank account settlement to 48 hours
-config.financial.paymentGateway.Test.bankAccountSettlement = 1000*60*60*48;
+// set bank account settlement to 1 minute
+config.financial.paymentGateway.Test.bankAccountSettlement = 1000*60;

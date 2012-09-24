@@ -30,8 +30,8 @@ config.financial.defaults.paymentTokens.push({
   paymentGateway: 'Test',
   cardBrand: 'ccard:Visa',
   cardNumber: '4111111111111111',
-  cardExpMonth: '11',
-  cardExpYear: '16',
+  cardExpMonth: 11,
+  cardExpYear: 2016,
   cardCvm: '111',
   address: {
     fullName: 'Billing Name',
@@ -40,7 +40,8 @@ config.financial.defaults.paymentTokens.push({
     region: 'Region',
     postalCode: '12345',
     countryName: 'US'
-  }
+  },
+  psaVerified: true
 });
 // dev authority payment token for granting funds to new accounts
 config.financial.devPaymentToken = 'urn:dev-authority-bank-account';

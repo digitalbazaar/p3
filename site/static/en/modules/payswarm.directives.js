@@ -574,8 +574,8 @@ angular.module('payswarm.directives')
     link: Link
   };
 })
-.directive('budgetSelector', function(svcBudget, svcAccount) {
-  function Ctrl($scope, svcBudget) {
+.directive('budgetSelector', function() {
+  function Ctrl($scope, svcBudget, svcAccount) {
     $scope.services = {
       account: svcAccount.state,
       budget: svcBudget.state
@@ -624,9 +624,14 @@ angular.module('payswarm.directives')
   }
 
   return {
-    scope: {selected: '='},
+    scope: {
+      selected: '=',
+      minBalance: '@'
+    },
     controller: Ctrl,
     templateUrl: '/partials/budget-selector.html'
+    // FIXME
+    //link: Link
   };
 })
 .directive('identitySelector', function() {
@@ -644,7 +649,7 @@ angular.module('payswarm.directives')
     $scope.services = {
       token: svcPaymentToken.state
     };
-    $scope.paymentTokens = svcPaymentToken.paymentTokens;
+    $scope.paymentTokens = svcPaymentToken.verified;
     svcPaymentToken.get(function(err, tokens) {
       if(!err && !$scope.selected) {
         $scope.selected = tokens[0] || null;

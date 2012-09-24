@@ -89,11 +89,10 @@ module.controller('PurchaseCtrl', function(
       svcBudget.get({force: true}, callback);
     },
     getQuote: ['getAddresses', 'getAccounts', function(callback) {
-      $scope.selection.account = $scope.accounts[0];
+      $scope.selection.account = $scope.selection.account || $scope.accounts[0];
       updateQuote($scope.selection.account.id, callback);
     }],
     autoPurchase: ['getBudgets', 'getQuote', function(callback) {
-      $scope.selection.budget = null;
       autoPurchase(callback);
     }]
   }, function(err) {

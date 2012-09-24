@@ -859,15 +859,15 @@ angular.module('payswarm.directives')
         label: b.label,
         source: $scope.selection.account.id,
         amount: b.amount,
-        vendor: b.vendor,
+        // vendors not updated here
+        //vendor: b.vendor,
         psaExpires: b.psaExpires,
         psaMaxPerUse: b.maxPerUse,
         psaRefresh: b.psaRefresh
       };
       // remove fields not being updated
-      delete budget['vendor'];
       angular.forEach(budget, function(value, key) {
-        if(value !== null && value !== undefined && value.length !== 0) {
+        if(value === null || value === undefined || value.length === 0) {
           delete budget[key];
         }
       });

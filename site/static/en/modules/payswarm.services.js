@@ -571,7 +571,7 @@ angular.module('payswarm.services')
   };
 
   // get a single budget
-  service.getOne = function(budgetId, callback) {
+  service.getOne = function(budgetId, options, callback) {
     if(typeof options === 'function') {
       callback = options;
       options = {};

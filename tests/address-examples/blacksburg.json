@@ -1,0 +1,10 @@
+{
+  "@context": "http://purl.org/payswarm/v1",
+  "type": "vcard:Address",
+  "fullName": "First Last",
+  "streetAddress": "1700 Kraft Drive, Suite 2408",
+  "locality": "Blacksburg",
+  "region": "VA",
+  "postalCode": "24060",
+  "countryName": "US"
+}

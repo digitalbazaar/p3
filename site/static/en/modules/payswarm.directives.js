@@ -1167,8 +1167,10 @@ angular.module('payswarm.directives')
         '@context': 'http://purl.org/payswarm/v1',
         type: 'vcard:Address'
       };
+      $scope.selection = {
+        address: null
+      };
       $scope.validatedAddress = null;
-      $scope.selectedAddress = null;
 
       // state in ('editing', 'selecting')
       $scope.state = 'editing';
@@ -1197,7 +1199,7 @@ angular.module('payswarm.directives')
     };
 
     $scope.add = function(clickedAddress) {
-      var addressToAdd = clickedAddress || $scope.selectedAddress;
+      var addressToAdd = clickedAddress || $scope.selection.address;
       svcAddress.add(addressToAdd, function(err, addedAddress) {
         if(err) {
           // FIXME

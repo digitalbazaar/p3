@@ -11,13 +11,15 @@
 
 <div>
   <h6>Entered Address</h6>
-  <div class="item-hover well" data-ng-click="selectedAddress = originalAddress" data-ng-dblclick="add(originalAddress)">
+  <div class="item-hover well{{((selection.address==originalAddress) && ' item-selected') || ''}}" data-ng-click="selection.address=originalAddress"
+    data-ng-dblclick="add(originalAddress)">
     <div data-vcard-address="originalAddress"></div>
   </div>
 </div>
 <div data-ng-show="validatedAddress.psaValidated">
   <h6>Validated Address</h6>
-  <div class="item-hover well" data-ng-click="selectedAddress = validatedAddress" data-ng-dblclick="add(validatedAddress)">
+  <div class="item-hover well{{((selection.address==validatedAddress) && ' item-selected') || ''}}" data-ng-click="selection.address=validatedAddress"
+    data-ng-dblclick="add(validatedAddress)">
     <div data-vcard-address="validatedAddress"></div>
   </div>
 </div>

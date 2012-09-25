@@ -123,8 +123,10 @@ ${set([
                   </td>
                   <!-- Status -->
                   <td>
-                    <a data-ng-hide="bankAccount.psaVerified" href="#"
+                    <a data-ng-show="!bankAccount.psaVerified && bankAccount.psaVerifyReady"
+                      href="#"
                       data-ng-click="showVerifyBankAccountModal=true">Verify</a></span>
+                    <span data-ng-show="!bankAccount.psaVerified && !bankAccount.psaVerifyReady">Pending</span>
                     <span data-ng-show="bankAccount.psaVerified">Verified</span>
                     <span
                       data-modal-verify-bank-account="showVerifyBankAccountModal"

@@ -1165,7 +1165,9 @@ angular.module('payswarm.directives')
       $scope.identity = data.identity || {};
       $scope.originalAddress = {
         '@context': 'http://purl.org/payswarm/v1',
-        type: 'vcard:Address'
+        type: 'vcard:Address',
+        // default to US
+        countryName: 'US'
       };
       $scope.selection = {
         address: null

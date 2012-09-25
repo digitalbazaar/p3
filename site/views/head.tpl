@@ -47,6 +47,13 @@
     {{partial "navbar-public.tpl"}}
     {{/if}}
     
+    {{if userAgent.obsolete}}
+    <div class="alert alert-error">
+      Your browser (${userAgent.family} ${userAgent.major}) is <strong>out of date</strong>.
+      Please <a href="http://www.updateyourbrowser.net/">update your browser.</a>
+    </div>
+    {{/if}}
+    
     <div class="container ng-cloak">
 
       {{! Javascript warning }}

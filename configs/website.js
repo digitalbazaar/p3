@@ -1,5 +1,13 @@
 var config = require('../lib/config');
 
+config.website.browserVersions = {
+  IE: {major: 8, minor: 0},
+  Firefox: {major: 3, minor: 6},
+  Opera: {major: 10, minor: 6},
+  Safari: {major: 4, minor: 0},
+  Chrome: {major: 17, minor: 0}
+};
+
 config.website.views.vars = {
   releaseMode: 'development',
   productionMode: false,

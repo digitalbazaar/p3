@@ -16,6 +16,8 @@ module.controller('SettingsCtrl', function($scope) {
 });
 
 module.controller('ExternalAccountsCtrl', function($scope, svcPaymentToken) {
+  $scope.state = svcPaymentToken.state;
+
   // types for UI directives
   $scope.allMethods = ['ccard:CreditCard', 'bank:BankAccount'];
   $scope.creditCardMethods = ['ccard:CreditCard'];
@@ -33,8 +35,8 @@ module.controller('ExternalAccountsCtrl', function($scope, svcPaymentToken) {
 });
 
 module.controller('AddressCtrl', function($scope, svcAddress) {
+  $scope.state = svcAddress.state;
   $scope.addresses = svcAddress.addresses;
-  $scope.loading = false;
 
   $scope.deleteAddress = function(address) {
     svcAddress.del(address);

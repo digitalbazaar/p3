@@ -30,7 +30,7 @@ ${set([
         <div class="row-fluid">
           <div class="section span12">
             <h3 class="headline">Credit Cards</h3>
-            <table class="table table-condensed" data-ng-show="loading || creditCards.length > 0">
+            <table class="table table-condensed" data-ng-show="state.loading || creditCards.length > 0">
               <thead>
                 <tr>
                   <th class="name">Name</th>
@@ -64,17 +64,17 @@ ${set([
                   </td>
                 </tr>
               </tbody>
-              <tfoot data-ng-show="loading">
+              <tfoot data-ng-show="state.loading">
                 <tr>
                   <td colspan="5" style="text-align: center">
                     <span class="center">
-                      <span data-spinner="loading" data-spinner-class="table-spinner"></span>
+                      <span data-spinner="state.loading" data-spinner-class="table-spinner"></span>
                     </span>
                   </td>
                 </tr>
               </tfoot>
             </table>
-            <div data-ng-show="!loading && creditCards.length == 0">
+            <div data-ng-show="!state.loading && creditCards.length == 0">
               <p class="center">You have no credit cards associated with this identity.</p>
             </div>
           </div>
@@ -84,7 +84,7 @@ ${set([
           <div class="span12">
             <div data-modal-add-payment-token="showAddCreditCardModal" data-payment-methods="creditCardMethods"></div>
             <button class="btn btn-success"
-              data-ng-hide="loading"
+              data-ng-hide="state.loading"
               data-ng-click="showAddCreditCardModal=true"><i class="icon-plus icon-white"></i> Add Credit Card</button>
           </div>
         </div>
@@ -97,7 +97,7 @@ ${set([
         <div class="row-fluid">
           <div class="section span12">
             <h3 class="headline">Bank Accounts</h3>
-            <table class="table table-condensed" data-ng-show="loading || bankAccounts.length > 0">
+            <table class="table table-condensed" data-ng-show="state.loading || bankAccounts.length > 0">
               <thead>
                 <tr>
                   <th>Name</th>
@@ -138,17 +138,17 @@ ${set([
                   </td>
                 </tr>
               </tbody>
-              <tfoot data-ng-show="loading">
+              <tfoot data-ng-show="state.loading">
                 <tr>
                   <td colspan="5" style="text-align: center">
                     <span class="center">
-                      <span data-spinner="loading" data-spinner-class="table-spinner"></span>
+                      <span data-spinner="state.loading" data-spinner-class="table-spinner"></span>
                     </span>
                   </td>
                 </tr>
               </tfoot>
             </table>
-            <div data-ng-show="!loading && bankAccounts.length == 0">
+            <div data-ng-show="!state.loading && bankAccounts.length == 0">
               <p class="center">You have no bank accounts associated with this identity.</p>
             </div>
           </div>
@@ -158,7 +158,7 @@ ${set([
           <div class="span12">
             <div data-modal-add-payment-token="showAddBankAccountModal" data-payment-methods="bankAccountMethods"></div>
             <button class="btn btn-success"
-              data-ng-hide="loading"
+              data-ng-hide="state.loading"
               data-ng-click="showAddBankAccountModal=true"><i class="icon-plus icon-white"></i> Add Bank Account</button>
           </div>
         </div>
@@ -172,7 +172,7 @@ ${set([
         <div class="row-fluid">
           <div class="section span12">
             <h3 class="headline">Addresses</h3>
-            <table class="table table-condensed" data-ng-show="loading || addresses.length > 0">
+            <table class="table table-condensed" data-ng-show="state.loading || addresses.length > 0">
               <thead>
                 <tr>
                   <th>Name</th>
@@ -196,17 +196,17 @@ ${set([
                   </td>
                 </tr>
               </tbody>
-              <tfoot data-ng-show="loading">
+              <tfoot data-ng-show="state.loading">
                 <tr>
                   <td colspan="5" style="text-align: center">
                     <span class="center">
-                      <span data-spinner="loading" data-spinner-class="table-spinner"></span>
+                      <span data-spinner="state.loading" data-spinner-class="table-spinner"></span>
                     </span>
                   </td>
                 </tr>
               </tfoot>
             </table>
-            <div data-ng-show="!loading && addresses.length == 0">
+            <div data-ng-show="!state.loading && addresses.length == 0">
               <p class="center">You have no addresses associated with this identity.</p>
             </div>
           </div>

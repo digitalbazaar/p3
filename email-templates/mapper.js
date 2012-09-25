@@ -16,7 +16,8 @@ module.exports.map = function(mapping) {
     'common.Profile.created-profile',
     'common.Profile.passcodeSent',
     'common.Purchase.success',
-    'common.Purchase.success-profile'
+    'common.Purchase.success-profile',
+    'common.Transaction.statusChecksExceeded'
   ];
 
   // FIXME: can't just map to filenames because swig can't use more than

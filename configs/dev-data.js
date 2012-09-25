@@ -41,7 +41,8 @@ config.financial.defaults.paymentTokens.push({
     postalCode: '12345',
     countryName: 'US'
   },
-  psaVerified: true
+  psaVerified: true,
+  psaVerifyReady: true
 });
 // dev authority payment token for granting funds to new accounts
 config.financial.devPaymentToken = 'urn:dev-authority-bank-account';

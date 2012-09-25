@@ -379,7 +379,7 @@ angular.module('payswarm.services')
       identity: identity.id,
       addressId: address.label,
       success: function() {
-        _replaceInArray(service.addresses, address, 'label');
+        _removeFromArray(address.label, service.addresses, 'label');
         service.state.loading = false;
         callback();
         $rootScope.$apply();
@@ -664,12 +664,7 @@ angular.module('payswarm.services')
     payswarm.budgets.del({
       budget: budgetId,
       success: function() {
-        for(var i = 0; i < service.budgets.length; ++i) {
-          if(service.budgets[i].id === budgetId) {
-            service.budgets.splice(i, 1);
-            break;
-          }
-        }
+        _removeFromArray(budgetId, service.budgets);
         service.state.loading = false;
         callback();
         $rootScope.$apply();

@@ -737,6 +737,11 @@ angular.module('payswarm.directives')
       $scope.data = window.data || {};
       $scope.feedback = {};
       $scope.identity = data.identity || {};
+
+      // copy account for editing
+      $scope.account = {};
+      angular.extend($scope.account, $scope.sourceAccount);
+
       $scope.accountVisibility = ($scope.account.psaPublic.length === 0) ?
         'hidden' : 'public';
       $scope.editing = true;
@@ -765,7 +770,7 @@ angular.module('payswarm.directives')
 
   return svcModal.directive({
     name: 'EditAccount',
-    scope: {account: '='},
+    scope: {sourceAccount: '=account'},
     templateUrl: '/partials/modals/edit-account.html',
     controller: Ctrl,
     link: function(scope, element, attrs) {
@@ -849,6 +854,9 @@ angular.module('payswarm.directives')
         {label: '6 months', value: 15778800},
         {label: '1 year', value: 31557600}
       ];
+      // copy source budget for editing
+      $scope.budget = {};
+      angular.extend($scope.budget, $scope.sourceBudget);
       // default to current value
       $scope.budget.psaExpires = '';
     };
@@ -886,7 +894,7 @@ angular.module('payswarm.directives')
 
   return svcModal.directive({
     name: 'EditBudget',
-    scope: {budget: '='},
+    scope: {sourceBudget: '=budget'},
     templateUrl: '/partials/modals/edit-budget.html',
     controller: Ctrl,
     link: function(scope, element, attrs) {

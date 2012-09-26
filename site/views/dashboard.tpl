@@ -88,7 +88,7 @@ ${set([
           <tr data-ng-repeat="budget in budgets | orderBy:'label'" class="budget" data-fadeout="budget.deleted">
             <!-- Label -->
             <td class="name">
-              <span title="{{budget.id}}">{{budget.label}}</span>
+              <a href="{{budget.id}}">{{budget.label}}</a>
             </td>
             <!-- Balance -->
             <td class="money">

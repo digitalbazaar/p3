@@ -440,6 +440,39 @@ payswarm.budgets.addVendor = function(options) {
 };
 
 /**
+ * Delete a vendor from a budget.
+ *
+ * Usage:
+ *
+ * payswarm.budgets.delVendor({
+ *   budget: budgetId,
+ *   vendor: vendorId,
+ *   success: function() {},
+ *   error: function(err) {}
+ * });
+ */
+payswarm.budgets.delVendor = function(options) {
+  $.ajax({
+    async: true,
+    type: 'DELETE',
+    url: options.budget + '?' + $.param({
+      vendor: options.vendor
+    }),
+    dataType: 'json',
+    success: function(data, textStatus) {
+      if(options.success) {
+        options.success();
+      }
+    },
+    error: function(xhr, textStatus, errorThrown) {
+      if(options.error) {
+        options.error(normalizeError(xhr, textStatus));
+      }
+    }
+  });
+};
+
+/**
  * Deletes a budget.
  *
  * Usage:

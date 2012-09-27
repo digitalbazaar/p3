@@ -21,7 +21,7 @@ ${set([
   <div data-ng-hide="loading || purchased" class="row">
     <h4 class="span6 offset3">Do you want to buy this?</h4>
   </div>
-    
+
   <div data-ng-show="purchased" class="row">
     <div class="span6 offset3">
       <div class="alert alert-success">
@@ -31,47 +31,49 @@ ${set([
       </div>
     </div>
   </div>
-  
+
   <div data-ng-hide="loading" class="row">
-    <div class="span6 offset3">
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Item</th>
-            <th class="money">Price</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><a href="{{contract.asset.assetContent}}">{{contract.asset.title}}</a></td>
-            <td class="money"><span class="money"
-              data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact amount of this transaction is USD {{contract.amount}}."
-              data-placement="bottom" data-trigger="hover"><span
-              class="currency">USD</span> {{contract.amount | ceil | currency:'$'}}</span></td>
-            <td><button class="btn" data-ng-click="showDetails=!showDetails"><i class="icon-info-sign" title="Details"></i> Details</button></td>
-          </tr>
-        </tbody>
-        <tbody data-ng-show="showDetails">
-          <tr>
-            <th>Cost breakdown</th>
-            <th></th>
-            <th></th>
-          </tr>
-          <tr data-ng-repeat="transfer in contract.transfer">
-            <td>{{transfer.comment}}</td>
-            <td class="money"><span class="money right"
-              data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact amount of this transfer is USD {{transfer.amount}}."
-              data-placement="bottom" data-trigger="hover"><span
-              class="currency">USD</span> {{transfer.amount | ceil | currency:'$'}}</span></td>
-            <td><a href="{{transfer.destination}}">Destination</a></td>
-          </tr>
-        </tbody>
-      </table>
-      
-      <div>
-        <p>Sold by: <a href="{{contract.assetProvider.homepage}}">{{contract.assetProvider.label}}</a> - 
-        <span>{{contract.assetProvider.description}}</span></p>
+    <div class="row">
+      <div class="span6 offset3">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th class="money">Price</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><a href="{{contract.asset.assetContent}}">{{contract.asset.title}}</a></td>
+              <td class="money"><span class="money"
+                data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact amount of this transaction is USD {{contract.amount}}."
+                data-placement="bottom" data-trigger="hover"><span
+                class="currency">USD</span> {{contract.amount | ceil | currency:'$'}}</span></td>
+              <td><button class="btn" data-ng-click="showDetails=!showDetails"><i class="icon-info-sign" title="Details"></i> Details</button></td>
+            </tr>
+          </tbody>
+          <tbody data-ng-show="showDetails">
+            <tr>
+              <th>Cost breakdown</th>
+              <th></th>
+              <th></th>
+            </tr>
+            <tr data-ng-repeat="transfer in contract.transfer">
+              <td>{{transfer.comment}}</td>
+              <td class="money"><span class="money right"
+                data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact amount of this transfer is USD {{transfer.amount}}."
+                data-placement="bottom" data-trigger="hover"><span
+                class="currency">USD</span> {{transfer.amount | ceil | currency:'$'}}</span></td>
+              <td><a href="{{transfer.destination}}">Destination</a></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div>
+          <p>Sold by: <a href="{{contract.assetProvider.homepage}}">{{contract.assetProvider.label}}</a> -
+          <span>{{contract.assetProvider.description}}</span></p>
+        </div>
       </div>
     </div>
 
@@ -110,7 +112,7 @@ ${set([
         </form>
       </div>
     </div>
-    
+
     <div data-ng-hide="purchased" class="row">
       <div class="span6 offset3">
         <h6>Source of Funds</h6>
@@ -127,7 +129,7 @@ ${set([
         </div>
       </div>
     </div>
-    
+
     <div data-ng-hide="purchased" class="row">
       <div class="span6 offset3">
         <hr />
@@ -137,7 +139,7 @@ ${set([
         </div>
       </div>
     </div>
-    
+
     <div data-ng-show="purchased" class="row">
       <div data-ng-show="callback" class="span6 offset3">
         <div class="alert alert-success">
@@ -161,9 +163,9 @@ ${set([
         </div>
       </div>
     </div>
-    
+
   </div>
-  
+
 </div>
 
 <!-- div ends non-error case -->

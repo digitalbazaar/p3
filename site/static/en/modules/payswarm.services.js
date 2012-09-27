@@ -530,6 +530,7 @@ angular.module('payswarm.services')
   var expires = 0;
   var maxAge = 1000*60*2;
   service.budgets = [];
+  service.vendors = {};
   service.state = {
     loading: false
   };
@@ -678,6 +679,50 @@ angular.module('payswarm.services')
         $rootScope.$apply();
       }
     });
+  };
+
+  // gets the public vendor information for a budget
+  service.getVendors = function(budgetId, options, callback) {
+    if(typeof options === 'function') {
+      callback = options;
+      options = {};
+    }
+    options = options || {};
+    callback = callback || angular.noop;
+
+    var expires = 0;
+    if(budgetId in service.vendors) {
+      expires = service.vendors[budgetId].expires;
+    }
+    if(options.force || +new Date() >= expires) {
+      service.state.loading = true;
+      if(!(budgetId in service.vendors)) {
+        service.vendors[budgetId] = {vendors: [], expires: 0};
+      }
+      $timeout(function() {
+        payswarm.budgets.getVendors({
+          budget: budgetId,
+          success: function(vendors) {
+            var entry = service.vendors[budgetId];
+            _replaceArray(entry.vendors, vendors);
+            entry.expires = +new Date() + maxAge;
+            service.state.loading = false;
+            callback(null, entry.vendors);
+            $rootScope.$apply();
+          },
+          error: function(err) {
+            service.state.loading = false;
+            callback(err);
+            $rootScope.$apply();
+          }
+        });
+      }, options.delay || 0);
+    }
+    else {
+      $timeout(function() {
+        callback(null, service.vendors[budgetId].vendors);
+      });
+    }
   };
 
   // deletes a budget

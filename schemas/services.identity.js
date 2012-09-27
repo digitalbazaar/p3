@@ -3,6 +3,7 @@ var slug = require('./slug');
 var publicKeyPem = require('./publicKeyPem');
 var jsonldContext = require('./jsonldContext');
 var graphSignature = require('./graphSignature');
+var visibility = require('./propertyVisibility');
 
 var postIdentity = {
   title: 'Post Identity',
@@ -33,6 +34,10 @@ var postIdentities = {
     description: {
       required: false,
       type: 'string'
+    },
+    psaPublic: {
+      required: false,
+      type: visibility()
     }
   },
   additionalProperties: false

@@ -19,6 +19,7 @@ function BudgetCtrl($scope, $routeParams, svcAccount, svcBudget) {
   $scope.state = svcBudget.state;
   $scope.budget = null;
   $scope.account = null;
+  $scope.vendors = svcBudget.vendors;
 
   $scope.deleteVendor = function(vendor) {
     svcBudget.delVendor(data.budgetId, vendor);
@@ -27,6 +28,11 @@ function BudgetCtrl($scope, $routeParams, svcAccount, svcBudget) {
   svcBudget.getOne(data.budgetId, function(err, budget) {
     if(!err) {
       $scope.budget = budget;
+
+      // fetch vendors for budget
+      svcBudget.getVendors(budget.id);
+
+      // get budget account
       svcAccount.getOne(budget.source, function(err, account) {
         if(!err) {
           $scope.account = account;

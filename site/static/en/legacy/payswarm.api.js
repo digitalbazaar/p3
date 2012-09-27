@@ -473,6 +473,36 @@ payswarm.budgets.delVendor = function(options) {
 };
 
 /**
+ * Gets the vendors for a budget.
+ *
+ * Usage:
+ *
+ * payswarm.budgets.getVendors({
+ *   budget: 'BUDGET_ID',
+ *   success: function(vendors) {},
+ *   error: function(err) {}
+ * });
+ */
+payswarm.budgets.getVendors = function(options) {
+  $.ajax({
+    async: true,
+    type: 'GET',
+    url: options.budget + '?view=vendors',
+    dataType: 'json',
+    success: function(response, statusText) {
+      if(options.success) {
+        options.success(response);
+      }
+    },
+    error: function(xhr, textStatus, errorThrown) {
+      if(options.error) {
+        options.error(normalizeError(xhr, textStatus));
+      }
+    }
+  });
+};
+
+/**
  * Deletes a budget.
  *
  * Usage:

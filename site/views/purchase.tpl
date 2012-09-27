@@ -119,12 +119,14 @@ ${set([
         <div data-ng-show="sourceType == 'account'">
           <div data-account-selector
             data-selected="selection.account"
+            data-invalid="selection.invalidAccount"
             data-show-deposit-button="true"
             data-min-balance="{{contract.amount}}"></div>
         </div>
         <div data-ng-show="sourceType == 'budget'">
           <div data-budget-selector
             data-selected="selection.budget"
+            data-invalid="selection.invalidBudget"
             data-min-balance="{{contract.amount}}"></div>
         </div>
       </div>
@@ -134,7 +136,8 @@ ${set([
       <div class="span6 offset3">
         <hr />
         <div class="well center">
-          <button class="btn btn-primary" data-ng-click="purchase()">Purchase</button>
+          <button class="btn btn-primary" data-ng-click="purchase()"
+            data-ng-disabled="purchaseDisabled">Purchase</button>
           <!-- button class="btn">Cancel</button -->
         </div>
       </div>

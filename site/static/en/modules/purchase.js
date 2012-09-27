@@ -33,6 +33,14 @@ module.controller('PurchaseCtrl', function(
   // default to one-time purchase
   $scope.sourceType = 'account';
   $scope.error = null;
+  $scope.purchaseDisabled = false;
+
+  $scope.$watch('selection.invalidAccount', function(value) {
+    $scope.purchaseDisabled = !!value;
+  });
+  $scope.$watch('selection.invalidBudget', function(value) {
+    $scope.purchaseDisabled = !!value;
+  });
 
   // purchase clicked
   $scope.purchase = function() {

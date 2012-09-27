@@ -132,7 +132,8 @@
 
     <h6 data-ng-show="billingAddressRequired">Select Billing Address</h6>
     <div data-ng-show="billingAddressRequired">
-      <div data-address-selector data-selected="selection.address"></div>
+      <div data-address-selector data-selected="selection.address"
+        data-invalid="selection.invalidAddress"></div>
     </div>
   </div>
   <div class="modal-footer">

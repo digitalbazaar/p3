@@ -66,7 +66,8 @@ ${set(
 <tr>
   <td>Source</td>
   <td>
-    <div data-account-selector data-selected="account" data-fixed="true"></div>
+    <div data-account-selector data-selected="account"
+      data-invalid="invalidAccount" data-fixed="true"></div>
   </td>
 </tr>
 <tr>

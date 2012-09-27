@@ -51,13 +51,15 @@ ${set([
             <div id="identity-selector" data-identity-selector
               data-identity-types="identityTypes"
               data-identities="identities"
-              data-selected="selection.identity"></div>
+              data-selected="selection.identity"
+              data-invalid="selection.invalidIdentity"></div>
           </div>
           
           <label class="control-label" for="account-selector">Financial Account</label>
           <div class="controls">
             <div id="account-selector" data-account-selector
               data-selected="selection.account"
+              data-invalid="selection.invalidAccount"
               data-identity="selection.identity"></div>
           </div>
     

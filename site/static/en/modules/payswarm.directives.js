@@ -484,6 +484,7 @@ angular.module('payswarm.directives')
       items: '=',
       itemType: '@',
       selected: '=',
+      invalid: '=',
       addItem: '&'
     },
     controller: Ctrl,
@@ -516,7 +517,10 @@ angular.module('payswarm.directives')
   }
 
   return {
-    scope: {selected: '='},
+    scope: {
+      selected: '=',
+      invalid: '='
+    },
     controller: Ctrl,
     templateUrl: '/partials/address-selector.html'
   };
@@ -545,20 +549,24 @@ angular.module('payswarm.directives')
       scope.fixed = value;
     });
 
-    scope.$watch('selected', function(value) {
+    scope.$watch('selected.balance', function(value) {
+      scope.invalid = false;
       scope.balanceTooLow = false;
       if(value && scope.minBalance !== undefined) {
-        if(parseFloat(value.balance) < parseFloat(scope.minBalance)) {
+        if(parseFloat(value) < parseFloat(scope.minBalance)) {
           scope.balanceTooLow = true;
+          scope.invalid = true;
         }
       }
     });
 
     scope.$watch('minBalance', function(value) {
+      scope.invalid = false;
       scope.balanceTooLow = false;
       if(scope.selected && value !== undefined) {
         if(parseFloat(scope.selected.balance) < parseFloat(value)) {
           scope.balanceTooLow = true;
+          scope.invalid = true;
         }
       }
     });
@@ -575,6 +583,7 @@ angular.module('payswarm.directives')
   return {
     scope: {
       selected: '=',
+      invalid: '=',
       fixed: '@',
       minBalance: '@',
       showDepositButton: '@',
@@ -613,22 +622,37 @@ angular.module('payswarm.directives')
           break;
         }
       }
+    });
 
-      // validation
+    scope.$watch('selected.account', function(value) {
+      scope.invalid = false;
       scope.balanceTooLow = false;
-      scope.maxPerUseTooLow = false;
       if(value && scope.minBalance !== undefined) {
-        var minBalance = parseFloat(scope.minBalance);
-        if(parseFloat(value.balance) < minBalance) {
+        if(parseFloat(value.balance) < parseFloat(scope.minBalance)) {
+          scope.invalid = true;
           scope.balanceTooLow = true;
         }
-        // check max per use
-        else if(value.psaMaxPerUse < minBalance) {
+      }
+    });
+
+    scope.$watch('selected.psaMaxPerUse', function(value) {
+      scope.invalid = false;
+      scope.maxPerUseTooLow = false;
+      if(value && scope.minBalance !== undefined) {
+        if(parseFloat(value) < parseFloat(scope.minBalance)) {
+          scope.invalid = true;
           scope.maxPerUseTooLow = true;
         }
-        // check associated account balance is too low
-        else if(scope.account &&
-          parseFloat(scope.account.balance) < minBalance) {
+      }
+    });
+
+    scope.$watch('selected.balance', function(value) {
+      // validation
+      scope.invalid = false;
+      scope.balanceTooLow = false;
+      if(value && scope.minBalance !== undefined) {
+        if(parseFloat(value) < parseFloat(scope.minBalance)) {
+          scope.invalid = true;
           scope.balanceTooLow = true;
         }
       }
@@ -636,20 +660,24 @@ angular.module('payswarm.directives')
 
     scope.$watch('minBalance', function(value) {
       // validation
+      scope.invalid = false;
       scope.balanceTooLow = false;
       scope.maxPerUseTooLow = false;
       if(scope.selected && value !== undefined) {
         var minBalance = parseFloat(value);
         if(parseFloat(scope.selected.balance) < minBalance) {
+          scope.invalid = true;
           scope.balanceTooLow = true;
         }
         // check max per use
         else if(scope.selected.psaMaxPerUse < minBalance) {
+          scope.invalid = true;
           scope.maxPerUseTooLow = true;
         }
         // check associated account balance is too low
         else if(scope.account &&
           parseFloat(scope.account.balance) < minBalance) {
+          scope.invalid = true;
           scope.balanceTooLow = true;
         }
       }
@@ -659,6 +687,7 @@ angular.module('payswarm.directives')
   return {
     scope: {
       selected: '=',
+      invalid: '=',
       minBalance: '@'
     },
     controller: Ctrl,
@@ -671,7 +700,8 @@ angular.module('payswarm.directives')
     scope: {
       identityTypes: '=',
       identities: '=',
-      selected: '='
+      selected: '=',
+      invalid: '='
     },
     templateUrl: '/partials/identity-selector.html'
   };
@@ -706,6 +736,7 @@ angular.module('payswarm.directives')
   return {
     scope: {
       selected: '=',
+      invalid: '=',
       fixed: '@',
       instant: '='
     },

@@ -554,6 +554,15 @@ angular.module('payswarm.directives')
       }
     });
 
+    scope.$watch('minBalance', function(value) {
+      scope.balanceTooLow = false;
+      if(scope.selected && value !== undefined) {
+        if(parseFloat(scope.selected.balance) < parseFloat(value)) {
+          scope.balanceTooLow = true;
+        }
+      }
+    });
+
     attrs.$observe('identity', function(value) {
       value = scope.$eval(value);
       if(value) {
@@ -624,6 +633,27 @@ angular.module('payswarm.directives')
         }
       }
     });
+
+    scope.$watch('minBalance', function(value) {
+      // validation
+      scope.balanceTooLow = false;
+      scope.maxPerUseTooLow = false;
+      if(scope.selected && value !== undefined) {
+        var minBalance = parseFloat(value);
+        if(parseFloat(scope.selected.balance) < minBalance) {
+          scope.balanceTooLow = true;
+        }
+        // check max per use
+        else if(scope.selected.psaMaxPerUse < minBalance) {
+          scope.maxPerUseTooLow = true;
+        }
+        // check associated account balance is too low
+        else if(scope.account &&
+          parseFloat(scope.account.balance) < minBalance) {
+          scope.balanceTooLow = true;
+        }
+      }
+    });
   }
 
   return {
@@ -632,9 +662,8 @@ angular.module('payswarm.directives')
       minBalance: '@'
     },
     controller: Ctrl,
-    templateUrl: '/partials/budget-selector.html'
-    // FIXME
-    //link: Link
+    templateUrl: '/partials/budget-selector.html',
+    link: Link
   };
 })
 .directive('identitySelector', function() {

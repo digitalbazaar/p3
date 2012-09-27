@@ -32,7 +32,7 @@ ${set([
     </div>
   </div>
 
-  <div data-ng-hide="loading" class="row">
+  <div data-ng-hide="loading">
     <div class="row">
       <div class="span6 offset3">
         <table class="table">

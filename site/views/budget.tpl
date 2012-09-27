@@ -76,14 +76,19 @@ ${set(
       <thead>
         <tr>
           <th class="name">Vendor</th>
+          <th class="name">Website</th>
           <th class="action">Delete</th>
         </tr>
       </thead>
       <tbody>
-        <tr data-ng-repeat="vendor in budget.vendor | orderBy:'label'" class="vendor" data-fadeout="budget.deleted">
+        <tr data-ng-repeat="vendor in vendors[budget.id].vendors | orderBy:'label'" class="vendor" data-fadeout="budget.deleted">
           <!-- Label -->
           <td class="name">
-            <a href="{{vendor}}">{{vendor}}</a>
+            <a href="{{vendor.id}}">{{vendor.label || vendor.id}}</a>
+          </td>
+          <td class="name">
+            <a data-ng-show="vendor.homepage" href="{{vendor.homepage}}">{{vendor.homepage}}</a>
+            <span data-ng-hide="vendor.homepage">&nbsp;</span>
           </td>
           <!-- Delete -->
           <td class="action">

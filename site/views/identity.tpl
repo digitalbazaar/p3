@@ -5,10 +5,37 @@ ${set([
 
 <div class="row">
   <div class="span4 offset4">
-    <h1 class="headline">About ${identity.label}</h1>
+    <h1 class="headline">About ${identity.label || identity.id}</h1>
   </div>
 </div>
+{{if identity.homepage || identity.description}}
 <hr />
+{{/if}}
+{{if identity.homepage}}
+<div class="row">
+  <div class="span4 offset4">
+    <h2>Website</h2>
+    <a href="${identity.homepage}">${identity.homepage}</a>
+  </div>
+</div>
+{{/if}}
+{{if identity.homepage && identity.description}}
+<div class="row">
+  <div class="span12">&nbsp;</div>
+</div>
+{{/if}}
+{{if identity.description}}
+<div class="row">
+  <div class="span4 offset4">
+    <h2>Description</h2>
+    <p></p>
+    <p>${identity.description}</p>
+  </div>
+</div>
+{{/if}}
+
+<hr />
+
 <div class="row">
   <div class="span4 offset4">
     <h2>Financial Accounts</h2>

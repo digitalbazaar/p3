@@ -92,7 +92,7 @@ ${set(
           </td>
           <!-- Delete -->
           <td class="action">
-            <button class="btn btn-danger" title="Delete" data-ng-click="deleteVendor(vendor)"><i class="icon-remove icon-white"></i></button>
+            <button class="btn btn-danger" title="Delete" data-ng-click="deleteVendor(vendor.id)"><i class="icon-remove icon-white"></i></button>
           </td>
         </tr>
       </tbody>

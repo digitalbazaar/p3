@@ -91,11 +91,11 @@ ${set(
           </td>
         </tr>
       </tbody>
-      <tfoot data-ng-show="state.budgets.loading">
+      <tfoot data-ng-show="state.loading">
         <tr>
           <td colspan="5" style="text-align: center">
             <span class="center">
-              <span data-spinner="state.budgets.loading" data-spinner-class="table-spinner"></span>
+              <span data-spinner="state.loading" data-spinner-class="table-spinner"></span>
             </span>
           </td>
         </tr>

@@ -545,16 +545,10 @@ angular.module('payswarm.directives')
       scope.fixed = value;
     });
 
-    attrs.$observe('minBalance', function(value) {
-      if(value !== undefined) {
-        scope.minBalance = parseFloat(value);
-      }
-    });
-
     scope.$watch('selected', function(value) {
       scope.balanceTooLow = false;
       if(value && scope.minBalance !== undefined) {
-        if(value.balance < scope.minBalance) {
+        if(parseFloat(value.balance) < parseFloat(scope.minBalance)) {
           scope.balanceTooLow = true;
         }
       }
@@ -611,25 +605,21 @@ angular.module('payswarm.directives')
         }
       }
 
-      attrs.$observe('minBalance', function(value) {
-        if(value !== undefined) {
-          scope.minBalance = parseFloat(value);
-        }
-      });
-
       // validation
       scope.balanceTooLow = false;
       scope.maxPerUseTooLow = false;
       if(value && scope.minBalance !== undefined) {
-        if(value.balance < scope.minBalance) {
+        var minBalance = parseFloat(scope.minBalance);
+        if(parseFloat(value.balance) < minBalance) {
           scope.balanceTooLow = true;
         }
         // check max per use
-        else if(value.psaMaxPerUse < scope.minBalance) {
+        else if(value.psaMaxPerUse < minBalance) {
           scope.maxPerUseTooLow = true;
         }
         // check associated account balance is too low
-        else if(scope.account && scope.account.balance < scope.minBalance) {
+        else if(scope.account &&
+          parseFloat(scope.account.balance) < minBalance) {
           scope.balanceTooLow = true;
         }
       }

@@ -118,12 +118,12 @@ ${set([
           <div data-account-selector
             data-selected="selection.account"
             data-show-deposit-button="true"
-            data-min-balance="contract.amount"></div>
+            data-min-balance="{{contract.amount}}"></div>
         </div>
         <div data-ng-show="sourceType == 'budget'">
           <div data-budget-selector
             data-selected="selection.budget"
-            data-min-balance="contract.amount"></div>
+            data-min-balance="{{contract.amount}}"></div>
         </div>
       </div>
     </div>

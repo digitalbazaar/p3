@@ -545,11 +545,15 @@ angular.module('payswarm.directives')
       scope.fixed = value;
     });
 
+    attrs.$observe('minBalance', function(value) {
+      if(value !== undefined) {
+        scope.minBalance = parseFloat(value);
+      }
+    });
+
     scope.$watch('selected', function(value) {
       scope.balanceTooLow = false;
-      scope.minBalance = scope.$eval(attrs.minBalance);
-      if(value && attrs.minBalance !== undefined) {
-        scope.minBalance = parseFloat(scope.minBalance);
+      if(value && scope.minBalance !== undefined) {
         if(value.balance < scope.minBalance) {
           scope.balanceTooLow = true;
         }
@@ -607,12 +611,16 @@ angular.module('payswarm.directives')
         }
       }
 
+      attrs.$observe('minBalance', function(value) {
+        if(value !== undefined) {
+          scope.minBalance = parseFloat(value);
+        }
+      });
+
       // validation
       scope.balanceTooLow = false;
       scope.maxPerUseTooLow = false;
-      scope.minBalance = scope.$eval(attrs.minBalance);
-      if(value && attrs.minBalance !== undefined) {
-        scope.minBalance = parseFloat(scope.minBalance);
+      if(value && scope.minBalance !== undefined) {
         if(value.balance < scope.minBalance) {
           scope.balanceTooLow = true;
         }

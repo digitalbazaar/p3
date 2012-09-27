@@ -7,7 +7,7 @@ ${set(
 {{verbatim}}
 <h2>Budget Details</h2>
 
-<div data-ng-controller="BudgetCtrl">
+<div data-ng-controller="BudgetCtrl" class="ng-cloak">
 
 <table>
 <tr>
@@ -66,7 +66,7 @@ ${set(
 <tr>
   <td>Source</td>
   <td>
-    <div data-account-selector data-selected="budget.source" data-fixed="true"></div>
+    <div data-account-selector data-selected="account" data-fixed="true"></div>
   </td>
 </tr>
 <tr>

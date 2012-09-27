@@ -541,6 +541,10 @@ angular.module('payswarm.directives')
   }
 
   function Link(scope, element, attrs) {
+    attrs.$observe('fixed', function(value) {
+      scope.fixed = value;
+    });
+
     scope.$watch('selected', function(value) {
       scope.balanceTooLow = false;
       scope.minBalance = scope.$eval(attrs.minBalance);
@@ -564,6 +568,7 @@ angular.module('payswarm.directives')
   return {
     scope: {
       selected: '=',
+      fixed: '@',
       minBalance: '@',
       showDepositButton: '@',
       identityId: '@',

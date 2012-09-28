@@ -1355,15 +1355,15 @@ angular.module('payswarm.directives')
 })
 .directive('modalDeposit', function(svcModal) {
   function Ctrl($scope, svcPaymentToken, svcAccount) {
-    $scope.selection = {
-      // payment token source
-      source: null,
-      amount: ''
-    };
-
     $scope.open = function() {
       $scope.data = window.data || {};
       $scope.feedback = {};
+
+      $scope.input = {
+        // payment token source
+        source: null,
+        amount: ''
+      };
 
       // state in ('preparing', 'reviewing', 'complete')
       $scope.state = 'preparing';
@@ -1380,11 +1380,11 @@ angular.module('payswarm.directives')
         type: ['com:Transaction', 'com:Deposit'],
         payee: [{
           type: 'com:Payee',
-          payeeRate: $scope.selection.amount,
+          payeeRate: $scope.input.amount,
           payeeRateType: 'com:FlatAmount',
           destination: $scope.account.id
         }],
-        source: $scope.selection.source.id
+        source: $scope.input.source.id
       };
       payswarm.deposit.sign({
         deposit: deposit,

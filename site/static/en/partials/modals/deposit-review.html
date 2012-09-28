@@ -3,7 +3,7 @@
 </div>
 
 <h6>Payment Method</h6>
-<div data-payment-token-selector data-selected="selection.source"
+<div data-payment-token-selector data-selected="input.source"
   data-invalid="selection.invalidSource"
   data-instant="instant" data-fixed="true"></div>
 <h6>Details</h6>
@@ -31,7 +31,7 @@
   <tfoot>
     <tr><td><span class="label label-important">IMPORTANT</span></td>
       <td colspan="2">Your
-        <span data-ng-switch="selection.source.paymentMethod">
+        <span data-ng-switch="input.source.paymentMethod">
           <span data-ng-switch-when="ccard:CreditCard">credit card</span>
           <span data-ng-switch-when="bank:BankAccount">bank account</span>
           <span data-ng-switch-default>external account</span>

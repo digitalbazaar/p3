@@ -843,6 +843,9 @@ angular.module('payswarm.services')
   // place immediately.
   service.instant = [];
 
+  service.paymentMethods = ['ccard:CreditCard', 'bank:BankAccount'];
+  service.instantPaymentMethods = ['ccard:CreditCard'];
+
   function _updateTokens(paymentTokens) {
     if(paymentTokens) {
       // update tokens
@@ -857,13 +860,15 @@ angular.module('payswarm.services')
     angular.forEach(service.paymentTokens, function(token) {
       if(token.paymentMethod === 'ccard:CreditCard') {
         creditCards.push(token);
-        instant.push(token);
       }
       else if(token.paymentMethod === 'bank:BankAccount') {
         bankAccounts.push(token);
       }
+      if(service.instantPaymentMethods.indexOf(token.paymentMethod) !== -1) {
+        instant.push(token);
+      }
       if(token.psaVerified) {
-        verified.push(token)
+        verified.push(token);
       }
     });
     _replaceArray(service.creditCards, creditCards);

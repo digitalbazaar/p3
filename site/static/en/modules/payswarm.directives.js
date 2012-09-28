@@ -726,9 +726,11 @@ angular.module('payswarm.directives')
     scope.$watch('instant', function(value) {
       if(value) {
         scope.paymentTokens = svcPaymentToken.instant;
+        scope.paymentMethods = svcPaymentToken.instantPaymentMethods;
       }
       else {
         scope.paymentTokens = svcPaymentToken.paymentTokens;
+        scope.paymentMethods = svcPaymentToken.paymentMethods;
       }
     });
   }

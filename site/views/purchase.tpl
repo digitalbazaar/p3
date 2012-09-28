@@ -121,6 +121,7 @@ ${set([
             data-selected="selection.account"
             data-invalid="selection.invalidAccount"
             data-show-deposit-button="true"
+            data-instant="true"
             data-min-balance="{{contract.amount}}"></div>
         </div>
         <div data-ng-show="sourceType == 'budget'">

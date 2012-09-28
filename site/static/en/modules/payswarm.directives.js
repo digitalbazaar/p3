@@ -712,9 +712,9 @@ angular.module('payswarm.directives')
       token: svcPaymentToken.state
     };
     $scope.paymentTokens = svcPaymentToken.verified;
-    svcPaymentToken.get(function(err, tokens) {
+    svcPaymentToken.get(function(err) {
       if(!err && !$scope.selected) {
-        $scope.selected = tokens[0] || null;
+        $scope.selected = $scope.paymentTokens[0] || null;
       }
     });
   }

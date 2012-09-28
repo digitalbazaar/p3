@@ -457,7 +457,7 @@ angular.module('payswarm.directives')
   };
 })
 .directive('selector', function() {
-  function Ctrl($scope, $attrs) {
+  function Ctrl($scope) {
     $scope.$watch('selected', function(value) {
       if(value === undefined) {
         $scope.selected = $scope.items[0] || null;
@@ -485,7 +485,8 @@ angular.module('payswarm.directives')
       itemType: '@',
       selected: '=',
       invalid: '=',
-      addItem: '&'
+      addItem: '&',
+      custom: '='
     },
     controller: Ctrl,
     templateUrl: '/partials/selector.html',

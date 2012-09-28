@@ -9,14 +9,13 @@
   <div class="control-group">
     <div data-modal-selector="showSelectorModal"
       data-items="items" data-item-type="itemType">
-      <div>
-        <ul class="unstyled item">
-        <li class="item-hover well" data-ng-repeat="selected in items | orderBy:'label'"
+      <ul class="unstyled item">
+        <li class="item-hover well" data-ng-repeat="selected in ((!custom && items) || []) | orderBy:'label'"
           data-ng-click="select(selected)">
-          <div data-ng-transclude></div>
+          <div data-ng-show="!custom" data-ng-transclude></div>
         </li>
-        </ul>
-      </div>
+      </ul>
+      <div data-ng-show="custom" data-ng-transclude></div>
     </div>
     <div data-ng-hide="fixed">
       <button class="btn btn-success"

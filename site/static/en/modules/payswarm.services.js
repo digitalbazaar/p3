@@ -1175,11 +1175,8 @@ angular.module('payswarm.services')
     });
 
     // do custom open() and then show modal
-    function show(doApply) {
+    function show() {
       scope.open();
-      if(doApply) {
-        scope.$apply();
-      }
       element.one('shown', function() {
         element.removeClass('fade');
       });
@@ -1193,12 +1190,12 @@ angular.module('payswarm.services')
       // hide parent first, then show child
       parent.hasChild = true;
       parent.element.one('hidden', function() {
-        show(true);
+        show();
       });
       parent.element.modal('hide');
     }
     else {
-      show(false);
+      show();
     }
   }
 

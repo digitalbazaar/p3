@@ -475,6 +475,19 @@ angular.module('payswarm.directives')
     attrs.$observe('fixed', function(value) {
       scope.fixed = value;
     });
+    attrs.$observe('selectFunction', function(value) {
+      if(value !== undefined) {
+        // called to init select function
+        scope.selectFunction = function(selected) {
+          scope.select(selected);
+        };
+      }
+    });
+    scope.$watch('showSelectorModal', function(value) {
+      if(attrs.selecting) {
+        scope.selecting = value;
+      }
+    });
   }
 
   return {
@@ -486,7 +499,9 @@ angular.module('payswarm.directives')
       selected: '=',
       invalid: '=',
       addItem: '&',
-      custom: '='
+      custom: '=customDisplay',
+      selectFunction: '=',
+      selecting: '='
     },
     controller: Ctrl,
     templateUrl: '/partials/selector.html',
@@ -1362,9 +1377,10 @@ angular.module('payswarm.directives')
       $scope.data = window.data || {};
       $scope.feedback = {};
 
+      var source = ($scope.input) ? $scope.input.source : null;
       $scope.input = {
         // payment token source
-        source: null,
+        source: source,
         amount: ''
       };
 

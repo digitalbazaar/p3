@@ -1057,7 +1057,7 @@ angular.module('payswarm.services')
    */
   function link(scope, element, attrs) {
     // initialize modal
-    element.addClass('hide fade');
+    element.addClass('hide');
     element.modal(modalOptions);
 
     // make modal full-screen scrollable
@@ -1180,6 +1180,12 @@ angular.module('payswarm.services')
       if(doApply) {
         scope.$apply();
       }
+      element.one('shown', function() {
+        element.removeClass('fade');
+      });
+      if(!parent) {
+        element.addClass('fade');
+      }
       element.modal('show');
     };
 
@@ -1225,9 +1231,13 @@ angular.module('payswarm.services')
     if(modal.parent) {
       // once child is hidden, show parent
       modal.element.one('hidden', function() {
+        modal.element.removeClass('fade');
         modal.parent.hasChild = false;
         modal.parent.element.modal('show');
       });
+    }
+    else {
+      modal.element.addClass('fade');
     }
     // hide modal
     modal.element.modal('hide');

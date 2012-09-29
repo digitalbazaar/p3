@@ -2,75 +2,25 @@
   <div data-selector data-item-type="Payment Method"
     data-items="paymentTokens" data-selected="selected" data-invalid="invalid"
     data-add-item="showAddPaymentTokenModal=true" data-fixed="{{fixed}}"
-    data-custom-display="true" data-select-function="select"
-    data-selecting="selecting">
+    data-custom-display="true" data-columns="2" data-selecting="selecting">
     <ul data-ng-show="services.token.loading" class="unstyled item">
       <li class="item-hover well">
         <div data-spinner="services.token.loading"
           data-spinner-class="selector-spinner"></div>
       </li>
     </ul>
-    <div data-ng-hide="services.token.loading || selecting"
-      class="paymentToken" data-ng-switch="selected.paymentMethod">
-      <table data-ng-switch-when="ccard:CreditCard" class="table-cc">
-        <tbody>
-          <tr>
-            <td colspan="2"><strong>{{selected.label}}</strong></td>
-          </tr>
-          <tr>
-            <td colspan="2" class="text-align-right">{{selected.cardNumber}}</td>
-          </tr>
-          <tr>
-            <td class="text-align-right">{{selected.cardExpMonth}} / {{selected.cardExpYear}}</td>
-            <td class="text-align-right"><i class="{{selected.cardBrand|cardBrand:true}}"></i></td>
-          </tr>
-        </tbody>
-      </table>
-      <table data-ng-switch-when="bank:BankAccount" class="table-bank">
-        <tbody>
-          <tr>
-            <td colspan="2"><i class="bank-logo"></i> <strong>{{selected.label}}</strong></td>
-          </tr>
-          <tr>
-            <td class="text-align-center">{{selected.bankRoutingNumber}}</td>
-            <td class="text-align-center">{{selected.bankAccount}}</td>
-          </tr>
-        </tbody>
-      </table>
+    <div data-ng-hide="services.token.loading || selecting">
+      <div data-ng-include="'/partials/payment-token-display.html'"></div>
     </div>
-    <ul data-ng-show="!services.token.loading && selecting" class="unstyled item">
-      <li class="item-hover well" data-ng-repeat="selected in items | orderBy:'label'"
-        data-ng-click="select(selected)">
-        <div data-ng-hide="services.token.loading"
-          class="paymentToken" data-ng-switch="selected.paymentMethod">
-          <table data-ng-switch-when="ccard:CreditCard" class="table-cc">
-            <tbody>
-              <tr>
-                <td colspan="2"><strong>{{selected.label}}</strong></td>
-              </tr>
-              <tr>
-                <td colspan="2" class="text-align-right">{{selected.cardNumber}}</td>
-              </tr>
-              <tr>
-                <td class="text-align-right">{{selected.cardExpMonth}} / {{selected.cardExpYear}}</td>
-                <td class="text-align-right"><i class="{{selected.cardBrand|cardBrand:true}}"></i></td>
-              </tr>
-            </tbody>
-          </table>
-          <table data-ng-switch-when="bank:BankAccount" class="table-bank">
-            <tbody>
-              <tr>
-                <td colspan="2"><i class="bank-logo"></i> <strong>{{selected.label}}</strong></td>
-              </tr>
-              <tr>
-                <td class="text-align-center">{{selected.bankRoutingNumber}}</td>
-                <td class="text-align-center">{{selected.bankAccount}}</td>
-              </tr>
-            </tbody>
-          </table>
+    <div data-ng-show="!services.token.loading && selecting" class="container-fluid">
+      <div data-ng-repeat="row in grid">
+        <div class="row-fluid">
+          <div class="span6" data-ng-repeat="selected in row">
+            <div data-ng-include="'/partials/payment-token-display.html'"></div>
+          </div>
         </div>
-      </li>
-    </ul>
+      </div>
+    </div>
   </div>
   <div data-modal-add-payment-token="showAddPaymentTokenModal"
     data-payment-methods="paymentMethods"

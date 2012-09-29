@@ -461,7 +461,9 @@ h1 > .rest-summary > .rest-path {
 }
 
 .table-cc {
+  width: 200px;
   padding: 10px;
+  margin: 10px 0 10px 0;
   border-collapse: separate;
   border: 1px solid #DFF0D8;
   background-color: #D6E9C6;
@@ -474,7 +476,9 @@ h1 > .rest-summary > .rest-path {
 }
 
 .table-bank {
+  width: 230px;
   padding: 10px;
+  margin: 10px 0 10px 0;
   border-collapse: separate;
   border: 1px solid #FBEED5;
   background-color: #FCF8E3;

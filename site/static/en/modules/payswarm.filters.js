@@ -54,6 +54,16 @@ angular.module('payswarm.filters')
     var k = Math.pow(10, digits);
     return '' + (Math.floor(num * k) / k).toFixed(digits);
   };
+})
+.filter('ellipsis', function($filter) {
+  return function(value, length) {
+    length = Math.max(3, length);
+    length -= 3;
+    if(value.length > length) {
+      value = value.substr(0, length) + '...';
+    }
+    return value;
+  };
 });
 
 })();

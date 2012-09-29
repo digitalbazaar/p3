@@ -1,0 +1,31 @@
+<div class="paymentToken" data-ng-switch="selected.paymentMethod">
+  <table data-ng-switch-when="ccard:CreditCard"
+    class="table-cc" data-ng-class="selecting && 'item-hover'"
+    data-ng-click="selecting && select(selected)">
+    <tbody>
+      <tr>
+        <td colspan="2"><strong>{{selected.label | ellipsis:16}}</strong></td>
+      </tr>
+      <tr>
+        <td colspan="2" class="text-align-right">{{selected.cardNumber}}</td>
+      </tr>
+      <tr>
+        <td class="text-align-right">{{selected.cardExpMonth}} / {{selected.cardExpYear}}</td>
+        <td class="text-align-right"><i class="{{selected.cardBrand|cardBrand:true}}"></i></td>
+      </tr>
+    </tbody>
+  </table>
+  <table data-ng-switch-when="bank:BankAccount"
+    class="table-bank item-hover" data-ng-class="selecting && 'item-hover'"
+    data-ng-click="selecting && select(selected)">
+    <tbody>
+      <tr>
+        <td colspan="2"><i class="bank-logo"></i> <strong>{{selected.label | ellipsis:20}}</strong></td>
+      </tr>
+      <tr>
+        <td class="text-align-center">{{selected.bankRoutingNumber}}</td>
+        <td class="text-align-center">{{selected.bankAccount}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

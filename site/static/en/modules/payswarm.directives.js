@@ -456,11 +456,44 @@ angular.module('payswarm.directives')
     }
   };
 })
-.directive('selector', function() {
+.directive('selector', function($filter) {
   function Ctrl($scope) {
     $scope.$watch('selected', function(value) {
       if(value === undefined) {
         $scope.selected = $scope.items[0] || null;
+      }
+    });
+
+    // builds an item grid for selectors w/grid layouts
+    function buildGrid(columns) {
+      var row = null;
+      $scope.grid = [];
+      var sorted = $filter('orderBy')($scope.items, 'label');
+      angular.forEach(sorted, function(item) {
+        if(!row) {
+          row = [];
+        }
+        row.push(item);
+        if(row.length === columns) {
+          $scope.grid.push(row);
+          row = null;
+        }
+      });
+      if(row) {
+        $scope.grid.push(row);
+      }
+    }
+
+    // keep item grid up-to-date
+    $scope.grid = [];
+    $scope.$watch('items', function(value) {
+      if($scope.columns !== undefined) {
+        buildGrid(Math.max(1, parseInt($scope.columns)));
+      }
+    }, true);
+    $scope.$watch('columns', function(value) {
+      if(value !== undefined) {
+        buildGrid(Math.max(1, parseInt(value)));
       }
     });
 
@@ -474,14 +507,6 @@ angular.module('payswarm.directives')
   function Link(scope, element, attrs) {
     attrs.$observe('fixed', function(value) {
       scope.fixed = value;
-    });
-    attrs.$observe('selectFunction', function(value) {
-      if(value !== undefined) {
-        // called to init select function
-        scope.selectFunction = function(selected) {
-          scope.select(selected);
-        };
-      }
     });
     scope.$watch('showSelectorModal', function(value) {
       if(attrs.selecting) {
@@ -500,8 +525,8 @@ angular.module('payswarm.directives')
       invalid: '=',
       addItem: '&',
       custom: '=customDisplay',
-      selectFunction: '=',
-      selecting: '='
+      selecting: '=',
+      columns: '@'
     },
     controller: Ctrl,
     templateUrl: '/partials/selector.html',

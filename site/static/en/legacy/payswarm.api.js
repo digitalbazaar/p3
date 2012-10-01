@@ -667,13 +667,15 @@ payswarm.paymentTokens.add = function(options) {
 };
 
 /**
- * Deletes a paymentToken.
+ * Deletes a paymentToken. If the token is only marked for later removal
+ * then it will be returned with the up-to-date expiration information in
+ * the success call.
  *
  * Usage:
  *
  * payswarm.paymentTokens.del({
  *   paymentToken: paymentTokenId,
- *   success: function() {},
+ *   success: function(token) {},
  *   error: function(err) {}
  * });
  */
@@ -684,7 +686,7 @@ payswarm.paymentTokens.del = function(options) {
     url: options.paymentToken,
     success: function(data, textStatus) {
       if(options.success) {
-        options.success();
+        options.success(data);
       }
     },
     error: function(xhr, textStatus, errorThrown) {

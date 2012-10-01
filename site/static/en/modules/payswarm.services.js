@@ -979,8 +979,13 @@ angular.module('payswarm.services')
     service.state.loading = true;
     payswarm.paymentTokens.del({
       paymentToken: paymentTokenId,
-      success: function() {
-        _removeFromArray(paymentTokenId, service.paymentTokens);
+      success: function(data) {
+        if(!data) {
+          _removeFromArray(paymentTokenId, service.paymentTokens);
+        }
+        else {
+          _replaceInArray(service.paymentTokens, data);
+        }
         _updateTokens();
         service.state.loading = false;
         callback();

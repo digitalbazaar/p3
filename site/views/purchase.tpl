@@ -27,7 +27,7 @@ ${set([
       <div class="alert alert-success">
         <span data-ng-hide="duplicate">Congratulations! Your purchase is complete.</span>
         <span data-ng-show="duplicate">Our records indicate that you have
-        already bought the item below. You have not been charged."</span>
+        already bought the item below. You have not been charged.</span>
       </div>
     </div>
   </div>

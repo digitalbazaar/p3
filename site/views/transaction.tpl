@@ -5,6 +5,10 @@ ${set(pageTitle = "Transaction Info")}
 
 <table>
 <tr><td>Date</td><td>${transaction.created}</td></tr>
+{{if transaction.voided}}
+<tr><td>Voided</td><td>${transaction.voided}</td></tr>
+<tr><td>Void Reason</td><td>${transaction.voidReason}</td></tr>
+{{/if}}
 <tr><td>Total Amount</td><td class="money">
     <span class="money right" title="USD $${transaction.amount}">
       $ ${transaction.amount}</span>

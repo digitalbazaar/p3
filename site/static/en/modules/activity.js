@@ -118,6 +118,11 @@ module.controller('ActivityCtrl', function($scope) {
 
 // adds a txn to the model
 function _addTxn($scope, txn) {
+  // skip txns w/insufficent funds
+  if(txn.voided && txn.voidReason === 'payswarm.financial.InsufficientFunds') {
+    return;
+  }
+
   $scope.txns.push(txn);
   $scope.table.push(txn);
   angular.forEach(txn.transfer, function(transfer) {

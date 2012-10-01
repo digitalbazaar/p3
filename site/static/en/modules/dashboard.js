@@ -71,7 +71,14 @@ function updateTxns($scope) {
     identity: $scope.identity,
     limit: 10,
     success: function(txns) {
-      $scope.txns = txns;
+      angular.forEach(txns, function(txn) {
+        // skip txns w/insufficent funds
+        if(txn.voided &&
+          txn.voidReason === 'payswarm.financial.InsufficientFunds') {
+          return;
+        }
+        $scope.txns.push(txn);
+      });
       $scope.state.txns.loading = false;
       $scope.$apply();
     },

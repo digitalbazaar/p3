@@ -30,6 +30,9 @@ module.controller('ExternalAccountsCtrl', function($scope, svcPaymentToken) {
   $scope.deletePaymentToken = function(paymentToken) {
     svcPaymentToken.del(paymentToken.id);
   };
+  $scope.restorePaymentToken = function(paymentToken) {
+    svcPaymentToken.restore(paymentToken.id);
+  };
 
   svcPaymentToken.get();
 });

@@ -23,26 +23,31 @@ var postPaymentTokens = {
   additionalProperties: false
 };
 
-var postVerify = {
-  type: 'object',
-  properties: {
-    amounts: {
-      type: 'array',
-      minItems: 2,
-      items: money.precisePositive()
+var postPaymentToken = {
+  type: [{
+    // FIXME: validate no input
+  }, {
+    title: 'Restore PaymentToken',
+    type: 'object',
+    properties: {
+      amounts: {
+        type: 'array',
+        minItems: 2,
+        items: money.precisePositive()
+      },
+      errors: {
+        invalid: 'The given amounts are not valid monetary amounts.',
+        missing: 'The two verification amounts must be given.'
+      }
     },
-    errors: {
-      invalid: 'The given amounts are not valid monetary amounts.',
-      missing: 'The two verification amounts must be given.'
-    }
-  },
-  additionalProperties: false
+    additionalProperties: false
+  }]
 };
 
 module.exports.postPaymentTokens = function() {
   return postPaymentTokens;
 };
 
-module.exports.postVerify = function() {
-  return postVerify;
+module.exports.postPaymentToken = function() {
+  return postPaymentToken;
 };

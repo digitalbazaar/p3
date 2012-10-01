@@ -833,6 +833,10 @@ angular.module('payswarm.services')
   };
   // all tokens
   service.paymentTokens = [];
+  // active tokens
+  service.active = [];
+  // deleted tokens
+  service.deleted = [];
   // type specific tokens
   service.creditCards = [];
   service.bankAccounts = [];
@@ -852,12 +856,20 @@ angular.module('payswarm.services')
       _replaceArray(service.paymentTokens, paymentTokens);
     }
 
-    // filter cards, bank accounts, instant methods, and verified tokens
+    // filter types of tokens
+    var active = [];
+    var deleted = [];
     var creditCards = [];
     var bankAccounts = [];
     var instant = [];
     var verified = [];
     angular.forEach(service.paymentTokens, function(token) {
+      if(token.psaStatus === 'active') {
+        active.push(token);
+      }
+      else if(!token.psaStatus || token.psaStatus === 'deleted') {
+        deleted.push(token);
+      }
       if(token.paymentMethod === 'ccard:CreditCard') {
         creditCards.push(token);
       }
@@ -871,6 +883,8 @@ angular.module('payswarm.services')
         verified.push(token);
       }
     });
+    _replaceArray(service.active, active);
+    _replaceArray(service.deleted, deleted);
     _replaceArray(service.creditCards, creditCards);
     _replaceArray(service.bankAccounts, bankAccounts);
     _replaceArray(service.instant, instant);
@@ -967,6 +981,27 @@ angular.module('payswarm.services')
       paymentToken: paymentTokenId,
       success: function() {
         _removeFromArray(paymentTokenId, service.paymentTokens);
+        _updateTokens();
+        service.state.loading = false;
+        callback();
+        $rootScope.$apply();
+      },
+      error: function(err) {
+        service.state.loading = false;
+        callback(err);
+        $rootScope.$apply();
+      }
+    });
+  };
+
+  // restores a deleted but unexpired paymentToken
+  service.restore = function(paymentTokenId, callback) {
+    callback = callback || angular.noop;
+    service.state.loading = true;
+    payswarm.paymentTokens.restore({
+      paymentToken: paymentTokenId,
+      success: function(token) {
+        _replaceInArray(service.paymentTokens, token);
         _updateTokens();
         service.state.loading = false;
         callback();

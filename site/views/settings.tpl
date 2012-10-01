@@ -105,6 +105,7 @@ ${set([
                   <th>Routing</th>
                   <th>Status</th>
                   <th class="action">Delete</th>
+                  <th class="action">Restore</th>
                 </tr>
               </thead>
               <tbody>
@@ -133,8 +134,17 @@ ${set([
                       data-token="bankAccount"></span>
                   </td>
                   <!-- Delete -->
+                  <td data-ng-class="bankAccount.psaStatus == 'active' && 'action'">
+                    <button data-ng-show="bankAccount.psaStatus == 'active'"
+                      class="btn btn-danger" title="Delete"
+                      data-ng-click="deletePaymentToken(bankAccount)"><i class="icon-remove icon-white"></i></button>
+                    <span data-ng-show="bankAccount.psaStatus == 'deleted'">Expires {{bankAccount.psaExpires | date:'MMM d'}}</span>
+                  </td>
+                  <!-- Restore -->
                   <td class="action">
-                    <button class="btn btn-danger" title="Delete" data-ng-click="deletePaymentToken(bankAccount)"><i class="icon-remove icon-white"></i></button>
+                    <button data-ng-show="!bankAccount.psaStatus || bankAccount.psaStatus == 'deleted'"
+                      class="btn btn-danger" title="Restore"
+                      data-ng-click="restorePaymentToken(bankAccount)"><i class="icon-share icon-white"></i></button>
                   </td>
                 </tr>
               </tbody>

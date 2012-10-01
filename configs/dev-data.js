@@ -41,6 +41,7 @@ config.financial.defaults.paymentTokens.push({
     postalCode: '12345',
     countryName: 'US'
   },
+  psaStatus: 'active',
   psaVerified: true,
   psaVerifyReady: true
 });

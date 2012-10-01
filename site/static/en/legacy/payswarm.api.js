@@ -695,6 +695,35 @@ payswarm.paymentTokens.del = function(options) {
   });
 };
 
+/**
+ * Restores a deleted, but unexpired, paymentToken.
+ *
+ * Usage:
+ *
+ * payswarm.paymentTokens.undel({
+ *   paymentToken: paymentTokenId,
+ *   success: function(token) {},
+ *   error: function(err) {}
+ * });
+ */
+payswarm.paymentTokens.restore = function(options) {
+  $.ajax({
+    async: true,
+    type: 'POST',
+    url: options.paymentToken + '?action=restore',
+    success: function(data, textStatus) {
+      if(options.success) {
+        options.success(data);
+      }
+    },
+    error: function(xhr, textStatus, errorThrown) {
+      if(options.error) {
+        options.error(normalizeError(xhr, textStatus));
+      }
+    }
+  });
+};
+
 // identities API
 payswarm.identities = {};
 

@@ -492,6 +492,10 @@ h1 > .rest-summary > .rest-path {
 
 /* Modals */
 
+.modal-feedback {
+  text-align: left;
+}
+
 /*.modal-backdrop {
   background-color: white;
 }*/

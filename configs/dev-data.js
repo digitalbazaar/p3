@@ -220,6 +220,8 @@ config.financial.accounts.push({
   currency: 'USD'
 });
 
+// fees account
+config.financial.feesAccount = authorityId + '/accounts/fees';
 // payment token verification account (for withdrawing funds)
 config.financial.paymentTokenVerifyAccount = authorityId + '/accounts/main';
 

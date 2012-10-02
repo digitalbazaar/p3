@@ -1,7 +1,8 @@
-var label = require('./label');
 var creditCard = require('./creditCard');
+var deposit = require('./deposit');
 var bankAccount = require('./bankAccount');
 var jsonldContext = require('./jsonldContext');
+var label = require('./label');
 var money = require('./money');
 
 var postPaymentTokens = {
@@ -23,31 +24,46 @@ var postPaymentTokens = {
   additionalProperties: false
 };
 
-var postPaymentToken = {
+var postVerify = {
   type: [{
-    // FIXME: validate no input
-  }, {
-    title: 'Restore PaymentToken',
+    title: 'Verify PaymentToken',
     type: 'object',
     properties: {
-      amounts: {
-        type: 'array',
-        minItems: 2,
-        items: money.precisePositive()
+      '@context': jsonldContext(),
+      psaVerifyParameters: {
+        title: 'Verify parameters',
+        type: 'object',
+        properties: {
+          amount: {
+            type: 'array',
+            minItems: 2,
+            items: money.precisePositive()
+          },
+          errors: {
+            invalid: 'The given amounts are not valid monetary amounts.',
+            missing: 'The two verification amounts must be given.'
+          }
+        },
+        additionalProperties: false
       },
+      destination: {
+        type: 'string',
+        required: false
+      },
+      amount: money.precisePositive({required: false}),
       errors: {
-        invalid: 'The given amounts are not valid monetary amounts.',
-        missing: 'The two verification amounts must be given.'
+        invalid: 'The given verification parameters are invalid.',
+        missing: 'The verification parameters must be given.'
       }
     },
     additionalProperties: false
-  }]
+  }, deposit('signed')]
 };
 
 module.exports.postPaymentTokens = function() {
   return postPaymentTokens;
 };
 
-module.exports.postPaymentToken = function() {
-  return postPaymentToken;
+module.exports.postVerify = function() {
+  return postVerify;
 };

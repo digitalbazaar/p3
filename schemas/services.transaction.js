@@ -35,7 +35,7 @@ var postContract = {
   }
 };
 
-var postDeposit = deposit();
+var postDeposit = deposit('all');
 
 var postWithdrawal = {
   type: 'object',

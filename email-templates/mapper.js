@@ -12,6 +12,7 @@ module.exports.map = function(mapping) {
     'common.PaymentToken.unverified',
     'common.PaymentToken.unverified-profile',
     'common.PaymentToken.verified-profile',
+    'common.PaymentToken.verifyFailed',
     'common.Profile.created',
     'common.Profile.created-profile',
     'common.Profile.passcodeSent',

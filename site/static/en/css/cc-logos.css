@@ -1,16 +1,17 @@
 [class^="cc-logo-"],
 [class*=" cc-logo-"] {
   display: inline-block;
-  width: 259px;
-  height: 35px;
-  line-height: 35px;
+  width: 256px;
+  height: 30px;
+  line-height: 30px;
   vertical-align: text-top;
   background-image: url("../img/cc-logos.png");
   background-repeat: no-repeat;
 }
 
 .cc-logo-all {
-  background-position: -1px -3px;
+  margin: 1px;
+  background-position: -3px -5px;
 }
 
 .cc-logo-visa {
@@ -21,7 +22,7 @@
 
 .cc-logo-mastercard {
   width: 48px;
-  height: 31px;
+  height: 30px;
   background-position: -55px -75px;
 }
 
@@ -43,29 +44,67 @@
   background-position: -210px -180px;
 }
 
-.cc-logo-visa-selected {
-  height: 35px;
-  background-position: -1px -38px;
+.cc-logo-visa-left {
+  width: 0px;
+  height: 0px;
 }
 
-.cc-logo-mastercard-selected {
-  height: 35px;
-  background-position: -1px -73px;
+.cc-logo-visa-right {
+  width: 204px;
+  background-position: -55px -40px;
+  margin: 1px 0px 1px 3px;
 }
 
-.cc-logo-amex-selected {
-  height: 35px;
-  background-position: -1px -108px;
+.cc-logo-mastercard-left {
+  width: 48px;
+  background-position: -3px -75px;
+  margin: 1px 3px 1px 1px;
 }
 
-.cc-logo-discover-selected {
-  height: 35px;
-  background-position: -1px -143px;
+.cc-logo-mastercard-right {
+  width: 152px;
+  background-position: -107px -40px;
+  margin: 1px 0px 1px 3px;
 }
 
-.cc-logo-china-up-selected {
-  height: 35px;
-  background-position: -1px -178px;
+.cc-logo-amex-left {
+  width: 101px;
+  background-position: -3px -110px;
+  margin: 1px 3px 1px 1px;
+}
+
+.cc-logo-amex-right {
+  width: 98px;
+  background-position: -158px -40px;
+  margin: 1px 0px 1px 3px;
+}
+
+.cc-logo-discover-left {
+  width: 152px;
+  background-position: -3px -145px;
+  margin: 1px 3px 1px 1px;
+}
+
+.cc-logo-discover-right {
+  width: 48px;
+  background-position: -210px -40px;
+  margin: 1px 0px 1px 2px;
+}
+
+.cc-logo-china-up-left {
+  width: 204px;
+  background-position: -3px -180px;
+  margin: 1px 2px 1px 1px;
+}
+
+.cc-logo-china-up-right {
+  width: 0px;
+  height: 0px;
+}
+
+.cc-logo-selected {
+  margin: 0;
+  border: 1px solid #55ff00;
 }
 
 .bank-logo {

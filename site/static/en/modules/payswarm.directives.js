@@ -200,6 +200,11 @@ angular.module('payswarm.directives')
       number: '=creditCardSelector',
       brand: '=creditCardBrand'
     },
+    template: [
+      '<span><span name="left"></span>',
+      '<span name="center"></span>',
+      '<span name="right"></span></span>'].join(''),
+    replace: true,
     link: function(scope, element, attrs) {
       scope.$watch('number', function(value) {
         var logo = 'all';
@@ -227,10 +232,21 @@ angular.module('payswarm.directives')
           scope.brand = 'ccard:ChinaUnionPay';
         }
 
-        // remove old cc-logo classes, add new
-        element.removeClass(function(index, css) {
+        // remove old cc-logo classes
+        element.children().removeClass(function(index, css) {
           return (css.match (/\bcc-logo-\S+/g) || []).join(' ');
-        }).addClass('cc-logo-' + logo + (scope.brand ? '-selected' : ''));
+        });
+
+        // add new classes
+        if(!scope.brand) {
+          $('[name="left"]', element).addClass('cc-logo-all');
+        }
+        else {
+          logo = 'cc-logo-' + logo;
+          $('[name="left"]', element).addClass(logo + '-left');
+          $('[name="center"]', element).addClass(logo + ' cc-logo-selected');
+          $('[name="right"]', element).addClass(logo + '-right');
+        }
       });
     }
   };

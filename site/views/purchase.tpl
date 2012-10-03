@@ -170,10 +170,7 @@ ${set([
 
   </div>
 
-</div>
-
-<!-- div ends non-error case -->
-</div>
+</div> <!-- end non-error -->
 
 <div data-ng-show="error" class="alert alert-error">
   <em>Error</em>
@@ -186,12 +183,8 @@ ${set([
       <span class="span12"><strong>{{key}}</strong>: {{detail}}</span>
     </div>
   </div>
-</div>
+</div> <!-- end error -->
 
-</div>
-
-<!-- div ends in footer -->
-<div>
-
+</div> <!-- end container -->
 {{/verbatim}}
 {{partial "foot.tpl"}}

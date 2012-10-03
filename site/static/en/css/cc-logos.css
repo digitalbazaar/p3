@@ -1,66 +1,71 @@
 [class^="cc-logo-"],
 [class*=" cc-logo-"] {
   display: inline-block;
-  width: 257px;
-  height: 32px;
-  line-height: 32px;
+  width: 259px;
+  height: 35px;
+  line-height: 35px;
   vertical-align: text-top;
   background-image: url("../img/cc-logos.png");
   background-repeat: no-repeat;
 }
 
 .cc-logo-all {
-  background-image: url("../img/cc-logos.png");
-}
-
-.cc-logo-visa-selected {
-  background-position: 0px -32px;
-}
-
-.cc-logo-mastercard-selected {
-  background-position: 0px -64px;
-}
-
-.cc-logo-amex-selected {
-  background-position: 0px -96px;
-}
-
-.cc-logo-discover-selected {
-  background-position: 0px -128px;
-}
-
-.cc-logo-china-up-selected {
-  background-position: 0px -160px;
+  background-position: -1px -3px;
 }
 
 .cc-logo-visa {
   width: 48px;
   height: 30px;
-  background-position: -1px -33px;
+  background-position: -3px -40px;
 }
 
 .cc-logo-mastercard {
   width: 48px;
-  height: 30px;
-  background-position: -53px -65px;
+  height: 31px;
+  background-position: -55px -75px;
 }
 
 .cc-logo-amex {
   width: 46px;
   height: 30px;
-  background-position: -106px -97px;
+  background-position: -108px -110px;
 }
 
 .cc-logo-discover {
   width: 48px;
   height: 30px;
-  background-position: -157px -129px;
+  background-position: -159px -145px;
 }
 
 .cc-logo-china-up {
   width: 48px;
   height: 30px;
-  background-position: -208px -161px;
+  background-position: -210px -180px;
+}
+
+.cc-logo-visa-selected {
+  height: 35px;
+  background-position: -1px -38px;
+}
+
+.cc-logo-mastercard-selected {
+  height: 35px;
+  background-position: -1px -73px;
+}
+
+.cc-logo-amex-selected {
+  height: 35px;
+  background-position: -1px -108px;
+}
+
+.cc-logo-discover-selected {
+  height: 35px;
+  background-position: -1px -143px;
+}
+
+.cc-logo-china-up-selected {
+  height: 35px;
+  background-position: -1px -178px;
 }
 
 .bank-logo {

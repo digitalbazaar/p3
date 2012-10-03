@@ -230,7 +230,7 @@ angular.module('payswarm.directives')
         // remove old cc-logo classes, add new
         element.removeClass(function(index, css) {
           return (css.match (/\bcc-logo-\S+/g) || []).join(' ');
-        }).addClass('cc-logo-' + logo + '-selected');
+        }).addClass('cc-logo-' + logo + (scope.brand ? '-selected' : ''));
       });
     }
   };

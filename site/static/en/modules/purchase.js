@@ -26,13 +26,14 @@ module.controller('PurchaseCtrl', function(
   }
   $scope.loading = true;
   $scope.purchased = false;
+  $scope.duplicate = false;
   $scope.selection = {
     account: null,
     budget: null
   };
   // default to one-time purchase
   $scope.sourceType = 'account';
-  $scope.error = null;
+  $scope.alertType = null;
   $scope.purchaseDisabled = false;
 
   $scope.$watch('selection.invalidAccount', function(value) {
@@ -52,8 +53,8 @@ module.controller('PurchaseCtrl', function(
         budget: budget.id,
         vendor: $scope.contract.assetProvider.id,
         success: function() {
-          // now do purchase
-          purchase(budget.source);
+          // do budget-based purchase
+          purchase(budget.source, purchaseCallback);
         },
         error: function(err) {
           $scope.error = err;
@@ -63,7 +64,7 @@ module.controller('PurchaseCtrl', function(
     }
 
     // do account-based purchase
-    purchase($scope.selection.account.id);
+    purchase($scope.selection.account.id, purchaseCallback);
   };
 
   async.auto({
@@ -100,24 +101,13 @@ module.controller('PurchaseCtrl', function(
       $scope.selection.account = $scope.selection.account || $scope.accounts[0];
       updateQuote($scope.selection.account.id, callback);
     }],
-    autoPurchase: ['getBudgets', 'getQuote', function(callback) {
+    main: ['getBudgets', 'getQuote', function(callback) {
+      // attempt to auto-purchase using a current budget
       autoPurchase(callback);
     }]
-  }, function(err) {
-    if(err) {
-      // handle duplicate purchase
-      if(err.type === 'payswarm.website.DuplicatePurchase') {
-        // set duplicate contract
-        $scope.purchased = true;
-        $scope.contract = err.details.contract;
-        $scope.encryptedMessage = err.details.encryptedMessage;
-      }
-      // error other than auto-purchase
-      else if(err.type !== 'payswarm.website.AutoPurchase') {
-        $scope.error = err;
-      }
-    }
-    $scope.$apply();
+  }, function(err, results) {
+    // handle errors and successes
+    purchaseCallback(err, results ? results.main : null);
   });
 
   /**
@@ -190,34 +180,16 @@ module.controller('PurchaseCtrl', function(
           success: function(encryptedMessage) {
             $scope.purchased = true;
             $scope.encryptedMessage = encryptedMessage;
-            console.log('purchased', $scope);
-            $scope.$apply();
             callback();
           },
-          error: function(err) {
-            $scope.error = err;
-            $scope.$apply();
-
-            // FIXME: better error handling
-            //console.log('error', err);
-            if(err.type === 'payswarm.financial.BudgetExceeded') {
-              console.warn(
-                'Handle budget exceeded exception:', err.details.budget);
-            }
-            else {
-              callback(err);
-            }
-          }
+          error: callback
         });
       }
     ], callback);
   }
 
-  // auto-purchase w/existing budget
-  function autoPurchase(callback) {
-    // FIXME: should do another call to check for id+vendor budget instead?
-    // FIXME: add "always confirm" option to budgets and/or to identity prefs
-    // check budgets for this vendor, if it exists, auto submit purchase
+  // try to find budget for a contract
+  function budgetForContract() {
     var budgets = $scope.budgets;
     var assetProvider = $scope.contract.assetProvider.id;
     for(b in budgets) {
@@ -225,17 +197,63 @@ module.controller('PurchaseCtrl', function(
       for(v in budget.vendor) {
         var vendor = budget.vendor[v];
         if(vendor === assetProvider) {
-          // found budget for this vendor, auto-purchase
-          return purchase(budget.source, function(err) {
-            callback(err || {
-              type: 'payswarm.website.AutoPurchase',
-              message: 'Item was auto-purchased.'
-            });
-          });
+          // found budget for this vendor
+          return budget;
         }
       }
     }
+    return null;
+  }
+
+  // auto-purchase w/existing budget
+  function autoPurchase(callback) {
+    // FIXME: should do another call to check for id+vendor budget instead?
+    // FIXME: add "always confirm" option to budgets and/or to identity prefs
+    // check budgets for this vendor, if it exists, auto submit purchase
+    var budget = budgetForContract();
+    if(budget) {
+      // budget found, try auto-purchase
+      return purchase(budget.source, callback);
+    }
     callback();
+  }
+
+  // handle results of a purchase attempt
+  function purchaseCallback(err, result) {
+    if(err) {
+      switch(err.type) {
+        case 'payswarm.financial.BudgetExceeded':
+          // can't do purchase 
+          // show alert markup and show budget's account
+          $scope.alertType = 'budgetExceeded';
+          $scope.sourceType = 'account';
+          var budget = budgetForContract();
+          $scope.selection.budget = budget;
+          $scope.selection.account = null;
+          var accountId = (budget ? budget.source : null);
+          if(accountId) {
+            svcAccount.getOne(accountId, function(err, account) {
+              if(err) {
+                $scope.error = err;
+                return
+              }
+              $scope.selection.account = account;
+            })
+          }
+          break;
+        case 'payswarm.website.DuplicatePurchase':
+          // set duplicate contract
+          $scope.purchased = true;
+          $scope.duplicate = true;
+          $scope.contract = err.details.contract;
+          $scope.encryptedMessage = err.details.encryptedMessage;
+          break;
+        default:
+          // all other errors
+          $scope.error = err;
+      }
+    }
+    $scope.$apply();
   }
 });
 

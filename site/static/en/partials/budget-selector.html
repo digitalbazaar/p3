@@ -11,8 +11,8 @@
           class="currency">{{account.currency}}</span> {{selected.balance | floor | currency:'$'}}</span>
         /
         <span class="money" data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact amount of this budget is {{account.currency}} {{selected.amount}}."
-          data-placement="bottom" data-trigger="hover"><span
-          class="currency">{{account.currency}}</span> {{selected.amount | floor | currency:'$'}}</span>
+          data-placement="bottom" data-trigger="hover">
+          {{selected.amount | floor | currency:'$'}}</span>
       </span>
       <div data-ng-show="showRefreshButton">
         <button class="btn btn-success"

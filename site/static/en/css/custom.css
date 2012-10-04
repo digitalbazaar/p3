@@ -270,21 +270,21 @@ span.currency {
   resize: none;
 }
 
-/* Font effects */                                                             
-.headline {                                                                    
-  text-align: center;                                                          
-}                                                                              
-.subheadline {                                                                 
-  text-align: center;                                                          
-  font-size: 1em;                                                              
-  font-style: oblique;                                                         
+/* Font effects */
+.headline {
+  text-align: center;
 }
-.text-align-center {                                                                    
-  text-align: center;                                                          
-}                                                                              
-.text-align-right {                                                                    
-  text-align: right;                                                          
-}                                                                              
+.subheadline {
+  text-align: center;
+  font-size: 1em;
+  font-style: oblique;
+}
+.text-align-center {
+  text-align: center;
+}
+.text-align-right {
+  text-align: right;
+}
 
 /* Icon positioning */
 ul.nav a [class^="icon-"] {

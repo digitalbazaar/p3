@@ -67,7 +67,7 @@ ${set([
             <tr>
               <th>Item</th>
               <th class="money">Price</th>
-              <th></th>
+              <th class="action">Details</th>
             </tr>
           </thead>
           <tbody>
@@ -77,13 +77,13 @@ ${set([
                 data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact amount of this transaction is USD {{contract.amount}}."
                 data-placement="bottom" data-trigger="hover"><span
                 class="currency">USD</span> {{contract.amount | ceil | currency:'$'}}</span></td>
-              <td><button class="btn" data-ng-click="showDetails=!showDetails"><i class="icon-info-sign" title="Details"></i> Details</button></td>
+              <td class="action"><button class="btn" data-ng-click="showDetails=!showDetails"><i class="icon-list-alt" title="Details"></i></button></td>
             </tr>
           </tbody>
           <tbody data-ng-show="showDetails">
             <tr>
               <th>Cost breakdown</th>
-              <th></th>
+              <th class="money">Price</th>
               <th></th>
             </tr>
             <tr data-ng-repeat="transfer in contract.transfer">

@@ -11,6 +11,11 @@ ${set([
 <div data-ng-show="alertType">
   <div class="row">
     <div class="span6 offset3">
+      <div data-ng-show="alertType == 'purchased'" class="alert alert-block alert-success">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <h4>Congratulations!</h4>
+        <p>Your purchase is complete.</span>
+      </div>
       <div data-ng-show="alertType == 'budgetExceeded'" class="alert alert-block alert-error">
         <button type="button" class="close" data-dismiss="alert">×</button>
 
@@ -24,6 +29,12 @@ ${set([
           <li>Use another account with enough funds.</li>
           <li>Associate this this vendor with another budget or a new budget.</p>
         </ul>
+      </div>
+      <div data-ng-show="alertType == 'duplicatePurchase'" class="alert alert-block alert-success">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <h4>Duplicate Purchase</h4>
+        <p>Our records indicate that you have already bought the item below.
+        You have not been charged.</p>
       </div>
     </div>
   </div>
@@ -43,18 +54,6 @@ ${set([
     <div class="row">
       <div class="span6 offset3">
         <h3>Do you want to make this purchase?</h3>
-      </div>
-    </div>
-  </div>
-
-  <div data-ng-show="purchased">
-    <div class="row">
-      <div class="span6 offset3">
-        <div class="alert alert-success">
-          <span data-ng-hide="duplicate"><strong>Congratulations!</strong> Your purchase is complete.</span>
-          <span data-ng-show="duplicate">Our records indicate that you have
-          already bought the item below. You have not been charged.</span>
-        </div>
       </div>
     </div>
   </div>

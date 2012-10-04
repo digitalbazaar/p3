@@ -178,6 +178,7 @@ module.controller('PurchaseCtrl', function(
             return rval;
           })(),
           success: function(encryptedMessage) {
+            $scope.alertType = 'purchased';
             $scope.purchased = true;
             $scope.encryptedMessage = encryptedMessage;
             callback();
@@ -243,8 +244,8 @@ module.controller('PurchaseCtrl', function(
           break;
         case 'payswarm.website.DuplicatePurchase':
           // set duplicate contract
+          $scope.alertType = 'duplicatePurchase';
           $scope.purchased = true;
-          $scope.duplicate = true;
           $scope.contract = err.details.contract;
           $scope.encryptedMessage = err.details.encryptedMessage;
           break;

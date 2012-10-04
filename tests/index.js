@@ -495,7 +495,7 @@ function _createListing(self, vendorProfiles, listings, callback) {
           id: listingId + '-payee',
           type: 'com:Payee',
           destination: 'https://payswarm.dev:19443/i/vendor/accounts/primary',
-          payeePosition: 0,
+          payeeGroup: ['vendor'],
           payeeRate: '0.0500000',
           payeeRateType: 'com:FlatAmount',
           comment: 'Payment for Asset ' + id + '.'
@@ -504,8 +504,7 @@ function _createListing(self, vendorProfiles, listings, callback) {
           type: 'com:PayeeRule',
           accountOwnerType: 'ps:Authority',
           maximumPayeeRate: '10.0000000',
-          payeeRateContext: ['com:Inclusive', 'com:Tax', 'com:TaxExempt'],
-          payeeRateType: 'com:Percentage'
+          payeeRateType: 'com:PercentInclusive'
         }],
         asset: assetId,
         assetHash: assetHash,

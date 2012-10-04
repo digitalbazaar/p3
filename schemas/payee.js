@@ -17,48 +17,27 @@ var schema = {
         pattern: '^com:Payee$',
       },
       destination: payswarmId(),
+      payeeGroup: {
+        required: false,
+        type: [{
+          type: 'string'
+        }, {
+          type: 'array',
+          uniqueItems: true,
+          items: {
+            type: 'string'
+          }
+        }]
+      },
       payeeRate: money.precisePositive(),
       payeeRateType: {
         required: true,
         type: 'string',
-        enum: ['com:FlatAmount', 'com:Percentage']
+        enum: ['com:FlatAmount', 'com:PercentExclusive', 'com:PercentInclusive']
       },
       comment: {
         required: false,
         type: 'string'
-      },
-      payeeRateContext: {
-        required: false,
-        type: [{
-          type: 'string',
-          enum: [
-            'com:Exclusive',
-            'com:Inclusive',
-            'com:Tax',
-            'com:TaxExempt',
-            'com:Deferred',
-            'com:Cumulative'
-          ]
-        }, {
-          type: 'array',
-          minItems: 1,
-          uniqueItems: true,
-          items: {
-            type: 'string',
-            enum: [
-              'com:Exclusive',
-              'com:Inclusive',
-              'com:Tax',
-              'com:TaxExempt',
-              'com:Deferred',
-              'com:Cumulative'
-            ]
-          }
-        }]
-      },
-      payeePosition: {
-        required: false,
-        type: 'integer'
       }
     },
     additionalProperties: false

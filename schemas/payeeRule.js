@@ -19,39 +19,23 @@ var schema = {
         enum: ['ps:Authority']
       },
       maximumPayeeRate: money.precisePositive({required: false}),
-      payeeRateContext: {
+      minimumPayeeRate: money.precisePositive({required: false}),
+      payeeGroup: {
         required: false,
         type: [{
-          type: 'string',
-          enum: [
-            'com:Exclusive',
-            'com:Inclusive',
-            'com:Tax',
-            'com:TaxExempt',
-            'com:Deferred',
-            'com:Cumulative'
-          ]
+          type: 'string'
         }, {
           type: 'array',
-          minItems: 1,
           uniqueItems: true,
           items: {
-            type: 'string',
-            enum: [
-              'com:Exclusive',
-              'com:Inclusive',
-              'com:Tax',
-              'com:TaxExempt',
-              'com:Deferred',
-              'com:Cumulative'
-            ]
+            type: 'string'
           }
         }]
       },
       payeeRateType: {
         required: true,
         type: 'string',
-        enum: ['com:FlatAmount', 'com:Percentage']
+        enum: ['com:FlatAmount', 'com:PercentExclusive', 'com:PercentInclusive']
       }
     },
     additionalProperties: false

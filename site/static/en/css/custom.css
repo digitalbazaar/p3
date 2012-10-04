@@ -421,7 +421,6 @@ h1 > .rest-summary > .rest-path {
 }
 
 .section .headline {
-  margin: 0.5em -0.5em 0.5em -0.5em;
   padding: 0.2em 0.5em 0.2em 0.5em;
   border-top: thin solid #ccc;
   text-align: left;

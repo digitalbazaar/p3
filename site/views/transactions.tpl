@@ -88,7 +88,7 @@ ${set([
           data-placement="bottom" data-trigger="hover"><span class="currency">USD</span> {{row.amount | ceil | currency:'$'}}</span>
       </td>
       <!-- Expand -->
-      <td data-ng-switch="getRowType(row)">
+      <td class="action" data-ng-switch="getRowType(row)">
         <span data-ng-switch-when="transfer">&nbsp;</span>
         <button data-ng-switch-default class="btn" title="Details" data-ng-click="toggleDetails(row)"><i class="icon-list-alt"></i></button>
       </td>

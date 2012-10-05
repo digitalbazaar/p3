@@ -150,7 +150,7 @@ ${set([
               </tbody>
               <tfoot data-ng-show="state.loading">
                 <tr>
-                  <td colspan="5" style="text-align: center">
+                  <td colspan="6" style="text-align: center">
                     <span class="center">
                       <span data-spinner="state.loading" data-spinner-class="table-spinner"></span>
                     </span>

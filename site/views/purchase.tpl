@@ -11,6 +11,11 @@ ${set([
 <div data-ng-show="alertType">
   <div class="row">
     <div class="span6 offset3">
+      <div data-ng-show="alertType == 'purchased'" class="alert alert-block alert-success">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <h4>Congratulations!</h4>
+        <p>Your purchase is complete.</span>
+      </div>
       <div data-ng-show="alertType == 'budgetExceeded'" class="alert alert-block alert-error">
         <button type="button" class="close" data-dismiss="alert">×</button>
 
@@ -24,6 +29,12 @@ ${set([
           <li>Use another account with enough funds.</li>
           <li>Associate this this vendor with another budget or a new budget.</p>
         </ul>
+      </div>
+      <div data-ng-show="alertType == 'duplicatePurchase'" class="alert alert-block alert-success">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <h4>Duplicate Purchase</h4>
+        <p>Our records indicate that you have already bought the item below.
+        You have not been charged.</p>
       </div>
     </div>
   </div>
@@ -47,18 +58,6 @@ ${set([
     </div>
   </div>
 
-  <div data-ng-show="purchased">
-    <div class="row">
-      <div class="span6 offset3">
-        <div class="alert alert-success">
-          <span data-ng-hide="duplicate"><strong>Congratulations!</strong> Your purchase is complete.</span>
-          <span data-ng-show="duplicate">Our records indicate that you have
-          already bought the item below. You have not been charged.</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <div data-ng-hide="loading">
     <div class="row">
       <div class="section span6 offset3">
@@ -68,7 +67,7 @@ ${set([
             <tr>
               <th>Item</th>
               <th class="money">Price</th>
-              <th></th>
+              <th class="action">Details</th>
             </tr>
           </thead>
           <tbody>
@@ -78,13 +77,13 @@ ${set([
                 data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact amount of this transaction is USD {{contract.amount}}."
                 data-placement="bottom" data-trigger="hover"><span
                 class="currency">USD</span> {{contract.amount | ceil | currency:'$'}}</span></td>
-              <td><button class="btn" data-ng-click="showDetails=!showDetails"><i class="icon-info-sign" title="Details"></i> Details</button></td>
+              <td class="action"><button class="btn" data-ng-click="showDetails=!showDetails"><i class="icon-list-alt" title="Details"></i></button></td>
             </tr>
           </tbody>
           <tbody data-ng-show="showDetails">
             <tr>
               <th>Cost breakdown</th>
-              <th></th>
+              <th class="money">Price</th>
               <th></th>
             </tr>
             <tr data-ng-repeat="transfer in contract.transfer">

@@ -233,7 +233,7 @@ var defaultPayeeScheme = {
   payee: [{
     type: 'com:Payee',
     destination: authorityId + '/accounts/main',
-    payeeGroup: ['authority', 'fee'],
+    payeeGroup: ['authority'],
     payeeRate: '2.00',
     payeeRateType: 'com:PercentInclusive',
     comment: config.authority.name + ' Processing'
@@ -252,15 +252,16 @@ config.financial.paymentGateway.Test = {};
 config.financial.paymentGateway.Test.depositPayee = [{
   type: 'com:Payee',
   destination: baseUri + '/i/authority/accounts/fees',
-  payeeGroup: ['authority', 'fee'],
+  payeeGroup: ['authority'],
   payeeApplyGroup: ['deposit'],
+  payeeExemptGroup: ['authority'],
   payeeRateType: 'com:PercentExclusive',
   payeeRate: '3.3333333',
   comment: 'Deposit Processing Service'
 }, {
   type: 'com:Payee',
   destination: baseUri + '/i/authority/accounts/fees',
-  payeeGroup: ['authority', 'fee'],
+  payeeGroup: ['authority'],
   payeeApplyGroup: ['deposit'],
   payeeRateType: 'com:FlatAmount',
   payeeRate: '0.10',
@@ -269,7 +270,8 @@ config.financial.paymentGateway.Test.depositPayee = [{
 config.financial.paymentGateway.Test.withdrawalPayee = [{
   type: 'com:Payee',
   destination: baseUri + '/i/authority/accounts/fees',
-  payeeGroup: ['authority', 'fee'],
+  payeeGroup: ['authority'],
+  payeeApplyGroup: ['withdrawal'],
   payeeRateType: 'com:FlatAmount',
   payeeRate: '0.50',
   comment: 'Withdrawal Processing Service'

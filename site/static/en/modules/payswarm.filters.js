@@ -50,10 +50,16 @@ angular.module('payswarm.filters')
     if(digits === undefined) {
       digits = 2;
     }
+    if(value === null || value === undefined) {
+      value = '0';
+    }
     var dec = value.indexOf('.');
     if(dec === -1) {
       dec = value.length;
       value += '.';
+    }
+    if(dec === 0) {
+      value = '0' + value;
     }
     value = value.substr(0, dec + 3);
     var length = dec + digits + 1;

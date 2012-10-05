@@ -224,7 +224,7 @@ module.controller('PurchaseCtrl', function(
     if(err) {
       switch(err.type) {
         case 'payswarm.financial.BudgetExceeded':
-          // can't do purchase 
+          // can't do purchase
           // show alert markup and show budget's account
           $scope.alertType = 'budgetExceeded';
           $scope.sourceType = 'account';

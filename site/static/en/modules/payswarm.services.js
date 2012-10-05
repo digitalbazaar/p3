@@ -876,10 +876,11 @@ angular.module('payswarm.services')
       else if(token.paymentMethod === 'bank:BankAccount') {
         bankAccounts.push(token);
       }
-      if(service.instantPaymentMethods.indexOf(token.paymentMethod) !== -1) {
+      if(service.instantPaymentMethods.indexOf(token.paymentMethod) !== -1 &&
+        token.psaStatus === 'active' && token.psaVerified) {
         instant.push(token);
       }
-      if(token.psaVerified) {
+      if(token.psaStatus === 'active' && token.psaVerified) {
         verified.push(token);
       }
     });

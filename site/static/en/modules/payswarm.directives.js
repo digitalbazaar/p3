@@ -786,7 +786,7 @@ angular.module('payswarm.directives')
         scope.paymentMethods = svcPaymentToken.instantPaymentMethods;
       }
       else {
-        scope.paymentTokens = svcPaymentToken.paymentTokens;
+        scope.paymentTokens = svcPaymentToken.verified;
         scope.paymentMethods = svcPaymentToken.paymentMethods;
       }
     });

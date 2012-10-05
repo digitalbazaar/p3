@@ -42,7 +42,7 @@ angular.module('payswarm.filters')
     }
     var num = parseFloat(value);
     var k = Math.pow(10, digits);
-    return '' + (Math.ceil(num * k) / k).toFixed(digits);
+    return (Math.ceil(num * k) / k).toFixed(digits);
   };
 })
 .filter('floor', function($filter) {
@@ -50,9 +50,14 @@ angular.module('payswarm.filters')
     if(digits === undefined) {
       digits = 2;
     }
-    var num = parseFloat(value);
-    var k = Math.pow(10, digits);
-    return '' + (Math.floor(num * k) / k).toFixed(digits);
+    var dec = value.indexOf('.');
+    if(dec === -1) {
+      dec = value.length;
+      value += '.';
+    }
+    value = value.substr(0, dec + 3);
+    var length = dec + digits + 1;
+    return value + new Array(length - value.length + 1).join('0');
   };
 })
 .filter('ellipsis', function($filter) {

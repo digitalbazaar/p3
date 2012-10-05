@@ -1037,6 +1037,16 @@ angular.module('payswarm.services')
     show: false
   };
 
+  // close top modal when escape is pressed
+  $(document).keyup(function(e) {
+    if(e.keyCode === 27) {
+      e.stopPropagation();
+      if(modals.length > 0) {
+        close(modals[modals.length - 1].scope, true);
+      }
+    }
+  });
+
   /**
    * Creates a customized modal directive. The return value of this
    * method should be passed to a module's directive method.
@@ -1132,14 +1142,6 @@ angular.module('payswarm.services')
       $('body').css({overflow: 'auto'});
     };
 
-    // close modal when escape is pressed
-    $(document).keyup(function(e) {
-      if(e.keyCode === 27 && scope._open) {
-        e.stopPropagation();
-        close(scope, true);
-      }
-    });
-
     // ignore enter presses in the modal by default
     var modalEnter = attrs.modalEnter || 'false';
     if(!scope.$eval(modalEnter)) {
@@ -1171,6 +1173,34 @@ angular.module('payswarm.services')
       scope._success = true;
       close(scope);
     };
+
+    // auto-bind any .btn-close classes here
+    $('.btn-close', element).click(function(e) {
+      e.preventDefault();
+      close(scope, true);
+    });
+
+    // close modal when it is hidden and has no child
+    element.on('hide', function() {
+      if(!scope._modal.hasChild) {
+        close(scope, true);
+      }
+    });
+
+    element.on('shown', function() {
+      // prevent auto fade transition on next hide
+      element.removeClass('fade');
+    });
+    element.on('hidden', function() {
+      // prevent auto fade transition on next show
+      element.removeClass('fade');
+
+      // show parent when hidden and no child
+      if(scope._modal.parent && !scope._modal.hasChild) {
+        scope._modal.parent.hasChild = false;
+        scope._modal.parent.element.modal('show');
+      }
+    });
   };
 
   /**
@@ -1195,32 +1225,19 @@ angular.module('payswarm.services')
     var parent = (modals.length > 0) ? modals[modals.length - 1] : null;
 
     // push the modal
-    var modal = {
+    var modal = scope._modal = {
+      scope: scope,
       element: element,
       parent: parent,
       hasChild: false
     };
     modals.push(modal);
 
-    // close modal when it is hidden, open, and has no child
-    element.one('hide', function() {
-      if(scope._open && !modal.hasChild) {
-        close(scope, true);
-      }
-    });
-
-    // auto-bind any .btn-close classes here
-    $('.btn-close', element).one('click', function(e) {
-      e.preventDefault();
-      close(scope, true);
-    });
-
     // do custom open() and then show modal
     function show() {
       scope.open();
-      element.one('shown', function() {
-        element.removeClass('fade');
-      });
+
+      // only do fade transition if no parent
       if(!parent) {
         element.addClass('fade');
       }
@@ -1266,15 +1283,8 @@ angular.module('payswarm.services')
       scope.$apply();
     }
 
-    if(modal.parent) {
-      // once child is hidden, show parent
-      modal.element.one('hidden', function() {
-        modal.element.removeClass('fade');
-        modal.parent.hasChild = false;
-        modal.parent.element.modal('show');
-      });
-    }
-    else {
+    // only do fade transition when no parent
+    if(!modal.parent) {
       modal.element.addClass('fade');
     }
     // hide modal

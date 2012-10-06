@@ -702,7 +702,7 @@ payswarm.paymentTokens.del = function(options) {
  *
  * Usage:
  *
- * payswarm.paymentTokens.undel({
+ * payswarm.paymentTokens.restore({
  *   paymentToken: paymentTokenId,
  *   success: function(token) {},
  *   error: function(err) {}
@@ -716,6 +716,40 @@ payswarm.paymentTokens.restore = function(options) {
     success: function(data, textStatus) {
       if(options.success) {
         options.success(data);
+      }
+    },
+    error: function(xhr, textStatus, errorThrown) {
+      if(options.error) {
+        options.error(normalizeError(xhr, textStatus));
+      }
+    }
+  });
+};
+
+/**
+ * Verify a paymentToken.
+ *
+ * Usage:
+ *
+ * payswarm.paymentTokens.verify({
+ *   @context: 'http://purl.org/payswarm/v1',
+ *   paymentToken: paymentTokenId',
+ *   data: {psaVerifyParameters [, amount] [, destination]},
+ *   success: function(paymentToken) {},
+ *   error: function(err) {}
+ * });
+ */
+payswarm.paymentTokens.verify = function(options) {
+  $.ajax({
+    async: true,
+    type: 'POST',
+    url: options.paymentToken + '?action=verify',
+    dataType: 'json',
+    contentType: 'application/json',
+    data: JSON.stringify(options.data),
+    success: function(response, statusText) {
+      if(options.success) {
+        options.success(response);
       }
     },
     error: function(xhr, textStatus, errorThrown) {

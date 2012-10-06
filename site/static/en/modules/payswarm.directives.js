@@ -1149,11 +1149,37 @@ angular.module('payswarm.directives')
   function Ctrl($scope) {
     $scope.open = function() {
       $scope.feedback = {};
+      $scope.selection = {
+        destination: null
+      };
+      $scope.psaVerifyParameters = {
+        amount: [
+          null,
+          null
+        ]
+      };
+      $scope.amount = null
     };
 
     $scope.verify = function() {
-      return;
-      svcPaymentToken.verify(token.id, function(err, token) {
+      console.log('XXX MVBA V', $scope.token, $scope);
+      var verifyRequest = {
+        '@context': 'http://purl.org/payswarm/v1',
+        psaVerifyParameters: {
+          amount: [
+            $scope.psaVerifyParameters.amount[0],
+            $scope.psaVerifyParameters.amount[1]
+          ]
+        }
+      };
+      if($scope.selection.destination) {
+        verifyRequest.destination = $scope.selection.destination.id;
+      }
+      if($scope.amount) {
+        verifyRequest.amount = $scope.amount;
+      }
+      svcPaymentToken.verify($scope.token.id, verifyRequest,
+        function(err, token) {
         if(err) {
           // FIXME: handle verification failure error
           $scope.feedback.validationErrors = err;

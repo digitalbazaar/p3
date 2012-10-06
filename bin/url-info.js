@@ -155,7 +155,7 @@ function processType(data, type, callback) {
             return callback(err);
           }
           if(program.verbose) {
-            console.log('* <source>|%s|JSON-LD|%snormalize|SHA-1|<stdout>:',
+            console.log('* <source>|%s|JSON-LD|%snormalize|SHA-256|<stdout>:',
               program.json ? 'JSON' : 'RDFa',
               type ? ('frame(' + type + ')|') : '');
           }

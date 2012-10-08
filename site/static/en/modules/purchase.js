@@ -34,6 +34,7 @@ module.controller('PurchaseCtrl', function(
   };
   // default to one-time purchase
   $scope.sourceType = 'account';
+  $scope.source = null;
   $scope.alertType = null;
   $scope.purchaseDisabled = false;
 
@@ -42,6 +43,40 @@ module.controller('PurchaseCtrl', function(
   });
   $scope.$watch('selection.invalidBudget', function(value) {
     $scope.purchaseDisabled = !!value;
+  });
+  $scope.$watch('selection.account', function(value) {
+    if($scope.sourceType === 'account') {
+      if($scope.source !== value) {
+        $scope.source = $scope.selection.account.id;
+        if($scope.ready) {
+          updateQuote($scope.source);
+        }
+      }
+    }
+  });
+  $scope.$watch('selection.budget', function(value) {
+    if($scope.sourceType === 'budget') {
+      if($scope.source !== value) {
+        $scope.source = $scope.selection.budget.source;
+        if($scope.ready) {
+          updateQuote($scope.source);
+        }
+      }
+    }
+  });
+  $scope.$watch('sourceType', function(value) {
+    if($scope.ready) {
+      if(value === 'account' && $scope.selection.account &&
+        $scope.source !== $scope.selection.account.id) {
+        $scope.source = $scope.selection.account.id;
+        updateQuote($scope.source);
+      }
+      else if(value === 'budget' && $scope.selection.budget &&
+        $scope.source !== $scope.selection.budget.source) {
+        $scope.source = $scope.selection.budget.source;
+        updateQuote($scope.source);
+      }
+    }
   });
 
   // purchase clicked
@@ -98,11 +133,12 @@ module.controller('PurchaseCtrl', function(
     getBudgets: function(callback) {
       svcBudget.get({force: true}, callback);
     },
-    getQuote: ['getAddresses', 'getAccounts', function(callback) {
+    getQuote: ['getAddresses', 'getAccounts', 'getBudgets', function(callback) {
       $scope.selection.account = $scope.selection.account || $scope.accounts[0];
-      updateQuote($scope.selection.account.id, callback);
+      $scope.source = $scope.selection.account.id;
+      updateQuote($scope.source, callback);
     }],
-    main: ['getBudgets', 'getQuote', function(callback) {
+    main: ['getQuote', function(callback) {
       // attempt to auto-purchase using a current budget
       autoPurchase(callback);
     }]
@@ -122,9 +158,10 @@ module.controller('PurchaseCtrl', function(
    * selector or the budget selector).
    *
    * @param source the source account or budget to use to generate the quote.
-   * @param callback called once the operation completes.
+   * @param callback(err) called once the operation completes.
    */
   function updateQuote(source, callback) {
+    callback = callback || angular.noop;
     $scope.loading = true;
     payswarm.transactions.getQuote({
       purchaseRequest: (function() {
@@ -243,7 +280,7 @@ module.controller('PurchaseCtrl', function(
                 return
               }
               $scope.selection.account = account;
-            })
+            });
           }
           break;
         case 'payswarm.website.DuplicatePurchase':

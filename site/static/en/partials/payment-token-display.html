@@ -7,7 +7,7 @@
         <td colspan="2"><strong>{{selected.label | ellipsis:16}}</strong></td>
       </tr>
       <tr>
-        <td colspan="2" class="text-align-right">{{selected.cardNumber}}</td>
+        <td colspan="2" class="text-align-right">{{selected.cardNumber | mask}}</td>
       </tr>
       <tr>
         <td class="text-align-right">{{selected.cardExpMonth}} / {{selected.cardExpYear}}</td>
@@ -23,8 +23,8 @@
         <td colspan="2"><i class="bank-logo"></i> <strong>{{selected.label | ellipsis:20}}</strong></td>
       </tr>
       <tr>
-        <td class="text-align-center">{{selected.bankRoutingNumber}}</td>
-        <td class="text-align-center">{{selected.bankAccount}}</td>
+        <td class="text-align-center">{{selected.bankRoutingNumber | mask}}</td>
+        <td class="text-align-center">{{selected.bankAccount | mask}}</td>
       </tr>
     </tbody>
   </table>

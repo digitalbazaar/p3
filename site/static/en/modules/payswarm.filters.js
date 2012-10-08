@@ -75,6 +75,12 @@ angular.module('payswarm.filters')
     }
     return value;
   };
+})
+.filter('mask', function($filter) {
+  return function(value, length) {
+    value = value.substr(value.length - 4);
+    return new Array(5 - value.length + 1).join('*') + value;
+  };
 });
 
 })();

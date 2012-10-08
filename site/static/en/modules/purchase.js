@@ -25,6 +25,7 @@ module.controller('PurchaseCtrl', function(
     $scope.referenceId = String(+new Date());
   }
   $scope.loading = true;
+  $scope.ready = false;
   $scope.purchased = false;
   $scope.duplicate = false;
   $scope.selection = {
@@ -106,6 +107,9 @@ module.controller('PurchaseCtrl', function(
       autoPurchase(callback);
     }]
   }, function(err, results) {
+    // page now ready
+    $scope.ready = true;
+
     // handle errors and successes
     purchaseCallback(err, results ? results.main : null);
   });

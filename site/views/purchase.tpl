@@ -42,15 +42,16 @@ ${set([
 
 <div data-ng-hide="error">
 
-  <div data-ng-show="loading" class="row">
+  <div data-ng-show="loading || !ready" class="row">
     <div class="span6 offset3">
       <div class="alert alert-info">Loading purchase details...
-        <div data-spinner="loading" data-spinner-class="alert-spinner"></div>
+        <div data-spinner="loading || !ready"
+          data-spinner-class="alert-spinner"></div>
       </div>
     </div>
   </div>
 
-  <div data-ng-hide="loading || purchased">
+  <div data-ng-hide="loading || !ready || purchased">
     <div class="row">
       <div class="span6 offset3">
         <h3>Do you want to make this purchase?</h3>
@@ -58,7 +59,7 @@ ${set([
     </div>
   </div>
 
-  <div data-ng-hide="loading">
+  <div data-ng-hide="loading || !ready">
     <div class="row">
       <div class="section span6 offset3">
         <h4 class="headline">Purchase Details</h4>

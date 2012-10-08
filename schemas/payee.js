@@ -29,6 +29,30 @@ var schema = {
           }
         }]
       },
+      payeeApplyGroup: {
+        required: false,
+        type: [{
+          type: 'string'
+        }, {
+          type: 'array',
+          uniqueItems: true,
+          items: {
+            type: 'string'
+          }
+        }]
+      },
+      payeeExemptGroup: {
+        required: false,
+        type: [{
+          type: 'string'
+        }, {
+          type: 'array',
+          uniqueItems: true,
+          items: {
+            type: 'string'
+          }
+        }]
+      },
       payeeRate: money.precisePositive(),
       payeeRateType: {
         required: true,

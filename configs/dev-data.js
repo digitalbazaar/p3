@@ -249,14 +249,15 @@ config.financial.payeeSchemes[defaultPayeeSchemeId] = defaultPayeeScheme;
 config.financial.paymentGateways.push('./pg.test');
 config.financial.paymentGateway = config.financial.paymentGateway || {};
 config.financial.paymentGateway.Test = {};
-config.financial.paymentGateway.Test.depositPayee = [{
+config.financial.paymentGateway.Test.payees = {};
+config.financial.paymentGateway.Test.payees['bank:BankAccount'] = [{
   type: 'com:Payee',
   destination: baseUri + '/i/authority/accounts/fees',
   payeeGroup: ['authority'],
   payeeApplyGroup: ['deposit'],
   payeeExemptGroup: ['authority'],
   payeeRateType: 'com:PercentExclusive',
-  payeeRate: '3.3333333',
+  payeeRate: '0.9998010',
   comment: 'Deposit Processing Service'
 }, {
   type: 'com:Payee',
@@ -264,17 +265,26 @@ config.financial.paymentGateway.Test.depositPayee = [{
   payeeGroup: ['authority'],
   payeeApplyGroup: ['deposit'],
   payeeRateType: 'com:FlatAmount',
-  payeeRate: '0.10',
+  payeeRate: '0.50',
   comment: 'Deposit Processing Service'
 }];
-config.financial.paymentGateway.Test.withdrawalPayee = [{
+config.financial.paymentGateway.Test.payees['ccard:CreditCard'] = [{
   type: 'com:Payee',
   destination: baseUri + '/i/authority/accounts/fees',
   payeeGroup: ['authority'],
-  payeeApplyGroup: ['withdrawal'],
+  payeeApplyGroup: ['deposit'],
+  payeeExemptGroup: ['authority'],
+  payeeRateType: 'com:PercentExclusive',
+  payeeRate: '2.1857960',
+  comment: 'Deposit Processing Service'
+}, {
+  type: 'com:Payee',
+  destination: baseUri + '/i/authority/accounts/fees',
+  payeeGroup: ['authority'],
+  payeeApplyGroup: ['deposit'],
   payeeRateType: 'com:FlatAmount',
-  payeeRate: '0.50',
-  comment: 'Withdrawal Processing Service'
+  payeeRate: '0.15',
+  comment: 'Deposit Processing Service'
 }];
 // set bank account settlement to 1 minute
 config.financial.paymentGateway.Test.bankAccountSettlement = 1000*60;

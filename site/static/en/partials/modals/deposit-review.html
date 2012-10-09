@@ -17,7 +17,7 @@
   </thead>
   <tbody>
     <tr data-ng-repeat="transfer in deposit.transfer">
-      <td>
+      <td class="money">
         <span class="money" data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact amount of this transfer is USD {{transfer.amount}}."
           data-placement="bottom" data-trigger="hover"><span class="currency">USD</span> {{transfer.amount | currency:'$'}}</span>
       </td>
@@ -37,7 +37,7 @@
           <span data-ng-switch-default>external account</span>
         </span>
         will be charged
-        <span class="money">USD {{deposit.amount | currency:'$'}}</span>.
+        <strong><span class="money">USD {{deposit.amount | currency:'$'}}</span></strong>.
       </td>
     </tr>
   </tfoot>

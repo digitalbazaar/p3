@@ -27,10 +27,10 @@ ${set([
           </div>
         </div>
       <div class="form-actions">
-        <button data-ng-hide="loading"
+        <button data-ng-disabled="loading"
           class="btn btn-primary" data-submit-form>Send Reset Instructions</button>
-        <div data-spinner="loading"
-          data-spinner-class="prepend-btn-large-spinner"></div>
+        <span data-spinner="loading"
+          data-spinner-class="btn-large-spinner"></span>
       </div>
       </fieldset>
       <div data-ng-show="feedback.email.text"
@@ -81,10 +81,10 @@ ${set([
       </div>
 
       <div class="form-actions">
-         <button data-ng-hide="loading"
+         <button data-ng-disabled="loading"
            class="btn btn-primary" data-submit-form>Set Password</button>
-         <div data-spinner="loading"
-           data-spinner-class="prepend-btn-large-spinner"></div>
+         <span data-spinner="loading"
+           data-spinner-class="btn-large-spinner"></span>
       </div>
       </fieldset>
       <div data-ng-show="feedback.password.text"

@@ -81,7 +81,7 @@ ${set([
             <button class="btn btn-large btn-primary"
               data-ng-disabled="loading"
               data-ng-click="register()">Register</button>
-            <div data-spinner="loading" class="prepend-btn-large-spinner"></div>
+            <span data-spinner="loading" class="btn-large-spinner"></span>
           </div>
         </div>
        </fieldset>

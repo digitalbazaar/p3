@@ -131,11 +131,11 @@ ${set([
       <p class="comment">By joining you agree to the <a href="/legal#tos">Terms of Service</a> and <a href="/legal#pp">Privacy Policy</a>.</p>
         
       <div class="form-actions">
-        <button data-ng-hide="loading"
+        <button data-ng-disabled="loading"
           class="btn btn-large btn-primary"
           data-submit-form>Create Profile</button>
-        <div data-spinner="loading"
-          data-spinner-class="prepend-btn-large-spinner"></div>
+        <span data-spinner="loading"
+          data-spinner-class="btn-large-spinner"></span>
       </div>
     
       <div name="create-feedback" class="feedback"></div>

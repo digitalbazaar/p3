@@ -30,7 +30,7 @@ ${set([
         <button data-ng-disabled="loading"
           class="btn btn-primary" data-submit-form>Send Reset Instructions</button>
         <span data-spinner="loading"
-          data-spinner-class="btn-large-spinner"></span>
+          data-spinner-class="append-btn-spinner"></span>
       </div>
       </fieldset>
       <div data-ng-show="feedback.email.text"
@@ -84,7 +84,7 @@ ${set([
          <button data-ng-disabled="loading"
            class="btn btn-primary" data-submit-form>Set Password</button>
          <span data-spinner="loading"
-           data-spinner-class="btn-large-spinner"></span>
+           data-spinner-class="append-btn-spinner"></span>
       </div>
       </fieldset>
       <div data-ng-show="feedback.password.text"

@@ -135,7 +135,7 @@ ${set([
           class="btn btn-large btn-primary"
           data-submit-form>Create Profile</button>
         <span data-spinner="loading"
-          data-spinner-class="btn-large-spinner"></span>
+          data-spinner-class="append-btn-spinner"></span>
       </div>
     
       <div name="create-feedback" class="feedback"></div>

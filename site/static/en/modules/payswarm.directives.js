@@ -1443,6 +1443,7 @@ angular.module('payswarm.directives')
     $scope.open = function() {
       $scope.data = window.data || {};
       $scope.feedback = {};
+      $scope.loading = false;
 
       var source = ($scope.input) ? $scope.input.source : null;
       $scope.input = {
@@ -1472,6 +1473,7 @@ angular.module('payswarm.directives')
         }],
         source: $scope.input.source.id
       };
+      $scope.loading = true;
       payswarm.deposit.sign({
         deposit: deposit,
         success: function(deposit) {
@@ -1501,6 +1503,8 @@ angular.module('payswarm.directives')
             //var target = options.target;
             //$(target).animate({scrollTop: 0}, 0);
 
+            $scope.loading = false;
+
             // copy to avoid angular keys in POSTed data
             $scope.deposit = angular.copy(deposit);
             $scope._deposit = deposit;
@@ -1509,6 +1513,7 @@ angular.module('payswarm.directives')
           });
         },
         error: function(err) {
+          $scope.loading = false;
           $scope.feedback.validationErrors = err;
           $scope.$apply();
         }
@@ -1516,9 +1521,12 @@ angular.module('payswarm.directives')
     };
 
     $scope.confirm = function() {
+      $scope.loading = true;
       payswarm.deposit.confirm({
         deposit: $scope._deposit,
         success: function(deposit) {
+          $scope.loading = false;
+
           // show complete page
           $scope.deposit = deposit;
           $scope.state = 'complete';
@@ -1532,6 +1540,7 @@ angular.module('payswarm.directives')
           //$(target).animate({scrollTop: 0}, 0);
         },
         error: function(err) {
+          $scope.loading = false;
           $scope.feedback.validationErrors = err;
           $scope.$apply();
         }

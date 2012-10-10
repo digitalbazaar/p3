@@ -63,8 +63,12 @@
   <div class="modal-footer">
     <div class="modal-feedback"
       data-feedback="feedback" data-target="feedbackTarget"></div>
-    <button class="btn btn-primary" data-ng-click="verify()">Verify</button>
-    <button class="btn btn-close">Cancel</button>
+    <span data-spinner="loading"
+      data-spinner-class="prepend-btn-spinner"></span>
+    <button class="btn btn-primary"
+      data-ng-disabled="loading"
+      data-ng-click="verify()">Verify</button>
+    <button class="btn btn-close" data-ng-disabled="loading">Cancel</button>
   </div>
 </div>
 

@@ -84,7 +84,11 @@
   <div class="modal-footer">
     <div class="modal-feedback"
       data-feedback="feedback" data-target="feedbackTarget"></div>
-    <button class="btn btn-primary" data-ng-click="addIdentity()"><i class="icon-ok icon-white"></i> Add</button>
-    <button class="btn btn-close">Cancel</button>
+    <span data-spinner="loading"
+      data-spinner-class="prepend-btn-spinner"></span>
+    <button class="btn btn-primary"
+      data-ng-disabled="loading"
+      data-ng-click="addIdentity()"><i class="icon-ok icon-white"></i> Add</button>
+    <button class="btn btn-close" data-ng-disabled="loading">Cancel</button>
   </div>
 </div>

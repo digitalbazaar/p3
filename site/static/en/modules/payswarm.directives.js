@@ -809,6 +809,7 @@ angular.module('payswarm.directives')
     $scope.open = function() {
       $scope.data = window.data || {};
       $scope.feedback = {};
+      $scope.loading = false;
       $scope.identityId = svcIdentity.identity.id || {};
       $scope.account = {
         '@context': 'http://purl.org/payswarm/v1',
@@ -825,8 +826,10 @@ angular.module('payswarm.directives')
         $scope.account.psaPublic.push('owner');
       }
 
+      $scope.loading = true;
       svcAccount.add(
         $scope.account, $scope.identityId, function(err, account) {
+        $scope.loading = false;
         if(!err) {
           $scope.close(null, account);
         }
@@ -858,6 +861,7 @@ angular.module('payswarm.directives')
     $scope.open = function() {
       $scope.data = window.data || {};
       $scope.feedback = {};
+      $scope.loading = false;
       $scope.identity = data.identity || {};
 
       // copy account for editing
@@ -881,7 +885,9 @@ angular.module('payswarm.directives')
         account.psaPublic.push('owner');
       }
 
+      $scope.loading = true;
       svcAccount.update(account, function(err, account) {
+        $scope.loading = false;
         if(!err) {
           $scope.close(null, account);
         }
@@ -909,6 +915,7 @@ angular.module('payswarm.directives')
     $scope.open = function() {
       $scope.data = window.data || {};
       $scope.feedback = {};
+      $scope.loading = false;
       $scope.identity = data.identity || {};
       $scope.budget = {
         '@context': 'http://purl.org/payswarm/v1',
@@ -933,7 +940,9 @@ angular.module('payswarm.directives')
 
     $scope.addBudget = function() {
       $scope.budget.source = $scope.selection.account.id;
+      $scope.loading = true;
       svcBudget.add($scope.budget, function(err, budget) {
+        $scope.loading = false;
         if(!err) {
           $scope.close(null, budget);
         }
@@ -960,6 +969,7 @@ angular.module('payswarm.directives')
     $scope.open = function() {
       $scope.data = window.data || {};
       $scope.feedback = {};
+      $scope.loading = false;
       $scope.identity = data.identity || {};
       $scope.refreshChoices = [
         {id: 'psa:Never', label: 'Never'},
@@ -1005,7 +1015,9 @@ angular.module('payswarm.directives')
         }
       });
 
+      $scope.loading = true;
       svcBudget.update(budget, function(err, budget) {
+        $scope.loading = false;
         if(!err) {
           $scope.close(null, budget);
         }
@@ -1035,6 +1047,7 @@ angular.module('payswarm.directives')
       $scope.monthLabels = svcConstant.monthLabels;
       $scope.years = svcConstant.years;
       $scope.feedback = {};
+      $scope.loading = false;
       $scope.identity = data.identity || {};
       $scope.paymentGateway = data.paymentGateway || 'Test';
       $scope.paymentMethods =
@@ -1124,7 +1137,9 @@ angular.module('payswarm.directives')
       }
 
       // add payment token
+      $scope.loading = true;
       svcPaymentToken.add(token, function(err, addedToken) {
+        $scope.loading = false;
         if(!err) {
           $scope.close(null, addedToken);
         }
@@ -1149,6 +1164,7 @@ angular.module('payswarm.directives')
   function Ctrl($scope) {
     $scope.open = function() {
       $scope.feedback = {};
+      $scope.loading = false;
       $scope.selection = {
         destination: null
       };
@@ -1158,7 +1174,7 @@ angular.module('payswarm.directives')
           null
         ]
       };
-      $scope.amount = null
+      $scope.amount = null;
     };
 
     $scope.verify = function() {
@@ -1178,12 +1194,14 @@ angular.module('payswarm.directives')
       if($scope.amount) {
         verifyRequest.amount = $scope.amount;
       }
-      svcPaymentToken.verify($scope.token.id, verifyRequest,
-        function(err, token) {
-        if(err) {
-          // FIXME: handle verification failure error
-          $scope.feedback.validationErrors = err;
-        }
+      $scope.loading = true;
+      svcPaymentToken.verify(
+        $scope.token.id, verifyRequest, function(err, token) {
+          $scope.loading = false;
+          if(err) {
+            // FIXME: handle verification failure error
+            $scope.feedback.validationErrors = err;
+          }
       });
     };
   }
@@ -1205,6 +1223,7 @@ angular.module('payswarm.directives')
     $scope.baseUrl = window.location.protocol + '//' + window.location.host;
     $scope.open = function() {
       $scope.feedback = {};
+      $scope.loading = false;
       // identity
       $scope.identityType = $scope.identityTypes[0];
       $scope.identityLabel = '';
@@ -1236,10 +1255,13 @@ angular.module('payswarm.directives')
       var identity = $scope.identity[$scope.identityType];
       identity.label = $scope.identityLabel;
       identity.psaSlug = $scope.identitySlug;
+      $scope.loading = true;
       svcIdentity.add(identity, function(err, identity) {
         if(!err) {
           return addAccount(identity);
         }
+
+        $scope.loading = false;
 
         // if identity is a duplicate, add account to it
         if(err.type === 'payswarm.website.DuplicateIdentity') {
@@ -1261,6 +1283,7 @@ angular.module('payswarm.directives')
 
       // add account
       svcAccount.add($scope.account, identity.id, function(err, account) {
+        $scope.loading = false;
         if(!err) {
           $scope.close(null, {identity: identity, account: account});
         }
@@ -1318,6 +1341,7 @@ angular.module('payswarm.directives')
       $scope.data = window.data || {};
       $scope.countries = svcConstant.countries || {};
       $scope.feedback = {};
+      $scope.loading = false;
       $scope.identity = data.identity || {};
       $scope.originalAddress = {
         '@context': 'http://purl.org/payswarm/v1',
@@ -1335,7 +1359,9 @@ angular.module('payswarm.directives')
     };
 
     $scope.validate = function() {
+      $scope.loading = true;
       svcAddress.validate($scope.originalAddress, function(err, validated) {
+        $scope.loading = false;
         if(err) {
           // FIXME
           console.log('validation failed', err);
@@ -1358,7 +1384,9 @@ angular.module('payswarm.directives')
 
     $scope.add = function(clickedAddress) {
       var addressToAdd = clickedAddress || $scope.selection.address;
+      $scope.loading = false;
       svcAddress.add(addressToAdd, function(err, addedAddress) {
+        $scope.loading = true;
         if(err) {
           // FIXME
           console.log('adding failed', err);

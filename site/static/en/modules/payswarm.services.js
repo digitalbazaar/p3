@@ -1023,14 +1023,12 @@ angular.module('payswarm.services')
 
   // verify a token
   service.verify = function(paymentTokenId, verifyRequest, callback) {
-    console.log('XXX SPT V', paymentTokenId, verifyRequest);
     callback = callback || angular.noop;
     service.state.loading = true;
     payswarm.paymentTokens.verify({
       paymentToken: paymentTokenId,
       data: verifyRequest,
       success: function(paymentToken) {
-        console.log('XXX SPT V S', paymentToken);
         _replaceInArray(service.paymentTokens, paymentToken);
         _updateTokens();
         service.state.loading = false;
@@ -1038,7 +1036,6 @@ angular.module('payswarm.services')
         $rootScope.$apply();
       },
       error: function(err) {
-        console.log('XXX SPT V E', err);
         service.state.loading = false;
         callback(err);
         $rootScope.$apply();

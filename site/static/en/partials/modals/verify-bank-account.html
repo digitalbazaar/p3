@@ -1,74 +1,45 @@
 <div class="modal">
-  <div class="modal-header">
+  <div class="modal-header" data-ng-switch="state">
     <a class="close btn-close">&times;</a>
-    <h3>Verify Bank Account</h3>
+    <h3 data-ng-switch-when="preparing">Verify Bank Account</h3>
+    <h3 data-ng-switch-when="reviewing">Review Deposit</h3>
+    <h3 data-ng-switch-when="complete">Verification and Deposit Complete</h3>
   </div>
-  <div class="modal-body">
+  <div class="modal-body" data-ng-switch="state">
     <div data-ng-include="'/partials/demo-warning.html'"></div>
-    <div data-payment-token-selector
-      data-selected="token"
-      data-fixed="true"></div>
-    <form class="well form-horizontal" action="">
-      <fieldset>
-        <label class="control-label" for="verifyAmount0">First Amount</label>
-        <div class="control-group" data-binding="psaVerifyParameters.amount[0]">
-          <div class="controls">
-            <div class="input-prepend">
-              <span class="add-on">$</span><input
-                type="text" name="verifyAmount0" placeholder="Enter first deposited amount."
-                class="auto-tooltip"
-                data-ng-model="psaVerifyParameters.amount[0]"
-                data-tooltip-title="You must enter a valid monetary amount, like 0.12"
-                data-placement="right" data-trigger="focus" />
-            </div>
-            <span class="help-block">First verification deposit in your bank account.</span>
-          </div>
-        </div>
-        <label class="control-label" for="verifyAmount1">Second Amount</label>
-        <div class="control-group" data-binding="psaVerifyParameters.amount[1]">
-          <div class="controls">
-            <div class="input-prepend">
-              <span class="add-on">$</span><input
-                type="text" name="verifyAmount1" placeholder="Enter second deposited amount."
-                class="auto-tooltip"
-                data-ng-model="psaVerifyParameters.amount[1]"
-                data-tooltip-title="You must enter a valid monetary amount, like 0.12"
-                data-placement="right" data-trigger="focus" />
-            </div>
-            <span class="help-block">Second verification deposit in your bank account.</span>
-          </div>
-        </div>
-        <label class="control-label" for="verificationAmount1">Deposit</label>
-        <div class="control-group" data-binding="amount">
-          <div class="controls">
-            <div class="input-prepend">
-              <span class="add-on">$</span><input
-                type="text" name="amount" placeholder="Enter deposit amount..."
-                class="auto-tooltip"
-                data-ng-model="amount"
-                data-tooltip-title="You must enter a valid monetary amount, like 25 or 25.82."
-                data-placement="right" data-trigger="focus" />
-            </div>
-            <span class="help-block">Amount to deposit from this bank account. Doing a deposit now helps save on transaction fees.</span>
-          </div>
-        </div>
-      </fieldset>
-          <div data-account-selector
-            data-selected="selection.destination"
-            data-invalid="selection.invalidAccount"
-            data-show-deposit-button="false"
-            data-instant="false"></div>
-    </form>
+    <div data-ng-switch-when="preparing">
+      <div data-ng-include="'/partials/modals/verify-bank-account-prepare.html'"></div>
+    </div>
+    <div data-ng-switch-when="reviewing">
+      <div data-ng-include="'/partials/modals/verify-bank-account-review.html'"></div>
+    </div>
+    <div data-ng-switch-when="complete">
+      <div data-ng-include="'/partials/modals/verify-bank-account-complete.html'"></div>
+    </div>
   </div>
   <div class="modal-footer">
     <div class="modal-feedback"
       data-feedback="feedback" data-target="feedbackTarget"></div>
     <span data-spinner="loading"
       data-spinner-class="prepend-btn-spinner"></span>
-    <button class="btn btn-primary"
-      data-ng-disabled="loading"
-      data-ng-click="verify()">Verify</button>
-    <button class="btn btn-close" data-ng-disabled="loading">Cancel</button>
+
+    <span data-ng-show="state == 'preparing'">
+      <button class="btn btn-primary"
+        data-ng-disabled="loading"
+        data-ng-click="review()">Review</button>
+      <button class="btn btn-close" data-ng-disabled="loading">Cancel</button>
+    </span>
+    <span data-ng-show="state == 'reviewing'">
+      <button class="btn btn-primary"
+        data-ng-disabled="loading"
+        data-ng-click="confirm()"><i class="icon-ok icon-white"></i> Deposit</button>
+      <button class="btn"
+        data-ng-disabled="loading"
+        data-ng-click="prepare()">Back</button>
+      <button class="btn btn-close" data-ng-disabled="loading">Cancel</button>
+    </span>
+    <span data-ng-show="state == 'complete'">
+      <button class="btn btn-close" data-ng-disabled="loading">Done</button>
+    </span>
   </div>
 </div>
-

@@ -1,0 +1,65 @@
+<div class="section">
+  <h4 class="headline">Bank Account</h4>
+  <div data-payment-token-selector
+    data-selected="token"
+    data-fixed="true"></div>
+</div>
+
+<div class="section">
+  <h4 class="headline">Verification and Deposit Details</h4>
+  <form class="well form-horizontal" action="">
+    <fieldset>
+      <label class="control-label" for="verifyAmount0">First Amount</label>
+      <div class="control-group" data-binding="psaVerifyParameters.amount[0]">
+        <div class="controls">
+          <div class="input-prepend">
+            <span class="add-on">$</span><input
+              type="text" name="verifyAmount0" placeholder="Enter first deposited amount."
+              class="auto-tooltip"
+              data-ng-model="psaVerifyParameters.amount[0]"
+              data-tooltip-title="You must enter a valid monetary amount, like 0.12"
+              data-placement="right" data-trigger="focus" />
+          </div>
+          <span class="help-block">First verification deposit in your bank account.</span>
+        </div>
+      </div>
+      <label class="control-label" for="verifyAmount1">Second Amount</label>
+      <div class="control-group" data-binding="psaVerifyParameters.amount[1]">
+        <div class="controls">
+          <div class="input-prepend">
+            <span class="add-on">$</span><input
+              type="text" name="verifyAmount1" placeholder="Enter second deposited amount."
+              class="auto-tooltip"
+              data-ng-model="psaVerifyParameters.amount[1]"
+              data-tooltip-title="You must enter a valid monetary amount, like 0.12"
+              data-placement="right" data-trigger="focus" />
+          </div>
+          <span class="help-block">Second verification deposit in your bank account.</span>
+        </div>
+      </div>
+      <label class="control-label" for="verificationAmount1">Deposit</label>
+      <div class="control-group" data-binding="amount">
+        <div class="controls">
+          <div class="input-prepend">
+            <span class="add-on">$</span><input
+              type="text" name="amount" placeholder="Enter deposit amount..."
+              class="auto-tooltip"
+              data-ng-model="input.amount"
+              data-tooltip-title="You must enter a valid monetary amount, like 25 or 25.82."
+              data-placement="right" data-trigger="focus" />
+          </div>
+          <span class="help-block">Optional amount to deposit from this bank account. Doing a deposit now helps save on transaction fees.</span>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+</div>
+
+<div class="section">
+  <h4 class="headline">Deposit Destination</h4>
+  <div data-account-selector
+    data-selected="selection.destination"
+    data-invalid="selection.invalidAccount"
+    data-show-deposit-button="false"
+    data-instant="false"></div>
+</div>

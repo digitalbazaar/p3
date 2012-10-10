@@ -1160,8 +1160,8 @@ angular.module('payswarm.directives')
     }
   });
 })
-.directive('modalVerifyBankAccount', function(svcModal, svcPaymentToken) {
-  function Ctrl($scope) {
+.directive('modalVerifyBankAccount', function(svcModal) {
+  function Ctrl($scope, svcPaymentToken, svcAccount) {
     $scope.open = function() {
       $scope.feedback = {};
       $scope.loading = false;
@@ -1174,11 +1174,22 @@ angular.module('payswarm.directives')
           null
         ]
       };
-      $scope.amount = null;
+      var source = $scope.input ? $scope.input.source : null;
+      $scope.input = {
+        // payment token source
+        source: source,
+        amount: ''
+      };
+
+      // state in ('preparing', 'reviewing', 'complete')
+      $scope.state = 'preparing';
     };
 
-    $scope.verify = function() {
-      console.log('XXX MVBA V', $scope.token, $scope);
+    $scope.prepare = function() {
+      $scope.state = 'preparing';
+    };
+
+    $scope.review = function() {
       var verifyRequest = {
         '@context': 'http://purl.org/payswarm/v1',
         psaVerifyParameters: {
@@ -1191,19 +1202,75 @@ angular.module('payswarm.directives')
       if($scope.selection.destination) {
         verifyRequest.destination = $scope.selection.destination.id;
       }
-      if($scope.amount) {
-        verifyRequest.amount = $scope.amount;
+      if($scope.input.amount) {
+        verifyRequest.amount = $scope.input.amount;
       }
       $scope.loading = true;
-      svcPaymentToken.verify(
-        $scope.token.id, verifyRequest, function(err, token) {
-          $scope.loading = false;
-          if(err) {
-            // FIXME: handle verification failure error
-            $scope.feedback.validationErrors = err;
+      svcPaymentToken.verify($scope.token.id, verifyRequest,
+        function(err, deposit) {
+        if(!err) {
+          // FIXME: duplicated from deposit code
+          // get public account information for all payees
+          $scope.accounts = [];
+          for(var i in deposit.transfer) {
+            $scope.accounts[deposit.transfer[i].destination] = {};
           }
+          async.forEach(Object.keys($scope.accounts),
+            function(account, callback) {
+            payswarm.accounts.getOne({
+              account: account,
+              success: function(response) {
+                $scope.accounts[account].label = response.label;
+                callback();
+              },
+              error: function(err) {
+                $scope.accounts[account].label = 'Private Account';
+                callback();
+              }
+            });
+          }, function(err) {
+            $scope.loading = false;
+            // FIXME: handle err
+            //
+            // go to top of page
+            // FIXME: use directive to do this
+            //var target = options.target;
+            //$(target).animate({scrollTop: 0}, 0);
+
+            // copy to avoid angular keys in POSTed data
+            $scope.deposit = angular.copy(deposit);
+            $scope._deposit = deposit;
+            $scope.state = 'reviewing';
+            $scope.$apply();
+          });
+        }
+        // FIXME: handle verification failure error
+        $scope.feedback.validationErrors = err;
       });
     };
+
+    $scope.confirm = function() {
+      svcPaymentToken.verify($scope.token.id, $scope._deposit,
+        function(err, deposit) {
+        if(!err) {
+          // show complete page
+          $scope.deposit = deposit;
+          $scope.state = 'complete';
+
+          // get updated balance after a delay
+          svcAccount.getOne($scope.account.id, {delay: 500});
+
+          // go to top of page
+          //var target = options.target;
+          //$(target).animate({scrollTop: 0}, 0);
+        }
+        $scope.feedback.validationErrors = err;
+      });
+    };
+
+    //$scope.done = function() {
+    //  $scope.close(null, $scope.deposit);
+    //}
   }
 
   return svcModal.directive({
@@ -1473,7 +1540,7 @@ angular.module('payswarm.directives')
       $scope.feedback = {};
       $scope.loading = false;
 
-      var source = ($scope.input) ? $scope.input.source : null;
+      var source = $scope.input ? $scope.input.source : null;
       $scope.input = {
         // payment token source
         source: source,

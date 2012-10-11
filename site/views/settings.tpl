@@ -124,10 +124,11 @@ ${set([
                   </td>
                   <!-- Status -->
                   <td>
-                    <a data-ng-show="!bankAccount.psaVerified && bankAccount.psaVerifyReady"
+                    <a data-ng-show="bankAccount.psaStatus == 'active' && !bankAccount.psaVerified && bankAccount.psaVerifyReady"
                       href="#"
-                      data-ng-click="showVerifyBankAccountModal=true">Verify</a></span>
-                    <span data-ng-show="!bankAccount.psaVerified && !bankAccount.psaVerifyReady">Pending</span>
+                      data-ng-click="showVerifyBankAccountModal=true">Verify</a>
+                    <span data-ng-show="bankAccount.psaStatus != 'active' && !bankAccount.psaVerified">Unverified</span>
+                    <span data-ng-show="bankAccount.psaStatus == 'active' && !bankAccount.psaVerified && !bankAccount.psaVerifyReady">Pending</span>
                     <span data-ng-show="bankAccount.psaVerified">Verified</span>
                     <span
                       data-modal-verify-bank-account="showVerifyBankAccountModal"

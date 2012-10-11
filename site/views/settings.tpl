@@ -139,7 +139,9 @@ ${set([
                     <button data-ng-show="bankAccount.psaStatus == 'active'"
                       class="btn btn-danger" title="Delete"
                       data-ng-click="deletePaymentToken(bankAccount)"><i class="icon-trash icon-white"></i></button>
-                    <span data-ng-show="bankAccount.psaStatus == 'deleted'">Expires {{bankAccount.psaExpires | date:'MMM d'}}</span>
+                    <span data-ng-show="bankAccount.psaStatus == 'deleted'"
+                      data-tooltip-title="Because verifying a bank account is a costly process, we do not delete bank accounts immediately. You may restore the bank account before the expiration date passes if you wish."
+                      data-placement="bottom" data-trigger="hover">Expires {{bankAccount.psaExpires | date:'MMM d'}}</span>
                   </td>
                   <!-- Restore -->
                   <td class="action">

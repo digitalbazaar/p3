@@ -23,6 +23,9 @@ config.loggers.access.filename = '/tmp/payswarm-test-access.log';
 config.loggers.error.filename = '/tmp/payswarm-test-error.log';
 config.loggers.email.silent = true;
 
+// only log emergency errors by default
+config.loggers.console.level = 'emergency';
+
 // server info
 // 0 means use # of cpus
 config.server.workers = 1;

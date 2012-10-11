@@ -96,6 +96,16 @@ ${set([
               <td><a href="{{transfer.destination}}" target="_blank">Destination</a></td>
             </tr>
           </tbody>
+          <tbody data-ng-show="showDetails">
+            <tr>
+              <th>License Agreement</th>
+              <th></th>
+              <th></th>
+            </tr>
+            <tr>
+              <td colspan="3"><pre class="license">{{contract.license.licenseTemplate}}</pre></td>
+            </tr>
+          </tbody>
         </table>
       </div>
     </div>

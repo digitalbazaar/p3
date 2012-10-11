@@ -1208,44 +1208,47 @@ angular.module('payswarm.directives')
       $scope.loading = true;
       svcPaymentToken.verify($scope.token.id, verifyRequest,
         function(err, deposit) {
-        if(!err) {
-          // FIXME: duplicated from deposit code
-          // get public account information for all payees
-          $scope.accounts = [];
-          for(var i in deposit.transfer) {
-            $scope.accounts[deposit.transfer[i].destination] = {};
-          }
-          async.forEach(Object.keys($scope.accounts),
-            function(account, callback) {
-            payswarm.accounts.getOne({
-              account: account,
-              success: function(response) {
-                $scope.accounts[account].label = response.label;
-                callback();
-              },
-              error: function(err) {
-                $scope.accounts[account].label = 'Private Account';
-                callback();
-              }
-            });
-          }, function(err) {
-            $scope.loading = false;
-            // FIXME: handle err
-            //
-            // go to top of page
-            // FIXME: use directive to do this
-            //var target = options.target;
-            //$(target).animate({scrollTop: 0}, 0);
-
-            // copy to avoid angular keys in POSTed data
-            $scope.deposit = angular.copy(deposit);
-            $scope._deposit = deposit;
-            $scope.state = 'reviewing';
-            $scope.$apply();
-          });
-        }
         // FIXME: handle verification failure error
         $scope.feedback.validationErrors = err;
+        if(err) {
+          $scope.loading = false;
+          return;
+        }
+
+        // FIXME: duplicated from deposit code
+        // get public account information for all payees
+        $scope.accounts = [];
+        for(var i in deposit.transfer) {
+          $scope.accounts[deposit.transfer[i].destination] = {};
+        }
+        async.forEach(Object.keys($scope.accounts),
+          function(account, callback) {
+          payswarm.accounts.getOne({
+            account: account,
+            success: function(response) {
+              $scope.accounts[account].label = response.label;
+              callback();
+            },
+            error: function(err) {
+              $scope.accounts[account].label = 'Private Account';
+              callback();
+            }
+          });
+        }, function(err) {
+          $scope.loading = false;
+          // FIXME: handle err
+          //
+          // go to top of page
+          // FIXME: use directive to do this
+          //var target = options.target;
+          //$(target).animate({scrollTop: 0}, 0);
+
+          // copy to avoid angular keys in POSTed data
+          $scope.deposit = angular.copy(deposit);
+          $scope._deposit = deposit;
+          $scope.state = 'reviewing';
+          $scope.$apply();
+        });
       });
     };
 

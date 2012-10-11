@@ -1165,7 +1165,7 @@ angular.module('payswarm.directives')
     $scope.open = function() {
       $scope.feedback = {};
       $scope.loading = false;
-      $scope.accounts = svcAccount.accounts;
+      $scope.transfer = null;
       $scope.selection = {
         destination: null
       };
@@ -1200,7 +1200,8 @@ angular.module('payswarm.directives')
           ]
         }
       };
-      if($scope.selection.destination && $scope.input.amount) {
+      if($scope.selection.destination && $scope.input.amount &&
+        parseFloat($scope.input.amount) !== 0) {
         verifyRequest.destination = $scope.selection.destination.id;
         verifyRequest.amount = $scope.input.amount;
       }
@@ -1218,7 +1219,12 @@ angular.module('payswarm.directives')
         // get public account information for all payees
         $scope.accounts = [];
         for(var i in deposit.transfer) {
-          $scope.accounts[deposit.transfer[i].destination] = {};
+          var xfer = deposit.transfer[i];
+          $scope.accounts[xfer.destination] = {};
+          if($scope.selection.destination &&
+            $scope.selection.destination.id === xfer.destination) {
+            $scope.transfer = xfer;
+          }
         }
         async.forEach(Object.keys($scope.accounts),
           function(account, callback) {

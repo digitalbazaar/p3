@@ -256,7 +256,7 @@ config.financial.paymentGateway.Test.payees['bank:BankAccount'] = [{
   destination: baseUri + '/i/authority/accounts/fees',
   payeeGroup: ['authority'],
   payeeApplyGroup: ['deposit'],
-  payeeExemptGroup: ['authority'],
+  payeeExemptGroup: ['authority', 'depositPercentExempt', 'exempt'],
   payeeRateType: 'com:PercentExclusive',
   payeeRate: '0.9998010',
   comment: 'Deposit Processing Service'
@@ -265,6 +265,7 @@ config.financial.paymentGateway.Test.payees['bank:BankAccount'] = [{
   destination: baseUri + '/i/authority/accounts/fees',
   payeeGroup: ['authority'],
   payeeApplyGroup: ['deposit'],
+  payeeExemptGroup: ['authority', 'depositFlatExempt', 'exempt'],
   payeeRateType: 'com:FlatAmount',
   payeeRate: '0.50',
   comment: 'Deposit Processing Service'
@@ -274,7 +275,7 @@ config.financial.paymentGateway.Test.payees['ccard:CreditCard'] = [{
   destination: baseUri + '/i/authority/accounts/fees',
   payeeGroup: ['authority'],
   payeeApplyGroup: ['deposit'],
-  payeeExemptGroup: ['authority'],
+  payeeExemptGroup: ['authority', 'depositPercentExempt', 'exempt'],
   payeeRateType: 'com:PercentExclusive',
   payeeRate: '2.1857960',
   comment: 'Deposit Processing Service'
@@ -283,6 +284,7 @@ config.financial.paymentGateway.Test.payees['ccard:CreditCard'] = [{
   destination: baseUri + '/i/authority/accounts/fees',
   payeeGroup: ['authority'],
   payeeApplyGroup: ['deposit'],
+  payeeExemptGroup: ['authority', 'depositFlatExempt', 'exempt'],
   payeeRateType: 'com:FlatAmount',
   payeeRate: '0.15',
   comment: 'Deposit Processing Service'

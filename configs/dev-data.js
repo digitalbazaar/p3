@@ -60,7 +60,8 @@ config.financial.paymentTokens.push({
     type: 'com:PaymentToken',
     label: 'Free Test Money Token',
     owner: config.authority.id,
-    psaVerified: true
+    psaVerified: true,
+    psaVerifyReady: true
   }
 });
 

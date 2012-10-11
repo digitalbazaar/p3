@@ -40,7 +40,8 @@
   "devDependencies": {
     "payswarm": "git://github.com/digitalbazaar/payswarm.js.git",
     "sprintf": "~0.1.1",
-    "prompt": "=0.2.2"
+    "prompt": "=0.2.2",
+    "vows": "~0.6.4"
   },
   "directories": {
     "lib": "./lib/payswarm-auth"

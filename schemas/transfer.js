@@ -12,7 +12,6 @@ var schema = {
   type: 'object',
   properties: {
     type: jsonldType('com:Transfer'),
-    forTransaction: payswarmId(),
     source: payswarmId(),
     destination: payswarmId(),
     amount: money.precisePositive(),

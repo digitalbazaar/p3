@@ -24,46 +24,50 @@ var postPaymentTokens = {
   additionalProperties: false
 };
 
-var postVerify = {
-  type: [{
-    title: 'Verify PaymentToken',
-    type: 'object',
-    properties: {
-      '@context': jsonldContext(),
-      psaVerifyParameters: {
-        title: 'Verify parameters',
-        type: 'object',
-        properties: {
-          amount: {
-            type: 'array',
-            minItems: 2,
-            items: money.precisePositive()
-          },
-          errors: {
-            invalid: 'The given amounts are not valid monetary amounts.',
-            missing: 'The two verification amounts must be given.'
-          }
+var postVerifyPrepare = {
+  title: 'Verify PaymentToken Prepare',
+  type: 'object',
+  properties: {
+    '@context': jsonldContext(),
+    psaVerifyParameters: {
+      title: 'Verify parameters',
+      type: 'object',
+      properties: {
+        amount: {
+          type: 'array',
+          minItems: 2,
+          items: money.precisePositive()
         },
-        additionalProperties: false
+        errors: {
+          invalid: 'The given amounts are not valid monetary amounts.',
+          missing: 'The two verification amounts must be given.'
+        }
       },
-      destination: {
-        type: 'string',
-        required: false
-      },
-      amount: money.precisePositive({required: false}),
-      errors: {
-        invalid: 'The given verification parameters are invalid.',
-        missing: 'The verification parameters must be given.'
-      }
+      additionalProperties: false
     },
-    additionalProperties: false
-  }, deposit('signed')]
+    destination: {
+      type: 'string',
+      required: false
+    },
+    amount: money.precisePositive({required: false}),
+    errors: {
+      invalid: 'The given verification parameters are invalid.',
+      missing: 'The verification parameters must be given.'
+    }
+  },
+  additionalProperties: false
 };
+
+var postVerifyDeposit = deposit('signed');
 
 module.exports.postPaymentTokens = function() {
   return postPaymentTokens;
 };
 
-module.exports.postVerify = function() {
-  return postVerify;
+module.exports.postVerifyPrepare = function() {
+  return postVerifyPrepare;
+};
+
+module.exports.postVerifyDeposit = function() {
+  return postVerifyDeposit;
 };

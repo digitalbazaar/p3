@@ -1165,6 +1165,7 @@ angular.module('payswarm.directives')
     $scope.open = function() {
       $scope.feedback = {};
       $scope.loading = false;
+      $scope.accounts = svcAccount.accounts;
       $scope.selection = {
         destination: null
       };
@@ -1199,15 +1200,13 @@ angular.module('payswarm.directives')
           ]
         }
       };
-      if($scope.selection.destination) {
+      if($scope.selection.destination && $scope.input.amount) {
         verifyRequest.destination = $scope.selection.destination.id;
-      }
-      if($scope.input.amount) {
         verifyRequest.amount = $scope.input.amount;
       }
       $scope.loading = true;
-      svcPaymentToken.verify($scope.token.id, verifyRequest,
-        function(err, deposit) {
+      svcPaymentToken.verify(
+        $scope.token.id, verifyRequest, function(err, deposit) {
         // FIXME: handle verification failure error
         $scope.feedback.validationErrors = err;
         if(err) {
@@ -1253,15 +1252,19 @@ angular.module('payswarm.directives')
     };
 
     $scope.confirm = function() {
-      svcPaymentToken.verify($scope.token.id, $scope._deposit,
-        function(err, deposit) {
+      $scope.loading = true;
+      svcPaymentToken.verify(
+        $scope.token.id, $scope._deposit, function(err, deposit) {
+        $scope.loading = false;
         if(!err) {
           // show complete page
           $scope.deposit = deposit;
           $scope.state = 'complete';
 
           // get updated balance after a delay
-          svcAccount.getOne($scope.account.id, {delay: 500});
+          if($scope.selection.destination) {
+            svcAccount.getOne($scope.selection.destination.id, {delay: 500});
+          }
 
           // go to top of page
           //var target = options.target;

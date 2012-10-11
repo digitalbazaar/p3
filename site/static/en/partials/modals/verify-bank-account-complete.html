@@ -1,8 +1,8 @@
-<p>
+<p data-ng-show="selection.destination.id">
   You have deposited
   <strong><span class="money">USD $<span class="amount">{{deposit.transfer[0].amount}}</span></span></strong>
   into your
-  "<strong>{{accounts[account.id].label}}</strong>"
+  "<strong>{{accounts[selection.destination.id].label}}</strong>"
   account.
 </p>
 

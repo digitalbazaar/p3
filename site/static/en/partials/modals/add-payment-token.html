@@ -5,6 +5,38 @@
   </div>
   <div class="modal-body">
     <div data-ng-include="'/partials/demo-warning.html'"></div>
+    
+    <div data-ng-show="paymentMethod == 'bank:BankAccount'">
+      <h6>Bank Account Agreement</h6>
+      <div class="well">
+        <p>By adding a new bank account, you agree that you are its rightful
+        owner and that you permit us to transfer funds both to and from it. You
+        also acknowledge that you will be charged bank fees whenever you request
+        that we transfer money to or from this bank account. We do not control
+        these fees; they are charged by the financial system and passed on to
+        you.</p>
+        <p>In order to verify that you have access to the bank account we will
+        deposit two separate small amounts of money into it. These amounts will
+        show up in your bank account in 3-5 business days, after which you must
+        submit them to this website to verify your bank account.</p>
+        <p><strong>Your bank account cannot be used to transfer
+        funds until the verification process is complete. Upon completion of
+        the verification process, the funds we deposited into your account will
+        be recuperated and you will be charged a bank fee.</strong></p>
+        <p>
+        You may elect to include an initial deposit at the time of verification
+        to avoid an additional bank fee.
+        </p>
+        <hr/>
+        <form class="form-vertical" action="">
+          <fieldset>
+            <label class="checkbox">
+              <input type="checkbox" data-ng-model="agreementChecked"> I agree to the above terms and conditions.
+            </label>
+          </fieldset>
+        </form>
+      </div>
+    </div>
 
     <h6>Select Payment Method Name</h6>
     <form class="well form-horizontal" action="">
@@ -142,7 +174,7 @@
     <span data-spinner="loading"
       data-spinner-class="prepend-btn-spinner"></span>
     <button class="btn btn-primary"
-      data-ng-disabled="loading"
+      data-ng-disabled="loading || (paymentMethod == 'bank:BankAccount' && !agreementChecked)"
       data-ng-click="add()"><i class="icon-ok icon-white"></i> Add</button>
     <button class="btn btn-close" data-ng-disabled="loading">Cancel</button>
   </div>

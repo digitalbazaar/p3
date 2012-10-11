@@ -1075,12 +1075,14 @@ angular.module('payswarm.directives')
       $scope.bankAccountEnabled =
         ($scope.paymentMethods.indexOf('bank:BankAccount') !== -1);
 
+      $scope.agreementChecked = false;
       $scope.billingAddressRequired = true;
       // billing address UI depends on payment method
       $scope.$watch('paymentMethod', function() {
-        $scope.billingAddressRequired =
-          ($scope.paymentMethod === 'ccard:CreditCard') ||
-          ($scope.paymentMethod === 'bank:BankAccount');
+        var isCreditCard = ($scope.paymentMethod === 'ccard:CreditCard');
+        var isBankAccount = ($scope.paymentMethod === 'bank:BankAccount');
+        $scope.billingAddressRequired = isCreditCard || isBankAccount;
+        $scope.agreementChecked = false;
       });
     };
 

@@ -1162,13 +1162,14 @@ angular.module('payswarm.directives')
 })
 .directive('modalVerifyBankAccount', function(svcModal) {
   function Ctrl($scope, svcPaymentToken, svcAccount) {
+    $scope.selection = {
+      destination: null
+    };
+
     $scope.open = function() {
       $scope.feedback = {};
       $scope.loading = false;
       $scope.transfer = null;
-      $scope.selection = {
-        destination: null
-      };
       $scope.psaVerifyParameters = {
         amount: [
           null,

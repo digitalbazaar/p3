@@ -85,7 +85,10 @@ ${set([
           </tr>
         </thead>
         <tbody>
-          <tr data-ng-repeat="budget in budgets | orderBy:'label'" class="budget" data-fadeout="budget.deleted">
+          <tr data-ng-repeat="budget in budgets | orderBy:'label'"
+            class="budget"
+            data-fadeout="budget.deleted"
+            data-fadeout-callback="deleteBudget(budget)">
             <!-- Label -->
             <td class="name">
               <a href="{{budget.id}}">{{budget.label}}</a>
@@ -116,7 +119,8 @@ ${set([
             </td>
             <!-- Delete -->
             <td class="action">
-              <button class="btn btn-danger" title="Delete" data-ng-click="deleteBudget(budget)"><i class="icon-remove icon-white"></i></button>
+              <button class="btn btn-danger" title="Delete"
+                data-ng-click="budget.deleted=true"><i class="icon-remove icon-white"></i></button>
             </td>
           </tr>
         </tbody>

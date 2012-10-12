@@ -22,7 +22,11 @@ function BudgetCtrl($scope, $routeParams, svcAccount, svcBudget) {
   $scope.vendors = svcBudget.vendors;
 
   $scope.deleteVendor = function(vendor) {
-    svcBudget.delVendor(data.budgetId, vendor);
+    svcBudget.delVendor(data.budgetId, vendor.id, function(err) {
+      if(err) {
+        vendor.deleted = false;
+      }
+    });
   };
 
   svcBudget.getOne(data.budgetId, function(err, budget) {

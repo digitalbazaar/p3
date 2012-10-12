@@ -116,15 +116,19 @@ angular.module('payswarm.directives')
     }
   };
 })
-.directive('fadeout', function() {
-  return function(scope, element, attrs) {
-    scope.$watch(attrs.fadeout, function(value) {
-      if(value) {
-        element.fadeOut(function() {
-          element.remove();
-        });
-      }
-    });
+.directive('fadeout', function($parse) {
+  return {
+    link: function(scope, element, attrs) {
+      scope.$watch(attrs.fadeout, function(value) {
+        if(value) {
+          element.fadeOut(function() {
+            element.remove();
+            var exp = $parse(attrs.fadeoutCallback);
+            exp(scope);
+          });
+        }
+      });
+    }
   };
 })
 .directive('progressDividend', function() {

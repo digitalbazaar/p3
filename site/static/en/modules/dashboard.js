@@ -32,11 +32,9 @@ module.controller('DashboardCtrl', function($scope, svcAccount, svcBudget) {
   };
 
   $scope.deleteBudget = function(budget) {
-    budget.deleted = true;
     svcBudget.del(budget.id, function(err) {
       if(err) {
         budget.deleted = false;
-        $scope.$apply();
       }
     });
   };

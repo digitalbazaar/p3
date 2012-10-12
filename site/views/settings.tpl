@@ -41,7 +41,9 @@ ${set([
                 </tr>
               </thead>
               <tbody>
-                <tr data-ng-repeat="card in creditCards | orderBy:'label'">
+                <tr data-ng-repeat="card in creditCards | orderBy:'label'"
+                  data-fadeout="card.deleted"
+                  data-fadeout-callback="deletePaymentToken(card)">
                   <!-- Name -->
                   <td>
                     <span>{{card.label}}</span>
@@ -60,7 +62,8 @@ ${set([
                   </td>
                   <!-- Delete -->
                   <td class="action">
-                    <button class="btn btn-danger" title="Delete" data-ng-click="deletePaymentToken(card)"><i class="icon-remove icon-white"></i></button>
+                    <button class="btn btn-danger" title="Delete"
+                      data-ng-click="card.deleted=true"><i class="icon-remove icon-white"></i></button>
                   </td>
                 </tr>
               </tbody>

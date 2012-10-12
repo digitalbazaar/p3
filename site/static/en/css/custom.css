@@ -170,6 +170,22 @@ select.form-field-vspaced {
   vertical-align: inherit;
 }
 
+/* Stretch nav-tabs so vertical border is same height as tab content */
+.tabs-left > .nav-tabs {
+  margin-right: -1px;
+}
+.tabs-left > .tab-content {
+  padding-left: 19px;
+  border-left: 1px solid #ddd;
+}
+.tabs-right > .nav-tabs {
+  margin-left: -1px;
+}
+.tabs-right > .tab-content {
+  padding-right: 19px;
+  border-right: 1px solid #ddd;
+}
+
 /* Financial */
 span.price {
   white-space: nowrap;

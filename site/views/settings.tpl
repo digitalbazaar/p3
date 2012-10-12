@@ -16,7 +16,7 @@ ${set([
     </div>
   </div>
   
-  <div class="tabbable tabs-left stretch-tabs">
+  <div class="tabbable tabs-left">
     <ul class="nav nav-tabs">
       <li class="active"><a href="#external-accounts" data-toggle="tab">External Accounts</a></li>
       <li><a href="#addresses" data-toggle="tab">Addresses</a></li>

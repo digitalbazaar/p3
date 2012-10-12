@@ -175,29 +175,6 @@ angular.module('payswarm.directives')
     });
   };
 })
-.directive('stretchTabs', function() {
-  var stretch = function(tabs, tabContent) {
-    setTimeout(function() {
-      tabs.css('height', tabContent.css('height'));
-    });
-  };
-
-  return {
-    restrict: 'C',
-    controller: function($scope, $timeout) {
-      $timeout(function() {
-        stretch($scope.tabs, $scope.tabContent);
-      });
-    },
-    link: function(scope, element, attrs) {
-      scope.tabs = $('.nav-tabs', element);
-      scope.tabContent = $('.tab-content', element);
-      scope.tabs.click(function() {
-        stretch(scope.tabs, scope.tabContent);
-      });
-    }
-  };
-})
 .directive('creditCardSelector', function() {
   return {
     scope: {

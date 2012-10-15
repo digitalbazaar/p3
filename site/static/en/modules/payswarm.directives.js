@@ -1461,6 +1461,7 @@ angular.module('payswarm.directives')
 
     $scope.edit = function() {
       $scope.state = 'editing';
+      $scope.selection.address = null;
     };
   }
 

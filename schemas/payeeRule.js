@@ -14,9 +14,12 @@ var schema = {
     properties: {
       id: payswarmId(),
       type: jsonldType('com:PayeeRule'),
-      accountOwnerType: {
+      payeeGroupPrefix: {
         required: false,
-        enum: ['ps:Authority']
+        type: 'array',
+        items: {
+          type: 'string'
+        }
       },
       maximumPayeeRate: money.precisePositive({required: false}),
       minimumPayeeRate: money.precisePositive({required: false}),

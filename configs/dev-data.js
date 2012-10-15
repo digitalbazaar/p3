@@ -276,8 +276,9 @@ config.financial.paymentGateway.Test.payees['bank:BankAccount'] = [{
   type: 'com:Payee',
   destination: baseUri + '/i/authority/accounts/fees',
   payeeGroup: ['authority'],
-  payeeApplyGroup: ['gateway'],
-  payeeExemptGroup: ['authority', 'gatewayPercentExempt', 'exempt'],
+  payeeApplyGroup: ['authority_gateway'],
+  payeeExemptGroup: [
+    'authority', 'authority_gatewayPercentExempt', 'authority_exempt'],
   payeeRateType: 'com:PercentExclusive',
   payeeRate: '0.9998010',
   comment: 'Deposit Processing Service'
@@ -285,8 +286,9 @@ config.financial.paymentGateway.Test.payees['bank:BankAccount'] = [{
   type: 'com:Payee',
   destination: baseUri + '/i/authority/accounts/fees',
   payeeGroup: ['authority'],
-  payeeApplyGroup: ['gateway'],
-  payeeExemptGroup: ['authority', 'gatewayFlatExempt', 'exempt'],
+  payeeApplyGroup: ['authority_gateway'],
+  payeeExemptGroup: [
+    'authority', 'authority_gatewayFlatExempt', 'authority_exempt'],
   payeeRateType: 'com:FlatAmount',
   payeeRate: '0.50',
   comment: 'Deposit Processing Service'
@@ -295,8 +297,9 @@ config.financial.paymentGateway.Test.payees['ccard:CreditCard'] = [{
   type: 'com:Payee',
   destination: baseUri + '/i/authority/accounts/fees',
   payeeGroup: ['authority'],
-  payeeApplyGroup: ['gateway'],
-  payeeExemptGroup: ['authority', 'gatewayPercentExempt', 'exempt'],
+  payeeApplyGroup: ['authority_gateway'],
+  payeeExemptGroup: [
+    'authority', 'authority_gatewayPercentExempt', 'authority_exempt'],
   payeeRateType: 'com:PercentExclusive',
   payeeRate: '2.1857960',
   comment: 'Deposit Processing Service'
@@ -304,8 +307,9 @@ config.financial.paymentGateway.Test.payees['ccard:CreditCard'] = [{
   type: 'com:Payee',
   destination: baseUri + '/i/authority/accounts/fees',
   payeeGroup: ['authority'],
-  payeeApplyGroup: ['gateway'],
-  payeeExemptGroup: ['authority', 'gatewayFlatExempt', 'exempt'],
+  payeeApplyGroup: ['authority_gateway'],
+  payeeExemptGroup: [
+    'authority', 'authority_gatewayFlatExempt', 'authority_exempt'],
   payeeRateType: 'com:FlatAmount',
   payeeRate: '0.15',
   comment: 'Deposit Processing Service'

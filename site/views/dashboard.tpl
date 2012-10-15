@@ -11,7 +11,7 @@ ${set([
 
   <div class="row">
     <div class="title-section span12">
-      <h1 class="headline">Dashboard <span class="subheadline">Recent activity and status</span></h3>
+      <h1 class="headline">Dashboard</h3>
     </div>
   </div>
     
@@ -190,10 +190,17 @@ ${set([
         <h3 class="center">No Transactions</h3>
         <p class="center">You have no recent transactions for this identity.</p>
       </div>
-      <span>
-      <a href="accounts?view=activity"><button class="btn"><i class="icon-list"></i> More <i class="icon-chevron-right"></i></button></a>
+      <span class="offset2 span2">
+        <a href="accounts?view=activity"><button class="btn"><i class="icon-list"></i> More <i class="icon-chevron-right"></i></button></a>
+      </span>
+    </div>
+    
+    <div class="section span6">
+      <h3 class="headline">Messages</h3>
+      <p class="center">No new messages.</p>
     </div>
   </div>
+
 </div>
 {{/verbatim}}
 

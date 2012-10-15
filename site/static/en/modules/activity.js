@@ -103,6 +103,7 @@ module.controller('ActivityCtrl', function($scope) {
 
   // show/hide transaction details
   $scope.toggleDetails = function(row) {
+    row.detailsVisible = !row.detailsVisible;
     var txn = row;
     if(row.type.indexOf('com:Transfer') !== -1) {
       txn = row.txn;

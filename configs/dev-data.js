@@ -60,6 +60,27 @@ config.financial.paymentTokens.push({
     type: 'com:PaymentToken',
     label: 'Free Test Money Token',
     owner: config.authority.id,
+    psaStatus: 'active',
+    psaVerified: true,
+    psaVerifyReady: true
+  }
+});
+// promo authority payment token for granting funds for claimed promo codes
+config.promo.paymentToken = 'urn:promo-authority-bank-account';
+config.financial.paymentTokens.push({
+  source: {
+    type: 'bank:BankAccount',
+    bankAccount: '0987654321',
+    bankAccountType: 'bank:Checking',
+    bankRoutingNumber: '123456789'
+  },
+  gateway: 'Test',
+  token: {
+    id: config.promo.paymentToken,
+    type: 'com:PaymentToken',
+    label: 'Promotional Test Money Token',
+    owner: config.authority.id,
+    psaStatus: 'active',
     psaVerified: true,
     psaVerifyReady: true
   }

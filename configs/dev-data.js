@@ -257,7 +257,8 @@ var defaultPayeeScheme = {
     destination: authorityId + '/accounts/main',
     payeeGroup: ['authority'],
     payeeRate: '2.00',
-    payeeRateType: 'com:PercentInclusive',
+    payeeRateType: 'com:Percent',
+    payeeApplyType: 'com:Inclusive',
     comment: config.authority.name + ' Processing'
   }],
   psaMinimumAmounts: {}
@@ -279,8 +280,9 @@ config.financial.paymentGateway.Test.payees['bank:BankAccount'] = [{
   payeeApplyGroup: ['authority_gateway'],
   payeeExemptGroup: [
     'authority', 'authority_gatewayPercentExempt', 'authority_exempt'],
-  payeeRateType: 'com:PercentExclusive',
+  payeeRateType: 'com:Percent',
   payeeRate: '0.9998010',
+  payeeApplyType: 'com:Exclusive',
   comment: 'Deposit Processing Service'
 }, {
   type: 'com:Payee',
@@ -291,6 +293,7 @@ config.financial.paymentGateway.Test.payees['bank:BankAccount'] = [{
     'authority', 'authority_gatewayFlatExempt', 'authority_exempt'],
   payeeRateType: 'com:FlatAmount',
   payeeRate: '0.50',
+  payeeApplyType: 'com:Exclusive',
   comment: 'Deposit Processing Service'
 }];
 config.financial.paymentGateway.Test.payees['ccard:CreditCard'] = [{
@@ -300,8 +303,9 @@ config.financial.paymentGateway.Test.payees['ccard:CreditCard'] = [{
   payeeApplyGroup: ['authority_gateway'],
   payeeExemptGroup: [
     'authority', 'authority_gatewayPercentExempt', 'authority_exempt'],
-  payeeRateType: 'com:PercentExclusive',
+  payeeRateType: 'com:Percent',
   payeeRate: '2.1857960',
+  payeeApplyType: 'com:Exclusive',
   comment: 'Deposit Processing Service'
 }, {
   type: 'com:Payee',
@@ -312,6 +316,7 @@ config.financial.paymentGateway.Test.payees['ccard:CreditCard'] = [{
     'authority', 'authority_gatewayFlatExempt', 'authority_exempt'],
   payeeRateType: 'com:FlatAmount',
   payeeRate: '0.15',
+  payeeApplyType: 'com:Exclusive',
   comment: 'Deposit Processing Service'
 }];
 // set bank account settlement to 1 minute

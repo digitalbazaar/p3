@@ -18,7 +18,7 @@ var schema = {
       },
       destination: payswarmId(),
       payeeGroup: {
-        required: false,
+        required: true,
         type: [{
           type: 'string'
         }, {
@@ -57,7 +57,12 @@ var schema = {
       payeeRateType: {
         required: true,
         type: 'string',
-        enum: ['com:FlatAmount', 'com:PercentExclusive', 'com:PercentInclusive']
+        enum: ['com:FlatAmount', 'com:Percent']
+      },
+      payeeApplyType: {
+        required: true,
+        type: 'string',
+        enum: ['com:Exclusive', 'com:Inclusive']
       },
       comment: {
         required: false,

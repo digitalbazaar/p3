@@ -1559,8 +1559,10 @@ angular.module('payswarm.directives')
         type: ['com:Transaction', 'com:Deposit'],
         payee: [{
           type: 'com:Payee',
+          payeeGroup: ['deposit'],
           payeeRate: $scope.input.amount,
           payeeRateType: 'com:FlatAmount',
+          payeeApplyType: 'com:Exclusive',
           destination: $scope.account.id
         }],
         source: $scope.input.source.id

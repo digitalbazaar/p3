@@ -1324,16 +1324,14 @@ angular.module('payswarm.directives')
           return addAccount(identity);
         }
 
-        $scope.loading = false;
-
         // if identity is a duplicate, add account to it
         if(err.type === 'payswarm.website.DuplicateIdentity') {
           identity.id = $scope.baseUrl + '/i/' + identity.psaSlug;
-          addAccount(options, identity);
+          return addAccount(identity);
         }
-        else {
-          $scope.feedback.validationErrors = err;
-        }
+
+        $scope.loading = false;
+        $scope.feedback.validationErrors = err;
       });
     };
 

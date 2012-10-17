@@ -460,7 +460,8 @@ angular.module('payswarm.services')
       payswarm.accounts.getOne({
         account: accountId,
         success: function(account) {
-          _replaceInArray(service.accounts, account);
+          var entry = service.identities[account.owner];
+          _replaceInArray(entry.accounts, account);
           service.state.loading = false;
           callback(null, account);
           $rootScope.$apply();
@@ -485,6 +486,9 @@ angular.module('payswarm.services')
       identity: identityId,
       account: account,
       success: function(account) {
+        if(!(identityId in service.identities)) {
+          service.identities[identityId] = {accounts: [], expires: 0};
+        }
         service.identities[identityId].accounts.push(account);
         service.state.loading = false;
         callback(null, account);

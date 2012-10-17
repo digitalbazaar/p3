@@ -130,7 +130,7 @@ function _addTxn($scope, txn) {
     transfer.txn = txn;
     transfer.sourceLink = true;
     transfer.destinationLink = true;
-    if(txn.source) {
+    if(txn.source && transfer.source === 'urn:payswarm-external-account') {
       var src = txn.source;
       if(src.paymentMethod === 'ccard:CreditCard') {
         transfer.source = 'Credit Card: ' + src.cardNumber;
@@ -141,7 +141,8 @@ function _addTxn($scope, txn) {
         transfer.sourceLink = false;
       }
     }
-    if(txn.destination) {
+    if(txn.destination &&
+      transfer.destination === 'urn:payswarm-external-account') {
       var dst = txn.destination;
       if(dst.paymentMethod === 'bank:BankAccount') {
         transfer.destination = 'Bank Account: ' + dst.bankAccount;

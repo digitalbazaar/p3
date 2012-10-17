@@ -46,19 +46,17 @@ ${set([
                 <ul class="dropdown-menu">
                   <li>
                     <a href="#" data-ng-click="modals.account=account; modals.showDeposit=true">
-                      <i class="icon-plus"></i> Deposit</a>
+                      <i class="icon-plus"></i> Deposit
+                    </a>
                   </li>
                   <li>
                     <a href="#" data-ng-click="modals.account=account; modals.showWithdraw=true">
-                      <i class="icon-minus"></i> Withdraw</a>
+                      <i class="icon-minus"></i> Withdraw
+                    </a>
                   </li>
                   <li>
                     <a href="#" data-ng-click="modals.account=account; modals.showEditAccount=true">
-                      <i class="icon-pencil"></i> Edit</a>
-                  </li>
-                  <li class="btn-success">
-                    <a href="#" data-ng-click="modals.showAddAccount=true">
-                      <i class="icon-plus icon-white"></i> Add Account
+                      <i class="icon-pencil"></i> Edit
                     </a>
                   </li>
                 </ul>
@@ -70,7 +68,8 @@ ${set([
           <tr>
             <td colspan="3" style="text-align: center">
               <span class="center">
-                <span data-spinner="state.accounts.loading" data-spinner-class="table-spinner"></span>
+                <span data-spinner="state.accounts.loading"
+                  data-spinner-class="table-spinner"></span>
               </span>
             </td>
           </tr>
@@ -79,6 +78,9 @@ ${set([
       <div data-ng-show="!state.accounts.loading && accounts.length == 0">
         <p class="center">You have no accounts configured for this identity.</p>
       </div>
+      <button data-ng-hide="state.accounts.loading"
+        class="btn btn-success pull-right"
+        data-ng-click="modals.showAddAccount=true"><i class="icon-plus icon-white"></i> Add Account</button>
       <div data-modal-deposit="modals.showDeposit"
         data-account="modals.account" data-instant="false"></div>
       <div data-modal-withdraw="modals.showWithdraw"
@@ -134,26 +136,26 @@ ${set([
                 <ul class="dropdown-menu">
                   <li>
                     <a href="#" data-ng-click="modals.budget=budget; modals.showEditBudget=true">
-                      <i class="icon-pencil"></i> Edit</a>
+                      <i class="icon-pencil"></i> Edit
+                    </a>
                   </li>
+                  <li class="divider"></li>
                   <li class="btn-danger">
                     <a href="#" data-ng-click="budget.deleted=true">
-                      <i class="icon-remove icon-white"></i> Delete</a>
-                  </li>
-                  <li class="btn-success">
-                    <a href="#" data-ng-click="modals.showAddBudget=true">
-                      <i class="icon-plus icon-white"></i> Add Budget
+                      <i class="icon-remove icon-white"></i> Delete
+                    </a>
                   </li>
                 </ul>
               </div>
-            </td>            
+            </td>
           </tr>
         </tbody>
         <tfoot data-ng-show="state.budgets.loading">
           <tr>
             <td colspan="4" style="text-align: center">
               <span class="center">
-                <span data-spinner="state.budgets.loading" data-spinner-class="table-spinner"></span>
+                <span data-spinner="state.budgets.loading"
+                  data-spinner-class="table-spinner"></span>
               </span>
             </td>
           </tr>
@@ -162,6 +164,9 @@ ${set([
       <div data-ng-show="!state.budgets.loading && budgets.length == 0">
         <p class="center">You have no budgets configured for this identity.</p>
       </div>
+      <button data-ng-hide="state.budgets.loading"
+        class="btn btn-success pull-right"
+        data-ng-click="modals.showAddBudget=true"><i class="icon-plus icon-white"></i> Add Budget</button>
       <div data-modal-edit-budget="modals.showEditBudget"
         data-budget="modals.budget"></div>
       <div data-modal-add-budget="modals.showAddBudget"></div>

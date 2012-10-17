@@ -20,6 +20,7 @@ ${set([
     <ul class="nav nav-tabs">
       <li class="active"><a href="#external-accounts" data-toggle="tab">External Accounts</a></li>
       <li><a href="#addresses" data-toggle="tab">Addresses</a></li>
+      <li><a href="#keys" data-toggle="tab">Access Keys</a></li>
     </ul>
     <div class="tab-content">
       <!-- External Accounts Tab -->
@@ -236,6 +237,56 @@ ${set([
         </div>
       </div>
       <!-- End Addresses Tab -->
+
+      <!-- Keys Tab -->
+      <div class="container-fluid tab-pane"
+        id="keys"
+        data-ng-controller="KeyCtrl">
+        <div class="row-fluid">
+          <div class="section span12">
+            <h3 class="headline">Keys</h3>
+            <table class="table table-condensed" data-ng-show="state.loading || keys.length > 0">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Status</th>
+                  <th class="action">Revoke</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr data-ng-repeat="key in keys | orderBy:'label'">
+                  <!-- Name -->
+                  <td>
+                    <a href="{{key.id}}">{{key.label}}</a></span>
+                  </td>
+                  <!-- Status -->
+                  <td>
+                    {{key.psaStatus}}
+                  </td>
+                  <!-- Revoke -->
+                  <td class="action">
+                    <button class="btn btn-danger" title="Revoke" data-ng-click="revokeKey(key)"><i class="icon-remove icon-white"></i></button>
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot data-ng-show="state.loading">
+                <tr>
+                  <td colspan="5" style="text-align: center">
+                    <span class="center">
+                      <span data-spinner="state.loading" data-spinner-class="table-spinner"></span>
+                    </span>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+            <div data-ng-show="!state.loading && keys.length == 0">
+              <p class="center">You have no keys associated with this identity.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End Keys Tab -->
+
     </div>
   </div>
   

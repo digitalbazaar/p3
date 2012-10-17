@@ -1128,6 +1128,40 @@ payswarm.transactions.get = function(options) {
   });
 };
 
+// keys API
+payswarm.keys = {};
+
+/**
+ * Get the keys for an identity.
+ *
+ * Usage:
+ *
+ * payswarm.keys.get({
+ *   identity: 'https://example.com/i/myidentity',
+ *   success: function(budgets) {},
+ *   error: function(err) {}
+ * });
+ */
+payswarm.keys.get = function(options) {
+  $.ajax({
+    async: true,
+    type: 'GET',
+    url: options.identity + '/keys',
+    dataType: 'json',
+    success: function(response, statusText) {
+      if(options.success) {
+        options.success(response);
+      }
+    },
+    error: function(xhr, textStatus, errorThrown) {
+      if(options.error) {
+        options.error(normalizeError(xhr, textStatus));
+      }
+    }
+  });
+};
+
+
 // profiles API
 payswarm.profiles = {};
 

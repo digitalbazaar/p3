@@ -52,4 +52,15 @@ module.controller('AddressCtrl', function($scope, svcAddress) {
   svcAddress.get();
 });
 
+module.controller('KeyCtrl', function($scope, svcKey) {
+  $scope.state = svcKey.state;
+  $scope.keys = svcKey.keys;
+
+  $scope.revokeKey = function(key) {
+    svcKey.revoke(key);
+  };
+
+  svcKey.get();
+});
+
 })();

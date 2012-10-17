@@ -8,7 +8,7 @@
 
 var module = angular.module('payswarm');
 
-module.controller('ActivityCtrl', function($scope) {
+module.controller('ActivityCtrl', function($scope, svcTransaction) {
   // initialize model
   var data = window.data || {};
   $scope.session = data.session || null;
@@ -45,23 +45,7 @@ module.controller('ActivityCtrl', function($scope) {
     $event.target.blur();
   };
 
-  $scope.getRowType = function(row) {
-    if(row.type.indexOf('com:Deposit') !== -1) {
-      return 'deposit';
-    }
-    else if(row.type.indexOf('ps:Contract') !== -1) {
-      return 'contract';
-    }
-    else if(row.type.indexOf('com:Transfer') !== -1) {
-      return 'transfer';
-    }
-    else if(row.type.indexOf('com:Withdrawal') !== -1) {
-      return 'withdrawal';
-    }
-    else {
-      return 'error';
-    }
-  };
+  $scope.getRowType = svcTransaction.getType;
 
   $scope.getMore = function() {
     // show loading indicator

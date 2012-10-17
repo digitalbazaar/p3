@@ -1532,7 +1532,7 @@ angular.module('payswarm.directives')
   };
 })
 .directive('modalDeposit', function(svcModal) {
-  function Ctrl($scope, svcPaymentToken, svcAccount) {
+  function Ctrl($scope, svcPaymentToken, svcAccount, svcTransaction) {
     $scope.open = function() {
       $scope.data = window.data || {};
       $scope.feedback = {};
@@ -1630,6 +1630,9 @@ angular.module('payswarm.directives')
           // get updated balance after a delay
           svcAccount.getOne($scope.account.id, {delay: 500});
 
+          // update recent transactions
+          svcTransaction.getRecent({force: true});
+
           // go to top of page
           //var target = options.target;
           //$(target).animate({scrollTop: 0}, 0);
@@ -1661,7 +1664,7 @@ angular.module('payswarm.directives')
   });
 })
 .directive('modalWithdraw', function(svcModal) {
-  function Ctrl($scope, svcPaymentToken, svcAccount) {
+  function Ctrl($scope, svcPaymentToken, svcAccount, svcTransaction) {
     $scope.open = function() {
       $scope.data = window.data || {};
       $scope.feedback = {};
@@ -1764,6 +1767,9 @@ angular.module('payswarm.directives')
 
           // get updated balance after a delay
           svcAccount.getOne($scope.account.id, {delay: 500});
+
+          // update recent transactions
+          svcTransaction.getRecent({force: true});
 
           // go to top of page
           //var target = options.target;

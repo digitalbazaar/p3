@@ -755,8 +755,10 @@ angular.module('payswarm.services')
   // identity service
   var service = {};
 
-  service.identity = window.data.session.identity;
-  service.identityMap = window.data.session.identities;
+  var data = window.data || {};
+  var session = data.session || {auth: false};
+  service.identity = session.identity || null;
+  service.identityMap = session.identities || {};
   service.identities = [];
   angular.forEach(service.identityMap, function(identity) {
     service.identities.push(identity);

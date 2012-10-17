@@ -195,7 +195,9 @@ ${set([
           </tr>
         </thead>
         <tbody>
-          <tr data-ng-repeat="txn in txns" class="txn" data-fadein="txn.added">
+          <tr data-ng-repeat="txn in txns" class="txn"
+            data-ng-class="(!txn.settled && !txn.voided && 'info') || (txn.voided && 'error')"
+            data-fadein="txn.added">
             <!-- Date -->
             <td data-ng-switch="getTxnType(txn)">
               <span data-ng-switch-when="deposit" class="date">{{txn.created | date:'medium'}}</span>

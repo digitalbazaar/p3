@@ -53,7 +53,8 @@ ${set([
   </form>
 </div>
 
-<table class="table table-condensed" data-ng-show="loading || txns.length > 0">
+<table class="table table-hover table-condensed"
+  data-ng-show="loading || txns.length > 0">
   <thead>
     <tr>
       <th class="date">Date</th>
@@ -62,7 +63,9 @@ ${set([
     </tr>
   </thead>
   <tbody>
-    <tr data-ng-repeat="row in table" data-ng-hide="row.hidden">
+    <tr data-ng-repeat="row in table"
+      data-ng-class="(!row.settled && !row.voided && 'info') || (row.voided && 'error')"
+      data-ng-hide="row.hidden">
       <!-- Date -->
       <td data-ng-switch="getRowType(row)" data-ng-click="toggleDetails(row)" style="max-width: 150px;">
         <span data-ng-switch-when="deposit" class="date">{{row.created | date:'medium'}}</span>

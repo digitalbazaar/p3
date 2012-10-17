@@ -93,8 +93,7 @@ ${set([
             <th class="name">Budget</th>
             <th class="money">Balance</th>
             <th>Refill</th>
-            <th class="action">Edit</th>
-            <th class="action">Delete</th>
+            <th class="action">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -123,23 +122,31 @@ ${set([
               <span data-ng-switch-when="psa:Monthly">Monthly</span>
               <span data-ng-switch-when="psa:Yearly">Yearly</span>
             </td>
-            <!-- Edit -->
+            <!-- Action -->
             <td class="action">
-              <button class="btn edit" title="Edit"
-                data-ng-click="showEditBudgetModal=true"><i class="icon-pencil"></i></button>
-              <span data-modal-edit-budget="showEditBudgetModal"
-                data-budget="budget"></span>
-            </td>
-            <!-- Delete -->
-            <td class="action">
-              <button class="btn btn-danger" title="Delete"
-                data-ng-click="budget.deleted=true"><i class="icon-remove icon-white"></i></button>
-            </td>
+              <div class="btn-group">
+                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                  <i class="icon-chevron-down"></i>
+                </a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="#" data-ng-click="showEditBudgetModal=true">
+                      <i class="icon-pencil"></i> Edit</a>
+                    <span data-modal-edit-budget="showEditBudgetModal"
+                      data-budget="budget"></span>
+                  </li>
+                  <li class="btn-danger">
+                    <a href="#" data-ng-click="budget.deleted=true">
+                      <i class="icon-remove icon-white"></i> Delete</a>
+                  </li>
+                </ul>
+              </div>
+            </td>            
           </tr>
         </tbody>
         <tfoot data-ng-show="state.budgets.loading">
           <tr>
-            <td colspan="5" style="text-align: center">
+            <td colspan="4" style="text-align: center">
               <span class="center">
                 <span data-spinner="state.budgets.loading" data-spinner-class="table-spinner"></span>
               </span>

@@ -45,22 +45,21 @@ ${set([
                 </a>
                 <ul class="dropdown-menu">
                   <li>
-                    <a href="#" data-ng-click="showDepositModal=true">
+                    <a href="#" data-ng-click="modals.account=account; modals.showDeposit=true">
                       <i class="icon-plus"></i> Deposit</a>
-                    <span data-modal-deposit="showDepositModal"
-                      data-account="account" data-instant="false"></span>
                   </li>
                   <li>
-                    <a href="#" data-ng-click="showWithdrawModal=true">
+                    <a href="#" data-ng-click="modals.account=account; modals.showWithdraw=true">
                       <i class="icon-minus"></i> Withdraw</a>
-                    <span data-modal-withdraw="showWithdrawModal"
-                      data-account="account"></span>
                   </li>
                   <li>
-                    <a href="#" data-ng-click="showEditAccountModal=true">
+                    <a href="#" data-ng-click="modals.account=account; modals.showEditAccount=true">
                       <i class="icon-pencil"></i> Edit</a>
-                    <span data-modal-edit-account="showEditAccountModal"
-                      data-account="account"></span>
+                  </li>
+                  <li class="btn-success">
+                    <a href="#" data-ng-click="modals.showAddAccount=true">
+                      <i class="icon-plus icon-white"></i> Add Account
+                    </a>
                   </li>
                 </ul>
               </div>
@@ -80,9 +79,13 @@ ${set([
       <div data-ng-show="!state.accounts.loading && accounts.length == 0">
         <p class="center">You have no accounts configured for this identity.</p>
       </div>
-      <div data-modal-add-account="showAddAccountModal"></div>
-      <button data-ng-hide="state.accounts.loading" class="btn btn-success"
-        data-ng-click="showAddAccountModal=true"><i class="icon-plus icon-white"></i> Add Account</button>
+      <div data-modal-deposit="modals.showDeposit"
+        data-account="modals.account" data-instant="false"></div>
+      <div data-modal-withdraw="modals.showWithdraw"
+        data-account="modals.account"></div>
+      <div data-modal-edit-account="modals.showEditAccount"
+        data-account="modals.account"></div>
+      <div data-modal-add-account="modals.showAddAccount"></div>
     </div>
     
     <div class="section span6">
@@ -130,14 +133,16 @@ ${set([
                 </a>
                 <ul class="dropdown-menu">
                   <li>
-                    <a href="#" data-ng-click="showEditBudgetModal=true">
+                    <a href="#" data-ng-click="modals.budget=budget; modals.showEditBudget=true">
                       <i class="icon-pencil"></i> Edit</a>
-                    <span data-modal-edit-budget="showEditBudgetModal"
-                      data-budget="budget"></span>
                   </li>
                   <li class="btn-danger">
                     <a href="#" data-ng-click="budget.deleted=true">
                       <i class="icon-remove icon-white"></i> Delete</a>
+                  </li>
+                  <li class="btn-success">
+                    <a href="#" data-ng-click="modals.showAddBudget=true">
+                      <i class="icon-plus icon-white"></i> Add Budget
                   </li>
                 </ul>
               </div>
@@ -157,9 +162,9 @@ ${set([
       <div data-ng-show="!state.budgets.loading && budgets.length == 0">
         <p class="center">You have no budgets configured for this identity.</p>
       </div>
-      <div data-modal-add-budget="showAddBudgetModal"></div>
-      <button data-ng-hide="state.budgets.loading" class="btn btn-success"
-        data-ng-click="showAddBudgetModal=true"><i class="icon-plus icon-white"></i> Add Budget</button>
+      <div data-modal-edit-budget="modals.showEditBudget"
+        data-budget="modals.budget"></div>
+      <div data-modal-add-budget="modals.showAddBudget"></div>
     </div>
   </div>
 

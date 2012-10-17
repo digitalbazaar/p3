@@ -21,7 +21,16 @@ module.controller('DashboardCtrl', function(
     budgets: svcBudget.state,
     txns: svcTransaction.state
   };
-
+  $scope.modals = {
+    showDeposit: false,
+    showWithdraw: false,
+    showEditAccount: false,
+    showAddAccount: false,
+    showEditBudget: false,
+    showAddBudget: false,
+    account: null,
+    budget: null
+  };
   $scope.deleteBudget = function(budget) {
     svcBudget.del(budget.id, function(err) {
       if(err) {

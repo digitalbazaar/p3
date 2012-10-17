@@ -222,12 +222,30 @@ module.controller('PurchaseCtrl', function(
             $scope.alertType = 'purchased';
             $scope.purchased = true;
             $scope.encryptedMessage = encryptedMessage;
+
+            // auto-purchased, update budget
+            if($scope.budget) {
+              return svcBudget.getOne(
+                $scope.budget.id, {force: true}, function(err, budget) {
+                  if(!err) {
+                    $scope.budget = budget;
+                  }
+                  callback();
+                });
+            }
+
             callback();
           },
           error: callback
         });
       }
-    ], callback);
+    ], function(err) {
+      if(err) {
+        // clear any auto-purchase budget
+        $scope.budget = null;
+      }
+      callback(err);
+    });
   }
 
   // try to find budget for a contract
@@ -255,6 +273,7 @@ module.controller('PurchaseCtrl', function(
     var budget = budgetForContract();
     if(budget) {
       // budget found, try auto-purchase
+      $scope.budget = budget;
       return purchase(budget.source, callback);
     }
     callback();

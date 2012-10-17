@@ -14,7 +14,16 @@ ${set([
       <div data-ng-show="alertType == 'purchased'" class="alert alert-block alert-success">
         <button type="button" class="close" data-dismiss="alert">×</button>
         <h4>Congratulations!</h4>
-        <p>Your purchase is complete.</span>
+        <br/>
+        <p>Your purchase is complete.
+        <span data-ng-show="budget">
+        The purchase was made using your budget "<strong>{{budget.label}}</strong>",
+        which has a remaining balance of <span class="money"
+          data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact amount of this transaction is USD {{budget.balance}}."
+          data-placement="bottom" data-trigger="hover"><span
+          class="currency">USD</span> {{budget.balance | floor | currency:'$'}}</span>.
+        </span>
+        </p>
       </div>
       <div data-ng-show="alertType == 'budgetExceeded'" class="alert alert-block alert-error">
         <button type="button" class="close" data-dismiss="alert">×</button>

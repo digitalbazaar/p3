@@ -4,10 +4,15 @@ ${set([
 {{partial "head.tpl"}}
 
 <div class="row">
-  <div class="span4 offset4">
-    <h1 class="headline">About ${identity.label || identity.id}</h1>
+  <div class="span12">
+{{if identity.label}}
+    <h1 class="headline">About ${identity.label}</h1>
+{{else}}
+    <h1 class="headline">About identity</h1>
+{{/if}}
   </div>
 </div>
+
 {{if identity.homepage || identity.description}}
 <hr />
 {{/if}}

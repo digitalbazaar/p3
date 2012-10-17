@@ -145,7 +145,10 @@ config.identity.identities.push({
   id: authorityId,
   owner: baseUri + '/profiles/authority',
   psaSlug: 'authority',
-  label: 'PaySwarm Authority'
+  psaPublic: ['label', 'homepage', 'description'],
+  label: 'PaySwarm Authority',
+  homepage: baseUri,
+  description: 'Development PaySwarm Authority'
 });
 config.identity.identities.push({
   id: baseUri + '/i/dev',
@@ -167,6 +170,7 @@ config.identity.identities.push({
   owner: baseUri + '/profiles/vendor',
   psaSlug: 'vendor',
   label: 'Vendor',
+  psaPublic: ['label', 'homepage', 'description'],
   homepage: 'http://example.com/vendor',
   description: 'The default PaySwarm Vendor'
 });

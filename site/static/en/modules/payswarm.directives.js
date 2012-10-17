@@ -818,7 +818,7 @@ angular.module('payswarm.directives')
         if(!err) {
           $scope.close(null, account);
         }
-        $scope.feedback.validationErrors = err;
+        $scope.feedback.error = err;
       });
     };
   }
@@ -876,7 +876,7 @@ angular.module('payswarm.directives')
         if(!err) {
           $scope.close(null, account);
         }
-        $scope.feedback.validationErrors = err;
+        $scope.feedback.error = err;
       });
     };
   }
@@ -931,7 +931,7 @@ angular.module('payswarm.directives')
         if(!err) {
           $scope.close(null, budget);
         }
-        $scope.feedback.validationErrors = err;
+        $scope.feedback.error = err;
       });
     };
   }
@@ -1006,7 +1006,7 @@ angular.module('payswarm.directives')
         if(!err) {
           $scope.close(null, budget);
         }
-        $scope.feedback.validationErrors = err;
+        $scope.feedback.error = err;
       });
     };
   }
@@ -1130,7 +1130,7 @@ angular.module('payswarm.directives')
         if(!err) {
           $scope.close(null, addedToken);
         }
-        $scope.feedback.validationErrors = err;
+        $scope.feedback.error = err;
       });
     };
   }
@@ -1196,8 +1196,48 @@ angular.module('payswarm.directives')
       $scope.loading = true;
       svcPaymentToken.verify(
         $scope.token.id, verifyRequest, function(err, deposit) {
-        // FIXME: handle verification failure error
-        $scope.feedback.validationErrors = err;
+        // FIXME: improve error display
+        if(err) {
+          // Synthesize validation error for UI
+          if(err.type === 'payswarm.website.VerifyPaymentTokenFailed' &&
+            err.cause &&
+            err.cause.type === 'payswarm.financial.VerificationFailed') {
+            err = {
+              "message": "",
+              "type": "payswarm.validation.ValidationError",
+              "details": {
+                "errors": [
+                  {
+                    "name": "payswarm.validation.ValidationError",
+                    "message": "verification amount is incorrect",
+                    "details": {
+                      "path": "psaVerifyParameters.amount[0]",
+                      "public": true
+                    },
+                    "cause": null
+                  },
+                  {
+                    "name": "payswarm.validation.ValidationError",
+                    "message": "verification amount is incorrect",
+                    "details": {
+                      "path": "psaVerifyParameters.amount[1]",
+                      "public": true
+                    },
+                    "cause": null
+                  }
+                ]
+              },
+              "cause": null
+            }
+          }
+          // Signal to contact support if needed.
+          else if(err.type === 'payswarm.website.VerifyPaymentTokenFailed' &&
+            err.cause &&
+            err.cause.type === 'payswarm.financial.MaxVerifyAttemptsExceeded') {
+            $scope.feedback.contactSupport = true;
+          }
+        }
+        $scope.feedback.error = err;
         if(err) {
           $scope.loading = false;
           return;
@@ -1254,6 +1294,9 @@ angular.module('payswarm.directives')
           $scope.deposit = deposit;
           $scope.state = 'complete';
 
+          // get updated token
+          svcAccount.getOne($scope.token.id);
+
           // get updated balance after a delay
           if($scope.selection.destination) {
             svcAccount.getOne($scope.selection.destination.id, {delay: 500});
@@ -1263,7 +1306,7 @@ angular.module('payswarm.directives')
           //var target = options.target;
           //$(target).animate({scrollTop: 0}, 0);
         }
-        $scope.feedback.validationErrors = err;
+        $scope.feedback.error = err;
       });
     };
 
@@ -1334,7 +1377,7 @@ angular.module('payswarm.directives')
         }
 
         $scope.loading = false;
-        $scope.feedback.validationErrors = err;
+        $scope.feedback.error = err;
       });
     };
 
@@ -1352,7 +1395,7 @@ angular.module('payswarm.directives')
           $scope.close(null, {identity: identity, account: account});
         }
         // FIXME: identity vs account feedback
-        $scope.feedback.validationErrors = err;
+        $scope.feedback.error = err;
       });
     }
   }
@@ -1429,7 +1472,7 @@ angular.module('payswarm.directives')
         if(err) {
           // FIXME
           console.log('validation failed', err);
-          $scope.feedback.validationErrors = err;
+          $scope.feedback.error = err;
         }
         else {
           // FIXME: should backend handle this?
@@ -1485,13 +1528,15 @@ angular.module('payswarm.directives')
   };
 })
 .directive('feedback', function() {
-  function processValidationErrors(feedbackTarget, target, ex) {
+  function processFeedbackError(feedbackTarget, target, feedback) {
+    var error = feedback ? feedback.error : null;
+
     // clear previous feedback
     $('[data-binding]', target).removeClass('error');
     feedbackTarget.empty();
 
     // done if no exception
-    if(!ex) {
+    if(!error) {
       // clear alert style
       feedbackTarget.removeClass('alert');
       feedbackTarget.removeClass('alert-error');
@@ -1503,12 +1548,12 @@ angular.module('payswarm.directives')
     feedbackTarget.addClass('alert-error');
 
     // handle form feedback
-    switch(ex.type) {
+    switch(error.type) {
     // generic form errors
     case 'payswarm.validation.ValidationError':
       feedbackTarget.text('Please correct the information you entered.');
-      $.each(ex.details.errors, function(i, error) {
-        var binding = error.details.path;
+      $.each(error.details.errors, function(i, detailError) {
+        var binding = detailError.details.path;
         if(binding) {
           // highlight element using data-binding
           $('[data-binding="' + binding + '"]', target).addClass('error');
@@ -1516,7 +1561,17 @@ angular.module('payswarm.directives')
       });
       break;
     default:
-      feedbackTarget.text(ex.message);
+      var message = error.message;
+      // FIXME: this should be limited as needed
+      if(error.cause.message) {
+        message = message + ' ' + error.cause.message;
+      }
+      if(feedback.contactSupport) {
+        message = message +
+          ' Please <a target="_blank" href="/contact">contact</a> us for ' +
+          'assistance.';
+      }
+      feedbackTarget.html(message);
     }
   }
   return {
@@ -1525,8 +1580,8 @@ angular.module('payswarm.directives')
       target: '='
     },
     link: function(scope, element, attrs) {
-      scope.$watch('feedback.validationErrors', function(value) {
-        processValidationErrors(element, scope.target, value);
+      scope.$watch('feedback.error', function(value) {
+        processFeedbackError(element, scope.target, scope.feedback);
       });
     }
   };
@@ -1609,7 +1664,7 @@ angular.module('payswarm.directives')
         },
         error: function(err) {
           $scope.loading = false;
-          $scope.feedback.validationErrors = err;
+          $scope.feedback.error = err;
           $scope.$apply();
         }
       });
@@ -1639,7 +1694,7 @@ angular.module('payswarm.directives')
         },
         error: function(err) {
           $scope.loading = false;
-          $scope.feedback.validationErrors = err;
+          $scope.feedback.error = err;
           $scope.$apply();
         }
       });
@@ -1747,7 +1802,7 @@ angular.module('payswarm.directives')
         },
         error: function(err) {
           $scope.loading = false;
-          $scope.feedback.validationErrors = err;
+          $scope.feedback.error = err;
           $scope.$apply();
         }
       });
@@ -1777,7 +1832,7 @@ angular.module('payswarm.directives')
         },
         error: function(err) {
           $scope.loading = false;
-          $scope.feedback.validationErrors = err;
+          $scope.feedback.error = err;
           $scope.$apply();
         }
       });

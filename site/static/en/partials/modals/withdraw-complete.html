@@ -1,0 +1,48 @@
+<p>
+  You have withdrawn
+  <strong><span class="money">USD $<span class="amount">{{withdrawal.amount}}</span></span></strong>
+  from your
+  "<strong>{{account.label}}</strong>"
+  account.
+</p>
+
+<div class="section">
+<h4 class="headline">Withdrawal Details</h4>
+  <table class="well table table-condensed">
+    <thead>
+      <tr>
+        <th class="money">Amount</th>
+        <th>Description</th>
+        <th>Account</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr data-ng-repeat="transfer in withdrawal.transfer">
+        <td class="money">
+          <span class="money" data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact amount of this transfer is USD {{transfer.amount}}."
+            data-placement="bottom" data-trigger="hover"><span class="currency">USD</span> {{transfer.amount | currency:'$'}}</span>
+        </td>
+        <td>{{transfer.comment}}</td>
+        <td>
+          <i class="icon-arrow-right"></i>
+          <span title="">{{accounts[transfer.destination].label}}</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<p style="margin-top: 10px;">
+  Your 
+  <span data-ng-switch="input.destination.paymentMethod">
+    <span data-ng-switch-when="bank:BankAccount">bank account</span>
+    <span data-ng-switch-default>external account</span>
+  </span>
+  "{{input.destination.label}}" was credited
+  <strong><span class="money">USD {{withdrawal.transfer[0].amount | currency:'$'}}</span></strong>
+  on
+  <span class="date">{{withdrawal.created | date:'medium'}}</span>.
+  "Digital Bazaar" will appear on your bank statement.
+</p>
+
+<p>A copy of this receipt has been sent to your email address.</p>

@@ -850,8 +850,11 @@ angular.module('payswarm.services')
   // 'instant' tokens can be used in cases where a transfer of funds must take
   // place immediately.
   service.instant = [];
+  // non-instant
+  service.nonInstant = [];
 
   service.paymentMethods = ['ccard:CreditCard', 'bank:BankAccount'];
+  service.nonInstantPaymentMethods = ['bank:BankAccount'];
   service.instantPaymentMethods = ['ccard:CreditCard'];
 
   function _updateTokens(paymentTokens) {
@@ -866,6 +869,7 @@ angular.module('payswarm.services')
     var creditCards = [];
     var bankAccounts = [];
     var instant = [];
+    var nonInstant = [];
     var verified = [];
     angular.forEach(service.paymentTokens, function(token) {
       if(token.psaStatus === 'active') {
@@ -880,9 +884,16 @@ angular.module('payswarm.services')
       else if(token.paymentMethod === 'bank:BankAccount') {
         bankAccounts.push(token);
       }
-      if(service.instantPaymentMethods.indexOf(token.paymentMethod) !== -1 &&
-        token.psaStatus === 'active' && token.psaVerified) {
-        instant.push(token);
+      if(token.psaStatus === 'active' && token.psaVerified) {
+        verified.push(token);
+
+        if(service.instantPaymentMethods.indexOf(token.paymentMethod) !== -1) {
+          instant.push(token);
+        }
+        if(service.nonInstantPaymentMethods.indexOf(
+          token.paymentMethod) !== -1) {
+          nonInstant.push(token);
+        }
       }
       if(token.psaStatus === 'active' && token.psaVerified) {
         verified.push(token);
@@ -893,6 +904,7 @@ angular.module('payswarm.services')
     _replaceArray(service.creditCards, creditCards);
     _replaceArray(service.bankAccounts, bankAccounts);
     _replaceArray(service.instant, instant);
+    _replaceArray(service.nonInstant, nonInstant);
     _replaceArray(service.verified, verified);
   }
 

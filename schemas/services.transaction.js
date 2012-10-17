@@ -4,6 +4,7 @@ var jsonldContext = require('./jsonldContext');
 var jsonldType = require('./jsonldType');
 var payswarmId = require('./payswarmId');
 var url = require('./url');
+var withdrawal = require('./withdrawal');
 
 var postQuote = {
   type: 'object',
@@ -37,14 +38,7 @@ var postContract = {
 
 var postDeposit = deposit('all');
 
-var postWithdrawal = {
-  type: 'object',
-  // FIXME: We should be more precise about what we allow here
-  properties: {
-    '@context': jsonldContext(),
-    type: jsonldType(['com:Transaction', 'com:Withdrawal'])
-  }
-};
+var postWithdrawal = withdrawal('all');
 
 var postPurchaseRequest = {
   type: [{

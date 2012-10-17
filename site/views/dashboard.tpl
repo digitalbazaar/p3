@@ -24,6 +24,7 @@ ${set([
             <th class="name">Account</th>
             <th class="money">Balance</th>
             <th class="action">Deposit</th>
+            <th class="action">Withdraw</th>
             <th class="action">Edit</th>
           </tr>
         </thead>
@@ -40,10 +41,17 @@ ${set([
             </td>
             <!-- Deposit -->
             <td class="action">
-              <button class="btn depost" title="Deposit"
+              <button class="btn deposit" title="Deposit"
                 data-ng-click="showDepositModal=true"><i class="icon-plus"></i></button>
               <span data-modal-deposit="showDepositModal"
                 data-account="account" data-instant="false"></span>
+            </td>
+            <!-- Withdraw -->
+            <td class="action">
+              <button class="btn withdraw" title="Withdraw"
+                data-ng-click="showWithdrawModal=true"><i class="icon-minus"></i></button>
+              <span data-modal-withdraw="showWithdrawModal"
+                data-account="account"></span>
             </td>
             <!-- Edit -->
             <td class="action">
@@ -56,7 +64,7 @@ ${set([
         </tbody>
         <tfoot data-ng-show="state.accounts.loading">
           <tr>
-            <td colspan="4" style="text-align: center">
+            <td colspan="5" style="text-align: center">
               <span class="center">
                 <span data-spinner="state.accounts.loading" data-spinner-class="table-spinner"></span>
               </span>

@@ -539,9 +539,9 @@ payswarm.deposit = {};
  *
  * Usage:
  *
- * payswarm.paymentTokens.get({
+ * payswarm.deposit.sign({
  *   deposit: deposit,
- *   success: function(paymentTokens) {},
+ *   success: function(deposit) {},
  *   error: function(err) {}
  * });
  */
@@ -567,14 +567,13 @@ payswarm.deposit.sign = function(options) {
 };
 
 /**
- * Confirms a signed deposit.
+ * Confirms a signed deposit, submitting it for processing.
  *
  * Usage:
  *
- * payswarm.deposit.add({
- *   identity: 'https://example.com/i/myidentity',
+ * payswarm.deposit.confirm({
  *   deposit: deposit,
- *   success: function(paymentToken) {},
+ *   success: function(deposit) {},
  *   error: function(err) {}
  * });
  */
@@ -586,6 +585,73 @@ payswarm.deposit.confirm = function(options) {
     dataType: 'json',
     contentType: 'application/json',
     data: JSON.stringify(options.deposit),
+    success: function(response, statusText) {
+      if(options.success) {
+        options.success(response);
+      }
+    },
+    error: function(xhr, textStatus, errorThrown) {
+      if(options.error) {
+        options.error(normalizeError(xhr, textStatus));
+      }
+    }
+  });
+};
+
+// withdrawal API
+payswarm.withdrawal = {};
+
+/**
+ * Requests that a withdrawal be signed.
+ *
+ * Usage:
+ *
+ * payswarm.withdrawal.sign({
+ *   withdrawal: withdrawal,
+ *   success: function(withdrawal) {},
+ *   error: function(err) {}
+ * });
+ */
+payswarm.withdrawal.sign = function(options) {
+  $.ajax({
+    async: true,
+    type: 'POST',
+    url: '/transactions',
+    dataType: 'json',
+    contentType: 'application/json',
+    data: JSON.stringify(options.withdrawal),
+    success: function(response, statusText) {
+      if(options.success) {
+        options.success(response);
+      }
+    },
+    error: function(xhr, textStatus, errorThrown) {
+      if(options.error) {
+        options.error(normalizeError(xhr, textStatus));
+      }
+    }
+  });
+};
+
+/**
+ * Confirms a signed withdrawal, submitting it for processing.
+ *
+ * Usage:
+ *
+ * payswarm.withdrawal.confirm({
+ *   withdrawal: withdrawal,
+ *   success: function(withdrawal) {},
+ *   error: function(err) {}
+ * });
+ */
+payswarm.withdrawal.confirm = function(options) {
+  $.ajax({
+    async: true,
+    type: 'POST',
+    url: '/transactions',
+    dataType: 'json',
+    contentType: 'application/json',
+    data: JSON.stringify(options.withdrawal),
     success: function(response, statusText) {
       if(options.success) {
         options.success(response);

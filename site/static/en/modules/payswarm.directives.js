@@ -762,7 +762,11 @@ angular.module('payswarm.directives')
       scope.fixed = value;
     });
     scope.$watch('instant', function(value) {
-      if(value) {
+      if(value === 'non') {
+        scope.paymentTokens = svcPaymentToken.nonInstant;
+        scope.paymentMethods = svcPaymentToken.nonInstantPaymentMethods;
+      }
+      else if(value) {
         scope.paymentTokens = svcPaymentToken.instant;
         scope.paymentMethods = svcPaymentToken.instantPaymentMethods;
       }
@@ -1202,14 +1206,13 @@ angular.module('payswarm.directives')
         // FIXME: duplicated from deposit code
         // get public account information for all payees
         $scope.accounts = [];
-        for(var i in deposit.transfer) {
-          var xfer = deposit.transfer[i];
+        angular.forEach(deposit.transfer, function(xfer) {
           $scope.accounts[xfer.destination] = {};
           if($scope.selection.destination &&
             $scope.selection.destination.id === xfer.destination) {
             $scope.transfer = xfer;
           }
-        }
+        });
         async.forEach(Object.keys($scope.accounts),
           function(account, callback) {
           payswarm.accounts.getOne({
@@ -1651,6 +1654,140 @@ angular.module('payswarm.directives')
       instant: '='
     },
     templateUrl: '/partials/modals/deposit.html',
+    controller: Ctrl,
+    link: function(scope, element, attrs) {
+      scope.feedbackTarget = element;
+    }
+  });
+})
+.directive('modalWithdraw', function(svcModal) {
+  function Ctrl($scope, svcPaymentToken, svcAccount) {
+    $scope.open = function() {
+      $scope.data = window.data || {};
+      $scope.feedback = {};
+      $scope.loading = false;
+
+      var destination = $scope.input ? $scope.input.destination : null;
+      $scope.input = {
+        // payment token destination
+        destination: destination,
+        amount: ''
+      };
+
+      // state in ('preparing', 'reviewing', 'complete')
+      $scope.state = 'preparing';
+    };
+
+    $scope.prepare = function() {
+      $scope.state = 'preparing';
+    };
+
+    $scope.review = function() {
+      // clean withdrawal
+      var withdrawal = {
+        '@context': 'http://purl.org/payswarm/v1',
+        type: ['com:Transaction', 'com:Withdrawal'],
+        source: $scope.account.id,
+        payee: [{
+          type: 'com:Payee',
+          payeeGroup: ['withdrawal'],
+          payeeRate: $scope.input.amount,
+          payeeRateType: 'com:FlatAmount',
+          payeeApplyType: 'com:Exclusive',
+          destination: 'urn:payswarm-external-account',
+          comment: 'Withdrawal'
+        }],
+        destination: $scope.input.destination.id
+      };
+      $scope.loading = true;
+      payswarm.withdrawal.sign({
+        withdrawal: withdrawal,
+        success: function(withdrawal) {
+          // get public account information for all payees
+          $scope.accounts = [];
+          angular.forEach(withdrawal.transfer, function(xfer) {
+            $scope.accounts[xfer.destination] = {};
+          });
+          async.forEach(Object.keys($scope.accounts),
+            function(account, callback) {
+            if(account.indexOf('urn') === 0) {
+              $scope.accounts[account].label = $scope.input.destination.label;
+              return callback();
+            }
+            payswarm.accounts.getOne({
+              account: account,
+              success: function(response) {
+                $scope.accounts[account].label = response.label;
+                callback();
+              },
+              error: function(err) {
+                $scope.accounts[account].label = 'Private Account';
+                callback();
+              }
+            });
+          }, function(err) {
+            // FIXME: handle err
+            //
+            // go to top of page
+            // FIXME: use directive to do this
+            //var target = options.target;
+            //$(target).animate({scrollTop: 0}, 0);
+
+            $scope.loading = false;
+
+            // copy to avoid angular keys in POSTed data
+            $scope.withdrawal = angular.copy(withdrawal);
+            $scope._withdrawal = withdrawal;
+            $scope.state = 'reviewing';
+            $scope.$apply();
+          });
+        },
+        error: function(err) {
+          $scope.loading = false;
+          $scope.feedback.validationErrors = err;
+          $scope.$apply();
+        }
+      });
+    };
+
+    $scope.confirm = function() {
+      $scope.loading = true;
+      payswarm.withdrawal.confirm({
+        withdrawal: $scope._withdrawal,
+        success: function(withdrawal) {
+          $scope.loading = false;
+
+          // show complete page
+          $scope.withdrawal = withdrawal;
+          $scope.state = 'complete';
+          $scope.$apply();
+
+          // get updated balance after a delay
+          svcAccount.getOne($scope.account.id, {delay: 500});
+
+          // go to top of page
+          //var target = options.target;
+          //$(target).animate({scrollTop: 0}, 0);
+        },
+        error: function(err) {
+          $scope.loading = false;
+          $scope.feedback.validationErrors = err;
+          $scope.$apply();
+        }
+      });
+    };
+
+    //$scope.done = function() {
+    //  $scope.close(null, $scope.withdrawal);
+    //}
+  }
+
+  return svcModal.directive({
+    name: 'Withdraw',
+    scope: {
+      account: '='
+    },
+    templateUrl: '/partials/modals/withdraw.html',
     controller: Ctrl,
     link: function(scope, element, attrs) {
       scope.feedbackTarget = element;

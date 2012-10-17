@@ -699,6 +699,36 @@ payswarm.paymentTokens.get = function(options) {
 };
 
 /**
+ * Get a payment token.
+ *
+ * Usage:
+ *
+ * payswarm.paymentTokens.getOne({
+ *   paymenToken: 'TOKEN_ID',
+ *   success: function(account) {},
+ *   error: function(err) {}
+ * });
+ */
+payswarm.paymentTokens.getOne = function(options) {
+  $.ajax({
+    async: true,
+    type: 'GET',
+    url: options.paymentToken,
+    dataType: 'json',
+    success: function(response, statusText) {
+      if(options.success) {
+        options.success(response);
+      }
+    },
+    error: function(xhr, textStatus, errorThrown) {
+      if(options.error) {
+        options.error(normalizeError(xhr, textStatus));
+      }
+    }
+  });
+};
+
+/**
  * Adds a paymentToken to an identity.
  *
  * Usage:

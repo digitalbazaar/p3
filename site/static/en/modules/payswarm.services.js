@@ -944,6 +944,35 @@ angular.module('payswarm.services')
     }
   };
 
+  // get a single paymentTokens
+  service.getOne = function(paymentTokenId, options, callback) {
+    if(typeof options === 'function') {
+      callback = options;
+      options = {};
+    }
+    options = options || {};
+    callback = callback || angular.noop;
+
+    service.state.loading = true;
+    $timeout(function() {
+      payswarm.paymentTokens.getOne({
+        paymentToken: paymentTokenId,
+        success: function(paymentToken) {
+          _replaceInArray(service.paymentTokens, paymentToken);
+          _updateTokens();
+          service.state.loading = false;
+          callback(null, paymentToken);
+          $rootScope.$apply();
+        },
+        error: function(err) {
+          service.state.loading = false;
+          callback(err);
+          $rootScope.$apply();
+        }
+      });
+    }, options.delay || 0);
+  };
+
   // add a new paymentToken
   service.add = function(paymentToken, callback) {
     callback = callback || angular.noop;

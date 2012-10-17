@@ -1295,7 +1295,7 @@ angular.module('payswarm.directives')
           $scope.state = 'complete';
 
           // get updated token
-          svcAccount.getOne($scope.token.id);
+          svcPaymentToken.getOne($scope.token.id);
 
           // get updated balance after a delay
           if($scope.selection.destination) {

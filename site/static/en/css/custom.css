@@ -249,6 +249,9 @@ span.currency {
   text-align: center;
   width: 1%;
 }
+.table .action li {
+  text-align: left;
+}
 .no-padding {
   padding: 0;
 }

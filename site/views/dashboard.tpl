@@ -23,9 +23,7 @@ ${set([
           <tr>
             <th class="name">Account</th>
             <th class="money">Balance</th>
-            <th class="action">Deposit</th>
-            <th class="action">Withdraw</th>
-            <th class="action">Edit</th>
+            <th class="action">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -39,32 +37,39 @@ ${set([
               <span class="money" data-tooltip-title="Since we support micro-payments, we track your account balance very accurately. The exact amount in this account is {{account.currency}} {{account.balance}}."
                 data-placement="bottom" data-trigger="hover"><span class="currency">{{account.currency}}</span> {{account.balance | floor | currency:'$'}}</span>
             </td>
-            <!-- Deposit -->
+            <!-- Action -->
             <td class="action">
-              <button class="btn deposit" title="Deposit"
-                data-ng-click="showDepositModal=true"><i class="icon-plus"></i></button>
-              <span data-modal-deposit="showDepositModal"
-                data-account="account" data-instant="false"></span>
-            </td>
-            <!-- Withdraw -->
-            <td class="action">
-              <button class="btn withdraw" title="Withdraw"
-                data-ng-click="showWithdrawModal=true"><i class="icon-minus"></i></button>
-              <span data-modal-withdraw="showWithdrawModal"
-                data-account="account"></span>
-            </td>
-            <!-- Edit -->
-            <td class="action">
-              <button class="btn edit" title="Edit"
-                data-ng-click="showEditAccountModal=true"><i class="icon-pencil"></i></button>
-              <span data-modal-edit-account="showEditAccountModal"
-                data-account="account"></span>
+              <div class="btn-group">
+                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                  <i class="icon-chevron-down"></i>
+                </a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="#" data-ng-click="showDepositModal=true">
+                      <i class="icon-plus"></i> Deposit</a>
+                    <span data-modal-deposit="showDepositModal"
+                      data-account="account" data-instant="false"></span>
+                  </li>
+                  <li>
+                    <a href="#" data-ng-click="showWithdrawModal=true">
+                      <i class="icon-minus"></i> Withdraw</a>
+                    <span data-modal-withdraw="showWithdrawModal"
+                      data-account="account"></span>
+                  </li>
+                  <li>
+                    <a href="#" data-ng-click="showEditAccountModal=true">
+                      <i class="icon-pencil"></i> Edit</a>
+                    <span data-modal-edit-account="showEditAccountModal"
+                      data-account="account"></span>
+                  </li>
+                </ul>
+              </div>
             </td>
           </tr>
         </tbody>
         <tfoot data-ng-show="state.accounts.loading">
           <tr>
-            <td colspan="5" style="text-align: center">
+            <td colspan="3" style="text-align: center">
               <span class="center">
                 <span data-spinner="state.accounts.loading" data-spinner-class="table-spinner"></span>
               </span>

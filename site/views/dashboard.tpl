@@ -64,8 +64,16 @@ ${set([
             </td>
           </tr>
         </tbody>
-        <tfoot data-ng-show="state.accounts.loading">
-          <tr>
+        <tfoot>
+          <tr data-ng-hide="state.accounts.loading">
+            <!-- Add Account -->
+            <td colspan="3">
+              <button 
+                class="btn btn-success pull-right"
+                data-ng-click="modals.showAddAccount=true"><i class="icon-plus icon-white"></i> Add Account</button>
+            </td>
+          </tr>
+          <tr data-ng-show="state.accounts.loading">
             <td colspan="3" style="text-align: center">
               <span class="center">
                 <span data-spinner="state.accounts.loading"
@@ -78,9 +86,6 @@ ${set([
       <div data-ng-show="!state.accounts.loading && accounts.length == 0">
         <p class="center">You have no accounts configured for this identity.</p>
       </div>
-      <button data-ng-hide="state.accounts.loading"
-        class="btn btn-success pull-right"
-        data-ng-click="modals.showAddAccount=true"><i class="icon-plus icon-white"></i> Add Account</button>
       <div data-modal-deposit="modals.showDeposit"
         data-account="modals.account" data-instant="false"></div>
       <div data-modal-withdraw="modals.showWithdraw"
@@ -150,8 +155,15 @@ ${set([
             </td>
           </tr>
         </tbody>
-        <tfoot data-ng-show="state.budgets.loading">
-          <tr>
+        <tfoot>
+          <tr data-ng-hide="state.budgets.loading">
+            <td colspan="4">
+              <button
+                class="btn btn-success pull-right"
+                data-ng-click="modals.showAddBudget=true"><i class="icon-plus icon-white"></i> Add Budget</button>
+            </td>
+          </tr>
+          <tr data-ng-show="state.budgets.loading">
             <td colspan="4" style="text-align: center">
               <span class="center">
                 <span data-spinner="state.budgets.loading"
@@ -164,9 +176,6 @@ ${set([
       <div data-ng-show="!state.budgets.loading && budgets.length == 0">
         <p class="center">You have no budgets configured for this identity.</p>
       </div>
-      <button data-ng-hide="state.budgets.loading"
-        class="btn btn-success pull-right"
-        data-ng-click="modals.showAddBudget=true"><i class="icon-plus icon-white"></i> Add Budget</button>
       <div data-modal-edit-budget="modals.showEditBudget"
         data-budget="modals.budget"></div>
       <div data-modal-add-budget="modals.showAddBudget"></div>
@@ -206,8 +215,13 @@ ${set([
             </td>
           </tr>
         </tbody>
-        <tfoot data-ng-show="state.txns.loading">
-          <tr>
+        <tfoot>
+          <tr data-ng-hide="state.txns.loading">
+            <td colspan="5">
+              <a href="accounts?view=activity" class="btn pull-right"><i class="icon-list"></i> More <i class="icon-chevron-right"></i></a>
+            </td>
+          </tr>
+          <tr data-ng-show="state.txns.loading">
             <td colspan="5" style="text-align: center">
               <span class="center">
                 <span data-spinner="state.txns.loading" data-spinner-class="table-spinner"></span>
@@ -220,9 +234,6 @@ ${set([
         <h3 class="center">No Transactions</h3>
         <p class="center">You have no recent transactions for this identity.</p>
       </div>
-      <span class="offset2 span2">
-        <a href="accounts?view=activity"><button class="btn"><i class="icon-list"></i> More <i class="icon-chevron-right"></i></button></a>
-      </span>
     </div>
     
     <div class="section span6">

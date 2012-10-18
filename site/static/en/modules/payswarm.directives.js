@@ -1469,23 +1469,21 @@ angular.module('payswarm.directives')
       $scope.loading = true;
       svcAddress.validate($scope.originalAddress, function(err, validated) {
         $scope.loading = false;
+        $scope.feedback.error = err;
         if(err) {
           // FIXME
           console.log('validation failed', err);
-          $scope.feedback.error = err;
+          return;
         }
-        else {
-          // FIXME: should backend handle this?
-          // copy over non-validation fields
-          $scope.validatedAddress = angular.extend(validated, {
-            '@context': 'http://purl.org/payswarm/v1',
-            type: 'vcard:Address',
-            label: $scope.originalAddress.label,
-            fullName: $scope.originalAddress.fullName
-          });
-          $scope.state = 'selecting';
-        }
-        $scope.$apply();
+        // FIXME: should backend handle this?
+        // copy over non-validation fields
+        $scope.validatedAddress = angular.extend(validated, {
+          '@context': 'http://purl.org/payswarm/v1',
+          type: 'vcard:Address',
+          label: $scope.originalAddress.label,
+          fullName: $scope.originalAddress.fullName
+        });
+        $scope.state = 'selecting';
       });
     };
 
@@ -1494,6 +1492,7 @@ angular.module('payswarm.directives')
       $scope.loading = false;
       svcAddress.add(addressToAdd, function(err, addedAddress) {
         $scope.loading = true;
+        $scope.feedback.error = err;
         if(err) {
           // FIXME
           console.log('adding failed', err);
@@ -1504,6 +1503,7 @@ angular.module('payswarm.directives')
     };
 
     $scope.edit = function() {
+      $scope.feedback = {};
       $scope.state = 'editing';
       $scope.selection.address = null;
     };

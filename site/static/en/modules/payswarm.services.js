@@ -340,13 +340,20 @@ angular.module('payswarm.services')
   // validate an address
   service.validate = function(address, callback) {
     callback = callback || angular.noop;
+    service.state.loading = true;
     payswarm.addresses.validate({
       identity: identity.id,
       address: address,
       success: function(validated) {
+        service.state.loading = false;
         callback(null, validated);
+        $rootScope.$apply();
       },
-      error: callback
+      error: function(err) {
+        service.state.loading = false;
+        callback(err);
+        $rootScope.$apply();
+      }
     });
   };
 

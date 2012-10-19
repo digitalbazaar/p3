@@ -6,8 +6,8 @@
   <div class="modal-body">
     <div data-ng-include="'/partials/demo-warning.html'"></div>
     
-    <div data-ng-show="paymentMethod == 'bank:BankAccount'">
-      <h6>Bank Account Agreement</h6>
+    <div class="section" data-ng-show="paymentMethod == 'bank:BankAccount'">
+      <h4 class="headline">Bank Account Agreement</h4>
       <div class="well">
         <p>By adding a new bank account, you agree that you are its rightful
         owner and that you permit us to transfer funds both to and from it. You
@@ -38,132 +38,136 @@
       </div>
     </div>
 
-    <h6>Select Payment Method Name</h6>
-    <form class="well form-horizontal" action="">
-      <fieldset>
-        <div class="control-group" data-binding="label">
-          <label class="control-label" for="name">Name</label>
-          <div class="controls">
-            <input type="text" name="label"
-              data-tooltip-title="Enter a memorable name that describes this method of payment. It will be displayed to you later."
-              data-placement="right" data-trigger="focus"
-              data-ng-model="label" />
-            <p class="help-block">Suggestions: My Visa, Checking Account</p>
+    <div class="section">
+    <h4 class="headline">Select Payment Method Name</h4>
+      <form class="well form-horizontal" action="">
+        <fieldset>
+          <div class="control-group" data-binding="label">
+            <label class="control-label" for="name">Name</label>
+            <div class="controls">
+              <input type="text" name="label"
+                data-tooltip-title="Enter a memorable name that describes this method of payment. It will be displayed to you later."
+                data-placement="right" data-trigger="focus"
+                data-ng-model="label" />
+              <p class="help-block">Suggestions: My Visa, Checking Account</p>
+            </div>
           </div>
-        </div>
-      </fieldset>
-    </form>
+        </fieldset>
+      </form>
+    </div>
 
-    <h6>Enter Payment Details</h6>
-    <form class="well form-horizontal" action="">
-      <fieldset>
-        <div class="control-group" data-ng-show="multiEnabled">
-          <div class="controls">
-            <label class="radio inline" data-ng-show="creditCardEnabled">
-              <input type="radio" name="payment-type" value="ccard:CreditCard"
-                checked="checked" data-ng-model="paymentMethod" />
-              Credit Card
-            </label>
-            <label class="radio inline" data-ng-show="bankAccountEnabled">
-              <input type="radio" name="payment-type" value="bank:BankAccount"
-                data-ng-model="paymentMethod" />
-              Bank Account
-            </label>
+    <div class="section">
+      <h4 class="headline">Enter Payment Details</h4>
+      <form class="well form-horizontal" action="">
+        <fieldset>
+          <div class="control-group" data-ng-show="multiEnabled">
+            <div class="controls">
+              <label class="radio inline" data-ng-show="creditCardEnabled">
+                <input type="radio" name="payment-type" value="ccard:CreditCard"
+                  checked="checked" data-ng-model="paymentMethod" />
+                Credit Card
+              </label>
+              <label class="radio inline" data-ng-show="bankAccountEnabled">
+                <input type="radio" name="payment-type" value="bank:BankAccount"
+                  data-ng-model="paymentMethod" />
+                Bank Account
+              </label>
+            </div>
           </div>
-        </div>
-        <div name="payment-type-fields" data-ng-switch="paymentMethod">
-          <div data-ng-switch-when="ccard:CreditCard">
-            <div class="control-group" data-binding="source.cardBrand">
-              <label class="control-label" for="card-brand">Type</label>
-              <div class="controls">
-                <span name="card-brand"
-                  data-credit-card-selector="card.cardNumber"
-                  data-credit-card-brand="card.cardBrand"></span>
+          <div name="payment-type-fields" data-ng-switch="paymentMethod">
+            <div data-ng-switch-when="ccard:CreditCard">
+              <div class="control-group" data-binding="source.cardBrand">
+                <label class="control-label" for="card-brand">Type</label>
+                <div class="controls">
+                  <span name="card-brand"
+                    data-credit-card-selector="card.cardNumber"
+                    data-credit-card-brand="card.cardBrand"></span>
+                </div>
               </div>
-            </div>
-            <div class="control-group" data-binding="source.cardNumber">
-              <label class="control-label" for="card-number">Card Number</label>
-              <div class="controls">
-                <input class="input-large" type="text" name="card-number" maxlength="16"
-                  data-tooltip-title="You must enter your credit card number, which must be 16 digits long."
-                  data-placement="right" data-trigger="focus"
-                  data-ng-model="card.cardNumber" />
-              </div>
-            </div>
-            <div></div>
-            <div class="control-group" data-binding="source.cardExpMonth">
-              <label class="control-label" for="card-exp-month">Expiration Month</label>
-              <div class="controls">
-                <select class="input-large" name="card-exp-month"
-                  data-ng-model="card.cardExpMonth"
-                  data-ng-options="month.index as month.label for month in monthLabels">
-                  <option value=""></option>
-                </select>
-              </div>
-            </div>
-            <div class="control-group" data-binding="source.cardExpYear">
-              <label class="control-label" for="card-exp-year">Expiration Year</label>
-              <div class="controls">
-                <select class="input-small" name="card-exp-year"
-                  data-ng-model="card.cardExpYear"
-                  data-ng-options="year for year in years">
-                  <option value=""></option>
-                </select>
-              </div>
-            </div>
-            <div></div>
-            <div class="control-group" data-binding="source.cardCvm">
-              <label class="control-label" for="card-cvm">Security Code</label>
-              <div class="controls">
-                <div class="input-prepend">
-                  <span class="add-on"><img src="/img/scode.png" /></span><input
-                    class="input-small" type="text" name="card-cvm" maxlength="4"
-                    data-tooltip-title="You must enter the security code on the back of your credit card. It will be 3 or 4 digits long."
+              <div class="control-group" data-binding="source.cardNumber">
+                <label class="control-label" for="card-number">Card Number</label>
+                <div class="controls">
+                  <input class="input-large" type="text" name="card-number" maxlength="16"
+                    data-tooltip-title="You must enter your credit card number, which must be 16 digits long."
                     data-placement="right" data-trigger="focus"
-                    data-ng-model="card.cardCvm" />
+                    data-ng-model="card.cardNumber" />
+                </div>
+              </div>
+              <div></div>
+              <div class="control-group" data-binding="source.cardExpMonth">
+                <label class="control-label" for="card-exp-month">Expiration Month</label>
+                <div class="controls">
+                  <select class="input-large" name="card-exp-month"
+                    data-ng-model="card.cardExpMonth"
+                    data-ng-options="month.index as month.label for month in monthLabels">
+                    <option value=""></option>
+                  </select>
+                </div>
+              </div>
+              <div class="control-group" data-binding="source.cardExpYear">
+                <label class="control-label" for="card-exp-year">Expiration Year</label>
+                <div class="controls">
+                  <select class="input-small" name="card-exp-year"
+                    data-ng-model="card.cardExpYear"
+                    data-ng-options="year for year in years">
+                    <option value=""></option>
+                  </select>
+                </div>
+              </div>
+              <div></div>
+              <div class="control-group" data-binding="source.cardCvm">
+                <label class="control-label" for="card-cvm">Security Code</label>
+                <div class="controls">
+                  <div class="input-prepend">
+                    <span class="add-on"><img src="/img/scode.png" /></span><input
+                      class="input-small" type="text" name="card-cvm" maxlength="4"
+                      data-tooltip-title="You must enter the security code on the back of your credit card. It will be 3 or 4 digits long."
+                      data-placement="right" data-trigger="focus"
+                      data-ng-model="card.cardCvm" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div data-ng-switch-when="bank:BankAccount">
+              <div class="control-group" data-binding="source.bankRoutingNumber">
+                <label class="control-label" for="bank-routing-number">Routing Number</label>
+                <div class="controls">
+                  <input type="text" name="bank-routing-number"
+                    data-tooltip-title="You must enter your bank's routing number. This can be found in your checkbook or by signing into your bank online."
+                    data-placement="right" data-trigger="focus"
+                    data-ng-model="bankAccount.bankRoutingNumber"
+                    maxlength="9" />
+                </div>
+              </div>
+              <div class="control-group" data-binding="source.bankAccountType">
+                <label class="control-label" for="bank-account-type">Account Type</label>
+                <div class="controls">
+                  <select class="input-medium" name="bank-account-type"
+                    data-tooltip-title="If your bank account does not have a type, choose 'Checking'."
+                    data-placement="right" data-trigger="focus"
+                    data-ng-model="bankAccount.bankAccountType"
+                    data-ng-options="type.id as type.label for type in bankAccountTypes">
+                  </select>
+                </div>
+              </div>
+              <div class="control-group" data-binding="source.bankAccount">
+                <label class="control-label" for="bank-account">Account Number</label>
+                <div class="controls">
+                  <input type="text" name="bank-account"
+                    data-tooltip-title="You must enter your bank account number. This can be found in your checkbook or by signing into your bank online."
+                    data-placement="right" data-trigger="focus"
+                    data-ng-model="bankAccount.bankAccount"
+                    maxlength="30" />
                 </div>
               </div>
             </div>
           </div>
-          <div data-ng-switch-when="bank:BankAccount">
-            <div class="control-group" data-binding="source.bankRoutingNumber">
-              <label class="control-label" for="bank-routing-number">Routing Number</label>
-              <div class="controls">
-                <input type="text" name="bank-routing-number"
-                  data-tooltip-title="You must enter your bank's routing number. This can be found in your checkbook or by signing into your bank online."
-                  data-placement="right" data-trigger="focus"
-                  data-ng-model="bankAccount.bankRoutingNumber"
-                  maxlength="9" />
-              </div>
-            </div>
-            <div class="control-group" data-binding="source.bankAccountType">
-              <label class="control-label" for="bank-account-type">Account Type</label>
-              <div class="controls">
-                <select class="input-medium" name="bank-account-type"
-                  data-tooltip-title="If your bank account does not have a type, choose 'Checking'."
-                  data-placement="right" data-trigger="focus"
-                  data-ng-model="bankAccount.bankAccountType"
-                  data-ng-options="type.id as type.label for type in bankAccountTypes">
-                </select>
-              </div>
-            </div>
-            <div class="control-group" data-binding="source.bankAccount">
-              <label class="control-label" for="bank-account">Account Number</label>
-              <div class="controls">
-                <input type="text" name="bank-account"
-                  data-tooltip-title="You must enter your bank account number. This can be found in your checkbook or by signing into your bank online."
-                  data-placement="right" data-trigger="focus"
-                  data-ng-model="bankAccount.bankAccount"
-                  maxlength="30" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </fieldset>
-    </form>
+        </fieldset>
+      </form>
+    </div>
 
-    <h6 data-ng-show="billingAddressRequired">Select Billing Address</h6>
-    <div data-ng-show="billingAddressRequired">
+    <div class="section" data-ng-show="billingAddressRequired">
+      <h4 class="headline">Select Billing Address</h4>
       <div data-address-selector data-selected="selection.address"
         data-invalid="selection.invalidAddress"></div>
     </div>

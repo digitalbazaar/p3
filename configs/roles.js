@@ -10,9 +10,7 @@ config.permission.roles.push({
     {id: 'https://payswarm.com/modules/profile#profile_access'},
     {id: 'https://payswarm.com/modules/profile#profile_create'},
     {id: 'https://payswarm.com/modules/profile#profile_edit'},
-    {id: 'https://payswarm.com/modules/profile#profile_remove'},
-    {id: 'https://payswarm.com/modules/profile#public_key_create'},
-    {id: 'https://payswarm.com/modules/profile#public_key_remove'}
+    {id: 'https://payswarm.com/modules/profile#profile_remove'}
   ]
 });
 config.permission.roles.push({
@@ -23,8 +21,7 @@ config.permission.roles.push({
   psaPermission: [
     {id: 'https://payswarm.com/modules/profile#profile_access'},
     {id: 'https://payswarm.com/modules/profile#profile_create'},
-    {id: 'https://payswarm.com/modules/profile#profile_edit'},
-    {id: 'https://payswarm.com/modules/profile#public_key_create'}
+    {id: 'https://payswarm.com/modules/profile#profile_edit'}
   ]
 });
 config.permission.roles.push({
@@ -66,6 +63,7 @@ config.permission.roles.push({
     {id: 'https://payswarm.com/modules/identity#identity_create'},
     {id: 'https://payswarm.com/modules/identity#identity_edit'},
     {id: 'https://payswarm.com/modules/identity#public_key_create'},
+    {id: 'https://payswarm.com/modules/identity#public_key_remove'},
     {id: 'https://payswarm.com/modules/address-validator#address_validator_access'}
   ]
 });

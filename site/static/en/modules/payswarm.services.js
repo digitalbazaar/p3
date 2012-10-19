@@ -967,12 +967,14 @@ angular.module('payswarm.services')
       else if(!token.psaStatus || token.psaStatus === 'deleted') {
         deleted.push(token);
       }
+
       if(token.paymentMethod === 'ccard:CreditCard') {
         creditCards.push(token);
       }
       else if(token.paymentMethod === 'bank:BankAccount') {
         bankAccounts.push(token);
       }
+
       if(token.psaStatus === 'active' && token.psaVerified) {
         verified.push(token);
 
@@ -983,9 +985,6 @@ angular.module('payswarm.services')
           token.paymentMethod) !== -1) {
           nonInstant.push(token);
         }
-      }
-      if(token.psaStatus === 'active' && token.psaVerified) {
-        verified.push(token);
       }
     });
     _replaceArray(service.active, active);

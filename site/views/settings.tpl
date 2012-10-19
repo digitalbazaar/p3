@@ -254,18 +254,19 @@ ${set([
                 </tr>
               </thead>
               <tbody>
-                <tr data-ng-repeat="key in keys | orderBy:'label'">
+                <tr data-ng-repeat="key in keys | orderBy:'label' | orderBy:'psaStatus':reverse">
                   <!-- Name -->
                   <td>
                     <a href="{{key.id}}">{{key.label}}</a></span>
                   </td>
                   <!-- Status -->
                   <td>
-                    {{key.psaStatus}}
+                    <span data-ng-show="key.psaStatus == 'disabled'">Revoked</span>
+                    <span data-ng-show="key.psaStatus == 'active'">Active</span>
                   </td>
                   <!-- Revoke -->
                   <td class="action">
-                    <button class="btn btn-danger" title="Revoke" data-ng-click="revokeKey(key)"><i class="icon-remove icon-white"></i></button>
+                    <button class="btn btn-danger" title="Revoke" data-ng-hide="key.psaStatus == 'disabled'" data-ng-click="revokeKey(key)"><i class="icon-remove icon-white"></i></button>
                   </td>
                 </tr>
               </tbody>

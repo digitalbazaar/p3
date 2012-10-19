@@ -886,23 +886,14 @@ angular.module('payswarm.services')
   service.revoke = function(key, callback) {
     callback = callback || angular.noop;
     service.state.loading = true;
+    console.log('key', key);
     payswarm.keys.revoke({
       key: key.id,
-      success: function() {
-        // get key preferences and post to callback
-        payswarm.keys.get({
-          key: key.id,
-          success: function(key) {
-            service.state.loading = false;
-            callback(null, prefs);
-            $rootScope.$apply();
-          },
-          error: function(err) {
-            service.state.loading = false;
-            callback(err);
-            $rootScope.$apply();
-          }
-        });
+      success: function(key) {
+        service.state.loading = false;
+        _replaceInArray(service.keys, key);
+        callback(null, key);
+        $rootScope.$apply();
       },
       error: function(err) {
         service.state.loading = false;

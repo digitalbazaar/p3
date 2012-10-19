@@ -1161,6 +1161,40 @@ payswarm.keys.get = function(options) {
   });
 };
 
+/**
+ * Revokes a specific key for an identity.
+ *
+ * Usage:
+ *
+ * payswarm.keys.revoke({
+ *   key: 'https://example.com/i/myidentity/keys/4',
+ *   success: function(budgets) {},
+ *   error: function(err) {}
+ * });
+ */
+payswarm.keys.revoke = function(options) {
+  $.ajax({
+    async: true,
+    type: 'POST',
+    url: options.key,
+    contentType: 'application/json',
+    data: JSON.stringify({
+      '@context': 'http://purl.org/payswarm/v1',
+      revoked: ''
+    }),
+    dataType: 'json',
+    success: function(response, statusText) {
+      if(options.success) {
+        options.success(response);
+      }
+    },
+    error: function(xhr, textStatus, errorThrown) {
+      if(options.error) {
+        options.error(normalizeError(xhr, textStatus));
+      }
+    }
+  });
+};
 
 // profiles API
 payswarm.profiles = {};

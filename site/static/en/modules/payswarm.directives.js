@@ -340,6 +340,16 @@ angular.module('payswarm.directives')
         tip.shown = false;
       };
     });
+    attrs.$observe('tooltipShow', function(value) {
+      if(value !== undefined) {
+        if(value === 'true') {
+          element.data('tooltip').show();
+        }
+        else {
+          element.data('tooltip').hide();
+        }
+      }
+    });
   };
 })
 .directive('popoverTemplate', function(svcTemplateCache, $compile, $timeout) {

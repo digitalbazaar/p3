@@ -31,7 +31,8 @@ ${set([
             data-ng-model="password" placeholder="Password"
             data-ng-disabled="loading"
             data-tooltip-title="{{error}}" data-placement="bottom"
-            data-trigger="hover" />
+            data-tooltip-show="{{error && 'true'}}"
+            data-trigger="manual" />
           <div class="btn-toolbar btn-group-banner">
             <div class="btn-group btn-group-banner">
               <a class="btn btn-primary" data-submit-form>Sign In</a>

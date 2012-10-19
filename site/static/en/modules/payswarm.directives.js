@@ -547,11 +547,12 @@ angular.module('payswarm.directives')
       address: svcAddress.state
     };
     $scope.addresses = svcAddress.addresses;
-    svcAddress.get(function(err, addresses) {
-      if(!err && !$scope.selected) {
+    $scope.$watch('addresses', function(addresses) {
+      if(!$scope.selected || $.inArray($scope.selected, addresses) === -1) {
         $scope.selected = addresses[0] || null;
       }
-    });
+    }, true);
+    svcAddress.get();
   }
 
   return {
@@ -570,16 +571,17 @@ angular.module('payswarm.directives')
     };
     $scope.identityId = svcIdentity.identity.id;
     updateAccounts($scope);
+    $scope.$watch('accounts', function(accounts) {
+      if(!$scope.selected || $.inArray($scope.selected, accounts) === -1) {
+        $scope.selected = accounts[0] || null;
+      }
+    }, true);
   }
 
   function updateAccounts($scope) {
     var identityId = $scope.identityId;
     $scope.accounts = svcAccount.identities[identityId].accounts;
-    svcAccount.get({identity: identityId}, function(err, accounts) {
-      if(!err && !$scope.selected) {
-        $scope.selected = accounts[0] || null;
-      }
-    });
+    svcAccount.get({identity: identityId});
   }
 
   function Link(scope, element, attrs) {
@@ -642,11 +644,12 @@ angular.module('payswarm.directives')
     $scope.budgets = svcBudget.budgets;
     $scope.account = null;
     $scope.accounts = svcAccount.accounts;
-    svcBudget.get(function(err, budgets) {
-      if(!err && !$scope.selected) {
+    $scope.$watch('budgets', function(budgets) {
+      if(!$scope.selected || $.inArray($scope.selected, budgets) === -1) {
         $scope.selected = budgets[0] || null;
       }
-    });
+    }, true);
+    svcBudget.get();
   }
 
   function Link(scope, element, attrs) {
@@ -750,11 +753,12 @@ angular.module('payswarm.directives')
       token: svcPaymentToken.state
     };
     $scope.paymentTokens = svcPaymentToken.verified;
-    svcPaymentToken.get(function(err) {
-      if(!err && !$scope.selected) {
-        $scope.selected = $scope.paymentTokens[0] || null;
+    $scope.$watch('paymentTokens', function(tokens) {
+      if(!$scope.selected || $.inArray($scope.selected, tokens) === -1) {
+        $scope.selected = tokens[0] || null;
       }
-    });
+    }, true);
+    svcPaymentToken.get();
   }
 
   function Link(scope, element, attrs) {

@@ -445,9 +445,9 @@ h1 > .rest-summary > .rest-path {
 }
 
 .section .headline {
-  /* padding: 0.2em 0.5em 0.2em 0.5em; */
+  padding: 0.1em 0.5em 0.1em 0.5em;
   border-top: thin solid #ccc;
-  /* text-align: left; */
+  text-align: left;
   background: #f9f9f9;
 }
 

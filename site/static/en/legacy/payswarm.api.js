@@ -1138,7 +1138,7 @@ payswarm.keys = {};
  *
  * payswarm.keys.get({
  *   identity: 'https://example.com/i/myidentity',
- *   success: function(budgets) {},
+ *   success: function(keys) {},
  *   error: function(err) {}
  * });
  */
@@ -1168,7 +1168,7 @@ payswarm.keys.get = function(options) {
  *
  * payswarm.keys.revoke({
  *   key: 'https://example.com/i/myidentity/keys/4',
- *   success: function(budgets) {},
+ *   success: function(key) {},
  *   error: function(err) {}
  * });
  */

@@ -1563,7 +1563,7 @@ angular.module('payswarm.directives')
     default:
       var message = error.message;
       // FIXME: this should be limited as needed
-      if(error.cause.message) {
+      if(error.cause && error.cause.message) {
         message = message + ' ' + error.cause.message;
       }
       if(feedback.contactSupport) {

@@ -1,11 +1,12 @@
 var label = require('./label');
 var status = require('./status');
 var publicKeyPem = require('./publicKeyPem');
+var jsonldContext = require('./jsonldContext');
 
 var postKey = {
   type: 'object',
   properties: {
-    label: label(),
+    '@context': jsonldContext(),
     revoked: {
       type: 'string'
     }
@@ -16,6 +17,7 @@ var postKey = {
 var postKeys = {
   type: 'object',
   properties: {
+    '@context': jsonldContext(),
     label: label(),
     publicKeyPem: publicKeyPem()
   },

@@ -6,7 +6,9 @@ var postKey = {
   type: 'object',
   properties: {
     label: label(),
-    psaStatus: status()
+    revoked: {
+      type: 'string'
+    }
   },
   additionalProperties: false
 };

@@ -277,7 +277,11 @@ config.financial.paymentGateways.push('./pg.test');
 config.financial.paymentGateway = config.financial.paymentGateway || {};
 config.financial.paymentGateway.Test = {};
 config.financial.paymentGateway.Test.payees = {};
-config.financial.paymentGateway.Test.payees['bank:BankAccount'] = [{
+config.financial.paymentGateway.Test.payees.deposit = {};
+config.financial.paymentGateway.Test.payees.withdrawal = {};
+
+// BankAccount fees
+config.financial.paymentGateway.Test.payees.deposit['bank:BankAccount'] = [{
   type: 'com:Payee',
   destination: baseUri + '/i/authority/accounts/fees',
   payeeGroup: ['authority'],
@@ -300,7 +304,32 @@ config.financial.paymentGateway.Test.payees['bank:BankAccount'] = [{
   payeeApplyType: 'com:Exclusive',
   comment: 'Deposit Processing Service'
 }];
-config.financial.paymentGateway.Test.payees['ccard:CreditCard'] = [{
+config.financial.paymentGateway.Test.payees.withdrawal['bank:BankAccount'] = [{
+  type: 'com:Payee',
+  destination: baseUri + '/i/authority/accounts/fees',
+  payeeGroup: ['authority'],
+  payeeApplyGroup: ['authority_gateway'],
+  payeeExemptGroup: [
+    'authority', 'authority_gatewayPercentExempt', 'authority_exempt'],
+  payeeRateType: 'com:Percent',
+  payeeRate: '0.99',
+  payeeApplyType: 'com:Inclusive',
+  comment: 'Withdrawal Processing Service'
+}, {
+  type: 'com:Payee',
+  destination: baseUri + '/i/authority/accounts/fees',
+  payeeGroup: ['authority'],
+  payeeApplyGroup: ['authority_gateway'],
+  payeeExemptGroup: [
+    'authority', 'authority_gatewayFlatExempt', 'authority_exempt'],
+  payeeRateType: 'com:FlatAmount',
+  payeeRate: '0.50',
+  payeeApplyType: 'com:Inclusive',
+  comment: 'Withdrawal Processing Service'
+}];
+
+// CreditCard fees
+config.financial.paymentGateway.Test.payees.deposit['ccard:CreditCard'] = [{
   type: 'com:Payee',
   destination: baseUri + '/i/authority/accounts/fees',
   payeeGroup: ['authority'],
@@ -323,5 +352,6 @@ config.financial.paymentGateway.Test.payees['ccard:CreditCard'] = [{
   payeeApplyType: 'com:Exclusive',
   comment: 'Deposit Processing Service'
 }];
+
 // set bank account settlement to 1 minute
 config.financial.paymentGateway.Test.bankAccountSettlement = 1000*60;

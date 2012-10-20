@@ -1620,6 +1620,7 @@ angular.module('payswarm.directives')
 
     $scope.prepare = function() {
       $scope.state = 'preparing';
+      $scope.feedback = {};
     };
 
     $scope.review = function() {
@@ -1661,6 +1662,7 @@ angular.module('payswarm.directives')
             });
           }, function(err) {
             // FIXME: handle err
+            $scope.feedback = {};
             //
             // go to top of page
             // FIXME: use directive to do this
@@ -1752,6 +1754,7 @@ angular.module('payswarm.directives')
 
     $scope.prepare = function() {
       $scope.state = 'preparing';
+      $scope.feedback = {};
     };
 
     $scope.review = function() {
@@ -1799,6 +1802,7 @@ angular.module('payswarm.directives')
             });
           }, function(err) {
             // FIXME: handle err
+            $scope.feedback = {};
             //
             // go to top of page
             // FIXME: use directive to do this

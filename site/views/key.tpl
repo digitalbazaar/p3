@@ -10,10 +10,18 @@ ${set(
 <div data-ng-controller="KeyCtrl" class="ng-cloak">
 
   <div data-ng-show="key.label" class="row">
-    <h3 class="headline">{{key.label}} 
+    <h3 class="headline">{{key.label}}
       <span data-ng-show="key.psaStatus">({{key.psaStatus}})</span>
     </h3>
-  <div>
+  </div>
+  
+  <div data-ng-show="key.revoked" class="row">
+    <div class="offset3 span6">
+      <h3 class="headline">
+        Revoked: <span>{{key.revoked}}</span>
+      </h3>
+    </div>
+  </div>
 
   <div class="row">
     <div class="offset3 span6">

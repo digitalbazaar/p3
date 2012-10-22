@@ -307,8 +307,9 @@ config.financial.paymentGateway.Test.payees.deposit['bank:BankAccount'] = [{
 config.financial.paymentGateway.Test.payees.withdrawal['bank:BankAccount'] = [{
   type: 'com:Payee',
   destination: baseUri + '/i/authority/accounts/fees',
-  payeeGroup: ['authority'],
+  payeeGroup: ['authority', 'authority_percent'],
   payeeApplyGroup: ['authority_gateway'],
+  payeeApplyAfter: ['authority_flat'],
   payeeExemptGroup: [
     'authority', 'authority_gatewayPercentExempt', 'authority_exempt'],
   payeeRateType: 'com:Percent',
@@ -318,7 +319,7 @@ config.financial.paymentGateway.Test.payees.withdrawal['bank:BankAccount'] = [{
 }, {
   type: 'com:Payee',
   destination: baseUri + '/i/authority/accounts/fees',
-  payeeGroup: ['authority'],
+  payeeGroup: ['authority', 'authority_flat'],
   payeeApplyGroup: ['authority_gateway'],
   payeeExemptGroup: [
     'authority', 'authority_gatewayFlatExempt', 'authority_exempt'],

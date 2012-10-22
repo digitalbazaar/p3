@@ -16,7 +16,7 @@ ${set([
       <div class="span12">
         <input name="profile" type="text" autofocus="autofocus"
           data-ng-model="profile"
-          placeholder="E-mail" data-ng-disabled="loading" />
+          placeholder="Email" data-ng-disabled="loading" />
       </div>
     </div>
     

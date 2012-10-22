@@ -36,7 +36,7 @@ company that operates this PaySwarm developer sandbox.
       </span>
     </li>
     <li class="row">
-      <strong class="span1">E-mail</strong>
+      <strong class="span1">Email</strong>
       <span class="span3">
         <a href="mailto:support@payswarm.com">support@payswarm.com</a>
       </span>

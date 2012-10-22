@@ -1237,7 +1237,7 @@ payswarm.profiles.login = function(options) {
 };
 
 /**
- * Sends a password reset e-mail to the provided and e-mail address or
+ * Sends a password reset email to the provided and email address or
  * a profile name.
  *
  * Usage:
@@ -1270,8 +1270,7 @@ payswarm.profiles.passcode = function(options) {
 };
 
 /**
- * Sets a password given an
- * e-mail to the provided and e-mail address or
+ * Sets a password given an email to the provided and email address or
  * a profile name.
  *
  * Usage:

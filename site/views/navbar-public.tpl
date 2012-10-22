@@ -17,7 +17,7 @@ ${set([
           <input data-ng-hide="multiple"
             class="input-medium" name="profile" type="text"
             data-ng-model="profile" autofocus="autofocus"
-            placeholder="E-mail" data-ng-disabled="loading" />
+            placeholder="Email" data-ng-disabled="loading" />
           <select data-ng-show="multiple" name="profile" autofocus="autofocus"
             data-tooltip-title="Your email address ({{email}}) is associated with multiple
             profiles. Please select the identity associated with the profile

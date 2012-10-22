@@ -24,7 +24,7 @@ module.controller('PasscodeCtrl', function($scope) {
       profile: {psaIdentifier: $scope.email},
       success: function() {
         $scope.feedback.email.text =
-          'An e-mail has been sent to you with password reset instructions.';
+          'An email has been sent to you with password reset instructions.';
         $scope.feedback.email.error = false;
         $scope.$apply();
       },

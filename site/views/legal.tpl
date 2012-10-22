@@ -22,7 +22,7 @@ ${set(pageTitle = "Legal Information")}
          <li>Twitter: <a href="http://twitter.com/payswarm">@payswarm</a></li>
          <li>Mailing List: <a href="http://payswarm.com/listinfo/payswarm-dev">
             PaySwarm Development</a></li>
-         <li>E-mail:
+         <li>Email:
          <a href="mailto:support@payswarm.com">support@payswarm.com</a></li>
       </ul>
       
@@ -60,7 +60,7 @@ ${set(pageTitle = "Legal Information")}
 
       <h3>Phishing</h3>
       <p>All communication will be performed via Internet-based protocols such
-      as e-mail or secure HTTP. At no point will the Service or staff of
+      as email or secure HTTP. At no point will the Service or staff of
       Digital Bazaar attempt to contact you via physical mail or telephone
       without your express permission.</p>
    

@@ -17,11 +17,11 @@ ${set([
       <fieldset>
       <legend>Get Passcode</legend>
         <div class="control-group" data-binding="psaIdentifier">
-          <label class="control-label" for="email">E-mail</label>
+          <label class="control-label" for="email">Email</label>
           <div class="controls">
             <input name="profile" type="text" maxlength="320"
               data-ng-model="email"
-              data-tooltip-title="The e-mail address that you used when you registered with this website."
+              data-tooltip-title="The email address that you used when you registered with this website."
               data-placement="right" data-trigger="focus"
               data-ng-disabled="loading" />
           </div>
@@ -48,11 +48,11 @@ ${set([
       <legend>Update Your Password</legend>
 
       <div class="control-group">
-        <label class="control-label" for="reset-email">E-mail</label>
+        <label class="control-label" for="reset-email">Email</label>
         <div class="controls">
           <input name="input" type="text" maxlength="320"
             data-ng-model="email" 
-            data-tooltip-title="The e-mail address that you used above to retrieve reset instructions and a reset passcode."
+            data-tooltip-title="The email address that you used above to retrieve reset instructions and a reset passcode."
             data-placement="right" data-trigger="focus"
             data-ng-disabled="loading" />
         </div>
@@ -63,7 +63,7 @@ ${set([
         <div class="controls">
           <input name="psaPasscode" type="text" maxlength="8"
             data-ng-model="psaPasscode"
-            data-original-title="The passcode that was sent to you in the password reset e-mail from this website."
+            data-original-title="The passcode that was sent to you in the password reset email from this website."
             data-placement="right" data-trigger="focus"
             data-ng-disabled="loading" />
         </div>

@@ -31,7 +31,7 @@ ${set([
             <input class="input-xlarge form-field-vspaced"
               name="email" data-binding="email" type="text"
               data-ng-model="data.email"
-              data-tooltip-title="A valid e-mail address is required so that we can send you receipts and reset your password if you get locked out."
+              data-tooltip-title="A valid email address is required so that we can send you receipts and reset your password if you get locked out."
               data-placement="right" data-trigger="focus"
               data-ng-disabled="loading" />
           </div>

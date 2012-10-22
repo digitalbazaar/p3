@@ -34,7 +34,7 @@
     </tbody>
     <tfoot>
       <tr><td><span class="label label-important">IMPORTANT</span></td>
-        <td colspan="2">Your account "{{account.label}}" will be debited
+        <td colspan="2">Your account "<strong>{{account.label}}</strong>" will be debited
           <strong><span class="money">USD {{withdrawal.amount | currency:'$'}}</span></strong>.
         </td>
       </tr>
@@ -44,7 +44,7 @@
             <span data-ng-switch-when="bank:BankAccount">bank account</span>
             <span data-ng-switch-default>external account</span>
           </span>
-          "{{input.destination.label}}" will be credited
+          "<strong>{{input.destination.label}}</strong>" will be credited
           <strong><span class="money">USD {{withdrawal.transfer[0].amount | currency:'$'}}</span></strong>.
         </td>
       </tr>

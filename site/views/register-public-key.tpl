@@ -28,21 +28,21 @@ ${set([
     <form data-ng-hide="registered" class="form-horizontal" action="">
       <fieldset>
         <div class="control-group">
-            <label class="control-label">Purpose</label>
-            <div class="controls">
-            <label>
-              <input type="radio" name="registration-type"
-                value="vendor" data-ng-model="registrationType"
-                data-ng-change="filterIdentities()" />
-              Only for listing things for sale (Vendor only)
-            </label>
-            <label>
-              <input type="radio" name="registration-type"
-                value="buyer" data-ng-model="registrationType"
-                data-ng-change="filterIdentities()" />
-              Buying things and listings things for sale (Vendor/Buyer)
-            </label>
-            </div>
+          <label class="control-label">Purpose</label>
+          <div class="controls">
+          <label class="radio">
+            <input type="radio" name="registration-type"
+              value="vendor" data-ng-model="registrationType"
+              data-ng-change="filterIdentities()" />
+            Only for listing things for sale (Vendor only)
+          </label>
+          <label class="radio">
+            <input type="radio" name="registration-type"
+              value="buyer" data-ng-model="registrationType"
+              data-ng-change="filterIdentities()" />
+            Buying things and listings things for sale (Vendor/Buyer)
+          </label>
+          </div>
         </div>
         
         <div class="control-group">
@@ -54,7 +54,9 @@ ${set([
               data-selected="selection.identity"
               data-invalid="selection.invalidIdentity"></div>
           </div>
+        </div>
           
+        <div class="control-group">
           <label class="control-label" for="account-selector">Financial Account</label>
           <div class="controls">
             <div id="account-selector" data-account-selector
@@ -62,22 +64,29 @@ ${set([
               data-invalid="selection.invalidAccount"
               data-identity="selection.identity"></div>
           </div>
+        </div>
     
+        <div class="control-group" data-binding="publicKey.label">
           <label class="control-label" for="access-key-label">Access Key Label</label>
           <div class="controls">
             <input id="access-key-label" class="form-field-vspaced form-field-constrained"
               data-ng-model="publicKey.label"
               name="publicKeyLabel" type="text" value="{{publicKey.label}}" />
           </div>
+        </div>
     
+        <div class="control-group" data-binding="publicKey.publicKeyPem">
           <label class="control-label" for="public-key-pem">Access Key</label>
           <div class="controls">
             <textarea id="public-key-pem" class="form-field-vspaced form-field-constrained small-text"
               data-ng-model="publicKey.publicKeyPem"
               name="publicKeyPem" rows="7">{{/verbatim}}{{if publicKeyPem}}${publicKeyPem}{{/if}}{{verbatim}}</textarea>
           </div>
+        </div>
 
           <div class="form-actions">
+            <div class="modal-feedback"
+               data-feedback="feedback" data-target="feedbackTarget"></div>
             <button class="btn btn-large btn-primary"
               data-ng-disabled="loading"
               data-ng-click="register()">Register</button>

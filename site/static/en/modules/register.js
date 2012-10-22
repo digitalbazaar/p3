@@ -12,6 +12,7 @@ module.controller('RegisterCtrl', function(
   $scope, $timeout, svcIdentity, svcAccount) {
   // init model
   var data = window.data;
+  $scope.feedback = {};
   $scope.loading = false;
   $scope.registered = false;
   $scope.identities = [];
@@ -31,7 +32,6 @@ module.controller('RegisterCtrl', function(
   };
   $scope.filterIdentities = function() {
     $scope.identities = svcIdentity.identities;
-    console.log('filtering', svcIdentity.identities);
     if($scope.registrationType === 'vendor') {
       // allow only vendor identities to be selected
       $scope.identityTypes = ['ps:VendorIdentity'];
@@ -69,8 +69,9 @@ module.controller('RegisterCtrl', function(
           success: postPreferencesToCallback
         });
       },
-      error: function() {
+      error: function(err) {
         $scope.loading = false;
+        $scope.feedback.error = err;
         $scope.$apply();
       }
     });

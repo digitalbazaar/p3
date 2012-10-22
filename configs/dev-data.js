@@ -23,6 +23,7 @@ config.financial.defaults.account = {
   psaPublic: [],
   psaStatus: 'active'
 };
+config.financial.createDefaultPaymentTokens = true;
 config.financial.defaults.paymentTokens.push({
   // demo payment token source
   type: 'ccard:CreditCard',

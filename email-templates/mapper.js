@@ -11,6 +11,7 @@ module.exports.map = function(mapping) {
     'common.Deposit.success-profile',
     'common.PaymentToken.unverified',
     'common.PaymentToken.unverified-profile',
+    'common.PaymentToken.unverifiedLimitReached',
     'common.PaymentToken.verified-profile',
     'common.PaymentToken.verifyFailed',
     'common.Profile.created',

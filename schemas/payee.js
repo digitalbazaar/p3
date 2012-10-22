@@ -29,6 +29,18 @@ var schema = {
           }
         }]
       },
+      payeeApplyAfter: {
+        required: false,
+        type: [{
+          type: 'string'
+        }, {
+          type: 'array',
+          uniqueItems: true,
+          items: {
+            type: 'string'
+          }
+        }]
+      },
       payeeApplyGroup: {
         required: false,
         type: [{

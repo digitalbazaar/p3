@@ -241,7 +241,8 @@ angular.module('payswarm.directives')
       available: '@duplicateCheckerAvailable',
       invalid: '@duplicateCheckerInvalid',
       taken: '@duplicateCheckerTaken',
-      checking: '@duplicateCheckerChecking'
+      checking: '@duplicateCheckerChecking',
+      owner: '@duplicateCheckerOwner'
     },
     link: function(scope, element, attrs) {
       // hide feedback until input changes
@@ -249,8 +250,17 @@ angular.module('payswarm.directives')
 
       var lastInput = null;
       var timer = null;
+      var init = true;
 
       scope.$watch('input', function(value) {
+        if(init) {
+          // do not consider initialized until value is defined
+          if(value !== undefined) {
+            init = false;
+          }
+          return;
+        }
+
         // stop previous check
         clearTimeout(timer);
 
@@ -274,11 +284,10 @@ angular.module('payswarm.directives')
             else {
               lastCheck = $filter('slug')(scope.input);
               timer = null;
-              var owner = attrs.duplicateCheckerOwner || null;
               $http.post('/identifier', $.extend({
                 type: attrs.duplicateCheckerType,
                 psaSlug: lastCheck
-              }, owner ? {owner: owner} : {}))
+              }, scope.owner ? {owner: scope.owner} : {}))
                 .success(function() {
                   // available
                   element

@@ -6,7 +6,7 @@ in your bank account.</p>
 like to withdraw.</p>
 
 <div class="section">
-  <h4 class="headline">Withdrawal Method</h4>
+  <h4 class="headline">Withdrawal Destination</h4>
   <div data-payment-token-selector data-selected="input.destination"
     data-invalid="selection.invalidDestination" data-instant="'non'"></div>
 </div>
@@ -15,18 +15,37 @@ like to withdraw.</p>
   <h4 class="headline">Withdrawal Details</h4>
   <form class="well form-horizontal" action="">
     <fieldset>
-      <label class="control-label" for="amount">Withdrawal</label>
+      <label class="control-label" for="account">Account</label>
+      <div class="control-group">
+        <div class="controls">
+          Money will be withdrawn from your "<strong>{{account.label}}</strong>" account.
+        </div>
+      </div>
+      <label class="control-label" for="amount">Amount</label>
       <div class="control-group" data-binding="payee[0].payeeRate">
         <div class="controls">
-          <div class="input-prepend">
-            <span class="add-on">$</span><input
-              type="text" name="amount" placeholder="Enter withdrawal amount..."
-              class="auto-tooltip"
-              data-ng-model="input.amount"
-              data-tooltip-title="You must enter a valid monetary amount, like 25 or 25.82."
-              data-placement="right" data-trigger="focus" />
-          </div>
-          <span class="help-block">Amount to withdraw from your "<strong>{{account.label}}</strong>" account.</span>
+          <label class="radio">
+            <input
+              type="radio" name="amount"
+              data-ng-model="input.mode"
+              value="all"
+              data-ng-change="input.amount = account.balance" />
+            Withdraw all money: <strong>{{account.currency}} {{account.balance|currency:'$'}}</strong>.
+          </label>
+          <label class="radio">
+            <input
+              type="radio" name="amount"
+              data-ng-model="input.mode"
+              value="custom" />
+            <div class="input-prepend">
+              <span class="add-on">$</span><input
+                type="text" name="amount" placeholder="Enter withdrawal amount..."
+                class="auto-tooltip"
+                data-ng-model="input.amount"
+                data-tooltip-title="You must enter a valid monetary amount, like 25 or 25.82."
+                data-placement="right" data-trigger="focus" />
+            </div>
+          </label>
         </div>
       </div>
     </fieldset>

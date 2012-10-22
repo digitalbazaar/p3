@@ -1754,7 +1754,17 @@ angular.module('payswarm.directives')
       $scope.input = {
         // payment token destination
         destination: destination,
+        mode: 'custom',
         amount: ''
+      };
+      $scope.checkAmount = function() {
+        var amountString = $scope.input.amount;
+        var amount = parseFloat(amountString);
+        var balance = parseFloat($scope.account.balance);
+        return amountString === '' ||
+          (!isNaN(amount) &&
+            (amount > 0) &&
+            (amount <= balance));
       };
 
       // state in ('preparing', 'reviewing', 'complete')

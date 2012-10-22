@@ -20,12 +20,13 @@
   <div class="modal-footer">
     <div class="modal-feedback"
       data-feedback="feedback" data-target="feedbackTarget"></div>
+    <div class="modal-feedback alert alert-error" data-ng-hide="checkAmount()">Withdrawal amount must greater than zero and less than or equal to the account balance.</div>
 
     <span data-spinner="loading"
       data-spinner-class="prepend-btn-spinner"></span>
     <span data-ng-show="state == 'preparing'">
       <button class="btn btn-primary"
-        data-ng-disabled="loading"
+        data-ng-disabled="loading || !checkAmount()"
         data-ng-click="review()">Review</button>
       <button data-ng-disabled="loading" class="btn btn-close">Cancel</button>
     </span>

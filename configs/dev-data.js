@@ -173,7 +173,18 @@ config.identity.identities.push({
   label: 'Vendor',
   psaPublic: ['label', 'homepage', 'description'],
   homepage: 'http://example.com/vendor',
-  description: 'The default PaySwarm Vendor'
+  description: 'The default PaySwarm Vendor',
+  address: [{
+    label: 'Home',
+    type: 'vcard:Address',
+    fullName: 'Shop Owner',
+    streetAddress: '100 Vendor St',
+    locality: 'City',
+    region: 'State',
+    postalCode: '10000',
+    countryName: 'US',
+    psaValidated: true
+  }]
 });
 
 // keys

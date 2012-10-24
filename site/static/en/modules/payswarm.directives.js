@@ -771,7 +771,7 @@ angular.module('payswarm.directives')
     $scope.services = {
       token: svcPaymentToken.state
     };
-    $scope.paymentTokens = svcPaymentToken.verified;
+    $scope.paymentTokens = svcPaymentToken.paymentTokens;
     $scope.$watch('paymentTokens', function(tokens) {
       if(!$scope.selected || $.inArray($scope.selected, tokens) === -1) {
         $scope.selected = tokens[0] || null;
@@ -794,7 +794,7 @@ angular.module('payswarm.directives')
         scope.paymentMethods = svcPaymentToken.instantPaymentMethods;
       }
       else {
-        scope.paymentTokens = svcPaymentToken.verified;
+        scope.paymentTokens = svcPaymentToken.paymentTokens;
         scope.paymentMethods = svcPaymentToken.paymentMethods;
       }
     });

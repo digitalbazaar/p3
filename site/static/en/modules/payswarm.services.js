@@ -923,8 +923,6 @@ angular.module('payswarm.services')
   // type specific tokens
   service.creditCards = [];
   service.bankAccounts = [];
-  // verified tokens
-  service.verified = [];
   // class specific tokens
   // 'instant' tokens can be used in cases where a transfer of funds must take
   // place immediately.
@@ -949,7 +947,6 @@ angular.module('payswarm.services')
     var bankAccounts = [];
     var instant = [];
     var nonInstant = [];
-    var verified = [];
     angular.forEach(service.paymentTokens, function(token) {
       if(token.psaStatus === 'active') {
         active.push(token);
@@ -965,9 +962,7 @@ angular.module('payswarm.services')
         bankAccounts.push(token);
       }
 
-      if(token.psaStatus === 'active' && token.psaVerified) {
-        verified.push(token);
-
+      if(token.psaStatus === 'active') {
         if(service.instantPaymentMethods.indexOf(token.paymentMethod) !== -1) {
           instant.push(token);
         }
@@ -983,7 +978,6 @@ angular.module('payswarm.services')
     _replaceArray(service.bankAccounts, bankAccounts);
     _replaceArray(service.instant, instant);
     _replaceArray(service.nonInstant, nonInstant);
-    _replaceArray(service.verified, verified);
   }
 
   // get all paymentTokens for an identity

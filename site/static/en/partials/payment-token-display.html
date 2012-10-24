@@ -16,11 +16,14 @@
     </tbody>
   </table>
   <table data-ng-switch-when="bank:BankAccount"
-    class="table-bank item-hover" data-ng-class="selecting && 'item-hover'"
-    data-ng-click="selecting && select(selected)">
+    data-ng-class="{'table-bank': selected.psaVerified, 'table-bank-disabled': !selected.psaVerified, 'item-hover': selected.psaVerified && selecting}"
+    data-ng-click="selected.psaVerified && selecting && select(selected)">
     <tbody>
       <tr>
         <td colspan="2"><i class="bank-logo"></i> <strong>{{selected.label | ellipsis:20}}</strong></td>
+      </tr>
+      <tr data-ng-hide="selected.psaVerified">
+        <td colspan="2" class="text-align-center alert-error">Unverified</td>
       </tr>
       <tr>
         <td class="text-align-center">{{selected.bankRoutingNumber | mask}}</td>

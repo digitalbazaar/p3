@@ -247,6 +247,6 @@ ${set([
 </div>
 {{/verbatim}}
 
-{{partial "demo-alert.tpl"}}
+{{partial "demo-warning.tpl"}}
 
 {{partial "foot.tpl"}}

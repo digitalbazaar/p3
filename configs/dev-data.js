@@ -175,7 +175,7 @@ config.identity.identities.push({
   homepage: 'http://example.com/vendor',
   description: 'The default PaySwarm Vendor',
   address: [{
-    label: 'Home',
+    label: 'Business',
     type: 'vcard:Address',
     fullName: 'Shop Owner',
     streetAddress: '100 Vendor St',

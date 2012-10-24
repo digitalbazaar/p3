@@ -295,12 +295,6 @@ ${set([
 </div>
 {{/verbatim}}
 
-{{! mode warning }}
-{{if productionMode == false}}
-<hr />
-<div class="alert alert-info">
-  <strong>NOTE:</strong> This is a demonstration website that does not use real money. Please do not enter any sensitive personal information. [<a href="http://payswarm.com/wiki/Demo_Warning">more info...</a>]
-</div>
-{{/if}}
+{{partial "demo-warning.tpl"}}
 
 {{partial "foot.tpl"}}

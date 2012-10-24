@@ -85,6 +85,9 @@ ${set([
       </table>
       <div data-ng-show="!state.accounts.loading && accounts.length == 0">
         <p class="center">You have no accounts configured for this identity.</p>
+        <button 
+          class="btn btn-success pull-right"
+          data-ng-click="modals.showAddAccount=true"><i class="icon-plus icon-white"></i> Add Account</button>
       </div>
       <div data-modal-deposit="modals.showDeposit"
         data-account="modals.account" data-instant="false"></div>
@@ -175,6 +178,9 @@ ${set([
       </table>
       <div data-ng-show="!state.budgets.loading && budgets.length == 0">
         <p class="center">You have no budgets configured for this identity.</p>
+        <button
+          class="btn btn-success pull-right"
+          data-ng-click="modals.showAddBudget=true"><i class="icon-plus icon-white"></i> Add Budget</button>
       </div>
       <div data-modal-edit-budget="modals.showEditBudget"
         data-budget="modals.budget"></div>

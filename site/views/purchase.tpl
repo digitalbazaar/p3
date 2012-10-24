@@ -246,6 +246,13 @@ ${set([
   </div>
 </div> <!-- end error -->
 
+<div data-modal-add-address="showAddAddressModal"
+     data-modal-add-address-alert="purchase"
+     data-modal-on-close="addAddressModalDone()"></div>
+<div data-modal-add-account="showAddAccountModal"
+     data-modal-add-account-alert="purchase"
+     data-modal-on-close="addAccountModalDone()"></div>
+
 </div> <!-- end container -->
 {{/verbatim}}
 {{partial "foot.tpl"}}

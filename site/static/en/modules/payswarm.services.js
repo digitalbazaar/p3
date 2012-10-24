@@ -1386,6 +1386,7 @@ angular.module('payswarm.services')
     var modal = element.data('modal');
     var _backdrop = modal.backdrop;
     modal.backdrop = function(callback) {
+      callback = callback || angular.noop;
       _backdrop.call(this, callback);
       if(this.isShown && this.options.backdrop) {
         var $elementWrapper = $('<div class="modal-wrapper" />');
@@ -1411,6 +1412,11 @@ angular.module('payswarm.services')
       this.$element.insertAfter(this.$backdrop);
       _removeBackdrop.call(this);
       $('body').css({overflow: 'auto'});
+
+      // call callback
+      if(scope._callback) {
+        scope._callback.call(scope, {err: scope.error, result: scope.result});
+      }
     };
 
     // ignore enter presses in the modal by default
@@ -1560,11 +1566,6 @@ angular.module('payswarm.services')
     }
     // hide modal
     modal.element.modal('hide');
-
-    // call callback
-    if(scope._callback) {
-      scope._callback.call(scope, {err: scope.error, result: scope.result});
-    }
   };
 
   return service;

@@ -858,7 +858,10 @@ angular.module('payswarm.directives')
 
   return svcModal.directive({
     name: 'AddAccount',
-    scope: {showAlert: '@modalAddAccountAlert', identityId: '@'},
+    scope: {
+      showAlert: '@modalAddAccountAlert',
+      identityId: '@'
+    },
     templateUrl: '/partials/modals/add-account.html',
     controller: Ctrl,
     link: Link
@@ -1465,14 +1468,15 @@ angular.module('payswarm.directives')
     controller: Ctrl
   });
 })
-.directive('modalAddAddress', function(svcModal, svcAddress, svcConstant) {
+.directive('modalAddAddress', function(
+  svcModal, svcIdentity, svcAddress, svcConstant) {
   function Ctrl($scope) {
     $scope.open = function() {
       $scope.data = window.data || {};
       $scope.countries = svcConstant.countries || {};
       $scope.feedback = {};
       $scope.loading = false;
-      $scope.identity = data.identity || {};
+      $scope.identity = svcIdentity.identity || {};
       $scope.originalAddress = {
         '@context': 'http://purl.org/payswarm/v1',
         type: 'vcard:Address',
@@ -1532,13 +1536,18 @@ angular.module('payswarm.directives')
     };
   }
 
+  function Link(scope, element, attrs) {
+    scope.feedbackTarget = element;
+  }
+
   return svcModal.directive({
     name: 'AddAddress',
+    scope: {
+      showAlert: '@modalAddAddressAlert'
+    },
     templateUrl: '/partials/modals/add-address.html',
     controller: Ctrl,
-    link: function(scope, element, attrs) {
-      scope.feedbackTarget = element;
-    }
+    link: Link
   });
 })
 .directive('vcardAddress', function() {

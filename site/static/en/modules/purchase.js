@@ -103,52 +103,54 @@ module.controller('PurchaseCtrl', function(
     purchase($scope.selection.account.id, purchaseCallback);
   };
 
-  async.auto({
-    getAddresses: function(callback) {
-      svcAddress.get({force: true}, function(err, addresses) {
-        if(!err && addresses.length === 0) {
-          err = {
-            type: 'payswarm.website.NoAddress',
-            message:
-              'You must provide a name and address before ' +
-              'performing any financial transactions.'
-          };
-        }
-        callback(err);
-      });
-    },
-    getAccounts: function(callback) {
-      svcAccount.get({force: true}, function(err, accounts) {
-        if(!err && accounts.length === 0) {
-          err = {
-            type: 'payswarm.website.NoAccount',
-            message:
-              'You must create a financial account before ' +
-              'performing any financial transactions.'
-          };
-        }
-        callback(err);
-      });
-    },
-    getBudgets: function(callback) {
-      svcBudget.get({force: true}, callback);
-    },
-    getQuote: ['getAddresses', 'getAccounts', 'getBudgets', function(callback) {
-      $scope.selection.account = $scope.selection.account || $scope.accounts[0];
-      $scope.source = $scope.selection.account.id;
-      updateQuote($scope.source, callback);
-    }],
-    main: ['getQuote', function(callback) {
-      // attempt to auto-purchase using a current budget
-      autoPurchase(callback);
-    }]
-  }, function(err, results) {
-    // page now ready
-    $scope.ready = true;
+  // retry purchase after modals are done
+  $scope.addAddressModalDone = $scope.addAccountModalDone = function() {
+    tryPurchase();
+  };
 
-    // handle errors and successes
-    purchaseCallback(err, results ? results.main : null);
-  });
+  // main checks and calls to do purchase
+  // may be re-entrant if modals were opened
+  tryPurchase();
+  function tryPurchase() {
+    async.auto({
+      getAddresses: function(callback) {
+        svcAddress.get({force: true}, function(err, addresses) {
+          if(!err && addresses.length === 0) {
+            $scope.showAddAddressModal = true;
+          }
+          callback(err);
+        });
+      },
+      getAccounts: function(callback) {
+        svcAccount.get({force: true}, function(err, accounts) {
+          if(!err && accounts.length === 0) {
+            $scope.showAddAccountModal = true;
+          }
+          callback(err);
+        });
+      },
+      getBudgets: function(callback) {
+        svcBudget.get({force: true}, callback);
+      },
+      getQuote: ['getAddresses', 'getAccounts', 'getBudgets',
+        function(callback) {
+        $scope.selection.account =
+          $scope.selection.account || $scope.accounts[0];
+        $scope.source = $scope.selection.account.id;
+        updateQuote($scope.source, callback);
+      }],
+      main: ['getQuote', function(callback) {
+        // attempt to auto-purchase using a current budget
+        autoPurchase(callback);
+      }]
+    }, function(err, results) {
+      // page now ready
+      $scope.ready = true;
+  
+      // handle errors and successes
+      purchaseCallback(err, results ? results.main : null);
+    });
+  }
 
   /**
    * Updates a quote based on the listing. The price may only change based on
@@ -281,6 +283,7 @@ module.controller('PurchaseCtrl', function(
 
   // handle results of a purchase attempt
   function purchaseCallback(err, result) {
+    $scope.error = null;
     if(err) {
       switch(err.type) {
         case 'payswarm.financial.BudgetExceeded':

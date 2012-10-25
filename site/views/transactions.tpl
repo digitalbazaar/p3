@@ -63,7 +63,7 @@ ${set([
     </tr>
   </thead>
   <tbody>
-    <tr data-ng-repeat="row in table | orderBy:'-created'"
+    <tr data-ng-repeat="row in table"
       data-ng-class="(getRowType(row) != 'transfer' && !row.settled && !row.voided && 'info') || (getRowType(row) == 'transfer' && !row.txn.settled && !row.txn.voided && 'info') || (row.voided && 'error')"
       data-ng-hide="row.hidden">
       <!-- Date -->

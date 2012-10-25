@@ -251,7 +251,9 @@ ${set([
           data-modal-cancel="Cancel"
           data-modal-on-close="confirmDeleteAddress(err, result)">
           Removing your last address will immediately prevent you from buying
-          or selling with this identity.
+          or selling with this identity. If you choose to remove your last
+          address, you can re-enable buying and selling by adding a new
+          address.
         </div>
       </div>
       <!-- End Addresses Tab -->

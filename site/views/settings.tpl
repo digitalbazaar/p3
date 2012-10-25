@@ -12,11 +12,10 @@ ${set([
   <div class="row">
     <div class="title-section span12">
       <h1 class="headline">Settings</h1>
-      <hr />
     </div>
   </div>
   
-  <div class="tabbable tabs-left">
+  <div class="tabbable tabs-left first-tabbable">
     <ul class="nav nav-tabs">
       <li class="active"><a href="#external-accounts" data-toggle="tab">External Accounts</a></li>
       <li><a href="#addresses" data-toggle="tab">Addresses</a></li>

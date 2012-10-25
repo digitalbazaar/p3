@@ -186,6 +186,16 @@ select.form-field-vspaced {
   border-right: 1px solid #ddd;
 }
 
+/* Headlines in tab content */
+.tab-pane h3:nth-of-type(1) {
+  margin-top: 0;
+}
+
+/* First tabbable below headline */
+.first-tabbable {
+  margin-top: 10px;
+}
+
 /* Financial */
 span.price {
   white-space: nowrap;

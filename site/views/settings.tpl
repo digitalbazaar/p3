@@ -226,6 +226,14 @@ ${set([
             </table>
             <div data-ng-show="!state.loading && addresses.length == 0">
               <p class="center">You have no addresses associated with this identity.</p>
+
+              <div class="center alert">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <strong>Warning!</strong> 
+                Without any addresses you are unable to buy or sell with this
+                identity.
+              </div>
+
             </div>
           </div>
         </div>
@@ -235,6 +243,15 @@ ${set([
             <button class="btn btn-success"
               data-ng-click="showAddAddressModal=true"><i class="icon-plus icon-white"></i> Add Address</button>
           </div>
+        </div>
+        <!-- Removing last address alert -->
+        <div data-modal-alert="showLastAddressAlert"
+          data-modal-header="Warning"
+          data-modal-ok="Remove"
+          data-modal-cancel="Cancel"
+          data-modal-on-close="confirmDeleteAddress(err, result)">
+          Removing your last address will immediately prevent you from buying
+          or selling with this identity.
         </div>
       </div>
       <!-- End Addresses Tab -->

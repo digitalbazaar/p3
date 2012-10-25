@@ -44,9 +44,30 @@ module.controller('ExternalAccountsCtrl', function($scope, svcPaymentToken) {
 module.controller('AddressCtrl', function($scope, svcAddress) {
   $scope.state = svcAddress.state;
   $scope.addresses = svcAddress.addresses;
+  $scope.addressToDelete = null;
+
+  function callback(err) {
+    // FIXME: show errors
+    //$scope.feedback.error = err;
+  }
 
   $scope.deleteAddress = function(address) {
-    svcAddress.del(address);
+    if(svcAddress.addresses.length === 1) {
+      $scope.showLastAddressAlert = true;
+      $scope.addressToDelete = address;
+    }
+    else {
+      svcAddress.del(address, callback);
+    }
+  };
+  $scope.confirmDeleteAddress = function(err, result) {
+    // FIXME: handle errors
+    if(!err && result === 'ok') {
+      svcAddress.del($scope.addressToDelete, function(err) {
+        $scope.addressToDelete = null;
+        callback(err);
+      });
+    }
   };
 
   svcAddress.get();

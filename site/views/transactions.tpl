@@ -64,7 +64,7 @@ ${set([
   </thead>
   <tbody>
     <tr data-ng-repeat="row in table | orderBy:'-created'"
-      data-ng-class="(!row.settled && !row.voided && 'info') || (row.voided && 'error')"
+      data-ng-class="(getRowType(row) != 'transfer' && !row.settled && !row.voided && 'info') || (getRowType(row) == 'transfer' && !row.txn.settled && !row.txn.voided && 'info') || (row.voided && 'error')"
       data-ng-hide="row.hidden">
       <!-- Date -->
       <td data-ng-switch="getRowType(row)" data-ng-click="toggleDetails(row)" style="max-width: 150px;">

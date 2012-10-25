@@ -11,7 +11,7 @@ ${set([
 
   <div class="row">
     <div class="title-section span12">
-      <h1 class="headline">Dashboard</h3>
+      <h1 class="headline">Dashboard</h1>
     </div>
   </div>
     

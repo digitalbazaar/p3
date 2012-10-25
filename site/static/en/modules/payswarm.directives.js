@@ -812,6 +812,18 @@ angular.module('payswarm.directives')
     link: Link
   };
 })
+.directive('modalAlert', function(svcModal) {
+  return svcModal.directive({
+    name: 'Alert',
+    transclude: true,
+    templateUrl: '/partials/modals/alert.html',
+    scope: {
+      header: '@modalHeader',
+      ok: '@modalOk',
+      cancel: '@modalCancel'
+    }
+  });
+})
 .directive('modalAddAccount', function(svcModal, svcIdentity, svcAccount) {
   function Ctrl($scope) {
     $scope.open = function() {
@@ -1254,7 +1266,7 @@ angular.module('payswarm.directives')
                 ]
               },
               "cause": null
-            }
+            };
           }
           // Signal to contact support if needed.
           else if(err.type === 'payswarm.website.VerifyPaymentTokenFailed' &&

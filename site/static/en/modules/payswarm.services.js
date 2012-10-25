@@ -1331,7 +1331,7 @@ angular.module('payswarm.services')
       visible: '=modalVisible',
       _callback: '&modalOnClose'
     };
-    if(options.name) {
+    if('name' in options) {
       scope.visible = '=modal' + options.name;
     }
     angular.extend(scope, options.scope || {});

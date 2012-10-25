@@ -63,7 +63,7 @@ ${set([
     </tr>
   </thead>
   <tbody>
-    <tr data-ng-repeat="row in table"
+    <tr data-ng-repeat="row in table | orderBy:'-created'"
       data-ng-class="(!row.settled && !row.voided && 'info') || (row.voided && 'error')"
       data-ng-hide="row.hidden">
       <!-- Date -->

@@ -201,7 +201,7 @@ ${set([
           </tr>
         </thead>
         <tbody>
-          <tr data-ng-repeat="txn in txns" class="txn"
+          <tr data-ng-repeat="txn in txns | orderBy:'-created'" class="txn"
             data-ng-class="(!txn.settled && !txn.voided && 'info') || (txn.voided && 'error')"
             data-fadein="txn.added">
             <!-- Date -->

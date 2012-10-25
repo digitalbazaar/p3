@@ -24,7 +24,6 @@ ${set([
 
 <div class="row">
   <div class="span6 offset3">
-    
     <form data-ng-hide="registered" class="form-horizontal" action="">
       <fieldset>
         <div class="control-group">
@@ -85,6 +84,9 @@ ${set([
         </div>
 
           <div class="form-actions">
+            <div data-modal-add-address="showAddAddressModal"
+               data-modal-add-address-alert="vendor"
+               data-modal-on-close="register()"></div>
             <div class="modal-feedback"
                data-feedback="feedback" data-target="feedbackTarget"></div>
             <button class="btn btn-large btn-primary"
@@ -94,9 +96,9 @@ ${set([
               class="append-btn-spinner"></span>
           </div>
         </div>
-       </fieldset>
+      </fieldset>
     </form>
-    
+
     <div data-ng-show="registered">
       <p>The access key has been registered.</p>
     
@@ -121,7 +123,6 @@ ${set([
         <input type="text" value="{{encryptedMessage}}" />
       </div>
     </div>
-    
   </div>
 </div>
 

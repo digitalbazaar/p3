@@ -9,7 +9,7 @@
 var module = angular.module('payswarm');
 
 module.controller('RegisterCtrl', function(
-  $scope, $timeout, svcIdentity, svcAccount) {
+  $scope, $timeout, svcIdentity, svcAccount, svcAddress) {
   // init model
   var data = window.data;
   $scope.feedback = {};
@@ -53,27 +53,51 @@ module.controller('RegisterCtrl', function(
   $scope.register = function() {
     // update the preferences associated with the vendor identity
     $scope.loading = true;
-    var identity = $scope.selection.identity.id;
-    payswarm.identities.preferences.update({
-      identity: identity,
-      preferences: {
-        '@context': 'http://purl.org/payswarm/v1',
-        destination: $scope.selection.account.id,
-        publicKey: $scope.publicKey
-      },
-      success: function() {
-        // get identity preferences and post to callback
-        payswarm.identities.preferences.get({
-          identity: identity,
-          responseNonce: $scope.responseNonce,
-          success: postPreferencesToCallback
+    async.auto({
+      getAddresses: function(callback) {
+        svcAddress.get({force: true}, function(err, addresses) {
+          $scope.loading = false;
+          if(!err && addresses.length === 0) {
+            $scope.showAddAddressModal = true;
+            err = {
+              type: 'payswarm.website.AddressNotFound'
+            };
+          }
+          callback(err);
         });
       },
-      error: function(err) {
-        $scope.loading = false;
-        $scope.feedback.error = err;
-        $scope.$apply();
+      main: ['getAddresses', function(callback) {
+        var identity = $scope.selection.identity.id;
+        payswarm.identities.preferences.update({
+          identity: identity,
+          preferences: {
+            '@context': 'http://purl.org/payswarm/v1',
+            destination: $scope.selection.account.id,
+            publicKey: $scope.publicKey
+          },
+          success: function() {
+            // get identity preferences and post to callback
+            payswarm.identities.preferences.get({
+              identity: identity,
+              responseNonce: $scope.responseNonce,
+              success: function(preferences) {
+                postPreferencesToCallback(preferences, callback);
+              },
+              error: callback
+            });
+          },
+          error: callback
+        });
+      }]
+    }, function(err, results) {
+      if(err && err.type === 'payswarm.website.AddressNotFound') {
+        // address modal will re-call register()
+        $scope.feedback = {};
+        return;
       }
+      $scope.loading = false;
+      $scope.feedback.error = err;
+      $scope.$apply();
     });
   };
 
@@ -84,8 +108,9 @@ module.controller('RegisterCtrl', function(
    * on-screen for a manual submit.
    *
    * @param preferences the identity's preferences in an encrypted message.
+   * @param callback the function to call when done.
    */
-  function postPreferencesToCallback(preferences) {
+  function postPreferencesToCallback(preferences, callback) {
     $scope.encryptedMessage = JSON.stringify(preferences);
     $scope.$apply();
 
@@ -97,6 +122,7 @@ module.controller('RegisterCtrl', function(
     $timeout(function() {
       $scope.loading = false;
       $scope.registered = true;
+      callback();
     }, registrationDelay);
   }
 });

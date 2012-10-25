@@ -277,7 +277,7 @@ ${set([
                 <tr data-ng-repeat="key in keys | orderBy:'label' | orderBy:'psaStatus':reverse">
                   <!-- Name -->
                   <td>
-                    <a href="{{key.id}}">{{key.label}}</a></span>
+                    <a href="{{key.id}}">{{key.label}}</a>
                   </td>
                   <!-- Status -->
                   <td>

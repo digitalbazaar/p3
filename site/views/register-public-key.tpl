@@ -83,18 +83,17 @@ ${set([
           </div>
         </div>
 
-          <div class="form-actions">
-            <div data-modal-add-address="showAddAddressModal"
-               data-modal-add-address-alert="vendor"
-               data-modal-on-close="register()"></div>
-            <div class="modal-feedback"
-               data-feedback="feedback" data-target="feedbackTarget"></div>
-            <button class="btn btn-large btn-primary"
-              data-ng-disabled="loading"
-              data-ng-click="register()">Register</button>
-            <span data-spinner="loading"
-              class="append-btn-spinner"></span>
-          </div>
+        <div class="form-actions">
+          <div data-modal-add-address="showAddAddressModal"
+             data-modal-add-address-alert="vendor"
+             data-modal-on-close="register()"></div>
+          <div class="modal-feedback"
+             data-feedback="feedback" data-target="feedbackTarget"></div>
+          <button class="btn btn-large btn-primary"
+            data-ng-disabled="loading"
+            data-ng-click="register()">Register</button>
+          <span data-spinner="loading"
+            class="append-btn-spinner"></span>
         </div>
       </fieldset>
     </form>

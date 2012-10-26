@@ -196,6 +196,11 @@ select.form-field-vspaced {
   margin-top: 10px;
 }
 
+/* Remove bottom white border on breadcrumb divider */
+.breadcrumb > li > .divider {
+  border-bottom: 0;
+}
+
 /* Financial */
 span.price {
   white-space: nowrap;

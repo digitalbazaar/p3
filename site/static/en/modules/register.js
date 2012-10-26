@@ -95,6 +95,9 @@ module.controller('RegisterCtrl', function(
         $scope.feedback = {};
         return;
       }
+      if(!err) {
+        $scope.registered = true;
+      }
       $scope.loading = false;
       $scope.feedback.error = err;
       $scope.$apply();
@@ -112,18 +115,19 @@ module.controller('RegisterCtrl', function(
    */
   function postPreferencesToCallback(preferences, callback) {
     $scope.encryptedMessage = JSON.stringify(preferences);
-    $scope.$apply();
+
+    // done if no callback
+    if(!$scope.registrationCallback) {
+      return callback();
+    }
 
     // attempt to auto-submit the form back to the registering site
+    $scope.$apply();
     $('#vendor-form').submit();
 
     // show the manual registration completion button after a timeout period
     var registrationDelay = ($scope.registrationType === 'vendor') ? 5000 : 0;
-    $timeout(function() {
-      $scope.loading = false;
-      $scope.registered = true;
-      callback();
-    }, registrationDelay);
+    $timeout(callback, registrationDelay);
   }
 });
 

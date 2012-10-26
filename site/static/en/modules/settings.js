@@ -64,10 +64,10 @@ module.controller('AddressCtrl', function($scope, svcAddress) {
     // FIXME: handle errors
     if(!err && result === 'ok') {
       svcAddress.del($scope.addressToDelete, function(err) {
-        $scope.addressToDelete = null;
         callback(err);
       });
     }
+    $scope.addressToDelete = null;
   };
 
   svcAddress.get();
@@ -76,9 +76,17 @@ module.controller('AddressCtrl', function($scope, svcAddress) {
 module.controller('KeyCtrl', function($scope, svcKey) {
   $scope.state = svcKey.state;
   $scope.keys = svcKey.keys;
+  $scope.keyToRevoke = null;
 
   $scope.revokeKey = function(key) {
-    svcKey.revoke(key);
+    $scope.showRevokeKeyAlert = true;
+    $scope.keyToRevoke = key;
+  };
+  $scope.confirmRevokeKey = function(err, result) {
+    if(!err && result === 'ok') {
+      svcKey.revoke($scope.keyToRevoke);
+    }
+    $scope.keyToRevoke = null;
   };
 
   svcKey.get();

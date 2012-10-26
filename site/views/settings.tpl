@@ -249,10 +249,11 @@ ${set([
           data-modal-ok="Remove"
           data-modal-cancel="Cancel"
           data-modal-on-close="confirmDeleteAddress(err, result)">
-          Removing your last address will immediately prevent you from buying
+          <p>Removing your last address will immediately prevent you from buying
           or selling with this identity. If you choose to remove your last
           address, you can re-enable buying and selling by adding a new
-          address.
+          address.</p>
+          <p>Are you sure that you want to remove this address?</p>
         </div>
       </div>
       <!-- End Addresses Tab -->
@@ -303,6 +304,22 @@ ${set([
               <p class="center">You have no keys associated with this identity.</p>
             </div>
           </div>
+        </div>
+        <!-- Revoking key alert -->
+        <div data-modal-alert="showRevokeKeyAlert"
+          data-modal-header="Warning"
+          data-modal-ok="Revoke"
+          data-modal-cancel="Cancel"
+          data-modal-on-close="confirmRevokeKey(err, result)">
+          <div class="center alert">
+            <strong>Warning!</strong> 
+            Revoking an access key is permanent.
+          </div>
+          <p>Any items that you have listed for sale using this key will be
+          invalidated and any applications that use this key will be disabled.
+          You can relist your items or re-enable your applications by
+          registering a new key.</p>
+          <p>Are you sure that you want to revoke this key?</p>
         </div>
       </div>
       <!-- End Keys Tab -->

@@ -69,8 +69,8 @@ ${set([
           <label class="control-label" for="access-key-label">Access Key Label</label>
           <div class="controls">
             <input id="access-key-label" class="form-field-vspaced form-field-constrained"
-              data-ng-model="publicKey.label"
-              name="publicKeyLabel" type="text" value="{{publicKey.label}}" />
+              data-ng-model="model.publicKey.label"
+              name="publicKeyLabel" type="text" />
           </div>
         </div>
     
@@ -78,7 +78,7 @@ ${set([
           <label class="control-label" for="public-key-pem">Access Key</label>
           <div class="controls">
             <textarea id="public-key-pem" class="form-field-vspaced form-field-constrained small-text"
-              data-ng-model="publicKey.publicKeyPem"
+              data-ng-model="model.publicKey.publicKeyPem"
               name="publicKeyPem" rows="7">{{/verbatim}}{{if publicKeyPem}}${publicKeyPem}{{/if}}{{verbatim}}</textarea>
           </div>
         </div>

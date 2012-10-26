@@ -17,7 +17,8 @@ module.controller('RegisterCtrl', function(
   $scope.registered = false;
   $scope.identities = [];
   $scope.session = data.session;
-  $scope.publicKey = {
+  $scope.model = {};
+  $scope.model.publicKey = {
     label: data.publicKey.label,
     // FIXME: hack until PEM can be in window.data
     publicKeyPem: $('#public-key-pem').val()
@@ -73,7 +74,7 @@ module.controller('RegisterCtrl', function(
           preferences: {
             '@context': 'http://purl.org/payswarm/v1',
             destination: $scope.selection.account.id,
-            publicKey: $scope.publicKey
+            publicKey: $scope.model.publicKey
           },
           success: function() {
             // get identity preferences and post to callback

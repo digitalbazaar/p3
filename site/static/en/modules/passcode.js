@@ -29,7 +29,7 @@ module.controller('PasscodeCtrl', function($scope) {
         $scope.$apply();
       },
       error: function(err) {
-        console.log('err', err);
+        //console.log('err', err);
         // FIXME: handle feedback
         $scope.feedback.email.text = err.message;
         $scope.feedback.email.error = true;

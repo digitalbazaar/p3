@@ -119,7 +119,7 @@ ${set([
         Cut and paste the following data into your software to finish
         the registration process:
         </p>
-        <input type="text" value="{{encryptedMessage}}" />
+        <textarea class="span6" rows="20" readonly="readonly">{{encryptedMessage}}</textarea>
       </div>
     </div>
   </div>

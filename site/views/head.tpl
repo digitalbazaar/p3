@@ -19,15 +19,6 @@
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>${siteTitle}{{if pageTitle}}: ${pageTitle}{{/if}}</title>
-    <script type="text/javascript" src="${cacheRoot}/jquery/jquery.${jsExt}"></script>
-    <script type="text/javascript" src="${cacheRoot}/jquery-ui/js/jquery-ui.${jsExt}"></script>
-    <script type="text/javascript" src="${cacheRoot}/angular/angular.${jsExt}"></script>
-    <script type="text/javascript" src="${cacheRoot}/angular/angular-ui.${jsExt}"></script>
-    <script type="text/javascript" src="${cacheRoot}/modules/payswarm.${jsExt}"></script>
-    <script type="text/javascript" src="${cacheRoot}/modules/payswarm.directives.${jsExt}"></script>
-    <script type="text/javascript" src="${cacheRoot}/modules/payswarm.filters.${jsExt}"></script>
-    <script type="text/javascript" src="${cacheRoot}/modules/payswarm.services.${jsExt}"></script>
-
     <link href="${cacheRoot}/jquery-ui/css/jquery-ui.${cssExt}" rel="stylesheet" type="text/css" />
     <!--[if IE]>
     <link href="${cacheRoot}/jquery-ui/css/jquery-ui.ie.${cssExt}" rel="stylesheet" type="text/css" />
@@ -39,6 +30,15 @@
     <link href="${cacheRoot}/css/cc-logos.${cssExt}" rel="stylesheet" type="text/css" />
     
     <link rel="shortcut icon" href="/favicon.ico" />
+    
+    <script type="text/javascript" src="${cacheRoot}/jquery/jquery.${jsExt}"></script>
+    <script type="text/javascript" src="${cacheRoot}/jquery-ui/js/jquery-ui.${jsExt}"></script>
+    <script type="text/javascript" src="${cacheRoot}/angular/angular.${jsExt}"></script>
+    <script type="text/javascript" src="${cacheRoot}/angular/angular-ui.${jsExt}"></script>
+    <script type="text/javascript" src="${cacheRoot}/modules/payswarm.${jsExt}"></script>
+    <script type="text/javascript" src="${cacheRoot}/modules/payswarm.directives.${jsExt}"></script>
+    <script type="text/javascript" src="${cacheRoot}/modules/payswarm.filters.${jsExt}"></script>
+    <script type="text/javascript" src="${cacheRoot}/modules/payswarm.services.${jsExt}"></script>
   </head>
 
   <body data-ng-app="payswarm">

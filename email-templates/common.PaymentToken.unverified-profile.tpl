@@ -13,6 +13,13 @@ Hello {{identity.label}},
 
 Your bank account "{{paymentToken.label}}" is ready to be verified on {{serviceName}}!
 
+{% if verify -%}
+Because this is a development sandbox, the transaction amounts required to
+verify your bank account are below:
+
+Amounts: {{verify[0].amount}}, {{verify[1].amount}}
+{% endif %}
+
 You can verify and manage your bank accounts here:
 
 {{identity.id}}/settings

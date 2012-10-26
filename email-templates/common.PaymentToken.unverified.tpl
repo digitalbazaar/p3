@@ -11,3 +11,8 @@ Subject: {{subjectPrefix}}{{serviceName}} PaymentToken unverified for {{identity
 -----BEGIN PAYMENT TOKEN-----
 {{toJson(paymentToken)}}
 -----END PAYMENT TOKEN-----
+{%- if verify %}
+-----VERIFY DATA-----
+{{toJson(verify)}}
+-----END VERIFY DATA-----
+{% endif -%}

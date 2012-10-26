@@ -630,8 +630,7 @@ angular.module('payswarm.directives')
       }
     });
 
-    attrs.$observe('identity', function(value) {
-      value = scope.$eval(value);
+    scope.$watch('identity', function(value) {
       if(value) {
         scope.identityId = value;
         updateAccounts(scope);
@@ -646,7 +645,7 @@ angular.module('payswarm.directives')
       fixed: '@',
       minBalance: '@',
       showDepositButton: '@',
-      identityId: '@',
+      identity: '@',
       instant: '='
     },
     controller: Ctrl,

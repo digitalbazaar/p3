@@ -90,7 +90,7 @@ ${set([
           <div class="modal-feedback"
              data-feedback="feedback" data-target="feedbackTarget"></div>
           <button class="btn btn-large btn-primary"
-            data-ng-disabled="loading"
+            data-ng-disabled="loading || !selection.identity || !selection.account"
             data-ng-click="register()">Register</button>
           <span data-spinner="loading"
             class="append-btn-spinner"></span>

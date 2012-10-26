@@ -6,7 +6,7 @@
     </div>
   </div>
   
-  <div class="control-group">
+  <div class="control-group inline-block">
     <div data-modal-selector="showSelectorModal"
       data-items="items" data-item-type="itemType">
       <ul class="unstyled item">
@@ -17,7 +17,7 @@
       </ul>
       <div data-ng-show="custom" data-ng-transclude></div>
     </div>
-    <div data-ng-hide="fixed">
+    <div data-ng-hide="fixed" class="pull-right">
       <button class="btn btn-success"
         data-ng-show="items.length > 1"
         data-ng-click="showSelectorModal=true"><i class="icon-list icon-white"></i> Change</button>

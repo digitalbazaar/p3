@@ -161,11 +161,10 @@ select.form-field-vspaced {
   border-left: none;
 }
 
-/* Override boostrap for proper layout on tables with buttons */
+/* Override bootstrap for proper layout on tables with buttons */
 .table {
   margin-bottom: 0px;
 }
-
 .table td {
   vertical-align: inherit;
 }
@@ -287,6 +286,7 @@ span.currency {
 }
 .inline-block {
   display: inline-block;
+  width: 100%;
 }
 .center {
   text-align: center;

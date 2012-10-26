@@ -67,8 +67,16 @@ ${set([
                   </td>
                 </tr>
               </tbody>
-              <tfoot data-ng-show="state.loading">
-                <tr>
+              <tfoot>
+                <tr data-ng-hide="state.loading">
+                  <!-- Add Credit Card -->
+                  <td colspan="5">
+                    <button 
+                      class="btn btn-success pull-right"
+                      data-ng-click="modals.showAddCreditCard=true"><i class="icon-plus icon-white"></i> Add Credit Card</button>
+                  </td>
+                </tr>              
+                <tr data-ng-show="state.loading">
                   <td colspan="5" style="text-align: center">
                     <span class="center">
                       <span data-spinner="state.loading" data-spinner-class="table-spinner"></span>
@@ -79,19 +87,14 @@ ${set([
             </table>
             <div data-ng-show="!state.loading && creditCards.length == 0">
               <p class="center">You have no credit cards associated with this identity.</p>
+              <button 
+                class="btn btn-success pull-right"
+                data-ng-click="modals.showAddCreditCard=true"><i class="icon-plus icon-white"></i> Add Credit Card</button>
             </div>
+            <div data-modal-add-payment-token="modals.showAddCreditCard" data-payment-methods="creditCardMethods"></div>
           </div>
         </div>
 
-        <div class="row-fluid">
-          <div class="span12">
-            <div data-modal-add-payment-token="showAddCreditCardModal" data-payment-methods="creditCardMethods"></div>
-            <button class="btn btn-success"
-              data-ng-hide="state.loading"
-              data-ng-click="showAddCreditCardModal=true"><i class="icon-plus icon-white"></i> Add Credit Card</button>
-          </div>
-        </div>
-        
         <!-- Separator -->
         <div class="row-fluid">
           <div class="span12"></div>
@@ -155,8 +158,16 @@ ${set([
                   </td>
                 </tr>
               </tbody>
-              <tfoot data-ng-show="state.loading">
-                <tr>
+              <tfoot>
+                <tr data-ng-hide="state.loading">
+                  <!-- Add Bank Account -->
+                  <td colspan="6">
+                    <button 
+                      class="btn btn-success pull-right"
+                      data-ng-click="modals.showAddBankAccount=true"><i class="icon-plus icon-white"></i> Add Bank Account</button>
+                  </td>
+                </tr>              
+                <tr data-ng-show="state.loading">
                   <td colspan="6" style="text-align: center">
                     <span class="center">
                       <span data-spinner="state.loading" data-spinner-class="table-spinner"></span>
@@ -167,16 +178,11 @@ ${set([
             </table>
             <div data-ng-show="!state.loading && bankAccounts.length == 0">
               <p class="center">You have no bank accounts associated with this identity.</p>
+              <button 
+                class="btn btn-success pull-right"
+                data-ng-click="modals.showAddBankAccount=true"><i class="icon-plus icon-white"></i> Add Bank Account</button>
             </div>
-          </div>
-        </div>
-        
-        <div class="row-fluid">
-          <div class="span12">
-            <div data-modal-add-payment-token="showAddBankAccountModal" data-payment-methods="bankAccountMethods"></div>
-            <button class="btn btn-success"
-              data-ng-hide="state.loading"
-              data-ng-click="showAddBankAccountModal=true"><i class="icon-plus icon-white"></i> Add Bank Account</button>
+            <div data-modal-add-payment-token="modals.showAddBankAccount" data-payment-methods="bankAccountMethods"></div>
           </div>
         </div>
       </div>
@@ -213,8 +219,16 @@ ${set([
                   </td>
                 </tr>
               </tbody>
-              <tfoot data-ng-show="state.loading">
-                <tr>
+              <tfoot>
+                <tr data-ng-hide="state.loading">
+                  <!-- Add Address -->
+                  <td colspan="5">
+                    <button 
+                      class="btn btn-success pull-right"
+                      data-ng-click="modals.showAddAddress=true"><i class="icon-plus icon-white"></i> Add Address</button>
+                  </td>
+                </tr>              
+                <tr data-ng-show="state.loading">
                   <td colspan="5" style="text-align: center">
                     <span class="center">
                       <span data-spinner="state.loading" data-spinner-class="table-spinner"></span>
@@ -233,14 +247,11 @@ ${set([
                 identity.
               </div>
 
+              <button 
+                class="btn btn-success pull-right"
+                data-ng-click="modals.showAddAddress=true"><i class="icon-plus icon-white"></i> Add Address</button>
             </div>
-          </div>
-        </div>
-        <div class="row-fluid">
-          <div class="span12">
-            <div data-modal-add-address="showAddAddressModal"></div>
-            <button class="btn btn-success"
-              data-ng-click="showAddAddressModal=true"><i class="icon-plus icon-white"></i> Add Address</button>
+            <div data-modal-add-address="modals.showAddAddress"></div>
           </div>
         </div>
         <!-- Removing last address alert -->
@@ -301,7 +312,9 @@ ${set([
               </tfoot>
             </table>
             <div data-ng-show="!state.loading && keys.length == 0">
-              <p class="center">You have no keys associated with this identity.</p>
+              <p class="center">You have no keys associated with this identity.
+              Access keys can be added by using an external payswarm-enabled
+              application.</p>
             </div>
           </div>
         </div>

@@ -27,6 +27,12 @@ module.controller('ExternalAccountsCtrl', function($scope, svcPaymentToken) {
   $scope.creditCards = svcPaymentToken.creditCards;
   $scope.bankAccounts = svcPaymentToken.bankAccounts;
 
+  // modals
+  $scope.modals = {
+    showAddCreditCard: false,
+    showAddBankAccount: false
+  };
+
   $scope.deletePaymentToken = function(paymentToken) {
     svcPaymentToken.del(paymentToken.id, function(err) {
       if(err) {
@@ -45,6 +51,9 @@ module.controller('AddressCtrl', function($scope, svcAddress) {
   $scope.state = svcAddress.state;
   $scope.addresses = svcAddress.addresses;
   $scope.addressToDelete = null;
+  $scope.modals = {
+    showAddAddress: false
+  };
 
   function callback(err) {
     // FIXME: show errors

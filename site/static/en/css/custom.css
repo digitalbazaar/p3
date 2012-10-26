@@ -76,6 +76,11 @@ select.form-field-vspaced {
   margin-bottom: 10px;
 }
 
+/* Fix for input-prepend w/following help blocks */
+.form-horizontal .input-prepend + .help-block {
+  margin-top: 10px;
+}
+
 /* Short alert displays */
 .alert-short {
   width: 230px;

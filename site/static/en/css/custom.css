@@ -568,6 +568,7 @@ h1 > .rest-summary > .rest-path {
   overflow-x: hidden;
   overflow-y: auto;
   background-color: rgba(0, 0, 0, 0.8);
+  -webkit-overflow-scrolling: touch;
 }
 .modal-backdrop.fade {
   background-color: rgba(0, 0, 0, 0.0);

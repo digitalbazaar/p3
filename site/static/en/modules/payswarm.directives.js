@@ -1233,46 +1233,49 @@ angular.module('payswarm.directives')
       $scope.loading = true;
       svcPaymentToken.verify(
         $scope.token.id, verifyRequest, function(err, deposit) {
+        if(!err) {
+          // copy to avoid angular keys in POSTed data
+          $scope._deposit = angular.copy(deposit);
+          $scope.deposit = deposit;
+        }
+        // Synthesize validation error for UI
         // FIXME: improve error display
-        if(err) {
-          // Synthesize validation error for UI
-          if(err.type === 'payswarm.website.VerifyPaymentTokenFailed' &&
-            err.cause &&
-            err.cause.type === 'payswarm.financial.VerificationFailed') {
-            err = {
-              "message": "",
-              "type": "payswarm.validation.ValidationError",
-              "details": {
-                "errors": [
-                  {
-                    "name": "payswarm.validation.ValidationError",
-                    "message": "verification amount is incorrect",
-                    "details": {
-                      "path": "psaVerifyParameters.amount[0]",
-                      "public": true
-                    },
-                    "cause": null
+        else if(err.type === 'payswarm.website.VerifyPaymentTokenFailed' &&
+          err.cause &&
+          err.cause.type === 'payswarm.financial.VerificationFailed') {
+          err = {
+            "message": "",
+            "type": "payswarm.validation.ValidationError",
+            "details": {
+              "errors": [
+                {
+                  "name": "payswarm.validation.ValidationError",
+                  "message": "verification amount is incorrect",
+                  "details": {
+                    "path": "psaVerifyParameters.amount[0]",
+                    "public": true
                   },
-                  {
-                    "name": "payswarm.validation.ValidationError",
-                    "message": "verification amount is incorrect",
-                    "details": {
-                      "path": "psaVerifyParameters.amount[1]",
-                      "public": true
-                    },
-                    "cause": null
-                  }
-                ]
-              },
-              "cause": null
-            };
-          }
-          // Signal to contact support if needed.
-          else if(err.type === 'payswarm.website.VerifyPaymentTokenFailed' &&
-            err.cause &&
-            err.cause.type === 'payswarm.financial.MaxVerifyAttemptsExceeded') {
-            $scope.feedback.contactSupport = true;
-          }
+                  "cause": null
+                },
+                {
+                  "name": "payswarm.validation.ValidationError",
+                  "message": "verification amount is incorrect",
+                  "details": {
+                    "path": "psaVerifyParameters.amount[1]",
+                    "public": true
+                  },
+                  "cause": null
+                }
+              ]
+            },
+            "cause": null
+          };
+        }
+        // Signal to contact support if needed.
+        else if(err.type === 'payswarm.website.VerifyPaymentTokenFailed' &&
+          err.cause &&
+          err.cause.type === 'payswarm.financial.MaxVerifyAttemptsExceeded') {
+          $scope.feedback.contactSupport = true;
         }
         $scope.feedback.error = err;
         if(err) {
@@ -1282,7 +1285,7 @@ angular.module('payswarm.directives')
 
         // FIXME: duplicated from deposit code
         // get public account information for all payees
-        $scope.accounts = [];
+        $scope.accounts = {};
         angular.forEach(deposit.transfer, function(xfer) {
           $scope.accounts[xfer.destination] = {};
           if($scope.selection.destination &&
@@ -1312,9 +1315,6 @@ angular.module('payswarm.directives')
           //var target = options.target;
           //$(target).animate({scrollTop: 0}, 0);
 
-          // copy to avoid angular keys in POSTed data
-          $scope.deposit = angular.copy(deposit);
-          $scope._deposit = deposit;
           $scope.state = 'reviewing';
           $scope.$apply();
         });
@@ -1672,7 +1672,7 @@ angular.module('payswarm.directives')
         deposit: deposit,
         success: function(deposit) {
           // get public account information for all payees
-          $scope.accounts = [];
+          $scope.accounts = {};
           for(var i in deposit.transfer) {
             $scope.accounts[deposit.transfer[i].destination] = {};
           }
@@ -1701,8 +1701,8 @@ angular.module('payswarm.directives')
             $scope.loading = false;
 
             // copy to avoid angular keys in POSTed data
-            $scope.deposit = angular.copy(deposit);
-            $scope._deposit = deposit;
+            $scope._deposit = angular.copy(deposit);
+            $scope.deposit = deposit;
             $scope.state = 'reviewing';
             $scope.$apply();
           });
@@ -1818,7 +1818,7 @@ angular.module('payswarm.directives')
         withdrawal: withdrawal,
         success: function(withdrawal) {
           // get public account information for all payees
-          $scope.accounts = [];
+          $scope.accounts = {};
           angular.forEach(withdrawal.transfer, function(xfer) {
             $scope.accounts[xfer.destination] = {};
           });
@@ -1851,8 +1851,8 @@ angular.module('payswarm.directives')
             $scope.loading = false;
 
             // copy to avoid angular keys in POSTed data
-            $scope.withdrawal = angular.copy(withdrawal);
-            $scope._withdrawal = withdrawal;
+            $scope._withdrawal = angular.copy(withdrawal);
+            $scope.withdrawal = withdrawal;
             $scope.state = 'reviewing';
             $scope.$apply();
           });

@@ -1309,6 +1309,7 @@ angular.module('payswarm.directives')
         }, function(err) {
           $scope.loading = false;
           // FIXME: handle err
+          $scope.feedback = {};
           //
           // go to top of page
           // FIXME: use directive to do this
@@ -1571,51 +1572,71 @@ angular.module('payswarm.directives')
   };
 })
 .directive('feedback', function() {
-  function processFeedbackError(feedbackTarget, target, feedback) {
-    var error = feedback ? feedback.error : null;
-
-    // clear previous feedback
-    $('[data-binding]', target).removeClass('error');
-    feedbackTarget.empty();
-
-    // done if no exception
-    if(!error) {
-      // clear alert style
-      feedbackTarget.removeClass('alert');
-      feedbackTarget.removeClass('alert-error');
-      return;
+  /*
+   * Show stack of feedback items ordered as:
+   *   errors, alerts, successes, infos
+   * scope.feedback is the source of feedback info. It is an object with
+   * 'error', 'alert', 'success', and 'info' properties, each can be a single
+   * object or an array of objects.
+   * Each feedback object should at least have a 'message' property and errors
+   * should have a 'type' property.
+   * scope.target is used to highlight errors by adding 'error' class to
+   * elements with a data-binding property that matches an error details path
+   * such as those from validation errors.
+   */
+  function processFeedbackType(scope, feedbackElement, type) {
+    var items = scope.feedback[type] || [];
+    if(!angular.isArray(items)) {
+      items = [items];
     }
+    for(var i = 0; i < items.length; ++i) {
+      var item = items[i];
+      var alert = $('<div class="alert"/>');
+      if(type !== 'alert') {
+        alert.addClass('alert-' + type);
+      }
 
-    // add error feedback
-    feedbackTarget.addClass('alert');
-    feedbackTarget.addClass('alert-error');
-
-    // handle form feedback
-    switch(error.type) {
-    // generic form errors
-    case 'payswarm.validation.ValidationError':
-      feedbackTarget.text('Please correct the information you entered.');
-      $.each(error.details.errors, function(i, detailError) {
-        var binding = detailError.details.path;
-        if(binding) {
-          // highlight element using data-binding
-          $('[data-binding="' + binding + '"]', target).addClass('error');
+      // handle form feedback
+      switch(item.type) {
+      // generic form errors
+      case 'payswarm.validation.ValidationError':
+        alert.text('Please correct the information you entered.');
+        $.each(item.details.errors, function(i, detailError) {
+          var binding = detailError.details.path;
+          if(binding) {
+            // highlight element using data-binding
+            $('[data-binding="' + binding + '"]', scope.target)
+              .addClass('error');
+          }
+        });
+        break;
+      default:
+        var message = item.message;
+        // FIXME: this should be limited as needed
+        if(item.cause && item.cause.message) {
+          message = message + ' ' + item.cause.message;
         }
-      });
-      break;
-    default:
-      var message = error.message;
-      // FIXME: this should be limited as needed
-      if(error.cause && error.cause.message) {
-        message = message + ' ' + error.cause.message;
+        if(scope.feedback.contactSupport) {
+          message = message +
+            ' Please <a target="_blank" href="/contact">contact</a> us for ' +
+            'assistance.';
+        }
+        alert.html(message);
       }
-      if(feedback.contactSupport) {
-        message = message +
-          ' Please <a target="_blank" href="/contact">contact</a> us for ' +
-          'assistance.';
-      }
-      feedbackTarget.html(message);
+
+      feedbackElement.append(alert);
     }
+  }
+
+  function processFeedback(scope, feedbackElement) {
+    // clear previous feedback
+    $('[data-binding]', scope.target).removeClass('error');
+    feedbackElement.empty();
+
+    processFeedbackType(scope, feedbackElement, 'error', true);
+    processFeedbackType(scope, feedbackElement, 'alert', false);
+    processFeedbackType(scope, feedbackElement, 'success', false);
+    processFeedbackType(scope, feedbackElement, 'info', false);
   }
   return {
     scope: {
@@ -1623,9 +1644,9 @@ angular.module('payswarm.directives')
       target: '='
     },
     link: function(scope, element, attrs) {
-      scope.$watch('feedback.error', function(value) {
-        processFeedbackError(element, scope.target, scope.feedback);
-      });
+      scope.$watch('feedback', function(value) {
+        processFeedback(scope, element);
+      }, true);
     }
   };
 })

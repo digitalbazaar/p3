@@ -14,34 +14,39 @@ module.controller('PasscodeCtrl', function($scope) {
   $scope.psaPasscode = data.psaPasscode || '';
   $scope.psaPasswordNew = '';
   $scope.feedback = {
-    email: {text: '', error: false},
-    password: {text: '', error: false}
+    email: {},
+    password: {}
   };
+  $scope.emailFeedbackTarget = $('#emailFeedbackTarget');
+  $scope.passwordFeedbackTarget = $('#passwordFeedbackTarget');
 
   $scope.sendReset = function() {
     // request a passcode
+    resetFeedback();
     payswarm.profiles.passcode({
       profile: {psaIdentifier: $scope.email},
       success: function() {
-        $scope.feedback.email.text =
-          'An email has been sent to you with password reset instructions.';
-        $scope.feedback.email.error = false;
+        $scope.feedback.email.success = {
+          message:
+            'An email has been sent to you with password reset instructions.'
+        };
         $scope.$apply();
       },
       error: function(err) {
-        //console.log('err', err);
-        // FIXME: handle feedback
-        $scope.feedback.email.text = err.message;
-        $scope.feedback.email.error = true;
+        $scope.feedback.email.error = err;
         $scope.$apply();
-        /*website.util.processValidationErrors(
-          $('#passcode-feedback'), $('#request'), err);*/
       }
     });
   };
 
+  function resetFeedback() {
+    $scope.feedback.email = {};
+    $scope.feedback.password = {};
+  }
+
   $scope.updatePassword = function() {
     // request a password reset using the given passcode
+    resetFeedback();
     payswarm.profiles.password({
       profile: {
         psaIdentifier: $scope.email,
@@ -49,18 +54,14 @@ module.controller('PasscodeCtrl', function($scope) {
         psaPasswordNew: $scope.psaPasswordNew
       },
       success: function() {
-        $scope.feedback.password.text =
-          'Your password has been updated successfully.';
-        $scope.feedback.password.error = false;
+        $scope.feedback.password.success = {
+          message: 'Your password has been updated successfully.'
+        };
         $scope.$apply();
       },
       error: function(err) {
-        // FIXME: handle feedback
-        $scope.feedback.password.text = err.message;
-        $scope.feedback.password.error = true;
+        $scope.feedback.password.error = err
         $scope.$apply();
-        /*website.util.processValidationErrors(
-          $('#passcode-feedback'), $('#request'), err);*/
       }
     });
   };

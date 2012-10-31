@@ -13,7 +13,7 @@ ${set([
 <div class="row">
   <div class="span6 offset3">
   
-    <form class="form-horizontal" action="" data-ng-submit="sendReset()">
+    <form id="emailFeedbackTarget" class="form-horizontal" action="" data-ng-submit="sendReset()">
       <fieldset>
       <legend>Get Passcode</legend>
         <div class="control-group" data-binding="psaIdentifier">
@@ -33,8 +33,7 @@ ${set([
           data-spinner-class="append-btn-spinner"></span>
       </div>
       </fieldset>
-      <div data-ng-show="feedback.email.text"
-        class="alert alert-{{(feedback.email.error && 'error') || 'success'}}">{{feedback.email.text}}</div>
+      <div data-feedback="feedback.email" data-target="emailFeedbackTarget"></div>
     </form>
 
   </div>
@@ -43,11 +42,11 @@ ${set([
 <div class="row">
   <div class="span6 offset3">
   
-    <form class="form-horizontal" action="" data-ng-submit="updatePassword()">
+    <form id="passwordFeedbackTarget" class="form-horizontal" action="" data-ng-submit="updatePassword()">
       <fieldset>
       <legend>Update Your Password</legend>
 
-      <div class="control-group">
+      <div class="control-group" data-binding="psaIdentifier">
         <label class="control-label" for="reset-email">Email</label>
         <div class="controls">
           <input name="input" type="text" maxlength="320"
@@ -58,7 +57,7 @@ ${set([
         </div>
       </div>
       
-      <div class="control-group">
+      <div class="control-group" data-binding="psaPasscode">
         <label class="control-label" for="passcode">Passcode</label>
         <div class="controls">
           <input name="psaPasscode" type="text" maxlength="8"
@@ -69,7 +68,7 @@ ${set([
         </div>
       </div>
       
-      <div class="control-group">
+      <div class="control-group" data-binding="psaPasswordNew">
         <label class="control-label" for="new-password">New Password</label>
         <div class="controls">
           <input name="psaPasswordNew" type="password" maxlength="32"
@@ -87,8 +86,7 @@ ${set([
            data-spinner-class="append-btn-spinner"></span>
       </div>
       </fieldset>
-      <div data-ng-show="feedback.password.text"
-        class="alert alert-{{(feedback.password.error && 'error') || 'success'}}">{{feedback.password.text}}</div>
+      <div data-feedback="feedback.password" data-target="passwordFeedbackTarget"></div>
     </form>
 
   </div>

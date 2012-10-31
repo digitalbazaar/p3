@@ -296,6 +296,11 @@ span.currency {
 .center {
   text-align: center;
 }
+.center-block {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
 .address .meta {
   color: gray;
 }
@@ -317,6 +322,9 @@ span.currency {
 /* Font effects */
 .headline {
   text-align: center;
+}
+.headline .dropdown-menu {
+  text-align: left;
 }
 .subheadline {
   text-align: center;

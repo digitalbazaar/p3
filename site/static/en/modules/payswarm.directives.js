@@ -135,7 +135,8 @@ angular.module('payswarm.directives')
   return function(scope, element, attrs) {
     function updateClass(divisor, dividend) {
       var class_;
-      var p = Math.floor(parseFloat(divisor) / parseFloat(dividend) * 100);
+      var p = parseFloat(divisor) / parseFloat(dividend) * 100;
+      p = Math.max(0, Math.min(p, 100));
       if(p < 25) {
         class_ = 'progress-danger';
       }
@@ -163,7 +164,8 @@ angular.module('payswarm.directives')
 .directive('barDividend', function() {
   return function(scope, element, attrs) {
     function updateBarWidth(divisor, dividend) {
-      var p = Math.floor(parseFloat(divisor) / parseFloat(dividend) * 100);
+      var p = parseFloat(divisor) / parseFloat(dividend) * 100;
+      p = Math.max(0, Math.min(p, 100));
       element.css('width', p + '%');
     }
 

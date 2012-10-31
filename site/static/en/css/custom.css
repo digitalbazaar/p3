@@ -304,6 +304,11 @@ span.currency {
 .address .meta {
   color: gray;
 }
+.open > .dropdown-menu.center {
+  display: inline-block;
+  position: relative;
+  float: none;
+}
 
 /* Resize rules */
 .resize-both {
@@ -323,7 +328,8 @@ span.currency {
 .headline {
   text-align: center;
 }
-.headline .dropdown-menu {
+.headline .dropdown-menu,
+.center .dropdown-menu {
   text-align: left;
 }
 .subheadline {

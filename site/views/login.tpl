@@ -53,7 +53,8 @@ ${set([
           data-ng-disabled="loading">
           <span class="caret"></span>
         </button>
-        <ul class="dropdown-menu">
+        <div></div>
+        <ul class="center dropdown-menu">
           <li>
             <a href="/profile/create">
               <i class="icon-user"></i>

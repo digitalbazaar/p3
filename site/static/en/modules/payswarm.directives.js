@@ -1585,7 +1585,7 @@ angular.module('payswarm.directives')
    * such as those from validation errors.
    */
   function processFeedbackType(scope, feedbackElement, type) {
-    var items = scope.feedback[type] || [];
+    var items = (scope.feedback && scope.feedback[type]) || [];
     if(!angular.isArray(items)) {
       items = [items];
     }

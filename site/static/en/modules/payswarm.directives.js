@@ -1239,6 +1239,7 @@ angular.module('payswarm.directives')
       $scope.loading = true;
       svcPaymentToken.verify(
         $scope.token.id, verifyRequest, function(err, deposit) {
+        $scope.feedback.verifyError = false;
         if(!err) {
           // copy to avoid angular keys in POSTed data
           $scope._deposit = angular.copy(deposit);
@@ -1249,6 +1250,7 @@ angular.module('payswarm.directives')
         else if(err.type === 'payswarm.website.VerifyPaymentTokenFailed' &&
           err.cause &&
           err.cause.type === 'payswarm.financial.VerificationFailed') {
+          $scope.feedback.verifyError = true;
           err = {
             "message": "",
             "type": "payswarm.validation.ValidationError",

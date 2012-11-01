@@ -19,7 +19,10 @@
   </div>
   <div class="modal-footer">
     <div class="modal-feedback"
-      data-feedback="feedback" data-target="feedbackTarget"></div>
+      data-feedback="feedback" data-target="feedbackTarget">
+    </div>
+    <div data-ng-show="feedback.verifyError"
+      class="modal-feedback alert alert-error">The verification amounts you entered do not match what is on record for your bank account.</div>
     <span data-spinner="loading"
       data-spinner-class="prepend-btn-spinner"></span>
 

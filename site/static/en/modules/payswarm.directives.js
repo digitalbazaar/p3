@@ -1033,7 +1033,7 @@ angular.module('payswarm.directives')
         // vendors not updated here
         //vendor: b.vendor,
         psaExpires: b.psaExpires,
-        psaMaxPerUse: b.maxPerUse,
+        psaMaxPerUse: b.psaMaxPerUse,
         psaRefresh: b.psaRefresh
       };
       // remove fields not being updated

@@ -985,7 +985,7 @@ angular.module('payswarm.directives')
   });
 })
 .directive('modalEditBudget', function(svcModal) {
-  function Ctrl($scope, svcBudget) {
+  function Ctrl($scope, svcBudget, svcAccount) {
     $scope.selection = {
       account: null
     };
@@ -993,7 +993,6 @@ angular.module('payswarm.directives')
     $scope.open = function() {
       $scope.data = window.data || {};
       $scope.feedback = {};
-      $scope.loading = false;
       $scope.identity = data.identity || {};
       $scope.refreshChoices = [
         {id: 'psa:Never', label: 'Never'},
@@ -1015,6 +1014,11 @@ angular.module('payswarm.directives')
       angular.extend($scope.budget, $scope.sourceBudget);
       // default to current value
       $scope.budget.psaExpires = '';
+      svcAccount.getOne($scope.budget.source, function(err, account) {
+        // FIXME: handle error
+        $scope.selection.account = account;
+        $scope.loading = false;
+      });
     };
 
     $scope.editBudget = function() {

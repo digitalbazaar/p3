@@ -343,6 +343,12 @@ span.currency {
 .text-align-right {
   text-align: right;
 }
+.modal div.section h4.headline {
+  text-align: left;
+  margin-top: 1em;
+  padding-top: 0.3em;
+  padding-bottom: 0.3em;
+}
 
 /* Icon positioning */
 ul.nav a [class^="icon-"] {

@@ -247,11 +247,11 @@ ${set([
 </div> <!-- end error -->
 
 <div data-modal-add-address="showAddAddressModal"
-     data-modal-add-address-alert="purchase"
-     data-modal-on-close="addAddressModalDone()"></div>
+  data-modal-add-address-alert="Before you complete your purchase, please enter your {{(identity.type == 'ps:VendorIdentity' && 'business\'s ') || ''}}name and address information."
+  data-modal-on-close="addAddressModalDone()"></div>
 <div data-modal-add-account="showAddAccountModal"
-     data-modal-add-account-alert="purchase"
-     data-modal-on-close="addAccountModalDone()"></div>
+  data-modal-add-account-alert="purchase"
+  data-modal-on-close="addAccountModalDone()"></div>
 
 </div> <!-- end container -->
 {{/verbatim}}

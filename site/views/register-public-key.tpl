@@ -85,10 +85,10 @@ ${set([
 
         <div class="form-actions">
           <div data-modal-add-address="showAddAddressModal"
-             data-modal-add-address-alert="vendor"
-             data-modal-on-close="register()"></div>
+            data-modal-add-address-alert="Before you complete your registration, please enter your business's name and address information."
+            data-modal-on-close="register()"></div>
           <div class="modal-feedback"
-             data-feedback="feedback" data-target="feedbackTarget"></div>
+            data-feedback="feedback" data-target="feedbackTarget"></div>
           <button class="btn btn-large btn-primary"
             data-ng-disabled="loading || !selection.identity || !selection.account"
             data-ng-click="register()">Register</button>

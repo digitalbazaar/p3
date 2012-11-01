@@ -13,6 +13,7 @@ module.controller('PurchaseCtrl', function(
   $scope, svcAccount, svcBudget, svcAddress) {
   // init model
   var data = window.data;
+  $scope.identity = data.session.identity;
   $scope.budgets = svcBudget.budgets;
   $scope.accounts = svcAccount.accounts;
   $scope.contract = null;
@@ -146,7 +147,7 @@ module.controller('PurchaseCtrl', function(
     }, function(err, results) {
       // page now ready
       $scope.ready = true;
-  
+
       // handle errors and successes
       purchaseCallback(err, results ? results.main : null);
     });

@@ -16,13 +16,14 @@ place to start.</p>
 <h2>Technology</h2>
 
 <p>This website would not be possible without the following fantastic 
-open source, open standards, and open licensing-based projects:
+open source projects, open standards, and open licensing-based projects:
 <ul>
 <li>
   <a href="http://en.wikipedia.org/wiki/HTML5">HTML5</a>, 
   <a href="http://en.wikipedia.org/wiki/CSS3">CSS3</a>, 
-  <a href="http://jquery.com/">jQuery</a> and 
-  <a href="http://twitter.github.com/bootstrap/index.html">Bootstrap</a>
+  <a href="http://jquery.com/">jQuery</a>,
+  <a href="http://twitter.github.com/bootstrap">Bootstrap</a>, and
+  <a href="http://angularjs.org/">AngularJS</a>
 </li>
 <li>
   <a href="http://json.org/">JSON</a>,

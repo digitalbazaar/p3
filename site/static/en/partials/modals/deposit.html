@@ -25,7 +25,7 @@
       data-spinner-class="prepend-btn-spinner"></span>
     <span data-ng-show="state == 'preparing'">
       <button class="btn btn-primary"
-        data-ng-disabled="loading"
+        data-ng-disabled="loading || !input.source"
         data-ng-click="review()">Review</button>
       <button data-ng-disabled="loading" class="btn btn-close">Cancel</button>
     </span>

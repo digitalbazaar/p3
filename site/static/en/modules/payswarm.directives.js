@@ -34,12 +34,28 @@ angular.module('payswarm.directives')
   return function(scope, element, attrs) {
     var get = $parse(attrs.focusToggle);
     var set = get.assign || angular.noop;
-    element.focus(function(event) {
+    element.focus(function() {
       scope.$apply(function() {
         set(scope, true);
       });
     });
-    element.blur(function(event) {
+    element.blur(function() {
+      scope.$apply(function() {
+        set(scope, false);
+      });
+    });
+  };
+})
+.directive('mouseoverToggle', function($parse) {
+  return function(scope, element, attrs) {
+    var get = $parse(attrs.mouseoverToggle);
+    var set = get.assign || angular.noop;
+    element.mouseenter(function() {
+      scope.$apply(function() {
+        set(scope, true);
+      });
+    });
+    element.mouseleave(function() {
       scope.$apply(function() {
         set(scope, false);
       });
@@ -185,6 +201,48 @@ angular.module('payswarm.directives')
       // init to hidden
       element.addClass('hide');
       scope.$watch(attrs.fadeToggle, function(value) {
+        if(value) {
+          element.fadeIn();
+        }
+        else {
+          element.fadeOut();
+        }
+      });
+    }
+  };
+})
+.directive('helpToggle', function($parse) {
+  return {
+    link: function(scope, element, attrs) {
+      // init to hidden
+      element.addClass('hide');
+      var get = $parse(attrs.helpToggle);
+      var set = get.assign || angular.noop;
+      element.click(function() {
+        scope.$apply(function() {
+          var value = get(scope) || {};
+          value.show = !value.show;
+          set(scope, value);
+        });
+      });
+      element.mouseenter(function() {
+        scope.$apply(function() {
+          var value = get(scope) || {};
+          value.inside = true;
+          set(scope, value);
+        });
+      });
+      element.mouseleave(function() {
+        scope.$apply(function() {
+          var value = get(scope) || {};
+          value.inside = false;
+          set(scope, value);
+        });
+      });
+      scope.$watch(
+        attrs.helpToggle + '.focus || ' +
+        attrs.helpToggle + '.inside || ' +
+        attrs.helpToggle + '.show', function(value) {
         if(value) {
           element.fadeIn();
         }
@@ -893,8 +951,8 @@ angular.module('payswarm.directives')
 })
 .directive('modalAddAccount', function(svcModal, svcIdentity, svcAccount) {
   function Ctrl($scope) {
-    $scope.model = {};
     $scope.open = function() {
+      $scope.model = {};
       $scope.data = window.data || {};
       $scope.feedback = {};
       $scope.loading = false;

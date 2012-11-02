@@ -3,14 +3,17 @@
     <div class="control-group" data-binding="label">
       <label class="control-label" for="label">Name</label>
       <div class="controls">
-        <div class="input-prepend">
+        <div class="input-prepend input-append">
           <span class="add-on"><i class="icon-tag"></i></span><input
             type="text" name="label"
             data-ng-model="account.label"
             data-slug-out="account.psaSlug"
-            data-focus-toggle="model.help.label" />
+            data-focus-toggle="model.help.label.focus"/>
+          <button class="btn" data-help-toggle="model.help.label">
+            <i class="icon-info-sign"></i>
+          </button>
         </div>
-        <p data-fade-toggle="model.help.label" class="help-block">
+        <p data-fade-toggle="model.help.label.show" class="help-block">
           Enter a name for your financial account, for instance 'primary' or 'secondary'.
           <span data-ng-hide="editing">The name you choose will become part of your account URL:</span>
         </p>

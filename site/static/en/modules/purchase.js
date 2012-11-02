@@ -11,7 +11,7 @@ var module = angular.module('payswarm');
 
 module.controller('PurchaseCtrl', function(
   $scope, svcAccount, svcBudget, svcAddress) {
-  // init model
+  $scope.model = {};
   var data = window.data;
   $scope.identity = data.session.identity;
   $scope.budgets = svcBudget.budgets;

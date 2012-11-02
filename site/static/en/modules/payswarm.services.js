@@ -1387,18 +1387,6 @@ angular.module('payswarm.services')
         $elementWrapper.prependTo(this.$backdrop);
         this.$element.prependTo($elementWrapper);
         $('body').css({overflow: 'hidden'});
-
-        // scroll any shown tooltips
-        this.$backdrop.scroll(function(e) {
-          var tooltips = $('[data-tooltip-title]', e.target);
-          angular.forEach(tooltips, function(tooltip) {
-            var tip = $(tooltip).data('tooltip');
-            if(tip.shown) {
-              var top = tip.top + tip.scrollTop - e.target.scrollTop;
-              tip.tip().css({top: top});
-            }
-          });
-        });
       }
     };
     var _removeBackdrop = modal.removeBackdrop;

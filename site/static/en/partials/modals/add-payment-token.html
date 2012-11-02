@@ -13,11 +13,14 @@
           <div class="control-group" data-binding="label">
             <label class="control-label" for="name">Name</label>
             <div class="controls">
-              <input type="text" name="label"
-                data-tooltip-title="Enter a memorable name that describes this method of payment. It will be displayed to you later."
-                data-placement="right" data-trigger="focus"
-                data-ng-model="label" />
-              <p class="help-block">Suggestions: <span data-ng-show="paymentMethod == 'ccard:CreditCard'">My MasterCard, Visa Rewards</span><span data-ng-show="paymentMethod == 'bank:BankAccount'">Checking Account, ING Direct</span></p>
+              <input type="text" name="label" data-ng-model="label"
+                data-focus-toggle="model.help.label" />
+              <p data-fade-toggle="model.help.label" class="help-block">
+                Enter a memorable name that describes this method of payment.
+                It will be displayed to you later.
+                <br/><br/>
+                Suggestions: <span data-ng-show="paymentMethod == 'ccard:CreditCard'">My MasterCard, Visa Rewards</span><span data-ng-show="paymentMethod == 'bank:BankAccount'">Checking Account, ING Direct</span>
+              </p>
             </div>
           </div>
         </fieldset>
@@ -55,10 +58,14 @@
               <div class="control-group" data-binding="source.cardNumber">
                 <label class="control-label" for="card-number">Card Number</label>
                 <div class="controls">
-                  <input class="input-large" type="text" name="card-number" maxlength="16"
-                    data-tooltip-title="You must enter your credit card number, which must be 16 digits long."
-                    data-placement="right" data-trigger="focus"
-                    data-ng-model="card.cardNumber" />
+                  <input class="input-large" type="text"
+                    name="card-number" maxlength="16"
+                    data-ng-model="card.cardNumber"
+                    data-focus-toggle="model.help.cardNumber" />
+                  <p data-fade-toggle="model.help.cardNumber"
+                    class="help-block">
+                    Please enter your credit card number, which must be 16 digits long.
+                  </p>
                 </div>
               </div>
               <div></div>
@@ -88,11 +95,15 @@
                 <div class="controls">
                   <div class="input-prepend">
                     <span class="add-on"><img src="/img/scode.png" /></span><input
-                      class="input-small" type="text" name="card-cvm" maxlength="4"
-                      data-tooltip-title="You must enter the security code on the back of your credit card. It will be 3 or 4 digits long."
-                      data-placement="right" data-trigger="focus"
-                      data-ng-model="card.cardCvm" />
+                      class="input-small" type="text"
+                      name="card-cvm" maxlength="4"
+                      data-ng-model="card.cardCvm"
+                      data-focus-toggle="model.help.cardCvm" />
                   </div>
+                  <p data-fade-toggle="model.help.cardCvm" class="help-block">
+                    Please enter the security code on the back of your
+                    credit card. It will be 3 or 4 digits long.
+                  </p>
                 </div>
               </div>
             </div>
@@ -100,32 +111,38 @@
               <div class="control-group" data-binding="source.bankRoutingNumber">
                 <label class="control-label" for="bank-routing-number">Routing Number</label>
                 <div class="controls">
-                  <input type="text" name="bank-routing-number"
-                    data-tooltip-title="You must enter your bank's routing number. This can be found in your checkbook or by signing into your bank online."
-                    data-placement="right" data-trigger="focus"
+                  <input type="text" name="bank-routing-number" maxlength="9"
                     data-ng-model="bankAccount.bankRoutingNumber"
-                    maxlength="9" />
+                    data-focus-toggle="model.help.bankRoutingNumber" />
+                  <p data-fade-toggle="model.help.bankRoutingNumber"
+                    class="help-block">
+                    You must enter your bank's routing number. This can be found in your checkbook or by signing into your bank online.
+                  </p>
                 </div>
               </div>
               <div class="control-group" data-binding="source.bankAccountType">
                 <label class="control-label" for="bank-account-type">Account Type</label>
                 <div class="controls">
                   <select class="input-medium" name="bank-account-type"
-                    data-tooltip-title="If your bank account does not have a type, choose 'Checking'."
-                    data-placement="right" data-trigger="focus"
                     data-ng-model="bankAccount.bankAccountType"
                     data-ng-options="type.id as type.label for type in bankAccountTypes">
                   </select>
+                  <p class="help-block">
+                    If your bank account does not have a type, choose 'Checking'.
+                  </p>
                 </div>
               </div>
               <div class="control-group" data-binding="source.bankAccount">
                 <label class="control-label" for="bank-account">Account Number</label>
                 <div class="controls">
-                  <input type="text" name="bank-account"
-                    data-tooltip-title="You must enter your bank account number. This can be found in your checkbook or by signing into your bank online."
-                    data-placement="right" data-trigger="focus"
+                  <input type="text" name="bank-account" maxlength="30"
                     data-ng-model="bankAccount.bankAccount"
-                    maxlength="30" />
+                    data-focus-toggle="model.help.bankAccount" />
+                  <p data-fade-toggle="model.help.bankAccount"
+                    class="help-block">
+                    You must enter your bank account number. This can be found
+                    in your checkbook or by signing into your bank online.
+                  </p>
                 </div>
               </div>
             </div>

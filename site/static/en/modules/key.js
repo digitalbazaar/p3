@@ -11,6 +11,7 @@
 angular.module('payswarm').controller('KeyCtrl', KeyCtrl);
 
 function KeyCtrl($scope) {
+  $scope.model = {};
   var data = window.data || {};
   $scope.session = data.session || null;
   $scope.key = data.key;

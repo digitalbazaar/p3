@@ -21,9 +21,12 @@ ${set([
           <div class="controls">
             <input name="profile" type="text" maxlength="320"
               data-ng-model="email"
-              data-tooltip-title="The email address that you used when you registered with this website."
-              data-placement="right" data-trigger="focus"
+              data-focus-toggle="model.help.email"
               data-ng-disabled="loading" />
+            <p data-fade-toggle="model.help.email" class="help-block">
+              Please enter the email address that you used when you registered
+              with this website.
+            </p>
           </div>
         </div>
       <div class="form-actions">
@@ -51,9 +54,12 @@ ${set([
         <div class="controls">
           <input name="input" type="text" maxlength="320"
             data-ng-model="email" 
-            data-tooltip-title="The email address that you used above to retrieve reset instructions and a reset passcode."
-            data-placement="right" data-trigger="focus"
+            data-focus-toggle="model.help.resetEmail"
             data-ng-disabled="loading" />
+          <p data-fade-toggle="model.help.resetEmail" class="help-block">
+            Please enter the email address that you used above to retrieve
+            reset instructions and a reset passcode.
+          </p>
         </div>
       </div>
       
@@ -62,9 +68,12 @@ ${set([
         <div class="controls">
           <input name="psaPasscode" type="text" maxlength="8"
             data-ng-model="psaPasscode"
-            data-original-title="The passcode that was sent to you in the password reset email from this website."
-            data-placement="right" data-trigger="focus"
+            data-focus-toggle="model.help.passcode"
             data-ng-disabled="loading" />
+          <p data-fade-toggle="model.help.passcode" class="help-block">
+            Please enter the passcode that was sent to you in the password
+            reset email from this website.
+          </p>
         </div>
       </div>
       
@@ -73,9 +82,12 @@ ${set([
         <div class="controls">
           <input name="psaPasswordNew" type="password" maxlength="32"
             data-ng-model= "psaPasswordNew"
-            data-tooltip-title="The new password that you would like to use when accessing this website."
-            data-placement="right" data-trigger="focus"
+            data-focus-toggle="model.help.password"
             data-ng-disabled="loading" />
+          <p data-fade-toggle="model.help.password" class="help-block">
+            Please enter the new password that you would like to use when
+            accessing this website.
+          </p>
         </div>
       </div>
 

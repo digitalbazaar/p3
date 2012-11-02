@@ -9,7 +9,7 @@
 var module = angular.module('payswarm');
 
 module.controller('ActivityCtrl', function($scope, svcTransaction) {
-  // initialize model
+  $scope.model = {};
   var data = window.data || {};
   $scope.session = data.session || null;
   $scope.identity = data.identity || null;

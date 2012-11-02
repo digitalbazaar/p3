@@ -8,6 +8,7 @@
 var module = angular.module('payswarm');
 
 module.controller('LoginCtrl', function($scope) {
+  $scope.model = {};
   var data = window.data;
   $scope.multiple = false;
   $scope.loading = false;

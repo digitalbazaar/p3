@@ -22,12 +22,14 @@ like to deposit.</p>
           <div class="input-prepend">
             <span class="add-on">$</span><input
               type="text" name="amount" placeholder="Enter deposit amount..."
-              class="auto-tooltip"
               data-ng-model="input.amount"
-              data-tooltip-title="You must enter a valid monetary amount, like 25 or 25.82."
-              data-placement="right" data-trigger="focus" />
+              data-focus-toggle="model.help.amount" />
           </div>
-          <span class="help-block">Amount to deposit into your "<strong>{{account.label}}</strong>" account.</span>
+          <p data-fade-toggle="model.help.amount" class="help-block">
+            Please enter an amount to deposit into your
+            "<strong>{{account.label}}</strong>" account. You must enter a
+            valid monetary amount, like 25 or 25.82.
+          </p>
         </div>
       </div>
     </fieldset>

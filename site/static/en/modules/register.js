@@ -10,7 +10,7 @@ var module = angular.module('payswarm');
 
 module.controller('RegisterCtrl', function(
   $scope, $timeout, svcIdentity, svcAccount, svcAddress) {
-  // init model
+  $scope.model = {};
   var data = window.data;
   $scope.feedback = {};
   $scope.loading = false;

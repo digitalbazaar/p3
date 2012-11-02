@@ -8,6 +8,44 @@
 (function($) {
 
 angular.module('payswarm.directives')
+// FIXME: polyfill until implemented in core AngularJS
+.directive('ngFocus', function($parse) {
+  return function(scope, element, attrs) {
+    var fn = $parse(attrs.ngFocus);
+    element.focus(function(event) {
+      scope.$apply(function() {
+        fn(scope, {$event: event});
+      });
+    });
+  };
+})
+// FIXME: polyfill until implemented in core AngularJS
+.directive('ngBlur', function($parse) {
+  return function(scope, element, attrs) {
+    var fn = $parse(attrs.ngBlur);
+    element.blur(function(event) {
+      scope.$apply(function() {
+        fn(scope, {$event: event});
+      });
+    });
+  };
+})
+.directive('focusToggle', function($parse) {
+  return function(scope, element, attrs) {
+    var get = $parse(attrs.focusToggle);
+    var set = get.assign || angular.noop;
+    element.focus(function(event) {
+      scope.$apply(function() {
+        set(scope, true);
+      });
+    });
+    element.blur(function(event) {
+      scope.$apply(function() {
+        set(scope, false);
+      });
+    });
+  };
+})
 .directive('spinner', function() {
   return {
     scope: {
@@ -94,24 +132,33 @@ angular.module('payswarm.directives')
     }
   };
 })
-.directive('slugOut', function($filter) {
+.directive('slugOut', function($filter, $parse) {
   return {
     restrict: 'A',
     require: 'ngModel',
-    scope: {
-      ngModel: '=',
-      slugOut: '='
-    },
-    link: function(scope, element, attrs) {
-      scope.$watch('ngModel', function(value) {
-        element.val(value);
-      });
-
+    link: function(scope, element, attrs, ngModel) {
       var slug = $filter('slug');
+      var set = $parse(attrs.slugOut).assign || angular.noop;
       element.on('propertychange input keyup paste', function(e) {
-        scope.ngModel = element.val();
-        scope.slugOut = slug(scope.ngModel);
-        scope.$apply();
+        scope.$apply(function() {
+          set(scope, slug(ngModel.$modelValue));
+        });
+      });
+    }
+  };
+})
+.directive('fadein', function($parse) {
+  return {
+    link: function(scope, element, attrs) {
+      scope.$watch(attrs.fadein, function(value) {
+        if(value) {
+          element.fadeIn(function() {
+            var fn = $parse(attrs.fadeinCallback) || angular.noop;
+            scope.$apply(function() {
+              fn(scope);
+            });
+          });
+        }
       });
     }
   };
@@ -122,10 +169,27 @@ angular.module('payswarm.directives')
       scope.$watch(attrs.fadeout, function(value) {
         if(value) {
           element.fadeOut(function() {
-            element.remove();
-            var exp = $parse(attrs.fadeoutCallback);
-            exp(scope);
+            var fn = $parse(attrs.fadeoutCallback) || angular.noop;
+            scope.$apply(function() {
+              fn(scope);
+            });
           });
+        }
+      });
+    }
+  };
+})
+.directive('fadeToggle', function($parse) {
+  return {
+    link: function(scope, element, attrs) {
+      // init to hidden
+      element.addClass('hide');
+      scope.$watch(attrs.fadeToggle, function(value) {
+        if(value) {
+          element.fadeIn();
+        }
+        else {
+          element.fadeOut();
         }
       });
     }
@@ -335,21 +399,6 @@ angular.module('payswarm.directives')
       element.tooltip({
         title: value
       });
-      // scroll tooltips in modals
-      var tip = element.data('tooltip');
-      tip.shown = false;
-      var show = tip.show;
-      tip.show = function() {
-        show.call(tip);
-        tip.shown = true;
-        tip.top = parseInt(tip.tip().css('top'));
-        tip.scrollTop = $('.modal-backdrop').scrollTop();
-      };
-      var hide = tip.hide;
-      tip.hide = function() {
-        hide.call(tip);
-        tip.shown = false;
-      };
     });
     attrs.$observe('tooltipShow', function(value) {
       if(value !== undefined) {
@@ -476,6 +525,7 @@ angular.module('payswarm.directives')
 })
 .directive('selector', function($filter) {
   function Ctrl($scope) {
+    $scope.model = {};
     $scope.$watch('selected', function(value) {
       if(value === undefined) {
         $scope.selected = $scope.items[0] || null;
@@ -564,6 +614,7 @@ angular.module('payswarm.directives')
 })
 .directive('addressSelector', function() {
   function Ctrl($scope, svcAddress) {
+    $scope.model = {};
     $scope.services = {
       address: svcAddress.state
     };
@@ -587,6 +638,7 @@ angular.module('payswarm.directives')
 })
 .directive('accountSelector', function(svcAccount, svcIdentity) {
   function Ctrl($scope) {
+    $scope.model = {};
     $scope.services = {
       account: svcAccount.state
     };
@@ -657,6 +709,7 @@ angular.module('payswarm.directives')
 })
 .directive('budgetSelector', function() {
   function Ctrl($scope, svcBudget, svcAccount) {
+    $scope.model = {};
     $scope.services = {
       account: svcAccount.state,
       budget: svcBudget.state
@@ -769,6 +822,7 @@ angular.module('payswarm.directives')
 })
 .directive('paymentTokenSelector', function(svcPaymentToken) {
   function Ctrl($scope) {
+    $scope.model = {};
     $scope.services = {
       token: svcPaymentToken.state
     };
@@ -827,6 +881,7 @@ angular.module('payswarm.directives')
 })
 .directive('modalAddAccount', function(svcModal, svcIdentity, svcAccount) {
   function Ctrl($scope) {
+    $scope.model = {};
     $scope.open = function() {
       $scope.data = window.data || {};
       $scope.feedback = {};
@@ -882,6 +937,7 @@ angular.module('payswarm.directives')
 })
 .directive('modalEditAccount', function(svcModal, svcAccount) {
   function Ctrl($scope) {
+    $scope.model = {};
     $scope.open = function() {
       $scope.data = window.data || {};
       $scope.feedback = {};
@@ -932,6 +988,7 @@ angular.module('payswarm.directives')
 })
 .directive('modalAddBudget', function(svcModal) {
   function Ctrl($scope, svcBudget) {
+    $scope.model = {};
     $scope.selection = {
       account: null
     };
@@ -986,6 +1043,7 @@ angular.module('payswarm.directives')
 })
 .directive('modalEditBudget', function(svcModal) {
   function Ctrl($scope, svcBudget, svcAccount) {
+    $scope.model = {};
     $scope.selection = {
       account: null
     };
@@ -1066,6 +1124,7 @@ angular.module('payswarm.directives')
 })
 .directive('modalAddPaymentToken', function(svcModal) {
   function Ctrl($scope, svcPaymentToken, svcConstant) {
+    $scope.model = {};
     $scope.selection = {
       address: null
     };
@@ -1192,6 +1251,7 @@ angular.module('payswarm.directives')
 })
 .directive('modalVerifyBankAccount', function(svcModal) {
   function Ctrl($scope, svcPaymentToken, svcAccount) {
+    $scope.model = {};
     $scope.selection = {
       destination: null
     };
@@ -1375,6 +1435,7 @@ angular.module('payswarm.directives')
 })
 .directive('modalAddIdentity', function(svcModal, svcIdentity, svcAccount) {
   function Ctrl($scope) {
+    $scope.model = {};
     $scope.baseUrl = window.location.protocol + '//' + window.location.host;
     $scope.open = function() {
       $scope.feedback = {};
@@ -1460,6 +1521,7 @@ angular.module('payswarm.directives')
 })
 .directive('modalSwitchIdentity', function(svcModal, svcIdentity) {
   function Ctrl($scope) {
+    $scope.model = {};
     function init() {
       $scope.identityTypes = ['ps:PersonalIdentity', 'ps:VendorIdentity'];
       $scope.identities = svcIdentity.identities;
@@ -1491,6 +1553,7 @@ angular.module('payswarm.directives')
 .directive('modalAddAddress', function(
   svcModal, svcIdentity, svcAddress, svcConstant) {
   function Ctrl($scope) {
+    $scope.model = {};
     $scope.open = function() {
       $scope.data = window.data || {};
       $scope.countries = svcConstant.countries || {};
@@ -1660,6 +1723,7 @@ angular.module('payswarm.directives')
 })
 .directive('modalDeposit', function(svcModal) {
   function Ctrl($scope, svcPaymentToken, svcAccount, svcTransaction) {
+    $scope.model = {};
     $scope.open = function() {
       $scope.data = window.data || {};
       $scope.feedback = {};
@@ -1794,6 +1858,7 @@ angular.module('payswarm.directives')
 })
 .directive('modalWithdraw', function(svcModal) {
   function Ctrl($scope, svcPaymentToken, svcAccount, svcTransaction) {
+    $scope.model = {};
     $scope.open = function() {
       $scope.data = window.data || {};
       $scope.feedback = {};

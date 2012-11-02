@@ -8,6 +8,7 @@
 var module = angular.module('payswarm');
 
 module.controller('NavbarCtrl', function($scope) {
+  $scope.model = {};
   $scope.session = window.data.session;
 
   // get minimum width for navbar

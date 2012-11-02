@@ -10,7 +10,7 @@ var module = angular.module('payswarm');
 
 module.controller('DashboardCtrl', function(
   $scope, svcAccount, svcBudget, svcTransaction) {
-  // initialize model
+  $scope.model = {};
   var data = window.data || {};
   $scope.identity = data.identity;
   $scope.accounts = svcAccount.accounts;

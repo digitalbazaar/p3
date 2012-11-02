@@ -15,12 +15,13 @@
           <div class="input-prepend">
             <span class="add-on">$</span><input
               type="text" name="verifyAmount0" placeholder="Enter first deposited amount."
-              class="auto-tooltip"
               data-ng-model="psaVerifyParameters.amount[0]"
-              data-tooltip-title="You must enter a valid monetary amount, like 0.12"
-              data-placement="right" data-trigger="focus" />
+              data-focus-toggle="model.help.verifyAmount1" />
           </div>
-          <span class="help-block">First verification deposit in your bank account.</span>
+          <p data-fade-toggle="model.help.verifyAmount1" class="help-block">
+            Please enter the first verification deposit amount in your bank
+            account. You must enter a valid monetary amount, like 0.12.
+          </p>
         </div>
       </div>
       <label class="control-label" for="verifyAmount1">Second Amount</label>
@@ -29,12 +30,13 @@
           <div class="input-prepend">
             <span class="add-on">$</span><input
               type="text" name="verifyAmount1" placeholder="Enter second deposited amount."
-              class="auto-tooltip"
               data-ng-model="psaVerifyParameters.amount[1]"
-              data-tooltip-title="You must enter a valid monetary amount, like 0.12"
-              data-placement="right" data-trigger="focus" />
+              data-focus-toggle="model.help.verifyAmount2" />
           </div>
-          <span class="help-block">Second verification deposit in your bank account.</span>
+          <p data-fade-toggle="model.help.verifyAmount2" class="help-block">
+            Please enter the second verification deposit amount in your bank
+            account. You must enter a valid monetary amount, like 0.12.
+          </p>
         </div>
       </div>
       <label class="control-label" for="verificationAmount1">Deposit</label>
@@ -43,12 +45,15 @@
           <div class="input-prepend">
             <span class="add-on">$</span><input
               type="text" name="amount" placeholder="Enter deposit amount..."
-              class="auto-tooltip"
               data-ng-model="input.amount"
-              data-tooltip-title="You must enter a valid monetary amount, like 25 or 25.82."
-              data-placement="right" data-trigger="focus" />
+              data-focus-toggle="model.help.amount" />
           </div>
-          <span class="help-block">Optional amount to deposit from this bank account. Doing a deposit now helps save on transaction fees.</span>
+          <p data-fade-toggle="model.help.amount" class="help-block">
+            You may enter an optional amount to deposit from this bank account.
+            Doing a deposit now helps save on transaction fees. If you'd like
+            to deposit now, then you must enter a valid monetary amount, like
+            25 or 25.82.
+          </p>
         </div>
       </div>
     </fieldset>

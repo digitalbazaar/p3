@@ -31,9 +31,12 @@ ${set([
             <input class="input-xlarge form-field-vspaced"
               name="email" data-binding="email" type="text"
               data-ng-model="data.email"
-              data-tooltip-title="A valid email address is required so that we can send you receipts and reset your password if you get locked out."
-              data-placement="right" data-trigger="focus"
+              data-focus-toggle="model.help.email"
               data-ng-disabled="loading" />
+            <p data-fade-toggle="model.help.email" class="help-block">
+              A valid email address is required so that we can send you
+              receipts and reset your password if you get locked out.
+            </p>
           </div>
         </div>
     
@@ -44,9 +47,12 @@ ${set([
               name="password" data-binding="psaPassword" 
               maxlength="32" type="password"
               data-ng-model="data.psaPassword"
-              data-tooltip-title="Please use a secure password, the best passwords are long phrases like: the<strong>lemurs</strong>ride<strong>on</strong>the<strong>fortnight</strong>"
-              data-placement="right" data-trigger="focus"
+              data-focus-toggle="model.help.password"
               data-ng-disabled="loading" />
+            <p data-fade-toggle="model.help.password" class="help-block">
+              Please enter a secure password, the best passwords are
+              memorable long phrases like: the<strong>lemurs</strong>ride<strong>on</strong>the<strong>fortnight</strong>
+            </p>
           </div>
         </div>
       </fieldset>
@@ -71,9 +77,13 @@ ${set([
               name="identity-label" type="text"
               data-slug-out="data.psaIdentity.psaSlug"
               data-ng-model="data.psaIdentity.label"
-              data-tooltip-title="Enter your online handle, for example, some form of your full name like 'janedoe'. You can also customize your identity vanity address below."
-              data-placement="right" data-trigger="focus"
+              data-focus-toggle="model.help.identityLabel"
               data-ng-disabled="loading" />
+            <p data-fade-toggle="model.help.identityLabel" class="help-block">
+              Enter your online handle, for example, some form of your full
+              name like 'janedoe'. You can also customize your identity vanity
+              address below:
+            </p>
             <p><small>{{baseUrl}}/i/</small><input
               data-binding="psaIdentity.psaSlug" class="slug"
               name="identity-slug" type="text" maxlength="32"
@@ -112,11 +122,16 @@ ${set([
             <label class="control-label" for="account">Account Name</label>
             <div class="controls">
               <input class="input-xlarge" 
-                name="account-label" value="Primary Account"
-                type="text" data-tooltip-title="The name of your default financial account. Most people pick 'Primary' for the name of this account. You can change your account's vanity address below."
-                data-placement="right" data-trigger="focus"
+                name="account-label" value="Primary Account" type="text"
+                data-ng-model="data.account.label"
                 data-slug-out="data.account.psaSlug"
-                data-ng-model="data.account.label" data-ng-disabled="loading" />
+                data-focus-toggle="model.help.accountLabel"
+                data-ng-disabled="loading" />
+              <p data-fade-toggle="model.help.accountLabel" class="help-block">
+                The name of your default financial account. Most people pick
+                'Primary Account' for the name of this account. You can change
+                your account's vanity address below:
+              </p>
               <p><small>{{baseUrl}}/i/{{psaIdentity.psaSlug || 'IDENTITY-NAME'}}/accounts/</small><input
                 data-binding="account.psaSlug" class="slug" name="account-slug"
                 placeholder="ACCOUNT-NAME" value="{{data.account.psaSlug}}"

@@ -12,6 +12,7 @@ var module = angular.module('payswarm');
 module.controller('BudgetCtrl', BudgetCtrl);
 
 function BudgetCtrl($scope, $routeParams, svcAccount, svcBudget) {
+  $scope.model = {};
   var data = window.data || {};
   $scope.session = data.session || null;
   $scope.identity = data.identity || null;

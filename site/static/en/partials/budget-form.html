@@ -7,10 +7,13 @@
           <span class="add-on"><i class="icon-tag"></i></span><input
             type="text" name="label"
             data-ng-model="budget.label"
-            data-tooltip-title="Enter a memorable name that describes what this budget is for."
-            data-placement="right" data-trigger="focus" />
+            data-focus-toggle="model.help.label" />
         </div>
-        <p class="help-block">Suggestions: News, Movies, Favorites</p>
+        <p data-fade-toggle="model.help.label" class="help-block">
+          Enter a memorable name that describes what this budget is for.
+          <br/><br/>
+          Suggestions: News, Movies, Favorites
+        </p>
       </div>
     </div>
     
@@ -21,10 +24,14 @@
           <span class="add-on">$</span><input
             type="text" name="amount"
             data-ng-model="budget.amount"
-            data-tooltip-title="You must enter a valid monetary amount like 20 or 5.00."
-            data-placement="right" data-trigger="focus" />
+            data-focus-toggle="model.help.amount" />
         </div>
-        <p class="help-block">The maximum amount that can be used before the budget is refilled.</p>
+        <p data-fade-toggle="model.help.amount" class="help-block">
+          The maximum amount that can be used before the budget is
+          refilled.
+          <br/><br/>
+          You must enter a valid monetary amount like 20 or 5.00.
+        </p>
       </div>
     </div>
     
@@ -35,10 +42,14 @@
           <span class="add-on">$</span><input
             type="text" name="max-per-use"
             data-ng-model="budget.psaMaxPerUse"
-            data-tooltip-title="You must enter a valid monetary amount like 20 or 5.00."
-            data-placement="right" data-trigger="focus" />
+            data-focus-toggle="model.help.maxPerUse" />
         </div>
-        <p class="help-block">The maximum amount that can be used per transaction using this budget.</p>
+        <p data-fade-toggle="model.help.maxPerUse" class="help-block">
+          The maximum amount that can be used per transaction using this
+          budget.
+          <br/><br/>
+          You must enter a valid monetary amount like 20 or 5.00.
+        </p>
       </div>
     </div>
     
@@ -51,7 +62,10 @@
             data-ng-options="refresh.id as refresh.label for refresh in refreshChoices">
           </select>
         </div>
-        <p class="help-block">The interval between refilling the budget balance to the maximum amount.</p>
+        <p class="help-block">
+          The interval between refilling the budget balance to the maximum
+          amount.
+        </p>
       </div>
     </div>
     

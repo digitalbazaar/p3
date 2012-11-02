@@ -9,6 +9,7 @@
 var module = angular.module('payswarm');
 
 module.controller('CreateProfileCtrl', function($scope, $http) {
+  $scope.model = {};
   $scope.loading = false;
   $scope.baseUrl = window.location.protocol + '//' + window.location.host;
   $scope.data = {

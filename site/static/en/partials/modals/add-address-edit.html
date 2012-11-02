@@ -7,50 +7,65 @@
       <label class="control-label" for="label">Label</label>
       <div class="controls">
         <input type="text" name="label" data-ng-model="originalAddress.label"
-          rel="tooltip" data-original-title="Enter a memorable label for this address."
-          data-placement="right" data-trigger="focus" />
-        <p class="help-block">Label for this address such as &quot;Home&quot; or &quot;Work&quot;.</p>
+          data-focus-toggle="model.help.label" />
+        <p data-fade-toggle="model.help.label" class="help-block">
+          Enter a memorable label for this address such as
+          &quot;Home&quot; or &quot;Work&quot;.
+        </p>
       </div>
     </div>
     <div class="control-group" data-binding="fullName">
       <label class="control-label" for="name">Name</label>
       <div class="controls">
         <input type="text" name="name" data-ng-model="originalAddress.fullName"
-          rel="tooltip" data-original-title="You must enter your full name."
-          data-placement="right" data-trigger="focus" />
-        <p class="help-block">Please enter both your first name and last name.</p>
+          data-focus-toggle="model.help.name" />
+        <p data-fade-toggle="model.help.name" class="help-block">
+          Please enter both your first name and last name.
+        </p>
       </div>
     </div>
     <div class="control-group" data-binding="streetAddress">
       <label class="control-label" for="street">Street Address</label>
       <div class="controls">
-        <input type="text" name="street" data-ng-model="originalAddress.streetAddress"
-          rel="tooltip" data-original-title="You must enter your full street address, including street number, street, and any apartment number, etc."
-          data-placement="right" data-trigger="focus" />
+        <input type="text" name="street"
+          data-ng-model="originalAddress.streetAddress"
+          data-focus-toggle="model.help.street" />
+        <p data-fade-toggle="model.help.street" class="help-block">
+          Please enter your full street address, including street number,
+          street, and any apartment number, etc.        
+        </p>
       </div>
     </div>
     <div class="control-group" data-binding="locality">
       <label class="control-label" for="locality">City</label>
       <div class="controls">
-        <input type="text" name="locality" data-ng-model="originalAddress.locality"
-          rel="tooltip" data-original-title="You must enter your city or locality."
-          data-placement="right" data-trigger="focus" />
+        <input type="text" name="locality"
+          data-ng-model="originalAddress.locality"
+          data-focus-toggle="model.help.locality" />
+        <p data-fade-toggle="model.help.locality" class="help-block">
+          Please enter your city or locality.
+        </p>
       </div>
     </div>
     <div class="control-group" data-binding="region">
       <label class="control-label" for="region">State / Region</label>
       <div class="controls">
         <input type="text" name="region" data-ng-model="originalAddress.region"
-          rel="tooltip" data-original-title="You must enter your state or region."
-          data-placement="right" data-trigger="focus" />
+          data-focus-toggle="model.help.region" />
+        <p data-fade-toggle="model.help.region" class="help-block">
+          Please enter your state or region.
+        </p>
       </div>
     </div>
     <div class="control-group" data-binding="postalCode">
       <label class="control-label" for="postal-code">Postal Code</label>
       <div class="controls">
-        <input type="text" name="postal-code" data-ng-model="originalAddress.postalCode"
-          rel="tooltip" data-original-title="You must enter your zip or postal code."
-          data-placement="right" data-trigger="focus" />
+        <input type="text" name="postal-code"
+          data-ng-model="originalAddress.postalCode"
+          data-focus-toggle="model.help.postalCode" />
+        <p data-fade-toggle="model.help.postalCode" class="help-block">
+          Please enter your zip or postal code.
+        </p>
       </div>
     </div>
     <div class="control-group" data-binding="countryName">

@@ -32,20 +32,24 @@ like to withdraw.</p>
               data-ng-change="input.amount = account.balance" />
             Withdraw all money: <strong>{{account.currency}} {{account.balance|currency:'$'}}</strong>.
           </label>
-          <label class="radio">
+          <div>
             <input
               type="radio" name="amount"
               data-ng-model="input.mode"
               value="custom" />
-            <div class="input-prepend">
+            <span class="input-prepend">
               <span class="add-on">$</span><input
                 type="text" name="amount" placeholder="Enter withdrawal amount..."
-                class="auto-tooltip"
                 data-ng-model="input.amount"
-                data-tooltip-title="You must enter a valid monetary amount, like 25 or 25.82."
-                data-placement="right" data-trigger="focus" />
-            </div>
-          </label>
+                data-focus-toggle="model.help.amount" />
+            </span>
+            <br/>
+            <p data-fade-toggle="model.help.amount" class="help-block">
+              Please enter an amount to withdraw from your
+              "<strong>{{account.label}}</strong>" account. You must enter
+              a valid monetary amount, like 25 or 25.82.
+            </p>
+          </div>
         </div>
       </div>
     </fieldset>

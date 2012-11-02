@@ -77,7 +77,7 @@ select.form-field-vspaced {
 }
 
 /* Fix for input-prepend w/following help blocks */
-.input-prepend + .help-block {
+.input-prepend ~ .help-block {
   margin-top: 10px;
 }
 
@@ -351,6 +351,9 @@ span.currency {
   margin-top: 1em;
   padding-top: 0.3em;
   padding-bottom: 0.3em;
+}
+.help-block {
+  font-size: 0.9em;
 }
 
 /* Icon positioning */

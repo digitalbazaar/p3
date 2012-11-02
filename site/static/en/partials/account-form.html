@@ -8,10 +8,12 @@
             type="text" name="label"
             data-ng-model="account.label"
             data-slug-out="account.psaSlug"
-            data-tooltip-title="Enter a name for your financial account, for instance 'primary' or 'secondary'."
-            data-placement="right" data-trigger="focus" />
+            data-focus-toggle="model.help.label" />
         </div>
-        <p data-ng-hide="editing" class="help-block">The name you choose will become part of your account URL.</p>
+        <p data-fade-toggle="model.help.label" class="help-block">
+          Enter a name for your financial account, for instance 'primary' or 'secondary'.
+          <span data-ng-hide="editing">The name you choose will become part of your account URL:</span>
+        </p>
         <div data-ng-hide="editing">
           <p><small><span data-ng-show="identityId">{{identityId}}</span><span
             data-ng-hide="identityId">{{baseUrl}}/i/</span><span

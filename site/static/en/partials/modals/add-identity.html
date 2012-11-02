@@ -20,10 +20,14 @@
                   type="text" name="label"
                   data-ng-model="identityLabel"
                   data-slug-out="identitySlug"
-                  data-tooltip-title="Enter your online handle, for example, some form of your full name like 'janedoe'. You can also customize your identity vanity address below."
-                  data-placement="right" data-trigger="focus" />
+                  data-focus-toggle="model.help.identityLabel" />
               </div>
-              <p class="help-block">The name you choose will become part of your identity URL.</p>
+              <p data-fade-toggle="model.help.identityLabel" class="help-block">
+                Enter your online handle, for example, some form of your full
+                name like 'janedoe'. The name you choose will become part of
+                your identity URL. You can also customize your identity
+                URL:
+              </p>
               <p><small>{{baseUrl}}/i/</small><input
                 data-binding="psaSlug" class="slug" name="slug"
                 placeholder="IDENTITY-NAME"
@@ -61,11 +65,12 @@
                 <div class="input-prepend">
                   <span class="add-on"><i class="icon-globe"></i></span><input
                     type="text" name="vendor-website"
-                    data-tooltip-title="You must enter your website's address."
-                    data-placement="right" data-trigger="focus"
-                    data-ng-model="identity['ps:VendorIdentity'].homepage" />
+                    data-ng-model="identity['ps:VendorIdentity'].homepage"
+                    data-focus-toggle="model.help.website" />
                 </div>
-                <p class="help-block">Your website address will be displayed to your customers.</p>
+                <p data-fade-toggle="model.help.website" class="help-block">
+                  Please enter your website address, which will be displayed to
+                  your customers.</p>
               </div>
             </div>
             <div class="control-group" data-binding="description">

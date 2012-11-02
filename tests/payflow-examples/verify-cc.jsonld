@@ -3,8 +3,8 @@
   "type": "ccard:CreditCard",
   "cardBrand": "ccard:Visa",
   "cardNumber": "4111111111111111",
-  "cardExpMonth": "01",
-  "cardExpYear": "16",
+  "cardExpMonth": 1,
+  "cardExpYear": 2016,
   "cardCvm": "000",
   "address": {
     "fullName": "Full Name",

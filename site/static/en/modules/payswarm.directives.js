@@ -420,6 +420,7 @@ angular.module('payswarm.directives')
       minWidth: '&popoverMinWidth'
     },
     controller: function($scope) {
+      // FIXME: use $watch and $parse().assign to get/set visible instead?
       // manually inherit from parent scope because scope is auto-isolated
       // when inheriting 'visible' property w/another name
       for(var prop in $scope.$parent) {
@@ -468,13 +469,24 @@ angular.module('payswarm.directives')
 
           // fix positioning for bottom popover
           if(popover.options.placement === 'bottom') {
-            // set top position
+            // set initial position
             var pos = popover.getPosition(false);
-            pos = {top: pos.top + pos.height};
+            pos = {top: pos.top + pos.height, left: 0};
+
+            // determine if the parent element has relative positioning
+            // (if so, the absolute positioning of the popover will be
+            // relative to the parent)
+            var parent = tip.parent();
+            var isRelative = parent.css('position') === 'relative';
+            if(isRelative) {
+              var offset = parent.offset();
+              pos.top -= offset.top;
+              pos.left -= offset.left;
+            }
 
             // calculate left position and position arrow
             var right = element.offset().left + element[0].offsetWidth;
-            pos.left = right - tip[0].offsetWidth;
+            pos.left += right - tip[0].offsetWidth;
             $('.arrow', tip).css({
               left: tip[0].offsetWidth - element[0].offsetWidth / 2 - 1
             });

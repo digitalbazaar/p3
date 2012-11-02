@@ -116,6 +116,9 @@ select.form-field-vspaced {
 .btn .btn-navbar {
   margin-top: 6px;
 }
+.navbar .popover {
+  color: #333;
+}
 /* FIXME: temporary adjustment due to bootstrap changes */
 .navbar .navbar-link {
   margin-left: 0.5em;

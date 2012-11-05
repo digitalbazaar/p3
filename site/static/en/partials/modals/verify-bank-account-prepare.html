@@ -12,13 +12,17 @@
       <label class="control-label" for="verifyAmount0">First Amount</label>
       <div class="control-group" data-binding="psaVerifyParameters.amount[0]">
         <div class="controls">
-          <div class="input-prepend">
+          <div class="input-prepend input-append">
             <span class="add-on">$</span><input
               type="text" name="verifyAmount0" placeholder="Enter first deposited amount."
               data-ng-model="psaVerifyParameters.amount[0]"
-              data-focus-toggle="model.help.verifyAmount1" />
+              data-focus-toggle="model.help.verifyAmount1.focus" />
+            <button class="btn" data-help-toggle="model.help.verifyAmount1">
+              <i class="icon-question-sign"></i>
+            </button>
           </div>
-          <p data-fade-toggle="model.help.verifyAmount1" class="help-block">
+          <p data-fade-toggle="model.help.verifyAmount1.show"
+            class="help-block">
             Please enter the first verification deposit amount in your bank
             account. You must enter a valid monetary amount, like 0.12.
           </p>
@@ -27,13 +31,17 @@
       <label class="control-label" for="verifyAmount1">Second Amount</label>
       <div class="control-group" data-binding="psaVerifyParameters.amount[1]">
         <div class="controls">
-          <div class="input-prepend">
+          <div class="input-prepend input-append">
             <span class="add-on">$</span><input
               type="text" name="verifyAmount1" placeholder="Enter second deposited amount."
               data-ng-model="psaVerifyParameters.amount[1]"
-              data-focus-toggle="model.help.verifyAmount2" />
+              data-focus-toggle="model.help.verifyAmount2.focus" />
+            <button class="btn" data-help-toggle="model.help.verifyAmount2">
+              <i class="icon-question-sign"></i>
+            </button>
           </div>
-          <p data-fade-toggle="model.help.verifyAmount2" class="help-block">
+          <p data-fade-toggle="model.help.verifyAmount2.show"
+            class="help-block">
             Please enter the second verification deposit amount in your bank
             account. You must enter a valid monetary amount, like 0.12.
           </p>
@@ -42,13 +50,16 @@
       <label class="control-label" for="verificationAmount1">Deposit</label>
       <div class="control-group" data-binding="amount">
         <div class="controls">
-          <div class="input-prepend">
+          <div class="input-prepend input-append">
             <span class="add-on">$</span><input
               type="text" name="amount" placeholder="Enter deposit amount..."
               data-ng-model="input.amount"
-              data-focus-toggle="model.help.amount" />
+              data-focus-toggle="model.help.amount.focus" />
+            <button class="btn" data-help-toggle="model.help.amount">
+              <i class="icon-question-sign"></i>
+            </button>
           </div>
-          <p data-fade-toggle="model.help.amount" class="help-block">
+          <p data-fade-toggle="model.help.amount.show" class="help-block">
             You may enter an optional amount to deposit from this bank account.
             Doing a deposit now helps save on transaction fees. If you'd like
             to deposit now, then you must enter a valid monetary amount, like

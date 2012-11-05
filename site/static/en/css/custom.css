@@ -84,6 +84,10 @@ select.form-field-vspaced {
 .input-prepend ~ .help-block {
   margin-top: 10px;
 }
+/* Fix for input-append w/following help blocks */
+.input-append ~ .help-block {
+  margin-top: 10px;
+}
 
 /* Fix for popovers triggered by buttons in button groups */
 .btn-group > .btn:last-of-type {

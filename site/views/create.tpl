@@ -28,12 +28,17 @@ ${set([
         <div class="control-group" data-binding="email">
           <label class="control-label" for="email">Email</label>
           <div class="controls">
-            <input class="input-xlarge form-field-vspaced"
-              name="email" data-binding="email" type="text"
-              data-ng-model="data.email"
-              data-focus-toggle="model.help.email"
-              data-ng-disabled="loading" />
-            <p data-fade-toggle="model.help.email" class="help-block">
+            <div class="input-append">
+              <input class="input-xlarge form-field-vspaced"
+                name="email" data-binding="email" type="text"
+                data-ng-model="data.email"
+                data-focus-toggle="model.help.email.focus"
+                data-ng-disabled="loading" />
+              <button class="btn" data-help-toggle="model.help.email">
+                <i class="icon-question-sign"></i>
+              </button>
+            </div>
+            <p data-fade-toggle="model.help.email.show" class="help-block">
               A valid email address is required so that we can send you
               receipts and reset your password if you get locked out.
             </p>
@@ -43,13 +48,18 @@ ${set([
         <div class="control-group" data-binding="psaPassword">
           <label class="control-label" for="password">Password</label>
           <div class="controls">
-            <input class="input-xlarge"
-              name="password" data-binding="psaPassword" 
-              maxlength="32" type="password"
-              data-ng-model="data.psaPassword"
-              data-focus-toggle="model.help.password"
-              data-ng-disabled="loading" />
-            <p data-fade-toggle="model.help.password" class="help-block">
+            <div class="input-append">
+              <input class="input-xlarge"
+                name="password" data-binding="psaPassword" 
+                maxlength="32" type="password"
+                data-ng-model="data.psaPassword"
+                data-focus-toggle="model.help.password.focus"
+                data-ng-disabled="loading" />
+              <button class="btn" data-help-toggle="model.help.password">
+                <i class="icon-question-sign"></i>
+              </button>
+            </div>
+            <p data-fade-toggle="model.help.password.show" class="help-block">
               Please enter a secure password, the best passwords are
               memorable long phrases like: the<strong>lemurs</strong>ride<strong>on</strong>the<strong>fortnight</strong>
             </p>
@@ -73,13 +83,19 @@ ${set([
         <div class="control-group" data-binding="psaIdentity.label">
           <label class="control-label" for="identity">Identity Name</label>
           <div class="controls">
-            <input class="input-xlarge" 
-              name="identity-label" type="text"
-              data-slug-out="data.psaIdentity.psaSlug"
-              data-ng-model="data.psaIdentity.label"
-              data-focus-toggle="model.help.identityLabel"
-              data-ng-disabled="loading" />
-            <p data-fade-toggle="model.help.identityLabel" class="help-block">
+            <div class="input-append">
+              <input class="input-xlarge" 
+                name="identity-label" type="text"
+                data-slug-out="data.psaIdentity.psaSlug"
+                data-ng-model="data.psaIdentity.label"
+                data-focus-toggle="model.help.identityLabel.focus"
+                data-ng-disabled="loading" />
+              <button class="btn" data-help-toggle="model.help.identityLabel">
+                <i class="icon-question-sign"></i>
+              </button>
+            </div>
+            <p data-fade-toggle="model.help.identityLabel.show"
+              class="help-block">
               Enter your online handle, for example, some form of your full
               name like 'janedoe'. You can also customize your identity vanity
               address below:
@@ -121,13 +137,19 @@ ${set([
           <div class="control-group" data-binding="account.label">
             <label class="control-label" for="account">Account Name</label>
             <div class="controls">
-              <input class="input-xlarge" 
-                name="account-label" value="Primary Account" type="text"
-                data-ng-model="data.account.label"
-                data-slug-out="data.account.psaSlug"
-                data-focus-toggle="model.help.accountLabel"
-                data-ng-disabled="loading" />
-              <p data-fade-toggle="model.help.accountLabel" class="help-block">
+              <div class="input-append">
+                <input class="input-xlarge" 
+                  name="account-label" value="Primary Account" type="text"
+                  data-ng-model="data.account.label"
+                  data-slug-out="data.account.psaSlug"
+                  data-focus-toggle="model.help.accountLabel.focus"
+                  data-ng-disabled="loading" />
+                <button class="btn" data-help-toggle="model.help.accountLabel">
+                  <i class="icon-question-sign"></i>
+                </button>
+              </div>
+              <p data-fade-toggle="model.help.accountLabel.show"
+                class="help-block">
                 The name of your default financial account. Most people pick
                 'Primary Account' for the name of this account. You can change
                 your account's vanity address below:

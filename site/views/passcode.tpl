@@ -19,11 +19,16 @@ ${set([
         <div class="control-group" data-binding="psaIdentifier">
           <label class="control-label" for="email">Email</label>
           <div class="controls">
-            <input name="profile" type="text" maxlength="320"
-              data-ng-model="email"
-              data-focus-toggle="model.help.email"
-              data-ng-disabled="loading" />
-            <p data-fade-toggle="model.help.email" class="help-block">
+            <div class="input-append">
+              <input name="profile" type="text" maxlength="320"
+                data-ng-model="email"
+                data-focus-toggle="model.help.email.focus"
+                data-ng-disabled="loading" />
+              <button class="btn" data-help-toggle="model.help.email">
+                <i class="icon-question-sign"></i>
+              </button>
+            </div>
+            <p data-fade-toggle="model.help.email.show" class="help-block">
               Please enter the email address that you used when you registered
               with this website.
             </p>
@@ -52,11 +57,16 @@ ${set([
       <div class="control-group" data-binding="psaIdentifier">
         <label class="control-label" for="reset-email">Email</label>
         <div class="controls">
-          <input name="input" type="text" maxlength="320"
-            data-ng-model="email" 
-            data-focus-toggle="model.help.resetEmail"
-            data-ng-disabled="loading" />
-          <p data-fade-toggle="model.help.resetEmail" class="help-block">
+          <div class="input-append">
+            <input name="input" type="text" maxlength="320"
+              data-ng-model="email" 
+              data-focus-toggle="model.help.resetEmail.focus"
+              data-ng-disabled="loading" />
+            <button class="btn" data-help-toggle="model.help.resetEmail">
+              <i class="icon-question-sign"></i>
+            </button>
+          </div>
+          <p data-fade-toggle="model.help.resetEmail.show" class="help-block">
             Please enter the email address that you used above to retrieve
             reset instructions and a reset passcode.
           </p>
@@ -66,11 +76,16 @@ ${set([
       <div class="control-group" data-binding="psaPasscode">
         <label class="control-label" for="passcode">Passcode</label>
         <div class="controls">
-          <input name="psaPasscode" type="text" maxlength="8"
-            data-ng-model="psaPasscode"
-            data-focus-toggle="model.help.passcode"
-            data-ng-disabled="loading" />
-          <p data-fade-toggle="model.help.passcode" class="help-block">
+          <div class="input-append">
+            <input name="psaPasscode" type="text" maxlength="8"
+              data-ng-model="psaPasscode"
+              data-focus-toggle="model.help.passcode.focus"
+              data-ng-disabled="loading" />
+            <button class="btn" data-help-toggle="model.help.passcode">
+              <i class="icon-question-sign"></i>
+            </button>
+          </div>
+          <p data-fade-toggle="model.help.passcode.show" class="help-block">
             Please enter the passcode that was sent to you in the password
             reset email from this website.
           </p>
@@ -80,11 +95,16 @@ ${set([
       <div class="control-group" data-binding="psaPasswordNew">
         <label class="control-label" for="new-password">New Password</label>
         <div class="controls">
-          <input name="psaPasswordNew" type="password" maxlength="32"
-            data-ng-model= "psaPasswordNew"
-            data-focus-toggle="model.help.password"
-            data-ng-disabled="loading" />
-          <p data-fade-toggle="model.help.password" class="help-block">
+          <div class="input-append">
+            <input name="psaPasswordNew" type="password" maxlength="32"
+              data-ng-model= "psaPasswordNew"
+              data-focus-toggle="model.help.password.focus"
+              data-ng-disabled="loading" />
+            <button class="btn" data-help-toggle="model.help.password">
+              <i class="icon-question-sign"></i>
+            </button>
+          </div>
+          <p data-fade-toggle="model.help.password.show" class="help-block">
             Please enter the new password that you would like to use when
             accessing this website.
           </p>

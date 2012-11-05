@@ -6,9 +6,15 @@
     <div class="control-group" data-binding="label">
       <label class="control-label" for="label">Label</label>
       <div class="controls">
-        <input type="text" name="label" data-ng-model="originalAddress.label"
-          data-focus-toggle="model.help.label" />
-        <p data-fade-toggle="model.help.label" class="help-block">
+        <div class="input-append">
+          <input type="text" name="label"
+            data-ng-model="originalAddress.label"
+            data-focus-toggle="model.help.label.focus" />
+          <button class="btn" data-help-toggle="model.help.label">
+            <i class="icon-question-sign"></i>
+          </button>
+        </div>
+        <p data-fade-toggle="model.help.label.show" class="help-block">
           Enter a memorable label for this address such as
           &quot;Home&quot; or &quot;Work&quot;.
         </p>
@@ -17,9 +23,15 @@
     <div class="control-group" data-binding="fullName">
       <label class="control-label" for="name">Name</label>
       <div class="controls">
-        <input type="text" name="name" data-ng-model="originalAddress.fullName"
-          data-focus-toggle="model.help.name" />
-        <p data-fade-toggle="model.help.name" class="help-block">
+        <div class="input-append">
+          <input type="text" name="name"
+            data-ng-model="originalAddress.fullName"
+            data-focus-toggle="model.help.name.focus" />
+          <button class="btn" data-help-toggle="model.help.name">
+            <i class="icon-question-sign"></i>
+          </button>
+        </div>
+        <p data-fade-toggle="model.help.name.show" class="help-block">
           Please enter both your first name and last name.
         </p>
       </div>
@@ -27,10 +39,15 @@
     <div class="control-group" data-binding="streetAddress">
       <label class="control-label" for="street">Street Address</label>
       <div class="controls">
-        <input type="text" name="street"
-          data-ng-model="originalAddress.streetAddress"
-          data-focus-toggle="model.help.street" />
-        <p data-fade-toggle="model.help.street" class="help-block">
+        <div class="input-append">
+          <input type="text" name="street"
+            data-ng-model="originalAddress.streetAddress"
+            data-focus-toggle="model.help.street.focus" />
+          <button class="btn" data-help-toggle="model.help.street">
+            <i class="icon-question-sign"></i>
+          </button>
+        </div>
+        <p data-fade-toggle="model.help.street.show" class="help-block">
           Please enter your full street address, including street number,
           street, and any apartment number, etc.        
         </p>
@@ -39,10 +56,15 @@
     <div class="control-group" data-binding="locality">
       <label class="control-label" for="locality">City</label>
       <div class="controls">
-        <input type="text" name="locality"
-          data-ng-model="originalAddress.locality"
-          data-focus-toggle="model.help.locality" />
-        <p data-fade-toggle="model.help.locality" class="help-block">
+        <div class="input-append">
+          <input type="text" name="locality"
+            data-ng-model="originalAddress.locality"
+            data-focus-toggle="model.help.locality.focus" />
+          <button class="btn" data-help-toggle="model.help.locality">
+            <i class="icon-question-sign"></i>
+          </button>
+        </div>
+        <p data-fade-toggle="model.help.locality.show" class="help-block">
           Please enter your city or locality.
         </p>
       </div>
@@ -50,9 +72,15 @@
     <div class="control-group" data-binding="region">
       <label class="control-label" for="region">State / Region</label>
       <div class="controls">
-        <input type="text" name="region" data-ng-model="originalAddress.region"
-          data-focus-toggle="model.help.region" />
-        <p data-fade-toggle="model.help.region" class="help-block">
+        <div class="input-append">
+          <input type="text" name="region"
+            data-ng-model="originalAddress.region"
+            data-focus-toggle="model.help.region.focus" />
+          <button class="btn" data-help-toggle="model.help.region">
+            <i class="icon-question-sign"></i>
+          </button>
+        </div>
+        <p data-fade-toggle="model.help.region.show" class="help-block">
           Please enter your state or region.
         </p>
       </div>
@@ -60,10 +88,15 @@
     <div class="control-group" data-binding="postalCode">
       <label class="control-label" for="postal-code">Postal Code</label>
       <div class="controls">
-        <input type="text" name="postal-code"
-          data-ng-model="originalAddress.postalCode"
-          data-focus-toggle="model.help.postalCode" />
-        <p data-fade-toggle="model.help.postalCode" class="help-block">
+        <div class="input-append">
+          <input type="text" name="postal-code"
+            data-ng-model="originalAddress.postalCode"
+            data-focus-toggle="model.help.postalCode.focus" />
+          <button class="btn" data-help-toggle="model.help.postalCode">
+            <i class="icon-question-sign"></i>
+          </button>
+        </div>
+        <p data-fade-toggle="model.help.postalCode.show" class="help-block">
           Please enter your zip or postal code.
         </p>
       </div>
@@ -72,7 +105,9 @@
       <label class="control-label" for="country">Country</label>
       <div class="controls">
         <select name="country" data-ng-model="originalAddress.countryName">
-            <option data-ng-repeat="country in countries" value="{{country.code}}" data-ng-selected="originalAddress.countryName == country.code">{{country.name}}</option>
+            <option data-ng-repeat="country in countries"
+              value="{{country.code}}"
+              data-ng-selected="originalAddress.countryName == country.code">{{country.name}}</option>
         </select>
       </div>
     </div>

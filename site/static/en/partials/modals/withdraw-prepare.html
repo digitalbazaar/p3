@@ -37,14 +37,17 @@ like to withdraw.</p>
               type="radio" name="amount"
               data-ng-model="input.mode"
               value="custom" />
-            <span class="input-prepend">
+            <div class="input-prepend input-append">
               <span class="add-on">$</span><input
                 type="text" name="amount" placeholder="Enter withdrawal amount..."
                 data-ng-model="input.amount"
-                data-focus-toggle="model.help.amount" />
-            </span>
+                data-focus-toggle="model.help.amount.focus" />
+              <button class="btn" data-help-toggle="model.help.amount">
+                <i class="icon-question-sign"></i>
+              </button>
+            </div>
             <br/>
-            <p data-fade-toggle="model.help.amount" class="help-block">
+            <p data-fade-toggle="model.help.amount.show" class="help-block">
               Please enter an amount to withdraw from your
               "<strong>{{account.label}}</strong>" account. You must enter
               a valid monetary amount, like 25 or 25.82.

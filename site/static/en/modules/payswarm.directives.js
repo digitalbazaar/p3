@@ -1007,8 +1007,8 @@ angular.module('payswarm.directives')
 })
 .directive('modalEditAccount', function(svcModal, svcAccount) {
   function Ctrl($scope) {
-    $scope.model = {};
     $scope.open = function() {
+      $scope.model = {};
       $scope.data = window.data || {};
       $scope.feedback = {};
       $scope.loading = false;
@@ -1058,12 +1058,12 @@ angular.module('payswarm.directives')
 })
 .directive('modalAddBudget', function(svcModal) {
   function Ctrl($scope, svcBudget) {
-    $scope.model = {};
     $scope.selection = {
       account: null
     };
 
     $scope.open = function() {
+      $scope.model = {};
       $scope.data = window.data || {};
       $scope.feedback = {};
       $scope.loading = false;
@@ -1113,12 +1113,12 @@ angular.module('payswarm.directives')
 })
 .directive('modalEditBudget', function(svcModal) {
   function Ctrl($scope, svcBudget, svcAccount) {
-    $scope.model = {};
     $scope.selection = {
       account: null
     };
 
     $scope.open = function() {
+      $scope.model = {};
       $scope.data = window.data || {};
       $scope.feedback = {};
       $scope.identity = data.identity || {};
@@ -1194,12 +1194,12 @@ angular.module('payswarm.directives')
 })
 .directive('modalAddPaymentToken', function(svcModal) {
   function Ctrl($scope, svcPaymentToken, svcConstant) {
-    $scope.model = {};
     $scope.selection = {
       address: null
     };
 
     $scope.open = function() {
+      $scope.model = {};
       $scope.data = window.data || {};
       $scope.monthLabels = svcConstant.monthLabels;
       $scope.years = svcConstant.years;
@@ -1321,12 +1321,12 @@ angular.module('payswarm.directives')
 })
 .directive('modalVerifyBankAccount', function(svcModal) {
   function Ctrl($scope, svcPaymentToken, svcAccount) {
-    $scope.model = {};
     $scope.selection = {
       destination: null
     };
 
     $scope.open = function() {
+      $scope.model = {};
       $scope.feedback = {};
       $scope.loading = false;
       $scope.transfer = null;
@@ -1505,9 +1505,9 @@ angular.module('payswarm.directives')
 })
 .directive('modalAddIdentity', function(svcModal, svcIdentity, svcAccount) {
   function Ctrl($scope) {
-    $scope.model = {};
     $scope.baseUrl = window.location.protocol + '//' + window.location.host;
     $scope.open = function() {
+      $scope.model = {};
       $scope.feedback = {};
       $scope.loading = false;
       // identity
@@ -1591,8 +1591,8 @@ angular.module('payswarm.directives')
 })
 .directive('modalSwitchIdentity', function(svcModal, svcIdentity) {
   function Ctrl($scope) {
-    $scope.model = {};
     function init() {
+      $scope.model = {};
       $scope.identityTypes = ['ps:PersonalIdentity', 'ps:VendorIdentity'];
       $scope.identities = svcIdentity.identities;
       $scope.selected = svcIdentity.identity;
@@ -1623,8 +1623,8 @@ angular.module('payswarm.directives')
 .directive('modalAddAddress', function(
   svcModal, svcIdentity, svcAddress, svcConstant) {
   function Ctrl($scope) {
-    $scope.model = {};
     $scope.open = function() {
+      $scope.model = {};
       $scope.data = window.data || {};
       $scope.countries = svcConstant.countries || {};
       $scope.feedback = {};
@@ -1793,8 +1793,8 @@ angular.module('payswarm.directives')
 })
 .directive('modalDeposit', function(svcModal) {
   function Ctrl($scope, svcPaymentToken, svcAccount, svcTransaction) {
-    $scope.model = {};
     $scope.open = function() {
+      $scope.model = {};
       $scope.data = window.data || {};
       $scope.feedback = {};
       $scope.loading = false;
@@ -1928,8 +1928,8 @@ angular.module('payswarm.directives')
 })
 .directive('modalWithdraw', function(svcModal) {
   function Ctrl($scope, svcPaymentToken, svcAccount, svcTransaction) {
-    $scope.model = {};
     $scope.open = function() {
+      $scope.model = {};
       $scope.data = window.data || {};
       $scope.feedback = {};
       $scope.loading = false;

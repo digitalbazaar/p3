@@ -105,6 +105,12 @@ select.form-field-vspaced {
   border-color: #BBB;
 }
 
+/* Fix for one-off left margin */
+.input-append .add-on, .input-append .btn,
+.input-append .btn-group {
+  margin-left: 0px;
+}
+
 /* Short alert displays */
 .alert-short {
   width: 230px;

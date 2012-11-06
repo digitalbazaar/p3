@@ -32,7 +32,7 @@ ${set([
               <input class="input-xlarge form-field-vspaced"
                 name="email" data-binding="email" type="text"
                 data-ng-model="data.email"
-                data-focus-toggle="model.help.email.focus"
+                data-track-state="model.help.email"
                 data-ng-disabled="loading" />
               <button class="btn" data-help-toggle="model.help.email">
                 <i class="icon-question-sign"></i>
@@ -53,7 +53,7 @@ ${set([
                 name="password" data-binding="psaPassword" 
                 maxlength="32" type="password"
                 data-ng-model="data.psaPassword"
-                data-focus-toggle="model.help.password.focus"
+                data-track-state="model.help.password"
                 data-ng-disabled="loading" />
               <button class="btn" data-help-toggle="model.help.password">
                 <i class="icon-question-sign"></i>
@@ -88,7 +88,7 @@ ${set([
                 name="identity-label" type="text"
                 data-slug-out="data.psaIdentity.psaSlug"
                 data-ng-model="data.psaIdentity.label"
-                data-focus-toggle="model.help.identityLabel.focus"
+                data-track-state="model.help.identityLabel"
                 data-ng-disabled="loading" />
               <button class="btn" data-help-toggle="model.help.identityLabel">
                 <i class="icon-question-sign"></i>
@@ -142,7 +142,7 @@ ${set([
                   name="account-label" value="Primary Account" type="text"
                   data-ng-model="data.account.label"
                   data-slug-out="data.account.psaSlug"
-                  data-focus-toggle="model.help.accountLabel.focus"
+                  data-track-state="model.help.accountLabel"
                   data-ng-disabled="loading" />
                 <button class="btn" data-help-toggle="model.help.accountLabel">
                   <i class="icon-question-sign"></i>

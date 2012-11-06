@@ -22,7 +22,7 @@ ${set([
             <div class="input-append">
               <input name="profile" type="text" maxlength="320"
                 data-ng-model="email"
-                data-focus-toggle="model.help.email.focus"
+                data-track-state="model.help.email"
                 data-ng-disabled="loading" />
               <button class="btn" data-help-toggle="model.help.email">
                 <i class="icon-question-sign"></i>
@@ -60,7 +60,7 @@ ${set([
           <div class="input-append">
             <input name="input" type="text" maxlength="320"
               data-ng-model="email" 
-              data-focus-toggle="model.help.resetEmail.focus"
+              data-track-state="model.help.resetEmail"
               data-ng-disabled="loading" />
             <button class="btn" data-help-toggle="model.help.resetEmail">
               <i class="icon-question-sign"></i>
@@ -79,7 +79,7 @@ ${set([
           <div class="input-append">
             <input name="psaPasscode" type="text" maxlength="8"
               data-ng-model="psaPasscode"
-              data-focus-toggle="model.help.passcode.focus"
+              data-track-state="model.help.passcode"
               data-ng-disabled="loading" />
             <button class="btn" data-help-toggle="model.help.passcode">
               <i class="icon-question-sign"></i>
@@ -98,7 +98,7 @@ ${set([
           <div class="input-append">
             <input name="psaPasswordNew" type="password" maxlength="32"
               data-ng-model= "psaPasswordNew"
-              data-focus-toggle="model.help.password.focus"
+              data-track-state="model.help.password"
               data-ng-disabled="loading" />
             <button class="btn" data-help-toggle="model.help.password">
               <i class="icon-question-sign"></i>

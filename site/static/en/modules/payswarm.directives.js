@@ -202,11 +202,57 @@ angular.module('payswarm.directives')
       element.addClass('hide');
       scope.$watch(attrs.fadeToggle, function(value) {
         if(value) {
-          element.fadeIn();
+          if(element.is(':animated')) {
+            element.stop(true, true).show();
+          }
+          else {
+            element.fadeIn();
+          }
         }
         else {
-          element.fadeOut();
+          if(element.is(':animated')) {
+            element.stop(true, true).hide();
+          }
+          else {
+            element.fadeOut();
+          }
         }
+      });
+    }
+  };
+})
+.directive('trackState', function($parse) {
+  return {
+    link: function(scope, element, attrs) {
+      var get = $parse(attrs.trackState);
+      var set = get.assign || angular.noop;
+      element.focus(function() {
+        scope.$apply(function() {
+          var value = get(scope) || {};
+          value.focus = true;
+          set(scope, value);
+        });
+      });
+      element.blur(function() {
+        scope.$apply(function() {
+          var value = get(scope) || {};
+          value.focus = false;
+          set(scope, value);
+        });
+      });
+      element.mouseenter(function() {
+        scope.$apply(function() {
+          var value = get(scope) || {};
+          value.mouseover = true;
+          set(scope, value);
+        });
+      });
+      element.mouseleave(function() {
+        scope.$apply(function() {
+          var value = get(scope) || {};
+          value.mouseover = false;
+          set(scope, value);
+        });
       });
     }
   };
@@ -221,9 +267,9 @@ angular.module('payswarm.directives')
       var get = $parse(attrs.helpToggle);
       var set = get.assign || angular.noop;
       element.click(function() {
+        pressed = !pressed;
         scope.$apply(function() {
           var value = get(scope) || {};
-          pressed = !pressed;
           value.show = pressed;
           if(pressed) {
             element.addClass('active');
@@ -237,7 +283,7 @@ angular.module('payswarm.directives')
       element.mouseenter(function() {
         scope.$apply(function() {
           var value = get(scope) || {};
-          value.inside = true;
+          value.mouseover = true;
           value.show = true;
           set(scope, value);
         });
@@ -245,7 +291,7 @@ angular.module('payswarm.directives')
       element.mouseleave(function() {
         scope.$apply(function() {
           var value = get(scope) || {};
-          value.inside = false;
+          value.mouseover = false;
           if(!pressed) {
             value.show = false;
           }
@@ -254,20 +300,31 @@ angular.module('payswarm.directives')
       });
       scope.$watch(
         attrs.helpToggle + '.focus || ' +
-        attrs.helpToggle + '.inside || ' +
+        attrs.helpToggle + '.mouseover || ' +
         attrs.helpToggle + '.show', function(value) {
         if(value) {
           if(hasInputAppend) {
             element.parent().addClass('input-append');
           }
-          element.fadeIn();
+          // cancel current fade in/out
+          if(element.is(':animated')) {
+            element.stop(true, true).show();
+          }
+          else {
+            element.fadeIn();
+          }
         }
         else {
-          element.fadeOut(function() {
-            if(hasInputAppend) {
-              element.parent().removeClass('input-append');
-            }
-          });
+          if(hasInputAppend) {
+            element.parent().removeClass('input-append');
+          }
+          // cancel current fade in/out
+          if(element.is(':animated')) {
+            element.stop(true, true).hide();
+          }
+          else {
+            element.fadeOut();
+          }
         }
       });
     }

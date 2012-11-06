@@ -99,6 +99,12 @@ select.form-field-vspaced {
   -moz-border-radius-bottomright: 4px;
 }
 
+/* Fix for button active state */
+.input-append .active,
+.input-prepend .active {
+  border-color: #BBB;
+}
+
 /* Short alert displays */
 .alert-short {
   width: 230px;

@@ -214,14 +214,20 @@ angular.module('payswarm.directives')
 .directive('helpToggle', function($parse) {
   return {
     link: function(scope, element, attrs) {
-      // init to hidden
-      element.addClass('hide');
+      var pressed = false;
       var get = $parse(attrs.helpToggle);
       var set = get.assign || angular.noop;
       element.click(function() {
         scope.$apply(function() {
           var value = get(scope) || {};
-          value.show = !value.show;
+          pressed = !pressed;
+          value.show = pressed;
+          if(pressed) {
+            element.addClass('active');
+          }
+          else {
+            element.removeClass('active');
+          }
           set(scope, value);
         });
       });
@@ -229,6 +235,7 @@ angular.module('payswarm.directives')
         scope.$apply(function() {
           var value = get(scope) || {};
           value.inside = true;
+          value.show = true;
           set(scope, value);
         });
       });
@@ -236,6 +243,9 @@ angular.module('payswarm.directives')
         scope.$apply(function() {
           var value = get(scope) || {};
           value.inside = false;
+          if(!pressed) {
+            value.show = false;
+          }
           set(scope, value);
         });
       });

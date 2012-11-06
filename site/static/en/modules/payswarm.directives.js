@@ -260,6 +260,9 @@ angular.module('payswarm.directives')
 .directive('helpToggle', function($parse) {
   return {
     link: function(scope, element, attrs) {
+      // make element untabbable
+      element.attr('tabindex', '-1');
+
       // store if parent has input-append
       var hasInputAppend = element.parent().hasClass('input-append');
 

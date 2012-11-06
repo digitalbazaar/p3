@@ -214,6 +214,9 @@ angular.module('payswarm.directives')
 .directive('helpToggle', function($parse) {
   return {
     link: function(scope, element, attrs) {
+      // store if parent has input-append
+      var hasInputAppend = element.parent().hasClass('input-append');
+
       var pressed = false;
       var get = $parse(attrs.helpToggle);
       var set = get.assign || angular.noop;
@@ -254,10 +257,17 @@ angular.module('payswarm.directives')
         attrs.helpToggle + '.inside || ' +
         attrs.helpToggle + '.show', function(value) {
         if(value) {
+          if(hasInputAppend) {
+            element.parent().addClass('input-append');
+          }
           element.fadeIn();
         }
         else {
-          element.fadeOut();
+          element.fadeOut(function() {
+            if(hasInputAppend) {
+              element.parent().removeClass('input-append');
+            }
+          });
         }
       });
     }

@@ -33,7 +33,7 @@ var getPaymentTokensQuery = {
       minLength: 1
     }
   },
-  additionalProperties: false
+  additionalProperties: true
 };
 
 var postPaymentTokenQuery = {
@@ -45,7 +45,7 @@ var postPaymentTokenQuery = {
       enum: ['restore', 'verify']
     }
   },
-  additionalProperties: false
+  additionalProperties: true
 };
 
 var postVerifyPrepare = {

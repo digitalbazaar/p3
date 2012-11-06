@@ -54,7 +54,7 @@ var getBudgetQuery= {
       enum: ['vendors']
     }
   },
-  additionalProperties: false
+  additionalProperties: true
 };
 
 var postBudgets = {
@@ -95,7 +95,7 @@ var delBudgetQuery = {
       type: payswarmId()
     }
   },
-  additionalProperties: false
+  additionalProperties: true
 };
 
 

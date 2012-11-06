@@ -7,7 +7,7 @@ var getDocsQuery = {
       minLength: 1
     }
   },
-  additionalProperties: false
+  additionalProperties: true
 };
 
 module.exports.getDocsQuery = function() {

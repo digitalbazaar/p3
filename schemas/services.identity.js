@@ -43,7 +43,7 @@ var getIdentitiesQuery = {
       type: nonce()
     }
   },
-  additionalProperties: false
+  additionalProperties: true
 };
 
 var postIdentities = {

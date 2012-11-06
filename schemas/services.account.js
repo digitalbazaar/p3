@@ -12,7 +12,7 @@ var getAccountsQuery = {
       enum: ['activity']
     }
   },
-  additionalProperties: false
+  additionalProperties: true
 };
 
 var postAccounts = {
@@ -49,7 +49,7 @@ var getAccountQuery = {
       enum: ['activity']
     }
   },
-  additionalProperties: false
+  additionalProperties: true
 };
 
 var postAccount = {

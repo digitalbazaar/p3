@@ -11,7 +11,7 @@ var postAddressesQuery = {
       enum: ['validate']
     }
   },
-  additionalProperties: false
+  additionalProperties: true
 };
 
 var postAddresses = {
@@ -30,7 +30,7 @@ var delAddressesQuery = {
       type: label()
     }
   },
-  additionalProperties: false
+  additionalProperties: true
 };
 
 module.exports.postAddressesQuery = function() {

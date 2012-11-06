@@ -64,7 +64,7 @@ var getTransactionsQuery = {
       pattern: '^([1-9]|[12][0-9]|30)$'
     }
   },
-  additionalProperties: false
+  additionalProperties: true
 };
 
 var postTransactionsQuery = {
@@ -76,7 +76,7 @@ var postTransactionsQuery = {
       enum: ['true']
     }
   },
-  additionalProperties: false
+  additionalProperties: true
 };
 
 var postQuote = {

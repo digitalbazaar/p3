@@ -17,7 +17,7 @@ var getPasscodeQuery = {
       minLength: 1
     }
   },
-  additionalProperties: false
+  additionalProperties: true
 };
 
 
@@ -112,7 +112,7 @@ var getLoginQuery = {
       type: 'string'
     }
   },
-  additionalProperties: false
+  additionalProperties: true
 };
 
 var postLogin = {

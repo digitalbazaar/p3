@@ -8,6 +8,19 @@ var payswarmId = require('./payswarmId');
 var jsonldContext = require('./jsonldContext');
 var visibility = require('./propertyVisibility');
 
+var getPasscodeQuery = {
+  type: 'object',
+  properties: {
+    passcode: {
+      required: false,
+      type: 'string',
+      minLength: 1
+    }
+  },
+  additionalProperties: false
+};
+
+
 var postPasscode = {
   title: 'Passcode',
   description: 'Create a passcode.',
@@ -91,6 +104,17 @@ var postCreate = {
   additionalProperties: false
 };
 
+var getLoginQuery = {
+  type: 'object',
+  properties: {
+    ref: {
+      required: false,
+      type: 'string'
+    }
+  },
+  additionalProperties: false
+};
+
 var postLogin = {
   title: 'Login',
   description: 'Login.',
@@ -128,6 +152,9 @@ var switchIdentity = {
   additionalProperties: false
 };
 
+module.exports.getPasscodeQuery = function() {
+  return getPasscodeQuery;
+};
 module.exports.postPasscode = function() {
   return postPasscode;
 };
@@ -139,6 +166,9 @@ module.exports.postPasswordReset = function() {
 };
 module.exports.postCreate = function() {
   return postCreate;
+};
+module.exports.getLoginQuery = function() {
+  return getLoginQuery;
 };
 module.exports.postLogin = function() {
   return postLogin;

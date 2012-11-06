@@ -1,8 +1,10 @@
-var label = require('./label');
-var slug = require('./slug');
-var publicKeyPem = require('./publicKeyPem');
-var jsonldContext = require('./jsonldContext');
 var graphSignature = require('./graphSignature');
+var jsonldContext = require('./jsonldContext');
+var label = require('./label');
+var nonce = require('./nonce');
+var publicKeyPem = require('./publicKeyPem');
+var slug = require('./slug');
+var url = require('./url');
 var visibility = require('./propertyVisibility');
 
 var postIdentity = {
@@ -11,6 +13,35 @@ var postIdentity = {
   properties: {
     '@context': jsonldContext(),
     label: label()
+  },
+  additionalProperties: false
+};
+
+var getIdentitiesQuery = {
+  title: 'Get Identities Query',
+  type: 'object',
+  properties: {
+    form: {
+      required: false,
+      type: 'string',
+      enum: ['register']
+    },
+    'public-key-label': {
+      required: false,
+      type: label()
+    },
+    'public-key': {
+      required: false,
+      type: publicKeyPem()
+    },
+    'registration-callback': {
+      required: false,
+      type: url()
+    },
+    'response-nonce': {
+      required: false,
+      type: nonce()
+    }
   },
   additionalProperties: false
 };
@@ -72,6 +103,9 @@ var postPreferences = {
 
 module.exports.postIdentity = function() {
   return postIdentity;
+};
+module.exports.getIdentitiesQuery = function() {
+  return getIdentitiesQuery;
 };
 module.exports.postIdentities = function() {
   return postIdentities;

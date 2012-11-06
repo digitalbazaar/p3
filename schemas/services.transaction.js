@@ -2,9 +2,82 @@ var deposit = require('./deposit');
 var graphSignature = require('./graphSignature');
 var jsonldContext = require('./jsonldContext');
 var jsonldType = require('./jsonldType');
+var nonce = require('./nonce');
 var payswarmId = require('./payswarmId');
 var url = require('./url');
 var withdrawal = require('./withdrawal');
+
+var getTransactionsQuery = {
+  type: 'object',
+  properties: {
+    form: {
+      required: false,
+      type: 'string',
+      enum: ['pay']
+    },
+    listing: {
+      required: false,
+      type: url()
+    },
+    'listing-hash': {
+      required: false,
+      type: 'string'
+      // FIXME
+    },
+    'reference-id': {
+      required: false,
+      type: 'string',
+      minLength: 1,
+      maxLength: 128
+      // FIXME limits ok?
+    },
+    'callback': {
+      required: false,
+      type: url()
+    },
+    'response-nonce': {
+      required: false,
+      type: nonce()
+    },
+    createdStart: {
+      required: false,
+      type: 'string'
+      // FIXME w3cDateTime or int or other date format
+    },
+    createdEnd: {
+      required: false,
+      type: 'string'
+      // FIXME w3cDateTime or int or other date format
+    },
+    account: {
+      required: false,
+      type: payswarmId()
+    },
+    previous: {
+      required: false,
+      type: payswarmId()
+    },
+    limit: {
+      required: false,
+      type: 'integer',
+      minimum: 1,
+      maximum: 30
+    }
+  },
+  additionalProperties: false
+};
+
+var postTransactionsQuery = {
+  type: 'object',
+  properties: {
+    quote: {
+      required: false,
+      type: 'string',
+      enum: ['true']
+    }
+  },
+  additionalProperties: false
+};
 
 var postQuote = {
   type: 'object',
@@ -21,7 +94,7 @@ var postQuote = {
     },
     nonce: {
       required: false,
-      type: 'string'
+      type: nonce()
     }
   },
   additionalProperties: false
@@ -88,6 +161,12 @@ var postTransfer = {
   }
 };
 
+module.exports.getTransactionsQuery = function() {
+  return getTransactionsQuery;
+};
+module.exports.postTransactionsQuery = function() {
+  return postTransactionsQuery;
+};
 module.exports.postQuote = function() {
   return postQuote;
 };

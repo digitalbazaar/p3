@@ -3,6 +3,18 @@ var label = require('./label');
 var visibility = require('./propertyVisibility');
 var jsonldContext = require('./jsonldContext');
 
+var getAccountsQuery = {
+  type: 'object',
+  properties: {
+    view: {
+      required: false,
+      type: 'string',
+      enum: ['activity']
+    }
+  },
+  additionalProperties: false
+};
+
 var postAccounts = {
   type: 'object',
   properties: {
@@ -28,6 +40,18 @@ var postAccounts = {
   additionalProperties: false
 };
 
+var getAccountQuery = {
+  type: 'object',
+  properties: {
+    activity: {
+      required: false,
+      type: 'string',
+      enum: ['activity']
+    }
+  },
+  additionalProperties: false
+};
+
 var postAccount = {
   type: 'object',
   properties: {
@@ -45,8 +69,14 @@ var postAccount = {
   additionalProperties: false
 };
 
+module.exports.getAccountsQuery = function() {
+  return getAccountsQuery;
+};
 module.exports.postAccounts = function() {
   return postAccounts;
+};
+module.exports.getAccountQuery = function() {
+  return getAccountQuery;
 };
 module.exports.postAccount = function() {
   return postAccount;

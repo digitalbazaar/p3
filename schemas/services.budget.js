@@ -1,6 +1,7 @@
 var payswarmId = require('./payswarmId');
 var label = require('./label');
 var money = require('./money');
+var payswarmId = require('./payswarmId');
 var jsonldContext = require('./jsonldContext');
 
 var postBudget = {
@@ -44,6 +45,18 @@ var postBudget = {
   additionalProperties: false
 };
 
+var getBudgetQuery= {
+  type: 'object',
+  properties: {
+    view: {
+      required: false,
+      type: 'string',
+      enum: ['vendors']
+    }
+  },
+  additionalProperties: false
+};
+
 var postBudgets = {
   title: 'Budget',
   description: 'A budget that is being created for the first time.',
@@ -74,9 +87,27 @@ var postBudgets = {
   additionalProperties: false
 };
 
+var delBudgetQuery = {
+  type: 'object',
+  properties: {
+    vendor: {
+      required: false,
+      type: payswarmId()
+    }
+  },
+  additionalProperties: false
+};
+
+
 module.exports.postBudget = function() {
   return postBudget;
 };
+module.exports.getBudgetQuery = function() {
+  return getBudgetQuery;
+};
 module.exports.postBudgets = function() {
   return postBudgets;
+};
+module.exports.delBudgetQuery = function() {
+  return delBudgetQuery;
 };

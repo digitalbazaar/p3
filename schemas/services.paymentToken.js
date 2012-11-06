@@ -24,6 +24,30 @@ var postPaymentTokens = {
   additionalProperties: false
 };
 
+var getPaymentTokensQuery = {
+  type: 'object',
+  properties: {
+    gateway: {
+      required: false,
+      type: 'string',
+      minLength: 1
+    }
+  },
+  additionalProperties: false
+};
+
+var postPaymentTokenQuery = {
+  type: 'object',
+  properties: {
+    action: {
+      required: false,
+      type: 'string',
+      enum: ['restore', 'verify']
+    }
+  },
+  additionalProperties: false
+};
+
 var postVerifyPrepare = {
   title: 'Verify PaymentToken Prepare',
   type: 'object',
@@ -62,6 +86,14 @@ var postVerifyDeposit = deposit('signed');
 
 module.exports.postPaymentTokens = function() {
   return postPaymentTokens;
+};
+
+module.exports.getPaymentTokensQuery = function() {
+  return getPaymentTokensQuery;
+};
+
+module.exports.postPaymentTokenQuery = function() {
+  return postPaymentTokenQuery;
 };
 
 module.exports.postVerifyPrepare = function() {

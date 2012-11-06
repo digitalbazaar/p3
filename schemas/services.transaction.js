@@ -59,9 +59,9 @@ var getTransactionsQuery = {
     },
     limit: {
       required: false,
-      type: 'integer',
-      minimum: 1,
-      maximum: 30
+      // query param will be a string but content is an integer from 1 to 30.
+      type: 'string',
+      pattern: '^([1-9]|[12][0-9]|30)$'
     }
   },
   additionalProperties: false

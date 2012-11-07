@@ -14,5 +14,5 @@ Purchaser:                   {{deposit.source.owner}}
 ACH Gateway:                 {{deposit.source.paymentGateway}}
 Authorization Approval Code: {{deposit.psaGatewayApprovalCode}}
 Transaction type:            purchase
-Description of merchandise:  {{serviceName}} deposit
+Description of Merchandise:  {{serviceName}} deposit
 Return/refund policy:        http://{{serviceDomain}}/legal#TermsOfService

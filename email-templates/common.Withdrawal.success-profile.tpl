@@ -8,7 +8,7 @@ More info is available at http://payswarm.com/wiki/Demo_Warning.
 *** NOTE ***
 
 {% endif -%}
-Your {% if withdrawal.destination.bankAccount %}bank account{% else %}account{% endif %} has been credited with ${{deposit.amount}} USD. 
+Your {% if withdrawal.destination.bankAccount %}bank account{% else %}account{% endif %} has been credited with ${{withdrawal.amount}} USD. 
 
 Here is your withdrawal receipt:
 

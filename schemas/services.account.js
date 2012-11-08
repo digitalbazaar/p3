@@ -43,7 +43,7 @@ var postAccounts = {
 var getAccountQuery = {
   type: 'object',
   properties: {
-    activity: {
+    view: {
       required: false,
       type: 'string',
       enum: ['activity']

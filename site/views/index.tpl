@@ -1,5 +1,5 @@
 ${set([
-  pageTitle = "Welcome",
+  pageTitle = "Welcome"
 ])}
 {{partial "head.tpl"}}
 

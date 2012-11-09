@@ -25,7 +25,6 @@ ${set(pageTitle = "Transaction Info")}
   <td>{{if idx == 0}}Transfers{{else}}&nbsp;{{/if}}</td>
   <td>
     <i class="icon-info-sign" title="Details"></i> ${transfer.comment}<br/>
-    {{! FIXME: support more than credit cards }}
     <i class="icon-minus" title="Source"></i>
     <span class="money right" title="USD $${transfer.amount}">
       $ ${transfer.amount}

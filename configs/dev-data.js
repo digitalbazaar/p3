@@ -350,7 +350,8 @@ config.financial.paymentGateway.Test.payees.deposit['ccard:CreditCard'] = [{
   payeeExemptGroup: [
     'authority', 'authority_gatewayPercentExempt', 'authority_exempt'],
   payeeRateType: 'com:Percent',
-  payeeRate: '2.1857960',
+  // 1 / (1 - inclusive rate of 0.0214)
+  payeeRate: '2.1867975',
   payeeApplyType: 'com:Exclusive',
   comment: 'Deposit Processing Service'
 }, {

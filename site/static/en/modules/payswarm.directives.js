@@ -1964,6 +1964,7 @@ angular.module('payswarm.directives')
         deposit: $scope._deposit,
         success: function(deposit) {
           $scope.loading = false;
+          $scope.feedback = {};
 
           // show complete page
           $scope.deposit = deposit;
@@ -2115,6 +2116,7 @@ angular.module('payswarm.directives')
         withdrawal: $scope._withdrawal,
         success: function(withdrawal) {
           $scope.loading = false;
+          $scope.feedback = {};
 
           // show complete page
           $scope.withdrawal = withdrawal;

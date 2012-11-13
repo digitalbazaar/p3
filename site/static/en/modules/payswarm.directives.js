@@ -1224,7 +1224,7 @@ angular.module('payswarm.directives')
       $scope.budget.psaExpires = '';
       svcAccount.getOne($scope.budget.source, function(err, account) {
         // FIXME: handle error
-        $scope.selection.account = account;
+        $scope.selection.account = account || null;
         $scope.loading = false;
       });
     };

@@ -77,7 +77,6 @@ config.mail.connection = {
 };
 config.mail.send = false;
 config.mail.vars = {
-  // FIXME
   productionMode: config.website.views.vars.productionMode,
   serviceHost: config.server.host,
   serviceDomain: config.server.domain,

@@ -26,8 +26,9 @@
     <link href="${cacheRoot}/bootstrap/css/bootstrap.${cssExt}" rel="stylesheet" type="text/css" />
     <link href="${cacheRoot}/bootstrap/css/bootstrap-responsive.${cssExt}" rel="stylesheet" type="text/css" />
     <link href="${cacheRoot}/angular/angular-ui.${cssExt}" rel="stylesheet" type="text/css" />
-    <link href="${cacheRoot}/css/custom.${cssExt}" rel="stylesheet" type="text/css" />
+    <link href="${cacheRoot}/css/common.${cssExt}" rel="stylesheet" type="text/css" />
     <link href="${cacheRoot}/css/cc-logos.${cssExt}" rel="stylesheet" type="text/css" />
+    <link href="${cacheRoot}/css/custom.${cssExt}" rel="stylesheet" type="text/css" />
     
     <link rel="shortcut icon" href="/favicon.ico" />
     

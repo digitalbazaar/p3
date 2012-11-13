@@ -101,11 +101,6 @@ var config = {
 if(program.live) {
   config.mode = 'live';
 }
-// FIXME: remove me
-if(config.mode === 'live') {
-  console.log('\nError: "live" mode not supported yet.');
-  process.exit(1);
-}
 
 console.log('\nUSAePay Client:\n');
 var client;
@@ -150,6 +145,9 @@ async.waterfall([
   function(input, callback) {
     if(!config.confirm) {
       return callback(null, input);
+    }
+    if(config.mode === 'live') {
+      console.log('*** WARNING: LIVE GATEWAY WILL BE USED ***\n');
     }
     console.log('Mode: ' + config.mode);
     console.log('Timeout: ' + config.timeout);

@@ -1315,12 +1315,14 @@ payswarm.profiles.password = function(options) {
  * @return the normalized error.
  */
 function normalizeError(xhr, textStatus) {
+  var error = null;
+
   try {
-    var error = JSON.parse(xhr.responseText);
+    error = JSON.parse(xhr.responseText);
     if(error.type === undefined) {
       error.type = 'website.Exception';
-      error.message = 'Request Error: ' + textStatus;
-      // FIXME: make message user-friendly
+      error.message = 'An error occurred while communicating with ' +
+        'the server: ' + textStatus;
     }
     // check for invalid session or missing session
     else if(error.type === 'payswarm.website.PermissionDenied') {
@@ -1332,10 +1334,10 @@ function normalizeError(xhr, textStatus) {
   }
   catch(e) {
     // not a json-formatted exception
-    var error = {
+    error = {
       type: 'website.Exception',
-      message: 'Request Error: ' + textStatus
-      // FIXME: make message user-friendly
+      message: 'An error occurred while communicating with ' +
+        'the server: ' + textStatus
     };
   }
   return error;

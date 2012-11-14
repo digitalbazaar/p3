@@ -56,7 +56,6 @@ config.website.views.vars = {
   cacheRoot: '',
   // client-side data
   clientData: {
-    paymentGateway: 'Test',
     productionMode: config.website.views.vars.productionMode,
     paymentDefaults: {
       allowDuplicatePurchases: true

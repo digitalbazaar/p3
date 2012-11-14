@@ -1286,7 +1286,6 @@ angular.module('payswarm.directives')
       $scope.feedback = {};
       $scope.loading = false;
       $scope.identity = data.identity || {};
-      $scope.paymentGateway = data.paymentGateway || 'Test';
       $scope.paymentMethods =
         $scope.paymentMethods || ['ccard:CreditCard', 'bank:BankAccount'];
       // default to first payment method
@@ -1341,8 +1340,7 @@ angular.module('payswarm.directives')
       // create post data
       var token = {
         '@context': 'http://purl.org/payswarm/v1',
-        label: $scope.label,
-        paymentGateway: $scope.paymentGateway
+        label: $scope.label
       };
 
       // handle payment method specifics

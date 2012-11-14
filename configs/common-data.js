@@ -10,10 +10,3 @@ config.profile.defaults = {
       config.authority.baseUri + '/roles/financial_manager']
   }
 };
-
-// financial config
-config.financial.defaults = {
-  account: {},
-  paymentTokens: [],
-  paymentGateway: 'Test'
-};

@@ -10,13 +10,6 @@ var postPaymentTokens = {
   properties: {
     '@context': jsonldContext(),
     label: label(),
-    paymentGateway: {
-      type: 'string',
-      minLength: 1,
-      errors: {
-        missing: 'No payment gateway was specified.'
-      }
-    },
     source: {
       type: [creditCard(), bankAccount()]
     }

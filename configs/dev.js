@@ -60,7 +60,10 @@ config.addressValidator.module = './av.test';
 config.financial.defaults = {
   account: {},
   paymentTokens: [],
-  paymentGateway: 'Test'
+  paymentGateways: {
+    'ccard:CreditCard': 'Test',
+    'bank:BankAccount': 'Test'
+  }
 };
 
 // mail config

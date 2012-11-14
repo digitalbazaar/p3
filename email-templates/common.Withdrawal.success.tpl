@@ -1,6 +1,6 @@
-To: deposits@{{supportDomain}}
+To: withdrawals@{{supportDomain}}
 From: cluster@{{supportDomain}}
-Subject: {{subjectPrefix}}{{serviceName}} deposit: USD ${{withdrawal.amount}} ({{withdrawal.id}})
+Subject: {{subjectPrefix}}{{serviceName}} {{stage}} withdrawal: USD ${{withdrawal.amount}} ({{withdrawal.id}})
 
 Machine        : {{machine}}
 Transaction ID : {{withdrawal.id}}

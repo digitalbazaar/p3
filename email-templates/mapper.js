@@ -4,8 +4,8 @@ var config = require('../lib/config');
 module.exports.map = function(mapping) {
   var ids = [
     'common.Account.created',
-    'common.Deposit.cc-merchant-account-log',
     'common.Deposit.ach-merchant-account-log',
+    'common.Deposit.cc-merchant-account-log',
     'common.Deposit.failure',
     'common.Deposit.success',
     'common.Deposit.success-profile',
@@ -24,7 +24,7 @@ module.exports.map = function(mapping) {
     'common.Withdrawal.ach-merchant-account-log',
     'common.Withdrawal.failure',
     'common.Withdrawal.success',
-    'common.Withdrawal.success-profile',
+    'common.Withdrawal.success-profile'
   ];
 
   // FIXME: can't just map to filenames because swig can't use more than

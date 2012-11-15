@@ -9,7 +9,6 @@ config.website.browserVersions = {
 };
 
 config.website.views.vars = {
-  releaseMode: 'development',
   productionMode: false,
   googleAnalytics: {
     enabled: false,

@@ -84,7 +84,7 @@ ${set([
         </tfoot>
       </table>
       <div data-ng-show="!state.accounts.loading && accounts.length == 0">
-        <p class="center">You have no accounts configured for this identity.</p>
+        <p class="center">You have no accounts for this identity.</p>
         <button 
           class="btn btn-success pull-right"
           data-ng-click="modals.showAddAccount=true"><i class="icon-plus icon-white"></i> Add Account</button>
@@ -177,7 +177,7 @@ ${set([
         </tfoot>
       </table>
       <div data-ng-show="!state.budgets.loading && budgets.length == 0">
-        <p class="center">You have no budgets configured for this identity.</p>
+        <p class="center">You have no budgets for this identity.</p>
         <button
           class="btn btn-success pull-right"
           data-ng-click="modals.showAddBudget=true"><i class="icon-plus icon-white"></i> Add Budget</button>
@@ -239,14 +239,13 @@ ${set([
         </tfoot>
       </table>
       <div data-ng-show="!state.txns.loading && txns.length == 0">
-        <h3 class="center">No Transactions</h3>
         <p class="center">You have no recent transactions for this identity.</p>
       </div>
     </div>
     
     <div class="section span6">
       <h3 class="headline">Messages</h3>
-      <p class="center">No new messages.</p>
+      <p class="center">You have no new messages.</p>
     </div>
   </div>
 

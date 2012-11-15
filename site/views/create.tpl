@@ -61,7 +61,7 @@ ${set([
             </div>
             <p data-fade-toggle="model.help.password.show" class="help-block">
               Please enter a secure password, the best passwords are
-              memorable long phrases like: the<strong>lemurs</strong>ride<strong>on</strong>the<strong>fortnight</strong>
+              long, memorable phrases like: the<strong>lemurs</strong>ride<strong>on</strong>the<strong>fortnight</strong>
             </p>
           </div>
         </div>

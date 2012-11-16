@@ -260,14 +260,13 @@ angular.module('payswarm.directives')
 .directive('helpToggle', function($parse) {
   return {
     link: function(scope, element, attrs) {
-      // hide, make element untabbable
-      element.hide();
+      // hide (use opacity to preserve layout), make element untabbable
+      element.css('opacity', '0');
       element.attr('tabindex', '-1');
+      element.parent().addClass('help-toggle');
 
-      // store if parent has input-append
-      var hasInputAppend = element.parent().hasClass('input-append');
-      if(hasInputAppend) {
-        // FIXME: hacks for bootstrap, prevent wiggling during fade in/out
+      // FIXME: hacks for bootstrap, prevent wiggling during fade in/out
+      if(element.parent().hasClass('input-append')) {
         element.css('margin-left', '-1px');
         element.parent().css('font-size', '0');
       }
@@ -312,27 +311,25 @@ angular.module('payswarm.directives')
         attrs.helpToggle + '.mouseover || ' +
         attrs.helpToggle + '.show', function(value) {
         if(value) {
-          if(hasInputAppend) {
-            element.parent().addClass('input-append');
-          }
-          // cancel current fade in/out
+          element.parent().addClass('help-toggle-on');
           if(element.is(':animated')) {
-            element.stop(true, true).show();
+            // cancel current fade in/out
+            element.stop(true, true).css('opacity', '1');
           }
           else {
-            element.fadeIn();
+            // use opacity to preserve layout
+            $(element).animate({opacity: '1'}, 400);
           }
         }
         else {
-          if(hasInputAppend) {
-            element.parent().removeClass('input-append');
-          }
-          // cancel current fade in/out
+          element.parent().removeClass('help-toggle-on');
           if(element.is(':animated')) {
-            element.stop(true, true).hide();
+            // cancel current fade in/out
+            element.stop(true, true).css('opacity', '0');
           }
           else {
-            element.fadeOut();
+            // use opacity to preserve layout
+            $(element).animate({opacity: '0'}, 400);
           }
         }
       });

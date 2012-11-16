@@ -108,8 +108,7 @@ select.form-field-vspaced {
 }
 
 /* Fix for one-off left margin */
-.input-append .add-on, .input-append .btn,
-.input-append .btn-group {
+.input-append .add-on {
   margin-left: 0px;
 }
 

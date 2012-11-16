@@ -366,6 +366,7 @@ angular.module('payswarm.services')
       address: address,
       success: function(address) {
         service.addresses.push(address);
+        identity.address.push(address);
         service.state.loading = false;
         callback(null, address);
         $rootScope.$apply();
@@ -387,6 +388,7 @@ angular.module('payswarm.services')
       addressId: address.label,
       success: function() {
         _removeFromArray(address.label, service.addresses, 'label');
+        _removeFromArray(address.label, identity.address, 'label');
         service.state.loading = false;
         callback();
         $rootScope.$apply();

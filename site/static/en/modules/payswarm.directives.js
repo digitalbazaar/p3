@@ -260,7 +260,8 @@ angular.module('payswarm.directives')
 .directive('helpToggle', function($parse) {
   return {
     link: function(scope, element, attrs) {
-      // make element untabbable
+      // hide, make element untabbable
+      element.hide();
       element.attr('tabindex', '-1');
 
       // store if parent has input-append

@@ -265,6 +265,11 @@ angular.module('payswarm.directives')
 
       // store if parent has input-append
       var hasInputAppend = element.parent().hasClass('input-append');
+      if(hasInputAppend) {
+        // FIXME: hacks for bootstrap, prevent wiggling during fade in/out
+        element.css('margin-left', '-1px');
+        element.parent().css('font-size', '0');
+      }
 
       var pressed = false;
       var get = $parse(attrs.helpToggle);

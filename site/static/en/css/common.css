@@ -122,6 +122,16 @@ select.form-field-vspaced {
   font-size: 0.75em;
 }
 
+/* Fix for responsive fixed-size input fields */
+@media (max-width: 767px) {
+  input.input-small {
+    width: 90px;
+  }
+  input.input-large {
+    width: 100%;
+  }
+}
+
 /* Variable field displays with fixed boundaries */
 .form-field-constrained {
   width: 90%;

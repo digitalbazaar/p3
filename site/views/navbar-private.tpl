@@ -14,7 +14,7 @@ ${set([
             <li {{if inav == "settings"}}class="active"{{/if}}><a href="${session.identity.id}/settings"><i class="icon-wrench{{if style.navbar.isDark}} icon-white{{/if}}"></i> Settings</a></li>
           </ul>
         {{else}}
-          <img class="brand-minimal" src="${cacheRoot}/img/payswarm.png" width="182" height="24" alt="PaySwarm" />
+          <img class="brand-minimal" src="${cacheRoot}${style.brand.src}" width="${style.brand.width}" height="${style.brand.height}" alt="${style.brand.alt}" />
         {{/if}}
         {{verbatim}}
         <a class="btn btn-nav btn-small show pull-right{{showHovercard && ' active' || ''}}"

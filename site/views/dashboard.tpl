@@ -35,7 +35,7 @@ ${set([
             <!-- Balance -->
             <td class="money">
               <span class="money" data-tooltip-title="Since we support micro-payments, we track your account balance very accurately. The exact amount in this account is {{account.currency}} {{account.balance}}."
-                data-placement="bottom" data-trigger="click"><span class="currency">{{account.currency}}</span> {{account.balance | floor | currency:'$'}}</span>
+                data-placement="bottom" data-trigger="hover"><span class="currency">{{account.currency}}</span> {{account.balance | floor | currency:'$'}}</span>
             </td>
             <!-- Action -->
             <td class="action">

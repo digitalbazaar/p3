@@ -1,6 +1,7 @@
 To: {{profile.email}}
 From: "{{serviceName}} Customer Support" <support@{{supportDomain}}>
 Subject: {{profileSubjectPrefix}}{{serviceName}} withdrawal receipt
+
 {% if productionMode == false %}
 *** NOTE ***
 This is a demonstration website notification and no real money was involved. 

@@ -255,6 +255,9 @@ span.currency {
   text-align: center;
   font-size: small;
 }
+.payment-radio-group {
+  margin-left: 10px;
+}
 
 /* Activity Spinner */
 .center-spinner {
@@ -375,9 +378,8 @@ span.currency {
 .text-align-right {
   text-align: right;
 }
-.modal div.section h4.headline {
+.section h4.headline {
   text-align: left;
-  margin-top: 1em;
   padding-top: 0.3em;
   padding-bottom: 0.3em;
 }
@@ -493,7 +495,7 @@ h1 > .rest-summary > .rest-path {
 }
 
 .indent1 {
-  margin-left: 2em;
+  margin-left: 1em;
 }
 
 .indent2 {
@@ -501,15 +503,15 @@ h1 > .rest-summary > .rest-path {
 }
 
 .indent3 {
-  margin-left: 2em;
+  margin-left: 3em;
 }
 
 .indent4 {
-  margin-left: 2em;
+  margin-left: 4em;
 }
 
 .indent5 {
-  margin-left: 2em;
+  margin-left: 5em;
 }
 
 /* Sections */

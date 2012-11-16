@@ -147,7 +147,7 @@ ${set([
         <form action="">
           <fieldset>
             <div class="control-group">
-              <div class="controls">
+              <div class="controls payment-radio-group">
                 <label class="radio">
                   <input type="radio" name="source-type"
                     data-ng-model="sourceType" value="account" />

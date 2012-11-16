@@ -1388,6 +1388,8 @@ angular.module('payswarm.services')
         var $elementWrapper = $('<div class="modal-wrapper" />');
         $elementWrapper.prependTo(this.$backdrop);
         this.$element.prependTo($elementWrapper);
+
+        // disable background scrolling
         $('body').css({overflow: 'hidden'});
       }
     };
@@ -1395,7 +1397,11 @@ angular.module('payswarm.services')
     modal.removeBackdrop = function() {
       this.$element.insertAfter(this.$backdrop);
       _removeBackdrop.call(this);
-      $('body').css({overflow: 'auto'});
+
+      // re-enable background scrolling if modals are not stacked
+      if(!scope._modal.hasChild && !scope._modal.parent) {
+        $('body').css({overflow: 'auto'});
+      }
 
       // call callback
       if(scope._callback) {

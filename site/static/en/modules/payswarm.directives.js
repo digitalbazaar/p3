@@ -224,34 +224,45 @@ angular.module('payswarm.directives')
 .directive('trackState', function($parse) {
   return {
     link: function(scope, element, attrs) {
+      // init scope state object
       var get = $parse(attrs.trackState);
       var set = get.assign || angular.noop;
+      var state = get(scope) || {};
+      if(!('pressed' in state)) {
+        state.pressed = false;
+      }
+      if(!('mouseover' in state)) {
+        state.mouseover = false;
+      }
+      set(scope, state);
+
+      // track events
       element.focus(function() {
         scope.$apply(function() {
-          var value = get(scope) || {};
-          value.focus = true;
-          set(scope, value);
+          var state = get(scope) || {};
+          state.focus = true;
+          set(scope, state);
         });
       });
       element.blur(function() {
         scope.$apply(function() {
-          var value = get(scope) || {};
-          value.focus = false;
-          set(scope, value);
+          var state = get(scope) || {};
+          state.focus = false;
+          set(scope, state);
         });
       });
       element.mouseenter(function() {
         scope.$apply(function() {
-          var value = get(scope) || {};
-          value.mouseover = true;
-          set(scope, value);
+          var state = get(scope) || {};
+          state.mouseover = true;
+          set(scope, state);
         });
       });
       element.mouseleave(function() {
         scope.$apply(function() {
-          var value = get(scope) || {};
-          value.mouseover = false;
-          set(scope, value);
+          var state = get(scope) || {};
+          state.mouseover = false;
+          set(scope, state);
         });
       });
     }
@@ -271,45 +282,70 @@ angular.module('payswarm.directives')
         element.parent().css('font-size', '0');
       }
 
-      var pressed = false;
+      // init scope state object
       var get = $parse(attrs.helpToggle);
       var set = get.assign || angular.noop;
+      var state = get(scope) || {};
+      if(!('pressed' in state)) {
+        state.pressed = false;
+      }
+      if(!('mouseover' in state)) {
+        state.mouseover = false;
+      }
+      set(scope, state);
+
+      // track events
       element.click(function() {
-        pressed = !pressed;
         scope.$apply(function() {
-          var value = get(scope) || {};
-          value.show = pressed;
-          if(pressed) {
+          var state = get(scope) || {};
+          state.pressed = !state.pressed;
+          state.show = state.pressed;
+          if(state.pressed) {
             element.addClass('active');
           }
           else {
             element.removeClass('active');
           }
-          set(scope, value);
+          set(scope, state);
         });
       });
+      var localMouseover = false;
+      var showId = null;
       element.mouseenter(function() {
         scope.$apply(function() {
-          var value = get(scope) || {};
-          value.mouseover = true;
-          value.show = true;
-          set(scope, value);
+          var state = get(scope) || {};
+          state.mouseover = true;
+          localMouseover = true;
+          set(scope, state);
+          if(!state.pressed) {
+            // show help after a short delay
+            showId = setTimeout(function() {
+              scope.$apply(function() {
+                state = get(scope) || {};
+                if(localMouseover) {
+                  state.show = true;
+                }
+                set(scope, state);
+              });
+            }, 500);
+          }
         });
       });
       element.mouseleave(function() {
         scope.$apply(function() {
-          var value = get(scope) || {};
-          value.mouseover = false;
-          if(!pressed) {
-            value.show = false;
+          var state = get(scope) || {};
+          state.mouseover = false;
+          localMouseover = false;
+          clearTimeout(showId);
+          if(!state.pressed) {
+            // hide immediately
+            state.show = false;
           }
-          set(scope, value);
+          set(scope, state);
         });
       });
-      scope.$watch(
-        attrs.helpToggle + '.focus || ' +
-        attrs.helpToggle + '.mouseover || ' +
-        attrs.helpToggle + '.show', function(value) {
+
+      function toggleElement(value) {
         if(value) {
           element.parent().addClass('help-toggle-on');
           if(element.is(':animated')) {
@@ -331,6 +367,17 @@ angular.module('payswarm.directives')
             // use opacity to preserve layout
             $(element).animate({opacity: '0'}, 400);
           }
+        }
+      }
+
+      // when focus changes, toggle element
+      var attr = attrs.helpToggle;
+      var expression = attr + '.focus || ' + attr + '.mouseover';
+      scope.$watch(expression, function(value) {
+        // only make changes if not pressed
+        var state = get(scope) || {};
+        if(!state.pressed) {
+          toggleElement(value);
         }
       });
     }

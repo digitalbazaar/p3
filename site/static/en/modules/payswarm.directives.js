@@ -496,22 +496,29 @@ angular.module('payswarm.directives')
       invalid: '@duplicateCheckerInvalid',
       taken: '@duplicateCheckerTaken',
       checking: '@duplicateCheckerChecking',
-      owner: '@duplicateCheckerOwner'
+      owner: '@duplicateCheckerOwner',
+      result: '=duplicateCheckerResult'
     },
     link: function(scope, element, attrs) {
       // hide feedback until input changes
       element.addClass('alert').hide();
 
+      scope.result = false;
       var lastInput = null;
       var timer = null;
-      var init = true;
+      var init = false;
 
-      scope.$watch('input', function(value) {
-        if(init) {
-          // do not consider initialized until value is defined
-          if(value !== undefined) {
-            init = false;
-          }
+      function change(value) {
+        // determine if owner input is ready
+        var baseUrl = window.location.protocol + '//' + window.location.host;
+        var ownerReady = (scope.owner === undefined ||
+          scope.owner.length > (baseUrl + '/i/').length);
+
+        // initialized once value is defined and owner is ready
+        if(!init && value !== undefined && ownerReady) {
+          init = true;
+        }
+        if(!init) {
           return;
         }
 
@@ -519,7 +526,8 @@ angular.module('payswarm.directives')
         clearTimeout(timer);
 
         // nothing to check
-        if(value === undefined || value.length === 0) {
+        if(value === undefined || value.length === 0 || !ownerReady) {
+          scope.result = false;
           element.hide();
         }
         else if(value !== lastInput) {
@@ -529,50 +537,66 @@ angular.module('payswarm.directives')
             .text(scope.checking)
             .fadeIn('show');
           lastInput = null;
+          scope.result = false;
 
           // start timer to check
           timer = setTimeout(function() {
-            if(value.length === 0) {
-              element.hide();
-            }
-            else {
-              lastCheck = $filter('slug')(scope.input);
-              timer = null;
-              $http.post('/identifier', $.extend({
-                type: attrs.duplicateCheckerType,
-                psaSlug: lastCheck
-              }, scope.owner ? {owner: scope.owner} : {}))
-                .success(function() {
-                  // available
-                  element
-                    .hide()
-                    .removeClass('alert-error alert-success')
-                    .addClass('alert-success')
-                    .text(scope.available)
-                    .fadeIn('slow');
-                })
-                .error(function(data, status) {
-                  element.hide().removeClass('alert-error alert-success');
-                  if(status === 400) {
-                    // invalid
+            scope.$apply(function() {
+              if(value.length === 0) {
+                element.hide();
+              }
+              else {
+                timer = null;
+                lastCheck = $filter('slug')(scope.input);
+                $http.post('/identifier', $.extend({
+                  type: attrs.duplicateCheckerType,
+                  psaSlug: lastCheck
+                }, scope.owner ? {owner: scope.owner} : {}))
+                  .success(function() {
+                    // available
+                    scope.result = true;
+                    // FIXME: hack, remove once why it is needed to update
+                    // the scope is determined
+                    setTimeout(function() {scope.$apply();});
                     element
-                      .text(scope.invalid)
-                      .addClass('alert-error')
+                      .hide()
+                      .removeClass('alert-error alert-success')
+                      .addClass('alert-success')
+                      .text(scope.available)
                       .fadeIn('slow');
-                  }
-                  else if(status === 409) {
-                    element
-                      .text(scope.taken)
-                      .addClass('alert-error')
-                      .fadeIn('slow');
-                  }
-                  else {
-                    // FIXME: report server errors
-                  }
-                });
-            }
+                  })
+                  .error(function(data, status) {
+                    scope.result = false;
+                    // FIXME: hack, remove once why it is needed to update
+                    // the scope is determined
+                    setTimeout(function() {scope.$apply();});
+                    element.hide().removeClass('alert-error alert-success');
+                    if(status === 400) {
+                      // invalid
+                      element
+                        .text(scope.invalid)
+                        .addClass('alert-error')
+                        .fadeIn('slow');
+                    }
+                    else if(status === 409) {
+                      element
+                        .text(scope.taken)
+                        .addClass('alert-error')
+                        .fadeIn('slow');
+                    }
+                    else {
+                      // FIXME: report server errors
+                    }
+                  });
+              }
+            });
           }, 1000);
         }
+      }
+
+      scope.$watch('input', change);
+      scope.$watch('owner', function(value) {
+        change(scope.input);
       });
     }
   };
@@ -1779,7 +1803,7 @@ angular.module('payswarm.directives')
         $scope.loading = false;
         $scope.feedback.error = err;
         if(err) {
-          // FIXME
+          // FIXME: handle error
           console.log('validation failed', err);
           return;
         }
@@ -1802,7 +1826,7 @@ angular.module('payswarm.directives')
         $scope.loading = true;
         $scope.feedback.error = err;
         if(err) {
-          // FIXME
+          // FIXME: handle error
           console.log('adding failed', err);
           return;
         }

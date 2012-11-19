@@ -43,7 +43,8 @@
                 data-duplicate-checker-available="This identity name is available!"
                 data-duplicate-checker-invalid="Identity name is invalid."
                 data-duplicate-checker-taken="Identity name has already been taken."
-                data-duplicate-checker-checking="Checking Availability...">
+                data-duplicate-checker-checking="Checking Availability..."
+                data-duplicate-checker-result="model.identitySlugAvailable">
               </div>
             </div>
           </div>
@@ -107,7 +108,7 @@
     <span data-spinner="loading"
       data-spinner-class="prepend-btn-spinner"></span>
     <button class="btn btn-primary"
-      data-ng-disabled="loading"
+      data-ng-disabled="loading || !model.identitySlugAvailable || !model.accountSlugAvailable"
       data-ng-click="addIdentity()"><i class="icon-ok icon-white"></i> Add</button>
     <button class="btn btn-close" data-ng-disabled="loading">Cancel</button>
   </div>

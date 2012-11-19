@@ -112,7 +112,8 @@ ${set([
               data-duplicate-checker-available="This identity name is available!"
               data-duplicate-checker-invalid="Identity name is invalid."
               data-duplicate-checker-taken="Identity name has already been taken."
-              data-duplicate-checker-checking="Checking Availability...">
+              data-duplicate-checker-checking="Checking Availability..."
+              data-duplicate-checker-result="model.identitySlugAvailable">
             </div>
           </div>
         </div>
@@ -168,7 +169,7 @@ ${set([
       <p class="comment">By joining you agree to the <a href="/legal#tos">Terms of Service</a> and <a href="/legal#pp">Privacy Policy</a>.</p>
         
       <div class="form-actions">
-        <button data-ng-disabled="loading"
+        <button data-ng-disabled="loading || !model.identitySlugAvailable"
           class="btn btn-large btn-primary"
           data-submit-form>Create Profile</button>
         <span data-spinner="loading"

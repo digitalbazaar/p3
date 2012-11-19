@@ -1,3 +1,4 @@
+var email = require('./email');
 var payswarmId = require('./payswarmId');
 var slug = require('./slug');
 
@@ -26,6 +27,17 @@ var postIdentifier = {
         type: payswarmId()
       },
       psaSlug: slug()
+    },
+    additionalProperties: false
+  }, {
+    type: 'object',
+    properties: {
+      type: {
+        required: true,
+        type: 'string',
+        enum: ['email']
+      },
+      email: email()
     },
     additionalProperties: false
   }]

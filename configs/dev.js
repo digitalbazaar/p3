@@ -5,8 +5,8 @@ config.app.masterTitle = 'payswarm1d';
 config.app.workerTitle = 'payswarm1d-worker';
 config.app.restartWorkers = false;
 // system group and user IDs (can be groupname/username instead of numbers)
-config.app.user.groupId = process.getuid();
-config.app.user.userId = process.getgid();
+config.app.user.groupId = process.getgid();
+config.app.user.userId = process.getuid();
 
 // config environment
 config.environment = 'development';

@@ -10,9 +10,8 @@ ${set([
     <h2>Create a Profile</h2>
     
     <p>
-    You are well on your way to empowering yourself and others with PaySwarm. By
-    creating a profile, you will be able to raise money for projects, fund other
-    projects, buy and sell digital goods online and enter a new world of 
+    By creating a profile, you will be able to raise money for projects, fund
+    other projects, buy and sell digital goods online and enter a new world of 
     collaborating with your friends to make the world a better place... or just
     split the cost of a pizza. What you do with your new super power is up to you. 
     </p>

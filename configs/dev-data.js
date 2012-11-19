@@ -47,7 +47,7 @@ config.financial.defaults.paymentTokens.push({
   psaVerifyReady: true
 });
 // dev authority payment token for granting funds to new accounts
-config.financial.devPaymentToken = 'urn:dev-authority-bank-account';
+config.financial.devPaymentToken = 'urn:authority-bank-account';
 config.financial.paymentTokens.push({
   source: {
     type: 'bank:BankAccount',
@@ -55,11 +55,11 @@ config.financial.paymentTokens.push({
     bankAccountType: 'bank:Checking',
     bankRoutingNumber: '987654321'
   },
-  gateway: 'Test',
+  gateway: 'Authority',
   token: {
     id: config.financial.devPaymentToken,
     type: 'com:PaymentToken',
-    label: 'Free Test Money Token',
+    label: 'Authority External Bank Account',
     owner: config.authority.id,
     psaStatus: 'active',
     psaVerified: true,
@@ -67,25 +67,7 @@ config.financial.paymentTokens.push({
   }
 });
 // promo authority payment token for granting funds for claimed promo codes
-config.promo.paymentToken = 'urn:promo-authority-bank-account';
-config.financial.paymentTokens.push({
-  source: {
-    type: 'bank:BankAccount',
-    bankAccount: '0987654321',
-    bankAccountType: 'bank:Checking',
-    bankRoutingNumber: '123456789'
-  },
-  gateway: 'Test',
-  token: {
-    id: config.promo.paymentToken,
-    type: 'com:PaymentToken',
-    label: 'Promotional Test Money Token',
-    owner: config.authority.id,
-    psaStatus: 'active',
-    psaVerified: true,
-    psaVerifyReady: true
-  }
-});
+config.promo.paymentToken = 'urn:authority-bank-account';
 
 // profiles
 config.profile.profiles.push({
@@ -225,11 +207,11 @@ config.financial.accounts.push({
   currency: 'USD'
 });
 config.financial.accounts.push({
-  id: baseUri + '/i/authority/accounts/escrow',
+  id: baseUri + '/i/authority/accounts/verify',
   type: 'com:Account',
   owner: authorityId,
-  psaSlug: 'escrow',
-  label: config.authority.name + ' Escrow Account',
+  psaSlug: 'verify',
+  label: config.authority.name + ' Verify Source Account',
   currency: 'USD'
 });
 config.financial.accounts.push({
@@ -261,7 +243,7 @@ config.financial.accounts.push({
 // fees account
 config.financial.feesAccount = authorityId + '/accounts/fees';
 // payment token verification account (for withdrawing funds)
-config.financial.paymentTokenVerifyAccount = authorityId + '/accounts/main';
+config.financial.paymentTokenVerifyAccount = authorityId + '/accounts/verify';
 
 // payee schemes
 var defaultPayeeSchemeId = authorityId + '/payee-schemes/default';
@@ -285,6 +267,7 @@ defaultPayeeScheme.psaMinimumAmounts[
 config.financial.payeeSchemes[defaultPayeeSchemeId] = defaultPayeeScheme;
 
 // gateways
+config.financial.paymentGateways.push('./pg.authority');
 config.financial.paymentGateways.push('./pg.test');
 config.financial.paymentGateway = config.financial.paymentGateway || {};
 config.financial.paymentGateway.Test = {};

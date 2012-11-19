@@ -13,7 +13,7 @@ ${set([
     By creating a profile, you will be able to raise money for projects, fund
     other projects, buy and sell digital goods online and enter a new world of 
     collaborating with your friends to make the world a better place... or just
-    split the cost of a pizza. What you do with your new super power is up to you. 
+    split the cost of a pizza. 
     </p>
     
     <div data-ng-include="'/partials/demo-warning.html'"></div>

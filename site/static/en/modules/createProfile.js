@@ -10,6 +10,10 @@ var module = angular.module('payswarm');
 
 module.controller('CreateProfileCtrl', function($scope, $http) {
   $scope.model = {};
+  $scope.feedback = {};
+  // FIXME: temporary code to be removed after feedback improvements.
+  //      : also remove the id fom the form in create.tpl.
+  $scope.feedbackTarget = $('#createProfileFeedbackTarget');
   $scope.loading = false;
   $scope.baseUrl = window.location.protocol + '//' + window.location.host;
   $scope.data = {
@@ -39,20 +43,7 @@ module.controller('CreateProfileCtrl', function($scope, $http) {
       })
       .error(function(err, status) {
         $scope.loading = false;
-        console.log('err', err);
-
-        // FIXME: add validation errors
-        /*
-        var error = website.util.normalizeError(xhr, textStatus);
-        var feedback = $('[name="create-feedback"]', form);
-        if(error.type === 'monarch.validation.ValidationError') {
-          website.util.processValidationErrors(feedback, form, error);
-        }
-        else {
-          // show join failure template
-          $(feedback).replaceWith(
-            $('#create-failure-tmpl').tmpl({error: error}));
-        }*/
+        $scope.feedback.error = err;
       });
   };
 });

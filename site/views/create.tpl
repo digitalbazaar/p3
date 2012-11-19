@@ -21,7 +21,7 @@ ${set([
     
     <hr />
     
-    <form class="form-horizontal" action="" data-ng-submit="submit()">
+    <form id="createProfileFeedbackTarget" class="form-horizontal" action="" data-ng-submit="submit()">
       <fieldset>
         <legend>Your Profile Details</legend>
         
@@ -171,11 +171,13 @@ ${set([
       <p class="comment">By joining you agree to the <a href="/legal#tos">Terms of Service</a> and <a href="/legal#pp">Privacy Policy</a>.</p>
         
       <div class="form-actions">
+        <div class="modal-feedback"
+          data-feedback="feedback" data-target="feedbackTarget"></div>
+        <span data-spinner="loading"
+          data-spinner-class="append-btn-spinner"></span>
         <button data-ng-disabled="loading || !model.identitySlugAvailable"
           class="btn btn-large btn-primary"
           data-submit-form>Create Profile</button>
-        <span data-spinner="loading"
-          data-spinner-class="append-btn-spinner"></span>
       </div>
     
       <div name="create-feedback" class="feedback"></div>

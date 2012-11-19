@@ -38,6 +38,14 @@ ${set([
                 <i class="icon-question-sign"></i>
               </button>
             </div>
+            <div data-duplicate-checker="data.email"
+              data-duplicate-checker-type="email"
+              data-duplicate-checker-available="This email address is available!"
+              data-duplicate-checker-invalid="Email address is invalid."
+              data-duplicate-checker-taken="This email address is already in use. While you can create a new profile if you want to, you should probably log in and create a new identity instead."
+              data-duplicate-checker-checking="Checking Availability..."
+              data-duplicate-checker-result="model.emailAvailable">
+            </div>
             <p data-fade-toggle="model.help.email.show" class="help-block">
               A valid email address is required so that we can send you
               receipts and reset your password if you get locked out.

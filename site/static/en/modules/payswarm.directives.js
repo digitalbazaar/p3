@@ -547,11 +547,21 @@ angular.module('payswarm.directives')
               }
               else {
                 timer = null;
-                lastCheck = $filter('slug')(scope.input);
-                $http.post('/identifier', $.extend({
-                  type: attrs.duplicateCheckerType,
-                  psaSlug: lastCheck
-                }, scope.owner ? {owner: scope.owner} : {}))
+                if(scope.type === 'email') {
+                  lastCheck = scope.input;
+                }
+                else {
+                  lastCheck = $filter('slug')(scope.input);
+                }
+                var data = {type: scope.type};
+                if(scope.type === 'email') {
+                  data.email = lastCheck;
+                }
+                else {
+                  data.psaSlug = lastCheck;
+                }
+                $http.post('/identifier', $.extend(
+                  data, scope.owner ? {owner: scope.owner} : {}))
                   .success(function() {
                     // available
                     scope.result = true;

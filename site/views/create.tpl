@@ -72,11 +72,13 @@ ${set([
     
         <div class="control-group">
           <p class="help-block">
-    Your identity will be used to identify you online. It is usually a good idea 
-    to use some shortened form of your full name here, similar to how people choose
-    email addresses or twitter handles. Keep in mind that you can always create a
-    new identity, which could be semi-anonymous or fully-anonymous, later on. This
-    would allow you to buy and/or fund things while protecting your privacy.
+    Your identity will be used to keep track of and verify your online
+    activity with this service. It is stored along with any purchases or
+    sales that you participate in. It is usually a good idea to use some
+    shortened form of your full name here, similar to how people choose
+    email addresses or twitter handles. Once you've logged in, you'll be
+    able to create new personal or business identities, all with the
+    same email address, if you want to.
           </p>
         </div>
     

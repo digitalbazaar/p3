@@ -13,6 +13,7 @@ module.exports.map = function(mapping) {
     'common.PaymentToken.unverified-profile',
     'common.PaymentToken.unverifiedLimitReached',
     'common.PaymentToken.verified-profile',
+    'common.PaymentToken.verifyBalanceTooLow',
     'common.PaymentToken.verifyFailed',
     'common.Profile.created',
     'common.Profile.created-profile',

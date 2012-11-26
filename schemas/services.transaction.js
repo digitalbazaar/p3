@@ -132,9 +132,9 @@ var postPurchaseRequest = {
 
 var postTransfer = {
   type: 'object',
-  // FIXME: We should be more precise about what we allow here
+  // FIXME: we should be more precise about what we allow here
   properties: {
-    type: jsonldType(['com:Transaction', 'com:Transfer'])
+    type: jsonldType(['com:Transaction'])
   }
 };
 

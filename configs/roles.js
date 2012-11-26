@@ -89,7 +89,8 @@ config.permission.roles.push({
     {id: 'https://payswarm.com/modules/financial#payment_token_edit'},
     {id: 'https://payswarm.com/modules/financial#payment_token_remove'},
     {id: 'https://payswarm.com/modules/financial#transaction_admin'},
-    {id: 'https://payswarm.com/modules/financial#transaction_access'}
+    {id: 'https://payswarm.com/modules/financial#transaction_access'},
+    {id: 'https://payswarm.com/modules/financial#transaction_create'}
   ]
 });
 config.permission.roles.push({
@@ -109,7 +110,8 @@ config.permission.roles.push({
     {id: 'https://payswarm.com/modules/financial#payment_token_create'},
     {id: 'https://payswarm.com/modules/financial#payment_token_edit'},
     {id: 'https://payswarm.com/modules/financial#payment_token_remove'},
-    {id: 'https://payswarm.com/modules/financial#transaction_access'}
+    {id: 'https://payswarm.com/modules/financial#transaction_access'},
+    {id: 'https://payswarm.com/modules/financial#transaction_create'}
   ]
 });
 config.permission.roles.push({

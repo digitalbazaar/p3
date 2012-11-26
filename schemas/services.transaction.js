@@ -4,6 +4,7 @@ var jsonldContext = require('./jsonldContext');
 var jsonldType = require('./jsonldType');
 var nonce = require('./nonce');
 var payswarmId = require('./payswarmId');
+var referenceId = require('./referenceId');
 var resourceHash = require('./resourceHash');
 var url = require('./url');
 var withdrawal = require('./withdrawal');
@@ -21,20 +22,12 @@ var getTransactionsQuery = {
       type: url()
     },
     'listing-hash': resourceHash({required: false}),
-    'reference-id': {
-      required: false,
-      type: 'string',
-      // do not start with 'payswarm', 1-128 chars in length
-      pattern: "(?!payswarm).{1,128}"
-    },
+    'reference-id': referenceId({required: false}),
     'callback': {
       required: false,
       type: url()
     },
-    'response-nonce': {
-      required: false,
-      type: nonce()
-    },
+    'response-nonce': nonce({required: false}),
     createdStart: {
       required: false,
       type: 'string'
@@ -80,18 +73,10 @@ var postQuote = {
   properties: {
     '@context': jsonldContext(),
     listing: payswarmId(),
-    listingHash: {
-      type: 'string'
-    },
+    listingHash: resourceHash(),
     source: payswarmId(),
-    referenceId: {
-      required: false,
-      type: 'string'
-    },
-    nonce: {
-      required: false,
-      type: nonce()
-    }
+    referenceId: referenceId({required: false}),
+    nonce: nonce({required: false})
   },
   additionalProperties: false
 };
@@ -119,9 +104,7 @@ var postPurchaseRequest = {
       type: jsonldType('ps:PurchaseRequest'),
       identity: payswarmId(),
       listing: payswarmId(),
-      listingHash: {
-        type: 'string'
-      },
+      listingHash: resourceHash(),
       source: payswarmId({required: false}),
       referenceId: {
         title: 'Asset Reference Identifier',
@@ -140,9 +123,7 @@ var postPurchaseRequest = {
       '@context': jsonldContext(),
       type: jsonldType('ps:PurchaseRequest'),
       transactionId: payswarmId(),
-      nonce: {
-        type: 'string'
-      },
+      nonce: nonce(),
       signature: graphSignature({required: false})
     },
     additionalProperties: false

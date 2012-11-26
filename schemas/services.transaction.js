@@ -4,6 +4,7 @@ var jsonldContext = require('./jsonldContext');
 var jsonldType = require('./jsonldType');
 var nonce = require('./nonce');
 var payswarmId = require('./payswarmId');
+var resourceHash = require('./resourceHash');
 var url = require('./url');
 var withdrawal = require('./withdrawal');
 
@@ -19,17 +20,12 @@ var getTransactionsQuery = {
       required: false,
       type: url()
     },
-    'listing-hash': {
-      required: false,
-      type: 'string'
-      // FIXME
-    },
+    'listing-hash': resourceHash({required: false}),
     'reference-id': {
       required: false,
       type: 'string',
-      minLength: 1,
-      maxLength: 128
-      // FIXME limits ok?
+      // do not start with 'payswarm', 1-128 chars in length
+      pattern: "(?!payswarm).{1,128}"
     },
     'callback': {
       required: false,

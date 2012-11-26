@@ -5,7 +5,7 @@ var schema = {
   required: true,
   type: 'string',
   // do not start with 'payswarm', 1-128 chars in length
-  pattern: "(?!payswarm).{1,128}"
+  pattern: "^(?!payswarm).{1,128}$"
 };
 
 module.exports = function(extend) {

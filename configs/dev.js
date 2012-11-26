@@ -24,7 +24,7 @@ config.loggers.email.silent = true;
 // 0 means use # of cpus
 config.server.workers = 1;
 config.server.port = 19443;
-config.server.httpPort = 19100;
+config.server.httpPort = 19080;
 config.server.bindAddr = ['payswarm.dev'];
 config.server.domain = 'payswarm.dev';
 config.server.host = 'payswarm.dev:19443';

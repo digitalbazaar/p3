@@ -1,13 +1,12 @@
 /* PaySwarm Authority common style */
 
-/* Use a custom font */
+/* Fonts */
 @font-face {
   font-family: 'Droid Sans';
   font-style: normal;
   font-weight: 400;
   src: local('Droid Sans'), local('DroidSans'), url('/fonts/DroidSans.ttf');
 }
-
 @font-face {
   font-family: 'Droid Sans';
   font-style: normal;
@@ -15,6 +14,13 @@
   src: local('Droid Sans Bold'), local('DroidSans-Bold'), url('/fonts/DroidSans-Bold.ttf');
 }
 
+@font-face {
+  font-family: 'Kredit Front';
+  font-style: normal;
+  src: local('Kredit Front'), local('KreditFront'), url('/fonts/KreditFront.ttf');
+}
+
+/* Use a custom default font */
 body {
   font-family: 'Droid Sans', sans-serif;
   font-size: 1em;
@@ -592,7 +598,8 @@ h1 > .rest-summary > .rest-path {
 }
 
 .table-cc {
-  width: 200px;
+  width: 225px;
+  height: 141.67px;
   padding: 10px;
   margin: 10px 0 10px 0;
   border-collapse: separate;
@@ -619,6 +626,12 @@ h1 > .rest-summary > .rest-path {
   /*-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(192, 152, 83, 0.6);
   -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(192, 152, 83, 0.6);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(192, 152, 83, 0.6);*/
+}
+
+.cc-front {
+  font-family: 'Kredit Front';
+  font-weight: bold;
+  font-size: 1.2em;
 }
 
 .table-bank-disabled {

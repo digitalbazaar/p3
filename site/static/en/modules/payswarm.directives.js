@@ -1371,7 +1371,7 @@ angular.module('payswarm.directives')
       $scope.data = window.data || {};
       $scope.monthLabels = svcConstant.monthLabels;
       $scope.years = svcConstant.years;
-      $scope.feedback = {};
+      $scope.feedback = {contactSupport: true};
       $scope.loading = false;
       $scope.identity = data.identity || {};
       $scope.paymentMethods =
@@ -1924,8 +1924,8 @@ angular.module('payswarm.directives')
         }
         if(scope.feedback.contactSupport) {
           message = message +
-            ' Please <a target="_blank" href="/contact">contact</a> us for ' +
-            'assistance.';
+            ' Please <a target="_blank" href="/contact">contact</a> us if ' +
+            'you need assistance.';
         }
         alert.html(message);
       }
@@ -2068,6 +2068,7 @@ angular.module('payswarm.directives')
         },
         error: function(err) {
           $scope.loading = false;
+          $scope.feedback.contactSupport = true;
           $scope.feedback.error = err;
           $scope.$apply();
         }
@@ -2220,6 +2221,7 @@ angular.module('payswarm.directives')
         },
         error: function(err) {
           $scope.loading = false;
+          $scope.feedback.contactSupport = true;
           $scope.feedback.error = err;
           $scope.$apply();
         }

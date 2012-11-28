@@ -11,7 +11,7 @@ ${set(pageTitle = "Error")}
   details of what went wrong.</p>
 	
   {{if debug}}
-  <pre><code>Exception: ${exception}</code></pre>
+  <pre><code>Exception: ${JSON.stringify(exception, null, 2)}</code></pre>
   {{/if}}
 </div>
 

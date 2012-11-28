@@ -10,10 +10,10 @@
 var module = angular.module('payswarm');
 
 module.controller('PurchaseCtrl', function(
-  $scope, svcAccount, svcBudget, svcAddress) {
+  $scope, svcAccount, svcBudget, svcAddress, svcIdentity) {
   $scope.model = {};
   var data = window.data;
-  $scope.identity = data.session.identity;
+  $scope.identity = svcIdentity.identity;
   $scope.budgets = svcBudget.budgets;
   $scope.accounts = svcAccount.accounts;
   $scope.contract = null;

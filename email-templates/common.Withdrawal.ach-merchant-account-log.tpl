@@ -5,7 +5,7 @@ Subject: {{subjectPrefix}}{{serviceName}} ACH withdrawal log ({{withdrawal.id}})
 Merchant Name:               Digital Bazaar, Inc.
 Merchant Location:           Blacksburg, VA, USA
 Merchant Company URL:        http://digitalbazaar.com/
-Merchant Service URL:        http://{{serviceDomain}}/
+Merchant Service URL:        {{baseUri}}/
 Transaction Amount:          ${{withdrawal.amount}} USD
 Transaction Date:            {{withdrawal.created}}
 Transaction Payment Type:    {{withdrawal.destination.paymentMethod}}
@@ -17,4 +17,4 @@ ACH Gateway:                 {{withdrawal.destination.paymentGateway}}
 Authorization Approval Code: {{withdrawal.psaGatewayApprovalCode}}
 Transaction Type:            credit
 Transaction Description:     {{serviceName}} withdrawal
-Return/refund policy:        http://{{serviceDomain}}/legal#TermsOfService
+Return/Refund Policy:        {{baseUri}}/legal#tos

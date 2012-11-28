@@ -4,15 +4,18 @@ Subject: {{subjectPrefix}}{{serviceName}} credit card deposit log ({{deposit.id}
 
 Merchant Name:               Digital Bazaar, Inc.
 Merchant Location:           Blacksburg, VA, USA
-Merchant Company Address:    http://digitalbazaar.com/
-Merchant Online Address:     http://{{serviceDomain}}/
+Merchant Company URL:        http://digitalbazaar.com/
+Merchant Service URL:        {{baseUri}}/
 Transaction Amount:          ${{deposit.amount}} USD
 Transaction Date:            {{deposit.created}}
-Transaction Payment Type:    {{deposit.source.cardBrand}}
+Transaction Payment Type:    {{deposit.source.paymentMethod}}
 Transaction ID:              {{deposit.id}}
-Purchaser:                   {{deposit.source.owner}}
-ACH Gateway:                 {{deposit.source.paymentGateway}}
+Owner:                       {{deposit.source.owner}}
+Credit Card Brand:           {{deposit.source.cardBrand}}
+Credit Card Number:          {{deposit.source.cardNumber}}
+Credit Card Expiration:      {{deposit.source.cardExpMonth}}/{{deposit.source.cardExpYear}}
+Payment Gateway:             {{deposit.source.paymentGateway}}
 Authorization Approval Code: {{deposit.psaGatewayApprovalCode}}
-Transaction type:            purchase
-Description of Merchandise:  {{serviceName}} deposit
-Return/refund policy:        http://{{serviceDomain}}/legal#TermsOfService
+Transaction Type:            purchase
+Transaction Description:     {{serviceName}} deposit
+Return/Refund Policy:        {{baseUri}}/legal#tos

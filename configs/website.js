@@ -10,6 +10,7 @@ config.website.browserVersions = {
 
 config.website.views.vars = {
   productionMode: false,
+  supportDomain: config.server.domain,
   googleAnalytics: {
     enabled: false,
     account: ''

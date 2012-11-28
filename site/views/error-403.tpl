@@ -6,7 +6,7 @@ ${set(pageTitle = "Error 403")}
 <div>
   <p>Sorry, but you are not authorized to access this page.</p>
   <p>If you think this is an error, please contact
-  <a href="mailto:support@digitalbazaar.com">Customer Support</a>.</p>
+  <a href="mailto:support@${supportDomain}">Customer Support</a>.</p>
 </div>
 
 {{partial "foot.tpl"}}

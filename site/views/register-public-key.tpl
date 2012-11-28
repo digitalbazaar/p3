@@ -85,6 +85,7 @@ ${set([
 
         <div class="form-actions">
           <div data-modal-add-address="showAddAddressModal"
+            data-identity="selection.identity"
             data-modal-add-address-alert="Before you complete your registration, please enter your business's name and address information."
             data-modal-on-close="register()"></div>
           <div class="modal-feedback"

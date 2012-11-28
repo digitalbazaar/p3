@@ -251,7 +251,7 @@ ${set([
                 class="btn btn-success pull-right"
                 data-ng-click="modals.showAddAddress=true"><i class="icon-plus icon-white"></i> Add Address</button>
             </div>
-            <div data-modal-add-address="modals.showAddAddress"></div>
+            <div data-modal-add-address="modals.showAddAddress" data-identity="identity"></div>
           </div>
         </div>
         <!-- Removing last address alert -->

@@ -879,6 +879,9 @@ angular.module('payswarm.directives')
     $scope.identityId = svcIdentity.identity.id;
     updateAccounts($scope);
     $scope.$watch('accounts', function(accounts) {
+      if(!accounts) {
+        return;
+      }
       if(!$scope.selected || $.inArray($scope.selected, accounts) === -1) {
         $scope.selected = accounts[0] || null;
       }
@@ -887,8 +890,9 @@ angular.module('payswarm.directives')
 
   function updateAccounts($scope) {
     var identityId = $scope.identityId;
-    $scope.accounts = svcAccount.identities[identityId].accounts;
-    svcAccount.get({identity: identityId});
+    svcAccount.get({identity: identityId}, function(err, accounts) {
+      $scope.accounts = accounts;
+    });
   }
 
   function Link(scope, element, attrs) {
@@ -1120,7 +1124,7 @@ angular.module('payswarm.directives')
       $scope.data = window.data || {};
       $scope.feedback = {};
       $scope.loading = false;
-      $scope.identityId = svcIdentity.identity.id || {};
+      $scope.identityId = $scope.identityId || svcIdentity.identity.id;
       $scope.account = {
         '@context': 'http://purl.org/payswarm/v1',
         currency: 'USD',
@@ -1791,7 +1795,7 @@ angular.module('payswarm.directives')
       $scope.countries = svcConstant.countries || {};
       $scope.feedback = {};
       $scope.loading = false;
-      $scope.identity = svcIdentity.identity || {};
+      $scope.identity = $scope.identity || svcIdentity.identity;
       $scope.originalAddress = {
         '@context': 'http://purl.org/payswarm/v1',
         type: 'vcard:Address',
@@ -1831,16 +1835,14 @@ angular.module('payswarm.directives')
 
     $scope.add = function(clickedAddress) {
       var addressToAdd = clickedAddress || $scope.selection.address;
-      $scope.loading = false;
-      svcAddress.add(addressToAdd, function(err, addedAddress) {
-        $scope.loading = true;
-        $scope.feedback.error = err;
-        if(err) {
-          // FIXME: handle error
-          console.log('adding failed', err);
-          return;
+      $scope.loading = true;
+      svcAddress.add(addressToAdd, $scope.identity.id,
+        function(err, addedAddress) {
+        $scope.loading = false;
+        if(!err) {
+          $scope.close(null, addedAddress);
         }
-        $scope.close(null, addedAddress);
+        $scope.feedback.error = err;
       });
     };
 
@@ -1858,6 +1860,7 @@ angular.module('payswarm.directives')
   return svcModal.directive({
     name: 'AddAddress',
     scope: {
+      identity: '=',
       showAlert: '@modalAddAddressAlert'
     },
     templateUrl: '/partials/modals/add-address.html',

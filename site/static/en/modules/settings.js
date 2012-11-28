@@ -47,7 +47,8 @@ module.controller('ExternalAccountsCtrl', function($scope, svcPaymentToken) {
   svcPaymentToken.get();
 });
 
-module.controller('AddressCtrl', function($scope, svcAddress) {
+module.controller('AddressCtrl', function($scope, svcAddress, svcIdentity) {
+  $scope.identity = svcIdentity.identity;
   $scope.state = svcAddress.state;
   $scope.addresses = svcAddress.addresses;
   $scope.addressToDelete = null;

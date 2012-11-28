@@ -56,7 +56,10 @@ module.controller('RegisterCtrl', function(
     $scope.loading = true;
     async.auto({
       getAddresses: function(callback) {
-        svcAddress.get({force: true}, function(err, addresses) {
+        svcAddress.get({
+          force: true,
+          identity: $scope.selection.identity.id
+        }, function(err, addresses) {
           $scope.loading = false;
           if(!err && addresses.length === 0) {
             $scope.showAddAddressModal = true;

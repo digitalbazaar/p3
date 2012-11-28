@@ -293,10 +293,20 @@ angular.module('payswarm.services')
   // address service
   var service = {};
 
+  function _entry(identityId) {
+    if(!(identityId in service.identities)) {
+      service.identities[identityId] = {
+        addresses: [],
+        expires: 0
+      }
+    }
+    return service.identities[identityId];
+  }
+
   var identity = svcIdentity.identity;
-  var expires = 0;
   var maxAge = 1000*60*2;
-  service.addresses = [];
+  service.identities = {};
+  service.addresses = _entry(identity.id).addresses;
   service.state = {
     loading: false
   };
@@ -309,17 +319,19 @@ angular.module('payswarm.services')
     }
     options = options || {};
     callback = callback || angular.noop;
+    var identityId = options.identity || identity.id;
 
-    if(options.force || +new Date() >= expires) {
+    var entry = _entry(identityId);
+    if(options.force || +new Date() >= entry.expires) {
       service.state.loading = true;
       $timeout(function() {
         payswarm.addresses.get({
-          identity: identity.id,
+          identity: identityId,
           success: function(addresses) {
-            _replaceArray(service.addresses, addresses, 'label');
-            expires = +new Date() + maxAge;
+            _replaceArray(entry.addresses, addresses, 'label');
+            entry.expires = +new Date() + maxAge;
             service.state.loading = false;
-            callback(null, service.addresses);
+            callback(null, entry.addresses);
             $rootScope.$apply();
           },
           error: function(err) {
@@ -332,7 +344,7 @@ angular.module('payswarm.services')
     }
     else {
       $timeout(function() {
-        callback(null, service.addresses);
+        callback(null, entry.addresses);
       });
     }
   };
@@ -358,15 +370,24 @@ angular.module('payswarm.services')
   };
 
   // add a new address
-  service.add = function(address, callback) {
+  service.add = function(address, identityId, callback) {
+    if(typeof identityId === 'function') {
+      callback = identityId;
+      identityId = identity.id;
+    }
     callback = callback || angular.noop;
     service.state.loading = true;
     payswarm.addresses.add({
-      identity: identity.id,
+      identity: identityId,
       address: address,
       success: function(address) {
-        service.addresses.push(address);
-        identity.address.push(address);
+        var entry = _entry(identityId);
+        entry.addresses.push(address);
+        if(identityId === identity.id) {
+          identity.address.push(address);
+        }
+        // FIXME: create and/or push to
+        //   svcIdentity.identityMap[identityId].address?
         service.state.loading = false;
         callback(null, address);
         $rootScope.$apply();
@@ -407,13 +428,20 @@ angular.module('payswarm.services')
   // accounts service
   var service = {};
 
+  function _entry(identityId) {
+    if(!(identityId in service.identities)) {
+      service.identities[identityId] = {
+        accounts: [],
+        expires: 0
+      }
+    }
+    return service.identities[identityId];
+  }
+
   var identity = svcIdentity.identity;
   var maxAge = 1000*60*2;
   service.identities = {};
-  angular.forEach(svcIdentity.identities, function(identity) {
-    service.identities[identity.id] = {accounts: [], expires: 0};
-  });
-  service.accounts = service.identities[identity.id].accounts;
+  service.accounts = _entry(identity.id).accounts;
   service.state = {
     loading: false
   };
@@ -426,13 +454,14 @@ angular.module('payswarm.services')
     }
     options = options || {};
     callback = callback || angular.noop;
+    var identityId = options.identity || identity.id;
 
-    var entry = service.identities[options.identity || identity.id];
+    var entry = _entry(identityId);
     if(options.force || +new Date() >= entry.expires) {
       service.state.loading = true;
       $timeout(function() {
         payswarm.accounts.get({
-          identity: options.identity || identity.id,
+          identity: identityId,
           success: function(accounts) {
             _replaceArray(entry.accounts, accounts);
             entry.expires = +new Date() + maxAge;
@@ -469,7 +498,7 @@ angular.module('payswarm.services')
       payswarm.accounts.getOne({
         account: accountId,
         success: function(account) {
-          var entry = service.identities[account.owner];
+          var entry = _entry(account.owner);
           _replaceInArray(entry.accounts, account);
           service.state.loading = false;
           callback(null, account);
@@ -487,6 +516,7 @@ angular.module('payswarm.services')
   // add a new account
   service.add = function(account, identityId, callback) {
     if(typeof identityId === 'function') {
+      callback = identityId;
       identityId = identity.id;
     }
     callback = callback || angular.noop;
@@ -495,15 +525,13 @@ angular.module('payswarm.services')
       identity: identityId,
       account: account,
       success: function(account) {
-        if(!(identityId in service.identities)) {
-          service.identities[identityId] = {accounts: [], expires: 0};
-        }
-        service.identities[identityId].accounts.push(account);
+        var entry = _entry(identityId);
+        entry.accounts.push(account);
         service.state.loading = false;
         callback(null, account);
         $rootScope.$apply();
         // update account to get latest balance
-        // FIXME: in future, use real time events
+        // FIXME: in future, use real-time events
         service.getOne(account.id, {delay: 500});
       },
       error: function(err) {

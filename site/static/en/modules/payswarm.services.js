@@ -563,7 +563,7 @@ angular.module('payswarm.services')
 
   return service;
 })
-.factory('svcBudget', function($timeout, $filter, $rootScope, svcIdentity) {
+.factory('svcBudget', function($timeout, $rootScope, svcIdentity) {
   // budgets service
   var service = {};
 
@@ -708,8 +708,12 @@ angular.module('payswarm.services')
       vendor: vendorId,
       success: function() {
         // get budget and strip out vendorId
-        var budget = $filter('filter')(service.budgets, {id:budgetId})[0];
-        budget.vendor = $filter('filter')(budget.vendor, "!" + vendorId);
+        var budget = service.budgets.filter(function(v) {
+          return v.id === budgetId;
+        })[0];
+        budget.vendor = budget.vendor.filter(function(v) {
+          return v !== vendorId;
+        });
         service.state.loading = false;
         callback();
         $rootScope.$apply();

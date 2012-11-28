@@ -847,11 +847,12 @@ angular.module('payswarm.directives')
   });
 })
 .directive('addressSelector', function() {
-  function Ctrl($scope, svcAddress) {
+  function Ctrl($scope, svcIdentity, svcAddress) {
     $scope.model = {};
     $scope.services = {
       address: svcAddress.state
     };
+    $scope.identity = svcIdentity.identity;
     $scope.addresses = svcAddress.addresses;
     $scope.$watch('addresses', function(addresses) {
       if(!$scope.selected || $.inArray($scope.selected, addresses) === -1) {

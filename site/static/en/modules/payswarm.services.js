@@ -298,7 +298,7 @@ angular.module('payswarm.services')
       service.identities[identityId] = {
         addresses: [],
         expires: 0
-      }
+      };
     }
     return service.identities[identityId];
   }
@@ -433,7 +433,7 @@ angular.module('payswarm.services')
       service.identities[identityId] = {
         accounts: [],
         expires: 0
-      }
+      };
     }
     return service.identities[identityId];
   }

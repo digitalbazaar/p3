@@ -10,7 +10,7 @@
         <td colspan="2" class="text-align-right cc-front">{{selected.cardNumber | mask}}</td>
       </tr>
       <tr>
-        <td class="text-align-right cc-front">{{selected.cardExpMonth}} / {{selected.cardExpYear}}</td>
+        <td class="text-align-right cc-front">{{selected.cardExpMonth | prefill}} / {{selected.cardExpYear}}</td>
         <td class="text-align-right"><i class="{{selected.cardBrand|cardBrand:true}}"></i></td>
       </tr>
     </tbody>

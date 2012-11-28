@@ -35,8 +35,9 @@ angular.module('payswarm.filters')
       input.replace(/\s+/g, '-').replace(/[^\w-]+/g, '').toLowerCase());
   };
 })
-.filter('ceil', function($filter) {
+.filter('ceil', function() {
   return function(value, digits) {
+    value = (value === undefined || value === null) ? '' : value.toString();
     if(digits === undefined) {
       digits = 2;
     }
@@ -45,8 +46,9 @@ angular.module('payswarm.filters')
     return (Math.ceil(num * k) / k).toFixed(digits);
   };
 })
-.filter('floor', function($filter) {
+.filter('floor', function() {
   return function(value, digits) {
+    value = (value === undefined || value === null) ? '' : value.toString();
     if(digits === undefined) {
       digits = 2;
     }
@@ -66,7 +68,19 @@ angular.module('payswarm.filters')
     return value + new Array(length - value.length + 1).join('0');
   };
 })
-.filter('ellipsis', function($filter) {
+.filter('prefill', function() {
+  return function(value, length, char) {
+    if(length === undefined) {
+      length = 2;
+    }
+    if(char === undefined) {
+      char = '0';
+    }
+    value = (value === undefined || value === null) ? '' : value.toString();
+    return new Array(length - value.length + 1).join(char) + value;
+  };
+})
+.filter('ellipsis', function() {
   return function(value, length) {
     length = Math.max(3, length);
     length -= 3;
@@ -76,7 +90,7 @@ angular.module('payswarm.filters')
     return value;
   };
 })
-.filter('mask', function($filter) {
+.filter('mask', function() {
   return function(value, length) {
     value = value.substr(value.length - 4);
     return new Array(5 - value.length + 1).join('*') + value;

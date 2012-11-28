@@ -1121,7 +1121,6 @@ angular.module('payswarm.directives')
   function Ctrl($scope) {
     $scope.open = function() {
       $scope.model = {};
-      $scope.data = window.data || {};
       $scope.feedback = {};
       $scope.loading = false;
       $scope.identityId = $scope.identityId || svcIdentity.identity.id;

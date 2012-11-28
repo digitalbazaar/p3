@@ -13,8 +13,6 @@ angular.module('payswarm').controller('AccountCtrl', AccountCtrl);
 function AccountCtrl($scope) {
   $scope.model = {};
   var data = window.data || {};
-  $scope.session = data.session || null;
-  $scope.identity = data.identity || null;
   $scope.account = data.account;
 };
 

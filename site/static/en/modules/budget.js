@@ -14,8 +14,6 @@ module.controller('BudgetCtrl', BudgetCtrl);
 function BudgetCtrl($scope, $routeParams, svcAccount, svcBudget) {
   $scope.model = {};
   var data = window.data || {};
-  $scope.session = data.session || null;
-  $scope.identity = data.identity || null;
 
   $scope.state = svcBudget.state;
   $scope.budget = null;

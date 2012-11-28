@@ -9,10 +9,6 @@
 var module = angular.module('payswarm');
 
 module.controller('SettingsCtrl', function($scope) {
-  $scope.model = {};
-  var data = window.data || {};
-  $scope.session = data.session || null;
-  $scope.identity = data.identity || null;
 });
 
 module.controller('ExternalAccountsCtrl', function($scope, svcPaymentToken) {

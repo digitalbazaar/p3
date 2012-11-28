@@ -12,7 +12,6 @@ module.controller('ActivityCtrl', function($scope, svcTransaction) {
   $scope.model = {};
   var data = window.data || {};
   $scope.session = data.session || null;
-  $scope.identity = data.identity || null;
   $scope.account = data.account || null;
   $scope.txns = [];
   $scope.table = [];

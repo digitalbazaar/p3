@@ -43,7 +43,26 @@ module.controller('RegisterCtrl', function(
     else {
       $scope.identityTypes = ['ps:PersonalIdentity', 'ps:VendorIdentity'];
     }
-    $scope.selection.identity = $scope.identities[0] || null;
+
+    // keep old selection if possible
+    var hasSelection =
+      $scope.selection.identity &&
+      $scope.identities.some(function(v) {
+        return v.id === $scope.selection.identity.id;
+      });
+    if(!hasSelection) {
+      // else use current identity if possible
+      var hasCurrent = $scope.identities.some(function(v) {
+        return v.id === svcIdentity.identity.id;
+      });
+      if(hasCurrent) {
+        $scope.selection.identity = svcIdentity.identity;
+      }
+      // else use first listed or none
+      else {
+        $scope.selection.identity = $scope.identities[0] || null;
+      }
+    }
   };
 
   $scope.allIdentities = svcIdentity.identities;

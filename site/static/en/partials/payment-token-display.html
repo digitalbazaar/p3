@@ -22,8 +22,11 @@
       <tr>
         <td colspan="2"><i class="bank-logo"></i> <strong>{{selected.label | ellipsis:20}}</strong></td>
       </tr>
-      <tr data-ng-hide="selected.psaVerified">
+      <tr data-ng-hide="selected.psaVerified || selected.psaStatus == 'disabled'">
         <td colspan="2" class="text-align-center alert-error">Unverified</td>
+      </tr>
+      <tr data-ng-show="selected.psaStatus == 'disabled'">
+        <td colspan="2" class="text-align-center alert-error">Disabled</td>
       </tr>
       <tr>
         <td class="text-align-center">{{selected.bankRoutingNumber | mask}}</td>

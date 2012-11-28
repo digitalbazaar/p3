@@ -133,7 +133,10 @@ ${set([
                     <a data-ng-show="bankAccount.psaStatus == 'active' && !bankAccount.psaVerified && bankAccount.psaVerifyReady"
                       href="#"
                       data-ng-click="showVerifyBankAccountModal=true">Verify</a>
-                    <span data-ng-show="bankAccount.psaStatus != 'active' && !bankAccount.psaVerified">Unverified</span>
+                    <span data-ng-show="bankAccount.psaStatus == 'disabled'"
+                      data-tooltip-title="This payment method was likely disabled because your bank account information could not be verified. Please delete this payment method and try to add it again with corrected information."
+                      data-placement="bottom" data-trigger="hover">Disabled</span>
+                    <span data-ng-show="bankAccount.psaStatus != 'active' && bankAccount.psaStatus != 'disabled' && bankAccount.psaStatus != 'deleted' && !bankAccount.psaVerified">Unverified</span>
                     <span data-ng-show="bankAccount.psaStatus == 'active' && !bankAccount.psaVerified && !bankAccount.psaVerifyReady">Pending</span>
                     <span data-ng-show="bankAccount.psaVerified">Verified</span>
                     <span
@@ -141,10 +144,10 @@ ${set([
                       data-token="bankAccount"></span>
                   </td>
                   <!-- Delete -->
-                  <td data-ng-class="bankAccount.psaStatus == 'active' && 'action'">
-                    <button data-ng-show="bankAccount.psaStatus == 'active'"
+                  <td class="action">
+                    <button data-ng-show="bankAccount.psaStatus == 'active' || bankAccount.psaStatus == 'disabled'"
                       class="btn btn-danger" title="Delete"
-                      data-ng-disabled="!bankAccount.psaVerified"
+                      data-ng-disabled="!bankAccount.psaVerified && bankAccount.psaStatus != 'disabled'"
                       data-ng-click="deletePaymentToken(bankAccount)"><i class="icon-trash icon-white"></i></button>
                     <span data-ng-show="bankAccount.psaStatus == 'deleted'"
                       data-tooltip-title="Because verifying a bank account is a costly process, we do not delete bank accounts immediately. You may restore the bank account before the expiration date passes if you wish."

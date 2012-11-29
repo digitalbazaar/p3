@@ -62,3 +62,11 @@ config.website.views.vars = {
     }
   }
 };
+
+config.website.views.routes = [
+  ['/', 'index.tpl'],
+  '/about',
+  '/legal',
+  '/contact',
+  ['/help', 'help/index.tpl']
+];

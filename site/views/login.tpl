@@ -10,6 +10,10 @@ ${set([
 
 <h2 class="headline">Sign in to PaySwarm</h2>
 
+<div class="alert alert-info headline" data-ng-show="model.sessionExpired">
+  Your session has expired so you've been taken to the login screen.
+</div>
+
 <form class="headline" method="post" action="" data-ng-submit="submit()">
   <fieldset>
     <div class="control-group">

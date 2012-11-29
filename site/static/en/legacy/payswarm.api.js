@@ -990,6 +990,9 @@ payswarm.switchIdentity = function(options) {
       if(xhr.status === 200) {
         window.location = options.redirect || window.location.href;
       }
+      else {
+        normalizeError(xhr, textStatus);
+      }
     }
   });
 };
@@ -1329,7 +1332,8 @@ function normalizeError(xhr, textStatus) {
       // redirect to login
       // FIXME: support modal login to keep current state vs forced redirect
       window.location = '/profile/login?ref=' +
-        encodeURIComponent(window.location.pathname);
+        encodeURIComponent(window.location.pathname) +
+        '&expired=true';
     }
   }
   catch(e) {

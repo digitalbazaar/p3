@@ -110,6 +110,10 @@ var getLoginQuery = {
     ref: {
       required: false,
       type: 'string'
+    },
+    expired: {
+      required: false,
+      type: 'string'
     }
   },
   additionalProperties: true

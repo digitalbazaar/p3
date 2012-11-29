@@ -2,23 +2,31 @@
       
       {{if pageLayout == "normal"}}
       <hr/>
+      {{/if}}
       <footer class="footer row">
         <div class="span12">
           <ul>
+            {{if pageLayout == "normal"}}
             <li><a href="/">Home</a></li><!--
             --><li><a href="/about">About</a></li><!--
             --><li><a href="http://payswarm.com/wiki/faq">FAQ</a></li><!--
+            --><li><a href="/help">Help</a></li><!--
             --><li><a href="/docs">REST API</a></li><!--
             --><li><a href="/legal#tos">Terms of Service</a></li><!--
             --><li><a href="/legal#pp">Privacy Policy</a></li><!--
             --><li><a href="/contact">Contact</a></li><!--
             --><li><a href="http://digitalbazaar.com/blog">Blog</a></li>
+            {{else}}
+            <li><a href="/help">Help</a></li><!--
+            --><li><a href="/legal#tos">Terms of Service</a></li><!--
+            --><li><a href="/legal#pp">Privacy Policy</a></li>
+            {{/if}}
           </ul>
         </div>
         <div class="span12">
           <ul>
             <li><!--
-              -->PaySwarm &#169;
+              -->Copyright &#169; 2012
               <span about="http://digitalbazaar.com/contact#company" 
                 typeof="vcard:VCard commerce:Business gr:BusinessEntity" 
                 property="rdfs:label vcard:fn gr:legalName"><a href="http://digitalbazaar.com/">Digital Bazaar, Inc.</a></span>
@@ -27,23 +35,6 @@
           </ul>
         </div>
       </footer>
-      {{else}}
-      <footer class="footer row">
-        <div class="span12">
-          <ul>
-            <li><a href="/legal#tos">Terms of Service</a></li><!--
-            --><li><a href="/legal#pp">Privacy Policy</a></li><!--
-            --><li><!--
-              -->PaySwarm &#169;
-              <span about="http://digitalbazaar.com/contact#company" 
-                typeof="vcard:VCard commerce:Business gr:BusinessEntity" 
-                property="rdfs:label vcard:fn gr:legalName"><a href="http://digitalbazaar.com/">Digital Bazaar, Inc.</a></span>
-                All rights reserved.<!--
-            --></li>
-          </ul>
-        </div>
-      </footer>
-      {{/if}}
     </div>
 
     <script type="text/javascript" src="${cacheRoot}/async/async.${jsExt}"></script>

@@ -23,19 +23,19 @@
     <!--[if IE]>
     <link href="${cacheRoot}/jquery-ui/css/jquery-ui.ie.${cssExt}" rel="stylesheet" type="text/css" />
     <![endif]-->
-    <link href="${cacheRoot}/bootstrap/css/bootstrap.${cssExt}" rel="stylesheet" type="text/css" />
-    <link href="${cacheRoot}/bootstrap/css/bootstrap-responsive.${cssExt}" rel="stylesheet" type="text/css" />
-    <link href="${cacheRoot}/angular/angular-ui.${cssExt}" rel="stylesheet" type="text/css" />
+    <link href="${cacheRoot}/bootstrap/css/bootstrap.${cssLibExt}" rel="stylesheet" type="text/css" />
+    <link href="${cacheRoot}/bootstrap/css/bootstrap-responsive.${cssLibExt}" rel="stylesheet" type="text/css" />
+    <link href="${cacheRoot}/angular/angular-ui.${cssLibExt}" rel="stylesheet" type="text/css" />
     <link href="${cacheRoot}/css/common.${cssExt}" rel="stylesheet" type="text/css" />
     <link href="${cacheRoot}/css/cc-logos.${cssExt}" rel="stylesheet" type="text/css" />
     <link href="${cacheRoot}/css/custom.${cssExt}" rel="stylesheet" type="text/css" />
     
     <link rel="shortcut icon" href="/favicon.ico" />
     
-    <script type="text/javascript" src="${cacheRoot}/jquery/jquery.${jsExt}"></script>
-    <script type="text/javascript" src="${cacheRoot}/jquery-ui/js/jquery-ui.${jsExt}"></script>
-    <script type="text/javascript" src="${cacheRoot}/angular/angular.${jsExt}"></script>
-    <script type="text/javascript" src="${cacheRoot}/angular/angular-ui.${jsExt}"></script>
+    <script type="text/javascript" src="${cacheRoot}/jquery/jquery.${jsLibExt}"></script>
+    <script type="text/javascript" src="${cacheRoot}/jquery-ui/js/jquery-ui.${jsLibExt}"></script>
+    <script type="text/javascript" src="${cacheRoot}/angular/angular.${jsLibExt}"></script>
+    <script type="text/javascript" src="${cacheRoot}/angular/angular-ui.${jsLibExt}"></script>
     <script type="text/javascript" src="${cacheRoot}/modules/payswarm.${jsExt}"></script>
     <script type="text/javascript" src="${cacheRoot}/modules/payswarm.directives.${jsExt}"></script>
     <script type="text/javascript" src="${cacheRoot}/modules/payswarm.filters.${jsExt}"></script>

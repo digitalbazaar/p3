@@ -31,11 +31,6 @@ config.website.views.vars = {
   licenses: {
     directories: ['../licenses']
   },
-  minimization: {
-    css: false,
-    javascript: false,
-    tpl: false
-  },
   title: 'PaySwarm',
   siteTitle: 'PaySwarm',
   redirect: true,
@@ -50,8 +45,15 @@ config.website.views.vars = {
       isDark: true
     }
   },
+  // extensions for webpage loaded resources can be adjusted to 'min.js' or
+  // similar to load minimized resources
+  // local resources
   cssExt: 'css',
   jsExt: 'js',
+  // library resources
+  cssLibExt: 'css',
+  jsLibExt: 'js',
+  // list of js files to load without the extension
   jsList: [],
   cacheRoot: '',
   // client-side data

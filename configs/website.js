@@ -70,5 +70,6 @@ config.website.views.routes = [
   '/about',
   '/legal',
   '/contact',
-  ['/help', 'help/index.tpl']
+  ['/help', 'help/index.tpl'],
+  '/help/pricing',
 ];

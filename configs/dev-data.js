@@ -284,9 +284,10 @@ config.financial.paymentGateway.Test.payees.deposit['bank:BankAccount'] = [{
   payeeExemptGroup: [
     'authority', 'authority_gatewayPercentExempt', 'authority_exempt'],
   payeeRateType: 'com:Percent',
-  payeeRate: '0.9998010',
+  // 1 / (1 - inclusive rate of 0.0099)
+  payeeRate: '0.9998990',
   payeeApplyType: 'com:Exclusive',
-  comment: 'Deposit Processing Service'
+  comment: 'Bank Deposit Processing Service (Percentage Charge)'
 }, {
   type: 'com:Payee',
   destination: baseUri + '/i/authority/accounts/fees',
@@ -297,7 +298,7 @@ config.financial.paymentGateway.Test.payees.deposit['bank:BankAccount'] = [{
   payeeRateType: 'com:FlatAmount',
   payeeRate: '0.50',
   payeeApplyType: 'com:Exclusive',
-  comment: 'Deposit Processing Service'
+  comment: 'Bank Deposit Processing Service (Fixed Charge)'
 }];
 config.financial.paymentGateway.Test.payees.withdrawal['bank:BankAccount'] = [{
   type: 'com:Payee',
@@ -310,7 +311,7 @@ config.financial.paymentGateway.Test.payees.withdrawal['bank:BankAccount'] = [{
   payeeRateType: 'com:Percent',
   payeeRate: '0.99',
   payeeApplyType: 'com:Inclusive',
-  comment: 'Withdrawal Processing Service'
+  comment: 'Bank Withdrawal Processing Service (Percentage Charge)'
 }, {
   type: 'com:Payee',
   destination: baseUri + '/i/authority/accounts/fees',
@@ -321,11 +322,11 @@ config.financial.paymentGateway.Test.payees.withdrawal['bank:BankAccount'] = [{
   payeeRateType: 'com:FlatAmount',
   payeeRate: '0.50',
   payeeApplyType: 'com:Inclusive',
-  comment: 'Withdrawal Processing Service'
+  comment: 'Bank Withdrawal Processing Service (Fixed Charge)'
 }];
 
 // CreditCard fees
-config.financial.paymentGateway.Test.payees.deposit['ccard:CreditCard'] = [{
+var ccPercentPayee = {
   type: 'com:Payee',
   destination: baseUri + '/i/authority/accounts/fees',
   payeeGroup: ['authority'],
@@ -336,8 +337,9 @@ config.financial.paymentGateway.Test.payees.deposit['ccard:CreditCard'] = [{
   // 1 / (1 - inclusive rate of 0.0214)
   payeeRate: '2.1867975',
   payeeApplyType: 'com:Exclusive',
-  comment: 'Deposit Processing Service'
-}, {
+  comment: 'Credit Card Deposit Processing Service (Percentage Charge)'
+};
+var ccFixedPayee = {
   type: 'com:Payee',
   destination: baseUri + '/i/authority/accounts/fees',
   payeeGroup: ['authority'],
@@ -347,8 +349,34 @@ config.financial.paymentGateway.Test.payees.deposit['ccard:CreditCard'] = [{
   payeeRateType: 'com:FlatAmount',
   payeeRate: '0.15',
   payeeApplyType: 'com:Exclusive',
-  comment: 'Deposit Processing Service'
-}];
+  comment: 'Credit Card Deposit Processing Service (Fixed Charge)'
+};
+// extra 0.15 for amex
+var ccAmexPayee = {
+  type: 'com:Payee',
+  destination: baseUri + '/i/authority/accounts/fees',
+  payeeGroup: ['authority'],
+  payeeApplyGroup: ['authority_gateway'],
+  payeeExemptGroup: [
+    'authority', 'authority_gatewayFlatExempt', 'authority_exempt'],
+  payeeRateType: 'com:FlatAmount',
+  payeeRate: '0.15',
+  payeeApplyType: 'com:Exclusive',
+  comment: 'Credit Card Deposit Processing Service (American Express Fixed Charge)'
+};
+config.financial.paymentGateway.Test.payees.deposit
+  ['ccard:CreditCard'] = {};
+config.financial.paymentGateway.Test.payees.deposit
+  ['ccard:CreditCard']['default'] = [
+  ccPercentPayee,
+  ccFixedPayee
+];
+config.financial.paymentGateway.Test.payees.deposit
+  ['ccard:CreditCard']['ccard:AmericanExpress'] = [
+  ccPercentPayee,
+  ccFixedPayee,
+  ccAmexPayee,
+];
 
 // set bank account settlement to 1 minute
 config.financial.paymentGateway.Test.bankAccountSettlement = 1000*60;

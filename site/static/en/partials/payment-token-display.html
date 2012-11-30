@@ -1,6 +1,6 @@
 <div class="paymentToken" data-ng-switch="selected.paymentMethod">
   <div class="cc-box" data-ng-switch-when="ccard:CreditCard">
-    <table class="table-cc" data-ng-class="selecting && 'item-hover'"
+    <table class="cc-table" data-ng-class="selecting && 'item-hover'"
       data-ng-click="selecting && select(selected)">
       <tbody>
         <tr>
@@ -36,23 +36,31 @@
       </tbody>
     </table>
   </div>
-  <table data-ng-switch-when="bank:BankAccount"
-    data-ng-class="{'table-bank': selected.psaVerified, 'table-bank-disabled': !selected.psaVerified, 'item-hover': selected.psaVerified && selecting}"
-    data-ng-click="selected.psaVerified && selecting && select(selected)">
-    <tbody>
-      <tr>
-        <td colspan="2"><i class="bank-logo"></i> <strong>{{selected.label | ellipsis:20}}</strong></td>
-      </tr>
-      <tr data-ng-hide="selected.psaVerified || selected.psaStatus == 'disabled'">
-        <td colspan="2" class="text-align-center alert-error">Unverified</td>
-      </tr>
-      <tr data-ng-show="selected.psaStatus == 'disabled'">
-        <td colspan="2" class="text-align-center alert-error">Disabled</td>
-      </tr>
-      <tr>
-        <td class="text-align-center">{{selected.bankRoutingNumber | mask}}</td>
-        <td class="text-align-center">{{selected.bankAccount | mask}}</td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="bank-box" data-ng-switch-when="bank:BankAccount">
+    <table
+      data-ng-class="{'bank-table': selected.psaVerified, 'bank-disabled-table': !selected.psaVerified, 'item-hover': selected.psaVerified && selecting}"
+      data-ng-click="selected.psaVerified && selecting && select(selected)">
+      <tbody>
+        <tr>
+          <td class="bank-layer">
+            <i class="bank-icon"></i>
+            <span class="bank-label">
+              <strong>{{selected.label | ellipsis:20}}</strong>
+            </span>
+          </td>
+          <td><span class="bank-date">{{'' | now:'d MMM yyyy'}}</span></td>
+        </tr>
+        <tr data-ng-hide="selected.psaVerified || selected.psaStatus == 'disabled'">
+          <td colspan="2" class="text-align-center bank-error">Unverified</td>
+        </tr>
+        <tr data-ng-show="selected.psaStatus == 'disabled'">
+          <td colspan="2" class="text-align-center bank-error">Disabled</td>
+        </tr>
+        <tr>
+          <td class="text-align-center bank-font">A{{selected.bankRoutingNumber | mask}}A</td>
+          <td class="text-align-center bank-font">C{{selected.bankAccount | mask}}C</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

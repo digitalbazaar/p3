@@ -30,6 +30,12 @@
   src: local('Kredit Shine'), local('KreditShine'), url('/fonts/KreditShine.ttf');
 }
 
+@font-face {
+  font-family: 'GnuMICR';
+  font-style: normal;
+  src: local('GnuMICR'), url('/fonts/GnuMICR.ttf');
+}
+
 /* Use a custom default font */
 body {
   font-family: 'Droid Sans', sans-serif;
@@ -607,7 +613,16 @@ h1 > .rest-summary > .rest-path {
   /* IE6-8 */
 }
 
-.table-cc {
+.cc-box {
+  width: 225px;
+  height: 141px;
+  background-color: #1e5799;
+  border-radius: 12px;
+  -webkit-box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.15);
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.15);
+}
+.cc-table {
   width: 225px;
   height: 141.67px;
   padding: 10px;
@@ -627,28 +642,6 @@ h1 > .rest-summary > .rest-path {
   -moz-border-radius: 12px;
   border-radius: 12px;
 }
-.cc-box {
-  width: 225px;
-  height: 141px;
-  background-color: #1e5799;
-  border-radius: 12px;
-  -webkit-box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.15);
-  -moz-box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.15);
-  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.15);
-}
-
-.table-bank {
-  width: 230px;
-  padding: 10px;
-  margin: 10px 0 10px 0;
-  border-collapse: separate;
-  border: 1px solid #FBEED5;
-  background-color: #FCF8E3;
-  -webkit-box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.075);
-  -moz-box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.075);
-  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.075);
-}
-
 .cc-layer {
   position: relative;
   letter-spacing: 0.1em;
@@ -699,19 +692,73 @@ h1 > .rest-summary > .rest-path {
   z-index: 2;
 }
 
-.table-bank-disabled {
-  width: 230px;
-  padding: 10px;
-  margin: 10px 0 10px 0;
-  border-collapse: separate;
-  border: 1px solid #BBB;
-  background-color: #DDD;
+.bank-icon {
+  display: inline-block;
+  width: 48px;
+  height: 48px;
+  line-height: 48px;
+  background-image: url("../img/bank-icon.png");
+  background-repeat: no-repeat;
+}
+.bank-box {
+  width: 240px;
+  height: 110px;
+  background: #d5deed;
   -webkit-box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.075);
   -moz-box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.075);
   box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.075);
-  /*-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(192, 152, 83, 0.6);
-  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(192, 152, 83, 0.6);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(192, 152, 83, 0.6);*/
+}
+.bank-table {
+  width: 240px;
+  height: 110px;
+  padding: 10px;
+  margin: 10px 0 10px 0;
+  border-collapse: separate;
+  border: 1px solid #C5E68B;
+  background: #daefb6; /* Old browsers */
+  background: -moz-linear-gradient(left,  #daefb6 0%, #d2eda3 35%, #d4eaab 65%, #dfedc7 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, right top, color-stop(0%,#daefb6), color-stop(35%,#d2eda3), color-stop(65%,#d4eaab), color-stop(100%,#dfedc7)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(left,  #daefb6 0%,#d2eda3 35%,#d4eaab 65%,#dfedc7 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(left,  #daefb6 0%,#d2eda3 35%,#d4eaab 65%,#dfedc7 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(left,  #daefb6 0%,#d2eda3 35%,#d4eaab 65%,#dfedc7 100%); /* IE10+ */
+  background: linear-gradient(to right,  #daefb6 0%,#d2eda3 35%,#d4eaab 65%,#dfedc7 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#daefb6', endColorstr='#dfedc7',GradientType=1 ); /* IE6-9 */
+}
+.bank-disabled-table {
+  width: 240px;
+  height: 128px;
+  padding: 10px;
+  margin: 10px 0 10px 0;
+  border-collapse: separate;
+  border: 1px solid #bbb;
+  background-color: #ddd;
+  -webkit-box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.075);
+  -moz-box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.075);
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.075);
+}
+.bank-layer {
+  position: relative;
+}
+.bank-label {
+  position: absolute;
+  top: 1.3em;
+  left: 3.4em;
+  width: 10em;
+}
+.bank-date {
+  display: block;
+  font-size: 0.7em;
+  font-weight: bold;
+  text-align: right;  
+}
+.bank-error {
+  font-weight: bold;
+  color: #b94a48;
+}
+.bank-font {
+  font-family: 'GnuMICR';
+  font-size: 1.2em;
+  font-weight: bold;
 }
 
 /* Plain text license display */

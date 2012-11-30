@@ -101,6 +101,11 @@ angular.module('payswarm.filters')
     value = value.substr(value.length - 4);
     return new Array(5 - value.length + 1).join('*') + value;
   };
+})
+.filter('now', function($filter) {
+  return function(value, format) {
+    return $filter('date')(new Date(), format);
+  };
 });
 
 })();

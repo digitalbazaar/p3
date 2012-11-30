@@ -653,7 +653,30 @@ h1 > .rest-summary > .rest-path {
   position: relative;
   letter-spacing: 0.1em;
 }
-
+.cc-label {
+  position: absolute;
+  top: 0.2em;
+  left: 0.1em;
+  width: 12em;
+}
+.cc-number {
+  position: absolute;
+  top: 0.5em;
+  left: 0.1em;
+  width: 10.7em;
+}
+.cc-date {
+  position: absolute;
+  top: 0.5em;
+  left: 0.1em;
+  width: 5em;
+}
+.cc-brand {
+  position: absolute;
+  top: 0.25em;
+  left: 3em;
+  width: 48px;
+}
 .cc-font-front {
   font-family: 'Kredit Front';
   font-size: 1.2em;
@@ -674,24 +697,6 @@ h1 > .rest-summary > .rest-path {
   font-weight: bold;
   color: #afafaf;
   z-index: 2;
-}
-.cc-number {
-  position: absolute;
-  top: 0;
-  left: 0.2em;
-  width: 10.7em;
-}
-.cc-date {
-  position: absolute;
-  top: 0.3em;
-  left: 0.2em;
-  width: 5em;
-}
-.cc-brand {
-  position: absolute;
-  top: 0;
-  left: 3em;
-  width: 48px;
 }
 
 .table-bank-disabled {

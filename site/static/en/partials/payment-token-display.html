@@ -4,7 +4,11 @@
       data-ng-click="selecting && select(selected)">
       <tbody>
         <tr>
-          <td colspan="2"><strong>{{selected.label | ellipsis:16}}</strong></td>
+          <td colspan="2">
+            <span class="cc-layer">
+              <span class="cc-label"><strong>{{selected.label | ellipsis:25}}</strong></span>
+            </span>
+          </td>
         </tr>
         <tr>
           <td colspan="2">

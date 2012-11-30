@@ -80,6 +80,12 @@ angular.module('payswarm.filters')
     return new Array(length - value.length + 1).join(char) + value;
   };
 })
+.filter('ccNumber', function() {
+  return function(value) {
+    value = (value === undefined || value === null) ? '****' : value.toString();
+    return '**** **** **** ' + value;
+  };
+})
 .filter('ellipsis', function() {
   return function(value, length) {
     length = Math.max(3, length);

@@ -1,34 +1,37 @@
 <div class="paymentToken" data-ng-switch="selected.paymentMethod">
-  <table data-ng-switch-when="ccard:CreditCard"
-    class="table-cc" data-ng-class="selecting && 'item-hover'"
-    data-ng-click="selecting && select(selected)">
-    <tbody>
-      <tr>
-        <td colspan="2"><strong>{{selected.label | ellipsis:16}}</strong></td>
-      </tr>
-      <tr>
-        <td colspan="2">
-          <span class="cc-font-layer text-align-right">
-            <span class="cc-font-front">{{selected.cardNumber | mask}}</span>
-            <span class="cc-font-back">{{selected.cardNumber | mask}}</span>
-            <span class="cc-font-shine">{{selected.cardNumber | mask}}</span>
-          </span>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <span class="cc-font-layer text-align-right">
-            <span class="cc-font-front">{{selected.cardExpMonth | prefill}} / {{selected.cardExpYear}}</span>
-            <span class="cc-font-back">{{selected.cardExpMonth | prefill}} / {{selected.cardExpYear}}</span>
-            <span class="cc-font-shine">{{selected.cardExpMonth | prefill}} / {{selected.cardExpYear}}</span>
-          </span>
-        </td>
-        <td>
-          <span class="text-align-right"><i class="{{selected.cardBrand|cardBrand:true}}"></i></span>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="cc-box" data-ng-switch-when="ccard:CreditCard">
+    <table class="table-cc" data-ng-class="selecting && 'item-hover'"
+      data-ng-click="selecting && select(selected)">
+      <tbody>
+        <tr>
+          <td colspan="2"><strong>{{selected.label | ellipsis:16}}</strong></td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <span class="cc-layer">
+              <span class="cc-font-front cc-number">{{selected.cardNumber | mask | ccNumber}}</span>
+              <span class="cc-font-back cc-number">{{selected.cardNumber | mask | ccNumber}}</span>
+              <span class="cc-font-shine cc-number">{{selected.cardNumber | mask | ccNumber}}</span>
+            </span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span class="cc-layer">
+              <span class="cc-font-front cc-date">{{selected.cardExpMonth | prefill}} / {{selected.cardExpYear}}</span>
+              <span class="cc-font-back cc-date">{{selected.cardExpMonth | prefill}} / {{selected.cardExpYear}}</span>
+              <span class="cc-font-shine cc-date">{{selected.cardExpMonth | prefill}} / {{selected.cardExpYear}}</span>
+            </span>
+          </td>
+          <td>
+            <span class="cc-layer">
+              <span class="cc-brand"><i class="{{selected.cardBrand|cardBrand:true}}"></i></span>
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
   <table data-ng-switch-when="bank:BankAccount"
     data-ng-class="{'table-bank': selected.psaVerified, 'table-bank-disabled': !selected.psaVerified, 'item-hover': selected.psaVerified && selecting}"
     data-ng-click="selected.psaVerified && selecting && select(selected)">

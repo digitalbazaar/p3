@@ -36,7 +36,8 @@
       </tbody>
     </table>
   </div>
-  <div class="bank-box" data-ng-switch-when="bank:BankAccount">
+  <div data-ng-switch-when="bank:BankAccount"
+    data-ng-class="{'bank-box': selected.psaVerified, 'bank-disabled-box': !selected.psaVerified}">
     <table
       data-ng-class="{'bank-table': selected.psaVerified, 'bank-disabled-table': !selected.psaVerified, 'item-hover': selected.psaVerified && selecting}"
       data-ng-click="selected.psaVerified && selecting && select(selected)">

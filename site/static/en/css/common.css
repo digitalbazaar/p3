@@ -703,7 +703,7 @@ h1 > .rest-summary > .rest-path {
 .bank-box {
   width: 240px;
   height: 110px;
-  background: #d5deed;
+  background: #daefb6;
   -webkit-box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.075);
   -moz-box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.075);
   box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.075);
@@ -723,6 +723,14 @@ h1 > .rest-summary > .rest-path {
   background: -ms-linear-gradient(left,  #daefb6 0%,#d2eda3 35%,#d4eaab 65%,#dfedc7 100%); /* IE10+ */
   background: linear-gradient(to right,  #daefb6 0%,#d2eda3 35%,#d4eaab 65%,#dfedc7 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#daefb6', endColorstr='#dfedc7',GradientType=1 ); /* IE6-9 */
+}
+.bank-disabledbox {
+  width: 240px;
+  height: 128px;
+  background: #ddd;
+  -webkit-box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.075);
+  -moz-box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.075);
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.075);
 }
 .bank-disabled-table {
   width: 240px;

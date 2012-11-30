@@ -57,8 +57,8 @@
           <td colspan="2" class="text-align-center bank-error">Disabled</td>
         </tr>
         <tr>
-          <td class="text-align-center bank-font">A{{selected.bankRoutingNumber | mask}}A</td>
-          <td class="text-align-center bank-font">C{{selected.bankAccount | mask}}C</td>
+          <td class="text-align-center bank-font">A{{selected.bankRoutingNumber | mask:9}}A</td>
+          <td class="text-align-center bank-font">C{{selected.bankAccount | mask:10}}C</td>
         </tr>
       </tbody>
     </table>

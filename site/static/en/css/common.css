@@ -674,19 +674,19 @@ h1 > .rest-summary > .rest-path {
 .cc-number {
   position: absolute;
   top: 0;
-  left: 0.4em;
+  left: 0.5em;
   width: 10em;
 }
 .cc-date {
   position: absolute;
   top: 0.3em;
-  left: 0.4em;
+  left: 0.5em;
   width: 5em;
 }
 .cc-brand {
   position: absolute;
   top: 0;
-  left: 3em;
+  left: 2.6em;
   width: 48px;
 }
 

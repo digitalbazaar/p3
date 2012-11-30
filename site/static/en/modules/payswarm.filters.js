@@ -83,7 +83,7 @@ angular.module('payswarm.filters')
 .filter('ccNumber', function() {
   return function(value) {
     value = (value === undefined || value === null) ? '****' : value.toString();
-    return '**** **** **** ' + value;
+    return '**** **** **** ' + value.substr(1);
   };
 })
 .filter('ellipsis', function() {

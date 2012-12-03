@@ -1487,12 +1487,18 @@ angular.module('payswarm.services')
     });
 
     element.on('shown', function() {
-      // prevent auto fade transition on next hide
-      element.removeClass('fade');
+      // firefox animations are broken
+      if(!$.browser.mozilla) {
+        // prevent auto fade transition on next hide
+        element.removeClass('fade');
+      }
     });
     element.on('hidden', function() {
-      // prevent auto fade transition on next show
-      element.removeClass('fade');
+      // firefox animations are broken
+      if(!$.browser.mozilla) {
+        // prevent auto fade transition on next show
+        element.removeClass('fade');
+      }
 
       // show parent when hidden and no child
       if(scope._modal.parent && !scope._modal.hasChild) {
@@ -1538,7 +1544,10 @@ angular.module('payswarm.services')
 
       // only do fade transition if no parent
       if(!parent) {
-        element.addClass('fade');
+        // firefox animations are broken
+        if(!$.browser.mozilla) {
+          element.addClass('fade');
+        }
       }
       element.modal('show');
     };
@@ -1584,7 +1593,10 @@ angular.module('payswarm.services')
 
     // only do fade transition when no parent
     if(!modal.parent) {
-      modal.element.addClass('fade');
+      // firefox animations are broken
+      if(!$.browser.mozilla) {
+        modal.element.addClass('fade');
+      }
     }
     // hide modal
     modal.element.modal('hide');

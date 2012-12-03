@@ -703,6 +703,7 @@ h1 > .rest-summary > .rest-path {
 .bank-box {
   width: 240px;
   height: 110px;
+  margin-top: 25px;
   background: #daefb6;
   -webkit-box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.075);
   -moz-box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.075);
@@ -724,25 +725,31 @@ h1 > .rest-summary > .rest-path {
   background: linear-gradient(to right,  #daefb6 0%,#d2eda3 35%,#d4eaab 65%,#dfedc7 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#daefb6', endColorstr='#dfedc7',GradientType=1 ); /* IE6-9 */
 }
-.bank-disabledbox {
-  width: 240px;
-  height: 128px;
+.bank-unverified-box {
+  position: relative;
   background: #ddd;
-  -webkit-box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.075);
-  -moz-box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.075);
-  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.075);
 }
-.bank-disabled-table {
-  width: 240px;
-  height: 128px;
-  padding: 10px;
-  margin: 10px 0 10px 0;
-  border-collapse: separate;
+.bank-unverified-table {
   border: 1px solid #bbb;
-  background-color: #ddd;
-  -webkit-box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.075);
-  -moz-box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.075);
-  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.075);
+  background: #ddd;
+}
+.bank-unverified-overlay {
+  position: absolute;
+  width: 240px;
+  top: 1.3em;
+  left: 0;
+  filter: alpha(opacity=70);
+  opacity: 0.7;
+  text-align: center;
+  font-weight: bold;
+  font-size: 2em;
+  color: #b94a48;
+  transform: rotate(345deg);
+  -ms-transform: rotate(345deg); /* IE 9 */
+  -moz-transform: rotate(345deg); /* Firefox */
+  -webkit-transform: rotate(345deg); /* Safari and Chrome */
+  -o-transform: rotate(345deg); /* Opera */
+  z-index: 1;
 }
 .bank-layer {
   position: relative;
@@ -758,10 +765,6 @@ h1 > .rest-summary > .rest-path {
   font-size: 0.7em;
   font-weight: bold;
   text-align: right;  
-}
-.bank-error {
-  font-weight: bold;
-  color: #b94a48;
 }
 .bank-font {
   font-family: 'GnuMICR';

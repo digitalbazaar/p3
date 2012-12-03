@@ -36,10 +36,14 @@
       </tbody>
     </table>
   </div>
-  <div data-ng-switch-when="bank:BankAccount"
-    data-ng-class="{'bank-box': selected.psaVerified, 'bank-disabled-box': !selected.psaVerified}">
-    <table
-      data-ng-class="{'bank-table': selected.psaVerified, 'bank-disabled-table': !selected.psaVerified, 'item-hover': selected.psaVerified && selecting}"
+  <div data-ng-switch-when="bank:BankAccount" class="bank-box"
+    data-ng-class="{'bank-unverified-box': !selected.psaVerified}">
+    <div data-ng-show="!selected.psaVerified && selected.psaStatus != 'disabled'"
+      class="bank-unverified-overlay">Unverified</div>
+    <div data-ng-show="selected.psaStatus == 'disabled'"
+      class="bank-unverified-overlay">Disabled</div>
+    <table class="bank-table"
+      data-ng-class="{'bank-unverified-table': !selected.psaVerified, 'item-hover': selected.psaVerified && selecting}"
       data-ng-click="selected.psaVerified && selecting && select(selected)">
       <tbody>
         <tr>
@@ -50,12 +54,6 @@
             </span>
           </td>
           <td><span class="bank-date">{{'' | now:'d MMM yyyy'}}</span></td>
-        </tr>
-        <tr data-ng-hide="selected.psaVerified || selected.psaStatus == 'disabled'">
-          <td colspan="2" class="text-align-center bank-error">Unverified</td>
-        </tr>
-        <tr data-ng-show="selected.psaStatus == 'disabled'">
-          <td colspan="2" class="text-align-center bank-error">Disabled</td>
         </tr>
         <tr>
           <td class="text-align-center bank-font">A{{selected.bankRoutingNumber | mask:9}}A</td>

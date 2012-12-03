@@ -707,9 +707,9 @@ h1 > .rest-summary > .rest-path {
   width: 240px;
   height: 110px;
   background: #daefb6;
-  -webkit-box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.075);
-  -moz-box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.075);
-  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.075);
+  -webkit-box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.15);
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.15);
 }
 .bank-table {
   width: 240px;

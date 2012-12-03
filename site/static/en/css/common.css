@@ -134,6 +134,12 @@ select.form-field-vspaced {
   margin-left: 0px;
 }
 
+/* Fix to prevent unnecessary wrapping of inline radio text */
+.radio input[type="radio"], .checkbox input[type="checkbox"] {
+  float: none;
+  margin-top: -1px;
+}
+
 /* Help toggle */
 .input-append.help-toggle input {
   -webkit-border-radius: 4px;

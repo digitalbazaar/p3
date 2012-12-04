@@ -5,33 +5,31 @@
       data-ng-click="selecting && select(selected)">
       <tbody>
         <tr>
-          <td colspan="2">
-            <span class="cc-layer">
-              <span class="cc-label"><strong>{{selected.label | ellipsis:25}}</strong></span>
-            </span>
+          <td colspan="2" class="cc-layer">
+            <span class="cc-label"><strong>{{selected.label | ellipsis:25}}</strong></span>
           </td>
         </tr>
         <tr>
-          <td colspan="2">
-            <span class="cc-layer">
-              <span class="cc-font-front cc-number">{{selected.cardNumber | mask | ccNumber}}</span>
-              <span class="cc-font-back cc-number">{{selected.cardNumber | mask | ccNumber}}</span>
-              <span class="cc-font-shine cc-number">{{selected.cardNumber | mask | ccNumber}}</span>
-            </span>
+          <td colspan="2" class="cc-layer">
+            <span class="cc-font-front cc-number"
+              data-webkit-letter-spacing="1px">{{selected.cardNumber | mask | ccNumber}}</span>
+            <span class="cc-font-back cc-number"
+              data-webkit-letter-spacing="1px">{{selected.cardNumber | mask | ccNumber}}</span>
+            <span class="cc-font-shine cc-number"
+              data-webkit-letter-spacing="1px">{{selected.cardNumber | mask | ccNumber}}</span>
           </td>
         </tr>
         <tr>
-          <td>
-            <span class="cc-layer">
-              <span class="cc-font-front cc-date">{{selected.cardExpMonth | prefill}} / {{selected.cardExpYear}}</span>
-              <span class="cc-font-back cc-date">{{selected.cardExpMonth | prefill}} / {{selected.cardExpYear}}</span>
-              <span class="cc-font-shine cc-date">{{selected.cardExpMonth | prefill}} / {{selected.cardExpYear}}</span>
-            </span>
+          <td class="cc-layer">
+            <span class="cc-font-front cc-date"
+              data-webkit-letter-spacing="1px">{{selected.cardExpMonth | prefill}} / {{selected.cardExpYear}}</span>
+            <span class="cc-font-back cc-date"
+              data-webkit-letter-spacing="1px">{{selected.cardExpMonth | prefill}} / {{selected.cardExpYear}}</span>
+            <span class="cc-font-shine cc-date"
+              data-webkit-letter-spacing="1px">{{selected.cardExpMonth | prefill}} / {{selected.cardExpYear}}</span>
           </td>
-          <td>
-            <span class="cc-layer">
-              <span class="cc-brand"><i class="{{selected.cardBrand|cardBrand:true}}"></i></span>
-            </span>
+          <td class="cc-layer">
+            <span class="cc-brand"><i class="{{selected.cardBrand|cardBrand:true}}"></i></span>
           </td>
         </tr>
       </tbody>

@@ -17,3 +17,5 @@ Charge         : USD ${{deposit.amount}}
 {{profile|json_encode(2)}}
 ================================ Deposit ===================================
 {{deposit|json_encode(2)}}
+================================= Error ====================================
+{{error|json_encode(2)}}

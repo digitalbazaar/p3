@@ -17,3 +17,5 @@ Charge         : USD ${{withdrawal.amount}}
 {{profile|json_encode(2)}}
 =============================== Withdrawal =================================
 {{withdrawal|json_encode(2)}}
+================================= Error ====================================
+{{error|json_encode(2)}}

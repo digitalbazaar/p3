@@ -742,8 +742,7 @@ h1 > .rest-summary > .rest-path {
 .bank-disabled-overlay {
   position: absolute;
   width: 240px;
-  top: 1.3em;
-  left: 0;
+  margin-top: 42px;
   filter: alpha(opacity=70);
   opacity: 0.7;
   text-align: center;
@@ -762,19 +761,19 @@ h1 > .rest-summary > .rest-path {
 }
 .bank-label {
   position: absolute;
-  top: 1.3em;
-  left: 3.4em;
-  width: 10em;
+  margin-top: 20px;
+  marginleft: 3px;
+  width: 160px;
 }
 .bank-date {
   display: block;
-  font-size: 0.7em;
+  font-size: 11px;
   font-weight: bold;
   text-align: right;  
 }
 .bank-font {
   font-family: 'GnuMICR';
-  font-size: 0.8em;
+  font-size: 13px;
   font-weight: bold;
 }
 .bank-selecting {

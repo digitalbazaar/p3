@@ -54,11 +54,11 @@
               <strong>{{selected.label | ellipsis:20}}</strong>
             </span>
           </td>
-          <td><span class="bank-date">{{'' | now:'d MMM yyyy'}}</span></td>
+          <td class="bank-layer"><span class="bank-date">{{'' | now:'d MMM yyyy'}}</span></td>
         </tr>
         <tr>
-          <td class="text-align-center bank-font">A{{selected.bankRoutingNumber | mask:9}}A</td>
-          <td class="text-align-center bank-font">C{{selected.bankAccount | mask:10}}C</td>
+          <td class="text-align-center bank-layer bank-font">A{{selected.bankRoutingNumber | mask:9}}A</td>
+          <td class="text-align-center bank-layer bank-font">C{{selected.bankAccount | mask:10}}C</td>
         </tr>
       </tbody>
     </table>

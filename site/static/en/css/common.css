@@ -758,6 +758,7 @@ h1 > .rest-summary > .rest-path {
 }
 .bank-layer {
   position: relative;
+  padding: 0;
 }
 .bank-label {
   position: absolute;

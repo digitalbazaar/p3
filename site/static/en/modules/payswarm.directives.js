@@ -637,7 +637,6 @@ angular.module('payswarm.directives')
 .directive('webkitLetterSpacing', function() {
   return function(scope, element, attrs) {
     attrs.$observe('webkitLetterSpacing', function(value) {
-      console.log('spacing value', value);
       if(value !== undefined && $.browser.webkit) {
         element.css('letter-spacing', value);
       }

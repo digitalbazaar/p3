@@ -33,6 +33,7 @@
     <link rel="shortcut icon" href="/favicon.ico" />
     
     <script type="text/javascript" src="${cacheRoot}/jquery/jquery.${jsLibExt}"></script>
+    <script type="text/javascript" src="${cacheRoot}/jquery/jquery.placeholder.${jsLibExt}"></script>
     <script type="text/javascript" src="${cacheRoot}/jquery-ui/js/jquery-ui.${jsLibExt}"></script>
     <script type="text/javascript" src="${cacheRoot}/angular/angular.${jsLibExt}"></script>
     <script type="text/javascript" src="${cacheRoot}/angular/angular-ui.${jsLibExt}"></script>
@@ -40,9 +41,6 @@
     <script type="text/javascript" src="${cacheRoot}/modules/payswarm.directives.${jsExt}"></script>
     <script type="text/javascript" src="${cacheRoot}/modules/payswarm.filters.${jsExt}"></script>
     <script type="text/javascript" src="${cacheRoot}/modules/payswarm.services.${jsExt}"></script>
-    <!--[if IE]>
-    <script type="text/javascript" src="${cacheRoot}/jquery/jquery.placeholder.${jsLibExt}"></script>
-    <![endif]-->
   </head>
 
   <body data-ng-app="payswarm">

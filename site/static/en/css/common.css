@@ -9,11 +9,10 @@
   src: url('/fonts/DroidSans.eot');
   src: local('Droid Sans'), local('DroidSans'),
     url('/fonts/DroidSans.eot?#iefix') format('embedded-opentype'),
-    url('/fonts/DroidSans-webfont.woff') format('woff'),
-    url('/fonts/DroidSans-webfont.ttf') format('truetype'),
-    url('/fonts/DroidSans-webfont.svg#DroidSansRegular') format('svg');
+    url('/fonts/DroidSans.woff') format('woff'),
+    url('/fonts/DroidSans.ttf') format('truetype'),
+    url('/fonts/DroidSans.svg#DroidSansRegular') format('svg');
 }
-/* FIXME: This overwrites Droid Sans entirely on windows.
 @font-face {
   font-family: 'Droid Sans';
   font-style: normal;
@@ -24,7 +23,7 @@
     url('/fonts/DroidSans-Bold.woff') format('woff'),
     url('/fonts/DroidSans-Bold.ttf') format('truetype'),
     url('/fonts/DroidSans-Bold.svg#DroidSansBold') format('svg');
-}*/
+}
 
 @font-face {
   font-family: 'Kredit Front';

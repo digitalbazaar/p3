@@ -1,17 +1,28 @@
 /* PaySwarm Authority common style */
 
 /* Fonts */
+
 @font-face {
   font-family: 'Droid Sans';
   font-style: normal;
-  font-weight: 400;
-  src: local('Droid Sans'), local('DroidSans'), url('/fonts/DroidSans.ttf');
+  font-weight: normal;
+  src: url('/fonts/DroidSans.eot');
+  src: local('Droid Sans'), local('DroidSans'),
+    url('/fonts/DroidSans.eot?#iefix') format('embedded-opentype'),
+    url('/fonts/DroidSans-webfont.woff') format('woff'),
+    url('/fonts/DroidSans-webfont.ttf') format('truetype'),
+    url('/fonts/DroidSans-webfont.svg#DroidSansRegular') format('svg');
 }
 @font-face {
   font-family: 'Droid Sans';
   font-style: normal;
-  font-weight: 700;
-  src: local('Droid Sans Bold'), local('DroidSans-Bold'), url('/fonts/DroidSans-Bold.ttf');
+  font-weight: bold;
+  src: url('/fonts/DroidSans-Bold.eot');
+  src: local('Droid Sans Bold'), local('DroidSansBold'),
+    url('/fonts/DroidSans-Bold.eot?#iefix') format('embedded-opentype'),
+    url('/fonts/DroidSans-Bold.woff') format('woff'),
+    url('/fonts/DroidSans-Bold.ttf') format('truetype'),
+    url('/fonts/DroidSans-Bold.svg#DroidSansBold') format('svg');
 }
 
 @font-face {
@@ -22,7 +33,7 @@
   src: url('/fonts/KreditFront.eot?#iefix') format('embedded-opentype'),
     url('/fonts/KreditFront.woff') format('woff'),
     url('/fonts/KreditFront.ttf') format('truetype'),
-    url('/fonts/KreditFront.svg#kredit_front') format('svg');
+    url('/fonts/KreditFront.svg#KreditFront') format('svg');
 }
 @font-face {
   font-family: 'Kredit Back';
@@ -32,7 +43,7 @@
   src: url('/fonts/KreditBack.eot?#iefix') format('embedded-opentype'),
     url('/fonts/KreditBack.woff') format('woff'),
     url('/fonts/KreditBack.ttf') format('truetype'),
-    url('/fonts/KreditBack.svg#kredit_back') format('svg');
+    url('/fonts/KreditBack.svg#KreditBack') format('svg');
 }
 @font-face {
   font-family: 'Kredit Shine';
@@ -42,7 +53,7 @@
   src: url('/fonts/KreditShine.eot?#iefix') format('embedded-opentype'),
     url('/fonts/KreditShine.woff') format('woff'),
     url('/fonts/KreditShine.ttf') format('truetype'),
-    url('/fonts/KreditShine.svg#kredit_shine') format('svg');
+    url('/fonts/KreditShine.svg#KreditShine') format('svg');
 }
 
 @font-face {
@@ -53,7 +64,7 @@
   src: url('/fonts/GnuMICR.eot?#iefix') format('embedded-opentype'),
     url('/fonts/GnuMICR.woff') format('woff'),
     url('/fonts/GnuMICR.ttf') format('truetype'),
-    url('/fonts/GnuMICR.svg#gnumicr') format('svg');
+    url('/fonts/GnuMICR.svg#GnuMICR') format('svg');
 }
 
 /* Use a custom default font */

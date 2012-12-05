@@ -8,29 +8,14 @@
 (function($) {
 
 angular.module('payswarm.directives')
-// FIXME: remove once webkit font issues are fixed
+// FIXME: remove once webkit non-windows font difference is fixed
 .directive('kredit', function() {
   return function(scope, element, attrs) {
     if($.browser.webkit) {
       attrs.$observe('kredit', function(value) {
-        var text = element.text();
-        var el = $(
-          '<span class="cc-font-back" ' +
-          'style="visibility: hidden; ' +
-          'font-size: 19px; letter-spacing: 1px;"></span>');
-        // cc number
-        if(text.length === 19) {
-          el.text('0000 0000 0000 0000');
+        if(!/windows/.test(navigator.userAgent.toLowerCase())) {
+          element.css('letter-spacing', '1px');
         }
-        // date
-        else {
-          el.text('00 / 0000');
-        }
-        $('body').append(el);
-        var width = el.width();
-        el.remove();
-        var spacing = (width <= element.width()) ? 1 : 0;
-        element.css('letter-spacing', spacing + 'px');
       });
     }
   };

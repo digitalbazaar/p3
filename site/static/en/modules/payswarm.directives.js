@@ -663,7 +663,7 @@ angular.module('payswarm.directives')
       });
     });
     attrs.$observe('tooltipShow', function(value) {
-      if(value !== undefined) {
+      if(value !== undefined && element.data('tooltip')) {
         if(value === 'true') {
           element.data('tooltip').show();
         }

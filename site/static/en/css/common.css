@@ -17,23 +17,43 @@
 @font-face {
   font-family: 'Kredit Front';
   font-style: normal;
-  src: local('Kredit Front'), local('KreditFront'), url('/fonts/KreditFront.ttf');
+  font-weight: normal;
+  src: url('/fonts/KreditFront.eot');
+  src: url('/fonts/KreditFront.eot?#iefix') format('embedded-opentype'),
+    url('/fonts/KreditFront.woff') format('woff'),
+    url('/fonts/KreditFront.ttf') format('truetype'),
+    url('/fonts/KreditFront.svg#kredit_front') format('svg');
 }
 @font-face {
   font-family: 'Kredit Back';
   font-style: normal;
-  src: local('Kredit Back'), local('KreditBack'), url('/fonts/KreditBack.ttf');
+  font-weight: normal;
+  src: url('/fonts/KreditBack.eot');
+  src: url('/fonts/KreditBack.eot?#iefix') format('embedded-opentype'),
+    url('/fonts/KreditBack.woff') format('woff'),
+    url('/fonts/KreditBack.ttf') format('truetype'),
+    url('/fonts/KreditBack.svg#kredit_back') format('svg');
 }
 @font-face {
   font-family: 'Kredit Shine';
   font-style: normal;
-  src: local('Kredit Shine'), local('KreditShine'), url('/fonts/KreditShine.ttf');
+  font-weight: normal;
+  src: url('/fonts/KreditShine.eot');
+  src: url('/fonts/KreditShine.eot?#iefix') format('embedded-opentype'),
+    url('/fonts/KreditShine.woff') format('woff'),
+    url('/fonts/KreditShine.ttf') format('truetype'),
+    url('/fonts/KreditShine.svg#kredit_shine') format('svg');
 }
 
 @font-face {
   font-family: 'GnuMICR';
   font-style: normal;
-  src: local('GnuMICR'), url('/fonts/GnuMICR.ttf');
+  font-weight: normal;
+  src: url('/fonts/GnuMICR.eot');
+  src: url('/fonts/GnuMICR.eot?#iefix') format('embedded-opentype'),
+    url('/fonts/GnuMICR.woff') format('woff'),
+    url('/fonts/GnuMICR.ttf') format('truetype'),
+    url('/fonts/GnuMICR.svg#kredit_shine') format('svg');
 }
 
 /* Use a custom default font */
@@ -753,7 +773,8 @@ h1 > .rest-summary > .rest-path {
   opacity: 0.7;
   text-align: center;
   font-weight: bold;
-  font-size: 2em;
+  font-size: 32px;
+  line-height: 32px;
   color: #b94a48;
   transform: rotate(345deg);
   -ms-transform: rotate(345deg); /* IE 9 */
@@ -769,7 +790,7 @@ h1 > .rest-summary > .rest-path {
 .bank-label {
   position: absolute;
   margin-top: 20px;
-  marginleft: 3px;
+  margin-left: 3px;
   width: 160px;
 }
 .bank-date {
@@ -782,6 +803,7 @@ h1 > .rest-summary > .rest-path {
   font-family: 'GnuMICR';
   font-size: 13px;
   font-weight: bold;
+  line-height: 13px;
 }
 .bank-selecting {
   margin-top: 15px;

@@ -11,7 +11,7 @@
     url('/fonts/DroidSans.eot?#iefix') format('embedded-opentype'),
     url('/fonts/DroidSans.woff') format('woff'),
     url('/fonts/DroidSans.ttf') format('truetype'),
-    url('/fonts/DroidSans.svg#DroidSansRegular') format('svg');
+    url('/fonts/DroidSans.svg#DroidSans') format('svg');
 }
 @font-face {
   font-family: 'Droid Sans';

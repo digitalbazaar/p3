@@ -67,6 +67,12 @@ input, button, select, textarea {
   font-family: 'Droid Sans', sans-serif;
 }
 
+/* IE fix for placeholders */
+input.placeholder,
+textarea.placeholder {
+  color: #999999;
+}
+
 /* Input */
 input.slug {
   display: inline-block;

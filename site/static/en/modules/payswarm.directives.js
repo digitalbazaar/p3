@@ -35,6 +35,19 @@ angular.module('payswarm.directives')
     }
   };
 })
+// IE placeholder polyfill
+.directive('placeholder', function() {
+  return {
+    restrict: 'A',
+    link: function(scope, element, attrs) {
+      attrs.$observe('placeholder', function(value) {
+        if(element.placeholder) {
+          element.placeholder();
+        }
+      });
+    }
+  };
+})
 // FIXME: polyfill until implemented in core AngularJS
 .directive('ngFocus', function($parse) {
   return function(scope, element, attrs) {

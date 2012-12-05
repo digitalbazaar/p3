@@ -40,6 +40,9 @@
     <script type="text/javascript" src="${cacheRoot}/modules/payswarm.directives.${jsExt}"></script>
     <script type="text/javascript" src="${cacheRoot}/modules/payswarm.filters.${jsExt}"></script>
     <script type="text/javascript" src="${cacheRoot}/modules/payswarm.services.${jsExt}"></script>
+    <!--[if IE]>
+    <script type="text/javascript" src="${cacheRoot}/jquery/jquery.placeholder.${jsLibExt}"></script>
+    <![endif]-->
   </head>
 
   <body data-ng-app="payswarm">

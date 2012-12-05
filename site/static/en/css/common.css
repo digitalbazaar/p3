@@ -53,7 +53,7 @@
   src: url('/fonts/GnuMICR.eot?#iefix') format('embedded-opentype'),
     url('/fonts/GnuMICR.woff') format('woff'),
     url('/fonts/GnuMICR.ttf') format('truetype'),
-    url('/fonts/GnuMICR.svg#kredit_shine') format('svg');
+    url('/fonts/GnuMICR.svg#gnumicr') format('svg');
 }
 
 /* Use a custom default font */

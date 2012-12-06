@@ -1622,7 +1622,7 @@ angular.module('payswarm.directives')
           if($scope.selection.destination &&
             $scope.selection.destination.id === xfer.destination) {
             $scope.depositTransfer = xfer;
-            $scope.depositDestination = selection.destination.id;
+            $scope.depositDestination = $scope.selection.destination.id;
           }
         });
         async.forEach(Object.keys($scope.accounts),

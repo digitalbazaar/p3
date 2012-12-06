@@ -1,11 +1,11 @@
 To: withdrawals@{{supportDomain}}
 From: cluster@{{supportDomain}}
-Subject: {{subjectPrefix}}{{serviceName}} {{stage}} withdrawal: USD ${{withdrawal.amount}} ({{withdrawal.id}})
+Subject: {{subjectPrefix}}{{serviceName}} {{stage}} withdrawal: USD ${{amount}} ({{withdrawal.id}})
 
 Machine        : {{machine}}
 Transaction ID : {{withdrawal.id}}
 Date           : {{withdrawal.created}}
-Charge         : USD ${{withdrawal.amount}}
+Credit         : USD ${{amount}}
 
 {% if headers %}
 ============================== HTTP Headers ================================

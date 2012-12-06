@@ -29,6 +29,23 @@
         </td>
       </tr>
     </tbody>
+    <tfoot>
+      <tr><td><span class="label label-important">IMPORTANT</span></td>
+        <td colspan="2">Your account "<strong>{{account.label}}</strong>" was debited
+          <strong><span class="money">USD {{withdrawal.amount | currency:'$'}}</span></strong>.
+        </td>
+      </tr>
+      <tr><td><span class="label label-important">IMPORTANT</span></td>
+        <td colspan="2">Your
+          <span data-ng-switch="input.destination.paymentMethod">
+            <span data-ng-switch-when="bank:BankAccount">bank account</span>
+            <span data-ng-switch-default>external account</span>
+          </span>
+          "<strong>{{input.destination.label}}</strong>" was be credited
+          <strong><span class="money">USD {{withdrawal.transfer[0].amount | currency:'$'}}</span></strong>.
+        </td>
+      </tr>
+    </tfoot>
   </table>
 </div>
 

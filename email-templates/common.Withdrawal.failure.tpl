@@ -5,7 +5,7 @@ Subject: {{subjectPrefix}}{{serviceName}} withdrawal FAILED: USD ${{withdrawal.a
 Machine        : {{machine}}
 Transaction ID : {{withdrawal.id}}
 Date           : {{withdrawal.created}}
-Charge         : USD ${{withdrawal.amount}}
+Credit         : USD ${{amount}}
 
 {% if headers %}
 ============================== HTTP Headers ================================

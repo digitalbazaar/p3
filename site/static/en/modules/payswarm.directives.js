@@ -1520,7 +1520,8 @@ angular.module('payswarm.directives')
       $scope.model = {};
       $scope.feedback = {};
       $scope.loading = false;
-      $scope.transfer = null;
+      $scope.depositTransfer = null;
+      $scope.depositDestination = null;
       $scope.psaVerifyParameters = {
         amount: [
           null,
@@ -1619,7 +1620,8 @@ angular.module('payswarm.directives')
           $scope.accounts[xfer.destination] = {};
           if($scope.selection.destination &&
             $scope.selection.destination.id === xfer.destination) {
-            $scope.transfer = xfer;
+            $scope.depositTransfer = xfer;
+            $scope.depositDestination = selection.destination.id;
           }
         });
         async.forEach(Object.keys($scope.accounts),
@@ -1660,6 +1662,7 @@ angular.module('payswarm.directives')
           // show complete page
           $scope.deposit = deposit;
           $scope.state = 'complete';
+          $scope.$apply();
 
           // get updated token
           svcPaymentToken.getOne($scope.token.id);

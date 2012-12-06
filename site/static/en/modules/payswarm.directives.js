@@ -320,7 +320,8 @@ angular.module('payswarm.directives')
       set(scope, state);
 
       // track events
-      element.click(function() {
+      element.click(function(event) {
+        event.preventDefault();
         scope.$apply(function() {
           var state = get(scope) || {};
           state.pressed = !state.pressed;
@@ -333,7 +334,6 @@ angular.module('payswarm.directives')
           }
           set(scope, state);
         });
-        return false;
       });
       var localMouseover = false;
       var showId = null;

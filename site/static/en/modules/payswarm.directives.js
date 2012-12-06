@@ -333,6 +333,7 @@ angular.module('payswarm.directives')
           }
           set(scope, state);
         });
+        return false;
       });
       var localMouseover = false;
       var showId = null;

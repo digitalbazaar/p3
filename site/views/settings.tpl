@@ -131,6 +131,7 @@ ${set([
                   <!-- Status -->
                   <td>
                     <a data-ng-show="bankAccount.psaStatus == 'active' && !bankAccount.psaVerified && bankAccount.psaVerifyReady"
+                      href="#"
                       data-ng-click="showVerifyBankAccountModal=true">Verify</a>
                     <span data-ng-show="bankAccount.psaStatus == 'disabled'"
                       data-tooltip-title="This payment method was likely disabled because your bank account information could not be verified. Please delete this payment method and try to add it again with corrected information."

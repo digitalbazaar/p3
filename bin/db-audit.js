@@ -13,31 +13,52 @@ var winston = require('winston');
 
 var main = {};
 var config = {};
-
-// setup the logging framework
-var logger = new (winston.Logger)({
-  transports: [
-    new winston.transports.Console({timestamp: true}),
-    new winston.transports.File({
-      json: true, timestamp: true, filename: 'auditor.log'})
-  ]
-});
+var logger = null;
 
 main.run = function() {
   program
     .version(module.exports.version)
     // setup the command line options
-    .option('--account <id>',
-      'Audit one account (default: all).', String)
-    .option('--stop-on-error',
-      'Stop when an error is detected (default: no).')
+    .option('--config <config>',
+      'Load a config file (default: none).', String)
+    .option('--log-level <level>',
+      'Log level (silly, verbose, info, warn, debug, error)' +
+      ' (default: info).', String)
+    .option('--log-timestamps',
+      'Log timestamps (default: false).')
+    .option('--no-log-colorize',
+      'Log timestamps (default: true).')
+    .option('--no-progress', 'Disable progress (default: enabled).')
+    .option('--account <id>', 'Audit one account (default: all).', String)
+    .option('--stop-on-error', 'Stop when an error is detected (default: no).')
     .parse(process.argv);
 
   // initialize the configuration
+  config.config = program.config;
+  config.logLevel = program.logLevel || 'info';
+  config.logTimestamps = program.logTimestamps;
+  config.logColorize = program.logColorize;
+  config.progress = program.progress;
   config.account = program.account || '*';
 
+  // setup the logging framework
+  logger = new (winston.Logger)({
+    transports: [
+      new winston.transports.Console({
+        level: config.logLevel,
+        timestamp: config.logTimestamps,
+        colorize: config.logColorize
+      }),
+      new winston.transports.File({
+        json: true,
+        timestamp: true,
+        filename: 'auditor.log'
+      })
+    ]
+  });
+
   // dump out the configuration
-  logger.info('Config:', config);
+  logger.verbose('Config:', config);
 
   var vendors = [];
   var buyers = [];
@@ -46,13 +67,13 @@ main.run = function() {
   async.waterfall([
     function(callback) {
       // initialize the audit module
-      audit.init(callback);
+      audit.init(config, callback);
     },
     function(callback) {
       // audit accounts
       var opts = {
         logger: logger,
-        verbose: true
+        progress: config.progress
       };
       audit.accounts(opts, null, callback);
     }

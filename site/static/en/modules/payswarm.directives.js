@@ -24,9 +24,7 @@ angular.module('payswarm.directives')
       return function(scope, element) {
         element.bind('click', function(event){
           // if we have no href url, then don't navigate anywhere.
-          console.log('anchor directive');
           if(!element.attr('href')) {
-            console.log('ad prevent default');
             event.preventDefault();
             // FIXME: is it really? this stops event propagation so we
             // turn this off

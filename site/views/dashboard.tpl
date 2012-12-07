@@ -40,22 +40,22 @@ ${set([
             <!-- Action -->
             <td class="action">
               <div class="btn-group">
-                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                <a class="btn dropdown-toggle" data-toggle="dropdown">
                   <i class="icon-chevron-down"></i>
                 </a>
                 <ul class="dropdown-menu">
                   <li>
-                    <a href="#" data-ng-click="modals.account=account; modals.showDeposit=true">
+                    <a data-ng-click="modals.account=account; modals.showDeposit=true">
                       <i class="icon-plus"></i> Deposit
                     </a>
                   </li>
                   <li>
-                    <a href="#" data-ng-click="modals.account=account; modals.showWithdraw=true">
+                    <a data-ng-click="modals.account=account; modals.showWithdraw=true">
                       <i class="icon-minus"></i> Withdraw
                     </a>
                   </li>
                   <li>
-                    <a href="#" data-ng-click="modals.account=account; modals.showEditAccount=true">
+                    <a data-ng-click="modals.account=account; modals.showEditAccount=true">
                       <i class="icon-pencil"></i> Edit
                     </a>
                   </li>
@@ -138,18 +138,18 @@ ${set([
             <!-- Action -->
             <td class="action">
               <div class="btn-group">
-                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                <a class="btn dropdown-toggle" data-toggle="dropdown">
                   <i class="icon-chevron-down"></i>
                 </a>
                 <ul class="dropdown-menu">
                   <li>
-                    <a href="#" data-ng-click="modals.budget=budget; modals.showEditBudget=true">
+                    <a data-ng-click="modals.budget=budget; modals.showEditBudget=true">
                       <i class="icon-pencil"></i> Edit
                     </a>
                   </li>
                   <li class="divider"></li>
                   <li class="btn-danger">
-                    <a href="#" data-ng-click="budget.deleted=true">
+                    <a data-ng-click="budget.deleted=true">
                       <i class="icon-remove icon-white"></i> Delete
                     </a>
                   </li>

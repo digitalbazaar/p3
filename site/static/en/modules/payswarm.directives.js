@@ -8,6 +8,35 @@
 (function($) {
 
 angular.module('payswarm.directives')
+// FIXME: override angular html anchor directive so that event propagation
+// does not automatically stop when clicking on links w/o href so things
+// like dropdown menus go away when an item is selected
+.directive('a', function() {
+  return {
+    restrict: 'E',
+    compile: function(element, attr) {
+      // turn <a href ng-click="..">link</a> into a link in IE
+      // but only if it doesn't have name attribute, in which case it's an anchor
+      if(!attr.href) {
+        attr.$set('href', '');
+      }
+
+      return function(scope, element) {
+        element.bind('click', function(event){
+          // if we have no href url, then don't navigate anywhere.
+          console.log('anchor directive');
+          if(!element.attr('href')) {
+            console.log('ad prevent default');
+            event.preventDefault();
+            // FIXME: is it really? this stops event propagation so we
+            // turn this off
+            //return false; // Needed for opera
+          }
+        });
+      };
+    }
+  };
+})
 // FIXME: remove once webkit non-windows font difference is fixed
 .directive('kredit', function() {
   return function(scope, element, attrs) {

@@ -40,7 +40,7 @@ ${set([
             <!-- Action -->
             <td class="action">
               <div class="btn-group">
-                <a class="btn dropdown-toggle" data-toggle="dropdown">
+                <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
                   <i class="icon-chevron-down"></i>
                 </a>
                 <ul class="dropdown-menu">
@@ -138,7 +138,7 @@ ${set([
             <!-- Action -->
             <td class="action">
               <div class="btn-group">
-                <a class="btn dropdown-toggle" data-toggle="dropdown">
+                <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
                   <i class="icon-chevron-down"></i>
                 </a>
                 <ul class="dropdown-menu">

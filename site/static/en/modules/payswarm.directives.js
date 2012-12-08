@@ -8,27 +8,19 @@
 (function($) {
 
 angular.module('payswarm.directives')
-// FIXME: override angular html anchor directive so that event propagation
-// does not automatically stop when clicking on links w/o href so things
-// like dropdown menus go away when an item is selected
+// FIXME: add another angular html anchor directive to replace the click
+// handler so that event propagation does not automatically stop when
+// clicking on links w/o href so things like dropdown menus go away when
+// an item is selected
 .directive('a', function() {
   return {
     restrict: 'E',
     compile: function(element, attr) {
-      // turn <a href ng-click="..">link</a> into a link in IE
-      // but only if it doesn't have name attribute, in which case it's an anchor
-      if(!attr.href) {
-        attr.$set('href', '');
-      }
-
       return function(scope, element) {
+        element.unbind('click');
         element.bind('click', function(event){
-          // if we have no href url, then don't navigate anywhere.
           if(!element.attr('href')) {
             event.preventDefault();
-            // FIXME: is it really? this stops event propagation so we
-            // turn this off
-            //return false; // Needed for opera
           }
         });
       };

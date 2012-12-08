@@ -1415,11 +1415,26 @@ angular.module('payswarm.services')
     var _backdrop = modal.backdrop;
     modal.backdrop = function(callback) {
       callback = callback || angular.noop;
-      _backdrop.call(this, callback);
-      if(this.isShown && this.options.backdrop) {
+      _backdrop.call(modal, callback);
+
+      // replace click handler on backdrop because backdrop element
+      // now contains the modal
+      if(modal.isShown && modal.options.backdrop) {
+        modal.$backdrop.unbind('click');
+        modal.$backdrop.click(function(event) {
+          // only focus/hide if the click is on the backdrop itself
+          if(event.target === modal.$backdrop[0]) {
+            (modal.options.backdrop === 'static') ?
+              modal.$element[0].focus() : modal.hide();
+          }
+        });
+      }
+
+      // create modal wrapper
+      if(modal.isShown && modal.options.backdrop) {
         var $elementWrapper = $('<div class="modal-wrapper" />');
-        $elementWrapper.prependTo(this.$backdrop);
-        this.$element.prependTo($elementWrapper);
+        $elementWrapper.prependTo(modal.$backdrop);
+        modal.$element.prependTo($elementWrapper);
 
         // disable background scrolling
         $('body').css({overflow: 'hidden'});
@@ -1427,8 +1442,8 @@ angular.module('payswarm.services')
     };
     var _removeBackdrop = modal.removeBackdrop;
     modal.removeBackdrop = function() {
-      this.$element.insertAfter(this.$backdrop);
-      _removeBackdrop.call(this);
+      modal.$element.insertAfter(modal.$backdrop);
+      _removeBackdrop.call(modal);
 
       // re-enable background scrolling if modals are not stacked
       if(!scope._modal.hasChild && !scope._modal.parent) {

@@ -776,7 +776,7 @@ angular.module('payswarm.directives')
           // closes it
           $timeout(function() {
             // hide popover when clicking away
-            $(document).one('click', hideOnClick);
+            $(document).bind('click', hideOnClick);
           });
         };
 

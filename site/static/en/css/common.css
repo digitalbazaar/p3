@@ -81,7 +81,7 @@ input, button, select, textarea {
 /* IE fix for placeholders */
 input.placeholder,
 textarea.placeholder {
-  color: #999999;
+  color: #999;
 }
 
 /* Input */
@@ -97,11 +97,13 @@ input.slug {
   background-color: transparent;
   border: 0;
   box-shadow: none;
-  vertical-align: bottom;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   -o-text-overflow: ellipsis;
+}
+input.slug.placeholder {
+  color: #999;
 }
 input.slug:hover, input.slug:focus {
   -webkit-transition: border linear 0.2s, box-shadow linear 0.2s;

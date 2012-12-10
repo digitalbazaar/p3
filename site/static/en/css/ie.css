@@ -24,3 +24,8 @@ a.btn {
 a.btn [class^="icon-"] {
   margin-top: -1px;
 }
+
+/* Inputs */
+input.slug {
+  margin-bottom: 2px;
+}

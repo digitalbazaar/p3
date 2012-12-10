@@ -5,3 +5,22 @@
   background-size: 100% 100%;
   filter: none;
 }
+
+/* Icon positioning */
+ul.nav a [class^="icon-"] {
+  margin-top: -1px;
+}
+button.btn {
+  padding-top: 6px;
+  padding-bottom: 2px;
+}
+button.btn [class^="icon-"] {
+  margin-top: -2px;
+}
+a.btn {
+  padding-top: 5px;
+  padding-bottom: 3px;
+}
+a.btn [class^="icon-"] {
+  margin-top: -1px;
+}

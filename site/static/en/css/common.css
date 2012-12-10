@@ -92,10 +92,8 @@ input.slug {
   line-height: 18px;
   margin: 0;
   padding: 0;
-  font-family: 'Droid Sans', sans-serif;
-  font-size: 11px;
   font-weight: bold;
-  color: #999;
+  color: rgb(82, 168, 236);
   background-color: transparent;
   border: 0;
   box-shadow: none;

@@ -180,11 +180,11 @@ ${set([
       <div class="form-actions">
         <div class="modal-feedback"
           data-feedback="feedback" data-target="feedbackTarget"></div>
-        <span data-spinner="loading"
-          data-spinner-class="append-btn-spinner"></span>
         <button data-ng-disabled="loading || !model.identitySlugAvailable"
           class="btn btn-large btn-primary"
           data-submit-form>Create Profile</button>
+        <span data-spinner="loading"
+          data-spinner-class="append-btn-spinner"></span>
       </div>
     
       <div name="create-feedback" class="feedback"></div>

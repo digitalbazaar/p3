@@ -10,7 +10,7 @@ var module = angular.module('payswarm');
 
 module.controller('PasscodeCtrl', function($scope) {
   $scope.model = {};
-  var data = window.data = {};
+  var data = window.data || {};
   $scope.email = data.session ? data.session.profile.email : '';
   $scope.psaPasscode = data.psaPasscode || '';
   $scope.psaPasswordNew = '';

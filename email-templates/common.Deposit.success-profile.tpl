@@ -14,14 +14,14 @@ Your {% if deposit.source.cardNumber %}credit card{% else if deposit.source.bank
 Here is your deposit receipt:
 
 Transaction ID: {{deposit.id}}
-Date and Time : {{deposit.created}}
+Date and Time:  {{deposit.created}}
 Source:
- From   : {{deposit.source.label}}
-{% if deposit.source.cardNumber %} Number : {{deposit.source.cardNumber}}
- Exp    : {{deposit.source.cardExpMonth}}/{{deposit.source.cardExpYear}}
+ From:    {{deposit.source.label}}
+{% if deposit.source.cardNumber %} Number:  {{deposit.source.cardNumber}}
+ Exp:     {{deposit.source.cardExpMonth}}/{{deposit.source.cardExpYear}}
 {% else if deposit.source.bankAccount %} Routing: {{deposit.source.bankRoutingNumber}}
  Account: {{deposit.source.bankAccount}}
-{% endif %} Charge : ${{deposit.amount}} USD
+{% endif %} Charge:  ${{deposit.amount}} USD
 Deposit Details*:
 {%- for transfer in deposit.transfer %}
  {{transfer.comment}}: ${{transfer.amount}} USD

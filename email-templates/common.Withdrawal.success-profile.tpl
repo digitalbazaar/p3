@@ -14,13 +14,13 @@ Your {% if withdrawal.destination.bankAccount %}bank account{% else %}account{% 
 Here is your withdrawal receipt:
 
 Transaction ID: {{withdrawal.id}}
-Date and Time : {{withdrawal.created}}
+Date and Time:  {{withdrawal.created}}
 Source:
- From   : {{withdrawal.source}}
+ From:    {{withdrawal.source}}
 Destination:
 {% if withdrawal.destination.bankAccount %} Routing: {{withdrawal.destination.bankRoutingNumber}}
  Account: {{withdrawal.destination.bankAccount}}
-{% endif %} Credit : ${{amount}} USD
+{% endif %} Credit:  ${{amount}} USD
 Withdrawal Details*:
 {%- for transfer in withdrawal.transfer %}
  {{transfer.comment}}: ${{transfer.amount}} USD

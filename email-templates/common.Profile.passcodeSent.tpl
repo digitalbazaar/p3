@@ -26,10 +26,10 @@ pass codes for each one:
 {%- for profile in profiles -%}
 {%- if profile.identity %}
 
-Identity : {{profile.identity.label}}
+Identity:  {{profile.identity.label}}
 {%- else %}
 
-Profile  : {{profile.psaSlug}}
+Profile:   {{profile.psaSlug}}
 {%- endif %}
 Pass code: {{profile.psaPasscode}}
 {%- endfor -%}

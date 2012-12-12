@@ -2,6 +2,7 @@ To: notify@{{supportDomain}}
 From: cluster@{{supportDomain}}
 Subject: {{subjectPrefix}}{{serviceName}} intervention required for {{transactionId}}
 
+Machine:        {{machine}}
 Transaction ID: {{transactionId}}
 
 Too many external status checks have been performed without an adequate

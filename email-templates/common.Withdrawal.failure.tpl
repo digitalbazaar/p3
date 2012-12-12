@@ -2,10 +2,10 @@ To: deposits@{{supportDomain}}
 From: cluster@{{supportDomain}}
 Subject: {{subjectPrefix}}{{serviceName}} withdrawal FAILED: USD ${{withdrawal.amount}} ({{withdrawal.id}})
 
-Machine        : {{machine}}
-Transaction ID : {{withdrawal.id}}
-Date           : {{withdrawal.created}}
-Credit         : USD ${{amount}}
+Machine:        {{machine}}
+Transaction ID: {{withdrawal.id}}
+Date:           {{withdrawal.created}}
+Credit:         USD ${{amount}}
 
 {% if headers %}
 ============================== HTTP Headers ================================

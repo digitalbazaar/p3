@@ -11,7 +11,7 @@ More info is available at http://payswarm.com/wiki/Demo_Warning.
 {% endif -%}
 A purchase has just been made using your {{serviceName}} account.
 
-Title : "{{contract.asset.title}}" 
+Title:  "{{contract.asset.title}}" 
 Vendor: {{contract.assetProvider.label}}.
 
 If you would like to view the item, you can go here:

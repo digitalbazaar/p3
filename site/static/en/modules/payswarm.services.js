@@ -1341,7 +1341,7 @@ angular.module('payswarm.services')
     if(e.keyCode === 27) {
       e.stopPropagation();
       if(modals.length > 0) {
-        close(modals[modals.length - 1].scope, true);
+        modals[modals.length - 1]._angular.close(true);
       }
     }
   });
@@ -1378,40 +1378,69 @@ angular.module('payswarm.services')
       templateUrl: options.templateUrl,
       replace: true,
       link: function(scope, element, attrs, controller) {
-        // lazily create modals div
-        var modals = $('#modals');
-        if(modals.length === 0) {
-          modals = $('<div id="modals"></div>');
-          $(document.body).append(modals);
-        }
+        // create modal and link to its element
+        element = createModal(element);
 
-        // move element to modals div
-        modals.append(element);
+        // ignore enter presses in the modal by default
+        scope._modalEnter = attrs.modalEnter || 'false';
 
-        // watch visible property, etc.
-        link(scope, element, attrs);
+        // open modal when visible is true, close when false
+        var modal = element.data('modal');
+        scope.$watch('visible', function(value) {
+          if(value) {
+            modal._angular.open(scope);
+          }
+          else {
+            modal._angular.close();
+          }
+        });
+
+        // does any custom init work when modal opens
+        scope.open = scope.open || angular.noop;
+
+        // closes modal on success
+        scope.close = function(err, result) {
+          scope.error = err;
+          scope.result = result;
+          scope._success = true;
+          close(scope);
+        };
+
+        // do custom linking
         options.link(scope, element, attrs, controller);
       }
     };
   };
 
   /**
-   * Links the modal's element.
+   * Creates the modal, attaching it to an element.
    *
-   * Watch the given element's modal attributes for changes; open or close
-   * the modal associated with the element as appropriate, etc.
+   * @param element the element to attach to, null to create a new one.
    *
-   * @param scope the scope for the modal.
-   * @param element the element for the modal.
-   * @param attrs the attributes of the element.
+   * @return the element with the attached modal.
    */
-  function link(scope, element, attrs) {
+  function createModal(element) {
+    if(!element) {
+      element = $('<div></div>');
+      // FIXME: apply template URL
+    }
+
+    // lazily create modal container
+    var modalContainer = $('#modals');
+    if(modalContainer.length === 0) {
+      modalContainer = $('<div id="modals"></div>');
+      $(document.body).append(modalContainer);
+    }
+
+    // move/append element to modals container
+    modalContainer.append(element);
+
     // initialize modal
     element.addClass('hide');
     element.modal(modalOptions);
+    var modal = element.data('modal');
 
     // make modal full-screen scrollable
-    var modal = element.data('modal');
     var _backdrop = modal.backdrop;
     modal.backdrop = function(callback) {
       callback = callback || angular.noop;
@@ -1425,7 +1454,7 @@ angular.module('payswarm.services')
           // only focus/hide if the click is on the backdrop itself
           if(event.target === modal.$backdrop[0]) {
             (modal.options.backdrop === 'static') ?
-              modal.$element[0].focus() : modal.hide();
+              element.focus() : modal.hide();
           }
         });
       }
@@ -1434,7 +1463,7 @@ angular.module('payswarm.services')
       if(modal.isShown && modal.options.backdrop) {
         var $elementWrapper = $('<div class="modal-wrapper" />');
         $elementWrapper.prependTo(modal.$backdrop);
-        modal.$element.prependTo($elementWrapper);
+        element.prependTo($elementWrapper);
 
         // disable background scrolling
         $('body').css({overflow: 'hidden'});
@@ -1442,62 +1471,39 @@ angular.module('payswarm.services')
     };
     var _removeBackdrop = modal.removeBackdrop;
     modal.removeBackdrop = function() {
-      modal.$element.insertAfter(modal.$backdrop);
+      element.insertAfter(modal.$backdrop);
       _removeBackdrop.call(modal);
 
-      // re-enable background scrolling if modals are not stacked
-      if(!scope._modal.hasChild && !scope._modal.parent) {
+      // re-enable background scrolling if modal is not stacked
+      if(!modal._angular.parent && !modal._angular.hasChild) {
         $('body').css({overflow: 'auto'});
       }
 
-      // call callback
-      if(scope._callback) {
+      // call scope's callback
+      var scope = modal._angular.scope;
+      if(scope && scope._callback) {
         scope._callback.call(scope, {err: scope.error, result: scope.result});
       }
     };
 
-    // ignore enter presses in the modal by default
-    var modalEnter = attrs.modalEnter || 'false';
-    if(!scope.$eval(modalEnter)) {
-      element.keypress(function(e) {
-        if(e.keyCode === 13 && scope._open) {
-          e.preventDefault();
-        }
-      });
-    }
-
-    // open modal when visible is true, close when false
-    scope._open = false;
-    scope.$watch('visible', function(value) {
-      if(value) {
-        open(scope, element);
-      }
-      else {
-        close(scope);
+    // handle enter key
+    element.keypress(function(e) {
+      if(e.keyCode === 13 &&
+        modal._angular.scope && !modal._angular.scope._modalEnter) {
+        e.preventDefault();
       }
     });
-
-    // does any init work when modal opens
-    scope.open = scope.open || angular.noop;
-
-    // closes modal on success
-    scope.close = function(err, result) {
-      scope.error = err;
-      scope.result = result;
-      scope._success = true;
-      close(scope);
-    };
 
     // auto-bind any .btn-close classes here
     $('.btn-close', element).click(function(e) {
       e.preventDefault();
-      close(scope, true);
+      modal._angular.close(true);
     });
 
     // close modal when it is hidden and has no child
     element.on('hide', function() {
-      if(!scope._modal.hasChild) {
-        close(scope, true);
+      if(!modal._angular.hasChild) {
+        modal._angular.close(true);
       }
     });
 
@@ -1516,49 +1522,22 @@ angular.module('payswarm.services')
       }
 
       // show parent when hidden and no child
-      if(scope._modal.parent && !scope._modal.hasChild) {
-        scope._modal.parent.hasChild = false;
-        scope._modal.parent.element.modal('show');
+      if(modal._angular.parent && !modal._angular.hasChild) {
+        modal._angular.parent._angular.hasChild = false;
+        modal._angular.parent._angular.show();
       }
     });
-  };
 
-  /**
-   * Opens a modal.
-   *
-   * @param scope the modal's scope.
-   * @param element the modal element.
-   */
-  function open(scope, element) {
-    // already open
-    if(scope._open) {
-      return;
-    }
+    // additional angular API on bootstrap modal
+    modal._angular = {};
 
-    // init scope
-    scope._open = true;
-    scope._success = false;
-    scope.error = null;
-    scope.result = null;
-
-    // get the parent modal, if any
-    var parent = (modals.length > 0) ? modals[modals.length - 1] : null;
-
-    // push the modal
-    var modal = scope._modal = {
-      scope: scope,
-      element: element,
-      parent: parent,
-      hasChild: false
-    };
-    modals.push(modal);
-
-    // do custom open() and then show modal
-    function show() {
-      scope.open();
+    /** Do scope.open() and show the modal. */
+    modal._angular.openAndShow = function() {
+      // do scope's custom open()
+      modal._angular.scope.open();
 
       // only do fade transition if no parent
-      if(!parent) {
+      if(!modal._angular.parent) {
         // firefox animations are broken
         if(!$.browser.mozilla) {
           element.addClass('fade');
@@ -1567,55 +1546,104 @@ angular.module('payswarm.services')
       element.modal('show');
     };
 
-    if(parent) {
-      // hide parent first, then show child
-      parent.hasChild = true;
-      parent.element.one('hidden', function() {
-        show();
-      });
-      parent.element.modal('hide');
-    }
-    else {
-      show();
-    }
-  }
+    /** Shortcut to show modal. */
+    modal._angular.show = function() {
+      element.modal('show');
+    };
 
-  /**
-   * Closes a modal.
-   *
-   * @param scope the modal's scope.
-   * @param apply true if scope.$apply must be called.
-   */
-  function close(scope, apply) {
-    // already closed
-    if(!scope._open) {
-      return;
-    }
+    /** Shortcut to hide modal. */
+    modal._angular.hide = function() {
+      element.modal('hide');
+    };
 
-    // close the current modal
-    var modal = modals.pop();
-    scope._open = false;
-    scope.visible = false;
-
-    // set error to canceled if success is not set
-    if(!scope.error && !scope._success) {
-      scope.error = 'canceled';
-    }
-
-    if(apply) {
-      scope.$apply();
-    }
-
-    // only do fade transition when no parent
-    if(!modal.parent) {
-      // firefox animations are broken
-      if(!$.browser.mozilla) {
-        modal.element.addClass('fade');
+    /**
+     * Opens a modal using the given scope.
+     *
+     * @param scope the scope used to open the modal.
+     */
+    modal._angular.open = function(scope) {
+      if(modal._angular.scope) {
+        // already open
+        if(modal._angular.scope === scope) {
+          return;
+        }
+        // error, opening modal w/another scope while already open
+        throw new Error(
+          'Modal already open using another scope; if you can ' +
+          'cyclically access the same type of modal, then you need to ' +
+          'remove the unique modal type declaration so it can be ' +
+          'duplicated.');
       }
-    }
-    // hide modal
-    modal.element.modal('hide');
-  };
+
+      // init scope
+      scope._success = false;
+      scope.error = null;
+      scope.result = null;
+
+      // get the parent modal, if any
+      var parent = (modals.length > 0) ? modals[modals.length - 1] : null;
+
+      // add modal to stack
+      modal._angular.scope = scope;
+      modal._angular.parent = parent;
+      modal._angular.hasChild = false;
+      modals.push(modal);
+
+      if(parent) {
+        // hide parent first, then show child
+        parent._angular.hasChild = true;
+        parent.$element.one('hidden', function() {
+          modal._angular.openAndShow();
+        });
+        parent._angular.hide();
+      }
+      else {
+        modal._angular.openAndShow();
+      }
+    };
+
+    /**
+     * Closes a modal.
+     *
+     * @param doApply true if scope.$apply must be called.
+     */
+    modal._angular.close = function(doApply) {
+      var scope = modal._angular.scope;
+
+      // already closed
+      if(!scope) {
+        return;
+      }
+
+      // clear modal scope
+      modal._angular.scope = null;
+
+      // remove modal from stack
+      modals.pop();
+      scope.visible = false;
+
+      // set error to canceled if success is not set
+      if(!scope.error && !scope._success) {
+        scope.error = 'canceled';
+      }
+
+      if(doApply) {
+        scope.$apply();
+      }
+
+      // only do fade transition when no parent
+      if(!modal._angular.parent) {
+        // firefox animations are broken
+        if(!$.browser.mozilla) {
+          element.addClass('fade');
+        }
+      }
+      // hide modal
+      modal._angular.hide();
+    };
+
+    return element;
+  }
 
   return service;
 });

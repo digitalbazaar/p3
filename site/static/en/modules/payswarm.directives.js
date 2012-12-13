@@ -1165,7 +1165,8 @@ angular.module('payswarm.directives')
 })
 .directive('modalAddAccount', function(svcModal, svcIdentity, svcAccount) {
   function Ctrl($scope) {
-    $scope.open = function() {
+    $scope.modal = {};
+    $scope.modal.open = function() {
       $scope.model = {};
       $scope.feedback = {};
       $scope.loading = false;
@@ -1190,7 +1191,7 @@ angular.module('payswarm.directives')
         $scope.account, $scope.identityId, function(err, account) {
         $scope.loading = false;
         if(!err) {
-          $scope.close(null, account);
+          $scope.modal.close(null, account);
         }
         $scope.feedback.error = err;
       });
@@ -1220,7 +1221,8 @@ angular.module('payswarm.directives')
 })
 .directive('modalEditAccount', function(svcModal, svcAccount) {
   function Ctrl($scope) {
-    $scope.open = function() {
+    $scope.modal = {};
+    $scope.modal.open = function() {
       $scope.model = {};
       $scope.data = window.data || {};
       $scope.feedback = {};
@@ -1252,7 +1254,7 @@ angular.module('payswarm.directives')
       svcAccount.update(account, function(err, account) {
         $scope.loading = false;
         if(!err) {
-          $scope.close(null, account);
+          $scope.modal.close(null, account);
         }
         $scope.feedback.error = err;
       });
@@ -1275,7 +1277,8 @@ angular.module('payswarm.directives')
       account: null
     };
 
-    $scope.open = function() {
+    $scope.modal = {};
+    $scope.modal.open = function() {
       $scope.model = {};
       $scope.data = window.data || {};
       $scope.feedback = {};
@@ -1308,7 +1311,7 @@ angular.module('payswarm.directives')
       svcBudget.add($scope.budget, function(err, budget) {
         $scope.loading = false;
         if(!err) {
-          $scope.close(null, budget);
+          $scope.modal.close(null, budget);
         }
         $scope.feedback.error = err;
       });
@@ -1330,7 +1333,8 @@ angular.module('payswarm.directives')
       account: null
     };
 
-    $scope.open = function() {
+    $scope.modal = {};
+    $scope.modal.open = function() {
       $scope.model = {};
       $scope.data = window.data || {};
       $scope.feedback = {};
@@ -1388,7 +1392,7 @@ angular.module('payswarm.directives')
       svcBudget.update(budget, function(err, budget) {
         $scope.loading = false;
         if(!err) {
-          $scope.close(null, budget);
+          $scope.modal.close(null, budget);
         }
         $scope.feedback.error = err;
       });
@@ -1411,7 +1415,8 @@ angular.module('payswarm.directives')
       address: null
     };
 
-    $scope.open = function() {
+    $scope.modal = {};
+    $scope.modal.open = function() {
       $scope.model = {};
       $scope.data = window.data || {};
       $scope.monthLabels = svcConstant.monthLabels;
@@ -1511,7 +1516,7 @@ angular.module('payswarm.directives')
       svcPaymentToken.add(token, function(err, addedToken) {
         $scope.loading = false;
         if(!err) {
-          $scope.close(null, addedToken);
+          $scope.modal.close(null, addedToken);
         }
         $scope.feedback.error = err;
       });
@@ -1536,7 +1541,8 @@ angular.module('payswarm.directives')
       destination: null
     };
 
-    $scope.open = function() {
+    $scope.modal = {};
+    $scope.modal.open = function() {
       $scope.model = {};
       $scope.feedback = {};
       $scope.loading = false;
@@ -1701,7 +1707,7 @@ angular.module('payswarm.directives')
     };
 
     //$scope.done = function() {
-    //  $scope.close(null, $scope.deposit);
+    //  $scope.modal.close(null, $scope.deposit);
     //}
   }
 
@@ -1720,7 +1726,8 @@ angular.module('payswarm.directives')
 .directive('modalAddIdentity', function(svcModal, svcIdentity, svcAccount) {
   function Ctrl($scope) {
     $scope.baseUrl = window.location.protocol + '//' + window.location.host;
-    $scope.open = function() {
+    $scope.modal = {};
+    $scope.modal.open = function() {
       $scope.model = {};
       $scope.feedback = {};
       $scope.loading = false;
@@ -1783,7 +1790,7 @@ angular.module('payswarm.directives')
       svcAccount.add($scope.account, identity.id, function(err, account) {
         $scope.loading = false;
         if(!err) {
-          $scope.close(null, {identity: identity, account: account});
+          $scope.modal.close(null, {identity: identity, account: account});
         }
         // FIXME: identity vs account feedback
         $scope.feedback.error = err;
@@ -1837,7 +1844,8 @@ angular.module('payswarm.directives')
 .directive('modalAddAddress', function(
   svcModal, svcIdentity, svcAddress, svcConstant) {
   function Ctrl($scope) {
-    $scope.open = function() {
+    $scope.modal = {};
+    $scope.modal.open = function() {
       $scope.model = {};
       $scope.data = window.data || {};
       $scope.countries = svcConstant.countries || {};
@@ -1888,7 +1896,7 @@ angular.module('payswarm.directives')
         function(err, addedAddress) {
         $scope.loading = false;
         if(!err) {
-          $scope.close(null, addedAddress);
+          $scope.modal.close(null, addedAddress);
         }
         $scope.feedback.error = err;
       });
@@ -2006,7 +2014,8 @@ angular.module('payswarm.directives')
 })
 .directive('modalDeposit', function(svcModal) {
   function Ctrl($scope, svcPaymentToken, svcAccount, svcTransaction) {
-    $scope.open = function() {
+    $scope.modal = {};
+    $scope.modal.open = function() {
       $scope.model = {};
       $scope.data = window.data || {};
       $scope.feedback = {};
@@ -2124,7 +2133,7 @@ angular.module('payswarm.directives')
     };
 
     //$scope.done = function() {
-    //  $scope.close(null, $scope.deposit);
+    //  $scope.modal.close(null, $scope.deposit);
     //}
   }
 
@@ -2143,7 +2152,8 @@ angular.module('payswarm.directives')
 })
 .directive('modalWithdraw', function(svcModal) {
   function Ctrl($scope, svcPaymentToken, svcAccount, svcTransaction) {
-    $scope.open = function() {
+    $scope.modal = {};
+    $scope.modal.open = function() {
       $scope.model = {};
       $scope.data = window.data || {};
       $scope.feedback = {};
@@ -2277,7 +2287,7 @@ angular.module('payswarm.directives')
     };
 
     //$scope.done = function() {
-    //  $scope.close(null, $scope.withdrawal);
+    //  $scope.modal.close(null, $scope.withdrawal);
     //}
   }
 

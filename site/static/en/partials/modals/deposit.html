@@ -24,13 +24,13 @@
     <span data-spinner="loading"
       data-spinner-class="prepend-btn-spinner"></span>
     <span data-ng-show="state == 'preparing'">
-      <button class="btn btn-primary"
+      <button class="btn btn-primary btn-review"
         data-ng-disabled="loading || !input.source"
         data-ng-click="review()">Review</button>
       <button data-ng-disabled="loading" class="btn btn-close">Cancel</button>
     </span>
     <span data-ng-show="state == 'reviewing'">
-      <button class="btn btn-primary"
+      <button class="btn btn-primary btn-deposit"
         data-ng-disabled="loading"
         data-ng-click="confirm()"><i class="icon-ok icon-white"></i> Deposit</button>
       <button class="btn"
@@ -38,7 +38,7 @@
         data-ng-click="prepare()">Back</button>
     </span>
     <span data-ng-show="state == 'complete'">
-      <button class="btn btn-close">Done</button>
+      <button class="btn btn-close btn-done">Done</button>
     </span>
   </div>
 </div>

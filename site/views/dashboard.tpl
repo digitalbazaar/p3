@@ -16,7 +16,7 @@ ${set([
   </div>
     
   <div class="row">
-    <div class="section span6">
+    <div class="section section-accounts span6">
       <h3 class="headline">Accounts</h3>
       <table class="table table-condensed" data-ng-show="state.accounts.loading || accounts.length > 0">
         <thead>
@@ -69,7 +69,7 @@ ${set([
             <!-- Add Account -->
             <td colspan="3">
               <button 
-                class="btn btn-success pull-right"
+                class="btn btn-success btn-add-account pull-right"
                 data-ng-click="modals.showAddAccount=true"><i class="icon-plus icon-white"></i> Add Account</button>
             </td>
           </tr>
@@ -86,7 +86,7 @@ ${set([
       <div data-ng-show="!state.accounts.loading && accounts.length == 0">
         <p class="center">You have no accounts for this identity.</p>
         <button 
-          class="btn btn-success pull-right"
+          class="btn btn-success btn-add-account pull-right"
           data-ng-click="modals.showAddAccount=true"><i class="icon-plus icon-white"></i> Add Account</button>
       </div>
       <div data-modal-deposit="modals.showDeposit"
@@ -98,7 +98,7 @@ ${set([
       <div data-modal-add-account="modals.showAddAccount"></div>
     </div>
     
-    <div class="section span6">
+    <div class="section section-budgets span6">
       <h3 class="headline">Budgets</h3>
       <table class="table table-condensed" data-ng-show="state.budgets.loading || budgets.length > 0">
         <thead>
@@ -162,7 +162,7 @@ ${set([
           <tr data-ng-hide="state.budgets.loading">
             <td colspan="4">
               <button
-                class="btn btn-success pull-right"
+                class="btn btn-success btn-add-budget pull-right"
                 data-ng-click="modals.showAddBudget=true"><i class="icon-plus icon-white"></i> Add Budget</button>
             </td>
           </tr>
@@ -179,7 +179,7 @@ ${set([
       <div data-ng-show="!state.budgets.loading && budgets.length == 0">
         <p class="center">You have no budgets for this identity.</p>
         <button
-          class="btn btn-success pull-right"
+          class="btn btn-success btn-add-budget pull-right"
           data-ng-click="modals.showAddBudget=true"><i class="icon-plus icon-white"></i> Add Budget</button>
       </div>
       <div data-modal-edit-budget="modals.showEditBudget"
@@ -189,7 +189,7 @@ ${set([
   </div>
 
   <div class="row">
-    <div class="section span6">
+    <div class="section section-recent-transactions span6">
       <h3 class="headline">Recent Transactions</h3>
       
       <table class="table table-condensed" data-ng-show="state.txns.loading || txns.length > 0">
@@ -243,7 +243,7 @@ ${set([
       </div>
     </div>
     
-    <div class="section span6">
+    <div class="section section-messages span6">
       <h3 class="headline">Messages</h3>
       <p class="center">You have no new messages.</p>
     </div>

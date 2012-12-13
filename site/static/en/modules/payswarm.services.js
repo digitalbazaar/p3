@@ -1478,12 +1478,6 @@ angular.module('payswarm.services')
       if(!modal._angular.parent && !modal._angular.hasChild) {
         $('body').css({overflow: 'auto'});
       }
-
-      // call scope's callback
-      var scope = modal._angular.scope;
-      if(scope && scope._callback) {
-        scope._callback.call(scope, {err: scope.error, result: scope.result});
-      }
     };
 
     // handle enter key
@@ -1640,6 +1634,11 @@ angular.module('payswarm.services')
       }
       // hide modal
       modal._angular.hide();
+
+      // call scope's callback
+      if(scope._callback) {
+        scope._callback.call(scope, {err: scope.error, result: scope.result});
+      }
     };
 
     return element;

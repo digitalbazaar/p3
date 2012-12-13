@@ -1421,7 +1421,7 @@ angular.module('payswarm.services')
    */
   function createModal(element) {
     if(!element) {
-      element = $('<div></div>');
+      element = $('<div>');
       // FIXME: apply template URL
     }
 

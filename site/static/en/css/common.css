@@ -376,12 +376,12 @@ span.currency {
 }
 .prepend-btn-spinner {
   display: inline-block;
-  margin-right: 20px;
+  padding-right: 20px;
   margin-bottom: 5px;
 }
 .append-btn-spinner {
   display: inline-block;
-  margin-left: 20px;
+  padding-left: 20px;
   margin-bottom: 5px;
 }
 

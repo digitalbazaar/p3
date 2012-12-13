@@ -1431,16 +1431,8 @@ angular.module('payswarm.services')
    */
   function createModal(
     options, directiveScope, attrs, transcludeLinker, controller) {
-    // lazily create modal container
-    var modalContainer = $('#modals');
-    if(modalContainer.length === 0) {
-      modalContainer = $('<div id="modals"></div>');
-      $(document.body).append(modalContainer);
-    }
-
     // create new modal element
     var element = $($templateCache.get(options.templateUrl)[1]);
-    modalContainer.append(element);
     $compile(element, function(scope, cloneAttachFn) {
       // link and attach transcluded elements
       var clone = transcludeLinker(
@@ -1500,6 +1492,12 @@ angular.module('payswarm.services')
           err: directiveScope.modal.error,
           result: directiveScope.modal.result
         });
+      }
+
+      // needed here because insertAfter is required for stacked modals
+      // even after the element has been removed from the dom due to destroy
+      if(modal._angular.destroyed) {
+        element.remove();
       }
     };
 
@@ -1607,6 +1605,10 @@ angular.module('payswarm.services')
       if(modal._angular.parent && !modal._angular.hasChild) {
         modal._angular.parent._angular.hasChild = false;
         modal._angular.parent._angular.show();
+      }
+
+      if(modal._angular.destroyed) {
+        element.remove();
       }
     });
 

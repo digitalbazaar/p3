@@ -174,13 +174,19 @@ ${set([
       
         </fieldset>
       </div>
-      
-      <p class="comment">By joining you agree to the <a href="/legal#tos">Terms of Service</a> and <a href="/legal#pp">Privacy Policy</a>.</p>
+
+      <fieldset>
+        <legend>Service Agreement</legend>
+        
+        <label class="checkbox">
+          <input type="checkbox" data-ng-model="agreementChecked"> I agree to the <a href="/legal#tos">Terms of Service</a> and <a href="/legal#pp">Privacy Policy</a>.
+        </label>
+      </fieldset>
         
       <div class="form-actions">
         <div class="modal-feedback"
           data-feedback="feedback" data-target="feedbackTarget"></div>
-        <button data-ng-disabled="loading || !model.identitySlugAvailable"
+        <button data-ng-disabled="loading || !model.identitySlugAvailable || !model.emailAvailable || !agreementChecked"
           class="btn btn-large btn-primary"
           data-submit-form>Create Profile</button>
         <span data-spinner="loading"

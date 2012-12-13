@@ -33,6 +33,7 @@ module.controller('CreateProfileCtrl', function($scope, $http) {
       psaPublic: []
     }
   };
+  $scope.agreementChecked = false;
 
   $scope.submit = function() {
     $scope.loading = true;

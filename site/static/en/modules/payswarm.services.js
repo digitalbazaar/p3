@@ -1403,7 +1403,7 @@ angular.module('payswarm.services')
           scope.error = err;
           scope.result = result;
           scope._success = true;
-          close(scope);
+          modal._angular.close();
         };
 
         // do custom linking

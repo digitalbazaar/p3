@@ -180,14 +180,34 @@ angular.module('payswarm.directives')
     });
   };
 })
-.directive('slugIn', function($filter) {
+.directive('slugIn', function($filter, $timeout) {
   return {
     restrict: 'A',
     require: 'ngModel',
     link: function(scope, element, attrs, ngModel) {
       var slug = $filter('slug');
+
+      // ensure view is updated after any input event
+      element.bind('propertychange change input keyup paste', function(e) {
+        if(ngModel.$viewValue !== element.val()) {
+          ngModel.$setViewValue(element.val());
+        }
+      });
+
+      // always display model value (override view value)
+      ngModel.$render = function() {
+        element.val(ngModel.$modelValue);
+      };
+
+      // convert view value into slug
       ngModel.$parsers.push(function(v) {
-        return slug(v);
+        var parsed = slug(v);
+        // force view to match model
+        if(parsed !== ngModel.$viewValue) {
+          ngModel.$setViewValue(parsed);
+          ngModel.$render();
+        }
+        return parsed;
       });
     }
   };
@@ -195,13 +215,12 @@ angular.module('payswarm.directives')
 .directive('slugOut', function($filter, $parse) {
   return {
     restrict: 'A',
-    require: 'ngModel',
-    link: function(scope, element, attrs, ngModel) {
+    link: function(scope, element, attrs) {
       var slug = $filter('slug');
       var set = $parse(attrs.slugOut).assign || angular.noop;
-      element.on('propertychange input keyup paste', function(e) {
+      element.on('propertychange change input keyup paste', function(e) {
         scope.$apply(function() {
-          set(scope, slug(ngModel.$modelValue));
+          set(scope, slug(element.val()));
         });
       });
     }

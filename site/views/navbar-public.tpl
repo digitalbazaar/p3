@@ -3,7 +3,11 @@ ${set([
   jsList.push("modules/login")
 ])}
 
+{{if pageLayout == "normal"}}
+<div class="navbar navbar-login">
+{{else}}
 <div class="navbar">
+{{/if}}
   <div class="navbar-inner navbar-inner-banner">
     <div class="container ng-cloak" data-ng-controller="LoginCtrl">
       <a class="brand" href="/"><img

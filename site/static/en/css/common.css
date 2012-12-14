@@ -210,7 +210,17 @@ select.form-field-vspaced {
   max-width: 90%;
 }
 
+/* Always pad body */
+body {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
 /* Banner adjustments */
+.navbar {
+  margin-right: -20px;
+  margin-left: -20px;
+}
 .navbar .brand {
   padding: 10px 20px 9px;
 }
@@ -896,7 +906,14 @@ input:-moz-placeholder {
 }
 
 @media (max-width: 767px) {
-  .navbar .container {
+  .navbar {
+    margin-right: -20px;
+    margin-left: -20px;
+  }
+}
+
+@media (max-width: 767px) {
+  .navbar-login .container {
     padding-bottom: 8px;
   }
   .navbar .brand {

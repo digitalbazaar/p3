@@ -179,21 +179,24 @@ angular.module('payswarm.directives')
     });
   };
 })
-.directive('slugIn', function($filter, $timeout) {
+.directive('slugIn', function($filter, $parse) {
   return {
     restrict: 'A',
     require: 'ngModel',
     link: function(scope, element, attrs, ngModel) {
       var slug = $filter('slug');
+      var set = $parse(attrs.ngModel).assign || angular.noop;
 
       // replace with previous initial value on blur if value is blank
       var last = '';
       element.bind('focus', function(e) {
-        last = element.val();
+        last = ngModel.$modelValue;
       });
       element.bind('blur', function(e) {
-        if(element.val() === '') {
-          element.val(last);
+        if(ngModel.$modelValue === '') {
+          scope.$apply(function() {
+            set(scope, last);
+          });
         }
       });
 

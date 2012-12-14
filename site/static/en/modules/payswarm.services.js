@@ -1488,9 +1488,11 @@ angular.module('payswarm.services')
 
       // call directive scope's callback
       if(directiveScope._callback) {
-        directiveScope._callback.call(directiveScope, {
-          err: directiveScope.modal.error,
-          result: directiveScope.modal.result
+        directiveScope.$parent.$apply(function() {
+          directiveScope._callback.call(directiveScope, {
+            err: directiveScope.modal.error,
+            result: directiveScope.modal.result
+          });
         });
       }
 

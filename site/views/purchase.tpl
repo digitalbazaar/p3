@@ -176,8 +176,8 @@ ${set([
 
     <div data-ng-hide="purchased" class="row">
       <div class="section span6 offset3">
-        <h4 class="headline">Source of Funds</h4>
         <div data-ng-show="sourceType == 'account'">
+          <h4 class="headline">Account</h4>
           <div data-account-selector
             data-selected="selection.account"
             data-invalid="selection.invalidAccount"
@@ -186,6 +186,7 @@ ${set([
             data-min-balance="{{contract.amount}}"></div>
         </div>
         <div data-ng-show="sourceType == 'budget'">
+          <h4 class="headline">Budget</h4>
           <div data-budget-selector
             data-selected="selection.budget"
             data-invalid="selection.invalidBudget"

@@ -114,26 +114,44 @@ module.controller('PurchaseCtrl', function(
   tryPurchase();
   function tryPurchase() {
     async.auto({
+      // load data in parallel
       getAddresses: function(callback) {
-        svcAddress.get({force: true}, function(err, addresses) {
-          if(!err && addresses.length === 0) {
-            $scope.showAddAddressModal = true;
-          }
-          callback(err);
-        });
+        svcAddress.get({force: true}, callback);
       },
       getAccounts: function(callback) {
-        svcAccount.get({force: true}, function(err, accounts) {
-          if(!err && accounts.length === 0) {
-            $scope.showAddAccountModal = true;
-          }
-          callback(err);
-        });
+        svcAccount.get({force: true}, callback);
       },
-      getBudgets: function(callback) {
+      // check pre-conditions serially so only one modal is shown at a time
+      checkAddresses: ['getAddresses',
+        function(callback, results) {
+        if(results.getAddresses.length === 0) {
+          $scope.showAddAddressModal = true;
+          callback({
+            type: 'payswarm.identity.IdentityIncomplete',
+            message: 'Address required to make a purchase.'
+          });
+          return;
+        }
+        callback();
+      }],
+      checkAccounts: ['getAccounts', 'checkAddresses',
+        function(callback, results) {
+        if(results.getAccounts.length === 0) {
+          $scope.showAddAccountModal = true;
+          callback({
+            type: 'payswarm.identity.IdentityIncomplete',
+            message: 'Account required to make a purchase.'
+          });
+          return;
+        }
+        callback();
+      }],
+      // identity is setup at this point, continue and get a quote
+      // this can still fail if data is changed between the checks and quote
+      getBudgets: ['checkAddresses', 'checkAccounts', function(callback) {
         svcBudget.get({force: true}, callback);
-      },
-      getQuote: ['getAddresses', 'getAccounts', 'getBudgets',
+      }],
+      getQuote: ['getBudgets',
         function(callback) {
         $scope.selection.account =
           $scope.selection.account || $scope.accounts[0];

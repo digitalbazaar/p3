@@ -1407,7 +1407,6 @@ angular.module('payswarm.services')
                 scope.modal.error = err;
                 scope.modal.result = result;
                 scope.modal.success = true;
-                console.log('modal.close called, modal=', modal);
                 if(modal) {
                   modal._angular.destroy();
                 }

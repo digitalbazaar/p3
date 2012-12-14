@@ -153,7 +153,7 @@ ${set([
                     data-ng-model="sourceType" value="account" />
                   Make one-time payment.
                   <span class="help-block">
-                    Make a payment once from an account. Funds can be deposited
+                    Make a payment from an account. Funds can be deposited
                     if needed.
                   </span>
                 </label>

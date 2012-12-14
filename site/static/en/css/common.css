@@ -203,13 +203,6 @@ select.form-field-vspaced {
   font-size: 0.75em;
 }
 
-/* Fix for responsive fixed-size input fields */
-@media (max-width: 767px) {
-  input.input-small {
-    width: 90px;
-  }
-}
-
 /* Variable field displays with fixed boundaries */
 .form-field-constrained {
   width: 90%;
@@ -244,18 +237,10 @@ select.form-field-vspaced {
   margin-right: 0.5em;
 }
 
-/*
-@media (max-width: 979px) {
-  .navbar .brand {
-    float: none;
-  }
-}
-*/
-
 /* Banner input boxes */
 .navbar .btn-group-banner, .navbar .btn-group-banner .btn {
   display: inline-block;
-  margin-top: -1px;
+  margin-top: 0px;
   margin-bottom: 0;
 }
 .btn-group-banner .btn {
@@ -893,4 +878,34 @@ textarea.placeholder {
 }
 input:-moz-placeholder {  
   color: #aaa;  
+}
+
+/* Responsive changes */
+
+/* Fix for responsive fixed-size input fields */
+@media (max-width: 767px) {
+  input.input-small {
+    width: 90px;
+  }
+}
+
+@media (max-width: 979px) {
+  .navbar .brand {
+    margin-left: -20px;
+  }
+}
+
+@media (max-width: 767px) {
+  .navbar .container {
+    padding-bottom: 8px;
+  }
+  .navbar .brand {
+    margin-left: -20px;
+  }
+}
+
+@media (max-width: 604px) {
+  .navbar .btn-group-banner, .navbar .btn-group-banner .btn {
+    margin-top: 3px;
+  }
 }

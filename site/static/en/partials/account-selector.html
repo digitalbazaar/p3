@@ -7,11 +7,23 @@
     <div data-spinner="services.account.loading"
       data-spinner-class="selector-spinner"></div>
     <div data-ng-hide="services.account.loading" class="account">
-      <strong>{{selected.label}}</strong><br/>
-      <small>{{selected.id}}</small><br/>
-      <span class="money" data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact balance of this account is {{selected.currency}} {{selected.balance}}."
-        data-placement="bottom" data-trigger="hover"><span
-        class="currency">{{selected.currency}}</span> {{selected.balance | floor | currency:'$'}}</span>
+      <table class="table table-condensed">
+        <thead>
+          <tr>
+            <th colspan="2"><span title="{{selected.id}}">{{selected.label}}</a></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-compact">Balance</td>
+            <td>
+              <span class="money" data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact balance of this account is {{selected.currency}} {{selected.balance}}."
+                data-placement="bottom" data-trigger="hover"><span
+                class="currency">{{selected.currency}}</span> {{selected.balance | floor | currency:'$'}}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
       <div data-ng-show="showDepositButton">
         <button class="btn btn-success"
           data-ng-click="showDepositModal=true"><i class="icon-plus icon-white"></i> Deposit</button><br/>

@@ -43,12 +43,11 @@ angular.module('payswarm.directives')
 .directive('placeholder', function() {
   return {
     restrict: 'A',
-    link: function(scope, element, attrs) {
-      attrs.$observe('placeholder', function(value) {
-        if(element.placeholder) {
-          element.placeholder();
-        }
-      });
+    require: 'ngModel',
+    link: function(scope, element, attrs, ngModel) {
+      if(element.placeholder) {
+        element.placeholder();
+      }
     }
   };
 })
@@ -186,6 +185,17 @@ angular.module('payswarm.directives')
     require: 'ngModel',
     link: function(scope, element, attrs, ngModel) {
       var slug = $filter('slug');
+
+      // replace with previous initial value on blur if value is blank
+      var last = '';
+      element.bind('focus', function(e) {
+        last = element.val();
+      });
+      element.bind('blur', function(e) {
+        if(element.val() === '') {
+          element.val(last);
+        }
+      });
 
       // ensure view is updated after any input event
       element.bind('propertychange change input keyup paste', function(e) {

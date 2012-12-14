@@ -78,12 +78,6 @@ input, button, select, textarea {
   font-family: 'Droid Sans', sans-serif;
 }
 
-/* IE fix for placeholders */
-input.placeholder,
-textarea.placeholder {
-  color: #999;
-}
-
 /* Input */
 input.slug {
   display: inline-block;
@@ -884,4 +878,19 @@ h1 > .rest-summary > .rest-path {
   overflow-y: visible;
   max-height: none;
   z-index: 1060; /* IE8 fix for radio button focus / blur issue */
+}
+
+/* Placeholder fixes */
+input.placeholder,
+textarea.placeholder {
+  color: #aaa;
+}
+::-webkit-input-placeholder {
+  color: #aaa;
+}
+::-moz-placeholder {
+  color: #aaa;
+}
+input:-moz-placeholder {  
+  color: #aaa;  
 }

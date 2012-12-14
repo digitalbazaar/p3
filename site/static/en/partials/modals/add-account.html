@@ -19,7 +19,7 @@
     <span data-spinner="loading"
       data-spinner-class="prepend-btn-spinner"></span>
     <button class="btn btn-primary"
-      data-ng-disabled="loading"
+      data-ng-disabled="loading || !model.accountSlugAvailable"
       data-ng-click="addAccount()"><i class="icon-ok icon-white"></i> Add</button>
     <button class="btn btn-close" data-ng-disabled="loading">Cancel</button>
   </div>

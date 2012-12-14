@@ -24,8 +24,16 @@ a.btn {
 a.btn [class^="icon-"] {
   margin-top: -1px;
 }
+.btn-group > button.btn {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
 
 /* Inputs */
+input {
+  padding-top: 6px;
+  padding-bottom: 2px;
+}
 input.slug {
   margin-bottom: 2px;
 }

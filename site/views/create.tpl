@@ -113,7 +113,6 @@ ${set([
               data-binding="psaIdentity.psaSlug" class="slug"
               name="identity-slug" type="text" maxlength="32"
               placeholder="IDENTITY-NAME"
-              value="{{data.psaIdentity.psaSlug}}"
               data-slug-in data-ng-model="data.psaIdentity.psaSlug"
               data-ng-disabled="loading" /></p>
             <div data-duplicate-checker="data.psaIdentity.psaSlug"
@@ -166,7 +165,7 @@ ${set([
               </p>
               <p><small>{{baseUrl}}/i/{{psaIdentity.psaSlug || 'IDENTITY-NAME'}}/accounts/</small><input
                 data-binding="account.psaSlug" class="slug" name="account-slug"
-                placeholder="ACCOUNT-NAME" value="{{data.account.psaSlug}}"
+                placeholder="ACCOUNT-NAME"
                 data-slug-in data-ng-model="data.account.psaSlug"
                 data-ng-disabled="loading" /></p>
             </div>

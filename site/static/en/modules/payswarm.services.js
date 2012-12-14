@@ -1322,7 +1322,7 @@ angular.module('payswarm.services')
 
   return service;
 })
-.factory('svcModal', function($http, $templateCache, $compile) {
+.factory('svcModal', function($http, $templateCache, $compile, $rootScope) {
   // modals service
   var service = {};
 
@@ -1485,16 +1485,6 @@ angular.module('payswarm.services')
         $('body').css({overflow: 'auto'});
       }
 
-      // call directive scope's callback
-      if(directiveScope._callback) {
-        directiveScope.$parent.$apply(function() {
-          directiveScope._callback.call(directiveScope, {
-            err: directiveScope.modal.error,
-            result: directiveScope.modal.result
-          });
-        });
-      }
-
       // needed here because insertAfter is required for stacked modals
       // even after the element has been removed from the dom due to destroy
       if(modal._angular.destroyed) {
@@ -1533,7 +1523,7 @@ angular.module('payswarm.services')
     /**
      * Destroys a modal.
      *
-     * @param doApply true if scope.$apply must be called.
+     * @param doApply true if a digest is required.
      */
     modal._angular.destroy = function(doApply) {
       // only destroy once
@@ -1551,11 +1541,6 @@ angular.module('payswarm.services')
         directiveScope.modal.error = 'canceled';
       }
 
-      if(doApply) {
-        // do apply via parent directive scope
-        directiveScope.$apply();
-      }
-
       // only do fade transition when no parent
       if(!modal._angular.parent) {
         // firefox animations are broken
@@ -1565,6 +1550,18 @@ angular.module('payswarm.services')
       }
       // hide modal
       modal._angular.hide();
+
+      // call directive scope's callback
+      if(directiveScope._callback) {
+        directiveScope._callback.call(directiveScope, {
+          err: directiveScope.modal.error,
+          result: directiveScope.modal.result
+        });
+      }
+
+      if(doApply) {
+        $rootScope.$apply();
+      }
     };
 
     /** Note: Code below prepares and opens newly created modal. */

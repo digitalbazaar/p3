@@ -900,6 +900,7 @@ angular.module('payswarm.directives')
       fixed: '@',
       items: '=',
       itemType: '@',
+      modalTitle: '@',
       selected: '=',
       invalid: '=',
       addItem: '&',
@@ -916,6 +917,7 @@ angular.module('payswarm.directives')
   return svcModal.directive({
     name: 'Selector',
     scope: {
+      modalTitle: '=',
       items: '=',
       itemType: '='
     },

@@ -1430,17 +1430,19 @@ angular.module('payswarm.services')
   function createModal(options, directiveScope, attrs, transcludeLinker) {
     // create child scope for modal
     var childScope = directiveScope.$new();
-
-    // create new modal element
-    var element = $($templateCache.get(options.templateUrl)[1]);
-    $compile(element, function(scope, cloneAttachFn) {
+    var transcludeFn = function(scope, cloneAttachFn) {
       // link and attach transcluded elements
       var clone = transcludeLinker(
         directiveScope.$parent.$new(), function(clone) {
         cloneAttachFn(clone);
       });
       return clone;
-    })(childScope.$new());
+    };
+
+
+    // create new modal element
+    var element = $($templateCache.get(options.templateUrl)[1]);
+    $compile(element, transcludeFn)(childScope);
 
     // initialize modal
     element.addClass('hide');
@@ -1503,16 +1505,12 @@ angular.module('payswarm.services')
         $scope: childScope,
         $element: element,
         $attrs: attrs,
-        transclude: transcludeLinker
+        $transclude: transcludeFn
       };
       modal._angular.controller = $controller(options.controller, locals);
 
       // do custom linking on modal element
       options.link(childScope, element, attrs);
-
-      // FIXME: deprecate
-      // do custom open()
-      childScope.modal.open();
 
       // only do fade transition if no parent
       if(!modal._angular.parent) {

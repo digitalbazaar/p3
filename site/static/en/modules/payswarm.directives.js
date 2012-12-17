@@ -1197,19 +1197,16 @@ angular.module('payswarm.directives')
 })
 .directive('modalAddAccount', function(svcModal, svcIdentity, svcAccount) {
   function Ctrl($scope) {
-    $scope.modal = {};
-    $scope.modal.open = function() {
-      $scope.model = {};
-      $scope.feedback = {};
-      $scope.loading = false;
-      $scope.identityId = $scope.identityId || svcIdentity.identity.id;
-      $scope.account = {
-        '@context': 'http://purl.org/payswarm/v1',
-        currency: 'USD',
-        psaPublic: []
-      };
-      $scope.accountVisibility = 'hidden';
+    $scope.model = {};
+    $scope.feedback = {};
+    $scope.loading = false;
+    $scope.identityId = $scope.identityId || svcIdentity.identity.id;
+    $scope.account = {
+      '@context': 'http://purl.org/payswarm/v1',
+      currency: 'USD',
+      psaPublic: []
     };
+    $scope.accountVisibility = 'hidden';
 
     $scope.addAccount = function() {
       $scope.account.psaPublic = [];
@@ -1253,22 +1250,19 @@ angular.module('payswarm.directives')
 })
 .directive('modalEditAccount', function(svcModal, svcAccount) {
   function Ctrl($scope) {
-    $scope.modal = {};
-    $scope.modal.open = function() {
-      $scope.model = {};
-      $scope.data = window.data || {};
-      $scope.feedback = {};
-      $scope.loading = false;
-      $scope.identity = data.identity || {};
+    $scope.model = {};
+    $scope.data = window.data || {};
+    $scope.feedback = {};
+    $scope.loading = false;
+    $scope.identity = data.identity || {};
 
-      // copy account for editing
-      $scope.account = {};
-      angular.extend($scope.account, $scope.sourceAccount);
+    // copy account for editing
+    $scope.account = {};
+    angular.extend($scope.account, $scope.sourceAccount);
 
-      $scope.accountVisibility = ($scope.account.psaPublic.length === 0) ?
-        'hidden' : 'public';
-      $scope.editing = true;
-    };
+    $scope.accountVisibility = ($scope.account.psaPublic.length === 0) ?
+      'hidden' : 'public';
+    $scope.editing = true;
 
     $scope.editAccount = function() {
       var account = {
@@ -1309,33 +1303,30 @@ angular.module('payswarm.directives')
       account: null
     };
 
-    $scope.modal = {};
-    $scope.modal.open = function() {
-      $scope.model = {};
-      $scope.data = window.data || {};
-      $scope.feedback = {};
-      $scope.loading = false;
-      $scope.identity = data.identity || {};
-      $scope.budget = {
-        '@context': 'http://purl.org/payswarm/v1',
-        psaRefresh: 'psa:Never',
-        psaExpires: 7889400 /* 3 months */
-      };
-      $scope.refreshChoices = [
-        {id: 'psa:Never', label: 'Never'},
-        {id: 'psa:Hourly', label: 'Hourly'},
-        {id: 'psa:Daily', label: 'Daily'},
-        {id: 'psa:Weekly', label: 'Weekly'},
-        {id: 'psa:Monthly', label: 'Monthly'},
-        {id: 'psa:Yearly', label: 'Yearly'}
-      ];
-      $scope.expireChoices = [
-        {label: '1 month', value: 2629800},
-        {label: '3 months', value: 7889400},
-        {label: '6 months', value: 15778800},
-        {label: '1 year', value: 31557600}
-      ];
+    $scope.model = {};
+    $scope.data = window.data || {};
+    $scope.feedback = {};
+    $scope.loading = false;
+    $scope.identity = data.identity || {};
+    $scope.budget = {
+      '@context': 'http://purl.org/payswarm/v1',
+      psaRefresh: 'psa:Never',
+      psaExpires: 7889400 /* 3 months */
     };
+    $scope.refreshChoices = [
+      {id: 'psa:Never', label: 'Never'},
+      {id: 'psa:Hourly', label: 'Hourly'},
+      {id: 'psa:Daily', label: 'Daily'},
+      {id: 'psa:Weekly', label: 'Weekly'},
+      {id: 'psa:Monthly', label: 'Monthly'},
+      {id: 'psa:Yearly', label: 'Yearly'}
+    ];
+    $scope.expireChoices = [
+      {label: '1 month', value: 2629800},
+      {label: '3 months', value: 7889400},
+      {label: '6 months', value: 15778800},
+      {label: '1 year', value: 31557600}
+    ];
 
     $scope.addBudget = function() {
       $scope.budget.source = $scope.selection.account.id;
@@ -1365,38 +1356,35 @@ angular.module('payswarm.directives')
       account: null
     };
 
-    $scope.modal = {};
-    $scope.modal.open = function() {
-      $scope.model = {};
-      $scope.data = window.data || {};
-      $scope.feedback = {};
-      $scope.identity = data.identity || {};
-      $scope.refreshChoices = [
-        {id: 'psa:Never', label: 'Never'},
-        {id: 'psa:Hourly', label: 'Hourly'},
-        {id: 'psa:Daily', label: 'Daily'},
-        {id: 'psa:Weekly', label: 'Weekly'},
-        {id: 'psa:Monthly', label: 'Monthly'},
-        {id: 'psa:Yearly', label: 'Yearly'}
-      ];
-      $scope.expireChoices = [
-        {label: 'Current', value: ''},
-        {label: '1 month', value: 2629800},
-        {label: '3 months', value: 7889400},
-        {label: '6 months', value: 15778800},
-        {label: '1 year', value: 31557600}
-      ];
-      // copy source budget for editing
-      $scope.budget = {};
-      angular.extend($scope.budget, $scope.sourceBudget);
-      // default to current value
-      $scope.budget.psaExpires = '';
-      svcAccount.getOne($scope.budget.source, function(err, account) {
-        // FIXME: handle error
-        $scope.selection.account = account || null;
-        $scope.loading = false;
-      });
-    };
+    $scope.model = {};
+    $scope.data = window.data || {};
+    $scope.feedback = {};
+    $scope.identity = data.identity || {};
+    $scope.refreshChoices = [
+      {id: 'psa:Never', label: 'Never'},
+      {id: 'psa:Hourly', label: 'Hourly'},
+      {id: 'psa:Daily', label: 'Daily'},
+      {id: 'psa:Weekly', label: 'Weekly'},
+      {id: 'psa:Monthly', label: 'Monthly'},
+      {id: 'psa:Yearly', label: 'Yearly'}
+    ];
+    $scope.expireChoices = [
+      {label: 'Current', value: ''},
+      {label: '1 month', value: 2629800},
+      {label: '3 months', value: 7889400},
+      {label: '6 months', value: 15778800},
+      {label: '1 year', value: 31557600}
+    ];
+    // copy source budget for editing
+    $scope.budget = {};
+    angular.extend($scope.budget, $scope.sourceBudget);
+    // default to current value
+    $scope.budget.psaExpires = '';
+    svcAccount.getOne($scope.budget.source, function(err, account) {
+      // FIXME: handle error
+      $scope.selection.account = account || null;
+      $scope.loading = false;
+    });
 
     $scope.editBudget = function() {
       // set all fields from UI
@@ -1447,50 +1435,46 @@ angular.module('payswarm.directives')
       address: null
     };
 
-    $scope.modal = {};
-    $scope.modal.open = function() {
-      $scope.model = {};
-      $scope.data = window.data || {};
-      $scope.monthLabels = svcConstant.monthLabels;
-      $scope.years = svcConstant.years;
-      $scope.feedback = {contactSupport: true};
-      $scope.loading = false;
-      $scope.identity = data.identity || {};
-      $scope.paymentMethods =
+    $scope.model = {};
+    $scope.data = window.data || {};
+    $scope.monthLabels = svcConstant.monthLabels;
+    $scope.years = svcConstant.years;
+    $scope.feedback = {contactSupport: true};
+    $scope.loading = false;
+    $scope.identity = data.identity || {};
+    $scope.paymentMethods =
         $scope.paymentMethods || ['ccard:CreditCard', 'bank:BankAccount'];
-      // default to first payment method
-      $scope.paymentMethod = $scope.paymentMethods[0];
-      $scope.label = '';
-      $scope.card = {
-        '@context': 'http://purl.org/payswarm/v1',
-        type: 'ccard:CreditCard'
-      };
-      $scope.bankAccountTypes = [
-        {id: 'bank:Checking', label: 'Checking'},
-        {id: 'bank:Savings', label: 'Savings'},
-      ];
-      $scope.bankAccount = {
-        '@context': 'http://purl.org/payswarm/v1',
-        type: 'bank:BankAccount',
-        bankAccountType: 'bank:Checking'
-      };
-
-      $scope.multiEnabled = ($scope.paymentMethods.length > 1);
-      $scope.creditCardEnabled =
-        ($scope.paymentMethods.indexOf('ccard:CreditCard') !== -1);
-      $scope.bankAccountEnabled =
-        ($scope.paymentMethods.indexOf('bank:BankAccount') !== -1);
-
-      $scope.agreementChecked = false;
-      $scope.billingAddressRequired = true;
-      // billing address UI depends on payment method
-      $scope.$watch('paymentMethod', function() {
-        var isCreditCard = ($scope.paymentMethod === 'ccard:CreditCard');
-        var isBankAccount = ($scope.paymentMethod === 'bank:BankAccount');
-        $scope.billingAddressRequired = isCreditCard || isBankAccount;
-        $scope.agreementChecked = false;
-      });
+    // default to first payment method
+    $scope.paymentMethod = $scope.paymentMethods[0];
+    $scope.label = '';
+    $scope.card = {
+      '@context': 'http://purl.org/payswarm/v1',
+      type: 'ccard:CreditCard'
     };
+    $scope.bankAccountTypes = [
+      {id: 'bank:Checking', label: 'Checking'},
+      {id: 'bank:Savings', label: 'Savings'},
+    ];
+    $scope.bankAccount = {
+      '@context': 'http://purl.org/payswarm/v1',
+      type: 'bank:BankAccount',
+      bankAccountType: 'bank:Checking'
+    };
+    $scope.multiEnabled = ($scope.paymentMethods.length > 1);
+    $scope.creditCardEnabled =
+      ($scope.paymentMethods.indexOf('ccard:CreditCard') !== -1);
+    $scope.bankAccountEnabled =
+      ($scope.paymentMethods.indexOf('bank:BankAccount') !== -1);
+
+    $scope.agreementChecked = false;
+    $scope.billingAddressRequired = true;
+    // billing address UI depends on payment method
+    $scope.$watch('scope.paymentMethod', function() {
+      var isCreditCard = ($scope.paymentMethod === 'ccard:CreditCard');
+      var isBankAccount = ($scope.paymentMethod === 'bank:BankAccount');
+      $scope.billingAddressRequired = isCreditCard || isBankAccount;
+      $scope.agreementChecked = false;
+    });
 
     $scope.add = function() {
       function getAddress() {
@@ -1573,29 +1557,26 @@ angular.module('payswarm.directives')
       destination: null
     };
 
-    $scope.modal = {};
-    $scope.modal.open = function() {
-      $scope.model = {};
-      $scope.feedback = {};
-      $scope.loading = false;
-      $scope.depositTransfer = null;
-      $scope.depositDestination = null;
-      $scope.psaVerifyParameters = {
-        amount: [
-          null,
-          null
-        ]
-      };
-      var source = $scope.input ? $scope.input.source : null;
-      $scope.input = {
-        // payment token source
-        source: source,
-        amount: ''
-      };
-
-      // state in ('preparing', 'reviewing', 'complete')
-      $scope.state = 'preparing';
+    $scope.model = {};
+    $scope.feedback = {};
+    $scope.loading = false;
+    $scope.depositTransfer = null;
+    $scope.depositDestination = null;
+    $scope.psaVerifyParameters = {
+      amount: [
+        null,
+        null
+      ]
     };
+    var source = $scope.input ? $scope.input.source : null;
+    $scope.input = {
+      // payment token source
+      source: source,
+      amount: ''
+    };
+
+    // state in ('preparing', 'reviewing', 'complete')
+    $scope.state = 'preparing';
 
     $scope.prepare = function() {
       $scope.state = 'preparing';
@@ -1758,37 +1739,34 @@ angular.module('payswarm.directives')
 .directive('modalAddIdentity', function(svcModal, svcIdentity, svcAccount) {
   function Ctrl($scope) {
     $scope.baseUrl = window.location.protocol + '//' + window.location.host;
-    $scope.modal = {};
-    $scope.modal.open = function() {
-      $scope.model = {};
-      $scope.feedback = {};
-      $scope.loading = false;
-      // identity
-      $scope.identityType = $scope.identityTypes[0];
-      $scope.identityLabel = '';
-      $scope.identitySlug = '';
-      $scope.identity = {};
-      $scope.identityTypeLabels = {
-        'ps:PersonalIdentity': 'Personal',
-        'ps:VendorIdentity': 'Vendor'
-      };
-      angular.forEach($scope.identityTypes, function(type) {
-        $scope.identity[type] = {
-          '@context': 'http://purl.org/payswarm/v1',
-          type: type
-        };
-      });
-
-      // account
-      $scope.account = {
-        '@context': 'http://purl.org/payswarm/v1',
-        label: 'Primary Account',
-        psaSlug: 'primary',
-        currency: 'USD',
-        psaPublic: []
-      };
-      $scope.accountVisibility = 'hidden';
+    $scope.model = {};
+    $scope.feedback = {};
+    $scope.loading = false;
+    // identity
+    $scope.identityType = $scope.identityTypes[0];
+    $scope.identityLabel = '';
+    $scope.identitySlug = '';
+    $scope.identity = {};
+    $scope.identityTypeLabels = {
+      'ps:PersonalIdentity': 'Personal',
+      'ps:VendorIdentity': 'Vendor'
     };
+    angular.forEach($scope.identityTypes, function(type) {
+      $scope.identity[type] = {
+        '@context': 'http://purl.org/payswarm/v1',
+        type: type
+      };
+    });
+
+    // account
+    $scope.account = {
+      '@context': 'http://purl.org/payswarm/v1',
+      label: 'Primary Account',
+      psaSlug: 'primary',
+      currency: 'USD',
+      psaPublic: []
+    };
+    $scope.accountVisibility = 'hidden';
 
     $scope.addIdentity = function() {
       var identity = $scope.identity[$scope.identityType];
@@ -1876,28 +1854,25 @@ angular.module('payswarm.directives')
 .directive('modalAddAddress', function(
   svcModal, svcIdentity, svcAddress, svcConstant) {
   function Ctrl($scope) {
-    $scope.modal = {};
-    $scope.modal.open = function() {
-      $scope.model = {};
-      $scope.data = window.data || {};
-      $scope.countries = svcConstant.countries || {};
-      $scope.feedback = {};
-      $scope.loading = false;
-      $scope.identity = $scope.identity || svcIdentity.identity;
-      $scope.originalAddress = {
-        '@context': 'http://purl.org/payswarm/v1',
-        type: 'vcard:Address',
-        // default to US
-        countryName: 'US'
-      };
-      $scope.selection = {
-        address: null
-      };
-      $scope.validatedAddress = null;
-
-      // state in ('editing', 'selecting')
-      $scope.state = 'editing';
+    $scope.model = {};
+    $scope.data = window.data || {};
+    $scope.countries = svcConstant.countries || {};
+    $scope.feedback = {};
+    $scope.loading = false;
+    $scope.identity = $scope.identity || svcIdentity.identity;
+    $scope.originalAddress = {
+      '@context': 'http://purl.org/payswarm/v1',
+      type: 'vcard:Address',
+      // default to US
+      countryName: 'US'
     };
+    $scope.selection = {
+      address: null
+    };
+    $scope.validatedAddress = null;
+
+    // state in ('editing', 'selecting')
+    $scope.state = 'editing';
 
     $scope.validate = function() {
       $scope.loading = true;
@@ -2046,23 +2021,20 @@ angular.module('payswarm.directives')
 })
 .directive('modalDeposit', function(svcModal) {
   function Ctrl($scope, svcPaymentToken, svcAccount, svcTransaction) {
-    $scope.modal = {};
-    $scope.modal.open = function() {
-      $scope.model = {};
-      $scope.data = window.data || {};
-      $scope.feedback = {};
-      $scope.loading = false;
+    $scope.model = {};
+    $scope.data = window.data || {};
+    $scope.feedback = {};
+    $scope.loading = false;
 
-      var source = $scope.input ? $scope.input.source : null;
-      $scope.input = {
-        // payment token source
-        source: source,
-        amount: ''
-      };
-
-      // state in ('preparing', 'reviewing', 'complete')
-      $scope.state = 'preparing';
+    var source = $scope.input ? $scope.input.source : null;
+    $scope.input = {
+      // payment token source
+      source: source,
+      amount: ''
     };
+
+    // state in ('preparing', 'reviewing', 'complete')
+    $scope.state = 'preparing';
 
     $scope.prepare = function() {
       $scope.state = 'preparing';
@@ -2184,33 +2156,30 @@ angular.module('payswarm.directives')
 })
 .directive('modalWithdraw', function(svcModal) {
   function Ctrl($scope, svcPaymentToken, svcAccount, svcTransaction) {
-    $scope.modal = {};
-    $scope.modal.open = function() {
-      $scope.model = {};
-      $scope.data = window.data || {};
-      $scope.feedback = {};
-      $scope.loading = false;
+    $scope.model = {};
+    $scope.data = window.data || {};
+    $scope.feedback = {};
+    $scope.loading = false;
 
-      var destination = $scope.input ? $scope.input.destination : null;
-      $scope.input = {
-        // payment token destination
-        destination: destination,
-        mode: 'custom',
-        amount: ''
-      };
-      $scope.checkAmount = function() {
-        var amountString = $scope.input.amount;
-        var amount = parseFloat(amountString);
-        var balance = parseFloat($scope.account.balance);
-        return amountString === '' ||
-          (!isNaN(amount) &&
-            (amount > 0) &&
-            (amount <= balance));
-      };
-
-      // state in ('preparing', 'reviewing', 'complete')
-      $scope.state = 'preparing';
+    var destination = $scope.input ? $scope.input.destination : null;
+    $scope.input = {
+      // payment token destination
+      destination: destination,
+      mode: 'custom',
+      amount: ''
     };
+    $scope.checkAmount = function() {
+      var amountString = $scope.input.amount;
+      var amount = parseFloat(amountString);
+      var balance = parseFloat($scope.account.balance);
+      return amountString === '' ||
+        (!isNaN(amount) &&
+          (amount > 0) &&
+          (amount <= balance));
+    };
+
+    // state in ('preparing', 'reviewing', 'complete')
+    $scope.state = 'preparing';
 
     $scope.prepare = function() {
       $scope.state = 'preparing';

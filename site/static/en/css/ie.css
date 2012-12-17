@@ -6,52 +6,6 @@
   filter: none;
 }
 
-/* Icon positioning */
-ul.nav a [class^="icon-"] {
-  margin-top: -1px;
-}
-button.btn {
-  padding-top: 6px;
-  padding-bottom: 2px;
-}
-button.btn [class^="icon-"] {
-  margin-top: -2px;
-}
-a.btn {
-  padding-top: 5px;
-  padding-bottom: 3px;
-}
-a.btn [class^="icon-"] {
-  margin-top: -1px;
-}
-.btn-group > button.btn {
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-
-/* Inputs */
-input {
-  padding-top: 6px;
-  padding-bottom: 2px;
-}
-input[type="text"],
-input[type="password"],
-input[type="datetime"],
-input[type="datetime-local"],
-input[type="date"],
-input[type="month"],
-input[type="time"],
-input[type="week"],
-input[type="number"],
-input[type="email"],
-input[type="url"],
-input[type="search"],
-input[type="tel"],
-input[type="color"],
-.uneditable-input {
-  padding-top: 6px;
-  padding-bottom: 2px;
-}
 input.slug {
   margin-bottom: 2px;
   padding: 0;

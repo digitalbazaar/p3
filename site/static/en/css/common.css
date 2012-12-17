@@ -626,7 +626,7 @@ h1 > .rest-summary > .rest-path {
 .cc-table {
   width: 225px;
   height: 141.67px;
-  padding: 10px;
+  padding: 8px;
   color: #fefefe;
   background: #1e5799; /* Old browsers */
   background: -moz-radial-gradient(center, ellipse cover,  #72b3e5 0%, #2989d8 42%, #207cca 58%, #1e5799 100%); /* FF3.6+ */
@@ -648,12 +648,12 @@ h1 > .rest-summary > .rest-path {
 }
 .cc-label {
   position: absolute;
-  width: 199px;
+  width: 205px;
   margin-top: 3px;
 }
 .cc-number {
   position: absolute;
-  width: 199px;
+  width: 205px;
   margin-top: 10px;
 }
 .cc-date {

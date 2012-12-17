@@ -122,12 +122,6 @@ input.slug.error {
   border-color: #eed3d7;
 }
 
-/* General table margins/padding */
-td {
-  vertical-align: top;
-  padding-right: 1em;
-}
-
 /* Fix for labeled horizontal fields */
 input.form-field-vspaced,
 textarea.form-field-vspaced,
@@ -243,8 +237,7 @@ body {
 }
 /* FIXME: temporary adjustment due to bootstrap changes */
 .navbar .navbar-link {
-  margin-left: 0.5em;
-  margin-right: 0.5em;
+  margin-right: 8px;
 }
 
 /* Banner input boxes */
@@ -261,19 +254,19 @@ body {
 
 /* Footer */
 .footer {
-  padding: 1em 0 1em 0;
+  padding: 13px 0 13px 0;
   font-size: small;
 }
 .footer ul {
-  margin: .1em .5em;
+  margin: 1px 0;
   text-align: center;
 }
 .footer li {
   display: inline;
   list-style-type: none;
   margin: 0;
-  padding-left: .5em;
-  padding-right: .5em;
+  padding-left: 6px;
+  padding-right: 6px;
   border-left: thin solid #ccc;
 }
 .footer li:first-child {
@@ -453,11 +446,6 @@ span.currency {
 .center .dropdown-menu {
   text-align: left;
 }
-.subheadline {
-  text-align: center;
-  font-size: 1em;
-  font-style: oblique;
-}
 .text-align-center {
   text-align: center;
 }
@@ -466,8 +454,8 @@ span.currency {
 }
 .section h4.headline {
   text-align: left;
-  padding-top: 0.3em;
-  padding-bottom: 0.3em;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 .help-block {
   font-size: 0.9em;
@@ -487,7 +475,7 @@ ul.nav a [class^="icon-"] {
   clear: both;
   display: block;
   border: 1px solid black;
-  margin-bottom: 0.5em;
+  margin-bottom: 8px;
 }
 
 h1 > .rest-summary {
@@ -495,7 +483,7 @@ h1 > .rest-summary {
   clear: both;
   display: block;
   border: 0px;
-  margin-bottom: 0.5em;
+  margin-bottom: 8px;
 }
 
 .post-background {
@@ -535,7 +523,7 @@ h1 > .rest-summary > .rest-verb {
   color: white;
   width: 100px;
   text-align: center;
-  padding: 0.1em;
+  padding: 5px 3px 0px 3px;
 }
 
 .rest-summary > .post {
@@ -559,8 +547,8 @@ h1 > .rest-summary > .rest-verb {
 h1 > .rest-summary > .rest-path {
   color: #444;
   position: relative;
-  top: 0.125em;
-  padding-left: 0.25em;
+  top: 6px;
+  padding-left: 11px;
 }
 
 .rest-summary > .rest-description {
@@ -573,49 +561,20 @@ h1 > .rest-summary > .rest-path {
 }
 
 .rest-details td {
-  padding-right: 1em;
+  padding-right: 16px;
 }
 
 .rest-parameter {
   font-style: italic;
 }
 
-.indent0 {
-  margin-left: 0em;
-}
-
-.indent1 {
-  margin-left: 1em;
-}
-
-.indent2 {
-  margin-left: 2em;
-}
-
-.indent3 {
-  margin-left: 3em;
-}
-
-.indent4 {
-  margin-left: 4em;
-}
-
-.indent5 {
-  margin-left: 5em;
-}
-
 /* Sections */
 
 .title-section .headline {
 }
-.title-section .subheadline {
-  font-size: 70%;
-  font-style: oblique;
-  color: gray;
-}
 
 .section .headline {
-  padding: 0.1em 0.5em 0.1em 0.5em;
+  padding: 2px 9px;
   border-top: thin solid #ccc;
   text-align: left;
   background: #f9f9f9;
@@ -685,6 +644,7 @@ h1 > .rest-summary > .rest-path {
 }
 .cc-layer {
   position: relative;
+  vertical-align: top;
 }
 .cc-label {
   position: absolute;
@@ -796,6 +756,7 @@ h1 > .rest-summary > .rest-path {
 .bank-layer {
   position: relative;
   padding: 0;
+  vertical-align: top;
 }
 .bank-label {
   position: absolute;

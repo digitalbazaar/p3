@@ -1322,7 +1322,8 @@ angular.module('payswarm.services')
 
   return service;
 })
-.factory('svcModal', function($http, $templateCache, $compile, $rootScope) {
+.factory('svcModal', function(
+  $http, $compile, $controller, $rootScope, $templateCache) {
   // modals service
   var service = {};
 
@@ -1356,7 +1357,8 @@ angular.module('payswarm.services')
    *          [transclude] optional transclusion setting.
    *          [scope] optional isolate scope for the modal.
    *          [controller] optional controller for the modal.
-   *          [link] optional link function for the modal.
+   *          [link] optional link function for the modal, where 'attrs' uses
+   *            the directive's attributes object.
    *
    * @return the directive configuration.
    */
@@ -1374,10 +1376,9 @@ angular.module('payswarm.services')
     return {
       scope: isolatedScope,
       transclude: options.transclude || false,
-      controller: options.controller,
       compile: function(tElement, tAttrs, transcludeLinker) {
         // link function
-        return function(scope, element, attrs, controller) {
+        return function(scope, element, attrs) {
           // pre-fetch modal template
           $http.get(options.templateUrl, {cache: $templateCache})
             .success(function(data) {
@@ -1385,8 +1386,7 @@ angular.module('payswarm.services')
               var modal = null;
               scope.$watch('visible', function(value) {
                 if(value) {
-                  modal = createModal(
-                    options, scope, attrs, transcludeLinker, controller);
+                  modal = createModal(options, scope, attrs, transcludeLinker);
                 }
                 else if(modal) {
                   modal._angular.destroy();
@@ -1424,12 +1424,13 @@ angular.module('payswarm.services')
    * @param directiveScope the directive's scope.
    * @param attrs the directive element's attributes.
    * @param transcludeLinker the directive's transclusion linker function.
-   * @param controller the directive's controller.
    *
    * @return the modal.
    */
-  function createModal(
-    options, directiveScope, attrs, transcludeLinker, controller) {
+  function createModal(options, directiveScope, attrs, transcludeLinker) {
+    // create child scope for modal
+    var childScope = directiveScope.$new();
+
     // create new modal element
     var element = $($templateCache.get(options.templateUrl)[1]);
     $compile(element, function(scope, cloneAttachFn) {
@@ -1439,7 +1440,7 @@ angular.module('payswarm.services')
         cloneAttachFn(clone);
       });
       return clone;
-    })(directiveScope.$new());
+    })(childScope.$new());
 
     // initialize modal
     element.addClass('hide');
@@ -1495,10 +1496,23 @@ angular.module('payswarm.services')
     // additional angular API on bootstrap modal
     modal._angular = {};
 
-    /** Do directiveScope.modal.open() and show the modal. */
+    /** Run modal controller and show the modal. */
     modal._angular.openAndShow = function() {
-      // do directive scope's custom open()
-      directiveScope.modal.open();
+      // create modal controller
+      var locals = {
+        $scope: childScope,
+        $element: element,
+        $attrs: attrs,
+        transclude: transcludeLinker
+      };
+      modal._angular.controller = $controller(options.controller, locals);
+
+      // do custom linking on modal element
+      options.link(childScope, element, attrs);
+
+      // FIXME: deprecate
+      // do custom open()
+      childScope.modal.open();
 
       // only do fade transition if no parent
       if(!modal._angular.parent) {
@@ -1623,9 +1637,6 @@ angular.module('payswarm.services')
     modal._angular.parent = parent;
     modal._angular.hasChild = false;
     modals.push(modal);
-
-    // do custom linking on modal element
-    options.link(directiveScope, element, attrs, controller);
 
     if(parent) {
       // hide parent first, then show child

@@ -3,7 +3,7 @@ ${set(pageTitle = "Transaction Info")}
 
 <h2>${transactionType} Summary</h2>
 
-<table>
+<table class="table table-condensed">
 <tr><td>Date</td><td>${transaction.created}</td></tr>
 {{if transaction.voided}}
 <tr><td>Voided</td><td>${transaction.voided}</td></tr>
@@ -15,8 +15,8 @@ ${set(pageTitle = "Transaction Info")}
   {{/if}}
 </td></tr>
 {{/if}}
-<tr><td>Total Amount</td><td class="money">
-    <span class="money right" title="USD $${transaction.amount}">
+<tr><td>Total Amount</td><td>
+    <span class="money" title="USD $${transaction.amount}">
       $ ${transaction.amount}</span>
     </span>
   </td></tr>
@@ -28,7 +28,9 @@ ${set(pageTitle = "Transaction Info")}
 {{/if}}
 {{each(idx,transfer) transfers}}
 <tr>
-  <td>{{if idx == 0}}Transfers{{else}}&nbsp;{{/if}}</td>
+  {{if idx == 0}}
+  <td rowspan="${transfers.length}">Transfers</td>
+  {{/if}}
   <td>
     <i class="icon-info-sign" title="Details"></i> ${transfer.comment}<br/>
     <i class="icon-minus" title="Source"></i>

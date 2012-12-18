@@ -378,5 +378,5 @@ config.financial.paymentGateway.Test.payees.deposit
   ccAmexPayee,
 ];
 
-// set bank account settlement to 1 minute
-config.financial.paymentGateway.Test.bankAccountSettlement = 1000*60;
+// set bank account settlement to happen immediately
+config.financial.paymentGateway.Test.bankAccountSettlement = 0;

@@ -7,7 +7,13 @@ ${set(pageTitle = "Transaction Info")}
 <tr><td>Date</td><td>${transaction.created}</td></tr>
 {{if transaction.voided}}
 <tr><td>Voided</td><td>${transaction.voided}</td></tr>
-<tr><td>Void Reason</td><td>${transaction.voidReason}</td></tr>
+<tr><td>Void Reason</td><td>
+  {{if transaction.voidReason === "payswarm.paymentGateway.Declined"}}
+    Transaction declined by the external payment gateway.
+  {{else}}
+    ${transaction.voidReason}
+  {{/if}}
+</td></tr>
 {{/if}}
 <tr><td>Total Amount</td><td class="money">
     <span class="money right" title="USD $${transaction.amount}">

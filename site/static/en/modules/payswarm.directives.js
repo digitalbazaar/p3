@@ -690,6 +690,7 @@ angular.module('payswarm.directives')
 })
 .directive('tooltipTitle', function($timeout) {
   return function(scope, element, attrs) {
+    var show = false;
     attrs.$observe('tooltipTitle', function(value) {
       if(element.data('tooltip')) {
         element.tooltip('hide');
@@ -698,14 +699,24 @@ angular.module('payswarm.directives')
       element.tooltip({
         title: value
       });
+      if(show) {
+        element.data('tooltip').show();
+      }
     });
     attrs.$observe('tooltipShow', function(value) {
-      if(value !== undefined && element.data('tooltip')) {
+      if(value !== undefined) {
+        var tooltip = element.data('tooltip');
         if(value === 'true') {
-          element.data('tooltip').show();
+          show = true;
+          if(tooltip) {
+            tooltip.show();
+          }
         }
         else {
-          element.data('tooltip').hide();
+          show = false;
+          if(tooltip) {
+            tooltip.hide();
+          }
         }
       }
     });

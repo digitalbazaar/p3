@@ -952,12 +952,20 @@ angular.module('payswarm.directives')
     svcAddress.get();
   }
 
+  function Link(scope, element, attrs) {
+    attrs.$observe('fixed', function(value) {
+      scope.fixed = value;
+    });
+  }
+
   return {
     scope: {
       selected: '=',
-      invalid: '='
+      invalid: '=',
+      fixed: '@'
     },
     controller: Ctrl,
+    link: Link,
     templateUrl: '/partials/address-selector.html'
   };
 })
@@ -1055,14 +1063,20 @@ angular.module('payswarm.directives')
   }
 
   function Link(scope, element, attrs) {
+    attrs.$observe('fixed', function(value) {
+      scope.fixed = value;
+    });
+
     scope.$watch('selected', function(value) {
       // set associated account
       scope.account = null;
-      for(var i = 0; i < scope.accounts.length; ++i) {
-        var account = scope.accounts[i];
-        if(value.source === account.id) {
-          scope.account = account;
-          break;
+      if(value) {
+        for(var i = 0; i < scope.accounts.length; ++i) {
+          var account = scope.accounts[i];
+          if(value.source === account.id) {
+            scope.account = account;
+            break;
+          }
         }
       }
     });
@@ -1131,7 +1145,8 @@ angular.module('payswarm.directives')
     scope: {
       selected: '=',
       invalid: '=',
-      minBalance: '@'
+      minBalance: '@',
+      fixed: '@'
     },
     controller: Ctrl,
     templateUrl: '/partials/budget-selector.html',

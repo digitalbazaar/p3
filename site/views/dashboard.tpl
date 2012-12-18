@@ -112,8 +112,7 @@ ${set([
         <tbody>
           <tr data-ng-repeat="budget in budgets | orderBy:'label'"
             class="budget"
-            data-fadeout="budget.deleted"
-            data-fadeout-callback="deleteBudget(budget)">
+            data-fadeout="budget.deleted">
             <!-- Label -->
             <td class="name">
               <a href="{{budget.id}}">{{budget.label}}</a>
@@ -149,7 +148,7 @@ ${set([
                   </li>
                   <li class="divider"></li>
                   <li class="btn-danger">
-                    <a data-ng-click="budget.deleted=true">
+                    <a data-ng-click="deleteBudget(budget)">
                       <i class="icon-remove icon-white"></i> Delete
                     </a>
                   </li>
@@ -176,6 +175,19 @@ ${set([
           </tr>
         </tfoot>
       </table>
+      <!-- Delete budget alert -->
+      <div data-modal-alert="showDeleteBudgetAlert"
+        data-modal-header="Warning"
+        data-modal-ok="Delete"
+        data-modal-cancel="Cancel"
+        data-modal-on-close="confirmDeleteBudget(err, result)">
+        <div>
+          <p>Are you sure that you want to delete this budget?</p>
+          <div
+            data-budget-selector data-selected="budgetToDelete"
+            data-invalid="invalidBudget" data-fixed="true"></div>
+        </div>
+      </div>
       <div data-ng-show="!state.budgets.loading && budgets.length == 0">
         <p class="center">You have no budgets for this identity.</p>
         <button

@@ -4,7 +4,7 @@ var schema = {
   title: 'PaySwarm Resource Hash',
   required: true,
   type: 'string',
-  pattern: "urn:sha256:[a-f0-9]{64}"
+  pattern: "^urn:sha256:[a-f0-9]{64}$"
 };
 
 module.exports = function(extend) {

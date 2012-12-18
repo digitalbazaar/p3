@@ -5,7 +5,7 @@ var schema = {
   title: 'Slug',
   description: 'A short identifier within a URL.',
   type: 'string',
-  pattern: '^[a-z][-a-z0-9~_\\.]*',
+  pattern: '^[a-z][-a-z0-9~_\\.]*$',
   minLength: 3,
   maxLength: 32,
   errors: {

@@ -5,7 +5,7 @@ var schema = {
   title: 'Nonce',
   description: 'A single use secure unique string.',
   type: 'string',
-  pattern: '[-a-zA-Z0-9~!$%^&*\\(\\)_=+\\. ]*',
+  pattern: '^[-a-zA-Z0-9~!$%^&*\\(\\)_=+\\. ]*$',
   minLength: 8,
   maxLength: 64,
   errors: {

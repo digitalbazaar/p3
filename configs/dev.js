@@ -74,6 +74,7 @@ config.mail.connection = {
 config.mail.send = false;
 config.mail.vars = {
   productionMode: config.website.views.vars.productionMode,
+  baseUri: config.authority.baseUri,
   serviceHost: config.server.host,
   serviceDomain: config.server.domain,
   supportDomain: config.server.domain,

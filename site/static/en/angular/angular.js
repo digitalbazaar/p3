@@ -3822,6 +3822,11 @@ function $CompileProvider($provide) {
 
      function compositeLinkFn(scope, nodeList, $rootElement, boundTranscludeFn) {
        var nodeLinkFn, childLinkFn, node, childScope, childTranscludeFn;
+       if (!(nodeList instanceof jqLite)) {
+         // ensure $compileNodes is wrapped so it isn't modified by
+         // directives during linking
+         nodeList = jqLite(nodeList);
+       }
 
        for(var i = 0, n = 0, ii = linkFns.length; i < ii; n++) {
          node = nodeList[n];

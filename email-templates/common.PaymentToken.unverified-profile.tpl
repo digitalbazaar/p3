@@ -14,8 +14,9 @@ Hello {{identity.label}},
 Your bank account "{{paymentToken.label}}" is ready to be verified on {{serviceName}}!
 
 {% if verify -%}
-Because this is a development sandbox, the transaction amounts required to
-verify your bank account are below:
+Because this is a development sandbox and this bank account is not real, we
+have sent you the transaction amounts required to verify the bank account
+below:
 
 Amounts: {{verify[0].amount}}, {{verify[1].amount}}
 {%- endif %}

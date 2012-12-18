@@ -288,6 +288,27 @@ body {
   border-bottom: 0;
 }
 
+/* Documentation */
+
+.indent0 {
+  margin-left: 0px;
+}
+.indent1 {
+  margin-left: 10px;
+}
+.indent2 {
+  margin-left: 20px;
+}
+.indent3 {
+  margin-left: 30px;
+}
+.indent4 {
+  margin-left: 40px;
+}
+.indent5 {
+  margin-left: 50px;
+}
+
 /* Financial */
 span.price {
   white-space: nowrap;

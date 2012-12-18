@@ -11,6 +11,7 @@ var postPaymentTokens = {
     '@context': jsonldContext(),
     label: label(),
     source: {
+      required: true,
       type: [creditCard(), bankAccount()]
     }
   },

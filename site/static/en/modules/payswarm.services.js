@@ -1439,7 +1439,6 @@ angular.module('payswarm.services')
       return clone;
     };
 
-
     // create new modal element
     var element = $($templateCache.get(options.templateUrl)[1]);
     $compile(element, transcludeFn)(childScope);

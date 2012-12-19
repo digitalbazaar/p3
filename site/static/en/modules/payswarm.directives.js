@@ -723,6 +723,9 @@ angular.module('payswarm.directives')
   };
 })
 .directive('popoverTemplate', function(svcTemplateCache, $compile, $timeout) {
+  // FIXME: popover needs cleanup/rewrite to handle scopes properly and
+  // to better deal with placement, etc. -- but wait for bootstrap update to
+  // popovers/modals
   return {
     restrict: 'A',
     scope: {
@@ -806,6 +809,9 @@ angular.module('payswarm.directives')
           // compile and link tooltip to scope
           $compile(tip)(scope.$new());
 
+          // hide when pressing escape
+          $(document).bind('keyup', hideOnEscape);
+
           // HACK: $timeout is only used here because the click that shows
           // the popover is being handled after it is shown which immediately
           // closes it
@@ -819,6 +825,15 @@ angular.module('payswarm.directives')
         function hideOnClick(e) {
           var tip = popover.tip();
           if($(e.target).closest(tip).length === 0) {
+            scope.visible = false;
+            scope.$apply();
+          }
+        }
+
+        // hide popover if escape is pressed
+        function hideOnEscape(e) {
+          if(e.keyCode === 27) {
+            e.stopPropagation();
             scope.visible = false;
             scope.$apply();
           }
@@ -839,6 +854,7 @@ angular.module('payswarm.directives')
             element.removeClass('active');
             element.popover('hide');
             $(document).unbind('click', hideOnClick);
+            $(document).unbind('keyup', hideOnEscape);
           }
         });
       });

@@ -804,7 +804,7 @@ angular.module('payswarm.directives')
           }
 
           // compile and link tooltip to scope
-          $compile(tip)(scope);
+          $compile(tip)(scope.$new());
 
           // HACK: $timeout is only used here because the click that shows
           // the popover is being handled after it is shown which immediately
@@ -965,8 +965,8 @@ angular.module('payswarm.directives')
       fixed: '@'
     },
     controller: Ctrl,
-    link: Link,
-    templateUrl: '/partials/address-selector.html'
+    templateUrl: '/partials/address-selector.html',
+    link: Link
   };
 })
 .directive('accountSelector', function(svcAccount, svcIdentity) {
@@ -1154,14 +1154,22 @@ angular.module('payswarm.directives')
   };
 })
 .directive('identitySelector', function() {
+  function Link(scope, element, attrs) {
+    attrs.$observe('fixed', function(value) {
+      scope.fixed = value;
+    });
+  }
+
   return {
     scope: {
       identityTypes: '=',
       identities: '=',
       selected: '=',
-      invalid: '='
+      invalid: '=',
+      fixed: '@'
     },
-    templateUrl: '/partials/identity-selector.html'
+    templateUrl: '/partials/identity-selector.html',
+    link: Link
   };
 })
 .directive('paymentTokenSelector', function(svcPaymentToken) {
@@ -1850,13 +1858,10 @@ angular.module('payswarm.directives')
 })
 .directive('modalSwitchIdentity', function(svcModal, svcIdentity) {
   function Ctrl($scope) {
-    function init() {
-      $scope.model = {};
-      $scope.identityTypes = ['ps:PersonalIdentity', 'ps:VendorIdentity'];
-      $scope.identities = svcIdentity.identities;
-      $scope.selected = svcIdentity.identity;
-    };
-    init();
+    $scope.model = {};
+    $scope.identityTypes = ['ps:PersonalIdentity', 'ps:VendorIdentity'];
+    $scope.identities = svcIdentity.identities;
+    $scope.selected = svcIdentity.identity;
 
     $scope.switchIdentity = function() {
       // if current url starts with '/i', switch to other identity's dashboard

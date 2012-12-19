@@ -1323,7 +1323,7 @@ angular.module('payswarm.services')
   return service;
 })
 .factory('svcModal', function(
-  $http, $compile, $controller, $rootScope, $templateCache) {
+  $compile, $controller, $rootScope, $templateCache, svcTemplateCache) {
   // modals service
   var service = {};
 
@@ -1380,38 +1380,39 @@ angular.module('payswarm.services')
         // link function
         return function(scope, element, attrs) {
           // pre-fetch modal template
-          $http.get(options.templateUrl, {cache: $templateCache})
-            .success(function(data) {
-              // create modal when visible is true, destroy when false
-              var modal = null;
-              scope.$watch('visible', function(value) {
-                if(value) {
-                  modal = createModal(options, scope, attrs, transcludeLinker);
-                }
-                else if(modal) {
-                  modal._angular.destroy();
-                }
-              });
-
-              // setup directive scope modal vars
-              scope.modal = scope.modal || {};
-
-              // ignore enter presses in the modal by default
-              scope.modal.allowEnter = attrs.modalEnter || false;
-
-              // does any custom init work when modal opens
-              scope.modal.open = scope.modal.open || angular.noop;
-
-              // closes and destroys modal on success
-              scope.modal.close = function(err, result) {
-                scope.modal.error = err;
-                scope.modal.result = result;
-                scope.modal.success = true;
-                if(modal) {
-                  modal._angular.destroy();
-                }
-              };
+          svcTemplateCache.get(options.templateUrl, function(err, data) {
+            // create modal when visible is true, destroy when false
+            var modal = null;
+            var prev = null;
+            scope.$watch('visible', function(value) {
+              prev = value;
+              if(value) {
+                modal = createModal(options, scope, attrs, transcludeLinker);
+              }
+              else if(modal) {
+                modal._angular.destroy();
+              }
             });
+
+            // setup directive scope modal vars
+            scope.modal = scope.modal || {};
+
+            // ignore enter presses in the modal by default
+            scope.modal.allowEnter = attrs.modalEnter || false;
+
+            // does any custom init work when modal opens
+            scope.modal.open = scope.modal.open || angular.noop;
+
+            // closes and destroys modal on success
+            scope.modal.close = function(err, result) {
+              scope.modal.error = err;
+              scope.modal.result = result;
+              scope.modal.success = true;
+              if(modal) {
+                modal._angular.destroy();
+              }
+            };
+          });
         };
       }
     };

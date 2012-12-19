@@ -1,7 +1,8 @@
-var payswarmId = require('./payswarmId');
-var label = require('./label');
-var visibility = require('./propertyVisibility');
 var jsonldContext = require('./jsonldContext');
+var label = require('./label');
+var payswarmId = require('./payswarmId');
+var slug = require('./slug');
+var visibility = require('./propertyVisibility');
 
 var getAccountsQuery = {
   type: 'object',
@@ -19,10 +20,7 @@ var postAccounts = {
   type: 'object',
   properties: {
     '@context': jsonldContext(),
-    psaSlug: {
-      required: true,
-      type: payswarmId()
-    },
+    psaSlug: slug(),
     label: {
       required: true,
       type: label()

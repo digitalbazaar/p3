@@ -125,6 +125,38 @@
               </div>
             </div>
             <div data-ng-switch-when="bank:BankAccount">
+              <div class="bank-box bank-example">
+                <table class="bank-table">
+                  <tbody>
+                    <tr>
+                      <td class="bank-layer">
+                        <i class="bank-icon"></i>
+                        <span class="bank-label">
+                          <strong>My Bank</strong>
+                        </span>
+                      </td>
+                      <td class="bank-layer"><span class="bank-date">{{'' | now:'d MMM yyyy'}}</span></td>
+                    </tr>
+                    <tr>
+                      <td class="text-align-center bank-layer bank-font">
+                        <span class="bank-routing-outline">A12345678A</span>
+                      </td>
+                      <td class="text-align-center bank-layer bank-font">
+                        <span class="bank-account-outline">C0987654C</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-align-center bank-layer">
+                        <span class="bank-routing-highlight">Routing</span>
+                      </td>
+                      <td class="text-align-center bank-layer">
+                        <span class="bank-account-highlight">Account</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            
               <div class="control-group" data-binding="source.bankRoutingNumber">
                 <label class="control-label" for="bank-routing-number">Routing Number</label>
                 <div class="controls">

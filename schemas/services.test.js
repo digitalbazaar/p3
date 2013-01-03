@@ -48,6 +48,34 @@ var postProfileCreate = {
   additionalProperties: false
 };
 
+var postIdsCreateQuery = {
+  title: 'Create test ids',
+  description: 'Create test ids.',
+  type: 'object',
+  properties: {
+    generator: {
+      required: false,
+      type: 'string'
+    },
+    count: {
+      required: false,
+      type: 'string'
+    },
+    wait: {
+      required: false,
+      type: 'string'
+    },
+    concurrency: {
+      required: false,
+      type: 'string'
+    }
+  },
+  additionalProperties: false
+};
+
 module.exports.postProfileCreate = function() {
   return postProfileCreate;
+};
+module.exports.postIdsCreateQuery = function() {
+  return postIdsCreateQuery;
 };

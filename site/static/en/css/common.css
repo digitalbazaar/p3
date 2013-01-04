@@ -465,6 +465,16 @@ span.currency {
 ul.nav a [class^="icon-"] {
   margin-top: 2px;
 }
+.btn [class^="icon-"],
+.nav [class^="icon-"],
+.btn [class*=" icon-"],
+.nav [class*=" icon-"] {
+  display: inline-block;
+  line-height: 14px;
+}
+[class^="icon-"], [class*=" icon-"] {
+  vertical-align: baseline;
+}
 
 /* Documentation classes */
 .rest-summary {

@@ -24,6 +24,7 @@
     <!--[if IE]>
     <link href="${cacheRoot}/jquery-ui/css/jquery-ui.ie.${cssExt}" rel="stylesheet" type="text/css" />
     <![endif]-->
+    <link href="${cacheRoot}/font-awesome/css/font-awesome.${cssLibExt}" rel="stylesheet" type="text/css" />
     <link href="${cacheRoot}/bootstrap/css/bootstrap.${cssLibExt}" rel="stylesheet" type="text/css" />
     <link href="${cacheRoot}/bootstrap/css/bootstrap-responsive.${cssLibExt}" rel="stylesheet" type="text/css" />
     <link href="${cacheRoot}/angular/angular-ui.${cssLibExt}" rel="stylesheet" type="text/css" />

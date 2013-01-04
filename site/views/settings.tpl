@@ -156,7 +156,7 @@ ${set([
                   <td class="action">
                     <button data-ng-show="!bankAccount.psaStatus || bankAccount.psaStatus == 'deleted'"
                       class="btn btn-success" title="Restore"
-                      data-ng-click="restorePaymentToken(bankAccount)"><i class="icon-share icon-white"></i></button>
+                      data-ng-click="restorePaymentToken(bankAccount)"><i class="icon-undo icon-white"></i></button>
                   </td>
                 </tr>
               </tbody>

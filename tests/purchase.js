@@ -496,7 +496,7 @@ function _createListing(self, vendorProfiles, listings, callback) {
           type: 'com:Payee',
           destination: 'https://payswarm.dev:19443/i/vendor/accounts/primary',
           payeeGroup: ['vendor'],
-          payeeRate: '0.0500000',
+          payeeRate: '0.0005000',
           payeeRateType: 'com:FlatAmount',
           payeeApplyType: 'com:Exclusive',
           comment: 'Payment for Asset ' + id + '.'

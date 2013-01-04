@@ -498,18 +498,21 @@ function _createListing(self, vendorProfiles, listings, callback) {
           payeeGroup: ['vendor'],
           payeeRate: '0.0500000',
           payeeRateType: 'com:FlatAmount',
+          payeeApplyType: 'com:Exclusive',
           comment: 'Payment for Asset ' + id + '.'
         }],
         payeeRule : [{
           type: 'com:PayeeRule',
-          accountOwnerType: 'ps:Authority',
+          payeeGroupPrefix: ['authority'],
           maximumPayeeRate: '10.0000000',
-          payeeRateType: 'com:PercentInclusive'
+          payeeRateType: 'com:Percent',
+          payeeApplyType: 'com:Inclusive'
         }],
         asset: assetId,
         assetHash: assetHash,
         license: 'http://purl.org/payswarm/licenses/blogging',
-        licenseHash: 'ad8f72fcb47e867231d957c0bffb4c02d275926a',
+        licenseHash: 'urn:sha256:' +
+          '068663468cfa0c2559c3e7cbaf685077ac4b8271978a64f77c74d502829f7472',
         validFrom: payswarm.w3cDate(validFrom),
         validUntil: payswarm.w3cDate(validUntil),
       };

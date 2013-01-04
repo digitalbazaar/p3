@@ -263,7 +263,7 @@ var defaultPayeeScheme = {
 };
 // minimum amounts for default payee scheme
 defaultPayeeScheme.psaMinimumAmounts[
-  authorityId + '/accounts/main'] = '0.0002';
+  authorityId + '/accounts/main'] = '0.000002';
 config.financial.payeeSchemes[defaultPayeeSchemeId] = defaultPayeeScheme;
 
 // gateways

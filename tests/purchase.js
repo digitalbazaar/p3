@@ -43,12 +43,19 @@ var emitter = new events.EventEmitter();
 LoadTester.prototype.run = function() {
   var self = this;
 
+  self.program = program;
   program
     .version(module.exports.version)
     // setup the command line options
     .option('--log-level <level>',
       'Max console log level (default: info)',
       String)
+    .option('-t, --target <host>',
+      'The authority host to target (default: https://payswarm.dev:19443)',
+      String, 'https://payswarm.dev:19443')
+    .option('-a, --authority <authority>',
+      'The authority name to use (default: https://payswarm.dev:19443)',
+      String, 'https://payswarm.dev:19443')
     .option('--vendors <num>',
       'The number of vendor profiles to create (default: 1)',
       Number)
@@ -67,14 +74,14 @@ LoadTester.prototype.run = function() {
     .option('--stats-log <name>',
       'The name of the stats log file (default: none)',
       String)
-    .option('-d, --delay <n>',
-      'Number of seconds between progress updates (default: 1)',
-      String)
+    .option('-d, --delay <delay>',
+      'Number of seconds between progress updates (default: 1.0)',
+      Number)
     .option('-s, --save <statefile>',
-      'Load state from specified file. (default: no)',
+      'Save state to specified file. (default: none)',
       String)
     .option('-l, --load <statefile>',
-      'Load state from specified file. (default: no)',
+      'Load state from specified file. (default: none)',
       String)
     .parse(process.argv);
 
@@ -115,7 +122,7 @@ LoadTester.prototype.run = function() {
         set(config, 'purchases', 1);
         set(config, 'batchSize', 10);
         set(config, 'statsLog', null);
-        set(config, 'delay', 1);
+        set(config, 'delay', 1.0);
         config.data = config.data || {};
         config.data.vendors = config.data.vendors || [];
         config.data.buyers = config.data.buyers || [];
@@ -332,7 +339,7 @@ function _createVendorProfile(self, vendorProfiles, callback) {
 
       // create the profile
       request.post({
-          url: 'https://payswarm.dev:19443/test/profile/create',
+          url: self.program.target + '/test/profile/create',
           json: profileTemplate
         },
         function(err, response, body) {
@@ -403,7 +410,7 @@ function _createBuyerProfile(self, buyerProfiles, callback) {
 
       // create the profile
       request.post({
-        url: 'https://payswarm.dev:19443/test/profile/create',
+        url: self.program.target + '/test/profile/create',
         json: profileTemplate
       }, function(err, response, body) {
         if(!err && response.statusCode >= 400) {
@@ -494,7 +501,7 @@ function _createListing(self, vendorProfiles, listings, callback) {
         payee: [{
           id: listingId + '-payee',
           type: 'com:Payee',
-          destination: 'https://payswarm.dev:19443/i/vendor/accounts/primary',
+          destination: self.program.authority + '/i/vendor/accounts/primary',
           payeeGroup: ['vendor'],
           payeeRate: '0.0005000',
           payeeRateType: 'com:FlatAmount',
@@ -616,7 +623,7 @@ function _purchaseAsset(self, buyers, listings, callback) {
     // FIXME: This should be performed in payswarm.js
     signedRequest['@context'] = 'http://purl.org/payswarm/v1';
     request.post({
-      url: 'https://payswarm.dev:19443/transactions',
+      url: self.program.target + '/transactions',
       json: signedRequest
     }, function(err, response, body) {
       if(!err && response.statusCode >= 400) {

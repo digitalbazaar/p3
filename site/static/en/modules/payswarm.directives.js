@@ -8,25 +8,6 @@
 (function($) {
 
 angular.module('payswarm.directives')
-// FIXME: add another angular html anchor directive to replace the click
-// handler so that event propagation does not automatically stop when
-// clicking on links w/o href so things like dropdown menus go away when
-// an item is selected
-.directive('a', function() {
-  return {
-    restrict: 'E',
-    compile: function(element, attr) {
-      return function(scope, element) {
-        element.unbind('click');
-        element.bind('click', function(event){
-          if(!element.attr('href')) {
-            event.preventDefault();
-          }
-        });
-      };
-    }
-  };
-})
 // FIXME: remove once webkit non-windows font difference is fixed
 .directive('kredit', function() {
   return function(scope, element, attrs) {

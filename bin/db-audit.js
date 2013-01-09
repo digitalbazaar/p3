@@ -29,7 +29,7 @@ main.run = function() {
     .option('--no-log-colorize',
       'Log timestamps (default: true).')
     .option('--no-progress', 'Disable progress (default: enabled).')
-    .option('--account <id>', 'Audit one account (default: all).', String)
+    .option('--account <id>', 'Audit one account (default: *).', String)
     .option('--stop-on-error', 'Stop when an error is detected (default: no).')
     .parse(process.argv);
 
@@ -73,7 +73,8 @@ main.run = function() {
       // audit accounts
       var opts = {
         logger: logger,
-        progress: config.progress
+        progress: config.progress,
+        account: config.account
       };
       audit.accounts(opts, null, callback);
     }

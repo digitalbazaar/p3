@@ -1,5 +1,5 @@
 /**
- * @license AngularJS v1.0.4-1104c7d7
+ * @license AngularJS v1.0.4-841bdf1c
  * (c) 2010-2012 Google, Inc. http://angularjs.org
  * License: MIT
  */
@@ -1247,7 +1247,7 @@ function setupModuleLoader(window) {
  * - `codeName` – `{string}` – Code name of the release, such as "jiggling-armfat".
  */
 var version = {
-  full: '1.0.4-1104c7d7',    // all of these placeholder strings will be replaced by rake's
+  full: '1.0.4-841bdf1c',    // all of these placeholder strings will be replaced by rake's
   major: 1,    // compile task
   minor: 0,
   dot: 4,
@@ -2011,14 +2011,14 @@ forEach({
   children: function(element) {
     var children = [];
     forEach(element.childNodes, function(element){
-      if (element.nodeName != '#text')
+      if (element.nodeType === 1)
         children.push(element);
     });
     return children;
   },
 
   contents: function(element) {
-    return element.childNodes;
+    return element.childNodes || [];
   },
 
   append: function(element, node) {
@@ -2081,7 +2081,16 @@ forEach({
   },
 
   next: function(element) {
-    return element.nextSibling;
+    if (element.nextElementSibling) {
+      return element.nextElementSibling;
+    }
+
+    // IE8 doesn't have nextElementSibling
+    var elm = element.nextSibling;
+    while (elm != null && elm.nodeType !== 1) {
+      elm = elm.nextSibling;
+    }
+    return elm;
   },
 
   find: function(element, selector) {
@@ -2784,7 +2793,7 @@ function createInjector(modulesToLoad) {
         args.push(
           locals && locals.hasOwnProperty(key)
           ? locals[key]
-          : getService(key, path)
+          : getService(key)
         );
       }
       if (!fn.$inject) {
@@ -2884,7 +2893,7 @@ function $AnchorScrollProvider() {
     }
 
     // does not scroll when user clicks on anchor link that is currently on
-    // (no url change, no $locaiton.hash() change), browser native does scroll
+    // (no url change, no $location.hash() change), browser native does scroll
     if (autoScrollingEnabled) {
       $rootScope.$watch(function autoScrollWatch() {return $location.hash();},
         function autoScrollWatchAction() {
@@ -3172,13 +3181,14 @@ function Browser(window, document, $log, $sniffer) {
       } else {
         if (isString(value)) {
           cookieLength = (rawDocument.cookie = escape(name) + '=' + escape(value) + ';path=' + cookiePath).length + 1;
+
+          // per http://www.ietf.org/rfc/rfc2109.txt browser must allow at minimum:
+          // - 300 cookies
+          // - 20 cookies per unique domain
+          // - 4096 bytes per cookie
           if (cookieLength > 4096) {
             $log.warn("Cookie '"+ name +"' possibly not set or overflowed because it was too large ("+
               cookieLength + " > 4096 bytes)!");
-          }
-          if (lastCookies.length > 20) {
-            $log.warn("Cookie '"+ name +"' possibly not set or overflowed because too many cookies " +
-              "were already set (" + lastCookies.length + " > 20 )");
           }
         }
       }
@@ -8390,8 +8400,7 @@ function $HttpProvider() {
      *     }).
      *     error(function(data, status, headers, config) {
      *       // called asynchronously if an error occurs
-     *       // or server returns response with status
-     *       // code outside of the <200, 400) range
+     *       // or server returns response with an error status.
      *     });
      * </pre>
      *
@@ -8400,6 +8409,10 @@ function $HttpProvider() {
      * an object representing the response. See the api signature and type info below for more
      * details.
      *
+     * A response status code that falls in the [200, 300) range is considered a success status and
+     * will result in the success callback being called. Note that if the response is a redirect,
+     * XMLHttpRequest will transparently follow it, meaning that the error callback will not be
+     * called for such responses.
      *
      * # Shortcut methods
      *
@@ -10573,13 +10586,13 @@ var nullFormCtrl = {
  *
  * @property {boolean} $pristine True if user has not interacted with the form yet.
  * @property {boolean} $dirty True if user has already interacted with the form.
- * @property {boolean} $valid True if all of the containg forms and controls are valid.
+ * @property {boolean} $valid True if all of the containing forms and controls are valid.
  * @property {boolean} $invalid True if at least one containing control or form is invalid.
  *
  * @property {Object} $error Is an object hash, containing references to all invalid controls or
  *  forms, where:
  *
- *  - keys are validation tokens (error names) — such as `REQUIRED`, `URL` or `EMAIL`),
+ *  - keys are validation tokens (error names) — such as `required`, `url` or `email`),
  *  - values are arrays of controls or forms that are invalid with given error.
  *
  * @description
@@ -10692,7 +10705,7 @@ function FormController(element, attrs) {
  * does not allow nesting of form elements. It is useful to nest forms, for example if the validity of a
  * sub-group of controls needs to be determined.
  *
- * @param {string=} ngForm|name Name of the form. If specified, the form controller will be published into
+ * @param {string=} name|ngForm Name of the form. If specified, the form controller will be published into
  *                       related scope, under this name.
  *
  */
@@ -10765,12 +10778,12 @@ function FormController(element, attrs) {
        </script>
        <form name="myForm" ng-controller="Ctrl">
          userType: <input name="input" ng-model="userType" required>
-         <span class="error" ng-show="myForm.input.$error.REQUIRED">Required!</span><br>
+         <span class="error" ng-show="myForm.input.$error.required">Required!</span><br>
          <tt>userType = {{userType}}</tt><br>
          <tt>myForm.input.$valid = {{myForm.input.$valid}}</tt><br>
          <tt>myForm.input.$error = {{myForm.input.$error}}</tt><br>
          <tt>myForm.$valid = {{myForm.$valid}}</tt><br>
-         <tt>myForm.$error.REQUIRED = {{!!myForm.$error.REQUIRED}}</tt><br>
+         <tt>myForm.$error.required = {{!!myForm.$error.required}}</tt><br>
         </form>
       </doc:source>
       <doc:scenario>

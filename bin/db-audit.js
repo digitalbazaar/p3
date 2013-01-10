@@ -22,8 +22,13 @@ main.run = function() {
     .option('--config <config>',
       'Load a config file (default: none).', String)
     .option('--log-level <level>',
-      'Log level (silly, verbose, info, warn, debug, error)' +
-      ' (default: info).', String)
+      'Log level (silly, verbose, info, warn, debug, error, none)' +
+      ' (default: info).', String, 'info')
+    .option('--log-file <filename>',
+      'Log file name (default: none).', String)
+    .option('--log-file-level <level>',
+      'Log level (silly, verbose, info, warn, debug, error, none)' +
+      ' (default: info).', String, 'info')
     .option('--log-timestamps',
       'Log timestamps (default: false).')
     .option('--no-log-colorize',
@@ -35,26 +40,32 @@ main.run = function() {
 
   // initialize the configuration
   config.config = program.config;
-  config.logLevel = program.logLevel || 'info';
+  config.logLevel = program.logLevel;
+  config.logFile = program.logFile;
+  config.logFileLevel = program.logFileLevel;
   config.logTimestamps = program.logTimestamps;
   config.logColorize = program.logColorize;
   config.progress = program.progress;
   config.account = program.account || '*';
 
   // setup the logging framework
+  var _transports = [];
+  if(config.logLevel !== 'none') {
+    _transports.push(new winston.transports.Console({
+      level: config.logLevel,
+      timestamp: config.logTimestamps,
+      colorize: config.logColorize
+    }));
+  }
+  if(config.logFile && config.logFileLevel !== 'none') {
+    _transports.push(new winston.transports.File({
+      json: true,
+      timestamp: config.logTimestamps,
+      filename: config.logFile
+    }));
+  }
   logger = new (winston.Logger)({
-    transports: [
-      new winston.transports.Console({
-        level: config.logLevel,
-        timestamp: config.logTimestamps,
-        colorize: config.logColorize
-      }),
-      new winston.transports.File({
-        json: true,
-        timestamp: true,
-        filename: 'auditor.log'
-      })
-    ]
+    transports: _transports
   });
 
   // dump out the configuration

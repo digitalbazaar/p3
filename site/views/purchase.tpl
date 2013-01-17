@@ -89,14 +89,12 @@ ${set([
                 class="currency">USD</span> {{contract.amount | ceil | currency:'$'}}</span></td>
               <td class="action"><button class="btn" data-ng-click="showDetails=!showDetails"><i class="icon-list-alt" title="Details"></i></button></td>
             </tr>
-          </tbody>
-          <tbody data-ng-show="showDetails">
-            <tr>
+            <tr data-ng-show="showDetails">
               <th>Cost breakdown</th>
-              <th class="money">Price</th>
+              <th></th>
               <th></th>
             </tr>
-            <tr data-ng-repeat="transfer in contract.transfer">
+            <tr data-ng-show="showDetails" data-ng-repeat="transfer in contract.transfer">
               <td>{{transfer.comment}}</td>
               <td class="money"><span class="money right"
                 data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact amount of this transfer is USD {{transfer.amount}}."
@@ -104,14 +102,12 @@ ${set([
                 class="currency">USD</span> {{transfer.amount | ceil | currency:'$'}}</span></td>
               <td><a href="{{transfer.destination}}" target="_blank">Destination</a></td>
             </tr>
-          </tbody>
-          <tbody data-ng-show="showDetails">
-            <tr>
+            <tr data-ng-show="showDetails">
               <th>License Agreement</th>
               <th></th>
               <th></th>
             </tr>
-            <tr>
+            <tr body data-ng-show="showDetails">
               <td colspan="3"><pre class="license">{{contract.license.licenseTemplate}}</pre></td>
             </tr>
           </tbody>

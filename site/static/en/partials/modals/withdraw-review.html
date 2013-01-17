@@ -1,4 +1,4 @@
-<div class="alert alert-error">
+<div class="alert alert-warning">
   Your withdrawal is NOT complete, verify your information below.
 </div>
 
@@ -11,41 +11,55 @@
 
 <div class="section">
   <h4 class="headline">Withdrawal Details</h4>
-  <table class="well table table-condensed">
+  <table class="table table-condensed">
     <thead>
       <tr>
-        <th class="money">Amount</th>
         <th>Description</th>
+        <th></th>
         <th>Account</th>
+        <th class="money">Amount</th>
       </tr>
     </thead>
     <tbody>
       <tr data-ng-repeat="transfer in withdrawal.transfer">
+        <td>{{transfer.comment}}</td>
+        <td class="compact">
+          <i class="icon-arrow-right"></i>
+        </td>
+        <td>
+          <span data-ng-show="transfer.destination != 'urn:payswarm-external-account'"><a href="{{transfer.destination}}" target="_blank">{{accounts[transfer.destination].label}}</a></span>
+          <span data-ng-show="transfer.destination == 'urn:payswarm-external-account'"><strong>{{accounts[transfer.destination].label}}<strong></span>
+        </td>
         <td class="money">
           <span class="money" data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact amount of this transfer is USD {{transfer.amount}}."
             data-placement="bottom" data-trigger="hover"><span class="currency">USD</span> {{transfer.amount | currency:'$'}}</span>
         </td>
-        <td>{{transfer.comment}}</td>
-        <td>
-          <i class="icon-arrow-right"></i>
-          <span title="">{{accounts[transfer.destination].label}}</span>
-        </td>
       </tr>
     </tbody>
     <tfoot>
-      <tr><td><span class="label label-important">IMPORTANT</span></td>
-        <td colspan="2">Your account "<strong>{{account.label}}</strong>" will be debited
-          <strong><span class="money">USD {{withdrawal.amount | currency:'$'}}</span></strong>.
+      <tr>
+        <th colspan="3"></th>
+        <th class="money">Total</th>
+      </tr>
+      <tr>
+        <td colspan="3">
+          Total debited from your "<strong>{{account.label}}</strong>" account.
+        </td>
+        <td>
+          <span class="money"><span class="currency">USD</span> {{withdrawal.amount | currency:'$'}}</span>
         </td>
       </tr>
-      <tr><td><span class="label label-important">IMPORTANT</span></td>
-        <td colspan="2">Your
+      <tr>
+        <td colspan="3">
+          Total credited to your
+          "<strong>{{input.destination.label}}</strong>"
           <span data-ng-switch="input.destination.paymentMethod">
             <span data-ng-switch-when="bank:BankAccount">bank account</span>
             <span data-ng-switch-default>external account</span>
-          </span>
-          "<strong>{{input.destination.label}}</strong>" will be credited
-          <strong><span class="money">USD {{withdrawal.transfer[0].amount | currency:'$'}}</span></strong>.
+          </span>.
+        </td>
+        <td class="money">
+          <span class="money"><span class="currency">USD</span> {{withdrawal.transfer[0].amount | currency:'$'}}</span>
         </td>
       </tr>
     </tfoot>

@@ -365,7 +365,7 @@ span.currency {
 }
 
 /* Misc */
-.table .th-compact, .table .td-compact {
+.table th.compact, .table td.compact {
   /* shrink column to fit **single word** text */
   width: 1%;
 }

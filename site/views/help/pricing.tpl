@@ -31,7 +31,7 @@ properties, although many other configurations are possible.</p>
   simulated cost of third-party processing.
 </ul>
 
-<p>The current development authority pricing is as follows:<p>
+<p>The current development authority pricing rates are as follows:<p>
 
 <table class="table">
   <thead>

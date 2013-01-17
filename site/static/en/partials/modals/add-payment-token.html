@@ -221,30 +221,34 @@
     <div class="section" data-ng-show="paymentMethod == 'bank:BankAccount'">
       <h4 class="headline">Bank Account Agreement</h4>
       <div class="well">
-        <p>By adding a new bank account, you agree that you are its rightful
-        owner and that you permit us to transfer funds both to and from it. You
-        also acknowledge that you will be charged bank fees whenever you request
-        that we transfer money to or from this bank account. We do not control
-        these fees; they are charged by your banking network and passed on to
-        you.</p>
-        <p>In order to verify that you have access to the bank account we make
-        two small deposits into it. These amounts will
-        show up in your bank account in 3-5 business days, after which you must
-        enter the amounts into this website to verify your bank account.</p>
-        <p><strong>Your bank account cannot be used to transfer
-        funds until the verification process is complete. Upon completion of
-        the verification process, the funds we deposited into your account will
-        be recuperated and you will be charged a very small transaction 
-        fee by the banking network.</strong></p>
-        <p>
-        You may elect to include an initial deposit at the time of verification
-        to avoid an additional bank fee.
-        </p>
+
+        <p>By adding a new bank account, you affirm that you have the authority
+        from the account owner to permit us to transfer funds both to and from
+        the account. You also acknowledge that you will be charged fees
+        whenever you request that we transfer money to or from this bank
+        account according to our
+        <a target="_blank" href="/help/pricing">pricing policy and rates</a>.
+        These fees are charged to us by the banking network and passed on to you.</p>
+
+        <p>We make two small deposits into the bank account in order to verify
+        that you have access to it. These amounts will show up in your bank
+        account in 3-5 business days, after which you must enter the amounts
+        into this website to complete verification.</p>
+
+        <p><strong>Your bank account cannot be used to transfer funds until the
+        verification process is complete. Upon completion of the verification
+        process, the verification funds we deposited into your account will be
+        withdrawn and you will be charged a small transaction fee by the
+        banking network.</strong></p>
+
+        <p>You may elect to include an initial deposit at the time of
+        verification to avoid an additional bank fee.</p>
+
         <hr/>
         <form class="form-vertical" action="">
           <fieldset>
             <label class="checkbox">
-              <input type="checkbox" data-ng-model="agreementChecked"> I agree to the above terms and conditions.
+              <input type="checkbox" data-ng-model="agreementChecked"> I agree to the above terms and conditions.</input>
             </label>
           </fieldset>
         </form>

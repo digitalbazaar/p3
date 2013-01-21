@@ -41,6 +41,7 @@ open source projects, open standards, and open licensing-based projects:
 </li>
 <li>The many, many <a href="http://www.gnu.org/">GNU utilities</a> we use every day</li>
 <li>Icons from <a href="http://glyphicons.com">Glyphicons Free</a>, licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></li>
+<li>Icons from <a href="http://fortawesome.github.com/Font-Awesome">Font Awesome</a> by Dave Gandy</li>
 <li>Icons from <a href="http://www.yootheme.com/icons">YOOtheme</a></li>
 <li><a href="http://all-vectors.com/gallery/bank-icon">Bank icon</a> from <a href="http://all-vectors.com/">All-Vectors.com</a>, <a href="http://all-vectors.com/terms-of-use">licensed</a> under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></li>
 <li><a href="http://www.myfonts.com/fonts/typodermic/kredit/">Kredit</a> font family from <a href="http://typodermicfonts.com/">Typodermic Fonts Inc.</a> under their <a href="http://typodermicfonts.com/pages/license">standard licence</a></li>

@@ -10,8 +10,8 @@ ${set([
         {{if pageLayout == "normal"}}
           <a class="brand" href="/"><img src="${cacheRoot}${style.brand.src}" width="${style.brand.width}" height="${style.brand.height}" alt="${style.brand.alt}" /></a>      
           <ul class="nav">
-            <li {{if inav == "dashboard"}}class="active"{{/if}}><a href="${session.identity.id}/dashboard"><i class="icon-info-sign{{if style.navbar.isDark}} icon-white{{/if}}"></i> Dashboard</a></li>
-            <li {{if inav == "settings"}}class="active"{{/if}}><a href="${session.identity.id}/settings"><i class="icon-wrench{{if style.navbar.isDark}} icon-white{{/if}}"></i> Settings</a></li>
+            <li {{if inav == "dashboard"}}class="active"{{/if}}><a href="${session.identity.id}/dashboard"><i class="icon-info-sign"></i> Dashboard</a></li>
+            <li {{if inav == "settings"}}class="active"{{/if}}><a href="${session.identity.id}/settings"><i class="icon-wrench"></i> Settings</a></li>
           </ul>
         {{else}}
           <img class="brand-minimal" src="${cacheRoot}${style.brand.src}" width="${style.brand.width}" height="${style.brand.height}" alt="${style.brand.alt}" />
@@ -24,7 +24,7 @@ ${set([
           data-title="{{$parent.session.identity.label || session.profile.label}}"
           data-placement="bottom">
         {{/verbatim}}
-          <i class="icon-user{{if style.navbar.isDark}} icon-white{{/if}}"></i>
+          <i class="icon-user"></i>
         </a>
         <a class="navbar-link pull-right" style="line-height:45px"
           data-ng-click="showHovercard=!showHovercard">

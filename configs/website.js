@@ -40,9 +40,6 @@ config.website.views.vars = {
       src: '/img/payswarm.png',
       height: '24',
       width: '182'
-    },
-    navbar: {
-      isDark: true
     }
   },
   // extensions for webpage loaded resources can be adjusted to 'min.js' or

@@ -1,7 +1,6 @@
 /*
  * Copyright (c) 2012 Digital Bazaar, Inc. All rights reserved.
  */
-var _ = require('underscore');
 var async = require('async');
 var crypto = require('crypto');
 var events = require('events');

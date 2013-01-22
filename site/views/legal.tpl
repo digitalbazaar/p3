@@ -1,7 +1,7 @@
 ${set(pageTitle = "Legal Information")}
 {{partial "head.tpl"}}
 
-<div id="tos" class="block-inline w47 mr1">
+<div id="tos">
    <div id="tos-toc">
       <h2>Terms Of Service</h2>
       
@@ -127,7 +127,7 @@ ${set(pageTitle = "Legal Information")}
    </div>
 </div>
 
-<div id="pp" class="block-inline w47 ml1">
+<div id="pp">
    <h2>Privacy Policy</h2>
    
    <p>Digital Bazaar, the company that operates this Service, is committed to 

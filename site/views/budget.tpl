@@ -4,12 +4,14 @@ ${set(
 )}
 {{partial "head.tpl"}}
 
-{{verbatim}}
-<h2>Budget Details</h2>
+<div class="row">
+  <h2 class="headline">${pageTitle}</h2>
+</div>
 
+{{verbatim}}
 <div data-ng-controller="BudgetCtrl" class="ng-cloak">
 
-<table>
+<table class="table table-condensed table-hover">
 <tr>
   <td>Id</td>
   <td>{{budget.id}}</td>

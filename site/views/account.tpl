@@ -1,12 +1,14 @@
 ${set(
-  pageTitle = "Account Details",
+  pageTitle = "Financial Account Details",
   jsList.push("modules/account")
 )}
 {{partial "head.tpl"}}
 
-{{verbatim}}
-<h2 class="headline">Financial Account Details</h2>
+<div class="row">
+  <h2 class="headline">${pageTitle}</h2>
+</div>
 
+{{verbatim}}
 <div data-ng-controller="AccountCtrl" class="ng-cloak">
 
   <div data-ng-show="account.label" class="row">

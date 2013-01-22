@@ -8,7 +8,7 @@ ${set([
 {{if identity.label}}
     <h1 class="headline">About ${identity.label}</h1>
 {{else}}
-    <h1 class="headline">About identity</h1>
+    <h1 class="headline">About Identity</h1>
 {{/if}}
   </div>
 </div>

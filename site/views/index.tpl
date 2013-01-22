@@ -5,7 +5,7 @@ ${set([
 
 <div class="row">
   <div class="span10 offset1">
-    <h1 class="headline">Server Status</h1>
+    <h2 class="headline">Server Status</h2>
   </div>
 </div>
 
@@ -16,5 +16,7 @@ ${set([
 <p>
 Dave Lehn will insert stats here 'cause he loves them.
 </p>
+
+</div>
 
 {{partial "foot.tpl"}}

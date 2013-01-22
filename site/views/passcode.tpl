@@ -5,7 +5,9 @@ ${set([
 ])}
 {{partial "head.tpl"}}
 
-<h2 class="headline">${pageTitle}</h2>
+<div class="row">
+  <h2 class="headline">${pageTitle}</h2>
+</div>
 
 {{verbatim}}
 <div class="ng-cloak" data-ng-controller="PasscodeCtrl">

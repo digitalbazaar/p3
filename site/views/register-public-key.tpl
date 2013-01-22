@@ -9,7 +9,9 @@ ${set([
 {{verbatim}}
 <div data-ng-controller="RegisterCtrl" class="ng-cloak">
 
-<h1 class="headline">Access Key Registration</h1>
+<div class="row">
+  <h1 class="headline">Access Key Registration</h1>
+</div>
 
 <div class="row">
   <div class="span6 offset3">

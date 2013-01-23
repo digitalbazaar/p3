@@ -315,8 +315,8 @@ ${set([
             </table>
             <div data-ng-show="!state.loading && keys.length == 0">
               <p class="center">You have no keys associated with this identity.
-              Access keys can be added by using an external, payswarm-enabled
-              application.</p>
+              Access keys can be added by using an external payswarm-enabled
+              website or application.</p>
             </div>
           </div>
         </div>

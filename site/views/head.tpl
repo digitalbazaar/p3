@@ -34,6 +34,11 @@
     <!--[if IE]>
     <link href="${cacheRoot}/css/ie.${cssExt}" rel="stylesheet" type="text/css" />
     <![endif]-->
+    {{if cssList && cssList.length > 0}}
+    {{each(idx, cssFile) cssList}}
+    <link href="${cacheRoot}/${cssFile}.${cssExt}" rel="stylesheet" type="text/css" />
+    {{/each}}
+    {{/if}}
     
     <link rel="shortcut icon" href="/favicon.ico" />
     

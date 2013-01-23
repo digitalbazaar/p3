@@ -51,6 +51,7 @@ config.website.views.vars = {
   cssLibExt: 'css',
   jsLibExt: 'js',
   // list of js files to load without the extension
+  cssList: [],
   jsList: [],
   cacheRoot: '',
   // client-side data

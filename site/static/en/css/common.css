@@ -369,6 +369,9 @@ span.currency {
   /* shrink column to fit **single word** text */
   width: 1%;
 }
+.table .center {
+  text-align: center;
+}
 .table .alert {
   text-align: center;
 }

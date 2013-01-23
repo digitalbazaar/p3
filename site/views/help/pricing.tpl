@@ -48,12 +48,12 @@ properties, although many other configurations are possible.</p>
       <td><a href="#inclusive">Inclusive</a></td>
     </tr>
     <tr>
-      <td>Credit Card Deposit</td>
+      <td>Deposit from Credit Card</td>
       <td>2.1867975%</td>
       <td><a href="#exclusive">Exclusive</a></td>
     </tr>
     <tr>
-      <td>Bank Account Deposit</td>
+      <td>Deposit from Bank Account</td>
       <td>
         <span class="money"><span class="currency">USD</span> $0.50</span>
         + 0.9998010%
@@ -61,7 +61,7 @@ properties, although many other configurations are possible.</p>
       <td><a href="#exclusive">Exclusive</a></td>
     </tr>
     <tr>
-      <td>Bank Account Withdrawal</td>
+      <td>Withdrawal to Bank Account</td>
       <td>
         <span class="money"><span class="currency">USD</span> $0.50</span>
         + 0.99%
@@ -77,9 +77,9 @@ documentation</a> for the details. For quick reference, the two types of rates
 used above are defined below:</p>
 
 <dl>
-  <dt><a name="exclusive">Exclusive</a></dt>
+  <dt id="exclusive">Exclusive</dt>
   <dd>Amounts are added on top of a base amount. For instance, a 2% exclusive credit card deposit fee for a <span class="money">$1</span> deposit would put $1 in your account and charge your credit card <span class="money">$1.02</span>.</dd>
-  <dt><a name="inclusive">Inclusive</a></dt>
+  <dt id="inclusive">Inclusive</dt>
   <dd>Amounts are included in the base amount. For instance, an authority with a 2% inclusive rate on a <span class="money">$1</span> purchase would debit the buyer <span class="money">$1</span>, credit the authority <span class="money">$0.02</span>, and credit the seller <span class="money">$0.98</span>.</dd>
 </dl>
 

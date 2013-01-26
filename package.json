@@ -29,11 +29,11 @@
     "posix": "~0.0.8",
     "redback": "~0.3.1",
     "request": "~2.11.0",
-    "rsa": "v0.0.3",
     "soap": "git://github.com/digitalbazaar/node-soap.git",
     "swig": "git://github.com/digitalbazaar/swig.git",
     "ua-parser": "~0.2.4",
     "underscore": "~1.4.0",
+    "ursa": "v0.8.0",
     "walk": "~2.2.1",
     "winston": "~0.6.1",
     "winston-mail": "~0.2.1"

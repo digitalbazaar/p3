@@ -3,7 +3,6 @@ ${set([
   jsList.push("modules/dashboard"),
   inav = "dashboard"
 ])}  
-
 {{partial "head.tpl"}}
 
 {{verbatim}}

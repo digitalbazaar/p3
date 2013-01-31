@@ -1,0 +1,13 @@
+PaySwarm Authority PKI
+======================
+
+To generate new key-pair on the command line:
+
+  openssl genrsa -out newkey.pem 2048
+  openssl rsa -in newkey.pem -pubout > newkey.pub
+
+To convert it to a string for use in JSON config files:
+
+  cat newkey.pem | perl -p -e 's/\n/\\n/' && echo
+  cat newkey.pub | perl -p -e 's/\n/\\n/' && echo
+

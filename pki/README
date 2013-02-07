@@ -11,3 +11,9 @@ To convert it to a string for use in JSON config files:
   cat newkey.pem | perl -p -e 's/\n/\\n/' && echo
   cat newkey.pub | perl -p -e 's/\n/\\n/' && echo
 
+To generate a OpenSSH public key to use for remote logins:
+
+  openssl genrsa -out sshkey.pem 2048
+  chmod go-rwx sshkey.pem
+  ssh-keygen -y -f sshkey.pem > sshkey.pub
+  # append sshkey.pub to target machine ~ACCOUNT/.ssh/authorized_keys

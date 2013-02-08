@@ -257,6 +257,7 @@ var defaultPayeeScheme = {
     payeeRate: '2.00',
     payeeRateType: 'com:Percent',
     payeeApplyType: 'com:Inclusive',
+    maximumAmount: '10.00',
     comment: config.authority.name + ' Processing'
   }],
   psaMinimumAmounts: {}

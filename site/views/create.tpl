@@ -10,10 +10,9 @@ ${set([
     <h2>Create a Profile</h2>
     
     <p>
-    By creating a profile, you will be able to raise money for projects, fund
-    other projects, buy and sell digital goods online and enter a new world of 
-    collaborating with your friends to make the world a better place... or just
-    split the cost of a pizza. 
+    By creating a profile, you will be able to buy and sell digital goods
+    online, raise money for projects, fund other projects, and enter a new
+    world of collaboration on the web.
     </p>
     
     <div data-ng-include="'/partials/demo-warning.html'"></div>

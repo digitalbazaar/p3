@@ -44,7 +44,7 @@ properties, although many other configurations are possible.</p>
   <tbody>
     <tr>
       <td>PaySwarm Purchase</td>
-      <td>2%</td>
+      <td>2% (max $10.00)</td>
       <td><a href="#inclusive">Inclusive</a></td>
     </tr>
     <tr>

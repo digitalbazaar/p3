@@ -1,7 +1,7 @@
 var async = require('async');
 var program = require('commander');
 var jsdom = require('jsdom');
-var jsonld = require('jsonld');
+var jsonld = require('jsonld')(); // use localized jsonld API
 var RDFa = require('../lib/payswarm-auth/rdfa');
 var util = require('util');
 var payswarm = {
@@ -9,6 +9,18 @@ var payswarm = {
   tools: require('../lib/payswarm-auth/tools.js')
 };
 var PaySwarmError = payswarm.tools.PaySwarmError;
+
+// require https for @contexts
+var nodeContextLoader = jsonld.contextLoaders.node({secure: true});
+jsonld.loadContext = function(url, callback) {
+  // FIXME: HACK: until http://purl.org/payswarm/v1 is ready
+  console.log('in here');
+  if(url === 'http://purl.org/payswarm/v1') {
+    return callback(
+      null, url, {'@context': payswarm.tools.getDefaultJsonLdContext()});
+  }
+  nodeContextLoader(url, callback);
+};
 
 var APP_NAME = 'payswarm.apps.UrlInfo';
 process.title = 'url-info';

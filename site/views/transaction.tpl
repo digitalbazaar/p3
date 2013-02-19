@@ -37,7 +37,7 @@ ${set(pageTitle = "Transaction Info")}
     <span class="money right" title="USD $${transfer.amount}">
       $ ${transfer.amount}
     </span> from
-    {{if transfer.source === "urn:payswarm-external-account"}}
+    {{if transaction.source && transfer.source === transaction.source.id}}
       ${transaction.source.label}
       {{if transaction.source.paymentMethod === "ccard:CreditCard"}}
         (${transaction.source.cardNumber}) 
@@ -52,7 +52,7 @@ ${set(pageTitle = "Transaction Info")}
     <span class="money right" title="USD $${transfer.amount}">
       $ ${transfer.amount}
     </span> to 
-    {{if transfer.destination === "urn:payswarm-external-account"}}
+    {{if transaction.destination && transfer.destination === transaction.destination.id}}
       ${transaction.destination.label}
       {{if transaction.destination.paymentMethod === "ccard:CreditCard"}}
         (${transaction.destination.cardNumber}) 

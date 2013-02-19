@@ -2228,7 +2228,7 @@ angular.module('payswarm.directives')
           payeeRate: $scope.input.amount,
           payeeRateType: 'com:FlatAmount',
           payeeApplyType: 'com:Exclusive',
-          destination: 'urn:payswarm-external-account',
+          destination: $scope.input.destination.id,
           comment: 'Withdrawal'
         }],
         destination: $scope.input.destination.id

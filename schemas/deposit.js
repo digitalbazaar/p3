@@ -1,15 +1,16 @@
 var tools = require('../lib/payswarm-auth/tools');
 
-var payswarmId = require('./payswarmId');
+var currency = require('./currency');
+var depositAmount = require('./depositAmount');
+var graphSignature = require('./graphSignature');
+var ipv4Address = require('./ipv4Address');
 var jsonldContext = require('./jsonldContext');
 var jsonldType = require('./jsonldType');
 var payee = require('./payee');
 var paymentToken = require('./paymentToken');
+var payswarmId = require('./payswarmId');
 var transfer = require('./transfer');
-var graphSignature = require('./graphSignature');
-var depositAmount = require('./depositAmount');
 var w3cDateTime = require('./w3cDateTime');
-var ipv4Address = require('./ipv4Address');
 
 var unsignedDeposit = {
   required: true,
@@ -42,6 +43,7 @@ var signedDeposit = {
       items: transfer()
     },
     created: w3cDateTime(),
+    currency: currency(),
     amount: depositAmount(),
     ipv4Address: ipv4Address(),
     signature: graphSignature()

@@ -1,3 +1,4 @@
+var currency = require('./currency');
 var jsonldContext = require('./jsonldContext');
 var label = require('./label');
 var payswarmId = require('./payswarmId');
@@ -29,11 +30,7 @@ var postAccounts = {
       required: false,
       type: visibility()
     },
-    currency: {
-      required: true,
-      type: 'string',
-      enum: ['USD']
-    }
+    currency: currency()
   },
   additionalProperties: false
 };

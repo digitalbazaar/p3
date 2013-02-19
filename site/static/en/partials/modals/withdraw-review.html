@@ -27,8 +27,8 @@
           <i class="icon-arrow-right"></i>
         </td>
         <td>
-          <span data-ng-show="transfer.destination != 'urn:payswarm-external-account'"><a href="{{transfer.destination}}" target="_blank">{{accounts[transfer.destination].label}}</a></span>
-          <span data-ng-show="transfer.destination == 'urn:payswarm-external-account'"><strong>{{accounts[transfer.destination].label}}<strong></span>
+          <span data-ng-show="transfer.destination != withdrawal.destination.id"><a href="{{transfer.destination}}" target="_blank">{{accounts[transfer.destination].label}}</a></span>
+          <span data-ng-show="transfer.destination == withdrawal.destination.id"><strong>{{accounts[transfer.destination].label}}<strong></span>
         </td>
         <td class="money">
           <span class="money" data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact amount of this transfer is USD {{transfer.amount}}."

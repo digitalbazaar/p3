@@ -15,7 +15,6 @@ var PaySwarmError = payswarm.tools.PaySwarmError;
 var nodeContextLoader = jsonld.contextLoaders.node({secure: true});
 jsonld.loadContext = function(url, callback) {
   // FIXME: HACK: until http://purl.org/payswarm/v1 is ready
-  console.log('in here');
   if(url === 'http://purl.org/payswarm/v1') {
     return callback(
       null, url, {'@context': payswarm.tools.getDefaultJsonLdContext()});

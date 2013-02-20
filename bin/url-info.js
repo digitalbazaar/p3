@@ -3,6 +3,7 @@ var program = require('commander');
 var jsdom = require('jsdom');
 var jsonld = require('jsonld')(); // use localized jsonld API
 var RDFa = require('../lib/payswarm-auth/rdfa');
+var request = require('request');
 var util = require('util');
 var payswarm = {
   security: require('../lib/payswarm-auth/security'),
@@ -80,13 +81,12 @@ function processInput(input) {
     function(callback) {
       // input is JSON
       if(program.json) {
-        try {
-          var data = JSON.parse(input);
-          return callback(null, data);
-        }
-        catch(ex) {
-          return callback(ex);
-        }
+        return request({
+          url: input,
+          json: true
+        }, function(err, res, body) {
+          callback(err, body);
+        });
       }
 
       // input is RDFa

@@ -23,35 +23,70 @@ $(document).ready(function() {
   
   var div = '#stats';
 
-  var sec_per_step = 10;
+  // supported step sizes
+  var sec_per_step = 10; /* 10s */
+  //var sec_per_step = 60; /* 1m */
+  //var sec_per_step = 300; /* 5m */
+  //var sec_per_step = 3600; /* 1h */
+  //var sec_per_step = 86400; /* 1d */
 
   var context = cubism.context()
     .step(sec_per_step * 1000)
     .size($(div).width());
   var cube = context.cube("http://localhost:1081");
 
-  console.log(cube);
-  var metrics = [
-    //cube.metric('sum(cube_request)').alias('Cube Request'),
+  function addCurrencyMetrics(metrics, currency) {
+    metrics.push(cube
+      .metric('sum(settled.eq(currency, "' + currency + '"))')
+      .alias(currency + ' Settled (total)'));
+    metrics.push(cube
+      .metric('sum(settled.eq(currency, "' + currency + '")) / ' + sec_per_step)
+      .alias(currency + ' Settled (avg)'));
+    metrics.push(cube
+      .metric('sum(settled(authorized_ms).eq(currency, "' + currency + '")) / sum(settled.eq(currency, "' + currency + '"))')
+      .alias(currency + ' Settled (ms until authorized)'));
+    metrics.push(cube
+      .metric('sum(settled(settled_ms).eq(currency, "' + currency + '")) / sum(settled.eq(currency, "' + currency + '"))')
+      .alias(currency + ' Settled (ms until settled)'));
+    metrics.push(cube
+      .metric('sum(settled(amount).eq(currency, "' + currency + '"))')
+      .alias(currency + ' Settled Amount (total)'));
+    metrics.push(cube
+      .metric('sum(settled(amount).eq(currency, "' + currency + '")) / sum(settled.eq(currency, "' + currency + '"))')
+      .alias(currency + ' Settled Amount (avg)'));
 
-    cube.metric('sum(settled)').alias('Settled (total)'),
-    cube.metric('sum(settled) / ' + sec_per_step).alias('Settled (avg)'),
-    cube.metric('sum(settled(authorized_ms)) / sum(settled)').alias('Settled (ms until authorized)'),
-    cube.metric('sum(settled(settled_ms)) / sum(settled)').alias('Settled (ms until settled)'),
-    cube.metric('sum(settled(amount))').alias('Settled Amount (total)'),
-    cube.metric('sum(settled(amount)) / sum(settled)').alias('Settled Amount (avg)'),
+    metrics.push(cube
+      .metric('sum(voided.eq(currency, "' + currency + '"))')
+      .alias(currency + ' Voided'));
+    metrics.push(cube
+      .metric('sum(voided(authorized_ms).eq(currency, "' + currency + '")) / sum(voided.eq(currency, "' + currency + '"))')
+      .alias(currency + ' Voided (ms until authorized)'));
+    metrics.push(cube
+      .metric('sum(voided(voided_ms).eq(currency, "' + currency + '")) / sum(voided.eq(currency, "' + currency + '"))')
+      .alias(currency + ' Voided (ms until voided)'));
+    metrics.push(cube
+      .metric('sum(voided(amount).eq(currency, "' + currency + '"))')
+      .alias(currency + ' Voided Amount (total)'));
+    metrics.push(cube
+      .metric('sum(voided(amount).eq(currency, "' + currency + '")) / sum(voided.eq(currency, "' + currency + '"))')
+      .alias(currency + ' Voided Amount (avg)'));
 
-    cube.metric('sum(voided)').alias('Voided'),
-    cube.metric('sum(voided(authorized_ms)) / sum(voided)').alias('Voided (ms until authorized)'),
-    cube.metric('sum(voided(voided_ms)) / sum(voided)').alias('Voided (ms until voided)'),
-    cube.metric('sum(voided(amount))').alias('Voided Amount (total)'),
-    cube.metric('sum(voided(amount)) / sum(voided)').alias('Voided Amount (avg)'),
+    metrics.push(cube
+      .metric('sum(settled(amount).eq(currency, "' + currency + '").eq(type,"contract"))')
+      .alias(currency + ' Contract Amount'));
+    metrics.push(cube
+      .metric('sum(settled(amount).eq(currency, "' + currency + '").eq(type,"deposit"))')
+      .alias(currency + ' Deposit Amount'));
+    metrics.push(cube
+      .metric('sum(settled(amount).eq(currency, "' + currency + '").eq(type,"withdrawal"))')
+      .alias(currency + ' Withdrawal Amount'));
+  }
 
-    //cube.metric('sum(settled(amount).eq(type,"contract"))').alias('Contract Amount'),
-    //cube.metric('sum(settled(amount).eq(type,"deposit"))').alias('Deposit Amount'),
-    //cube.metric('sum(settled(amount).eq(type,"withdrawal"))').alias('Withdrawal Amount')
-  ];
-  console.log(metrics);
+  //console.log(cube);
+  var metrics = [];
+  //metrics.push(cube.metric('sum(cube_request)').alias('Cube Request'));
+  addCurrencyMetrics(metrics, "USD");
+  //console.log(metrics);
 
   d3.select(div).selectAll(".axis")
       .data(["top", "bottom"])

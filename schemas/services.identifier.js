@@ -20,7 +20,7 @@ var postIdentifier = {
       type: {
         required: true,
         type: 'string',
-        enum: ['ps:FinancialAccount']
+        enum: ['com:Account']
       },
       owner: {
         required: true,

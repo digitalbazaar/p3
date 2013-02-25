@@ -13,7 +13,7 @@ var schema = {
     type: 'object',
     properties: {
       id: payswarmId(),
-      type: jsonldType('com:PayeeRule'),
+      type: jsonldType('PayeeRule'),
       payeeGroupPrefix: {
         required: false,
         type: 'array',
@@ -38,12 +38,12 @@ var schema = {
       payeeRateType: {
         required: true,
         type: 'string',
-        enum: ['com:FlatAmount', 'com:Percent']
+        enum: ['FlatAmount', 'Percentage']
       },
       payeeApplyType: {
         required: true,
         type: 'string',
-        enum: ['com:Exclusive', 'com:Inclusive']
+        enum: ['ApplyExclusively', 'ApplyInclusively']
       }
     },
     additionalProperties: false

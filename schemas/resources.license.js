@@ -10,7 +10,7 @@ var schema = {
   type: 'object',
   properties: {
     id: payswarmId(),
-    type: jsonldType('ps:License'),
+    type: jsonldType('License'),
     licenseTemplate: {
       required: true,
       type: 'string'

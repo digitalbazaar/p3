@@ -245,7 +245,7 @@ ${set([
 
 <div data-modal-add-address="showAddAddressModal"
   data-identity="identity"
-  data-modal-add-address-alert="Before you complete your purchase, please enter your {{(identity.type == 'ps:VendorIdentity' && 'business\'s ') || ''}}name and address information."
+  data-modal-add-address-alert="Before you complete your purchase, please enter your {{(identity.type == 'VendorIdentity' && 'business\'s ') || ''}}name and address information."
   data-modal-on-close="addAddressModalDone()"></div>
 <div data-modal-add-account="showAddAccountModal"
   data-modal-add-account-alert="purchase"

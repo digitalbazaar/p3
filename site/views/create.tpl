@@ -115,7 +115,7 @@ ${set([
               data-slug-in data-ng-model="data.psaIdentity.psaSlug"
               data-ng-disabled="loading" /></p>
             <div data-duplicate-checker="data.psaIdentity.psaSlug"
-              data-duplicate-checker-type="ps:PersonalIdentity"
+              data-duplicate-checker-type="PersonalIdentity"
               data-duplicate-checker-available="This identity name is available!"
               data-duplicate-checker-invalid="Identity name is invalid."
               data-duplicate-checker-taken="Identity name has already been taken."

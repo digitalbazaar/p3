@@ -19,7 +19,7 @@ var unsignedDeposit = {
   type: 'object',
   properties: {
     '@context': jsonldContext(),
-    type: jsonldType(['com:Transaction', 'com:Deposit']),
+    type: jsonldType(['Transaction', 'Deposit']),
     payee: payee(),
     source: payswarmId()
   },
@@ -34,7 +34,7 @@ var signedDeposit = {
   properties: {
     '@context': jsonldContext(),
     id: payswarmId(),
-    type: jsonldType(['com:Transaction', 'com:Deposit']),
+    type: jsonldType(['Transaction', 'Deposit']),
     payee: payee(),
     source: paymentToken(),
     transfer: {

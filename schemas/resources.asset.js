@@ -13,7 +13,7 @@ var schema = {
   properties: {
     id: payswarmId(),
     // allow up to 4 additional custom types
-    type: jsonldType('ps:Asset', 4),
+    type: jsonldType('Asset', 4),
     creator: {
       required: false,
       type: [url(), {type: 'object'}]

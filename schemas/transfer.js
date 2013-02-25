@@ -11,7 +11,7 @@ var schema = {
   description: 'A financial Transfer.',
   type: 'object',
   properties: {
-    type: jsonldType('com:Transfer'),
+    type: jsonldType('Transfer'),
     source: payswarmId(),
     destination: payswarmId(),
     amount: money.precisePositive(),

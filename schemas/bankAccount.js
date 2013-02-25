@@ -11,7 +11,7 @@ var schema = {
   type: 'object',
   properties: {
     '@context': jsonldContext(),
-    type: jsonldType('bank:BankAccount'),
+    type: jsonldType('BankAccount'),
     bankAccount: {
       required: true,
       type: 'string',
@@ -27,7 +27,7 @@ var schema = {
     bankAccountType: {
       required: true,
       type: 'string',
-      enum: ['bank:Checking', 'bank:Savings']
+      enum: ['Checking', 'Savings']
     },
     bankRoutingNumber: {
       required: true,

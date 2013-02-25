@@ -1,5 +1,5 @@
 <div class="paymentToken" data-ng-switch="selected.paymentMethod">
-  <div class="cc-box" data-ng-switch-when="ccard:CreditCard"
+  <div class="cc-box" data-ng-switch-when="CreditCard"
     data-ng-class="{'cc-selecting': selecting}">
     <table class="cc-table" data-ng-class="selecting && 'item-hover'"
       data-ng-click="selecting && select(selected)">
@@ -29,7 +29,7 @@
       </tbody>
     </table>
   </div>
-  <div data-ng-switch-when="bank:BankAccount" class="bank-box"
+  <div data-ng-switch-when="BankAccount" class="bank-box"
     data-ng-class="{'bank-disabled-box': !selected.psaVerified || selected.psaStatus == 'disabled' || selected.psaStatus == 'deleted', 'bank-selecting': selecting}">
     <div data-ng-show="!selected.psaVerified && selected.psaStatus != 'disabled' && selected.psaStatus != 'deleted'"
       class="bank-disabled-overlay">Unverified</div>

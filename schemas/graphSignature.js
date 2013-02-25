@@ -11,7 +11,7 @@ var schema = {
   type: 'object',
   properties: {
     id: payswarmId({required: false}),
-    type: jsonldType('sec:GraphSignature2012'),
+    type: jsonldType('GraphSignature2012'),
     creator: payswarmId(),
     created: w3cDateTime(),
     signatureValue: {

@@ -1,6 +1,6 @@
 {
   "@context": "http://purl.org/payswarm/v1",
-  "type": "vcard:Address",
+  "type": "Address",
   "fullName": "British Prime Minister",
   "streetAddress": "10 Downing Street",
   "locality": "London",

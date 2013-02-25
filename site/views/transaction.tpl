@@ -39,9 +39,9 @@ ${set(pageTitle = "Transaction Info")}
     </span> from
     {{if transaction.source && transfer.source === transaction.source.id}}
       ${transaction.source.label}
-      {{if transaction.source.paymentMethod === "ccard:CreditCard"}}
+      {{if transaction.source.paymentMethod === "CreditCard"}}
         (${transaction.source.cardNumber}) 
-      {{else transaction.source.paymentMethod === "bank:BankAccount"}}
+      {{else transaction.source.paymentMethod === "BankAccount"}}
         (${transaction.source.bankAccount})
       {{/if}}
       <br/>
@@ -54,9 +54,9 @@ ${set(pageTitle = "Transaction Info")}
     </span> to 
     {{if transaction.destination && transfer.destination === transaction.destination.id}}
       ${transaction.destination.label}
-      {{if transaction.destination.paymentMethod === "ccard:CreditCard"}}
+      {{if transaction.destination.paymentMethod === "CreditCard"}}
         (${transaction.destination.cardNumber}) 
-      {{else transaction.destination.paymentMethod === "bank:BankAccount"}}
+      {{else transaction.destination.paymentMethod === "BankAccount"}}
         (${transaction.destination.bankAccount})
       {{/if}}
       <br/>

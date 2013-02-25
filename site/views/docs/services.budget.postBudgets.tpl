@@ -98,7 +98,7 @@ purchase is <em>https://${host}/i/jane/accounts/primary</em>.
   "psaRefresh": "psa:Monthly",
   "psaExpires": 1346200213,
   "type": [
-    "psa:Budget"
+    "Budget"
   ],
   "balance": "10.00",
   "psaMaxPerUse": "10.00",

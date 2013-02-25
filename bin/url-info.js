@@ -120,19 +120,19 @@ function processInput(input) {
     },
     function(data, callback) {
       if(program.all || program.assets) {
-        return processType(data, 'ps:Asset', callback);
+        return processType(data, 'Asset', callback);
       }
       callback(null, data);
     },
     function(data, callback) {
       if(program.all || program.licenses) {
-        return processType(data, 'ps:License', callback);
+        return processType(data, 'License', callback);
       }
       callback(null, data);
     },
     function(data, callback) {
       if(program.all || program.listings) {
-        return processType(data, 'ps:Listing', callback);
+        return processType(data, 'Listing', callback);
       }
       callback(null, data);
     }

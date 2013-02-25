@@ -68,8 +68,8 @@ config.financial.defaults = {
   account: {},
   paymentTokens: [],
   paymentGateways: {
-    'ccard:CreditCard': 'Test',
-    'bank:BankAccount': 'Test'
+    CreditCard: 'Test',
+    BankAccount: 'Test'
   }
 };
 

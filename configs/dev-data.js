@@ -16,7 +16,7 @@ config.addressValidator.test.address = {
 
 // financial defaults
 config.financial.defaults.account = {
-  type: 'com:Account',
+  type: 'FinancialAccount',
   // demo with $10
   balance: '10.0000000',
   currency: 'USD',
@@ -26,10 +26,10 @@ config.financial.defaults.account = {
 config.financial.createDefaultPaymentTokens = true;
 config.financial.defaults.paymentTokens.push({
   // demo payment token source
-  type: 'ccard:CreditCard',
+  type: 'CreditCard',
   label: 'My Visa',
   paymentGateway: 'Test',
-  cardBrand: 'ccard:Visa',
+  cardBrand: 'Visa',
   cardNumber: '4111111111111111',
   cardExpMonth: 11,
   cardExpYear: 2016,
@@ -50,15 +50,15 @@ config.financial.defaults.paymentTokens.push({
 config.financial.devPaymentToken = 'urn:authority-bank-account';
 config.financial.paymentTokens.push({
   source: {
-    type: 'bank:BankAccount',
+    type: 'BankAccount',
     bankAccount: '1234567890',
-    bankAccountType: 'bank:Checking',
+    bankAccountType: 'Checking',
     bankRoutingNumber: '987654321'
   },
   gateway: 'Authority',
   token: {
     id: config.financial.devPaymentToken,
-    type: 'com:PaymentToken',
+    type: 'PaymentToken',
     label: 'Authority External Bank Account',
     owner: config.authority.id,
     psaStatus: 'active',
@@ -72,7 +72,7 @@ config.promo.paymentToken = 'urn:authority-bank-account';
 // profiles
 config.profile.profiles.push({
   id: baseUri + '/profiles/authority',
-  type: 'ps:Profile',
+  type: 'Profile',
   psaSlug: 'authority',
   email: 'authority@payswarm.com',
   label: 'PaySwarm Development Authority',
@@ -87,7 +87,7 @@ config.profile.profiles.push({
 });
 config.profile.profiles.push({
   id: baseUri + '/profiles/dev',
-  type: 'ps:Profile',
+  type: 'Profile',
   psaSlug: 'dev',
   email: 'dev@payswarm.com',
   label: 'Dev',
@@ -99,7 +99,7 @@ config.profile.profiles.push({
 });
 config.profile.profiles.push({
   id: baseUri + '/profiles/customer',
-  type: 'ps:Profile',
+  type: 'Profile',
   psaSlug: 'customer',
   email: 'customer@payswarm.com',
   label: 'Customer',
@@ -111,7 +111,7 @@ config.profile.profiles.push({
 });
 config.profile.profiles.push({
   id: baseUri + '/profiles/vendor',
-  type: 'ps:Profile',
+  type: 'Profile',
   psaSlug: 'vendor',
   email: 'vendor@payswarm.com',
   label: 'Vendor',
@@ -135,21 +135,21 @@ config.identity.identities.push({
 });
 config.identity.identities.push({
   id: baseUri + '/i/dev',
-  type: 'ps:PersonalIdentity',
+  type: 'PersonalIdentity',
   owner: baseUri + '/profiles/dev',
   psaSlug: 'dev',
   label: 'Dev'
 });
 config.identity.identities.push({
   id: baseUri + '/i/customer',
-  type: 'ps:PersonalIdentity',
+  type: 'PersonalIdentity',
   owner: baseUri + '/profiles/customer',
   psaSlug: 'customer',
   label: 'Customer'
 });
 config.identity.identities.push({
   id: baseUri + '/i/vendor',
-  type: 'ps:VendorIdentity',
+  type: 'VendorIdentity',
   owner: baseUri + '/profiles/vendor',
   psaSlug: 'vendor',
   label: 'Vendor',
@@ -158,7 +158,7 @@ config.identity.identities.push({
   description: 'The default PaySwarm Vendor',
   address: [{
     label: 'Business',
-    type: 'vcard:Address',
+    type: 'Address',
     fullName: 'Shop Owner',
     streetAddress: '100 Vendor St',
     locality: 'City',
@@ -173,13 +173,13 @@ config.identity.identities.push({
 config.identity.keys.push({
   publicKey: {
     id: authorityId + '/keys/1',
-    type: 'sec:Key',
+    type: 'CryptographicKey',
     owner: authorityId,
     label: 'Key 1',
     publicKeyPem: '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqMbYknpvLLx6+ZQ3IucP\nl6dsEdSj82CBw9Xd7GQIsD7qYIzE18LKe9I+SroxHhDDpBuwTZREV9kOwyvOcvbD\nbp46+ymA7TGIRoScz6L7e8QSCqEPg/z6FBWtsCNpVx+AUF68Ci99IBU0xWKHyPRp\n6ZHpW9ET4150Q3ZFQLcw7xD8pt9lCb7YGbmWcZWYvMysLRZ4ihuYCbbaBzgtTp3i\nQQGmrZ2gcQVwdx898/OcJ8Kj9PNJEyoydoqcIQtVyQtfKev+Ofegy6pfH69i5+Z3\nOqs2Ochr3tVnzPAMIVsvW/eVtnXacyxUsyT+m2uhRtC+e72zlDmobpLPm7RPYGJA\nkQIDAQAB\n-----END PUBLIC KEY-----\n'
   },
   privateKey: {
-    type: 'sec:Key',
+    type: 'CryptographicKey',
     owner: authorityId,
     label: 'Key 1',
     publicKey: authorityId + '/keys/1',
@@ -191,7 +191,7 @@ config.identity.keys.push({
 // fees first so auto-deposit has a fee account to work with
 config.financial.accounts.push({
   id: baseUri + '/i/authority/accounts/fees',
-  type: 'com:Account',
+  type: 'FinancialAccount',
   owner: authorityId,
   psaSlug: 'fees',
   label: config.authority.name + ' Fees Account',
@@ -200,7 +200,7 @@ config.financial.accounts.push({
 });
 config.financial.accounts.push({
   id: baseUri + '/i/authority/accounts/main',
-  type: 'com:Account',
+  type: 'FinancialAccount',
   owner: authorityId,
   psaSlug: 'main',
   label: config.authority.name + ' Main Account',
@@ -208,7 +208,7 @@ config.financial.accounts.push({
 });
 config.financial.accounts.push({
   id: baseUri + '/i/authority/accounts/verify',
-  type: 'com:Account',
+  type: 'FinancialAccount',
   owner: authorityId,
   psaSlug: 'verify',
   label: config.authority.name + ' Verify Source Account',
@@ -216,7 +216,7 @@ config.financial.accounts.push({
 });
 config.financial.accounts.push({
   id: baseUri + '/i/dev/accounts/primary',
-  type: 'com:Account',
+  type: 'FinancialAccount',
   owner: baseUri + '/i/dev',
   psaSlug: 'primary',
   label: 'Primary Account',
@@ -224,7 +224,7 @@ config.financial.accounts.push({
 });
 config.financial.accounts.push({
   id: baseUri + '/i/customer/accounts/primary',
-  type: 'com:Account',
+  type: 'FinancialAccount',
   owner: baseUri + '/i/customer',
   psaSlug: 'primary',
   label: 'Primary Account',
@@ -232,7 +232,7 @@ config.financial.accounts.push({
 });
 config.financial.accounts.push({
   id: baseUri + '/i/vendor/accounts/primary',
-  type: 'com:Account',
+  type: 'FinancialAccount',
   owner: baseUri + '/i/vendor',
   psaSlug: 'primary',
   label: 'Primary Account',
@@ -249,14 +249,14 @@ config.financial.paymentTokenVerifyAccount = authorityId + '/accounts/verify';
 var defaultPayeeSchemeId = authorityId + '/payee-schemes/default';
 var defaultPayeeScheme = {
   id: defaultPayeeSchemeId,
-  type: 'com:PayeeScheme',
+  type: 'PayeeScheme',
   payee: [{
-    type: 'com:Payee',
+    type: 'Payee',
     destination: authorityId + '/accounts/main',
     payeeGroup: ['authority'],
     payeeRate: '2.00',
-    payeeRateType: 'com:Percent',
-    payeeApplyType: 'com:Inclusive',
+    payeeRateType: 'Percentage',
+    payeeApplyType: 'ApplyInclusively',
     maximumAmount: '10.00',
     comment: config.authority.name + ' Processing'
   }],
@@ -278,117 +278,116 @@ config.financial.paymentGateway.Test.payees.withdrawal = {};
 
 // shared for any CC or bank account gateway
 var merchantBankFixedPayee = {
-  type: 'com:Payee',
+  type: 'Payee',
   destination: baseUri + '/i/authority/accounts/fees',
   payeeGroup: ['authority'],
   payeeApplyGroup: ['authority_gateway'],
   payeeExemptGroup: [
     'authority', 'authority_gatewayFlatExempt', 'authority_exempt'],
-  payeeRateType: 'com:FlatAmount',
+  payeeRateType: 'FlatAmount',
   payeeRate: '0.11',
-  payeeApplyType: 'com:Exclusive',
+  payeeApplyType: 'ApplyExclusively',
   comment: 'Merchant Bank Service (Fixed Charge)'
 };
 
 // BankAccount fees
-config.financial.paymentGateway.Test.payees.deposit['bank:BankAccount'] = [{
-  type: 'com:Payee',
+config.financial.paymentGateway.Test.payees.deposit.BankAccount = [{
+  type: 'Payee',
   destination: baseUri + '/i/authority/accounts/fees',
   payeeGroup: ['authority'],
   payeeApplyGroup: ['authority_gateway'],
   payeeExemptGroup: [
     'authority', 'authority_gatewayPercentExempt', 'authority_exempt'],
-  payeeRateType: 'com:Percent',
+  payeeRateType: 'Percentage',
   // 1 / (1 - inclusive rate of 0.0099)
   payeeRate: '0.9998990',
-  payeeApplyType: 'com:Exclusive',
+  payeeApplyType: 'ApplyExclusively',
   comment: 'Bank ACH Deposit Service (Percentage Charge)'
 }, {
-  type: 'com:Payee',
+  type: 'Payee',
   destination: baseUri + '/i/authority/accounts/fees',
   payeeGroup: ['authority'],
   payeeApplyGroup: ['authority_gateway'],
   payeeExemptGroup: [
     'authority', 'authority_gatewayFlatExempt', 'authority_exempt'],
-  payeeRateType: 'com:FlatAmount',
+  payeeRateType: 'FlatAmount',
   payeeRate: '0.50',
-  payeeApplyType: 'com:Exclusive',
+  payeeApplyType: 'ApplyExclusively',
   comment: 'Bank ACH Deposit Service (Fixed Charge)'
 }, merchantBankFixedPayee];
-config.financial.paymentGateway.Test.payees.withdrawal['bank:BankAccount'] = [{
-  type: 'com:Payee',
+config.financial.paymentGateway.Test.payees.withdrawal.BankAccount = [{
+  type: 'Payee',
   destination: baseUri + '/i/authority/accounts/fees',
   payeeGroup: ['authority', 'authority_percent'],
   payeeApplyGroup: ['authority_gateway'],
   payeeApplyAfter: ['authority_flat'],
   payeeExemptGroup: [
     'authority', 'authority_gatewayPercentExempt', 'authority_exempt'],
-  payeeRateType: 'com:Percent',
+  payeeRateType: 'Percentage',
   payeeRate: '0.99',
-  payeeApplyType: 'com:Inclusive',
+  payeeApplyType: 'ApplyInclusively',
   comment: 'Bank ACH Withdrawal Service (Percentage Charge)'
 }, {
-  type: 'com:Payee',
+  type: 'Payee',
   destination: baseUri + '/i/authority/accounts/fees',
   payeeGroup: ['authority', 'authority_flat'],
   payeeApplyGroup: ['authority_gateway'],
   payeeExemptGroup: [
     'authority', 'authority_gatewayFlatExempt', 'authority_exempt'],
-  payeeRateType: 'com:FlatAmount',
+  payeeRateType: 'FlatAmount',
   payeeRate: '0.50',
-  payeeApplyType: 'com:Inclusive',
+  payeeApplyType: 'ApplyInclusively',
   comment: 'Bank ACH Withdrawal Service (Fixed Charge)'
 }, merchantBankFixedPayee];
 
 // CreditCard fees
 var ccPercentPayee = {
-  type: 'com:Payee',
+  type: 'Payee',
   destination: baseUri + '/i/authority/accounts/fees',
   payeeGroup: ['authority'],
   payeeApplyGroup: ['authority_gateway'],
   payeeExemptGroup: [
     'authority', 'authority_gatewayPercentExempt', 'authority_exempt'],
-  payeeRateType: 'com:Percent',
+  payeeRateType: 'Percentage',
   // 1 / (1 - inclusive rate of 0.0214)
   payeeRate: '2.1867975',
-  payeeApplyType: 'com:Exclusive',
+  payeeApplyType: 'ApplyExclusively',
   comment: 'Credit Card Processing Service (Percentage Charge)'
 };
 var ccFixedPayee = {
-  type: 'com:Payee',
+  type: 'Payee',
   destination: baseUri + '/i/authority/accounts/fees',
   payeeGroup: ['authority'],
   payeeApplyGroup: ['authority_gateway'],
   payeeExemptGroup: [
     'authority', 'authority_gatewayFlatExempt', 'authority_exempt'],
-  payeeRateType: 'com:FlatAmount',
+  payeeRateType: 'FlatAmount',
   payeeRate: '0.15',
-  payeeApplyType: 'com:Exclusive',
+  payeeApplyType: 'ApplyExclusively',
   comment: 'Credit Card Processing Service (Fixed Charge)'
 };
 // extra 0.15 for amex
 var ccAmexPayee = {
-  type: 'com:Payee',
+  type: 'Payee',
   destination: baseUri + '/i/authority/accounts/fees',
   payeeGroup: ['authority'],
   payeeApplyGroup: ['authority_gateway'],
   payeeExemptGroup: [
     'authority', 'authority_gatewayFlatExempt', 'authority_exempt'],
-  payeeRateType: 'com:FlatAmount',
+  payeeRateType: 'FlatAmount',
   payeeRate: '0.15',
-  payeeApplyType: 'com:Exclusive',
+  payeeApplyType: 'ApplyExclusively',
   comment: 'Credit Card Processing Service (American Express Fixed Charge)'
 };
-config.financial.paymentGateway.Test.payees.deposit
-  ['ccard:CreditCard'] = {};
-config.financial.paymentGateway.Test.payees.deposit
-  ['ccard:CreditCard']['default'] = [
+config.financial.paymentGateway.Test.payees.deposit.CreditCard = {};
+config.financial.paymentGateway.Test.payees.deposit.CreditCard
+  ['default'] = [
   ccPercentPayee,
   ccFixedPayee,
   merchantBankFixedPayee
 ];
-config.financial.paymentGateway.Test.payees.deposit
-  ['ccard:CreditCard']['ccard:AmericanExpress'] = [
+config.financial.paymentGateway.Test.payees.deposit.CreditCard
+  .AmericanExpress = [
   ccPercentPayee,
   ccFixedPayee,
   ccAmexPayee,

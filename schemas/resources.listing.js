@@ -18,7 +18,7 @@ var schema = {
     '@context': jsonldContext({type: 'object'}),
     id: payswarmId(),
     // allow up to 4 additional custom types
-    type: jsonldType('ps:Listing', 4),
+    type: jsonldType('Listing', 4),
     payee: payee(),
     payeeRule: payeeRule({required: false}),
     asset: url(),

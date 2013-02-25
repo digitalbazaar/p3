@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2012-2013 Digital Bazaar, Inc. All rights reserved.
  */
 var async = require('async');
 var crypto = require('crypto');
@@ -330,7 +330,7 @@ function _createVendorProfile(self, vendorProfiles, callback) {
           label: 'key-' + id
         },
         psaIdentity: {
-          type: 'ps:VendorIdentity',
+          type: 'VendorIdentity',
           psaSlug: 'vendor-' + id,
           label: 'PaySwarm Vendor Test Identity'
         },
@@ -401,7 +401,7 @@ function _createBuyerProfile(self, buyerProfiles, callback) {
           label: 'key-' + id
         },
         psaIdentity: {
-          type: 'ps:PersonalIdentity',
+          type: 'PersonalIdentity',
           psaSlug: 'buyer-' + id,
           label: 'PaySwarm Buyer Test Identity'
         },
@@ -472,7 +472,7 @@ function _createListing(self, vendorProfiles, listings, callback) {
       var asset = {
         '@context': payswarm.createDefaultJsonLdContext(),
         id: assetId,
-        type: ['ps:Asset', 'pto:WebPage'],
+        type: ['Asset', 'pto:WebPage'],
         creator: {
           fullName: 'PaySwarm Test Software'
         },
@@ -500,23 +500,23 @@ function _createListing(self, vendorProfiles, listings, callback) {
       var listing = {
         '@context': payswarm.createDefaultJsonLdContext(),
         id: listingId,
-        type: ['ps:Listing', 'gr:Offering'],
+        type: ['Listing', 'gr:Offering'],
         payee: [{
           id: listingId + '-payee',
-          type: 'com:Payee',
+          type: 'Payee',
           destination: config.authority + '/i/vendor/accounts/primary',
           payeeGroup: ['vendor'],
           payeeRate: '0.0005000',
-          payeeRateType: 'com:FlatAmount',
-          payeeApplyType: 'com:Exclusive',
+          payeeRateType: 'FlatAmount',
+          payeeApplyType: 'ApplyExclusively',
           comment: 'Payment for Asset ' + id + '.'
         }],
         payeeRule : [{
-          type: 'com:PayeeRule',
+          type: 'PayeeRule',
           payeeGroupPrefix: ['authority'],
           maximumPayeeRate: '10.0000000',
-          payeeRateType: 'com:Percent',
-          payeeApplyType: 'com:Inclusive'
+          payeeRateType: 'Percentage',
+          payeeApplyType: 'ApplyInclusively'
         }],
         asset: assetId,
         assetHash: assetHash,
@@ -607,7 +607,7 @@ function _purchaseAsset(self, buyers, listings, callback) {
   // build the purchase request
   var purchaseRequest = {
     '@context': payswarm.createDefaultJsonLdContext(),
-    type: 'ps:PurchaseRequest',
+    type: 'PurchaseRequest',
     identity: buyer.identity.id,
     listing: listing.id,
     listingHash: listing.listingHash,

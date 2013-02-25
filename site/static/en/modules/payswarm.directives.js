@@ -505,24 +505,24 @@ angular.module('payswarm.directives')
 
         if(/^4/.test(value)) {
           logo = 'visa';
-          scope.brand = 'ccard:Visa';
+          scope.brand = 'Visa';
         }
         else if(/^5[1-5]/.test(value)) {
           logo = 'mastercard';
-          scope.brand = 'ccard:MasterCard';
+          scope.brand = 'MasterCard';
         }
         else if(/^3[47]/.test(value)) {
           logo = 'amex';
-          scope.brand = 'ccard:AmericanExpress';
+          scope.brand = 'AmericanExpress';
         }
         // 6011, 622126-622925, 644-649, 65
         else if(/^(6((011)|(22((1((2[6-9])|([3-9]{1}[0-9])))|([2-8])|(9(([0-1]{1}[0-9])|(2[0-5])))))|(4[4-9])|5))/.test(value)) {
           logo = 'discover';
-          scope.brand = 'ccard:Discover';
+          scope.brand = 'Discover';
         }
         else if(/^62/.test(value)) {
           logo = 'china-up';
-          scope.brand = 'ccard:ChinaUnionPay';
+          scope.brand = 'ChinaUnionPay';
         }
 
         // remove old cc-logo classes
@@ -1476,35 +1476,35 @@ angular.module('payswarm.directives')
     $scope.loading = false;
     $scope.identity = data.identity || {};
     $scope.paymentMethods =
-        $scope.paymentMethods || ['ccard:CreditCard', 'bank:BankAccount'];
+      $scope.paymentMethods || ['CreditCard', 'BankAccount'];
     // default to first payment method
     $scope.paymentMethod = $scope.paymentMethods[0];
     $scope.label = '';
     $scope.card = {
       '@context': 'http://purl.org/payswarm/v1',
-      type: 'ccard:CreditCard'
+      type: 'CreditCard'
     };
     $scope.bankAccountTypes = [
-      {id: 'bank:Checking', label: 'Checking'},
-      {id: 'bank:Savings', label: 'Savings'},
+      {id: 'Checking', label: 'Checking'},
+      {id: 'Savings', label: 'Savings'},
     ];
     $scope.bankAccount = {
       '@context': 'http://purl.org/payswarm/v1',
-      type: 'bank:BankAccount',
-      bankAccountType: 'bank:Checking'
+      type: 'BankAccount',
+      bankAccountType: 'Checking'
     };
     $scope.multiEnabled = ($scope.paymentMethods.length > 1);
     $scope.creditCardEnabled =
-      ($scope.paymentMethods.indexOf('ccard:CreditCard') !== -1);
+      ($scope.paymentMethods.indexOf('CreditCard') !== -1);
     $scope.bankAccountEnabled =
-      ($scope.paymentMethods.indexOf('bank:BankAccount') !== -1);
+      ($scope.paymentMethods.indexOf('BankAccount') !== -1);
 
     $scope.agreementChecked = false;
     $scope.billingAddressRequired = true;
     // billing address UI depends on payment method
     $scope.$watch('scope.paymentMethod', function() {
-      var isCreditCard = ($scope.paymentMethod === 'ccard:CreditCard');
-      var isBankAccount = ($scope.paymentMethod === 'bank:BankAccount');
+      var isCreditCard = ($scope.paymentMethod === 'CreditCard');
+      var isBankAccount = ($scope.paymentMethod === 'BankAccount');
       $scope.billingAddressRequired = isCreditCard || isBankAccount;
       $scope.agreementChecked = false;
     });
@@ -1531,7 +1531,7 @@ angular.module('payswarm.directives')
       };
 
       // handle payment method specifics
-      if($scope.paymentMethod === 'ccard:CreditCard') {
+      if($scope.paymentMethod === 'CreditCard') {
         var c = $scope.card;
 
         // copy required fields
@@ -1546,7 +1546,7 @@ angular.module('payswarm.directives')
           address: getAddress()
         };
       }
-      else if($scope.paymentMethod === 'bank:BankAccount') {
+      else if($scope.paymentMethod === 'BankAccount') {
         var b = $scope.bankAccount;
 
         // copy required fields
@@ -1892,7 +1892,7 @@ angular.module('payswarm.directives')
     $scope.identity = $scope.identity || svcIdentity.identity;
     $scope.originalAddress = {
       '@context': 'http://purl.org/payswarm/v1',
-      type: 'vcard:Address',
+      type: 'Address',
       // default to US
       countryName: 'US'
     };
@@ -1918,7 +1918,7 @@ angular.module('payswarm.directives')
         // copy over non-validation fields
         $scope.validatedAddress = angular.extend(validated, {
           '@context': 'http://purl.org/payswarm/v1',
-          type: 'vcard:Address',
+          type: 'Address',
           label: $scope.originalAddress.label,
           fullName: $scope.originalAddress.fullName
         });
@@ -2075,13 +2075,13 @@ angular.module('payswarm.directives')
       // clean deposit
       var deposit = {
         '@context': 'http://purl.org/payswarm/v1',
-        type: ['com:Transaction', 'com:Deposit'],
+        type: ['Transaction', 'Deposit'],
         payee: [{
-          type: 'com:Payee',
+          type: 'Payee',
           payeeGroup: ['deposit'],
           payeeRate: $scope.input.amount,
-          payeeRateType: 'com:FlatAmount',
-          payeeApplyType: 'com:Exclusive',
+          payeeRateType: 'FlatAmount',
+          payeeApplyType: 'ApplyExclusively',
           destination: $scope.account.id
         }],
         source: $scope.input.source.id
@@ -2220,14 +2220,14 @@ angular.module('payswarm.directives')
       // clean withdrawal
       var withdrawal = {
         '@context': 'http://purl.org/payswarm/v1',
-        type: ['com:Transaction', 'com:Withdrawal'],
+        type: ['Transaction', 'Withdrawal'],
         source: $scope.account.id,
         payee: [{
-          type: 'com:Payee',
+          type: 'Payee',
           payeeGroup: ['withdrawal'],
           payeeRate: $scope.input.amount,
-          payeeRateType: 'com:FlatAmount',
-          payeeApplyType: 'com:Exclusive',
+          payeeRateType: 'FlatAmount',
+          payeeApplyType: 'ApplyExclusively',
           destination: $scope.input.destination.id,
           comment: 'Withdrawal'
         }],

@@ -964,9 +964,9 @@ angular.module('payswarm.services')
   // non-instant
   service.nonInstant = [];
 
-  service.paymentMethods = ['ccard:CreditCard', 'bank:BankAccount'];
-  service.nonInstantPaymentMethods = ['bank:BankAccount'];
-  service.instantPaymentMethods = ['ccard:CreditCard'];
+  service.paymentMethods = ['CreditCard', 'BankAccount'];
+  service.nonInstantPaymentMethods = ['BankAccount'];
+  service.instantPaymentMethods = ['CreditCard'];
 
   function _updateTokens(paymentTokens) {
     if(paymentTokens) {
@@ -989,10 +989,10 @@ angular.module('payswarm.services')
         deleted.push(token);
       }
 
-      if(token.paymentMethod === 'ccard:CreditCard') {
+      if(token.paymentMethod === 'CreditCard') {
         creditCards.push(token);
       }
-      else if(token.paymentMethod === 'bank:BankAccount') {
+      else if(token.paymentMethod === 'BankAccount') {
         bankAccounts.push(token);
       }
 
@@ -1303,16 +1303,16 @@ angular.module('payswarm.services')
 
   // get string for type of transaction
   service.getType = function(txn) {
-    if(txn.type.indexOf('com:Deposit') !== -1) {
+    if(txn.type.indexOf('Deposit') !== -1) {
       return 'deposit';
     }
-    else if(txn.type.indexOf('ps:Contract') !== -1) {
+    else if(txn.type.indexOf('Contract') !== -1) {
       return 'contract';
     }
-    else if(txn.type.indexOf('com:Transfer') !== -1) {
+    else if(txn.type.indexOf('Transfer') !== -1) {
       return 'transfer';
     }
-    else if(txn.type.indexOf('com:Withdrawal') !== -1) {
+    else if(txn.type.indexOf('Withdrawal') !== -1) {
       return 'withdrawal';
     }
     else {

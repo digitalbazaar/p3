@@ -15,9 +15,9 @@ module.controller('ExternalAccountsCtrl', function($scope, svcPaymentToken) {
   $scope.state = svcPaymentToken.state;
 
   // types for UI directives
-  $scope.allMethods = ['ccard:CreditCard', 'bank:BankAccount'];
-  $scope.creditCardMethods = ['ccard:CreditCard'];
-  $scope.bankAccountMethods = ['bank:BankAccount'];
+  $scope.allMethods = ['CreditCard', 'BankAccount'];
+  $scope.creditCardMethods = ['CreditCard'];
+  $scope.bankAccountMethods = ['BankAccount'];
 
   // service data
   $scope.creditCards = svcPaymentToken.creditCards;

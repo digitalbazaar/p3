@@ -15,7 +15,7 @@ var schema = {
       required: false,
       type: jsonldContext()
     },
-    type: jsonldType('vcard:Address'),
+    type: jsonldType('Address'),
     label: label(),
     fullName: personName(),
     streetAddress: {

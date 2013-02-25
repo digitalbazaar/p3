@@ -38,7 +38,7 @@
       <tr><td><span class="label label-important">IMPORTANT</span></td>
         <td colspan="2">Your
           <span data-ng-switch="input.destination.paymentMethod">
-            <span data-ng-switch-when="bank:BankAccount">bank account</span>
+            <span data-ng-switch-when="BankAccount">bank account</span>
             <span data-ng-switch-default>external account</span>
           </span>
           "<strong>{{input.destination.label}}</strong>" was be credited
@@ -52,7 +52,7 @@
 <p style="margin-top: 10px;">
   Your 
   <span data-ng-switch="input.destination.paymentMethod">
-    <span data-ng-switch-when="bank:BankAccount">bank account</span>
+    <span data-ng-switch-when="BankAccount">bank account</span>
     <span data-ng-switch-default>external account</span>
   </span>
   "{{input.destination.label}}" was credited

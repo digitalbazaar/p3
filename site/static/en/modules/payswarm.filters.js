@@ -8,19 +8,19 @@
 angular.module('payswarm.filters')
 .filter('cardBrand', function() {
   return function(input, logo) {
-    if(input === 'ccard:Visa') {
+    if(input === 'Visa') {
       return logo ? 'cc-logo-visa' : 'Visa';
     }
-    if(input === 'ccard:MasterCard') {
+    if(input === 'MasterCard') {
       return logo ? 'cc-logo-mastercard' : 'MasterCard';
     }
-    if(input === 'ccard:Discover') {
+    if(input === 'Discover') {
       return logo ? 'cc-logo-discover': 'Discover';
     }
-    if(input === 'ccard:AmericanExpress') {
+    if(input === 'AmericanExpress') {
       return logo ? 'cc-logo-amex' : 'American Express';
     }
-    if(input === 'ccard:ChinaUnionPay') {
+    if(input === 'ChinaUnionPay') {
       return logo ? 'cc-logo-china-up' : 'China Union Pay';
     }
   };

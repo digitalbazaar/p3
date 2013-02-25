@@ -89,14 +89,14 @@ processed the purchase request.
     <table>
       <tr><td>Request</td><td><pre>{ 
   "@context": "http://purl.org/payswarm/v1",
-  "type": "ps:PurchaseRequest",
+  "type": "PurchaseRequest",
   "identity": "https://${host}/i/bob",
   "listing": "http://listings.dev.payswarm.com/example/138f89796fc#listing",
   "listingHash": "9115532c149a04610b360cebea856b3ab0c685ca",
   "source": "https://${host}/i/bob/accounts/primary",
   "signature": 
   { 
-    "type": "sec:GraphSignature2012",
+    "type": "GraphSignature2012",
     "creator": "https://${host}/i/bob/keys/2",
     "created": "2012-08-05T21:01:32Z",
     "signatureValue": "Ws46e8p0uV1O3L7JHmTXPmevgF84SFcwPfT/ls5JA32duUK8eDinHipG0
@@ -107,7 +107,7 @@ processed the purchase request.
       <tr><td>Response</td><td><pre class="span11">{
   "@context": "http://purl.org/payswarm/v1",
   "id": "https://${host}/transactions/1.3.25.9",
-  "type": [ "com:Transaction", "ps:Receipt" ],
+  "type": [ "Transaction", "Receipt" ],
   "asset": "http://listings.dev.payswarm.com/example/138f89796fc#asset",
   "assetAcquirer": "https://${host}/i/bob",
   "assetProvider": "https://${host}/i/wynona",
@@ -115,7 +115,7 @@ processed the purchase request.
   "listing": "http://listings.dev.payswarm.com/example/138f89796fc#listing",
   "signature": 
   {
-    "type": "sec:GraphSignature2012",
+    "type": "GraphSignature2012",
     "creator": "https://${host}/i/authority/keys/1",
     "created": "2012-08-05T21:01:33Z",
     "signatureValue": "EawWBnh5PblhxU6PF+T2Vdi34cvO1qSRicSW2bZiV6HXW/pBqiId3dZf

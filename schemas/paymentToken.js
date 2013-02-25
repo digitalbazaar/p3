@@ -12,7 +12,7 @@ var schema = {
     type: 'object',
     properties: {
       id: payswarmId(),
-      type: jsonldType('com:PaymentToken'),
+      type: jsonldType('PaymentToken'),
       owner: payswarmId(),
       paymentToken: {
         required: true,
@@ -27,7 +27,7 @@ var schema = {
       paymentMethod: {
         required: true,
         type: 'string',
-        enum: ['ccard:CreditCard', 'bank:BankAccount']
+        enum: ['CreditCard', 'BankAccount']
       }
     }
   }],

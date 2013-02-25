@@ -9,7 +9,7 @@ var postIdentifier = {
       type: {
         required: true,
         type: 'string',
-        enum: ['ps:Profile', 'ps:PersonalIdentity', 'ps:VendorIdentity']
+        enum: ['Profile', 'PersonalIdentity', 'VendorIdentity']
       },
       psaSlug: slug()
     },
@@ -20,7 +20,7 @@ var postIdentifier = {
       type: {
         required: true,
         type: 'string',
-        enum: ['com:Account']
+        enum: ['FinancialAccount']
       },
       owner: {
         required: true,

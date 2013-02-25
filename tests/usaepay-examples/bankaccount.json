@@ -1,8 +1,8 @@
 {
-  "type": "bank:BankAccount",
+  "type": "BankAccount",
   "bankRoutingNumber": "123456789",
   "bankAccount": "00001234",
-  "bankAccountType": "bank:Checking",
+  "bankAccountType": "Checking",
   "address": {
     "fullName": "Baron Von Test",
     "streetAddress": "1700 Kraft Dr. Ste. 2408",

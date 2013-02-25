@@ -86,7 +86,7 @@ var postContract = {
   // FIXME: We should be more precise about what we allow here
   properties: {
     '@context': jsonldContext(),
-    type: jsonldType(['com:Transaction', 'ps:Contract'])
+    type: jsonldType(['Transaction', 'Contract'])
   }
 };
 
@@ -101,7 +101,7 @@ var postPurchaseRequest = {
     description: 'Contains all of the details required to perform a purchase',
     properties: {
       '@context': jsonldContext(),
-      type: jsonldType('ps:PurchaseRequest'),
+      type: jsonldType('PurchaseRequest'),
       identity: payswarmId(),
       listing: payswarmId(),
       listingHash: resourceHash(),
@@ -121,7 +121,7 @@ var postPurchaseRequest = {
     description: 'A purchase request containing a pre-assigned transactionId.',
     properties: {
       '@context': jsonldContext(),
-      type: jsonldType('ps:PurchaseRequest'),
+      type: jsonldType('PurchaseRequest'),
       transactionId: payswarmId(),
       nonce: nonce(),
       signature: graphSignature({required: false})
@@ -134,7 +134,7 @@ var postTransfer = {
   type: 'object',
   // FIXME: we should be more precise about what we allow here
   properties: {
-    type: jsonldType(['com:Transaction'])
+    type: jsonldType(['Transaction'])
   }
 };
 

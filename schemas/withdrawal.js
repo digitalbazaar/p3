@@ -19,7 +19,7 @@ var unsignedWithdrawal = {
   type: 'object',
   properties: {
     '@context': jsonldContext(),
-    type: jsonldType(['com:Transaction', 'com:Withdrawal']),
+    type: jsonldType(['Transaction', 'Withdrawal']),
     payee: payee(),
     source: payswarmId(),
     destination: payswarmId()
@@ -35,7 +35,7 @@ var signedWithdrawal = {
   properties: {
     '@context': jsonldContext(),
     id: payswarmId(),
-    type: jsonldType(['com:Transaction', 'com:Withdrawal']),
+    type: jsonldType(['Transaction', 'Withdrawal']),
     payee: payee(),
     source: payswarmId(),
     destination: paymentToken(),

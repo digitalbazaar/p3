@@ -54,7 +54,7 @@ var postIdentities = {
     type: {
       required: true,
       type: 'string',
-      enum: ['ps:PersonalIdentity', 'ps:VendorIdentity']
+      enum: ['PersonalIdentity', 'VendorIdentity']
     },
     psaSlug: slug(),
     label: label(),

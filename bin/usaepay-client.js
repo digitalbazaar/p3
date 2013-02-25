@@ -161,7 +161,7 @@ async.waterfall([
       prompt += 'tokenize this bank account? ';
     }
     else if(program.get) {
-      if(input.type === 'com:PaymentToken') {
+      if(input.type === 'PaymentToken') {
         prompt += 'get the bank account associated with this payment token? ';
       }
       else {
@@ -187,7 +187,7 @@ async.waterfall([
       client.tokenize(input, callback);
     }
     else if(program.get) {
-      if(input.type === 'com:PaymentToken') {
+      if(input.type === 'PaymentToken') {
         client.getBankAccount(input, callback);
       }
       else {

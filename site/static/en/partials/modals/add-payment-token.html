@@ -24,7 +24,7 @@
                 Please enter a memorable name that describes this method of
                 payment. It will be displayed to you later.
                 <br/><br/>
-                Suggestions: <span data-ng-show="paymentMethod == 'ccard:CreditCard'">My MasterCard, Visa Rewards</span><span data-ng-show="paymentMethod == 'bank:BankAccount'">Checking Account, ING Direct</span>
+                Suggestions: <span data-ng-show="paymentMethod == 'CreditCard'">My MasterCard, Visa Rewards</span><span data-ng-show="paymentMethod == 'BankAccount'">Checking Account, ING Direct</span>
               </p>
             </div>
           </div>
@@ -39,19 +39,19 @@
           <div class="control-group" data-ng-show="multiEnabled">
             <div class="controls">
               <label class="radio inline" data-ng-show="creditCardEnabled">
-                <input type="radio" name="payment-type" value="ccard:CreditCard"
+                <input type="radio" name="payment-type" value="CreditCard"
                   checked="checked" data-ng-model="paymentMethod" />
                 Credit Card
               </label>
               <label class="radio inline" data-ng-show="bankAccountEnabled">
-                <input type="radio" name="payment-type" value="bank:BankAccount"
+                <input type="radio" name="payment-type" value="BankAccount"
                   data-ng-model="paymentMethod" />
                 Bank Account
               </label>
             </div>
           </div>
           <div name="payment-type-fields" data-ng-switch="paymentMethod">
-            <div data-ng-switch-when="ccard:CreditCard">
+            <div data-ng-switch-when="CreditCard">
               <div class="control-group" data-binding="source.cardBrand">
                 <label class="control-label" for="card-brand">Type</label>
                 <div class="controls">
@@ -124,7 +124,7 @@
                 </div>
               </div>
             </div>
-            <div data-ng-switch-when="bank:BankAccount">
+            <div data-ng-switch-when="BankAccount">
               <div class="bank-box bank-example">
                 <table class="bank-table">
                   <tbody>
@@ -218,7 +218,7 @@
         data-invalid="selection.invalidAddress"></div>
     </div>
     
-    <div class="section" data-ng-show="paymentMethod == 'bank:BankAccount'">
+    <div class="section" data-ng-show="paymentMethod == 'BankAccount'">
       <h4 class="headline">Bank Account Agreement</h4>
       <div class="well">
 
@@ -263,7 +263,7 @@
       data-spinner-class="prepend-btn-spinner"></span>
     <button class="btn btn-primary"
       data-ng-disabled="loading ||
-        (paymentMethod == 'bank:BankAccount' && !agreementChecked) ||
+        (paymentMethod == 'BankAccount' && !agreementChecked) ||
         (billingAddressRequired && selection.address == null)"
       data-ng-click="add()"><i class="icon-ok icon-white"></i> Add</button>
     <button class="btn btn-close" data-ng-disabled="loading">Cancel</button>

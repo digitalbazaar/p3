@@ -13,12 +13,13 @@ var schema = {
   type: 'object',
   properties: {
     '@context': jsonldContext(),
-    type: jsonldType('ccard:CreditCard'),
+    type: jsonldType('CreditCard'),
     cardBrand: {
       required: true,
       type: 'string',
-      enum: ['ccard:Visa', 'ccard:MasterCard',
-        'ccard:Discover', 'ccard:AmericanExpress', 'ccard:ChinaUnionPay']
+      enum: [
+        'Visa', 'MasterCard', 'Discover', 'AmericanExpress', 'ChinaUnionPay'
+      ]
     },
     cardNumber: {
       required: true,

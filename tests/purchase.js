@@ -505,6 +505,7 @@ function _createListing(self, vendorProfiles, listings, callback) {
           id: listingId + '-payee',
           type: 'Payee',
           destination: config.authority + '/i/vendor/accounts/primary',
+          currency: 'USD',
           payeeGroup: ['vendor'],
           payeeRate: '0.0005000',
           payeeRateType: 'FlatAmount',

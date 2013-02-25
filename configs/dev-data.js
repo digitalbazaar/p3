@@ -253,6 +253,7 @@ var defaultPayeeScheme = {
   payee: [{
     type: 'Payee',
     destination: authorityId + '/accounts/main',
+    currency: 'USD',
     payeeGroup: ['authority'],
     payeeRate: '2.00',
     payeeRateType: 'Percentage',
@@ -280,6 +281,7 @@ config.financial.paymentGateway.Test.payees.withdrawal = {};
 var merchantBankFixedPayee = {
   type: 'Payee',
   destination: baseUri + '/i/authority/accounts/fees',
+  currency: 'USD',
   payeeGroup: ['authority'],
   payeeApplyGroup: ['authority_gateway'],
   payeeExemptGroup: [
@@ -294,6 +296,7 @@ var merchantBankFixedPayee = {
 config.financial.paymentGateway.Test.payees.deposit.BankAccount = [{
   type: 'Payee',
   destination: baseUri + '/i/authority/accounts/fees',
+  currency: 'USD',
   payeeGroup: ['authority'],
   payeeApplyGroup: ['authority_gateway'],
   payeeExemptGroup: [
@@ -306,6 +309,7 @@ config.financial.paymentGateway.Test.payees.deposit.BankAccount = [{
 }, {
   type: 'Payee',
   destination: baseUri + '/i/authority/accounts/fees',
+  currency: 'USD',
   payeeGroup: ['authority'],
   payeeApplyGroup: ['authority_gateway'],
   payeeExemptGroup: [
@@ -318,6 +322,7 @@ config.financial.paymentGateway.Test.payees.deposit.BankAccount = [{
 config.financial.paymentGateway.Test.payees.withdrawal.BankAccount = [{
   type: 'Payee',
   destination: baseUri + '/i/authority/accounts/fees',
+  currency: 'USD',
   payeeGroup: ['authority', 'authority_percent'],
   payeeApplyGroup: ['authority_gateway'],
   payeeApplyAfter: ['authority_flat'],
@@ -330,6 +335,7 @@ config.financial.paymentGateway.Test.payees.withdrawal.BankAccount = [{
 }, {
   type: 'Payee',
   destination: baseUri + '/i/authority/accounts/fees',
+  currency: 'USD',
   payeeGroup: ['authority', 'authority_flat'],
   payeeApplyGroup: ['authority_gateway'],
   payeeExemptGroup: [
@@ -344,6 +350,7 @@ config.financial.paymentGateway.Test.payees.withdrawal.BankAccount = [{
 var ccPercentPayee = {
   type: 'Payee',
   destination: baseUri + '/i/authority/accounts/fees',
+  currency: 'USD',
   payeeGroup: ['authority'],
   payeeApplyGroup: ['authority_gateway'],
   payeeExemptGroup: [
@@ -357,6 +364,7 @@ var ccPercentPayee = {
 var ccFixedPayee = {
   type: 'Payee',
   destination: baseUri + '/i/authority/accounts/fees',
+  currency: 'USD',
   payeeGroup: ['authority'],
   payeeApplyGroup: ['authority_gateway'],
   payeeExemptGroup: [
@@ -370,6 +378,7 @@ var ccFixedPayee = {
 var ccAmexPayee = {
   type: 'Payee',
   destination: baseUri + '/i/authority/accounts/fees',
+  currency: 'USD',
   payeeGroup: ['authority'],
   payeeApplyGroup: ['authority_gateway'],
   payeeExemptGroup: [

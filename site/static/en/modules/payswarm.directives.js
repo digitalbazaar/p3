@@ -2082,7 +2082,8 @@ angular.module('payswarm.directives')
           payeeRate: $scope.input.amount,
           payeeRateType: 'FlatAmount',
           payeeApplyType: 'ApplyExclusively',
-          destination: $scope.account.id
+          destination: $scope.account.id,
+          currency: 'USD'
         }],
         source: $scope.input.source.id
       };

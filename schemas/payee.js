@@ -1,5 +1,6 @@
 var tools = require('../lib/payswarm-auth/tools');
 
+var currency = require('./currency');
 var payswarmId = require('./payswarmId');
 var money = require('./money');
 
@@ -17,6 +18,7 @@ var schema = {
         pattern: '^Payee$',
       },
       destination: payswarmId(),
+      currency: currency(),
       payeeGroup: {
         required: true,
         type: [{

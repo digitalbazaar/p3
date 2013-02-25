@@ -32,14 +32,14 @@
       <div data-ng-show="balanceTooLow">
         <hr />
         <div class="alert alert-error">You must select a budget with a balance of at least <span
-        class="currency">{{selected.currency}}</span> {{minBalance | ceil | currency:'$'}}. The budget's
+        class="currency">{{selected.currency | uppercase}}</span> {{minBalance | ceil | currency:'$'}}. The budget's
         associated account must also have enough funds.</div>
       </div>
       <div data-ng-show="maxPerUseTooLow">
         <hr />
         <div class="alert alert-error">You must choose a budget that allows
         a single purchase of at least <span
-        class="currency">{{selected.currency}}</span> {{minBalance | ceil | currency:'$'}}.</div>
+        class="currency">{{selected.currency | uppercase}}</span> {{minBalance | ceil | currency:'$'}}.</div>
       </div>
     </div>
   </div>

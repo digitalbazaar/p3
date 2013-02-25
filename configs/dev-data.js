@@ -19,7 +19,7 @@ config.financial.defaults.account = {
   type: 'FinancialAccount',
   // demo with $10
   balance: '10.0000000',
-  currency: 'USD',
+  currency: 'usd',
   psaPublic: [],
   psaStatus: 'active'
 };
@@ -196,7 +196,7 @@ config.financial.accounts.push({
   psaSlug: 'fees',
   label: config.authority.name + ' Fees Account',
   psaPublic: ['label', 'owner'],
-  currency: 'USD'
+  currency: 'usd'
 });
 config.financial.accounts.push({
   id: baseUri + '/i/authority/accounts/main',
@@ -204,7 +204,7 @@ config.financial.accounts.push({
   owner: authorityId,
   psaSlug: 'main',
   label: config.authority.name + ' Main Account',
-  currency: 'USD'
+  currency: 'usd'
 });
 config.financial.accounts.push({
   id: baseUri + '/i/authority/accounts/verify',
@@ -212,7 +212,7 @@ config.financial.accounts.push({
   owner: authorityId,
   psaSlug: 'verify',
   label: config.authority.name + ' Verify Source Account',
-  currency: 'USD'
+  currency: 'usd'
 });
 config.financial.accounts.push({
   id: baseUri + '/i/dev/accounts/primary',
@@ -220,7 +220,7 @@ config.financial.accounts.push({
   owner: baseUri + '/i/dev',
   psaSlug: 'primary',
   label: 'Primary Account',
-  currency: 'USD'
+  currency: 'usd'
 });
 config.financial.accounts.push({
   id: baseUri + '/i/customer/accounts/primary',
@@ -228,7 +228,7 @@ config.financial.accounts.push({
   owner: baseUri + '/i/customer',
   psaSlug: 'primary',
   label: 'Primary Account',
-  currency: 'USD'
+  currency: 'usd'
 });
 config.financial.accounts.push({
   id: baseUri + '/i/vendor/accounts/primary',
@@ -237,7 +237,7 @@ config.financial.accounts.push({
   psaSlug: 'primary',
   label: 'Primary Account',
   psaPublic: ['label', 'owner'],
-  currency: 'USD'
+  currency: 'usd'
 });
 
 // fees account
@@ -253,7 +253,7 @@ var defaultPayeeScheme = {
   payee: [{
     type: 'Payee',
     destination: authorityId + '/accounts/main',
-    currency: 'USD',
+    currency: 'usd',
     payeeGroup: ['authority'],
     payeeRate: '2.00',
     payeeRateType: 'Percentage',
@@ -281,7 +281,7 @@ config.financial.paymentGateway.Test.payees.withdrawal = {};
 var merchantBankFixedPayee = {
   type: 'Payee',
   destination: baseUri + '/i/authority/accounts/fees',
-  currency: 'USD',
+  currency: 'usd',
   payeeGroup: ['authority'],
   payeeApplyGroup: ['authority_gateway'],
   payeeExemptGroup: [
@@ -296,7 +296,7 @@ var merchantBankFixedPayee = {
 config.financial.paymentGateway.Test.payees.deposit.BankAccount = [{
   type: 'Payee',
   destination: baseUri + '/i/authority/accounts/fees',
-  currency: 'USD',
+  currency: 'usd',
   payeeGroup: ['authority'],
   payeeApplyGroup: ['authority_gateway'],
   payeeExemptGroup: [
@@ -309,7 +309,7 @@ config.financial.paymentGateway.Test.payees.deposit.BankAccount = [{
 }, {
   type: 'Payee',
   destination: baseUri + '/i/authority/accounts/fees',
-  currency: 'USD',
+  currency: 'usd',
   payeeGroup: ['authority'],
   payeeApplyGroup: ['authority_gateway'],
   payeeExemptGroup: [
@@ -322,7 +322,7 @@ config.financial.paymentGateway.Test.payees.deposit.BankAccount = [{
 config.financial.paymentGateway.Test.payees.withdrawal.BankAccount = [{
   type: 'Payee',
   destination: baseUri + '/i/authority/accounts/fees',
-  currency: 'USD',
+  currency: 'usd',
   payeeGroup: ['authority', 'authority_percent'],
   payeeApplyGroup: ['authority_gateway'],
   payeeApplyAfter: ['authority_flat'],
@@ -335,7 +335,7 @@ config.financial.paymentGateway.Test.payees.withdrawal.BankAccount = [{
 }, {
   type: 'Payee',
   destination: baseUri + '/i/authority/accounts/fees',
-  currency: 'USD',
+  currency: 'usd',
   payeeGroup: ['authority', 'authority_flat'],
   payeeApplyGroup: ['authority_gateway'],
   payeeExemptGroup: [
@@ -350,7 +350,7 @@ config.financial.paymentGateway.Test.payees.withdrawal.BankAccount = [{
 var ccPercentPayee = {
   type: 'Payee',
   destination: baseUri + '/i/authority/accounts/fees',
-  currency: 'USD',
+  currency: 'usd',
   payeeGroup: ['authority'],
   payeeApplyGroup: ['authority_gateway'],
   payeeExemptGroup: [
@@ -364,7 +364,7 @@ var ccPercentPayee = {
 var ccFixedPayee = {
   type: 'Payee',
   destination: baseUri + '/i/authority/accounts/fees',
-  currency: 'USD',
+  currency: 'usd',
   payeeGroup: ['authority'],
   payeeApplyGroup: ['authority_gateway'],
   payeeExemptGroup: [
@@ -378,7 +378,7 @@ var ccFixedPayee = {
 var ccAmexPayee = {
   type: 'Payee',
   destination: baseUri + '/i/authority/accounts/fees',
-  currency: 'USD',
+  currency: 'usd',
   payeeGroup: ['authority'],
   payeeApplyGroup: ['authority_gateway'],
   payeeExemptGroup: [

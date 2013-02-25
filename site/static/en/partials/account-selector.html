@@ -17,9 +17,9 @@
           <tr>
             <td class="compact">Balance</td>
             <td>
-              <span class="money" data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact balance of this account is {{selected.currency}} {{selected.balance}}."
+              <span class="money" data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact balance of this account is {{selected.currency | uppercase}} {{selected.balance}}."
                 data-placement="bottom" data-trigger="hover"><span
-                class="currency">{{selected.currency}}</span> {{selected.balance | floor | currency:'$'}}</span>
+                class="currency">{{selected.currency | uppercase}}</span> {{selected.balance | floor | currency:'$'}}</span>
             </td>
           </tr>
         </tbody>
@@ -33,7 +33,7 @@
       <div data-ng-show="balanceTooLow">
         <hr />
         <div class="alert alert-error">You must select an account with a balance of at least <span
-        class="currency">{{selected.currency}}</span> {{minBalance | ceil | currency:'$'}}.</div>
+        class="currency">{{selected.currency | uppercase}}</span> {{minBalance | ceil | currency:'$'}}.</div>
       </div>
     </div>
   </div>

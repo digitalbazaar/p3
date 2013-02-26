@@ -1045,7 +1045,7 @@ payswarm.transactions.getQuote = function(options) {
  *
  * payswarm.transactions.purchase({
  *   purchaseRequest: {
- *     type: 'ps:PurchaseRequest',
+ *     type: 'PurchaseRequest',
  *     transactionId: 'https://example.com/transactions/1.1.a',
  *     nonce: '12345' (optional)
  *   },

@@ -22,7 +22,7 @@ module.controller('CreateProfileCtrl', function($scope, $http) {
     psaPassword: '',
     psaIdentity: {
       // FIXME: add option for type in ui?
-      type: 'ps:PersonalIdentity',
+      type: 'PersonalIdentity',
       label: '',
       psaSlug: '',
       psaPublic: []

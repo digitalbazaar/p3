@@ -35,13 +35,13 @@ module.controller('RegisterCtrl', function(
     $scope.identities = svcIdentity.identities;
     if($scope.registrationType === 'vendor') {
       // allow only vendor identities to be selected
-      $scope.identityTypes = ['ps:VendorIdentity'];
+      $scope.identityTypes = ['VendorIdentity'];
       $scope.identities = $scope.identities.filter(function(v) {
-        return v.type === 'ps:VendorIdentity';
+        return v.type === 'VendorIdentity';
       });
     }
     else {
-      $scope.identityTypes = ['ps:PersonalIdentity', 'ps:VendorIdentity'];
+      $scope.identityTypes = ['PersonalIdentity', 'VendorIdentity'];
     }
 
     // keep old selection if possible

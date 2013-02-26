@@ -1781,8 +1781,8 @@ angular.module('payswarm.directives')
     $scope.identitySlug = '';
     $scope.identity = {};
     $scope.identityTypeLabels = {
-      'ps:PersonalIdentity': 'Personal',
-      'ps:VendorIdentity': 'Vendor'
+      'PersonalIdentity': 'Personal',
+      'VendorIdentity': 'Vendor'
     };
     angular.forEach($scope.identityTypes, function(type) {
       $scope.identity[type] = {
@@ -1856,7 +1856,7 @@ angular.module('payswarm.directives')
 .directive('modalSwitchIdentity', function(svcModal, svcIdentity) {
   function Ctrl($scope) {
     $scope.model = {};
-    $scope.identityTypes = ['ps:PersonalIdentity', 'ps:VendorIdentity'];
+    $scope.identityTypes = ['PersonalIdentity', 'VendorIdentity'];
     $scope.identities = svcIdentity.identities;
     $scope.selected = svcIdentity.identity;
 

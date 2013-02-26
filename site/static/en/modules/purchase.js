@@ -231,7 +231,7 @@ module.controller('PurchaseCtrl', function(
           purchaseRequest: (function() {
             var rval = {
               '@context': 'http://purl.org/payswarm/v1',
-              type: 'ps:PurchaseRequest',
+              type: 'PurchaseRequest',
               transactionId: $scope.contract.id
             };
             if($scope.nonce !== null) {

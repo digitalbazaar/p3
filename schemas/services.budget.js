@@ -2,6 +2,7 @@ var payswarmId = require('./payswarmId');
 var label = require('./label');
 var money = require('./money');
 var payswarmId = require('./payswarmId');
+var refreshInterval = require('./refreshInterval');
 var jsonldContext = require('./jsonldContext');
 
 var postBudget = {
@@ -16,24 +17,8 @@ var postBudget = {
       source: payswarmId({required: false}),
       amount: money.precisePositive({required: false}),
       vendor: payswarmId({required: false}),
-      psaExpires: {
-        required: false,
-        title: 'Expiration date',
-        description: 'The number of seconds of spending inactivity before the budget is deleted.',
-        type: {
-          type: 'integer',
-          minimum: 0,
-          exclusiveMinimum: true
-        }
-      },
       psaMaxPerUse: money.precisePositive({required: false}),
-      psaRefresh: {
-        required: false,
-        title: 'Refresh period',
-        description: 'The period on which the budget refills to the original amount.',
-        type: 'string',
-        enum: ['psa:Never', 'psa:Hourly', 'psa:Daily', 'psa:Monthly', 'psa:Yearly']
-      }
+      psaRefreshInterval: refreshInterval({required: false})
     }
   }, {
     type: 'object',
@@ -45,7 +30,7 @@ var postBudget = {
   additionalProperties: false
 };
 
-var getBudgetQuery= {
+var getBudgetQuery = {
   type: 'object',
   properties: {
     view: {
@@ -67,22 +52,8 @@ var postBudgets = {
     source: payswarmId(),
     amount: money.precisePositive(),
     vendor: payswarmId({required: false}),
-    psaExpires: {
-      required: true,
-      title: 'Expiration date',
-      description: 'The number of seconds of spending inactivity before the budget is deleted.',
-      type: 'integer',
-      minimum: 0,
-      exclusiveMinimum: true
-    },
     psaMaxPerUse: money.precisePositive({required: false}),
-    psaRefresh: {
-      required: false,
-      title: 'Refresh period',
-      description: 'The period on which the budget refills to the original amount.',
-      type: 'string',
-      enum: ['psa:Never', 'psa:Hourly', 'psa:Daily', 'psa:Monthly', 'psa:Yearly']
-    }
+    psaRefreshInterval: refreshInterval({required: false})
   },
   additionalProperties: false
 };

@@ -1346,11 +1346,11 @@ angular.module('payswarm.directives')
     };
     $scope.refreshChoices = [
       {label: 'Never', value: 'never'},
-      {label: 'Hourly', value: 'R/PT1H'},
-      {label: 'Daily', value: 'R/P1D'},
-      {label: 'Weekly', value: 'R/P1W'},
-      {label: 'Monthly', value: 'R/P1M'},
-      {label: 'Yearly', value: 'R/P1Y'}
+      {label: 'Hourly', value: 'PT1H'},
+      {label: 'Daily', value: 'P1D'},
+      {label: 'Weekly', value: 'P1W'},
+      {label: 'Monthly', value: 'P1M'},
+      {label: 'Yearly', value: 'P1Y'}
     ];
     $scope.validityChoices = [
       {label: 'Current', value: ''},
@@ -1411,11 +1411,11 @@ angular.module('payswarm.directives')
     $scope.identity = data.identity || {};
     $scope.refreshChoices = [
       {label: 'Never', value: 'never'},
-      {label: 'Hourly', value: 'R/PT1H'},
-      {label: 'Daily', value: 'R/P1D'},
-      {label: 'Weekly', value: 'R/P1W'},
-      {label: 'Monthly', value: 'R/P1M'},
-      {label: 'Yearly', value: 'R/P1Y'}
+      {label: 'Hourly', value: 'PT1H'},
+      {label: 'Daily', value: 'P1D'},
+      {label: 'Weekly', value: 'P1W'},
+      {label: 'Monthly', value: 'P1M'},
+      {label: 'Yearly', value: 'P1Y'}
     ];
     $scope.validityChoices = [
       {label: 'Current', value: ''},

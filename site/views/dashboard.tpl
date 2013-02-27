@@ -128,11 +128,11 @@ ${set([
             <!-- Refresh -->
             <td data-ng-switch="getBudgetRefreshDuration(budget)">
               <span data-ng-switch-when="never">Never</span>
-              <span data-ng-switch-when="R/PT1H">Hourly</span>
-              <span data-ng-switch-when="R/P1D">Daily</span>
-              <span data-ng-switch-when="R/P1W">Weekly</span>
-              <span data-ng-switch-when="R/P1M">Monthly</span>
-              <span data-ng-switch-when="R/P1Y">Yearly</span>
+              <span data-ng-switch-when="PT1H">Hourly</span>
+              <span data-ng-switch-when="P1D">Daily</span>
+              <span data-ng-switch-when="P1W">Weekly</span>
+              <span data-ng-switch-when="P1M">Monthly</span>
+              <span data-ng-switch-when="P1Y">Yearly</span>
             </td>
             <!-- Action -->
             <td class="action">

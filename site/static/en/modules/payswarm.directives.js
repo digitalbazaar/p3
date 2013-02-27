@@ -1353,14 +1353,14 @@ angular.module('payswarm.directives')
       {label: 'Yearly', value: 'P1Y'}
     ];
     $scope.validityChoices = [
-      {label: 'Current', value: ''},
+      {label: 'Never', value: 'never'},
       {label: '1 month', value: 'P1M'},
       {label: '3 months', value: 'P3M'},
       {label: '6 months', value: 'P6M'},
       {label: '1 year', value: 'P1Y'}
     ];
     $scope.model.budgetRefreshDuration = 'never';
-    $scope.model.budgetValidDuration = 'P3M';
+    $scope.model.budgetValidDuration = 'never';
 
     $scope.addBudget = function() {
       // budget refresh duration
@@ -1419,6 +1419,7 @@ angular.module('payswarm.directives')
     ];
     $scope.validityChoices = [
       {label: 'Current', value: ''},
+      {label: 'Never', value: 'never'},
       {label: '1 month', value: 'P1M'},
       {label: '3 months', value: 'P3M'},
       {label: '6 months', value: 'P6M'},

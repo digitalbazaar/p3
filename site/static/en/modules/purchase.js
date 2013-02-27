@@ -187,7 +187,7 @@ module.controller('PurchaseCtrl', function(
     payswarm.transactions.getQuote({
       purchaseRequest: (function() {
         var rval = {
-          '@context': 'http://purl.org/payswarm/v1',
+          '@context': 'https://w3id.org/payswarm/v1',
           listing: $scope.listing,
           listingHash: $scope.listingHash,
           source: source
@@ -230,7 +230,7 @@ module.controller('PurchaseCtrl', function(
         payswarm.transactions.purchase({
           purchaseRequest: (function() {
             var rval = {
-              '@context': 'http://purl.org/payswarm/v1',
+              '@context': 'https://w3id.org/payswarm/v1',
               type: 'PurchaseRequest',
               transactionId: $scope.contract.id
             };

@@ -5,12 +5,10 @@
   rdfs: http://www.w3.org/2000/01/rdf-schema#
   dc: http://purl.org/dc/terms/
   foaf: http://xmlns.com/foaf/0.1/
-  media: http://purl.org/media#
-  com: http://purl.org/commerce#
-  audio: http://purl.org/media/audio#
+  com: https://w3id.org/commerce#
   gr: http://purl.org/goodrelations/v1#
-  ps: http://purl.org/payswarm#
-  sig: http://purl.org/signature#
+  ps: https://w3id.org/payswarm#
+  sec: https://w3id.org/security#
   vcard: http://www.w3.org/2006/vcard/ns#
   v: http://rdf.data-vocabulary.org/#
   "{{! debug="true"}}>

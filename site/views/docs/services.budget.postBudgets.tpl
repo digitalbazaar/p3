@@ -82,7 +82,7 @@ purchase is <em>https://${host}/i/jane/accounts/primary</em>.
     </p>
     <table>
       <tr><td>Request</td><td><pre>{
-  "@context": "http://purl.org/payswarm/v1",
+  "@context": "https://w3id.org/payswarm/v1",
   "label": "Music",
   "amount": "10.00",
   "psaRefresh": "psa:Monthly",

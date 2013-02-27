@@ -88,7 +88,7 @@ processed the purchase request.
     </p>
     <table>
       <tr><td>Request</td><td><pre>{ 
-  "@context": "http://purl.org/payswarm/v1",
+  "@context": "https://w3id.org/payswarm/v1",
   "type": "PurchaseRequest",
   "identity": "https://${host}/i/bob",
   "listing": "http://listings.dev.payswarm.com/example/138f89796fc#listing",
@@ -105,13 +105,13 @@ processed the purchase request.
   } 
 }</pre></td></tr>
       <tr><td>Response</td><td><pre class="span11">{
-  "@context": "http://purl.org/payswarm/v1",
+  "@context": "https://w3id.org/payswarm/v1",
   "id": "https://${host}/transactions/1.3.25.9",
   "type": [ "Transaction", "Receipt" ],
   "asset": "http://listings.dev.payswarm.com/example/138f89796fc#asset",
   "assetAcquirer": "https://${host}/i/bob",
   "assetProvider": "https://${host}/i/wynona",
-  "license": "http://purl.org/payswarm/licenses/blogging",
+  "license": "https://w3id.org/payswarm/licenses/blogging",
   "listing": "http://listings.dev.payswarm.com/example/138f89796fc#listing",
   "signature": 
   {

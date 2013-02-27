@@ -1,5 +1,5 @@
 {
-  "@context": "http://purl.org/payswarm/v1",
+  "@context": "https://w3id.org/payswarm/v1",
   "type": "CreditCard",
   "cardBrand": "Visa",
   "cardNumber": "4111111111111111",

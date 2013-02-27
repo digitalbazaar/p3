@@ -94,7 +94,7 @@ module.controller('RegisterCtrl', function(
         payswarm.identities.preferences.update({
           identity: identity,
           preferences: {
-            '@context': 'http://purl.org/payswarm/v1',
+            '@context': 'https://w3id.org/payswarm/v1',
             destination: $scope.selection.account.id,
             publicKey: $scope.model.publicKey
           },

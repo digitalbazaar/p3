@@ -17,7 +17,7 @@ module.controller('CreateProfileCtrl', function($scope, $http) {
   $scope.loading = false;
   $scope.baseUrl = window.location.protocol + '//' + window.location.host;
   $scope.data = {
-    '@context': 'http://purl.org/payswarm/v1',
+    '@context': 'https://w3id.org/payswarm/v1',
     email: '',
     psaPassword: '',
     psaIdentity: {

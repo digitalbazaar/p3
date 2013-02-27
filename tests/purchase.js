@@ -322,7 +322,7 @@ function _createVendorProfile(self, vendorProfiles, callback) {
     function(pair, callback) {
       // setup the vendor profile creation template
       var profileTemplate = {
-        '@context': 'http://purl.org/payswarm/v1',
+        '@context': 'https://w3id.org/payswarm/v1',
         email: email,
         psaPassword: 'password',
         psaPublicKey: {
@@ -393,7 +393,7 @@ function _createBuyerProfile(self, buyerProfiles, callback) {
     function(pair, callback) {
       // setup the buyer profile creation template
       var profileTemplate = {
-        '@context': 'http://purl.org/payswarm/v1',
+        '@context': 'https://w3id.org/payswarm/v1',
         email: email,
         psaPassword: 'password',
         psaPublicKey: {
@@ -521,7 +521,7 @@ function _createListing(self, vendorProfiles, listings, callback) {
         }],
         asset: assetId,
         assetHash: assetHash,
-        license: 'http://purl.org/payswarm/licenses/blogging',
+        license: 'https://w3id.org/payswarm/licenses/blogging',
         licenseHash: 'urn:sha256:' +
           '068663468cfa0c2559c3e7cbaf685077ac4b8271978a64f77c74d502829f7472',
         validFrom: payswarm.w3cDate(validFrom),
@@ -538,7 +538,7 @@ function _createListing(self, vendorProfiles, listings, callback) {
       delete signedAsset['@context'];
       delete signedListing['@context'];
       var assetAndListing = {
-        '@context': 'http://purl.org/payswarm/v1',
+        '@context': 'https://w3id.org/payswarm/v1',
         '@graph': [signedAsset, signedListing]
       };
 
@@ -625,7 +625,7 @@ function _purchaseAsset(self, buyers, listings, callback) {
     }
 
     // FIXME: This should be performed in payswarm.js
-    signedRequest['@context'] = 'http://purl.org/payswarm/v1';
+    signedRequest['@context'] = 'https://w3id.org/payswarm/v1';
     request.post({
       url: config.target + '/transactions',
       json: signedRequest

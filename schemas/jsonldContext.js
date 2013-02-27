@@ -6,7 +6,7 @@ var schema = {
   description: 'A JSON-LD Context',
   type: [{
     type: 'string',
-    pattern: '^http://purl.org/payswarm/v1$'
+    pattern: '^https://w3id.org/payswarm/v1$'
   }]
 };
 

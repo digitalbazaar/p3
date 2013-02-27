@@ -73,7 +73,7 @@ URL: <a href="https://${host}${docs.path}">https://${host}${docs.path}</a>
     </p>
     <table>
       <tr><td>Response</td><td><pre class="span11">{
-  "@context": "http://purl.org/payswarm/v1",
+  "@context": "https://w3id.org/payswarm/v1",
   "id": "https://${host}/",
   "authorityIdentity": "https://${host}/i/authority",
   "publicKey": "https://${host}/i/authority/keys/1",

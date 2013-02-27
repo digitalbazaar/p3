@@ -423,7 +423,7 @@ payswarm.budgets.addVendor = function(options) {
     dataType: 'json',
     contentType: 'application/json',
     data: JSON.stringify({
-      '@context': 'http://purl.org/payswarm/v1',
+      '@context': 'https://w3id.org/payswarm/v1',
       vendor: options.vendor
     }),
     success: function(data, textStatus) {
@@ -734,7 +734,7 @@ payswarm.paymentTokens.getOne = function(options) {
  * Usage:
  *
  * payswarm.paymentTokens.add({
- *   @context: 'http://purl.org/payswarm/v1',
+ *   @context: 'https://w3id.org/payswarm/v1',
  *   identity: 'https://example.com/i/myidentity',
  *   data: {label, gateway, source},
  *   success: function(paymentToken) {},
@@ -828,7 +828,7 @@ payswarm.paymentTokens.restore = function(options) {
  * Usage:
  *
  * payswarm.paymentTokens.verify({
- *   @context: 'http://purl.org/payswarm/v1',
+ *   @context: 'https://w3id.org/payswarm/v1',
  *   paymentToken: paymentTokenId',
  *   data: {psaVerifyParameters [, amount] [, destination]},
  *   success: function(paymentToken) {},
@@ -1182,7 +1182,7 @@ payswarm.keys.revoke = function(options) {
     url: options.key,
     contentType: 'application/json',
     data: JSON.stringify({
-      '@context': 'http://purl.org/payswarm/v1',
+      '@context': 'https://w3id.org/payswarm/v1',
       revoked: ''
     }),
     dataType: 'json',

@@ -3,7 +3,7 @@ ${set(pageTitle = "Transaction Info")}
 
 <h2>${transactionType} Summary</h2>
 
-<table class="table table-condensed">
+<table class="table">
 <tr><td>Date</td><td>${transaction.created}</td></tr>
 {{if transaction.voided}}
 <tr><td>Voided</td><td>${transaction.voided}</td></tr>

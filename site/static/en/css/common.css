@@ -249,11 +249,11 @@ body {
   border-left: none;
 }
 
-/* Override bootstrap for proper layout on tables with buttons */
-.table {
+/* Override bootstrap to inherit vertical alignment for condensed tables. */
+.table-condensed {
   margin-bottom: 0px;
 }
-.table td {
+.table-condensed td {
   vertical-align: inherit;
 }
 

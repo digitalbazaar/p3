@@ -3,7 +3,7 @@ var label = require('./label');
 var money = require('./money');
 var payswarmId = require('./payswarmId');
 var refreshInterval = require('./refreshInterval');
-var validInterval = require('./validInterval');
+var validityInterval = require('./validityInterval');
 
 var postBudget = {
   title: 'Budget',

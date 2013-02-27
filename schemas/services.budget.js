@@ -1,9 +1,9 @@
-var payswarmId = require('./payswarmId');
+var jsonldContext = require('./jsonldContext');
 var label = require('./label');
 var money = require('./money');
 var payswarmId = require('./payswarmId');
 var refreshInterval = require('./refreshInterval');
-var jsonldContext = require('./jsonldContext');
+var validInterval = require('./validInterval');
 
 var postBudget = {
   title: 'Budget',
@@ -18,7 +18,8 @@ var postBudget = {
       amount: money.precisePositive({required: false}),
       vendor: payswarmId({required: false}),
       psaMaxPerUse: money.precisePositive({required: false}),
-      psaRefreshInterval: refreshInterval({required: false})
+      psaRefreshInterval: refreshInterval({required: false}),
+      psaValidityInterval: validityInterval({required: false})
     }
   }, {
     type: 'object',
@@ -53,7 +54,8 @@ var postBudgets = {
     amount: money.precisePositive(),
     vendor: payswarmId({required: false}),
     psaMaxPerUse: money.precisePositive({required: false}),
-    psaRefreshInterval: refreshInterval({required: false})
+    psaRefreshInterval: refreshInterval({required: false}),
+    psaValidityInterval: validityInterval({required: false})
   },
   additionalProperties: false
 };

@@ -20,6 +20,9 @@ function BudgetCtrl($scope, $routeParams, svcAccount, svcBudget) {
   $scope.account = null;
   $scope.vendors = svcBudget.vendors;
 
+  $scope.getLastRefresh = svcBudget.getLastRefresh;
+  $scope.getRefreshDuration = svcBudget.getRefreshDuration;
+
   $scope.deleteVendor = function(vendor) {
     svcBudget.delVendor(data.budgetId, vendor.id, function(err) {
       if(err) {

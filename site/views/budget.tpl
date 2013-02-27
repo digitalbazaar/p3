@@ -49,21 +49,22 @@ ${set(
 </tr>
 <tr>
   <td>Refill</td>
-  <td data-ng-switch="budget.psaRefresh">
-    <span data-ng-switch-when="psa:Never">Never</span>
-    <span data-ng-switch-when="psa:Hourly">Hourly</span>
-    <span data-ng-switch-when="psa:Daily">Daily</span>
-    <span data-ng-switch-when="psa:Monthly">Monthly</span>
-    <span data-ng-switch-when="psa:Yearly">Yearly</span>
+  <td data-ng-switch="getRefreshDuration(budget)">
+    <span data-ng-switch-when="never">Never</span>
+    <span data-ng-switch-when="R/PT1H">Hourly</span>
+    <span data-ng-switch-when="R/P1D">Daily</span>
+    <span data-ng-switch-when="R/P1W">Weekly</span>
+    <span data-ng-switch-when="R/P1M">Monthly</span>
+    <span data-ng-switch-when="R/P1Y">Yearly</span>
   </td>
 </tr>
 <tr>
   <td>Last Refreshed</td>
-  <td>{{(budget.psaRefreshed * 1000) | date:'medium'}}</td>
+  <td>{{getLastRefresh(budget.psaRefreshInterval) | date:'medium'}}</td>
 </tr>
 <tr>
   <td>Expires</td>
-  <td>{{(budget.psaExpires * 1000) | date:'medium'}}</td>
+  <td>{{getExpiration(budget.psaValidityInterval) | date:'medium'}}</td>
 </tr>
 <tr>
   <td>Source</td>

@@ -790,6 +790,47 @@ angular.module('payswarm.services')
     });
   };
 
+  // helper function to get the last refresh date for the given budget
+  service.getLastRefresh = function(budget) {
+    var interval = budget.psaRefreshInterval.split('/');
+    if(interval.length === 3) {
+      return new Date(interval[1]);
+    }
+    return new Date(interval[0]);
+  };
+
+  // helper function to get the refresh duration for the given budget
+  service.getRefreshDuration = function(budget) {
+    var interval = budget.psaRefreshInterval.split('/');
+    if(interval.length === 3) {
+      return interval[2];
+    }
+    return 'never';
+  };
+
+  // helper function to get the valid duration for the given budget
+  service.getValidDuration = function(budget) {
+    var interval = budget.psaValidityInterval.split('/');
+    if(interval.length === 1) {
+      return 'never';
+    }
+    return interval[1];
+  };
+
+  // helper function to get expiration date for the given budget
+  service.getExpiration = function(budget) {
+    var interval = budget.psaValidityInterval.split('/');
+    if(interval.length === 1) {
+      return 'never';
+    }
+    else if(iso8601.Period.isValid(interval[1])) {
+      var start = +new Date(interval[0]);
+      var end = start + iso8601.Period.parseToTotalSeconds(interval[1]) * 1000;
+      return new Date(end);
+    }
+    return new Date(interval[1]);
+  };
+
   return service;
 })
 .factory('svcIdentity', function($rootScope) {

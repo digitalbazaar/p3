@@ -48,6 +48,7 @@
     {{if pageLayout != "error"}}
     <script type="text/javascript" src="${cacheRoot}/angular/angular.${jsLibExt}"></script>
     <script type="text/javascript" src="${cacheRoot}/angular/angular-ui.${jsLibExt}"></script>
+    <script type="text/javascript" src="${cacheRoot}/iso8601/iso8601.${jsExt}"></script>
     <script type="text/javascript" src="${cacheRoot}/modules/payswarm.${jsExt}"></script>
     <script type="text/javascript" src="${cacheRoot}/modules/payswarm.directives.${jsExt}"></script>
     <script type="text/javascript" src="${cacheRoot}/modules/payswarm.filters.${jsExt}"></script>

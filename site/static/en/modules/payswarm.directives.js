@@ -1342,26 +1342,41 @@ angular.module('payswarm.directives')
     $scope.loading = false;
     $scope.identity = data.identity || {};
     $scope.budget = {
-      '@context': 'http://purl.org/payswarm/v1',
-      psaRefresh: 'psa:Never',
-      psaExpires: 7889400 /* 3 months */
+      '@context': 'http://purl.org/payswarm/v1'
     };
     $scope.refreshChoices = [
-      {id: 'psa:Never', label: 'Never'},
-      {id: 'psa:Hourly', label: 'Hourly'},
-      {id: 'psa:Daily', label: 'Daily'},
-      {id: 'psa:Weekly', label: 'Weekly'},
-      {id: 'psa:Monthly', label: 'Monthly'},
-      {id: 'psa:Yearly', label: 'Yearly'}
+      {label: 'Never', value: 'never'},
+      {label: 'Hourly', value: 'R/PT1H'},
+      {label: 'Daily', value: 'R/P1D'},
+      {label: 'Weekly', value: 'R/P1W'},
+      {label: 'Monthly', value: 'R/P1M'},
+      {label: 'Yearly', value: 'R/P1Y'}
     ];
-    $scope.expireChoices = [
-      {label: '1 month', value: 2629800},
-      {label: '3 months', value: 7889400},
-      {label: '6 months', value: 15778800},
-      {label: '1 year', value: 31557600}
+    $scope.validityChoices = [
+      {label: 'Current', value: ''},
+      {label: '1 month', value: 'P1M'},
+      {label: '3 months', value: 'P3M'},
+      {label: '6 months', value: 'P6M'},
+      {label: '1 year', value: 'P1Y'}
     ];
 
     $scope.addBudget = function() {
+      // budget refresh duration
+      if($scope.model.budgetRefreshDuration !== 'never') {
+        // FIXME: R/w3cDate()/$scope.model.budgetRefreshDuration
+        $scope.budget.psaRefreshInterval = 'R/';
+      }
+
+      // budget valid duration
+      if($scope.model.budgetValidDuration === 'never') {
+        // FIXME: w3cDate()
+        $scope.budget.psaValidityInterval = '';
+      }
+      else {
+        // FIXME: w3cDate()/$scope.model.budgetValidDuration
+        $scope.budget.psaValidityInterval = '/';
+      }
+
       $scope.budget.source = $scope.selection.account.id;
       $scope.loading = true;
       svcBudget.add($scope.budget, function(err, budget) {
@@ -1394,25 +1409,27 @@ angular.module('payswarm.directives')
     $scope.feedback = {};
     $scope.identity = data.identity || {};
     $scope.refreshChoices = [
-      {id: 'psa:Never', label: 'Never'},
-      {id: 'psa:Hourly', label: 'Hourly'},
-      {id: 'psa:Daily', label: 'Daily'},
-      {id: 'psa:Weekly', label: 'Weekly'},
-      {id: 'psa:Monthly', label: 'Monthly'},
-      {id: 'psa:Yearly', label: 'Yearly'}
+      {label: 'Never', value: 'never'},
+      {label: 'Hourly', value: 'R/PT1H'},
+      {label: 'Daily', value: 'R/P1D'},
+      {label: 'Weekly', value: 'R/P1W'},
+      {label: 'Monthly', value: 'R/P1M'},
+      {label: 'Yearly', value: 'R/P1Y'}
     ];
-    $scope.expireChoices = [
+    $scope.validityChoices = [
       {label: 'Current', value: ''},
-      {label: '1 month', value: 2629800},
-      {label: '3 months', value: 7889400},
-      {label: '6 months', value: 15778800},
-      {label: '1 year', value: 31557600}
+      {label: '1 month', value: 'P1M'},
+      {label: '3 months', value: 'P3M'},
+      {label: '6 months', value: 'P6M'},
+      {label: '1 year', value: 'P1Y'}
     ];
     // copy source budget for editing
     $scope.budget = {};
     angular.extend($scope.budget, $scope.sourceBudget);
     // default to current value
-    $scope.budget.psaExpires = '';
+    $scope.model.budgetRefreshDuration = svcBudget.getRefreshDuration(
+      $scope.budget);
+    $scope.model.budgetValidDuration = '';
     svcAccount.getOne($scope.budget.source, function(err, account) {
       // FIXME: handle error
       $scope.selection.account = account || null;
@@ -1422,6 +1439,34 @@ angular.module('payswarm.directives')
     $scope.editBudget = function() {
       // set all fields from UI
       var b = $scope.budget;
+
+      // budget refresh duration
+      if($scope.model.budgetRefreshDuration ===
+        svcBudget.getRefreshDuration($scope.sourceBudget)) {
+        b.psaRefreshInterval = undefined;
+      }
+      else if($scope.model.budgetRefreshDuration === 'never') {
+        // FIXME: w3cdate()
+        b.psaRefreshInterval = '';
+      }
+      else {
+        // FIXME: R/w3cDate()/$scope.model.budgetRefreshDuration
+        b.psaRefreshInterval = 'R/';
+      }
+
+      // budget valid duration
+      if($scope.model.budgetValidDuration === '') {
+        b.psaValidityInterval = undefined;
+      }
+      else if($scope.model.budgetValidDuration === 'never') {
+        // FIXME: w3cDate()
+        b.psaValidityInterval = '';
+      }
+      else {
+        // FIXME: w3cDate()/$scope.model.budgetValidDuration
+        b.psaValidityInterval = '/';
+      }
+
       var budget = {
         '@context': 'http://purl.org/payswarm/v1',
         id: b.id,
@@ -1430,9 +1475,9 @@ angular.module('payswarm.directives')
         amount: b.amount,
         // vendors not updated here
         //vendor: b.vendor,
-        psaExpires: b.psaExpires,
         psaMaxPerUse: b.psaMaxPerUse,
-        psaRefresh: b.psaRefresh
+        psaRefreshInterval: b.psaRefreshInterval,
+        psaValidityInterval: b.psaValidityInterval
       };
       // remove fields not being updated
       angular.forEach(budget, function(value, key) {

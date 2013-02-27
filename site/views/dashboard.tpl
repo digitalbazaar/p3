@@ -126,12 +126,13 @@ ${set([
               <span data-tooltip-title="USD ${{budget.amount}}">{{budget.amount | floor | currency:'$'}}</span>
             </td>
             <!-- Refresh -->
-            <td data-ng-switch="budget.psaRefresh">
-              <span data-ng-switch-when="psa:Never">Never</span>
-              <span data-ng-switch-when="psa:Hourly">Hourly</span>
-              <span data-ng-switch-when="psa:Daily">Daily</span>
-              <span data-ng-switch-when="psa:Monthly">Monthly</span>
-              <span data-ng-switch-when="psa:Yearly">Yearly</span>
+            <td data-ng-switch="getBudgetRefreshDuration(budget)">
+              <span data-ng-switch-when="never">Never</span>
+              <span data-ng-switch-when="R/PT1H">Hourly</span>
+              <span data-ng-switch-when="R/P1D">Daily</span>
+              <span data-ng-switch-when="R/P1W">Weekly</span>
+              <span data-ng-switch-when="R/P1M">Monthly</span>
+              <span data-ng-switch-when="R/P1Y">Yearly</span>
             </td>
             <!-- Action -->
             <td class="action">

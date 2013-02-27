@@ -31,6 +31,7 @@ module.controller('DashboardCtrl', function(
     account: null,
     budget: null
   };
+  $scope.getBudgetRefreshDuration = svcBudget.getRefreshDuration;
   $scope.deleteBudget = function(budget) {
     $scope.showDeleteBudgetAlert = true;
     $scope.budgetToDelete = budget;

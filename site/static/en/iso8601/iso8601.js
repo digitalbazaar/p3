@@ -27,6 +27,32 @@
     //---- public methods
 
     /**
+     * Outputs the passed date using the W3C profile for ISO 8601
+     * (eg: 2011-03-09T21:55:41Z).
+     *
+     * @param date the date (a Date, string, or number).
+     *
+     * @return the date in W3C format.
+     */
+    iso8601.w3cDate = function(date) {
+      if(date === undefined || date === null) {
+        date = new Date();
+      }
+      else if(typeof date === 'number' || typeof date === 'string') {
+        date = new Date(date);
+      }
+      return (date.getUTCFullYear() + '-' +
+        pad(date.getUTCMonth() + 1) + '-' +
+        pad(date.getUTCDate()) + 'T' +
+        pad(date.getUTCHours()) + ':' +
+        pad(date.getUTCMinutes()) + ':' +
+        pad(date.getUTCSeconds()) + 'Z');
+      function pad(num) {
+        return (num < 10) ? '0' + num : '' + num;
+      }
+    };
+
+    /**
      * Returns an array of the duration per unit. The normalized sum of all array elements
      * represents the total duration.
      *

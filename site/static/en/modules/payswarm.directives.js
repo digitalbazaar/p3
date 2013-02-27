@@ -1359,22 +1359,23 @@ angular.module('payswarm.directives')
       {label: '6 months', value: 'P6M'},
       {label: '1 year', value: 'P1Y'}
     ];
+    $scope.model.budgetRefreshDuration = 'never';
+    $scope.model.budgetValidDuration = 'P3M';
 
     $scope.addBudget = function() {
       // budget refresh duration
       if($scope.model.budgetRefreshDuration !== 'never') {
-        // FIXME: R/w3cDate()/$scope.model.budgetRefreshDuration
-        $scope.budget.psaRefreshInterval = 'R/';
+        $scope.budget.psaRefreshInterval =
+          'R/' + window.iso8601.w3cDate() + '/' +
+          $scope.model.budgetRefreshDuration;
       }
 
-      // budget valid duration
-      if($scope.model.budgetValidDuration === 'never') {
-        // FIXME: w3cDate()
-        $scope.budget.psaValidityInterval = '';
-      }
-      else {
-        // FIXME: w3cDate()/$scope.model.budgetValidDuration
-        $scope.budget.psaValidityInterval = '/';
+      // set budget validity start date to now
+      $scope.budget.psaValidityInterval = window.iso8601.w3cDate();
+      if($scope.model.budgetValidDuration !== 'never') {
+        // add duration
+        $scope.budget.psaValidityInterval +=
+          '/' + $scope.model.budgetValidDuration;
       }
 
       $scope.budget.source = $scope.selection.account.id;
@@ -1446,25 +1447,25 @@ angular.module('payswarm.directives')
         b.psaRefreshInterval = undefined;
       }
       else if($scope.model.budgetRefreshDuration === 'never') {
-        // FIXME: w3cdate()
-        b.psaRefreshInterval = '';
+        b.psaRefreshInterval = window.iso8601.w3cDate();
       }
       else {
-        // FIXME: R/w3cDate()/$scope.model.budgetRefreshDuration
-        b.psaRefreshInterval = 'R/';
+        b.psaRefreshInterval =
+          'R/' + window.iso8601.w3cDate() +
+          $scope.model.budgetRefreshDuration;
       }
 
       // budget valid duration
       if($scope.model.budgetValidDuration === '') {
         b.psaValidityInterval = undefined;
       }
-      else if($scope.model.budgetValidDuration === 'never') {
-        // FIXME: w3cDate()
-        b.psaValidityInterval = '';
-      }
       else {
-        // FIXME: w3cDate()/$scope.model.budgetValidDuration
-        b.psaValidityInterval = '/';
+        // set validity start date to now
+        b.psaValidityInterval = window.iso8601.w3cDate();
+        if($scope.model.budgetValidDuration !== 'never') {
+          // add duration
+          b.psaValidityInterval += '/' + $scope.model.budgetValidDuration;
+        }
       }
 
       var budget = {

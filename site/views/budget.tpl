@@ -60,11 +60,14 @@ ${set(
 </tr>
 <tr>
   <td>Last Refreshed</td>
-  <td>{{getLastRefresh(budget.psaRefreshInterval) | date:'medium'}}</td>
+  <td>{{getLastRefresh(budget) | date:'medium'}}</td>
 </tr>
 <tr>
   <td>Expires</td>
-  <td>{{getExpiration(budget.psaValidityInterval) | date:'medium'}}</td>
+  <td data-ng-switch="getExpiration(budget)">
+    <span data-ng-switch-when="never">Never</span>
+    <span data-ng-switch-default>{{getExpiration(budget) | date:'medium'}}</span>
+  </td>
 </tr>
 <tr>
   <td>Source</td>

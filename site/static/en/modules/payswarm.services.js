@@ -792,6 +792,9 @@ angular.module('payswarm.services')
 
   // helper function to get the last refresh date for the given budget
   service.getLastRefresh = function(budget) {
+    if(!budget) {
+      return null;
+    }
     var interval = budget.psaRefreshInterval.split('/');
     if(interval.length === 3) {
       return new Date(interval[1]);
@@ -801,6 +804,9 @@ angular.module('payswarm.services')
 
   // helper function to get the refresh duration for the given budget
   service.getRefreshDuration = function(budget) {
+    if(!budget) {
+      return null;
+    }
     var interval = budget.psaRefreshInterval.split('/');
     if(interval.length === 3) {
       return interval[2];
@@ -810,6 +816,9 @@ angular.module('payswarm.services')
 
   // helper function to get the valid duration for the given budget
   service.getValidDuration = function(budget) {
+    if(!budget) {
+      return null;
+    }
     var interval = budget.psaValidityInterval.split('/');
     if(interval.length === 1) {
       return 'never';
@@ -819,6 +828,9 @@ angular.module('payswarm.services')
 
   // helper function to get expiration date for the given budget
   service.getExpiration = function(budget) {
+    if(!budget) {
+      return null;
+    }
     var interval = budget.psaValidityInterval.split('/');
     if(interval.length === 1) {
       return 'never';

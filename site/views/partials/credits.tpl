@@ -46,4 +46,5 @@ open source projects, open standards, and open licensing-based projects:
 <li><a href="http://all-vectors.com/gallery/bank-icon">Bank icon</a> from <a href="http://all-vectors.com/">All-Vectors.com</a>, <a href="http://all-vectors.com/terms-of-use">licensed</a> under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></li>
 <li><a href="http://www.myfonts.com/fonts/typodermic/kredit/">Kredit</a> font family from <a href="http://typodermicfonts.com/">Typodermic Fonts Inc.</a> under their <a href="http://typodermicfonts.com/pages/license">standard licence</a></li>
 <li><a href="http://www.sandeen.net/GnuMICR/">GnuMICR</a> font from <a href="http://www.sandeen.net/">Eric Sandeen</a></li>
+<li><a href="https://github.com/nezasa/iso8601-js-period">iso8601-js-period</a> by <a href="http://www.nezasa.com/">Nezasa</a></li>
 </ul>

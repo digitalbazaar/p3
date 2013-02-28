@@ -4,4 +4,4 @@ Subject: {{subjectPrefix}}{{serviceName}} PaymentToken verify balance too low
 
 Machine: {{machine}}
 Account: {{account}}
-{% if balance %}Balance: {{currency|upper}} {{balance}}{% endif %}
+{% if balance %}Balance: {{currency}} {{balance}}{% endif %}

@@ -1236,7 +1236,7 @@ angular.module('payswarm.directives')
     $scope.identityId = $scope.identityId || svcIdentity.identity.id;
     $scope.account = {
       '@context': 'https://w3id.org/payswarm/v1',
-      currency: 'usd',
+      currency: 'USD',
       psaPublic: []
     };
     $scope.accountVisibility = 'hidden';
@@ -1843,7 +1843,7 @@ angular.module('payswarm.directives')
       '@context': 'https://w3id.org/payswarm/v1',
       label: 'Primary Account',
       psaSlug: 'primary',
-      currency: 'usd',
+      currency: 'USD',
       psaPublic: []
     };
     $scope.accountVisibility = 'hidden';
@@ -2130,7 +2130,7 @@ angular.module('payswarm.directives')
           payeeRateType: 'FlatAmount',
           payeeApplyType: 'ApplyExclusively',
           destination: $scope.account.id,
-          currency: 'usd'
+          currency: 'USD'
         }],
         source: $scope.input.source.id
       };

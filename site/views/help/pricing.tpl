@@ -49,14 +49,14 @@ properties, although many other configurations are possible.</p>
     </tr>
     <tr>
       <td>Deposit from Credit Card</td>
-      <td>2.1867975%</td>
+      <td>2.1867974658%</td>
       <td><a href="#exclusive">Exclusive</a></td>
     </tr>
     <tr>
       <td>Deposit from Bank Account</td>
       <td>
         <span class="money"><span class="currency">USD</span> $0.50</span>
-        + 0.9998010%
+        + 0.9998990002%
       </td>
       <td><a href="#exclusive">Exclusive</a></td>
     </tr>
@@ -64,7 +64,7 @@ properties, although many other configurations are possible.</p>
       <td>Withdrawal to Bank Account</td>
       <td>
         <span class="money"><span class="currency">USD</span> $0.50</span>
-        + 0.99%
+        + 0.9802950788%
       </td>
       <td><a href="#inclusive">Inclusive</a></td>
     </tr>

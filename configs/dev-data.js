@@ -361,8 +361,7 @@ var merchantBankFixedDepositPayee = {
   currency: 'USD',
   payeeGroup: ['authority', 'authority_flat'],
   payeeApplyGroup: ['authority_gateway'],
-  payeeExemptGroup: [
-    'authority', 'authority_gatewayFlatExempt', 'authority_exempt'],
+  payeeExemptGroup: ['authority_gatewayFlatExempt', 'authority_exempt'],
   payeeRateType: 'FlatAmount',
   payeeRate: '0.11',
   payeeApplyType: 'ApplyExclusively',
@@ -374,8 +373,7 @@ var merchantBankFixedWithdrawalPayee = {
   currency: 'USD',
   payeeGroup: ['authority', 'authority_flat'],
   payeeApplyGroup: ['authority_gateway'],
-  payeeExemptGroup: [
-    'authority', 'authority_gatewayFlatExempt', 'authority_exempt'],
+  payeeExemptGroup: ['authority_gatewayFlatExempt', 'authority_exempt'],
   payeeRateType: 'FlatAmount',
   payeeRate: '0.11',
   payeeApplyType: 'ApplyInclusively',
@@ -387,10 +385,9 @@ config.financial.paymentGateway.Test.payees.deposit.BankAccount = [{
   type: 'Payee',
   destination: baseUri + '/i/authority/accounts/fees',
   currency: 'USD',
-  payeeGroup: ['authority'],
+  payeeGroup: ['authority', 'authority_percentage'],
   payeeApplyGroup: ['authority_gateway', 'authority_flat'],
-  payeeExemptGroup: [
-    'authority_gatewayPercentExempt', 'authority_exempt'],
+  payeeExemptGroup: ['authority_gatewayPercentageExempt', 'authority_exempt'],
   payeeRateType: 'Percentage',
   // ((1 / (1 - 0.0099)) - 1) * 100, see note above for details
   payeeRate: '0.9998990002',
@@ -400,10 +397,9 @@ config.financial.paymentGateway.Test.payees.deposit.BankAccount = [{
   type: 'Payee',
   destination: baseUri + '/i/authority/accounts/fees',
   currency: 'USD',
-  payeeGroup: ['authority'],
+  payeeGroup: ['authority', 'authority_flat'],
   payeeApplyGroup: ['authority_gateway'],
-  payeeExemptGroup: [
-    'authority', 'authority_gatewayFlatExempt', 'authority_exempt'],
+  payeeExemptGroup: ['authority_gatewayFlatExempt', 'authority_exempt'],
   payeeRateType: 'FlatAmount',
   payeeRate: '0.50',
   payeeApplyType: 'ApplyExclusively',
@@ -413,11 +409,10 @@ config.financial.paymentGateway.Test.payees.withdrawal.BankAccount = [{
   type: 'Payee',
   destination: baseUri + '/i/authority/accounts/fees',
   currency: 'USD',
-  payeeGroup: ['authority', 'authority_percent'],
+  payeeGroup: ['authority', 'authority_percentage'],
   payeeApplyGroup: ['authority_gateway'],
   payeeApplyAfter: ['authority_flat'],
-  payeeExemptGroup: [
-    'authority', 'authority_gatewayPercentExempt', 'authority_exempt'],
+  payeeExemptGroup: ['authority_gatewayPercentageExempt', 'authority_exempt'],
   payeeRateType: 'Percentage',
   // (1 - (1 / (1 + 0.0099))) * 100, see above note for details
   payeeRate: '0.9802950788',
@@ -429,8 +424,7 @@ config.financial.paymentGateway.Test.payees.withdrawal.BankAccount = [{
   currency: 'USD',
   payeeGroup: ['authority', 'authority_flat'],
   payeeApplyGroup: ['authority_gateway'],
-  payeeExemptGroup: [
-    'authority', 'authority_gatewayFlatExempt', 'authority_exempt'],
+  payeeExemptGroup: ['authority_gatewayFlatExempt', 'authority_exempt'],
   payeeRateType: 'FlatAmount',
   payeeRate: '0.50',
   payeeApplyType: 'ApplyInclusively',
@@ -444,8 +438,7 @@ var ccPercentPayee = {
   currency: 'USD',
   payeeGroup: ['authority'],
   payeeApplyGroup: ['authority_gateway', 'authority_flat'],
-  payeeExemptGroup: [
-    'authority_gatewayPercentExempt', 'authority_exempt'],
+  payeeExemptGroup: ['authority_gatewayPercentageExempt', 'authority_exempt'],
   payeeRateType: 'Percentage',
   // ((1 / (1 - 0.0214)) - 1) * 100, see note above for details
   payeeRate: '2.1867974658',
@@ -458,8 +451,7 @@ var ccFixedPayee = {
   currency: 'USD',
   payeeGroup: ['authority', 'authority_flat'],
   payeeApplyGroup: ['authority_gateway'],
-  payeeExemptGroup: [
-    'authority', 'authority_gatewayFlatExempt', 'authority_exempt'],
+  payeeExemptGroup: ['authority_gatewayFlatExempt', 'authority_exempt'],
   payeeRateType: 'FlatAmount',
   payeeRate: '0.15',
   payeeApplyType: 'ApplyExclusively',
@@ -472,8 +464,7 @@ var ccAmexPayee = {
   currency: 'USD',
   payeeGroup: ['authority', 'authority_flat'],
   payeeApplyGroup: ['authority_gateway'],
-  payeeExemptGroup: [
-    'authority', 'authority_gatewayFlatExempt', 'authority_exempt'],
+  payeeExemptGroup: ['authority_gatewayFlatExempt', 'authority_exempt'],
   payeeRateType: 'FlatAmount',
   payeeRate: '0.15',
   payeeApplyType: 'ApplyExclusively',

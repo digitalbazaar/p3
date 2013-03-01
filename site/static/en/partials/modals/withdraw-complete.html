@@ -24,7 +24,8 @@
           <i class="icon-arrow-right"></i>
         </td>
         <td>
-          <a href="{{transfer.destination}}" target="_blank">{{accounts[transfer.destination].label}}</a>
+          <span data-ng-show="transfer.destination != withdrawal.destination.id"><a href="{{transfer.destination}}" target="_blank">{{accounts[transfer.destination].label}}</a></span>
+          <span data-ng-show="transfer.destination == withdrawal.destination.id"><strong>{{accounts[transfer.destination].label}}</strong></span>
         </td>
         <td class="money">
           <span class="money" data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact amount of this transfer is USD {{transfer.amount}}."
@@ -39,7 +40,6 @@
       </tr>
       <tr>
         <td colspan="3">
-          <span class="label label-important">IMPORTANT</span>
           Total debited from your
           "<strong>{{account.label}}</strong>"
           account.
@@ -50,7 +50,6 @@
       </tr>
       <tr>
         <td colspan="3">
-          <span class="label label-important">IMPORTANT</span>
           Total credited to your
           "<strong>{{input.destination.label}}</strong>"
           <span data-ng-switch="input.destination.paymentMethod">

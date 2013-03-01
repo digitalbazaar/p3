@@ -115,20 +115,25 @@ function _addTxn($scope, txn) {
     transfer.destinationLink = true;
     if(txn.source && txn.source.id === transfer.source) {
       var src = txn.source;
-      if(src.paymentMethod === 'CreditCard') {
-        transfer.source = 'Credit Card: ' + src.cardNumber;
-        transfer.sourceLink = false;
-      }
-      else if(src.paymentMethod === 'BankAccount') {
-        transfer.source = 'Bank Account: ' + src.bankAccount;
-        transfer.sourceLink = false;
+      transfer.sourceLink = false;
+      transfer.source = src.label;
+      if(src.owner === $scope.account.owner) {
+        if(src.paymentMethod === 'CreditCard') {
+          transfer.source += ' (Credit Card: ' + src.cardNumber + ')';
+        }
+        else if(src.paymentMethod === 'BankAccount') {
+          transfer.source += ' (Bank Account: ' + src.bankAccount + ')';
+        }
       }
     }
     if(txn.destination && txn.destination.id === transfer.destination) {
       var dst = txn.destination;
-      if(dst.paymentMethod === 'BankAccount') {
-        transfer.destination = 'Bank Account: ' + dst.bankAccount;
-        transfer.destinationLink = false;
+      transfer.destinationLink = false;
+      transfer.destination = dst.label;
+      if(dst.owner === $scope.account.owner) {
+        if(dst.paymentMethod === 'BankAccount') {
+          transfer.destination += ' (Bank Account: ' + dst.bankAccount + ')';
+        }
       }
     }
     transfer.hidden = true;

@@ -31,12 +31,12 @@ config.website.views.vars = {
   licenses: {
     directories: ['../licenses']
   },
-  title: 'PaySwarm',
-  siteTitle: 'PaySwarm',
+  title: config.brand.name,
+  siteTitle: config.brand.name,
   redirect: true,
   style: {
     brand: {
-      alt: 'PaySwarm',
+      alt: config.brand.name,
       src: '/img/payswarm.png',
       height: '24',
       width: '182'
@@ -56,6 +56,7 @@ config.website.views.vars = {
   cacheRoot: '',
   // client-side data
   clientData: {
+    siteTitle: config.brand.name,
     productionMode: config.website.views.vars.productionMode,
     paymentDefaults: {
       allowDuplicatePurchases: true

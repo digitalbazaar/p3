@@ -16,6 +16,7 @@ module.controller('LoginCtrl', function($scope) {
   $scope.profile = '';
   $scope.password = '';
   $scope.ref = data.ref;
+  $scope.model.siteTitle = data.siteTitle;
   $scope.model.sessionExpired = data.sessionExpired || false;
 
   $scope.submit = function() {

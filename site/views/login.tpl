@@ -8,7 +8,7 @@ ${set([
 {{verbatim}}
 <div data-ng-controller="LoginCtrl">
 
-<h2 class="headline">Sign in to PaySwarm</h2>
+<h2 class="headline">Sign in to {{model.siteTitle}}</h2>
 
 <div class="alert alert-info headline" data-ng-show="model.sessionExpired">
   Your session has expired so you've been taken to the login screen.

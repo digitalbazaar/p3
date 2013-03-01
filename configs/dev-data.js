@@ -278,7 +278,7 @@ config.financial.paymentGateway.Test.payees.deposit = {};
 config.financial.paymentGateway.Test.payees.withdrawal = {};
 
 // shared for any CC or bank account gateway
-var merchantBankFixedPayee = {
+var merchantBankFixedDepositPayee = {
   type: 'Payee',
   destination: baseUri + '/i/authority/accounts/fees',
   currency: 'USD',
@@ -289,6 +289,19 @@ var merchantBankFixedPayee = {
   payeeRateType: 'FlatAmount',
   payeeRate: '0.11',
   payeeApplyType: 'ApplyExclusively',
+  comment: 'Merchant Bank Service (Fixed Charge)'
+};
+var merchantBankFixedWithdrawalPayee = {
+  type: 'Payee',
+  destination: baseUri + '/i/authority/accounts/fees',
+  currency: 'USD',
+  payeeGroup: ['authority', 'authority_flat'],
+  payeeApplyGroup: ['authority_gateway'],
+  payeeExemptGroup: [
+    'authority', 'authority_gatewayFlatExempt', 'authority_exempt'],
+  payeeRateType: 'FlatAmount',
+  payeeRate: '0.11',
+  payeeApplyType: 'ApplyInclusively',
   comment: 'Merchant Bank Service (Fixed Charge)'
 };
 
@@ -318,7 +331,7 @@ config.financial.paymentGateway.Test.payees.deposit.BankAccount = [{
   payeeRate: '0.50',
   payeeApplyType: 'ApplyExclusively',
   comment: 'Bank ACH Deposit Service (Fixed Charge)'
-}, merchantBankFixedPayee];
+}, merchantBankFixedDepositPayee];
 config.financial.paymentGateway.Test.payees.withdrawal.BankAccount = [{
   type: 'Payee',
   destination: baseUri + '/i/authority/accounts/fees',
@@ -344,7 +357,7 @@ config.financial.paymentGateway.Test.payees.withdrawal.BankAccount = [{
   payeeRate: '0.50',
   payeeApplyType: 'ApplyInclusively',
   comment: 'Bank ACH Withdrawal Service (Fixed Charge)'
-}, merchantBankFixedPayee];
+}, merchantBankFixedWithdrawalPayee];
 
 // CreditCard fees
 var ccPercentPayee = {
@@ -393,14 +406,14 @@ config.financial.paymentGateway.Test.payees.deposit.CreditCard
   ['default'] = [
   ccPercentPayee,
   ccFixedPayee,
-  merchantBankFixedPayee
+  merchantBankFixedDepositPayee
 ];
 config.financial.paymentGateway.Test.payees.deposit.CreditCard
   .AmericanExpress = [
   ccPercentPayee,
   ccFixedPayee,
   ccAmexPayee,
-  merchantBankFixedPayee
+  merchantBankFixedDepositPayee
 ];
 
 // set bank account settlement to happen immediately

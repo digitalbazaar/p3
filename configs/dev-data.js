@@ -436,7 +436,7 @@ var ccPercentPayee = {
   type: 'Payee',
   destination: baseUri + '/i/authority/accounts/fees',
   currency: 'USD',
-  payeeGroup: ['authority'],
+  payeeGroup: ['authority', 'authority_percentage'],
   payeeApplyGroup: ['authority_gateway', 'authority_flat'],
   payeeExemptGroup: ['authority_gatewayPercentageExempt', 'authority_exempt'],
   payeeRateType: 'Percentage',

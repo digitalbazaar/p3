@@ -2277,6 +2277,7 @@ angular.module('payswarm.directives')
           payeeRateType: 'FlatAmount',
           payeeApplyType: 'ApplyExclusively',
           destination: $scope.input.destination.id,
+          currency: 'USD',
           comment: 'Withdrawal'
         }],
         destination: $scope.input.destination.id

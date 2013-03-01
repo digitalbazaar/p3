@@ -1452,7 +1452,7 @@ angular.module('payswarm.directives')
       }
       else {
         b.psaRefreshInterval =
-          'R/' + window.iso8601.w3cDate() +
+          'R/' + window.iso8601.w3cDate() + '/' +
           $scope.model.budgetRefreshDuration;
       }
 

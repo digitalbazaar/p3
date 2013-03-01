@@ -5,7 +5,7 @@ var precise = {
   title: 'Precise money',
   description: 'A monetary amount that is precise.',
   type: 'string',
-  pattern: '^([\\-]?[1-9]{1}[0-9]{0,}(\\.[0-9]{0,7})?|[\\-]?0\\.[0-9]{0,7}|[\\-]?\\.[0-9]{1,7})$',
+  pattern: '^([\\-]?[1-9]{1}[0-9]{0,}(\\.[0-9]{0,10})?|[\\-]?0\\.[0-9]{0,10}|[\\-]?\\.[0-9]{1,10})$',
   errors: {
     invalid: 'The monetary amount must be in the following format: ' +
       '"x.xx". Example: 10.00',
@@ -18,7 +18,7 @@ var precisePositive = {
   title: 'Precise positive money',
   description: 'A monetary amount that is precise and greater than zero.',
   type: 'string',
-  pattern: '^([1-9]{1}[0-9]{0,}(\\.[0-9]{0,7})?|0\\.[0-9]{1,7}|\\.[0-9]{1,7})$',
+  pattern: '^([1-9]{1}[0-9]{0,}(\\.[0-9]{0,10})?|0\\.[0-9]{1,10}|\\.[0-9]{1,10})$',
   errors: {
     invalid: 'The monetary amount must be greater than 0.00.',
     missing: 'Please enter a monetary amount greater than 0.'

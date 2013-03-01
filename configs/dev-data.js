@@ -277,6 +277,83 @@ config.financial.paymentGateway.Test.payees = {};
 config.financial.paymentGateway.Test.payees.deposit = {};
 config.financial.paymentGateway.Test.payees.withdrawal = {};
 
+/* A note about merchant service fee payees:
+
+  Fees for deposits are applied exclusively so that the amount selected for
+  deposit is the amount that will appear in a customer's account; additional
+  fees will be added to the total charged to a payment token.
+
+  Fees for withdrawals are applied inclusively so that a withdrawal amount
+  can't be chosen that, after applying fees, will be greater than the balance
+  of an account. Here we don't want the total to increase.
+
+  The way we are charged by external merchant service providers is based on
+  the total transaction amount they see, that is the amount charged or credited
+  to a payment token -- referred to below as the "gateway total". More
+  specifically, we are charged on the sum of all transactions performed in a
+  statement period -- which is important with respect to rounding errors and
+  is why we always round up when collecting fees.
+
+  Here's what the percentage fee formula looks like that the merchant service
+  providers use:
+
+  gateway_total * fee_rate = fee_amount
+
+  When we do deposits, we add the fee amount to the pre-fee total to get
+  the gateway total:
+
+  pre_fee_total + fee_amount = external_total
+  => pre_fee_total + (gateway_total * fee_rate) = gateway_total
+  => pre_fee_total = gateway_total - (gateway_total * fee_rate)
+  => pre_fee_total = gateway_total * (1 - fee_rate)
+  => pre_fee_total * (1 / (1 - fee_rate)) = gateway_total
+
+  The formula for an exclusive payee, used for deposit fees (we add the
+  fee onto the amount sent to the gateway), is:
+
+  pre_fee_total + pre_fee_total * payee_rate = gateway_total
+  => pre_fee_total * (1 + payee_rate) = gateway_total
+
+  We can see that the last formula lines for the above two formulas allow us
+  to solve for the payee_rate via the fee_rate; a substitution gives us:
+
+  (1 + payee_rate) = (1 / (1 - fee_rate))
+  => payee_rate = (1 / (1 - fee_rate)) - 1
+
+  This tells us how to calculate the payee rate for an exclusive percentage
+  payee that is representing a fee that is calculated as described above.
+
+  Now, when we do withdrawals, we subtract the fee amount from the pre-fee
+  total to generate a new total, that will be sent to the gateway:
+
+  pre_fee_total - fee_amount = gateway_total
+  => pre_fee_total - (gateway_total * fee_rate) = gateway_total
+  => pre_fee_total = gateway_total + (gateway_total * fee_rate)
+  => pre_fee_total = gateway_total * (1 + fee_rate)
+  => pre_fee_total * (1 / (1 + fee_rate)) = gateway_total
+
+  The formula for an inclusive payee, used for withdrawal fees (we take
+  the fee out of the number sent to the gateway), is:
+
+  pre_fee_total - pre_fee_total * payee_rate = gateway_total
+  => pre_fee_total * (1 - payee_rate) = gateway_total
+
+  Just like with deposits, we can substitute to get the payee_rate in terms
+  of the fee_rate:
+
+  (1 - payee_rate) = (1 / (1 + fee_rate))
+  => payee_rate = 1 - (1 / (1 + fee_rate))
+
+  Again, this tells use exactly how to calculate the payee rate for an
+  inclusive percentage payee that is representing a fee as described above.
+
+  There's one more thing to keep in mind -- which is when to apply the
+  percentage fees, namely, before or after dealing with flat fees for the
+  gateway. The answer is that the percentages must be applied after adding
+  or removing fees from the gateway total because the external merchant
+  service formula will always apply to the final gateway total (it knows
+  nothing about what comprised that number). */
+
 // shared for any CC or bank account gateway
 var merchantBankFixedDepositPayee = {
   type: 'Payee',
@@ -311,12 +388,12 @@ config.financial.paymentGateway.Test.payees.deposit.BankAccount = [{
   destination: baseUri + '/i/authority/accounts/fees',
   currency: 'USD',
   payeeGroup: ['authority'],
-  payeeApplyGroup: ['authority_gateway'],
+  payeeApplyGroup: ['authority_gateway', 'authority_flat'],
   payeeExemptGroup: [
-    'authority', 'authority_gatewayPercentExempt', 'authority_exempt'],
+    'authority_gatewayPercentExempt', 'authority_exempt'],
   payeeRateType: 'Percentage',
-  // 1 / (1 - inclusive rate of 0.0099)
-  payeeRate: '0.9998990',
+  // ((1 / (1 - 0.0099)) - 1) * 100, see note above for details
+  payeeRate: '0.9998990002',
   payeeApplyType: 'ApplyExclusively',
   comment: 'Bank ACH Deposit Service (Percentage Charge)'
 }, {
@@ -342,7 +419,8 @@ config.financial.paymentGateway.Test.payees.withdrawal.BankAccount = [{
   payeeExemptGroup: [
     'authority', 'authority_gatewayPercentExempt', 'authority_exempt'],
   payeeRateType: 'Percentage',
-  payeeRate: '0.99',
+  // (1 - (1 / (1 + 0.0099))) * 100, see above note for details
+  payeeRate: '0.9802950788',
   payeeApplyType: 'ApplyInclusively',
   comment: 'Bank ACH Withdrawal Service (Percentage Charge)'
 }, {
@@ -369,8 +447,8 @@ var ccPercentPayee = {
   payeeExemptGroup: [
     'authority_gatewayPercentExempt', 'authority_exempt'],
   payeeRateType: 'Percentage',
-  // 1 / (1 - inclusive rate of 0.0214)
-  payeeRate: '2.1867975',
+  // ((1 / (1 - 0.0214)) - 1) * 100, see note above for details
+  payeeRate: '2.1867974658',
   payeeApplyType: 'ApplyExclusively',
   comment: 'Credit Card Processing Service (Percentage Charge)'
 };

@@ -282,7 +282,7 @@ var merchantBankFixedDepositPayee = {
   type: 'Payee',
   destination: baseUri + '/i/authority/accounts/fees',
   currency: 'USD',
-  payeeGroup: ['authority'],
+  payeeGroup: ['authority', 'authority_flat'],
   payeeApplyGroup: ['authority_gateway'],
   payeeExemptGroup: [
     'authority', 'authority_gatewayFlatExempt', 'authority_exempt'],
@@ -365,9 +365,9 @@ var ccPercentPayee = {
   destination: baseUri + '/i/authority/accounts/fees',
   currency: 'USD',
   payeeGroup: ['authority'],
-  payeeApplyGroup: ['authority_gateway'],
+  payeeApplyGroup: ['authority_gateway', 'authority_flat'],
   payeeExemptGroup: [
-    'authority', 'authority_gatewayPercentExempt', 'authority_exempt'],
+    'authority_gatewayPercentExempt', 'authority_exempt'],
   payeeRateType: 'Percentage',
   // 1 / (1 - inclusive rate of 0.0214)
   payeeRate: '2.1867975',
@@ -378,7 +378,7 @@ var ccFixedPayee = {
   type: 'Payee',
   destination: baseUri + '/i/authority/accounts/fees',
   currency: 'USD',
-  payeeGroup: ['authority'],
+  payeeGroup: ['authority', 'authority_flat'],
   payeeApplyGroup: ['authority_gateway'],
   payeeExemptGroup: [
     'authority', 'authority_gatewayFlatExempt', 'authority_exempt'],
@@ -392,7 +392,7 @@ var ccAmexPayee = {
   type: 'Payee',
   destination: baseUri + '/i/authority/accounts/fees',
   currency: 'USD',
-  payeeGroup: ['authority'],
+  payeeGroup: ['authority', 'authority_flat'],
   payeeApplyGroup: ['authority_gateway'],
   payeeExemptGroup: [
     'authority', 'authority_gatewayFlatExempt', 'authority_exempt'],

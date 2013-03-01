@@ -17,7 +17,7 @@ ${set(pageTitle = "Transaction Info")}
 {{/if}}
 <tr><td>Total Amount</td><td>
     <span class="money" title="USD $${transaction.amount}">
-      $ ${transaction.amount}</span>
+      <span class="currency">USD</span> $${transaction.amount}
     </span>
   </td></tr>
 {{if isContract}}

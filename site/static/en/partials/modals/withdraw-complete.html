@@ -11,38 +11,55 @@
   <table class="well table table-condensed">
     <thead>
       <tr>
-        <th class="money">Amount</th>
         <th>Description</th>
+        <th></th>
         <th>Account</th>
+        <th class="money">Amount</th>
       </tr>
     </thead>
     <tbody>
       <tr data-ng-repeat="transfer in withdrawal.transfer">
+        <td>{{transfer.comment}}</td>
+        <td class="compact">
+          <i class="icon-arrow-right"></i>
+        </td>
+        <td>
+          <a href="{{transfer.destination}}" target="_blank">{{accounts[transfer.destination].label}}</a>
+        </td>
         <td class="money">
           <span class="money" data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact amount of this transfer is USD {{transfer.amount}}."
             data-placement="bottom" data-trigger="hover"><span class="currency">USD</span> {{transfer.amount | currency:'$'}}</span>
         </td>
-        <td>{{transfer.comment}}</td>
-        <td>
-          <i class="icon-arrow-right"></i>
-          <span title="">{{accounts[transfer.destination].label}}</span>
-        </td>
       </tr>
     </tbody>
     <tfoot>
-      <tr><td><span class="label label-important">IMPORTANT</span></td>
-        <td colspan="2">Your account "<strong>{{account.label}}</strong>" was debited
-          <strong><span class="money">USD {{withdrawal.amount | currency:'$'}}</span></strong>.
+      <tr>
+        <td colspan="3"></td>
+        <td class="money">Total</td>
+      </tr>
+      <tr>
+        <td colspan="3">
+          <span class="label label-important">IMPORTANT</span>
+          Total debited from your
+          "<strong>{{account.label}}</strong>"
+          account.
+        </td>
+        <td class="money">
+          <span class="money"><span class="currency">USD</span> <strong>{{withdrawal.amount | currency:'$'}}</strong></span>
         </td>
       </tr>
-      <tr><td><span class="label label-important">IMPORTANT</span></td>
-        <td colspan="2">Your
+      <tr>
+        <td colspan="3">
+          <span class="label label-important">IMPORTANT</span>
+          Total credited to your
+          "<strong>{{input.destination.label}}</strong>"
           <span data-ng-switch="input.destination.paymentMethod">
             <span data-ng-switch-when="BankAccount">bank account</span>
             <span data-ng-switch-default>external account</span>
-          </span>
-          "<strong>{{input.destination.label}}</strong>" was be credited
-          <strong><span class="money">USD {{withdrawal.transfer[0].amount | currency:'$'}}</span></strong>.
+          </span>.
+        </td>
+        <td class="money">
+          <span class="money"><span class="currency">USD</span> <strong>{{withdrawal.transfer[0].amount | currency:'$'}}</strong></span>
         </td>
       </tr>
     </tfoot>

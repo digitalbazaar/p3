@@ -1,5 +1,5 @@
-<div class="alert alert-error">
-  Your bank account verification and deposit is NOT complete, verify your information below.
+<div class="alert alert-warning">
+  Your bank account verification<span data-ng-show="input.amount"> and deposit</span> is NOT complete, verify your information below.
 </div>
 
 <div class="section">
@@ -10,38 +10,54 @@
 </div>
 
 <div class="section">
-  <h4 class="headline">Deposit Details</h4>
+  <h4 class="headline">Verification<span data-ng-show="input.amount"> and Deposit</span> Details</h4>
   <table class="well table table-condensed">
     <thead>
       <tr>
-        <th class="money">Amount</th>
         <th>Description</th>
+        <th></th>
         <th>Account</th>
+        <th class="money">Amount</th>
       </tr>
     </thead>
     <tbody>
       <tr data-ng-repeat="transfer in deposit.transfer">
+        <td>{{transfer.comment}}</td>
+        <td class="compact">
+          <i class="icon-arrow-right"></i>
+        </td>
+        <td>
+          <a href="{{transfer.destination}}" target="_blank">{{accounts[transfer.destination].label}}</a>
+        </td>
         <td class="money">
           <span class="money" data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact amount of this transfer is USD {{transfer.amount}}."
             data-placement="bottom" data-trigger="hover"><span class="currency">USD</span> {{transfer.amount | currency:'$'}}</span>
         </td>
-        <td>{{transfer.comment}}</td>
-        <td>
-          <i class="icon-arrow-right"></i>
-          <span title="">{{accounts[transfer.destination].label}}</span>
-        </td>
       </tr>
     </tbody>
     <tfoot>
-      <tr><td><span class="label label-important">IMPORTANT</span></td>
-        <td colspan="2">Your
-          <span data-ng-switch="input.source.paymentMethod">
+      <tr>
+        <th colspan="3"></th>
+        <th class="money">Total</th>
+      </tr>
+      <tr>
+        <td colspan="3">
+          Total to be
+          <span data-ng-switch="token.paymentMethod">
+            <span data-ng-switch-when="CreditCard">charged to</span>
+            <span data-ng-switch-when="BankAccount">debited from</span>
+            <span data-ng-switch-default>withdrawn from</span>
+          </span>
+          your
+          "<strong>{{token.label}}</strong>"
+          <span data-ng-switch="token.paymentMethod">
             <span data-ng-switch-when="CreditCard">credit card</span>
             <span data-ng-switch-when="BankAccount">bank account</span>
             <span data-ng-switch-default>external account</span>
-          </span>
-          will be charged
-          <strong><span class="money">USD {{deposit.amount | currency:'$'}}</span></strong>.
+          </span>.
+        </td>
+        <td class="money">
+          <span class="money"><span class="currency">USD</span> <strong>{{deposit.amount | currency:'$'}}</strong></span>
         </td>
       </tr>
     </tfoot>

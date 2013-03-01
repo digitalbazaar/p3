@@ -2,8 +2,8 @@
   <div class="modal-header" data-ng-switch="state">
     <a class="close btn-close">&times;</a>
     <h3 data-ng-switch-when="preparing">Verify Bank Account</h3>
-    <h3 data-ng-switch-when="reviewing">Review Deposit</h3>
-    <h3 data-ng-switch-when="complete">Verification and Deposit Complete</h3>
+    <h3 data-ng-switch-when="reviewing">Review Verification<span data-ng-show="input.amount"> and Deposit</span></h3>
+    <h3 data-ng-switch-when="complete">Verification<span data-ng-show="input.amount"> and Deposit</span> Complete</h3>
   </div>
   <div class="modal-body" data-ng-switch="state">
     <div data-ng-include="'/partials/demo-warning.html'"></div>
@@ -35,7 +35,7 @@
     <span data-ng-show="state == 'reviewing'">
       <button class="btn btn-primary"
         data-ng-disabled="loading"
-        data-ng-click="confirm()"><i class="icon-ok icon-white"></i> Deposit</button>
+        data-ng-click="confirm()"><i class="icon-ok icon-white"></i> Verify<span data-ng-show="input.amount"> and Deposit</span></button>
       <button class="btn"
         data-ng-disabled="loading"
         data-ng-click="prepare()">Back</button>

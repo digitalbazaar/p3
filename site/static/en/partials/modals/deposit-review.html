@@ -42,20 +42,23 @@
       </tr>
       <tr>
         <td colspan="3">
-          Total
+          Total to be
           <span data-ng-switch="input.source.paymentMethod">
             <span data-ng-switch-when="CreditCard">charged to</span>
             <span data-ng-switch-when="BankAccount">debited from</span>
             <span data-ng-switch-default>withdrawn from</span>
           </span>
-          your "<strong>{{input.source.label}}</strong>"
+          your
+          "<strong>{{input.source.label}}</strong>"
           <span data-ng-switch="input.source.paymentMethod">
             <span data-ng-switch-when="CreditCard">credit card</span>
             <span data-ng-switch-when="BankAccount">bank account</span>
             <span data-ng-switch-default>external account</span>
           </span>.
         </td>
-        <td class="money"><span class="money"><span class="currency">USD</span> {{deposit.amount | currency:'$'}}</span></td>
+        <td class="money">
+          <span class="money"><span class="currency">USD</span> <strong>{{deposit.amount | currency:'$'}}</strong></span>
+        </td>
       </tr>
     </tfoot>
   </table>

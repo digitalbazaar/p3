@@ -479,6 +479,7 @@ function _createListing(self, vendorProfiles, listings, callback) {
         title: 'Test Asset ' + id,
         assetContent: assetId,
         assetProvider: vendor.identity.id,
+        vendor: vendor.identity.id
       };
 
       // sign the asset
@@ -501,6 +502,7 @@ function _createListing(self, vendorProfiles, listings, callback) {
         '@context': payswarm.createDefaultJsonLdContext(),
         id: listingId,
         type: ['Listing', 'gr:Offering'],
+        vendor: vendor.identity.id,
         payee: [{
           id: listingId + '-payee',
           type: 'Payee',

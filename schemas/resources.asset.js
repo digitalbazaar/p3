@@ -2,8 +2,11 @@ var tools = require('../lib/payswarm-auth/tools');
 
 var jsonldType = require('./jsonldType');
 var payswarmId = require('./payswarmId');
+var payee = require('./payee');
+var payeeRule = require('./payeeRule');
 var graphSignature = require('./graphSignature');
 var url = require('./url');
+var vendor = require('./vendor');
 
 var schema = {
   required: true,
@@ -24,6 +27,9 @@ var schema = {
     },
     assetContent: url({required: false}),
     assetProvider: payswarmId(),
+    payee: payee({required: false}),
+    payeeRule: payeeRule({required: false}),
+    vendor: vendor({required: false}),
     signature: graphSignature()
   }
 };

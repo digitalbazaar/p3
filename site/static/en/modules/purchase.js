@@ -88,7 +88,7 @@ module.controller('PurchaseCtrl', function(
       var budget = $scope.selection.budget;
       return payswarm.budgets.addVendor({
         budget: budget.id,
-        vendor: $scope.contract.assetProvider.id,
+        vendor: $scope.contract.vendor.id,
         success: function() {
           // do budget-based purchase
           purchase(budget.source, purchaseCallback);
@@ -272,12 +272,11 @@ module.controller('PurchaseCtrl', function(
   // try to find budget for a contract
   function budgetForContract() {
     var budgets = $scope.budgets;
-    var assetProvider = $scope.contract.assetProvider.id;
-    for(b in budgets) {
-      var budget = budgets[b];
-      for(v in budget.vendor) {
-        var vendor = budget.vendor[v];
-        if(vendor === assetProvider) {
+    var vendor = $scope.contract.vendor.id;
+    for(var bi = 0; bi < budgets.length; ++bi) {
+      var budget = budgets[bi];
+      for(var vi = 0; vi < budget.vendor.length; ++vi) {
+        if(budget.vendor[vi] === vendor) {
           // found budget for this vendor
           return budget;
         }

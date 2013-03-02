@@ -117,7 +117,29 @@ ${set([
 
     <div class="row">
       <div class="section span6 offset3">
-        <h4 class="headline">Vendor</h4>
+        <h4 class="headline">{{(contract.vendor.id == contract.assetProvider.id && 'Vendor and Asset Provider') || 'Vendor'}}</h4>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Homepage</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><a href="{{contract.vendor.id}}" target="_blank">{{contract.vendor.label}}</a></td>
+              <td>{{contract.vendor.description}}</td>
+              <td><a href="{{contract.vendor.homepage}}" target="_blank"><i class="icon-globe" title="Details"></i> {{contract.vendor.homepage}}</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    
+    <div class="row" data-ng-show="{{contract.vendor.id != contract.assetProvider.id}})">
+      <div class="section span6 offset3">
+        <h4 class="headline">Asset Provider</h4>
         <table class="table">
           <thead>
             <tr>

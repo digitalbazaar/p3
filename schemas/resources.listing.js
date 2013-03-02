@@ -7,6 +7,7 @@ var payeeRule = require('./payeeRule');
 var payswarmId = require('./payswarmId');
 var graphSignature = require('./graphSignature');
 var url = require('./url');
+var vendor = require('./vendor');
 var w3cDateTime = require('./w3cDateTime');
 
 var schema = {
@@ -19,6 +20,7 @@ var schema = {
     id: payswarmId(),
     // allow up to 4 additional custom types
     type: jsonldType('Listing', 4),
+    vendor: vendor(),
     payee: payee(),
     payeeRule: payeeRule({required: false}),
     asset: url(),

@@ -7,6 +7,7 @@ var payeeRule = require('./payeeRule');
 var graphSignature = require('./graphSignature');
 var url = require('./url');
 var vendor = require('./vendor');
+var w3cDateTime = require('./w3cDateTime');
 
 var schema = {
   required: true,
@@ -30,6 +31,8 @@ var schema = {
     payee: payee({required: false}),
     payeeRule: payeeRule({required: false}),
     vendor: vendor({required: false}),
+    validFrom: w3cDateTime({required: false}),
+    validUntil: w3cDateTime({required: false}),
     signature: graphSignature()
   }
 };

@@ -36,12 +36,12 @@ var schema = {
         }]
       },
       payeeRateType: {
-        required: true,
+        required: false,
         type: 'string',
         enum: ['FlatAmount', 'Percentage']
       },
       payeeApplyType: {
-        required: true,
+        required: false,
         type: 'string',
         enum: ['ApplyExclusively', 'ApplyInclusively']
       }

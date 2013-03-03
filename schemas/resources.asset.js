@@ -28,11 +28,19 @@ var schema = {
     },
     assetContent: url({required: false}),
     assetProvider: payswarmId(),
-    payee: payee({required: false}),
-    payeeRule: payeeRule({required: false}),
-    vendor: vendor({required: false}),
-    validFrom: w3cDateTime({required: false}),
-    validUntil: w3cDateTime({required: false}),
+    listingRestrictions: {
+      required: false,
+      title: 'Listing Restrictions',
+      description: 'Restrictions on the listing of this Asset for sale.',
+      type: 'object',
+      properties: {
+        payee: payee({required: false}),
+        payeeRule: payeeRule({required: false}),
+        vendor: vendor({required: false}),
+        validFrom: w3cDateTime({required: false}),
+        validUntil: w3cDateTime({required: false})
+      }
+    },
     signature: graphSignature()
   }
 };

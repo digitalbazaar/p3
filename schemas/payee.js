@@ -78,6 +78,8 @@ var schema = {
         type: 'string',
         enum: ['ApplyExclusively', 'ApplyInclusively']
       },
+      minimumAmount: money.precisePositive({required: false}),
+      maximumAmount: money.precisePositive({required: false}),
       comment: {
         required: false,
         type: 'string'

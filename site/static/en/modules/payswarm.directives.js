@@ -441,50 +441,50 @@ angular.module('payswarm.directives')
     }
   };
 })
-.directive('progressDividend', function() {
-  return function(scope, element, attrs) {
-    function updateClass(divisor, dividend) {
-      var class_;
-      var p = parseFloat(divisor) / parseFloat(dividend) * 100;
-      p = Math.max(0, Math.min(p, 100));
-      if(p < 25) {
-        class_ = 'progress-danger';
-      }
-      else if(p < 50) {
-        class_ = 'progress-warning';
-      }
-      else {
-        class_ = 'progress-success';
-      }
-      element
-        .removeClass('progress-danger')
-        .removeClass('progress-info')
-        .removeClass('progress-success')
-        .addClass(class_);
-    }
+.directive('budgetBar', function($timeout) {
+  return {
+    scope: {
+      budget: '=budgetBar'
+    },
+    replace: true,
+    templateUrl: '/partials/budget-bar.html',
+    controller: function($scope, svcBudget) {
+      $scope.services = {budget: svcBudget};
+    },
+    link: function(scope, element, attrs) {
+      var progress = $('.progress', element);
+      var bar = $('.bar', progress);
+      var frontText = $('.progressbar-text-front', bar);
 
-    scope.$watch(attrs.progressDivisor, function(value) {
-      updateClass(value, scope.$eval(attrs.progressDividend));
-    });
-    scope.$watch(attrs.progressDividend, function(value) {
-      updateClass(scope.$eval(attrs.progressDivisor), value);
-    });
-  };
-})
-.directive('barDividend', function() {
-  return function(scope, element, attrs) {
-    function updateBarWidth(divisor, dividend) {
-      var p = parseFloat(divisor) / parseFloat(dividend) * 100;
-      p = Math.max(0, Math.min(p, 100));
-      element.css('width', p + '%');
-    }
+      // update progress bar when balance or amount changes
+      scope.$watch('budget', function(budget) {
+        var class_;
+        var balance = budget ? budget.balance : '0';
+        var amount = budget ? budget.amount : '0';
+        var p = parseFloat(balance) / parseFloat(amount) * 100;
+        p = Math.max(0, Math.min(p, 100));
+        if(p < 25) {
+          class_ = 'progress-danger';
+        }
+        else if(p < 50) {
+          class_ = 'progress-warning';
+        }
+        else {
+          class_ = 'progress-success';
+        }
+        progress
+          .removeClass('progress-danger')
+          .removeClass('progress-info')
+          .removeClass('progress-success')
+          .addClass(class_);
 
-    scope.$watch(attrs.barDivisor, function(value) {
-      updateBarWidth(value, scope.$eval(attrs.barDividend));
-    });
-    scope.$watch(attrs.barDividend, function(value) {
-      updateBarWidth(scope.$eval(attrs.barDivisor), value);
-    });
+        // update actual bar
+        bar.attr('data-amount-part', balance);
+        bar.attr('data-amount-total', amount);
+        bar.css('width', p + '%');
+        frontText.css('width', 100 / p * 100 + '%');
+      }, true);
+    }
   };
 })
 .directive('creditCardSelector', function() {
@@ -669,7 +669,7 @@ angular.module('payswarm.directives')
     }
   };
 })
-.directive('tooltipTitle', function($timeout) {
+.directive('tooltipTitle', function() {
   return function(scope, element, attrs) {
     var show = false;
     attrs.$observe('tooltipTitle', function(value) {

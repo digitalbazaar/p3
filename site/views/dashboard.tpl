@@ -118,12 +118,7 @@ ${set([
             </td>
             <!-- Balance -->
             <td class="money">
-              <div class="progress progress-striped no-margin" data-progress-divisor="budget.balance" data-progress-dividend="budget.amount">
-                <div class="bar" data-bar-divisor="budget.balance" data-bar-dividend="budget.amount"></div>
-              </div>
-              <span class="currency">USD</span>
-              <span data-tooltip-title="USD ${{budget.balance}}">{{budget.balance | floor | currency:'$'}}</span> /
-              <span data-tooltip-title="USD ${{budget.amount}}">{{budget.amount | floor | currency:'$'}}</span>
+              <div data-budget-bar="budget"></div>
             </td>
             <!-- Refresh -->
             <td data-ng-switch="getBudgetRefreshDuration(budget)">
@@ -183,8 +178,8 @@ ${set([
         data-modal-on-close="confirmDeleteBudget(err, result)">
         <div>
           <p>Are you sure that you want to delete this budget?</p>
-          <div
-            data-budget-selector data-selected="budgetToDelete"
+          <div data-budget-selector
+            data-selected="budgetToDelete"
             data-invalid="invalidBudget" data-fixed="true"></div>
         </div>
       </div>

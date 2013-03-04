@@ -820,6 +820,29 @@ h1 > .rest-summary > .rest-path {
   white-space: pre;
 }
 
+/* Progress Bars */
+.progress {
+  position: relative;
+}
+.progress .bar {
+  position: absolute;
+  overflow: hidden;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+.progress .progressbar-text-front {
+  display: block;
+  font-size: 14px;
+  text-align: center;
+}
+.progress .progressbar-text-back {
+  position: absolute;
+  width: 100%;
+  font-size: 14px;
+  text-align: center;
+}
+
 /* Modals */
 
 .modal-feedback {

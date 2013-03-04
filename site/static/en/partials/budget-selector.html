@@ -15,12 +15,7 @@
           <tr>
             <td class="compact">Balance</td>
             <td class="money">
-              <div class="progress progress-striped no-margin" data-progress-divisor="selected.balance" data-progress-dividend="selected.amount">
-                <div class="bar" data-bar-divisor="selected.balance" data-bar-dividend="selected.amount"></div>
-              </div>
-              <span class="currency">USD</span>
-              <span class="money" data-tooltip-title="USD ${{selected.balance}}" data-placement="bottom" data-trigger="hover">{{selected.balance | floor | currency:'$'}}</span> /
-              <span class="money" data-tooltip-title="USD ${{selected.amount}}" data-placement="bottom" data-trigger="hover">{{selected.amount | floor | currency:'$'}}</span>
+              <div data-budget-bar="selected"></div>
             </td>
           </tr>
         </tbody>

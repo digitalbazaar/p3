@@ -89,9 +89,7 @@ ${set(
       </thead>
       <tbody>
         <tr data-ng-repeat="vendor in vendors[budget.id].vendors | orderBy:'label'"
-          class="vendor"
-          data-fadeout="vendor.deleted"
-          data-fadeout-callback="deleteVendor(vendor)">
+          class="vendor" data-fadeout="vendor.deleted">
           <!-- Label -->
           <td class="name">
             <a href="{{vendor.id}}">{{vendor.label || vendor.id}}</a>
@@ -102,7 +100,7 @@ ${set(
           </td>
           <!-- Delete -->
           <td class="action">
-            <button class="btn btn-danger" title="Delete" data-ng-click="vendor.deleted=true"><i class="icon-remove icon-white"></i></button>
+            <button class="btn btn-danger" title="Delete" data-ng-click="deleteVendor(vendor)"><i class="icon-remove icon-white"></i></button>
           </td>
         </tr>
       </tbody>
@@ -121,6 +119,37 @@ ${set(
     You have no vendors configured for this budget.
   </td>
 </table>
+
+<!-- Delete vendor alert -->
+<div data-modal-alert="showDeleteVendorAlert"
+  data-modal-header="Warning"
+  data-modal-ok="Delete"
+  data-modal-cancel="Cancel"
+  data-modal-on-close="confirmDeleteVendor(err, result)">
+  <div>
+    <p>Are you sure that you want to remove this vendor from the budget?</p>
+    <table class="table table-condensed">
+      <thead>
+        <tr>
+          <th class="name">Vendor</th>
+          <th class="name">Website</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="vendor">
+          <!-- Label -->
+          <td class="name">
+            <a href="{{vendorToDelete.id}}">{{vendorToDelete.label || vendorToDelete.id}}</a>
+          </td>
+          <td class="name">
+            <a data-ng-show="vendorToDelete.homepage" href="{{vendorToDelete.homepage}}">{{vendorToDelete.homepage}}</a>
+            <span data-ng-hide="vendorToDelete.homepage">&nbsp;</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>    
 
 </div>
 {{/verbatim}}

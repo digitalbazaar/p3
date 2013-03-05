@@ -16,6 +16,8 @@ angular.module('payswarm', [
   'payswarm.directives',
   'payswarm.filters',
   'payswarm.services',
-  'ui']);
+  'ui']).run(function($rootScope) {
+    $rootScope.serverVars = window.data || {};
+  });
 
 })();

@@ -11,7 +11,7 @@ var module = angular.module('payswarm');
 
 module.controller('BudgetCtrl', BudgetCtrl);
 
-function BudgetCtrl($scope, $routeParams, svcAccount, svcBudget) {
+function BudgetCtrl($scope, $routeParams, $timeout, svcAccount, svcBudget) {
   $scope.model = {};
   var data = window.data || {};
 
@@ -25,11 +25,24 @@ function BudgetCtrl($scope, $routeParams, svcAccount, svcBudget) {
   $scope.getExpiration = svcBudget.getExpiration;
 
   $scope.deleteVendor = function(vendor) {
-    svcBudget.delVendor(data.budgetId, vendor.id, function(err) {
-      if(err) {
-        vendor.deleted = false;
-      }
-    });
+    $scope.showDeleteVendorAlert = true;
+    $scope.vendorToDelete = vendor;
+  };
+  $scope.confirmDeleteVendor = function(err, result) {
+    // FIXME: handle errors
+    if(!err && result === 'ok') {
+      var vendor = $scope.vendorToDelete;
+      vendor.deleted = true;
+
+      // wait to delete so modal can transition
+      $timeout(function() {
+        svcBudget.delVendor(data.budgetId, vendor.id, function(err) {
+          if(err) {
+            vendor.deleted = false;
+          }
+        });
+      });
+    }
   };
 
   svcBudget.getOne(data.budgetId, function(err, budget) {

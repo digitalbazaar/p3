@@ -1743,19 +1743,14 @@ angular.module('payswarm.directives')
             $scope.depositDestination = $scope.selection.destination.id;
           }
         });
-        async.forEach(Object.keys($scope.accounts),
-          function(account, callback) {
-          payswarm.accounts.getOne({
-            account: account,
-            success: function(response) {
-              $scope.accounts[account].label = response.label;
+        async.forEach(
+          Object.keys($scope.accounts),
+          function(accountId, callback) {
+            svcAccount.getOne(accountId, function(err, account) {
+              $scope.accounts[accountId].label = (err ?
+                'Private Account' : account.label);
               callback();
-            },
-            error: function(err) {
-              $scope.accounts[account].label = 'Private Account';
-              callback();
-            }
-          });
+            });
         }, function(err) {
           $scope.loading = false;
           // FIXME: handle err

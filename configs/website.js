@@ -57,7 +57,7 @@ config.website.views.vars = {
   // client-side data
   clientData: {
     siteTitle: config.brand.name,
-    productionMode: config.website.views.vars.productionMode,
+    productionMode: false,
     paymentDefaults: {
       allowDuplicatePurchases: true
     }

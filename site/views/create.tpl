@@ -29,14 +29,14 @@ ${set([
             <div class="input-append">
               <input class="input-xlarge form-field-vspaced"
                 name="email" data-binding="email" type="text"
-                data-ng-model="data.email"
+                data-ng-model="profile.email"
                 data-track-state="model.help.email"
                 data-ng-disabled="loading" />
               <button class="btn" data-help-toggle="model.help.email">
                 <i class="icon-question-sign"></i>
               </button>
             </div>
-            <div data-duplicate-checker="data.email"
+            <div data-duplicate-checker="profile.email"
               data-duplicate-checker-type="email"
               data-duplicate-checker-available="This email address is available!"
               data-duplicate-checker-invalid="Email address is invalid."
@@ -58,7 +58,7 @@ ${set([
               <input class="input-xlarge"
                 name="password" data-binding="psaPassword" 
                 maxlength="32" type="password"
-                data-ng-model="data.psaPassword"
+                data-ng-model="profile.psaPassword"
                 data-track-state="model.help.password"
                 data-ng-disabled="loading" />
               <button class="btn" data-help-toggle="model.help.password">
@@ -94,8 +94,8 @@ ${set([
             <div class="input-append">
               <input class="input-xlarge" 
                 name="identity-label" type="text"
-                data-slug-out="data.psaIdentity.psaSlug"
-                data-ng-model="data.psaIdentity.label"
+                data-slug-out="profile.psaIdentity.psaSlug"
+                data-ng-model="profile.psaIdentity.label"
                 data-track-state="model.help.identityLabel"
                 data-ng-disabled="loading" />
               <button class="btn" data-help-toggle="model.help.identityLabel">
@@ -112,9 +112,9 @@ ${set([
               data-binding="psaIdentity.psaSlug" class="slug"
               name="identity-slug" type="text" maxlength="32"
               placeholder="IDENTITY-NAME"
-              data-slug-in data-ng-model="data.psaIdentity.psaSlug"
+              data-slug-in data-ng-model="profile.psaIdentity.psaSlug"
               data-ng-disabled="loading" /></p>
-            <div data-duplicate-checker="data.psaIdentity.psaSlug"
+            <div data-duplicate-checker="profile.psaIdentity.psaSlug"
               data-duplicate-checker-type="PersonalIdentity"
               data-duplicate-checker-available="This identity name is available!"
               data-duplicate-checker-invalid="Identity name is invalid."
@@ -148,8 +148,8 @@ ${set([
               <div class="input-append">
                 <input class="input-xlarge" 
                   name="account-label" value="Primary Account" type="text"
-                  data-ng-model="data.account.label"
-                  data-slug-out="data.account.psaSlug"
+                  data-ng-model="profile.account.label"
+                  data-slug-out="profile.account.psaSlug"
                   data-track-state="model.help.accountLabel"
                   data-ng-disabled="loading" />
                 <button class="btn" data-help-toggle="model.help.accountLabel">
@@ -165,7 +165,7 @@ ${set([
               <p><small>{{baseUrl}}/i/{{psaIdentity.psaSlug || 'IDENTITY-NAME'}}/accounts/</small><input
                 data-binding="account.psaSlug" class="slug" name="account-slug"
                 placeholder="ACCOUNT-NAME"
-                data-slug-in data-ng-model="data.account.psaSlug"
+                data-slug-in data-ng-model="profile.account.psaSlug"
                 data-ng-disabled="loading" /></p>
             </div>
           </div>

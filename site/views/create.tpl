@@ -164,7 +164,7 @@ ${set([
               </p>
               <p><small>{{baseUrl}}/i/{{psaIdentity.psaSlug || 'IDENTITY-NAME'}}/accounts/</small><input
                 data-binding="account.psaSlug" class="slug" name="account-slug"
-                placeholder="ACCOUNT-NAME"
+                type="text" placeholder="ACCOUNT-NAME"
                 data-slug-in data-ng-model="profile.account.psaSlug"
                 data-ng-disabled="loading" /></p>
             </div>

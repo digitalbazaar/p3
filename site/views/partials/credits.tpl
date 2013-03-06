@@ -15,6 +15,7 @@ open source projects, open standards, and open licensing-based projects:
   <a href="http://www.w3.org/TR/rdfa-primer/">RDFa</a>,
   <a href="http://json-ld.org/">JSON-LD</a>, and
   <a href="https://github.com/digitalbazaar/jsonld">JSON-LD in JavaScript</a> 
+  <a href="https://code.google.com/p/green-turtle/">Green Turtle RDFa processor</a>
 </li>
 <li>
   <a href="http://payswarm.com/">PaySwarm</a> 

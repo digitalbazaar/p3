@@ -1103,7 +1103,7 @@ angular.module('payswarm.services')
     }
   };
 
-  // get a single paymentTokens
+  // get a single paymentToken
   service.getOne = function(paymentTokenId, options, callback) {
     if(typeof options === 'function') {
       callback = options;
@@ -1709,10 +1709,28 @@ angular.module('payswarm.services')
 
 function _replace(dst, src) {
   if(dst !== src) {
-    angular.forEach(dst, function(value, key) {
-      delete dst[key];
+    angular.forEach(dst, function(dstValue, key) {
+      if(!(key in src)) {
+        // preserve $$hashKey, needed for ng-repeat directives
+        if(key !== '$$hashKey') {
+          delete dst[key];
+        }
+      }
+      else {
+        // do deep replacement
+        var srcValue = src[key];
+        if(angular.isArray(dstValue) && angular.isArray(srcValue)) {
+          // assumes 'id' property means value match
+          _replaceArray(dstValue, srcValue);
+        }
+        else if(angular.isObject(dstValue) && angular.isObject(srcValue)) {
+          _replace(dstValue, srcValue);
+        }
+        else {
+          dst[key] = srcValue;
+        }
+      }
     });
-    angular.extend(dst, src);
   }
   return dst;
 }

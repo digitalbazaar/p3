@@ -175,7 +175,8 @@ ${set([
                     if needed.
                   </span>
                 </label>
-                <label class="radio">
+                <label data-ng-show="contract.vendor.type == 'VendorIdentity'"
+                  class="radio">
                   <input type="radio" name="source-type"
                     data-ng-model="sourceType" value="budget" />
                   Set up a budget for this vendor.

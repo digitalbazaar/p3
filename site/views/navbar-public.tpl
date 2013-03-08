@@ -49,7 +49,7 @@ ${set([
               </a>
             </div>
             <div class="btn-group btn-group-banner">
-              <a class="btn btn-inverse" href="/profile/create">Sign Up</a>
+              <a class="btn btn-inverse" href="/profile/create">Join</a>
             </div>
           </div>
         </fieldset>

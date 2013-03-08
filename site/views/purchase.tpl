@@ -123,14 +123,14 @@ ${set([
             <tr>
               <th>Name</th>
               <th>Description</th>
-              <th>Homepage</th>
+              <th>Website</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td><a href="{{contract.vendor.id}}" target="_blank">{{contract.vendor.label}}</a></td>
               <td>{{contract.vendor.description}}</td>
-              <td><a href="{{contract.vendor.homepage}}" target="_blank"><i class="icon-globe" title="Details"></i> {{contract.vendor.homepage}}</a></td>
+              <td><a href="{{contract.vendor.website}}" target="_blank"><i class="icon-globe" title="Details"></i> {{contract.vendor.website}}</a></td>
             </tr>
           </tbody>
         </table>
@@ -145,14 +145,14 @@ ${set([
             <tr>
               <th>Name</th>
               <th>Description</th>
-              <th>Homepage</th>
+              <th>Website</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td><a href="{{contract.assetProvider.id}}" target="_blank">{{contract.assetProvider.label}}</a></td>
               <td>{{contract.assetProvider.description}}</td>
-              <td><a href="{{contract.assetProvider.homepage}}" target="_blank"><i class="icon-globe" title="Details"></i> {{contract.assetProvider.homepage}}</a></td>
+              <td><a href="{{contract.assetProvider.website}}" target="_blank"><i class="icon-globe" title="Details"></i> {{contract.assetProvider.website}}</a></td>
             </tr>
           </tbody>
         </table>

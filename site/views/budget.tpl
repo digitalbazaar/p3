@@ -95,8 +95,8 @@ ${set(
             <a href="{{vendor.id}}">{{vendor.label || vendor.id}}</a>
           </td>
           <td class="name">
-            <a data-ng-show="vendor.homepage" href="{{vendor.homepage}}">{{vendor.homepage}}</a>
-            <span data-ng-hide="vendor.homepage">&nbsp;</span>
+            <a data-ng-show="vendor.website" href="{{vendor.website}}">{{vendor.website}}</a>
+            <span data-ng-hide="vendor.website">&nbsp;</span>
           </td>
           <!-- Delete -->
           <td class="action">
@@ -142,8 +142,8 @@ ${set(
             <a href="{{vendorToDelete.id}}">{{vendorToDelete.label || vendorToDelete.id}}</a>
           </td>
           <td class="name">
-            <a data-ng-show="vendorToDelete.homepage" href="{{vendorToDelete.homepage}}">{{vendorToDelete.homepage}}</a>
-            <span data-ng-hide="vendorToDelete.homepage">&nbsp;</span>
+            <a data-ng-show="vendorToDelete.website" href="{{vendorToDelete.website}}">{{vendorToDelete.website}}</a>
+            <span data-ng-hide="vendorToDelete.website">&nbsp;</span>
           </td>
         </tr>
       </tbody>

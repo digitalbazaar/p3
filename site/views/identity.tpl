@@ -13,18 +13,18 @@ ${set([
   </div>
 </div>
 
-{{if identity.homepage || identity.description}}
+{{if identity.website || identity.description}}
 <hr />
 {{/if}}
-{{if identity.homepage}}
+{{if identity.website}}
 <div class="row">
   <div class="span4 offset4">
     <h2>Website</h2>
-    <a href="${identity.homepage}">${identity.homepage}</a>
+    <a href="${identity.website}">${identity.website}</a>
   </div>
 </div>
 {{/if}}
-{{if identity.homepage && identity.description}}
+{{if identity.website && identity.description}}
 <div class="row">
   <div class="span12">&nbsp;</div>
 </div>

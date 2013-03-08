@@ -290,7 +290,7 @@ module.controller('PurchaseCtrl', function(
   function autoPurchase(callback) {
     // ensure referring webpage is from vendor's website
     var referer = $scope.referer;
-    var website = $scope.contract.vendor.homepage;
+    var website = $scope.contract.vendor.website;
     if(referer.indexOf(website) !== 0) {
       return callback();
     }

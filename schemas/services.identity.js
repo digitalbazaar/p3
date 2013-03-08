@@ -58,7 +58,7 @@ var postIdentities = {
     },
     psaSlug: slug(),
     label: label(),
-    homepage: {
+    website: {
       required: false,
       type: 'string'
     },

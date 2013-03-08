@@ -179,11 +179,20 @@ ${set([
                   <input type="radio" name="source-type"
                     data-ng-model="sourceType" value="budget" />
                   Set up a budget for this vendor.
-                  <p class="help-block">
+                  <div class="help-block">
                     Assigning a budget will cause future purchases with this
                     vendor to happen <strong>automatically</strong> if the
                     purchase amount is within the budget spending limitations.
-                  </p>
+                    <div data-ng-show="sourceType == 'budget'"
+                      class="alert alert-error">
+                      <strong>Warning:</strong>
+                      Only choose this option if you trust the vendor you are
+                      purchasing from. This option will enable them to make
+                      purchases on your behalf at their own discretion. Do not
+                      choose this option if the vendor's website is not
+                      secure.
+                    </div>
+                  </div>
                 </label>
               </div>
             </div>

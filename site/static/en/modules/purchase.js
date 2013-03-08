@@ -22,6 +22,7 @@ module.controller('PurchaseCtrl', function(
   $scope.listingHash = data.listingHash;
   $scope.referenceId = data.referenceId || null;
   $scope.nonce = data.nonce || null;
+  $scope.referer = data.referer || null;
   if(data.allowDuplicatePurchases) {
     $scope.referenceId = String(+new Date());
   }
@@ -287,6 +288,13 @@ module.controller('PurchaseCtrl', function(
 
   // auto-purchase w/existing budget
   function autoPurchase(callback) {
+    // ensure referring webpage is from vendor's website
+    var referer = $scope.referer;
+    var website = $scope.contract.vendor.homepage;
+    if(referer.indexOf(website) !== 0) {
+      return callback();
+    }
+
     // FIXME: should do another call to check for id+vendor budget instead?
     // FIXME: add "always confirm" option to budgets and/or to identity prefs
     // check budgets for this vendor, if it exists, auto submit purchase

@@ -1,7 +1,10 @@
 /*
  * Copyright (c) 2012 Digital Bazaar, Inc. All rights reserved.
  */
-var pa = require('./lib/payswarm-auth');
+// FIXME: Should this be a global variable?
+var path = require('path');
+__libdir = path.resolve(__dirname, 'lib');
+var pa = require(__libdir + '/payswarm-auth');
 
 if(module.parent) {
   module.exports = pa;

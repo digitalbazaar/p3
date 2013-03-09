@@ -1,4 +1,4 @@
-var tools = require('../lib/payswarm-auth/tools');
+var tools = require(__libdir + '/payswarm-auth/tools');
 
 var jsonldType = require('./jsonldType');
 var transfer = require('./transfer');

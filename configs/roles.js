@@ -1,4 +1,4 @@
-var config = require('../lib/payswarm-auth').config;
+var config = require(__libdir).config;
 
 config.permission.roles.push({
   id: config.authority.baseUri + '/roles/profile_administrator',

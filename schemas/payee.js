@@ -1,4 +1,4 @@
-var tools = require('../lib/payswarm-auth/tools');
+var tools = require(__libdir + '/payswarm-auth/tools');
 
 var currency = require('./currency');
 var payswarmId = require('./payswarmId');

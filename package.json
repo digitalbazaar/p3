@@ -7,7 +7,7 @@
     "bootstrap": "make -C ../payswarm-bootstrap bootstrap && rsync -av ../payswarm-bootstrap/bootstrap/ ./site/static/en/bootstrap/",
     "cube-collector": "node node_modules/cube/bin/collector.js",
     "cube-evaluator": "node node_modules/cube/bin/evaluator.js",
-    "coverage": "jscoverage --no-instrument payswarm-auth/tests lib lib-cov && PAYSWARM_AUTH_COV=1 node test.js > coverage.html && rm -rf lib-cov"
+    "coverage": "./node_modules/visionmedia-jscoverage/jscoverage lib lib-cov && PAYSWARM_AUTH_COV=1 node test.js > coverage.html && rm -rf lib-cov"
   },
   "dependencies": {
     "async": "~0.1.22",
@@ -47,7 +47,8 @@
   "devDependencies": {
     "payswarm": "git://github.com/digitalbazaar/payswarm.js.git",
     "mocha": "~1.8.1",
-    "should": "~1.2.2"
+    "should": "~1.2.2",
+    "visionmedia-jscoverage": "~1.0.0"
   },
   "directories": {
     "lib": "./lib/payswarm-auth"

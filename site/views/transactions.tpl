@@ -102,7 +102,7 @@ ${set([
       </td>
     </tr>
     <tr>
-      <td colspan="3"><p class="alert alert-info micropayment-note">PaySwarm uses a micro-accounting system that is accurate to 7 monetary digits.<br />Using your mouse, hover over an individual amount to see its exact value.</p></td>
+      <td colspan="3"><p class="alert alert-info micropayment-note">PaySwarm uses a micro-accounting system that is accurate to 10 monetary digits.<br />Using your mouse, hover over an individual amount to see its exact value.</p></td>
     </tr>
   </tfoot>
 </table>

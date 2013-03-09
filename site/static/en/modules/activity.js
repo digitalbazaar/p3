@@ -117,7 +117,7 @@ function _addTxn($scope, txn) {
       var src = txn.source;
       transfer.sourceLink = false;
       transfer.source = src.label;
-      if(src.owner === $scope.account.owner) {
+      if(src.owner === $scope.session.identity.id) {
         if(src.paymentMethod === 'CreditCard') {
           transfer.source += ' (Credit Card: ' + src.cardNumber + ')';
         }
@@ -130,7 +130,7 @@ function _addTxn($scope, txn) {
       var dst = txn.destination;
       transfer.destinationLink = false;
       transfer.destination = dst.label;
-      if(dst.owner === $scope.account.owner) {
+      if(dst.owner === $scope.session.identity.id) {
         if(dst.paymentMethod === 'BankAccount') {
           transfer.destination += ' (Bank Account: ' + dst.bankAccount + ')';
         }

@@ -1731,6 +1731,11 @@ function _replace(dst, src) {
         }
       }
     });
+    angular.forEach(src, function(srcValue, key) {
+      if(!(key in dst)) {
+        dst[key] = srcValue;
+      }
+    });
   }
   return dst;
 }

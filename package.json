@@ -4,10 +4,13 @@
   "private": true,
   "scripts": {
     "start": "node index.js",
+    "dev": "node index.js",
     "bootstrap": "make -C ../payswarm-bootstrap bootstrap && rsync -av ../payswarm-bootstrap/bootstrap/ ./site/static/en/bootstrap/",
     "cube-collector": "node node_modules/cube/bin/collector.js",
     "cube-evaluator": "node node_modules/cube/bin/evaluator.js",
-    "coverage": "./node_modules/visionmedia-jscoverage/jscoverage lib lib-cov && PAYSWARM_AUTH_COV=1 node test.js > coverage.html && rm -rf lib-cov"
+    "test": "node test.js",
+    "tests": "node test.js",
+    "coverage": "rm -rf lib-cov; ./node_modules/visionmedia-jscoverage/jscoverage lib lib-cov && PAYSWARM_AUTH_COV=1 node test.js > coverage.html; rm -rf lib-cov"
   },
   "dependencies": {
     "async": "~0.1.22",

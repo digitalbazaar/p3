@@ -1,4 +1,4 @@
-var config = require(__libdir).config;
+var config = require(__libdir + '/payswarm-auth').config;
 
 // profile config
 config.profile.defaults = {

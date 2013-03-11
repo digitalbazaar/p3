@@ -1,6 +1,6 @@
 var path = require('path');
-__libdir = path.resolve(__dirname, '../lib/payswarm-auth');
-var config = require(__libdir + '/../config');
+__libdir = path.resolve(__dirname, '../lib');
+var config = require(__libdir + '/config');
 
 // app info
 config.app.masterTitle = 'payswarm1d';

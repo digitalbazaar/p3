@@ -1,8 +1,8 @@
 var path = require('path');
 __libdir = process.env['PAYSWARM_AUTH_COV'] ?
-  path.resolve(__dirname, '../lib-cov/payswarm-auth') :
-  path.resolve(__dirname, '../lib/payswarm-auth');
-var config = require(__libdir + '/../config');
+  path.resolve(__dirname, '../lib-cov') :
+  path.resolve(__dirname, '../lib');
+var config = require(__libdir + '/config');
 
 // add test module
 config.modules.push('test');

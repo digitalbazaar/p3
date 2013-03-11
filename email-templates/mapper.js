@@ -1,5 +1,5 @@
 var fs = require('fs');
-var config = require(__libdir + '/../config');
+var config = require(__libdir + '/config');
 
 module.exports.map = function(mapping) {
   var ids = [

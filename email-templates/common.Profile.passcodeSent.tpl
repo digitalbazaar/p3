@@ -7,7 +7,7 @@ You requested a passcode so you could reset your {{serviceName}} password.
 If you did not make this request, simply ignore this email and your password
 will not be changed.
 {%- else -%}
-You requested a pass code so you could verify your {{serviceName}} email
+You requested a passcode so you could verify your {{serviceName}} email
 address.
 {% endif %}
 
@@ -22,7 +22,7 @@ Your passcode is: {{profiles[0].psaPasscode}}
 {%- else %}
 
 Since you have multiple profiles with the same email address, we sent you
-pass codes for each one:
+passcodes for each one:
 {%- for profile in profiles -%}
 {%- if profile.identity %}
 
@@ -31,7 +31,7 @@ Identity:  {{profile.identity.label}}
 
 Profile:   {{profile.psaSlug}}
 {%- endif %}
-Pass code: {{profile.psaPasscode}}
+Passcode: {{profile.psaPasscode}}
 {%- endfor -%}
 {%- endif %}
 

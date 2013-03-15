@@ -33,4 +33,4 @@ You can view your latest financial activity on your account activity page.
 
 If you have any questions or comments please contact support@{{supportDomain}}.
 
-* All deposit fees are charged by your bank's network, none of it goes to us.
+* All deposit fees are used to reimburse {{serviceName}} for fees charged by banks and the banking and financial networks.

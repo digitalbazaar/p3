@@ -21,10 +21,29 @@ ${set(pageTitle = "Transaction Info")}
     </span>
   </td></tr>
 {{if isContract}}
-<tr><td>Asset</td><td>
-  <a href="${asset.assetContent}">${asset.title}</a> by 
-  ${asset.creator.fullName}</td></tr>
-<tr><td>License</td><td><pre>${license.licenseTemplate}</pre></td></tr>
+<tr>
+  <td>Asset</td>
+  <td><a href="${asset.assetContent}">${asset.title}</a> by 
+  ${asset.creator.fullName}</td>
+</tr>
+<tr>
+  {{if assetProvider.id != vendor.id }}
+  <td>Asset Provider</td>
+  {{else}}
+  <td>Asset Provider and Vendor</td>
+  {{/if}}
+  <td><a href="${assetProvider.id}">${assetProvider.label}</a></td>
+</tr>
+{{if assetProvider.id != vendor.id }}
+<tr>
+  <td>Vendor</td>
+  <td><a href="${vendor.id}">${vendor.label}</a></td>
+</tr>
+{{/if}}
+<tr>
+  <td>License</td>
+  <td><pre>${license.licenseTemplate}</pre></td>
+</tr>
 {{/if}}
 {{each(idx,transfer) transfers}}
 <tr>

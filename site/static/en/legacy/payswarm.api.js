@@ -861,36 +861,6 @@ payswarm.hosted = {};
 payswarm.hosted.assets = {};
 
 /**
- * Gets a hosted asset.
- *
- * Usage:
- *
- * payswarm.hosted.assets.getOne({
- *   asset: 'ASSET_ID',
- *   success: function(asset) {},
- *   error: function(err) {}
- * });
- */
-payswarm.hosted.assets.getOne = function(options) {
-  $.ajax({
-    async: true,
-    type: 'GET',
-    url: options.asset,
-    dataType: 'json',
-    success: function(response, statusText) {
-      if(options.success) {
-        options.success(response);
-      }
-    },
-    error: function(xhr, textStatus, errorThrown) {
-      if(options.error) {
-        options.error(normalizeError(xhr, textStatus));
-      }
-    }
-  });
-};
-
-/**
  * Gets hosted assets before a certain creation date. Results will be
  * returned in pages. To get the next page, the last asset from
  * the previous page and its creation date must be passed. A limit
@@ -944,25 +914,22 @@ payswarm.hosted.assets.get = function(options) {
   });
 };
 
-// hosted listings API
-payswarm.hosted.listings = {};
-
 /**
- * Gets a hosted listing.
+ * Gets a hosted asset.
  *
  * Usage:
  *
- * payswarm.hosted.listings.getOne({
- *   listing: 'LISTING_ID',
- *   success: function(listing) {},
+ * payswarm.hosted.assets.getOne({
+ *   asset: 'ASSET_ID',
+ *   success: function(asset) {},
  *   error: function(err) {}
  * });
  */
-payswarm.hosted.listings.getOne = function(options) {
+payswarm.hosted.assets.getOne = function(options) {
   $.ajax({
     async: true,
     type: 'GET',
-    url: options.listing,
+    url: options.asset,
     dataType: 'json',
     success: function(response, statusText) {
       if(options.success) {
@@ -976,6 +943,74 @@ payswarm.hosted.listings.getOne = function(options) {
     }
   });
 };
+
+/**
+ * Adds a hosted asset for an identity.
+ *
+ * Usage:
+ *
+ * payswarm.hosted.assets.add({
+ *   identity: 'https://example.com/i/myidentity',
+ *   asset: asset,
+ *   success: function(asset) {},
+ *   error: function(err) {}
+ * });
+ */
+payswarm.hosted.assets.add = function(options) {
+  $.ajax({
+    async: true,
+    type: 'POST',
+    url: options.identity + '/assets',
+    dataType: 'json',
+    contentType: 'application/json',
+    data: JSON.stringify(options.asset),
+    success: function(response, statusText) {
+      if(options.success) {
+        options.success(response);
+      }
+    },
+    error: function(xhr, textStatus, errorThrown) {
+      if(options.error) {
+        options.error(normalizeError(xhr, textStatus));
+      }
+    }
+  });
+};
+
+/**
+ * Updates a hosted asset.
+ *
+ * Usage:
+ *
+ * payswarm.hosted.assets.update({
+ *   asset: asset,
+ *   success: function() {},
+ *   error: function(err) {}
+ * });
+ */
+payswarm.hosted.assets.update = function(options) {
+  $.ajax({
+    async: true,
+    type: 'POST',
+    url: options.asset.id,
+    dataType: 'json',
+    contentType: 'application/json',
+    data: JSON.stringify(options.asset),
+    success: function(statusText) {
+      if(options.success) {
+        options.success();
+      }
+    },
+    error: function(xhr, textStatus, errorThrown) {
+      if(options.error) {
+        options.error(normalizeError(xhr, textStatus));
+      }
+    }
+  });
+};
+
+// hosted listings API
+payswarm.hosted.listings = {};
 
 /**
  * Gets hosted listings before a certain creation date. Results will be
@@ -1021,6 +1056,101 @@ payswarm.hosted.listings.get = function(options) {
     success: function(response, statusText) {
       if(options.success) {
         options.success(response);
+      }
+    },
+    error: function(xhr, textStatus, errorThrown) {
+      if(options.error) {
+        options.error(normalizeError(xhr, textStatus));
+      }
+    }
+  });
+};
+
+/**
+ * Gets a hosted listing.
+ *
+ * Usage:
+ *
+ * payswarm.hosted.listings.getOne({
+ *   listing: 'LISTING_ID',
+ *   success: function(listing) {},
+ *   error: function(err) {}
+ * });
+ */
+payswarm.hosted.listings.getOne = function(options) {
+  $.ajax({
+    async: true,
+    type: 'GET',
+    url: options.listing,
+    dataType: 'json',
+    success: function(response, statusText) {
+      if(options.success) {
+        options.success(response);
+      }
+    },
+    error: function(xhr, textStatus, errorThrown) {
+      if(options.error) {
+        options.error(normalizeError(xhr, textStatus));
+      }
+    }
+  });
+};
+
+/**
+ * Adds a hosted listing for an identity.
+ *
+ * Usage:
+ *
+ * payswarm.hosted.listings.add({
+ *   identity: 'https://example.com/i/myidentity',
+ *   listing: listing,
+ *   success: function(listing) {},
+ *   error: function(err) {}
+ * });
+ */
+payswarm.hosted.listings.add = function(options) {
+  $.ajax({
+    async: true,
+    type: 'POST',
+    url: options.identity + '/listings',
+    dataType: 'json',
+    contentType: 'application/json',
+    data: JSON.stringify(options.listing),
+    success: function(response, statusText) {
+      if(options.success) {
+        options.success(response);
+      }
+    },
+    error: function(xhr, textStatus, errorThrown) {
+      if(options.error) {
+        options.error(normalizeError(xhr, textStatus));
+      }
+    }
+  });
+};
+
+/**
+ * Updates a hosted listing.
+ *
+ * Usage:
+ *
+ * payswarm.hosted.listings.update({
+ *   listing: listing,
+ *   success: function() {},
+ *   error: function(err) {}
+ * });
+ */
+payswarm.hosted.listings.update = function(options) {
+  $.ajax({
+    async: true,
+    type: 'POST',
+    url: options.listing.id,
+    dataType: 'json',
+    contentType: 'application/json',
+    data: JSON.stringify(options.listing),
+    success: function(statusText) {
+      if(options.success) {
+        options.success();
       }
     },
     error: function(xhr, textStatus, errorThrown) {

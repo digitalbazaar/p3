@@ -12,6 +12,7 @@ ${set([
           <ul class="nav">
             <li {{if inav == "dashboard"}}class="active"{{/if}}><a href="${session.identity.id}/dashboard"><i class="icon-info-sign"></i> Dashboard</a></li>
             <li {{if inav == "settings"}}class="active"{{/if}}><a href="${session.identity.id}/settings"><i class="icon-wrench"></i> Settings</a></li>
+            <li {{if inav == "assetora"}}class="active"{{/if}}><a href="${session.identity.id}/assetora"><i class="icon-cloud"></i> Assetora</a></li>
           </ul>
         {{else}}
           <img class="brand-minimal" src="${cacheRoot}${style.brand.src}" width="${style.brand.width}" height="${style.brand.height}" alt="${style.brand.alt}" />

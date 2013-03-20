@@ -1309,6 +1309,42 @@ payswarm.profiles.password = function(options) {
   });
 };
 
+// promos API
+payswarm.promos = {};
+
+/**
+ * Redeems a promo code for the current identity.
+ *
+ * Usage:
+ *
+ * payswarm.promos.validate({
+ *   promoCode: 'PROMO_CODE',
+ *   account: 'ACCOUNT_ID',
+ *   success: function() {},
+ *   error: function(err) {}
+ * });
+ */
+payswarm.promo.redeemCode = function(options) {
+  $.ajax({
+    async: true,
+    type: 'POST',
+    url: '/promos?action=redeem',
+    dataType: 'json',
+    contentType: 'application/json',
+    data: JSON.stringify(options),
+    success: function(response, statusText) {
+      if(options.success) {
+        options.success();
+      }
+    },
+    error: function(xhr, textStatus, errorThrown) {
+      if(options.error) {
+        options.error(normalizeError(xhr, textStatus));
+      }
+    }
+  });
+};
+
 /**
  * Normalizes an error that occurred during an XHR.
  *

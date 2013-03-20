@@ -1375,6 +1375,36 @@ angular.module('payswarm.services')
 
   return service;
 })
+.factory('svcPromos', function(svcAccount) {
+  // promos service
+  var service = {};
+
+  service.state = {
+    loading: false
+  };
+
+  // redeem a promo code
+  service.redeemCode = function(code, account, callback) {
+    callback = callback || angular.noop;
+    service.state.loading = true;
+    payswarm.promos.redeemCode({
+      promoCode: code,
+      account: account,
+      success: function() {
+        service.state.loading = false;
+        // refresh related account
+        svcAccount.getOne(account, callback);
+      },
+      error: function(err) {
+        service.state.loading = false;
+        callback(err);
+        $rootScope.$apply();
+      }
+    });
+  };
+
+  return service;
+})
 .factory('svcModal', function(
   $compile, $controller, $rootScope, $templateCache, svcTemplateCache) {
   // modals service

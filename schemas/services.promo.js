@@ -1,6 +1,7 @@
 var payswarmId = require('./payswarmId');
 
 var postPromosQuery = {
+  title: 'Post Promotions Query',
   type: 'object',
   properties: {
     action: {
@@ -13,6 +14,7 @@ var postPromosQuery = {
 };
 
 var redeemCode = {
+  title: 'Redeem Promotional Code',
   type: 'object',
   properties: {
     promoCode: {

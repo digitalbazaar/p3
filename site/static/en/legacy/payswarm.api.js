@@ -1320,11 +1320,11 @@ payswarm.promos = {};
  * payswarm.promos.validate({
  *   promoCode: 'PROMO_CODE',
  *   account: 'ACCOUNT_ID',
- *   success: function() {},
+ *   success: function(promo) {},
  *   error: function(err) {}
  * });
  */
-payswarm.promo.redeemCode = function(options) {
+payswarm.promos.redeemCode = function(options) {
   $.ajax({
     async: true,
     type: 'POST',
@@ -1334,7 +1334,7 @@ payswarm.promo.redeemCode = function(options) {
     data: JSON.stringify(options),
     success: function(response, statusText) {
       if(options.success) {
-        options.success();
+        options.success(response);
       }
     },
     error: function(xhr, textStatus, errorThrown) {

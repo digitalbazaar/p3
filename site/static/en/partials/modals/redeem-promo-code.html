@@ -1,0 +1,62 @@
+<div class="modal">
+  <div class="modal-header">
+    <a class="close btn-close">&times;</a>
+    <h3>Redeem Promotional Code</h3>
+  </div>
+  <div class="modal-body">
+    <div data-ng-hide="model.success">
+      <form class="well form-vertical" action="">
+        <fieldset>
+          <div class="control-group" data-binding="promoCode">
+            <label class="control-label" for="promoCode">Promo Code</label>
+            <div class="controls">
+              <div class="input-append">
+                <input
+                  type="text" name="promoCode"
+                  data-ng-model="model.promoCode"
+                  data-track-state="model.help.promoCode" />
+                <button class="btn" data-help-toggle="model.help.promoCode">
+                  <i class="icon-question-sign"></i>
+                </button>
+              </div>
+              <p data-fade-toggle="model.help.promoCode.show" class="help-block">
+                Please enter a promotional code; it will be applied to the
+                financial account displayed below.
+              </p>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+      <p>
+        Any applicable funds will be deposited into:
+      </p>
+    </div>
+    <div data-ng-show="model.success">
+      <div class="alert alert-success">
+        Promotional Code "{{model.promo.promoCode}}" Redeemed.
+        <p>{{model.promo.description}}</p>
+      </div>
+      <p>
+        Any applicable funds were deposited into:
+      </p>
+    </div>
+    <div data-account-selector data-selected="account"
+      data-invalid="model.invalidAccount" data-fixed="true"></div>
+  </div>
+  <div class="modal-footer">
+    <div class="modal-feedback"
+      data-feedback="feedback" data-target="feedbackTarget"></div>
+
+    <span data-spinner="model.services.promo.state.loading"
+      data-spinner-class="prepend-btn-spinner"></span>
+    <span data-ng-hide="model.success">
+      <button class="btn btn-primary"
+        data-ng-disabled="!model.promoCode || model.services.promo.state.loading || model.invalidAccount"
+        data-ng-click="redeemPromoCode()">Redeem</button>
+      <button class="btn btn-close">Cancel</button>
+    </span>
+    <span data-ng-show="model.success">
+      <button class="btn btn-primary btn-close">Done</button>
+    </span>
+  </div>
+</div>

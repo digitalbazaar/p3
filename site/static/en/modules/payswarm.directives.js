@@ -2003,6 +2003,39 @@ angular.module('payswarm.directives')
     link: Link
   });
 })
+.directive('modalRedeemPromoCode', function(svcModal, svcPromo) {
+  function Ctrl($scope) {
+    $scope.model = {};
+    $scope.feedback = {};
+    $scope.services = {promo: svcPromo};
+
+    $scope.redeemPromoCode = function() {
+      svcPromo.redeemCode(
+        $scope.model.promoCode, $scope.account.id, function(err, promo) {
+        $scope.feedback.error = err;
+        if(err) {
+          return;
+        }
+        $scope.model.success = true;
+        $scope.model.promo = promo;
+      });
+    };
+  }
+
+  function Link(scope, element, attrs) {
+    scope.feedbackTarget = element;
+  }
+
+  return svcModal.directive({
+    name: 'RedeemPromoCode',
+    scope: {
+      account: '='
+    },
+    templateUrl: '/partials/modals/redeem-promo-code.html',
+    controller: Ctrl,
+    link: Link
+  });
+})
 .directive('vcardAddress', function() {
   return {
     scope: {

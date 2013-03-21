@@ -1375,8 +1375,8 @@ angular.module('payswarm.services')
 
   return service;
 })
-.factory('svcPromos', function(svcAccount) {
-  // promos service
+.factory('svcPromo', function($rootScope, svcAccount) {
+  // promo service
   var service = {};
 
   service.state = {
@@ -1390,10 +1390,13 @@ angular.module('payswarm.services')
     payswarm.promos.redeemCode({
       promoCode: code,
       account: account,
-      success: function() {
+      success: function(promo) {
         service.state.loading = false;
         // refresh related account
-        svcAccount.getOne(account, callback);
+        svcAccount.getOne(account, function(err) {
+          callback(err, promo);
+          $rootScope.$apply();
+        });
       },
       error: function(err) {
         service.state.loading = false;

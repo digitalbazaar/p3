@@ -185,7 +185,7 @@ ${set([
                     vendor to happen <strong>automatically</strong> if the
                     purchase amount is within the budget spending limitations.
                     <div data-ng-show="sourceType == 'budget'"
-                      class="alert alert-error">
+                      class="alert alert-warning">
                       <strong>Warning:</strong>
                       Only choose this option if you trust the vendor you are
                       purchasing from. This option will enable them to make

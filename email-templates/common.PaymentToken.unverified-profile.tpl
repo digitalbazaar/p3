@@ -19,8 +19,8 @@ have sent you the transaction amounts required to verify the bank account
 below:
 
 Amounts: {{verify[0].amount}}, {{verify[1].amount}}
-{%- endif %}
 
+{% endif -%}
 You can verify and manage your bank accounts here:
 
 {{identity.id}}/settings

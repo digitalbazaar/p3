@@ -1231,6 +1231,7 @@ angular.module('payswarm.directives')
 .directive('modalAddAccount', function(svcModal, svcIdentity, svcAccount) {
   function Ctrl($scope) {
     $scope.model = {};
+    $scope.data = window.data || {};
     $scope.feedback = {};
     $scope.loading = false;
     $scope.identityId = $scope.identityId || svcIdentity.identity.id;
@@ -1638,6 +1639,7 @@ angular.module('payswarm.directives')
     };
 
     $scope.model = {};
+    $scope.data = window.data || {};
     $scope.feedback = {};
     $scope.loading = false;
     $scope.depositTransfer = null;
@@ -1815,6 +1817,7 @@ angular.module('payswarm.directives')
   function Ctrl($scope) {
     $scope.baseUrl = window.location.protocol + '//' + window.location.host;
     $scope.model = {};
+    $scope.data = window.data || {};
     $scope.feedback = {};
     $scope.loading = false;
     // identity
@@ -1898,6 +1901,7 @@ angular.module('payswarm.directives')
 .directive('modalSwitchIdentity', function(svcModal, svcIdentity) {
   function Ctrl($scope) {
     $scope.model = {};
+    $scope.data = window.data || {};
     $scope.identityTypes = ['PersonalIdentity', 'VendorIdentity'];
     $scope.identities = svcIdentity.identities;
     $scope.selected = svcIdentity.identity;
@@ -2006,6 +2010,7 @@ angular.module('payswarm.directives')
 .directive('modalRedeemPromoCode', function(svcModal, svcPromo) {
   function Ctrl($scope) {
     $scope.model = {};
+    $scope.data = window.data || {};
     $scope.feedback = {};
     $scope.services = {promo: svcPromo};
 

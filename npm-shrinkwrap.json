@@ -1,0 +1,533 @@
+{
+  "name": "payswarm-auth",
+  "version": "0.14.8",
+  "dependencies": {
+    "async": {
+      "version": "0.1.22"
+    },
+    "bcrypt": {
+      "version": "0.7.5",
+      "dependencies": {
+        "bindings": {
+          "version": "1.0.0"
+        }
+      }
+    },
+    "bignumber.js": {
+      "version": "1.0.1"
+    },
+    "bossgeo": {
+      "version": "0.0.4",
+      "dependencies": {
+        "bases": {
+          "version": "0.1.0"
+        },
+        "restler": {
+          "version": "2.0.1"
+        },
+        "underscore": {
+          "version": "1.4.2"
+        }
+      }
+    },
+    "commander": {
+      "version": "1.1.1",
+      "dependencies": {
+        "keypress": {
+          "version": "0.1.0"
+        }
+      }
+    },
+    "connect": {
+      "version": "2.6.2",
+      "dependencies": {
+        "qs": {
+          "version": "0.5.1"
+        },
+        "formidable": {
+          "version": "1.0.11"
+        },
+        "cookie-signature": {
+          "version": "0.0.1"
+        },
+        "crc": {
+          "version": "0.2.0"
+        },
+        "cookie": {
+          "version": "0.0.4"
+        },
+        "bytes": {
+          "version": "0.1.0"
+        },
+        "send": {
+          "version": "0.1.0",
+          "dependencies": {
+            "mime": {
+              "version": "1.2.6"
+            },
+            "range-parser": {
+              "version": "0.0.4"
+            }
+          }
+        },
+        "fresh": {
+          "version": "0.1.0"
+        },
+        "pause": {
+          "version": "0.0.1"
+        },
+        "debug": {
+          "version": "0.7.2"
+        }
+      }
+    },
+    "connect-mongo": {
+      "version": "0.1.9",
+      "from": "git://github.com/digitalbazaar/connect-mongo.git",
+      "dependencies": {
+        "mongodb": {
+          "version": "0.9.9-8",
+          "dependencies": {
+            "bson": {
+              "version": "0.0.4"
+            }
+          }
+        }
+      }
+    },
+    "cube": {
+      "version": "0.2.4",
+      "dependencies": {
+        "mongodb": {
+          "version": "1.0.1",
+          "dependencies": {
+            "bson": {
+              "version": "0.0.5"
+            }
+          }
+        },
+        "node-static": {
+          "version": "0.6.1",
+          "dependencies": {
+            "optimist": {
+              "version": "0.3.5",
+              "dependencies": {
+                "wordwrap": {
+                  "version": "0.0.2"
+                }
+              }
+            },
+            "colors": {
+              "version": "0.6.0-1"
+            }
+          }
+        },
+        "pegjs": {
+          "version": "0.6.2"
+        },
+        "vows": {
+          "version": "0.5.11",
+          "dependencies": {
+            "eyes": {
+              "version": "0.1.8"
+            }
+          }
+        },
+        "websocket": {
+          "version": "1.0.3"
+        },
+        "websocket-server": {
+          "version": "1.4.04"
+        }
+      }
+    },
+    "emailjs": {
+      "version": "0.3.2",
+      "from": "git://github.com/digitalbazaar/emailjs.git",
+      "dependencies": {
+        "bufferjs": {
+          "version": "1.1.0"
+        }
+      }
+    },
+    "express": {
+      "version": "3.0.6",
+      "dependencies": {
+        "connect": {
+          "version": "2.7.2",
+          "dependencies": {
+            "qs": {
+              "version": "0.5.1"
+            },
+            "formidable": {
+              "version": "1.0.11"
+            },
+            "bytes": {
+              "version": "0.1.0"
+            },
+            "pause": {
+              "version": "0.0.1"
+            }
+          }
+        },
+        "commander": {
+          "version": "0.6.1"
+        },
+        "range-parser": {
+          "version": "0.0.4"
+        },
+        "mkdirp": {
+          "version": "0.3.3"
+        },
+        "cookie": {
+          "version": "0.0.5"
+        },
+        "buffer-crc32": {
+          "version": "0.1.1"
+        },
+        "fresh": {
+          "version": "0.1.0"
+        },
+        "methods": {
+          "version": "0.0.1"
+        },
+        "send": {
+          "version": "0.1.0",
+          "dependencies": {
+            "mime": {
+              "version": "1.2.6"
+            }
+          }
+        },
+        "cookie-signature": {
+          "version": "0.0.1"
+        },
+        "debug": {
+          "version": "0.7.2"
+        }
+      }
+    },
+    "i18n": {
+      "version": "0.3.9"
+    },
+    "jqtpl": {
+      "version": "1.1.0"
+    },
+    "jsdom": {
+      "version": "0.5.3",
+      "dependencies": {
+        "htmlparser": {
+          "version": "1.7.6"
+        },
+        "nwmatcher": {
+          "version": "1.3.1"
+        },
+        "request": {
+          "version": "2.14.0",
+          "dependencies": {
+            "form-data": {
+              "version": "0.0.7",
+              "dependencies": {
+                "combined-stream": {
+                  "version": "0.0.4",
+                  "dependencies": {
+                    "delayed-stream": {
+                      "version": "0.0.5"
+                    }
+                  }
+                },
+                "async": {
+                  "version": "0.1.22"
+                }
+              }
+            },
+            "mime": {
+              "version": "1.2.9"
+            }
+          }
+        },
+        "cssom": {
+          "version": "0.2.5"
+        },
+        "cssstyle": {
+          "version": "0.2.3"
+        },
+        "contextify": {
+          "version": "0.1.5",
+          "dependencies": {
+            "bindings": {
+              "version": "1.1.0"
+            }
+          }
+        }
+      }
+    },
+    "json-schema": {
+      "version": "0.2.2",
+      "from": "git://github.com/digitalbazaar/json-schema.git"
+    },
+    "jsonld": {
+      "version": "0.0.36",
+      "dependencies": {
+        "xmldom": {
+          "version": "0.1.13"
+        }
+      }
+    },
+    "mailparser": {
+      "version": "0.3.4",
+      "dependencies": {
+        "mimelib": {
+          "version": "0.2.10",
+          "dependencies": {
+            "addressparser": {
+              "version": "0.1.3"
+            }
+          }
+        },
+        "encoding": {
+          "version": "0.1.5",
+          "dependencies": {
+            "iconv-lite": {
+              "version": "0.2.7"
+            }
+          }
+        },
+        "mime": {
+          "version": "1.2.9"
+        },
+        "iconv": {
+          "version": "2.0.4"
+        }
+      }
+    },
+    "mongodb": {
+      "version": "1.1.11",
+      "dependencies": {
+        "bson": {
+          "version": "0.1.5"
+        }
+      }
+    },
+    "passport": {
+      "version": "0.1.16",
+      "dependencies": {
+        "pkginfo": {
+          "version": "0.2.3"
+        }
+      }
+    },
+    "passport-local": {
+      "version": "0.1.6",
+      "dependencies": {
+        "pkginfo": {
+          "version": "0.2.3"
+        }
+      }
+    },
+    "pkginfo": {
+      "version": "0.3.0"
+    },
+    "posix": {
+      "version": "0.0.13"
+    },
+    "prompt": {
+      "version": "0.2.2",
+      "dependencies": {
+        "read": {
+          "version": "0.1.0",
+          "from": "https://github.com/indexzero/read/tarball/refactor-optional-streams"
+        },
+        "revalidator": {
+          "version": "0.1.5"
+        },
+        "utile": {
+          "version": "0.1.7",
+          "dependencies": {
+            "deep-equal": {
+              "version": "0.0.0"
+            },
+            "i": {
+              "version": "0.3.1"
+            },
+            "mkdirp": {
+              "version": "0.3.5"
+            },
+            "ncp": {
+              "version": "0.2.7"
+            },
+            "rimraf": {
+              "version": "1.0.9"
+            }
+          }
+        }
+      }
+    },
+    "redback": {
+      "version": "0.3.4",
+      "dependencies": {
+        "redis": {
+          "version": "0.8.2"
+        }
+      }
+    },
+    "request": {
+      "version": "2.11.4",
+      "dependencies": {
+        "form-data": {
+          "version": "0.0.3",
+          "dependencies": {
+            "combined-stream": {
+              "version": "0.0.3",
+              "dependencies": {
+                "delayed-stream": {
+                  "version": "0.0.5"
+                }
+              }
+            },
+            "async": {
+              "version": "0.1.9"
+            }
+          }
+        },
+        "mime": {
+          "version": "1.2.7"
+        }
+      }
+    },
+    "soap": {
+      "version": "0.2.6",
+      "from": "git://github.com/digitalbazaar/node-soap.git",
+      "dependencies": {
+        "node-expat": {
+          "version": "1.6.1"
+        }
+      }
+    },
+    "sprintf": {
+      "version": "0.1.1"
+    },
+    "swig": {
+      "version": "0.12.0",
+      "from": "git://github.com/digitalbazaar/swig.git"
+    },
+    "ua-parser": {
+      "version": "0.3.2",
+      "dependencies": {
+        "yamlparser": {
+          "version": "0.0.2"
+        }
+      }
+    },
+    "underscore": {
+      "version": "1.4.4"
+    },
+    "ursa": {
+      "version": "0.8.0"
+    },
+    "walk": {
+      "version": "2.2.1",
+      "dependencies": {
+        "forEachAsync": {
+          "version": "2.2.0",
+          "dependencies": {
+            "sequence": {
+              "version": "2.2.1"
+            }
+          }
+        }
+      }
+    },
+    "winston": {
+      "version": "0.6.2",
+      "dependencies": {
+        "colors": {
+          "version": "0.6.0-1"
+        },
+        "cycle": {
+          "version": "1.0.2"
+        },
+        "eyes": {
+          "version": "0.1.8"
+        },
+        "pkginfo": {
+          "version": "0.2.3"
+        },
+        "request": {
+          "version": "2.9.203"
+        },
+        "stack-trace": {
+          "version": "0.0.6"
+        }
+      }
+    },
+    "winston-mail": {
+      "version": "0.2.5",
+      "dependencies": {
+        "emailjs": {
+          "version": "0.3.4",
+          "dependencies": {
+            "moment": {
+              "version": "1.7.0"
+            },
+            "bufferjs": {
+              "version": "1.1.0"
+            }
+          }
+        }
+      }
+    },
+    "should": {
+      "version": "1.2.2"
+    },
+    "visionmedia-jscoverage": {
+      "version": "1.0.0"
+    },
+    "mocha": {
+      "version": "1.8.2",
+      "dependencies": {
+        "commander": {
+          "version": "0.6.1"
+        },
+        "growl": {
+          "version": "1.7.0"
+        },
+        "jade": {
+          "version": "0.26.3",
+          "dependencies": {
+            "mkdirp": {
+              "version": "0.3.0"
+            }
+          }
+        },
+        "diff": {
+          "version": "1.0.2"
+        },
+        "debug": {
+          "version": "0.7.2"
+        },
+        "mkdirp": {
+          "version": "0.3.3"
+        },
+        "ms": {
+          "version": "0.3.0"
+        }
+      }
+    },
+    "payswarm": {
+      "version": "0.9.2",
+      "from": "git://github.com/digitalbazaar/payswarm.js.git",
+      "dependencies": {
+        "jsonld": {
+          "version": "0.0.37",
+          "from": "git://github.com/digitalbazaar/jsonld.js.git",
+          "dependencies": {
+            "xmldom": {
+              "version": "0.1.13"
+            }
+          }
+        }
+      }
+    }
+  }
+}

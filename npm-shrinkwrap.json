@@ -1,6 +1,6 @@
 {
   "name": "payswarm-auth",
-  "version": "0.14.10",
+  "version": "0.14.11",
   "dependencies": {
     "async": {
       "version": "0.1.22"
@@ -278,7 +278,7 @@
       "version": "0.3.4",
       "dependencies": {
         "mimelib": {
-          "version": "0.2.10",
+          "version": "0.2.11",
           "dependencies": {
             "addressparser": {
               "version": "0.1.3"

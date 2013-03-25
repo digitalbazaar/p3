@@ -11,6 +11,12 @@ More info is available at http://payswarm.com/wiki/Demo_Warning.
 {% endif -%}
 Your {% if withdrawal.destination.bankAccount %}bank account{% else %}account{% endif %} has been credited with ${{amount}} USD. 
 
+{%- if withdrawal.destination.bankAccount %}
+
+It will take between 3-7 business days for the money to be transferred from
+{{serviceName}} to your bank account.
+{%- endif %}
+
 Here is your withdrawal receipt:
 
 Transaction ID: {{withdrawal.id}}

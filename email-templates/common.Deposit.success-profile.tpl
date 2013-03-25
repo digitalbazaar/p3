@@ -11,6 +11,12 @@ More info is available at http://payswarm.com/wiki/Demo_Warning.
 {% endif -%}
 Your {% if deposit.source.cardNumber %}credit card{% else if deposit.source.bankAccount %}bank account{% else %}account{% endif %} has been charged ${{deposit.amount}} USD. 
 
+{%- if deposit.source.bankAccount %}
+
+It will take between 3-7 business days for the money to be transferred from your
+bank account to {{serviceName}}.
+{%- endif %}
+
 Here is your deposit receipt:
 
 Transaction ID: {{deposit.id}}

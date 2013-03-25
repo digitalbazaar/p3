@@ -9,6 +9,8 @@ module.exports.map = function(mapping) {
     'common.Deposit.failure',
     'common.Deposit.success',
     'common.Deposit.success-profile',
+    'common.PaymentToken.bankAccountCreated',
+    'common.PaymentToken.bankAccountCreated-profile',
     'common.PaymentToken.unverified',
     'common.PaymentToken.unverified-profile',
     'common.PaymentToken.unverifiedLimitReached',

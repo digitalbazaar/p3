@@ -117,9 +117,9 @@ select.form-field-vspaced {
 /* Fix for popovers triggered by buttons in button groups */
 .btn-group > .btn:last-of-type {
   -webkit-border-top-right-radius: 4px;
-          border-top-right-radius: 4px;
+  border-top-right-radius: 4px;
   -webkit-border-bottom-right-radius: 4px;
-          border-bottom-right-radius: 4px;
+  border-bottom-right-radius: 4px;
   -moz-border-radius-topright: 4px;
   -moz-border-radius-bottomright: 4px;
 }
@@ -362,6 +362,13 @@ span.currency {
   display: inline-block;
   padding-left: 20px;
   margin-bottom: 5px;
+}
+.inside-input-spinner-wrapper {
+  position: absolute;
+}
+.inside-input-spinner {
+  display: inline-block;
+  margin: 15px 0 0 -15px;
 }
 
 /* Misc */

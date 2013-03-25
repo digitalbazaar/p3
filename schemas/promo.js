@@ -1,4 +1,5 @@
 var tools = require(__libdir + '/payswarm-auth/tools');
+var currency = require('./currency');
 var email = require('./email');
 var w3cDateTime = require('./w3cDateTime');
 var money = require('./money');
@@ -38,6 +39,7 @@ var schema = {
         type: 'object',
         properties: {
           amount: money.precisePositive(),
+          currency: currency(),
           comment: {
             title: 'Deposit Comment',
             description: 'The comment that will appear in the deposit when the promotional code is redeemed.',

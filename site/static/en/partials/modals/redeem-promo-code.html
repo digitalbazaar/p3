@@ -5,25 +5,72 @@
   </div>
   <div class="modal-body">
     <div data-ng-hide="model.success">
+      <p>
+        Please enter the promotional code that you wish to redeem. Once
+        you've entered a valid promotional code, the details about the related
+        promotion will be displayed. Any monetary amounts associated with the
+        promotion will be deposited into the account you select below.
+      </p>
       <form class="well form-vertical" action="">
         <fieldset>
           <div class="control-group" data-binding="promoCode">
             <label class="control-label" for="promoCode">Promo Code</label>
             <div class="controls">
               <div class="input-append">
+                <span data-promo-code-checker="model.promoCode"
+                  data-promo-code-checker-state="model.promoCodeChecker">
+                </span>
                 <input
-                  type="text" name="promoCode"
+                  type="text" name="promoCode" maxlength="20"
                   data-ng-model="model.promoCode"
                   data-track-state="model.help.promoCode" />
-                <button class="btn" data-help-toggle="model.help.promoCode">
+                <span class="inside-input-spinner-wrapper"
+                  data-spinner="model.promoCodeChecker.loading"
+                  data-spinner-class="inside-input-spinner"></span>
+                <button class="btn before-spinner"
+                  data-help-toggle="model.help.promoCode">
                   <i class="icon-question-sign"></i>
                 </button>
               </div>
-              <p data-fade-toggle="model.help.promoCode.show" class="help-block">
+              <p data-fade-toggle="model.help.promoCode.show"
+                class="help-block">
                 Please enter a promotional code; it will be applied to the
                 financial account displayed below.
               </p>
             </div>
+          </div>
+          <div data-ng-show="model.promoCodeChecker.promo">
+            <hr/>
+            <div class="alert alert-success">
+              <h4>{{model.promoCodeChecker.promo.title}}</h4>
+              <p>Expires: {{model.promoCodeChecker.promo.expires | date:'medium'}}</p>
+              <p>{{model.promoCodeChecker.promo.description}}</p>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Description</th>
+                    <th class="money">Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr data-ng-repeat="deposit in model.promoCodeChecker.promo.deposit">
+                    <td>{{deposit.comment}}</td>
+                    <td class="money"><span class="money"
+                      data-tooltip-title="Since we support micro-payments, we track monetary amounts very accurately. The exact amount is USD {{deposit.amount}}."
+                      data-placement="bottom" data-trigger="hover"><span
+                      class="currency">USD</span> {{deposit.amount | ceil | currency:'$'}}</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div data-ng-show="model.promoCodeChecker.notFound">
+            <hr/>
+            <div class="alert alert-error">The promotion was not found.</div>
+          </div>
+          <div data-ng-show="model.promoCodeChecker.expired">
+            <hr/>
+            <div class="alert alert-error">The promotion has expired.</div>
           </div>
         </fieldset>
       </form>
@@ -32,16 +79,37 @@
       </p>
     </div>
     <div data-ng-show="model.success">
-      <div class="alert alert-success">
-        Promotional Code "{{model.promo.promoCode}}" Redeemed.
-        <p>{{model.promo.description}}</p>
+      <p class="alert alert-success">
+        Promotional code <strong>{{model.promo.promoCode}}</strong> redeemed.
+      </p>
+      <div class="well">
+        <h4>{{model.promoCodeChecker.promo.title}}</h4>
+        <p>Expires: {{model.promoCodeChecker.promo.expires | date:'medium'}}</p>
+        <p>{{model.promoCodeChecker.promo.description}}</p>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Description</th>
+              <th class="money">Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr data-ng-repeat="deposit in model.promoCodeChecker.promo.deposit">
+              <td>{{deposit.comment}}</td>
+              <td class="money"><span class="money"
+                data-tooltip-title="Since we support micro-payments, we track monetary amounts very accurately. The exact amount is USD {{deposit.amount}}."
+                data-placement="bottom" data-trigger="hover"><span
+                class="currency">USD</span> {{deposit.amount | ceil | currency:'$'}}</span></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
       <p>
         Any applicable funds were deposited into:
       </p>
     </div>
     <div data-account-selector data-selected="account"
-      data-invalid="model.invalidAccount" data-fixed="true"></div>
+      data-invalid="model.invalidAccount"></div>
   </div>
   <div class="modal-footer">
     <div class="modal-feedback"

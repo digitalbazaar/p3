@@ -1375,7 +1375,7 @@ angular.module('payswarm.services')
 
   return service;
 })
-.factory('svcPromo', function($rootScope, svcAccount) {
+.factory('svcPromo', function($rootScope, svcAccount, svcTransaction) {
   // promo service
   var service = {};
 
@@ -1395,7 +1395,8 @@ angular.module('payswarm.services')
         // refresh related account
         svcAccount.getOne(account, function(err) {
           callback(err, promo);
-          $rootScope.$apply();
+          // refresh latest transactions
+          svcTransaction.getRecent({force: true});
         });
       },
       error: function(err) {

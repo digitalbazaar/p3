@@ -1969,6 +1969,12 @@ angular.module('payswarm.directives')
           fullName: $scope.originalAddress.fullName
         });
         $scope.state = 'selecting';
+        if($scope.validatedAddress.psaValidated) {
+          $scope.selection.address = $scope.validatedAddress;
+        }
+        else {
+          $scope.selection.address = $scope.originalAddress;
+        }
       });
     };
 

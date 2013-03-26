@@ -16,7 +16,9 @@
             --><li><a href="/legal#tos">Terms of Service</a></li><!--
             --><li><a href="/legal#pp">Privacy Policy</a></li><!--
             --><li><a href="/contact">Contact</a></li><!--
-            --><li><a href="http://digitalbazaar.com/blog">Blog</a></li>
+            -->{{if contact.blog}}<li><!--
+              --><a href="${contact.blog.url}">Blog</a><!--
+            --></li>{{/if}}
             {{else}}
             <li><a href="/help">Help</a></li><!--
             --><li><a href="/legal#tos">Terms of Service</a></li><!--

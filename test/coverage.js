@@ -2,7 +2,7 @@
 
 // test/coverage.js
 var covererageOn = process.argv.some(function(arg) {
-  return /^--cover/.test(arg);  
+  return (/^--cover/).test(arg);  
 });
 
 if (covererageOn) {
@@ -15,11 +15,11 @@ if (covererageOn) {
       require.resolve(instrumentedPath);
       return require(instrumentedPath);
     } catch (e) {
-      console.log('Coverage on, but no instrumented file found at ' 
-        + instrumentedPath);
+      console.log('Coverage on, but no instrumented file found at ' +
+        instrumentedPath);
       return require(path);
     }
-  }
+  };
 } else {
   console.log('Code coverage off');
   exports.require = require;

@@ -14,6 +14,6 @@ function AccountCtrl($scope) {
   $scope.model = {};
   var data = window.data || {};
   $scope.account = data.account;
-};
+}
 
 })();

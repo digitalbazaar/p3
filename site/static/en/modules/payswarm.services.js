@@ -1736,7 +1736,7 @@ angular.module('payswarm.services')
     }
 
     return modal;
-  };
+  }
 
   return service;
 });

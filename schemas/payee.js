@@ -15,7 +15,7 @@ var schema = {
       id: payswarmId({required: false}),
       type: {
         type: 'string',
-        pattern: '^Payee$',
+        pattern: '^Payee$'
       },
       destination: payswarmId(),
       currency: currency(),

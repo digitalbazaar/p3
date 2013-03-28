@@ -69,15 +69,15 @@ angular.module('payswarm.filters')
   };
 })
 .filter('prefill', function() {
-  return function(value, length, char) {
+  return function(value, length, ch) {
     if(length === undefined) {
       length = 2;
     }
-    if(char === undefined) {
-      char = '0';
+    if(ch === undefined) {
+      ch = '0';
     }
     value = (value === undefined || value === null) ? '' : value.toString();
-    return new Array(length - value.length + 1).join(char) + value;
+    return new Array(length - value.length + 1).join(ch) + value;
   };
 })
 .filter('ccNumber', function() {

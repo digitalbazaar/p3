@@ -14,6 +14,6 @@ function KeyCtrl($scope) {
   $scope.model = {};
   var data = window.data || {};
   $scope.key = data.key;
-};
+}
 
 })();

@@ -1534,7 +1534,7 @@ angular.module('payswarm.directives')
     };
     $scope.bankAccountTypes = [
       {id: 'Checking', label: 'Checking'},
-      {id: 'Savings', label: 'Savings'},
+      {id: 'Savings', label: 'Savings'}
     ];
     $scope.bankAccount = {
       '@context': 'https://w3id.org/payswarm/v1',
@@ -1570,7 +1570,7 @@ angular.module('payswarm.directives')
           postalCode: a.postalCode,
           countryName: a.countryName
         };
-      };
+      }
 
       // create post data
       var token = {

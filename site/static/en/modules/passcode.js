@@ -61,7 +61,7 @@ module.controller('PasscodeCtrl', function($scope) {
         $scope.$apply();
       },
       error: function(err) {
-        $scope.feedback.password.error = err
+        $scope.feedback.password.error = err;
         $scope.$apply();
       }
     });

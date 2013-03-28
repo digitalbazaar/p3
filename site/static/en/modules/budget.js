@@ -60,6 +60,6 @@ function BudgetCtrl($scope, $routeParams, $timeout, svcAccount, svcBudget) {
       });
     }
   });
-};
+}
 
 })();

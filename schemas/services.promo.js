@@ -19,7 +19,7 @@ var redeemCode = {
   properties: {
     promoCode: {
       required: true,
-      type: 'string',
+      type: 'string'
     },
     account: payswarmId()
   },

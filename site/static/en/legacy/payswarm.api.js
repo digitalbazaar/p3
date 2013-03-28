@@ -1224,7 +1224,7 @@ payswarm.profiles.login = function(options) {
     contentType: 'application/json',
     data: JSON.stringify($.extend({
       profile: options.profile,
-      password: options.password,
+      password: options.password
     }, (options.ref) ? {ref: options.ref} : {})),
     success: function(response, statusText) {
       if(options.success) {

@@ -11,7 +11,7 @@ ${set([
 
 <div class="row">
   <div class="section span12">
-    <h2 class="headline">General</h2>
+    <h2 class="headline">${siteTitle}</h2>
   </div>
 </div>
 
@@ -29,14 +29,15 @@ ${set([
 
 <div class="row">
   <div class="section span12">
-    <h2 class="headline">Other</h2>
+    <h2 class="headline">Integration</h2>
   </div>
 </div>
 
 <div class="row">
   <div class="span10 offset1">
     <ul>
-      <li><a href="/docs">Developer documentation</a></li>
+      <li><a href="/help/wordpress">WordPress Plugin</a></li>
+      <li><a href="/docs">Developer Documentation</a></li>
       <li><a href="http://payswarm.com/">PaySwarm</a></li>
     </ul>
   </div>

@@ -80,4 +80,5 @@ config.website.views.routes = [
   '/contact',
   ['/help', 'help/index.tpl'],
   '/help/pricing',
+  '/help/wordpress'
 ];

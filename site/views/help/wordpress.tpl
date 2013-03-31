@@ -71,20 +71,47 @@ ${set([
   <div class="section span12">
     <h2 class="headline">Marking Up An Article For Sale</h2>
 
-    <p>Once the plugin is installed, and your website is registered with
-    ${siteTitle}, you can start selling content from your blog. The author of a 
-    post needs to insert a single divider between the unpaid and paid 
-    content in the article, like so:</p>
+    <p>Once the plugin is installed, the author of a post has a few options
+    related to selling their articles. An author can specify what
+    portions of the article must be paid for, what to display
+    for articles that haven't been paid for, and where to place the button
+    that initiates the payment process.</p>
 
-    <div class="highlight"><pre>This is unpaid content
-<span class="c">&lt;!--payswarm--&gt;</span>
-This is paid content
-</pre></div>
+    <p>A typical payment-required article will look like this:</p>
 
-    <p>A reader will not be able to see the paid content portion until they have
-    purchased the article. The price of the article, the license that is granted
-    upon purchase, and other article-specific values can be changed on a 
-    per-article basis.</p>
+    <pre>This is unpaid content, anyone can see it.
+
+BEGIN_PAYSWARM_PAID_CONTENT
+
+This is paid content, only people that have paid will be able to see it.</pre>
+
+    <p>An author can also provide text that will be hidden once the article
+    has been paid for:</p>
+
+    <pre>This is unpaid content, anyone can see it.
+
+BEGIN_PAYSWARM_UNPAID_ONLY_CONTENT
+This is unpaid-only content, it will be hidden once the article has been paid for.
+END_PAYSWARM_UNPAID_ONLY_CONTENT
+
+BEGIN_PAYSWARM_PAID_CONTENT
+This is paid content, only people that have paid will be able to see it.
+END_PAYSWARM_PAID_CONTENT</pre>
+
+    <p>The author can also decide where they want to place the button
+    that initiates the purchase as well as a short piece of text that
+    will be shown beside the access button:</p>
+
+    <pre>This is unpaid content, anyone can see it.
+
+PAYSWARM_ACCESS_BUTTON Fund my coffee addiction to create more articles like this.
+
+BEGIN_PAYSWARM_PAID_CONTENT
+This is paid content, only people that have paid will be able to see it.
+END_PAYSWARM_PAID_CONTENT</pre>
+
+    <p>The price of the article, the license that is granted upon purchase, 
+    and other article-specific values can be changed on a per-article basis.</p>
     
     <p>When payment is made, it immediately appears in your financial account
     on ${siteTitle} and can then be withdrawn to a bank account.</p>

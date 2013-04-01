@@ -66,7 +66,7 @@ var schema = {
     countryName: {
       required: true,
       type: 'string',
-      pattern: '^\\S$|^\\S.*\\S$',
+      pattern: '^[A-Z]{2}$',
       minLength: 1,
       errors: {
         invalid: 'The country name must be exactly 2 characters in length.',

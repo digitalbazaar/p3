@@ -31,7 +31,8 @@ ${set([
                 name="email" data-binding="email" type="text"
                 data-ng-model="profile.email"
                 data-track-state="model.help.email"
-                data-ng-disabled="loading" />
+                data-ng-disabled="loading"
+                autocomplete="off" />
               <button class="btn" data-help-toggle="model.help.email">
                 <i class="icon-question-sign"></i>
               </button>
@@ -97,7 +98,8 @@ ${set([
                 data-slug-out="profile.psaIdentity.psaSlug"
                 data-ng-model="profile.psaIdentity.label"
                 data-track-state="model.help.identityLabel"
-                data-ng-disabled="loading" />
+                data-ng-disabled="loading"
+                autocomplete="off" />
               <button class="btn" data-help-toggle="model.help.identityLabel">
                 <i class="icon-question-sign"></i>
               </button>

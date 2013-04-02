@@ -17,8 +17,7 @@
       "version": "1.0.1"
     },
     "bossgeo": {
-      "version": "0.0.5",
-      "from": "git://github.com/digitalbazaar/node-bossgeo.git",
+      "version": "0.0.6",
       "dependencies": {
         "bases": {
           "version": "0.1.0"

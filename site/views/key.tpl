@@ -18,15 +18,19 @@ ${set(
       <span data-ng-show="key.psaStatus">({{key.psaStatus}})</span>
     </h3>
   </div>
+{{/verbatim}}
   
-  <div data-ng-show="key.revoked" class="row">
+{{if key.revoked}}
+  <div class="row">
     <div class="offset3 span6">
       <h3 class="headline">
         Revoked: <span property="sec:revoked" datatype="xsd:dateTime">{{key.revoked}}</span>
       </h3>
     </div>
   </div>
+{{/if}}
 
+{{verbatim}}
   <div class="row">
     <div class="offset3 span6">
       <pre data-ng-show="key.publicKeyPem" 

@@ -72,47 +72,62 @@ ${set([
     <h2 class="headline">Marking Up An Article For Sale</h2>
 
     <p>Once the plugin is installed, the author of a post has a few options
-    related to selling their articles. An author can specify what
-    portions of the article must be paid for, what to display
-    for articles that haven't been paid for, and where to place the button
-    that initiates the payment process.</p>
+    that they can use to markup the post. They can indicate the pieces of the
+    post that must be paid for, what to display for posts that haven't been
+    paid for, and where to place the button that initiates the payment
+    process.</p>
 
-    <p>A typical payment-required article will look like this:</p>
+    <p>A typical post will look like this:</p>
 
-    <pre>This is unpaid content, anyone can see it.
+    <pre>This is free content; anyone can see it.
 
 BEGIN_PAYSWARM_PAID_CONTENT
 
-This is paid content, only people that have paid will be able to see it.</pre>
+This is paid content; only people who have paid can see it.</pre>
 
-    <p>An author can also provide text that will be hidden once the article
-    has been paid for:</p>
+    <p>An author can also provide text that will only be shown for people who
+    haven't paid for the post:</p>
 
-    <pre>This is unpaid content, anyone can see it.
+    <pre>This is free content; anyone can see it.
 
 BEGIN_PAYSWARM_UNPAID_ONLY_CONTENT
-This is unpaid-only content, it will be hidden once the article has been paid for.
+This is unpaid-only content; it will be hidden once the post has been paid for.
 END_PAYSWARM_UNPAID_ONLY_CONTENT
 
 BEGIN_PAYSWARM_PAID_CONTENT
-This is paid content, only people that have paid will be able to see it.
+This is paid content; only people who have paid can see it.
 END_PAYSWARM_PAID_CONTENT</pre>
 
-    <p>The author can also decide where they want to place the button
-    that initiates the purchase as well as a short piece of text that
-    will be shown beside the access button:</p>
+    <p>The author can also decide where they want to place the button that
+    initiates the purchase as well as a short piece of text that will be shown
+    beside the access button:</p>
 
-    <pre>This is unpaid content, anyone can see it.
+    <pre>This is free content; anyone can see it.
 
-PAYSWARM_ACCESS_BUTTON Fund my coffee addiction to create more articles like this.
+PAYSWARM_ACCESS_BUTTON Fund my coffee addiction so I can post more!
 
 BEGIN_PAYSWARM_PAID_CONTENT
-This is paid content, only people that have paid will be able to see it.
+This is paid content; only people who have paid can see it.
 END_PAYSWARM_PAID_CONTENT</pre>
 
-    <p>The price of the article, the license that is granted upon purchase, 
-    and other article-specific values can be changed on a per-article basis.</p>
-    
+    <p>If no access button markup is specified but paid content markup is, then
+    the access button will appear, with some default text, at the end of the
+    post.</p>
+
+    <p>If you want to add a donation button to your post but keep all of the
+    content available for free, just add a PAYSWARM_ACCESS_BUTTON and no other
+    special PaySwarm tags:</p>
+
+    <pre>This is free content; anyone can see it. However, please donate so I can
+keep creating more great content!
+
+PAYSWARM_ACCESS_BUTTON Donate</pre>
+
+    <p>The price of the post, the license that is granted upon purchase, and
+    other post-specific values can be changed on a per-post basis. Future
+    versions of the plugin may allow authors to let their readers set their own
+    donation amounts for articles.</p>
+
     <p>When payment is made, it immediately appears in your financial account
     on ${siteTitle} and can then be withdrawn to a bank account.</p>
   </div>

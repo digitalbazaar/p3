@@ -155,7 +155,7 @@
       }
     },
     "cube": {
-      "version": "0.2.7",
+      "version": "0.2.8",
       "dependencies": {
         "mongodb": {
           "version": "1.2.14",
@@ -169,7 +169,7 @@
           "version": "0.6.5",
           "dependencies": {
             "optimist": {
-              "version": "0.3.5",
+              "version": "0.3.7",
               "dependencies": {
                 "wordwrap": {
                   "version": "0.0.2"
@@ -305,7 +305,7 @@
       "from": "git://github.com/digitalbazaar/json-schema.git"
     },
     "jsonld": {
-      "version": "0.0.41",
+      "version": "0.0.42",
       "dependencies": {
         "async": {
           "version": "0.2.6"
@@ -339,7 +339,7 @@
               "version": "0.10.2",
               "dependencies": {
                 "hoek": {
-                  "version": "0.7.4"
+                  "version": "0.7.5"
                 },
                 "boom": {
                   "version": "0.3.8"
@@ -379,7 +379,7 @@
           }
         },
         "xmldom": {
-          "version": "0.1.14"
+          "version": "0.1.15"
         }
       }
     },

@@ -3,7 +3,7 @@ ${set([
 ])}
 {{partial "head.tpl"}}
 
-<div class="row">
+<div about="" typeof="ps:${identity.type}" class="row">
   <div class="span12">
 {{if identity.label}}
     <h1 class="headline">
@@ -52,9 +52,12 @@ ${set([
   <ul>
   {{each(idx,value) accounts}}
     <li>
-      <a rel="com:account" href="${accounts[idx].id}">
+      <a about="" rel="com:account" href="${accounts[idx].id}">
         <span property="rdfs:label">${accounts[idx].label}</span>
       </a>
+      <span about="${accounts[idx].id}" typeof="com:Account">
+        <link rel="sec:owner" href="" />
+      </span>
     </li>
   {{/each}}
   </ul>
@@ -72,9 +75,12 @@ ${set([
   <ul>
   {{each(idx,value) keys}}
     <li>
-      <a rel="sec:publicKey" href="${keys[idx].id}">
+      <a about="" rel="sec:publicKey" href="${keys[idx].id}">
         <span property="rdfs:label">${keys[idx].label}</span>
       </a>
+      <span about="${keys[idx].id}" typeof="sec:CryptographicKey">
+        <link rel="sec:owner" href="" />
+      </span>
     </li>
   {{/each}}
   </ul>

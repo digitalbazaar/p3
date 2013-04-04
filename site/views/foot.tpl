@@ -32,7 +32,7 @@
             <li><!--
               -->Copyright &#169; 2013
               <span about="http://digitalbazaar.com/contact#company" 
-                typeof="vcard:VCard commerce:Business gr:BusinessEntity" 
+                typeof="vcard:VCard com:Business gr:BusinessEntity" 
                 property="rdfs:label vcard:fn gr:legalName"><a href="http://digitalbazaar.com/">Digital Bazaar, Inc.</a></span>
                 All rights reserved.<!--
             --></li>

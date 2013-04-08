@@ -58,6 +58,11 @@ ${set([
                       <i class="icon-pencil"></i> Edit
                     </a>
                   </li>
+                  <li>
+                    <a data-ng-click="modals.account=account; modals.showRedeemPromoCode=true">
+                      <i class="icon-money"></i> Redeem Promo Code
+                    </a>
+                  </li>
                 </ul>
               </div>
             </td>
@@ -95,6 +100,8 @@ ${set([
       <div data-modal-edit-account="modals.showEditAccount"
         data-account="modals.account"></div>
       <div data-modal-add-account="modals.showAddAccount"></div>
+      <div data-modal-redeem-promo-code="modals.showRedeemPromoCode"
+        data-account="modals.account"></div>
     </div>
     
     <div class="section section-budgets span6">

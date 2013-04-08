@@ -3,10 +3,12 @@ ${set([
 ])}
 {{partial "head.tpl"}}
 
-<div class="row">
+<div about="" typeof="ps:${identity.type}" class="row">
   <div class="span12">
 {{if identity.label}}
-    <h1 class="headline">About ${identity.label}</h1>
+    <h1 class="headline">
+      About <span property="rdfs:label">${identity.label}</span>
+    </h1>
 {{else}}
     <h1 class="headline">About Identity</h1>
 {{/if}}
@@ -20,7 +22,9 @@ ${set([
 <div class="row">
   <div class="span4 offset4">
     <h2>Website</h2>
-    <a href="${identity.website}">${identity.website}</a>
+    <a property="foaf:homepage" href="${identity.website}">
+      ${identity.website}
+    </a>
   </div>
 </div>
 {{/if}}
@@ -34,7 +38,7 @@ ${set([
   <div class="span4 offset4">
     <h2>Description</h2>
     <p></p>
-    <p>${identity.description}</p>
+    <p property="dc:description">${identity.description}</p>
   </div>
 </div>
 {{/if}}
@@ -47,7 +51,14 @@ ${set([
 {{if accounts.length > 0}}
   <ul>
   {{each(idx,value) accounts}}
-    <li><a href="${accounts[idx].id}">${accounts[idx].label}</a></li>
+    <li>
+      <a about="" rel="com:account" href="${accounts[idx].id}">
+        <span property="rdfs:label">${accounts[idx].label}</span>
+      </a>
+      <span about="${accounts[idx].id}" typeof="com:Account">
+        <link rel="sec:owner" href="" />
+      </span>
+    </li>
   {{/each}}
   </ul>
 {{else}}
@@ -63,7 +74,14 @@ ${set([
 {{if keys.length > 0}}
   <ul>
   {{each(idx,value) keys}}
-    <li><a href="${keys[idx].id}">${keys[idx].label}</a></li>
+    <li>
+      <a about="" rel="sec:publicKey" href="${keys[idx].id}">
+        <span property="rdfs:label">${keys[idx].label}</span>
+      </a>
+      <span about="${keys[idx].id}" typeof="sec:CryptographicKey">
+        <link rel="sec:owner" href="" />
+      </span>
+    </li>
   {{/each}}
   </ul>
 {{else}}

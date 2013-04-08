@@ -1529,7 +1529,7 @@ payswarm.profiles.login = function(options) {
     contentType: 'application/json',
     data: JSON.stringify($.extend({
       profile: options.profile,
-      password: options.password,
+      password: options.password
     }, (options.ref) ? {ref: options.ref} : {})),
     success: function(response, statusText) {
       if(options.success) {
@@ -1601,6 +1601,42 @@ payswarm.profiles.password = function(options) {
     contentType: 'application/json',
     dataType: 'json',
     data: JSON.stringify(options.profile),
+    success: function(response, statusText) {
+      if(options.success) {
+        options.success(response);
+      }
+    },
+    error: function(xhr, textStatus, errorThrown) {
+      if(options.error) {
+        options.error(normalizeError(xhr, textStatus));
+      }
+    }
+  });
+};
+
+// promos API
+payswarm.promos = {};
+
+/**
+ * Redeems a promo code for the current identity.
+ *
+ * Usage:
+ *
+ * payswarm.promos.validate({
+ *   promoCode: 'PROMO_CODE',
+ *   account: 'ACCOUNT_ID',
+ *   success: function(promo) {},
+ *   error: function(err) {}
+ * });
+ */
+payswarm.promos.redeemCode = function(options) {
+  $.ajax({
+    async: true,
+    type: 'POST',
+    url: '/promos?action=redeem',
+    dataType: 'json',
+    contentType: 'application/json',
+    data: JSON.stringify(options),
     success: function(response, statusText) {
       if(options.success) {
         options.success(response);

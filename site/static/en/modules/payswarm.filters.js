@@ -36,24 +36,11 @@ angular.module('payswarm.filters')
   };
 })
 .filter('ceil', function() {
+  // Note: does not deal w/values w/leading zeros
   return function(value, digits) {
-    value = (value === undefined || value === null) ? '' : value.toString();
+    value = (!value) ? '0' : value.toString();
     if(digits === undefined) {
       digits = 2;
-    }
-    var num = parseFloat(value);
-    var k = Math.pow(10, digits);
-    return (Math.ceil(num * k) / k).toFixed(digits);
-  };
-})
-.filter('floor', function() {
-  return function(value, digits) {
-    value = (value === undefined || value === null) ? '' : value.toString();
-    if(digits === undefined) {
-      digits = 2;
-    }
-    if(value === null || value === undefined) {
-      value = '0';
     }
     var dec = value.indexOf('.');
     if(dec === -1) {
@@ -63,21 +50,46 @@ angular.module('payswarm.filters')
     if(dec === 0) {
       value = '0' + value;
     }
-    value = value.substr(0, dec + 3);
     var length = dec + digits + 1;
+    var overflow = parseFloat(value.substr(length));
+    value = value.substr(0, length);
+    if(!isNaN(overflow) && overflow > 0) {
+      value = (parseFloat(value) +
+        parseFloat('.' + new Array(digits).join('0') + '1')).toFixed(digits);
+    }
+    return value + new Array(length - value.length + 1).join('0');
+  };
+})
+.filter('floor', function() {
+  // Note: does not deal w/values w/leading zeros
+  return function(value, digits) {
+    value = (!value) ? '0' : value.toString();
+    if(digits === undefined) {
+      digits = 2;
+    }
+    var dec = value.indexOf('.');
+    if(dec === -1) {
+      dec = value.length;
+      value += '.';
+    }
+    if(dec === 0) {
+      value = '0' + value;
+    }
+    var length = dec + digits + 1;
+    value = value.substr(0, length);
     return value + new Array(length - value.length + 1).join('0');
   };
 })
 .filter('prefill', function() {
-  return function(value, length, char) {
+  return function(value, length, ch) {
     if(length === undefined) {
       length = 2;
     }
-    if(char === undefined) {
-      char = '0';
+    if(ch === undefined) {
+      ch = '0';
     }
     value = (value === undefined || value === null) ? '' : value.toString();
-    return new Array(length - value.length + 1).join(char) + value;
+    return new Array(length - value.length + 1).join(ch) + value;
   };
 })
 .filter('ccNumber', function() {

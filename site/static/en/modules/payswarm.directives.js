@@ -1231,6 +1231,7 @@ angular.module('payswarm.directives')
 .directive('modalAddAccount', function(svcModal, svcIdentity, svcAccount) {
   function Ctrl($scope) {
     $scope.model = {};
+    $scope.data = window.data || {};
     $scope.feedback = {};
     $scope.loading = false;
     $scope.identityId = $scope.identityId || svcIdentity.identity.id;
@@ -1533,7 +1534,7 @@ angular.module('payswarm.directives')
     };
     $scope.bankAccountTypes = [
       {id: 'Checking', label: 'Checking'},
-      {id: 'Savings', label: 'Savings'},
+      {id: 'Savings', label: 'Savings'}
     ];
     $scope.bankAccount = {
       '@context': 'https://w3id.org/payswarm/v1',
@@ -1569,7 +1570,7 @@ angular.module('payswarm.directives')
           postalCode: a.postalCode,
           countryName: a.countryName
         };
-      };
+      }
 
       // create post data
       var token = {
@@ -1638,6 +1639,7 @@ angular.module('payswarm.directives')
     };
 
     $scope.model = {};
+    $scope.data = window.data || {};
     $scope.feedback = {};
     $scope.loading = false;
     $scope.depositTransfer = null;
@@ -1815,6 +1817,7 @@ angular.module('payswarm.directives')
   function Ctrl($scope) {
     $scope.baseUrl = window.location.protocol + '//' + window.location.host;
     $scope.model = {};
+    $scope.data = window.data || {};
     $scope.feedback = {};
     $scope.loading = false;
     // identity
@@ -1898,6 +1901,7 @@ angular.module('payswarm.directives')
 .directive('modalSwitchIdentity', function(svcModal, svcIdentity) {
   function Ctrl($scope) {
     $scope.model = {};
+    $scope.data = window.data || {};
     $scope.identityTypes = ['PersonalIdentity', 'VendorIdentity'];
     $scope.identities = svcIdentity.identities;
     $scope.selected = svcIdentity.identity;
@@ -1965,6 +1969,12 @@ angular.module('payswarm.directives')
           fullName: $scope.originalAddress.fullName
         });
         $scope.state = 'selecting';
+        if($scope.validatedAddress.psaValidated) {
+          $scope.selection.address = $scope.validatedAddress;
+        }
+        else {
+          $scope.selection.address = $scope.originalAddress;
+        }
       });
     };
 
@@ -2002,6 +2012,109 @@ angular.module('payswarm.directives')
     controller: Ctrl,
     link: Link
   });
+})
+.directive('modalRedeemPromoCode', function(svcModal, svcPromo) {
+  function Ctrl($scope) {
+    $scope.model = {};
+    $scope.data = window.data || {};
+    $scope.feedback = {};
+    $scope.services = {promo: svcPromo};
+
+    $scope.redeemPromoCode = function() {
+      svcPromo.redeemCode(
+        $scope.model.promoCode, $scope.account.id, function(err, promo) {
+        $scope.feedback.error = err;
+        if(err) {
+          return;
+        }
+        $scope.model.success = true;
+        $scope.model.promo = promo;
+      });
+    };
+  }
+
+  function Link(scope, element, attrs) {
+    scope.feedbackTarget = element;
+  }
+
+  return svcModal.directive({
+    name: 'RedeemPromoCode',
+    scope: {
+      account: '='
+    },
+    templateUrl: '/partials/modals/redeem-promo-code.html',
+    controller: Ctrl,
+    link: Link
+  });
+})
+.directive('promoCodeChecker', function($parse, $http) {
+  return {
+    restrict: 'A',
+    scope: {
+      input: '=promoCodeChecker',
+      state: '=promoCodeCheckerState'
+    },
+    link: function(scope, element, attrs) {
+      // init state object
+      var state = {
+        loading: false,
+        promo: null,
+        notFound: false,
+        expired: false
+      };
+      scope.$watch('state', function(value) {
+        if(value === undefined) {
+          scope.state = state;
+        }
+      });
+
+      // watch for changes to input
+      var timer = null;
+      scope.$watch('input', function(value) {
+        // stop previous check
+        clearTimeout(timer);
+        state.promo = null;
+        state.notFound = false;
+        state.expired = false;
+
+        // nothing to check
+        if(value === undefined || value.length === 0) {
+          state.loading = false;
+          return;
+        }
+
+        // start countdown to do check
+        state.loading = true;
+        timer = setTimeout(function() {
+          timer = null;
+
+          if(scope.input.length === 0) {
+            state.loading = false;
+            scope.$apply();
+            return;
+          }
+
+          $http.get(encodeURI('/promos/' + scope.input))
+            .success(function(data) {
+              // promo found
+              state.loading = false;
+              var now = new Date();
+              var expires = new Date(data.expires);
+              if(expires <= now || data.redeemable === 0) {
+                state.expired = true;
+              }
+              else {
+                state.promo = data;
+              }
+            })
+            .error(function(data, status) {
+              state.loading = false;
+              state.notFound = true;
+            });
+        }, 1000);
+      });
+    }
+  };
 })
 .directive('vcardAddress', function() {
   return {

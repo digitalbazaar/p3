@@ -16,19 +16,19 @@ Welcome to {{serviceName}}!
 We're so glad you joined! Please let us know if there is anything that we
 can do to help you settle into the website.
 
-{{serviceName}} is for fans who enjoy reading, viewing or listening to great 
-content. We make sure to get payments out of your way so that you can enjoy 
-great content while the people who made it earn an honest living building 
+{{serviceName}} is for fans who love reading, watching, or listening to great 
+content. We keep payments simple so that you can spend more time enjoying
+other people's creations and they can earn an honest living building 
 more cool stuff for you.
 
 This site is also for makers who create digital content such as written 
 stories, music, film, episodic content, photos, virtual goods, and documents. 
 {{serviceName}} enables makers to distribute their creations through their 
-own website and receive payment directly from their fans and customers. It 
+own website and receive payment directly from their fans and customers. This 
 greatly eases the burden of setting up and getting paid for great content on 
 your website.
 
-You can manage your profile, financial accounts, credit cards, bank accounts 
+You can manage your profile, financial accounts, credit cards, bank accounts, 
 and other settings by going here:
 
 {{identity.id}}/dashboard

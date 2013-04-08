@@ -11,7 +11,7 @@ ${set([
 
 <div class="row">
   <div class="section span12">
-    <h2 class="headline">General</h2>
+    <h2 class="headline">${siteTitle}</h2>
   </div>
 </div>
 
@@ -29,15 +29,34 @@ ${set([
 
 <div class="row">
   <div class="section span12">
-    <h2 class="headline">Other</h2>
+    <h2 id="integration" class="headline">Integration</h2>
   </div>
 </div>
 
 <div class="row">
   <div class="span10 offset1">
     <ul>
-      <li><a href="/docs">Developer documentation</a></li>
-      <li><a href="http://payswarm.com/">PaySwarm</a></li>
+      <li><a href="/help/wordpress">WordPress Plugin</a></li>
+      <li>More coming soon...</li>
+    </ul>
+  </div>
+</div>
+
+<div class="row">
+  <div class="section span12">
+    <h2 id="developers" class="headline">Developers</h2>
+  </div>
+</div>
+
+<div class="row">
+  <div class="span10 offset1">
+    <ul>
+      <li><a href="http://payswarm.com/">PaySwarm Standard</a>: The web payments standard powering this site.</li>
+      <!--<li><a href="/docs">Developer Documentation</a></li>-->
+      <li><a href="https://github.com/digitalbazaar/payswarm.js">payswarm.js</a>: JavaScript library and tools.</li>
+      <li><a href="https://github.com/digitalbazaar/payswarm-wordpress">payswarm-wordpress</a>: PHP library and WordPress plugin.</li>
+      <li><a href="http://json-ld.org/">JSON-LD</a>: JSON-LD information, libraries, and tools. This linked data representation format is used throughout PaySwarm based systems.</li>
+      <li><a href="http://rdfa.info/">RDFa</a>: RDFa information, libraries, and tools. RDFa can be used to markup asset and listing data in webpages.</li>
     </ul>
   </div>
 </div>

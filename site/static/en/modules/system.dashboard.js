@@ -109,7 +109,7 @@ $(document).ready(function() {
       .call(context.horizon());
 
   context.on("focus", function(i) {
-    d3.selectAll(".value").style("right", i == null ? null : context.size() - i + "px");
+    d3.selectAll(".value").style("right", i === null ? null : context.size() - i + "px");
   });
 
   // Replace this with context.graphite and graphite.metric!

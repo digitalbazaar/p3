@@ -33,7 +33,7 @@ function LoadTester() {
       purchases: 0
     }
   };
-};
+}
 util.inherits(LoadTester, events.EventEmitter);
 var config = {};
 var logger = null;
@@ -528,7 +528,7 @@ function _createListing(self, vendorProfiles, listings, callback) {
         licenseHash: 'urn:sha256:' +
           'd9dcfb7b3ba057df52b99f777747e8fe0fc598a3bb364e3d3eb529f90d58e1b9',
         validFrom: payswarm.w3cDate(validFrom),
-        validUntil: payswarm.w3cDate(validUntil),
+        validUntil: payswarm.w3cDate(validUntil)
       };
 
       // sign the listing
@@ -647,7 +647,7 @@ function _purchaseAsset(self, buyers, listings, callback) {
       statsLogger.info('', {
         type: 'purchasedAsset',
         begin: begin,
-        end: +new Date
+        end: +new Date()
       });
       self.emit('purchasedAsset', receipt);
       callback();

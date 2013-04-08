@@ -1,4 +1,5 @@
 *.sw[nop]
+*.py[co]
 *~
 .project
 .settings

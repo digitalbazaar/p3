@@ -41,7 +41,7 @@ var schema = {
         mask: true
       }
     },
-    address: address(),
+    address: address()
   },
   additionalProperties: false
 };

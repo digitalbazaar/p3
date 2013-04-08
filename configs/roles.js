@@ -21,7 +21,8 @@ config.permission.roles.push({
   psaPermission: [
     {id: 'https://payswarm.com/modules/profile#profile_access'},
     {id: 'https://payswarm.com/modules/profile#profile_create'},
-    {id: 'https://payswarm.com/modules/profile#profile_edit'}
+    {id: 'https://payswarm.com/modules/profile#profile_edit'},
+    {id: 'https://payswarm.com/modules/promo#promo_redeem_code'}
   ]
 });
 config.permission.roles.push({
@@ -121,5 +122,33 @@ config.permission.roles.push({
   comment: 'This role is used to administer the PaySwarm website.',
   psaPermission: [
     {id: 'https://payswarm.com/modules/website#admin'}
+  ]
+});
+config.permission.roles.push({
+  id: config.authority.baseUri + '/roles/promo_administrator',
+  type: 'psa:Role',
+  label: 'Promotional Code Administrator',
+  comment: 'Role for Promotional Code administrators.',
+  psaPermission: [
+    {id: 'https://payswarm.com/modules/promo#promo_admin'},
+    {id: 'https://payswarm.com/modules/promo#promo_access'},
+    {id: 'https://payswarm.com/modules/promo#promo_create'},
+    {id: 'https://payswarm.com/modules/promo#promo_edit'},
+    {id: 'https://payswarm.com/modules/promo#promo_remove'},
+    {id: 'https://payswarm.com/modules/promo#promo_redeem_code'}
+  ]
+});
+config.permission.roles.push({
+  id: config.authority.baseUri + '/roles/promo_manager',
+  type: 'psa:Role',
+  label: 'Promotional Code Manager',
+  comment: 'Role for Promotional Code managers.',
+  psaPermission: [
+    {id: 'https://payswarm.com/modules/promo#promo_admin'},
+    {id: 'https://payswarm.com/modules/promo#promo_access'},
+    {id: 'https://payswarm.com/modules/promo#promo_create'},
+    {id: 'https://payswarm.com/modules/promo#promo_edit'},
+    {id: 'https://payswarm.com/modules/promo#promo_remove'},
+    {id: 'https://payswarm.com/modules/promo#promo_redeem_code'}
   ]
 });

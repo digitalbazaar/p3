@@ -10,6 +10,9 @@ config.website.browserVersions = {
 
 config.website.views.vars = {
   productionMode: false,
+  baseUri: config.authority.baseUri,
+  serviceHost: config.server.host,
+  serviceDomain: config.server.domain,
   supportDomain: config.server.domain,
   googleAnalytics: {
     enabled: false,
@@ -25,7 +28,8 @@ config.website.views.vars = {
   cache: {
     static: false,
     // FIXME
-    key: '1.0.0-20120528155338'
+    //key: '1.0.0-20120528155338'
+    key: ''
   },
   debug: true,
   licenses: {
@@ -61,7 +65,12 @@ config.website.views.vars = {
     paymentDefaults: {
       allowDuplicatePurchases: true
     }
-  }
+  },
+  // contact and social media details
+  // blog, email, facebook, github, googlePlus, irc, twitter, youtube
+  //   *: {label: '...', url: '...'}
+  //   email: {..., email: '...'}
+  contact: {}
 };
 
 config.website.views.routes = [
@@ -71,4 +80,5 @@ config.website.views.routes = [
   '/contact',
   ['/help', 'help/index.tpl'],
   '/help/pricing',
+  '/help/wordpress'
 ];

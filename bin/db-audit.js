@@ -1,9 +1,9 @@
 /*
  * Copyright (c) 2012 Digital Bazaar, Inc. All rights reserved.
  */
+__libdir = require('path').resolve(__dirname, '../lib');
 var async = require('async');
 var audit = require('../lib/payswarm-auth/audit');
-var payswarm = require('payswarm');
 var payswarmTools = require('../lib/payswarm-auth/tools');
 var pkginfo = require('pkginfo')(module, 'version');
 var program = require('commander');

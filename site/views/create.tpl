@@ -31,7 +31,8 @@ ${set([
                 name="email" data-binding="email" type="text"
                 data-ng-model="profile.email"
                 data-track-state="model.help.email"
-                data-ng-disabled="loading" />
+                data-ng-disabled="loading"
+                autocomplete="off" />
               <button class="btn" data-help-toggle="model.help.email">
                 <i class="icon-question-sign"></i>
               </button>
@@ -66,7 +67,7 @@ ${set([
               </button>
             </div>
             <p data-fade-toggle="model.help.password.show" class="help-block">
-              Please enter a secure password, the best passwords are
+              Please enter a secure password; the best passwords are
               long, memorable phrases like: the<strong>lemurs</strong>ride<strong>on</strong>the<strong>fortnight</strong>
             </p>
           </div>
@@ -97,7 +98,8 @@ ${set([
                 data-slug-out="profile.psaIdentity.psaSlug"
                 data-ng-model="profile.psaIdentity.label"
                 data-track-state="model.help.identityLabel"
-                data-ng-disabled="loading" />
+                data-ng-disabled="loading"
+                autocomplete="off" />
               <button class="btn" data-help-toggle="model.help.identityLabel">
                 <i class="icon-question-sign"></i>
               </button>

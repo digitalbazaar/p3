@@ -325,7 +325,7 @@ module.controller('PurchaseCtrl', function(
             svcAccount.getOne(accountId, function(err, account) {
               if(err) {
                 $scope.error = err;
-                return
+                return;
               }
               $scope.selection.account = account;
             });

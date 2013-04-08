@@ -1,5 +1,6 @@
 var tools = require(__libdir + '/payswarm-auth/tools');
 
+var currency = require('./currency');
 var jsonldType = require('./jsonldType');
 var payswarmId = require('./payswarmId');
 var money = require('./money');
@@ -15,6 +16,7 @@ var schema = {
     source: payswarmId(),
     destination: payswarmId(),
     amount: money.precisePositive(),
+    currency: currency(),
     comment: comment()
   },
   additionalProperties: false

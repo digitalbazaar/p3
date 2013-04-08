@@ -9,7 +9,7 @@ More info is available at http://payswarm.com/wiki/Demo_Warning.
 *** NOTE ***
 
 {% endif -%}
-Your {% if deposit.source.cardNumber %}credit card{% else if deposit.source.bankAccount %}bank account{% else %}account{% endif %} has been charged ${{deposit.amount}} USD. 
+Your {% if deposit.source.cardNumber %}credit card{% else if deposit.source.bankAccount %}bank account{% else %}account{% endif %} has been charged ${{deposit.amount}} {{deposit.currency}}. 
 
 {%- if deposit.source.bankAccount %}
 
@@ -27,10 +27,10 @@ Source:
  Exp:     {{deposit.source.cardExpMonth}}/{{deposit.source.cardExpYear}}
 {% else if deposit.source.bankAccount %} Routing: {{deposit.source.bankRoutingNumber}}
  Account: {{deposit.source.bankAccount}}
-{% endif %} Charge:  ${{deposit.amount}} USD
+{% endif %} Charge:  ${{deposit.amount}} {{deposit.currency}}
 Deposit Details*:
 {%- for transfer in deposit.transfer %}
- {{transfer.comment}}: ${{transfer.amount}} USD
+ {{transfer.comment}}: ${{transfer.amount}} {{transfer.currency}}
 {%- endfor %}
 
 You can view your latest financial activity on your account activity page.

@@ -6,7 +6,7 @@ Merchant Name:               Digital Bazaar, Inc.
 Merchant Location:           Blacksburg, VA, USA
 Merchant Company URL:        http://digitalbazaar.com/
 Merchant Service URL:        {{baseUri}}/
-Transaction Amount:          ${{deposit.amount}} USD
+Transaction Amount:          ${{deposit.amount}} {{deposit.currency}}
 Transaction Date:            {{deposit.created}}
 Transaction Payment Type:    {{deposit.source.paymentMethod}}
 Transaction ID:              {{deposit.id}}

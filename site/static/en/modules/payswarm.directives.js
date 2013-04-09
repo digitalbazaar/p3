@@ -2116,6 +2116,63 @@ angular.module('payswarm.directives')
     }
   };
 })
+.directive('inputWatcher', function($parse, $http) {
+  return {
+    restrict: 'A',
+    scope: {
+      input: '=inputWatcher',
+      state: '=inputWatcherState',
+      change: '&inputChange'
+    },
+    link: function(scope, element, attrs) {
+      // init state object
+      var state = {
+        loading: false
+      };
+      scope.$watch('state', function(value) {
+        if(value === undefined) {
+          scope.state = state;
+        }
+      });
+
+      // watch for changes to input
+      var timer = null;
+      scope.$watch('input', function(value) {
+        // stop previous check
+        clearTimeout(timer);
+
+        // nothing to check
+        if(value === undefined || value.length === 0) {
+          state.loading = false;
+          return;
+        }
+
+        // start countdown to do check
+        state.loading = true;
+        timer = setTimeout(function() {
+          timer = null;
+
+          if(scope.input.length === 0) {
+            state.loading = false;
+            scope.$apply();
+            return;
+          }
+          console.log('input changed!');
+
+          scope.change({
+            input: scope.input,
+            state: scope.state,
+            callback: function() {
+              console.log('all done!');
+              state.loading = false;
+              scope.$apply();
+            }
+          });
+        }, 1000);
+      });
+    }
+  };
+})
 .directive('vcardAddress', function() {
   return {
     scope: {

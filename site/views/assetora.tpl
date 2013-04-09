@@ -26,6 +26,111 @@ ${set([
       you can start selling.</p>
     </div>
   </div>
+  
+  <div class="row">
+    <div class="section span12">
+      <h3 class="headline">Search</h3>
+      <form class="form-search">
+        <input type="text" name="search" class="input-xlarge search-query"
+          data-ng-model="model.search.input">
+        <span data-input-watcher="model.search.input"
+          data-input-watcher-state="model.search.state"
+          data-input-change="search(input, state, callback)">
+        </span>
+        <span data-spinner="model.search.state.loading || state.assets.loading || state.listings.loading"
+          data-spinner-class="append-btn-spinner"></span>
+      </form>
+    </div>
+  </div>
+  
+  
+  <div class="row">
+    <div class="section section-recent-assets span6">
+      <h3 class="headline">Recent Assets</h3>
+      
+      <table class="table table-condensed" data-ng-show="state.assets.loading || model.recentAssets.length > 0">
+        <thead>
+          <tr>
+            <th class="date">Date</th>
+            <th class="name">Title</th>
+            <th class="name">Creator</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-ng-repeat="asset in model.recentAssets" class="asset"
+            data-fadein="asset.added">
+            <!-- Date -->
+            <td>
+              <span class="date">{{asset.created | date:'medium'}}</span>
+            </td>
+            <!-- Title -->
+            <td>
+              <span class="name">{{asset.title}}</span>
+            </td>
+            <!-- Creator -->
+            <td>
+              <span class="name">{{asset.creator.fullName}}</span>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr data-ng-show="state.assets.loading">
+            <td colspan="3" style="text-align: center">
+              <span class="center">
+                <span data-spinner="state.assets.loading" data-spinner-class="table-spinner"></span>
+              </span>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+      <div data-ng-show="!state.assets.loading && model.recentAssets.length == 0">
+        <p class="center">You have no recent assets for this identity.</p>
+      </div>
+    </div>
+  
+    <div class="section section-recent-listings span6">
+      <h3 class="headline">Recent Listings</h3>
+      
+      <table class="table table-condensed" data-ng-show="state.listings.loading || model.recentListings.length > 0">
+        <thead>
+          <tr>
+            <th class="date">Date</th>
+            <th class="name">Title</th>
+            <th class="name">Creator</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-ng-repeat="asset in model.recentListings" class="listing"
+            data-fadein="asset.added">
+            <!-- Date -->
+            <td>
+              <span class="date">{{asset.created | date:'medium'}}</span>
+            </td>
+            <!-- Title -->
+            <td>
+              <span class="name">{{asset.title}}</span>
+            </td>
+            <!-- Creator -->
+            <td>
+              <span class="name">{{asset.creator.fullName}}</span>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr data-ng-show="state.listings.loading">
+            <td colspan="3" style="text-align: center">
+              <span class="center">
+                <span data-spinner="state.listings.loading" data-spinner-class="table-spinner"></span>
+              </span>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+      <div data-ng-show="!state.listings.loading && model.recentListings.length == 0">
+        <p class="center">You have no recent listings for this identity.</p>
+      </div>
+    </div>
+  </div>
 
 </div>
 {{/verbatim}}

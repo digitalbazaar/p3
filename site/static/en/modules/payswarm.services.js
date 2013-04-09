@@ -1416,7 +1416,7 @@ angular.module('payswarm.services')
   var identity = svcIdentity.identity;
   var expires = 0;
   var maxAge = 1000*60*2;
-  service.recentTxns = [];
+  service.recentAssets = [];
   service.state = {
     loading: false
   };
@@ -1425,9 +1425,10 @@ angular.module('payswarm.services')
    * Gets the hosted assets for an identity.
    *
    * @param options the options to use:
+   *          [storage] an array to update w/the assets.
    *          [delay] a timeout to wait before fetching assets.
    *          [createdStart] the creation start date.
-   *          [account] the account.
+   *          [keywords] any keywords to do the look up by.
    *          [previous] the previous asset (for pagination).
    *          [limit] the maximum number of assets to get.
    */
@@ -1441,21 +1442,19 @@ angular.module('payswarm.services')
 
     service.state.loading = true;
     $timeout(function() {
-      payswarm.transactions.get({
+      payswarm.hosted.assets.get({
         identity: identity.id,
         createdStart: options.createdStart || undefined,
-        account: options.account || undefined,
+        keywords: options.keywords || undefined,
         previous: options.previous || undefined,
         limit: options.limit || undefined,
-        success: function(txns) {
-          var account = options.account || null;
-          if(!(account in service.accounts)) {
-            service.accounts[account] = [];
+        success: function(assets) {
+          if(options.storage) {
+            _replaceArray(options.storage, assets);
           }
-          _replaceArray(service.accounts[account], txns);
           expires = +new Date() + maxAge;
           service.state.loading = false;
-          callback(null, txns);
+          callback(null, options.storage || assets);
           $rootScope.$apply();
         },
         error: function(err) {
@@ -1467,7 +1466,7 @@ angular.module('payswarm.services')
     }, options.delay || 0);
   };
 
-  // get all recent transactions for an identity
+  // get all recent hosted assets for an identity
   service.getRecent = function(options, callback) {
     if(typeof options === 'function') {
       callback = options;
@@ -1479,23 +1478,15 @@ angular.module('payswarm.services')
     if(options.force || +new Date() >= expires) {
       service.state.loading = true;
       $timeout(function() {
-        payswarm.transactions.get({
+        payswarm.hosted.assets.get({
           // FIXME: make date ordering explicit
           identity: identity.id,
           limit: 10,
-          success: function(txns) {
-            var recent = [];
-            angular.forEach(txns, function(txn) {
-              // skip txns w/insufficent funds
-              if(!(txn.voided &&
-                txn.voidReason === 'payswarm.financial.InsufficientFunds')) {
-                recent.push(txn);
-              }
-            });
-            _replaceArray(service.recentTxns, recent);
+          success: function(assets) {
+            _replaceArray(service.recentAssets, assets);
             expires = +new Date() + maxAge;
             service.state.loading = false;
-            callback(null, service.recentTxns);
+            callback(null, service.recentAssets);
             $rootScope.$apply();
           },
           error: function(err) {
@@ -1508,27 +1499,105 @@ angular.module('payswarm.services')
     }
     else {
       $timeout(function() {
-        callback(null, service.recentTxns);
+        callback(null, service.recentAssets);
       });
     }
   };
 
-  // get string for type of transaction
-  service.getType = function(txn) {
-    if(txn.type.indexOf('Deposit') !== -1) {
-      return 'deposit';
+  return service;
+})
+.factory('svcHostedListing', function($timeout, $rootScope, svcIdentity) {
+  // hosted listing service
+  var service = {};
+
+  var identity = svcIdentity.identity;
+  var expires = 0;
+  var maxAge = 1000*60*2;
+  service.recentListings = [];
+  service.state = {
+    loading: false
+  };
+
+  /**
+   * Gets the hosted listings for an identity.
+   *
+   * @param options the options to use:
+   *          [storage] an array to update w/the assets.
+   *          [delay] a timeout to wait before fetching listings.
+   *          [createdStart] the creation start date.
+   *          [keywords] any keywords to do the look up by.
+   *          [previous] the previous listing (for pagination).
+   *          [limit] the maximum number of listings to get.
+   */
+  service.get = function(options, callback) {
+    if(typeof options === 'function') {
+      callback = options;
+      options = {};
     }
-    else if(txn.type.indexOf('Contract') !== -1) {
-      return 'contract';
+    options = options || {};
+    callback = callback || angular.noop;
+
+    service.state.loading = true;
+    $timeout(function() {
+      payswarm.hosted.listings.get({
+        identity: identity.id,
+        createdStart: options.createdStart || undefined,
+        keywords: options.keywords || undefined,
+        previous: options.previous || undefined,
+        limit: options.limit || undefined,
+        success: function(listings) {
+          if(options.storage) {
+            _replaceArray(options.storage, listings);
+          }
+          expires = +new Date() + maxAge;
+          service.state.loading = false;
+          callback(null, options.storage || listings);
+          $rootScope.$apply();
+        },
+        error: function(err) {
+          service.state.loading = false;
+          callback(err);
+          $rootScope.$apply();
+        }
+      });
+    }, options.delay || 0);
+  };
+
+  // get all recent hosted listings for an identity
+  service.getRecent = function(options, callback) {
+    if(typeof options === 'function') {
+      callback = options;
+      options = {};
     }
-    else if(txn.type.indexOf('Transfer') !== -1) {
-      return 'transfer';
-    }
-    else if(txn.type.indexOf('Withdrawal') !== -1) {
-      return 'withdrawal';
+    options = options || {};
+    callback = callback || angular.noop;
+
+    if(options.force || +new Date() >= expires) {
+      service.state.loading = true;
+      $timeout(function() {
+        payswarm.hosted.listings.get({
+          // FIXME: make date ordering explicit
+          identity: identity.id,
+          limit: 10,
+          success: function(listings) {
+            _replaceArray(service.recentListings, listings);
+            expires = +new Date() + maxAge;
+            service.state.loading = false;
+            callback(null, service.recentListings);
+            $rootScope.$apply();
+          },
+          error: function(err) {
+            service.state.loading = false;
+            callback(err);
+            $rootScope.$apply();
+          }
+        });
+      }, options.delay || 0);
     }
     else {
-      return 'error';
+      $timeout(function() {
+        callback(null, service.recentListings);
+      });
     }
   };
 
@@ -1595,9 +1664,7 @@ angular.module('payswarm.services')
           svcTemplateCache.get(options.templateUrl, function(err, data) {
             // create modal when visible is true, destroy when false
             var modal = null;
-            var prev = null;
             scope.$watch('visible', function(value) {
-              prev = value;
               if(value) {
                 modal = createModal(options, scope, attrs, transcludeLinker);
               }

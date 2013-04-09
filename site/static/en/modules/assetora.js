@@ -7,11 +7,19 @@
 
 var module = angular.module('payswarm');
 
-module.controller('AssetoraCtrl', function($scope) {
+module.controller('AssetoraCtrl', function(
+  $scope, svcHostedAsset, svcHostedListing) {
   $scope.model = {};
   // FIXME: globalize window.data access
   var data = window.data || {};
   $scope.identity = data.identity;
+  $scope.model.recentAssets = svcHostedAsset.recentAssets;
+  $scope.model.recentListings = svcHostedListing.recentListings;
+  $scope.state = {
+    assets: svcHostedAsset.state,
+    listings: svcHostedListing.state
+  };
+  $scope.model.search = {input: '', results: []};
   $scope.modals = {
     showEditAsset: false,
     showAddAsset: false,
@@ -60,9 +68,27 @@ module.controller('AssetoraCtrl', function($scope) {
     }
     $scope.listingToDelete = null;
   };
+  $scope.search = function(input, state, callback) {
+    // FIXME: remove me
+    console.log('search', input, state);
 
-  //svcAsset.get({force: true});
-  //svcListing.get({force: true});
+    // search listings for input as keywords
+    svcHostedListing.get({
+      storage: $scope.model.search.results,
+      keywords: $scope.model.search.input
+    }, function(err) {
+      if(err) {
+        state.error = err;
+      }
+      else {
+        state.error = null;
+      }
+      callback();
+    });
+  };
+
+  svcHostedAsset.getRecent({force: true});
+  svcHostedListing.getRecent({force: true});
 });
 
 })();

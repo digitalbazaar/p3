@@ -1409,7 +1409,8 @@ angular.module('payswarm.services')
 
   return service;
 })
-.factory('svcHostedAsset', function($timeout, $rootScope, svcIdentity) {
+.factory('svcHostedAsset', function(
+  $timeout, $rootScope, svcIdentity, svcHostedListing) {
   // hosted asset service
   var service = {};
 
@@ -1502,6 +1503,82 @@ angular.module('payswarm.services')
         callback(null, service.recentAssets);
       });
     }
+  };
+
+  // get a single asset
+  service.getOne = function(assetId, options, callback) {
+    if(typeof options === 'function') {
+      callback = options;
+      options = {};
+    }
+    options = options || {};
+    callback = callback || angular.noop;
+
+    service.state.loading = true;
+    $timeout(function() {
+      payswarm.hosted.assets.getOne({
+        asset: assetId,
+        success: function(asset) {
+          if(options.storage) {
+            _replaceInArray(options.storage, asset);
+          }
+          service.state.loading = false;
+          callback(null, asset);
+          $rootScope.$apply();
+        },
+        error: function(err) {
+          service.state.loading = false;
+          callback(err);
+          $rootScope.$apply();
+        }
+      });
+    }, options.delay || 0);
+  };
+
+  // add a new asset
+  service.add = function(asset, callback) {
+    callback = callback || angular.noop;
+    service.state.loading = true;
+    payswarm.hosted.assets.add({
+      identity: identity.id,
+      asset: asset,
+      success: function(asset) {
+        if(options.storage) {
+          options.storage.push(asset);
+        }
+        service.getRecent({force: true}, function() {
+          callback(null, asset);
+          $rootScope.$apply();
+        });
+      },
+      error: function(err) {
+        service.state.loading = false;
+        callback(err);
+        $rootScope.$apply();
+      }
+    });
+  };
+
+  // update an asset
+  service.update = function(asset, callback) {
+    service.state.loading = true;
+    payswarm.hosted.assets.update({
+      identity: identity.id,
+      asset: asset,
+      success: function() {
+        service.getRecent({force: true}, function() {
+          svcHostedListing.getRecent({force: true}, function() {
+            // get asset
+            service.getOne(asset.id, callback);
+          });
+        });
+      },
+      error: function(err) {
+        service.state.loading = false;
+        callback(err);
+        $rootScope.$apply();
+      }
+    });
   };
 
   return service;
@@ -1599,6 +1676,80 @@ angular.module('payswarm.services')
         callback(null, service.recentListings);
       });
     }
+  };
+
+  // get a single listing
+  service.getOne = function(listingId, options, callback) {
+    if(typeof options === 'function') {
+      callback = options;
+      options = {};
+    }
+    options = options || {};
+    callback = callback || angular.noop;
+
+    service.state.loading = true;
+    $timeout(function() {
+      payswarm.hosted.listings.getOne({
+        listing: listingId,
+        success: function(listing) {
+          if(options.storage) {
+            _replaceInArray(options.storage, listing);
+          }
+          service.state.loading = false;
+          callback(null, listing);
+          $rootScope.$apply();
+        },
+        error: function(err) {
+          service.state.loading = false;
+          callback(err);
+          $rootScope.$apply();
+        }
+      });
+    }, options.delay || 0);
+  };
+
+  // add a new listing
+  service.add = function(listing, callback) {
+    callback = callback || angular.noop;
+    service.state.loading = true;
+    payswarm.hosted.listings.add({
+      identity: identity.id,
+      listing: listing,
+      success: function(listing) {
+        if(options.storage) {
+          options.storage.push(listing);
+        }
+        service.getRecent({force: true}, function() {
+          callback(null, listing);
+          $rootScope.$apply();
+        });
+      },
+      error: function(err) {
+        service.state.loading = false;
+        callback(err);
+        $rootScope.$apply();
+      }
+    });
+  };
+
+  // update a listing
+  service.update = function(listing, callback) {
+    service.state.loading = true;
+    payswarm.hosted.listings.update({
+      identity: identity.id,
+      listing: listing,
+      success: function() {
+        service.getRecent({force: true}, function() {
+          // get listing
+          service.getOne(listing.id, callback);
+        });
+      },
+      error: function(err) {
+        service.state.loading = false;
+        callback(err);
+        $rootScope.$apply();
+      }
+    });
   };
 
   return service;

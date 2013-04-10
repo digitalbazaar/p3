@@ -2013,6 +2013,88 @@ angular.module('payswarm.directives')
     link: Link
   });
 })
+.directive('modalAddListing', function(svcModal) {
+  function Ctrl($scope, svcHostedAsset, svcHostedListing) {
+    // FIXME: use root/global data, move over to model
+    $scope.data = window.data || {};
+    $scope.identity = data.identity || {};
+    $scope.feedback = {};
+
+    $scope.model = {};
+    $scope.model.loading = false;
+    $scope.model.asset = {
+      '@context': 'https://w3id.org/payswarm/v1'
+    };
+    $scope.model.listing = {
+      '@context': 'https://w3id.org/payswarm/v1'
+    };
+    $scope.model.destination = null;
+
+    $scope.addListing = function() {
+      // FIXME: add more asset details
+      var asset = $scope.model.asset;
+      asset.type = 'Asset';
+      asset.creator = {fullName: 'My Full Name'};
+      asset.created = window.iso8601.w3cDate();
+      asset.vendor = $scope.identity.id;
+      asset.assetProvider = $scope.identity.id;
+      asset.listingRestrictions = {vendor: $scope.identity.id};
+
+      // FIXME: add more listing details
+      var listing = $scope.model.listing;
+      listing.type = ['Listing', 'gr:Offering'];
+      listing.vendor = $scope.identity.id;
+      listing.payee = [{
+        type: 'Payee',
+        destination: $scope.model.destination,
+        currency: 'USD',
+        payeeGroup: ['vendor'],
+        payeeRate: $scope.model.total,
+        payeeRateType: 'FlatAmount',
+        payeeApplyType: 'ApplyExclusively',
+        comment: 'Price for ' + asset.title
+      }];
+      listing.payeeRule = [{
+        type: 'PayeeRule',
+        payeeGroupPrefix: ['authority'],
+        maximumPayeeRate: '2.0000000000',
+        payeeRateType: 'Percentage',
+        payeeApplyType: 'ApplyInclusively'
+      }];
+      // FIXME: make configurable, provide combo box options and for
+      // advanced users, provide custom URL + use license caching service
+      // to get hash
+      listing.license = 'https://w3id.org/payswarm/licenses/blogging';
+      listing.licenseHahs = 'urn:sha256:' +
+        'd9dcfb7b3ba057df52b99f777747e8fe0fc598a3bb364e3d3eb529f90d58e1b9';
+
+      async.waterfall([
+        function(callback) {
+          svcHostedAsset.add($scope.model.asset, callback);
+        },
+        function(asset, callback) {
+          $scope.model.listing.asset = asset.id;
+          svcHostedListing.add($scope.model.listing, callback);
+        }
+      ], function(err, listing) {
+        $scope.loading = false;
+        if(!err) {
+          $scope.modal.close(null, listing);
+        }
+        $scope.feedback.error = err;
+      });
+    };
+  }
+
+  return svcModal.directive({
+    name: 'AddListing',
+    templateUrl: '/partials/modals/add-listing.html',
+    controller: Ctrl,
+    link: function(scope, element, attrs) {
+      scope.feedbackTarget = element;
+    }
+  });
+})
 .directive('modalRedeemPromoCode', function(svcModal, svcPromo) {
   function Ctrl($scope) {
     $scope.model = {};
@@ -2157,13 +2239,11 @@ angular.module('payswarm.directives')
             scope.$apply();
             return;
           }
-          console.log('input changed!');
 
           scope.change({
             input: scope.input,
             state: scope.state,
             callback: function() {
-              console.log('all done!');
               state.loading = false;
               scope.$apply();
             }

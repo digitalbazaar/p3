@@ -20,7 +20,7 @@ module.controller('AssetoraCtrl', function(
     listings: svcHostedListing.state
   };
   $scope.model.search = {input: '', results: []};
-  $scope.modals = {
+  $scope.model.modals = {
     showEditAsset: false,
     showAddAsset: false,
     showEditListing: false,

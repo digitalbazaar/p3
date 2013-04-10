@@ -39,10 +39,13 @@ ${set([
         </span>
         <span data-spinner="model.search.state.loading || state.assets.loading || state.listings.loading"
           data-spinner-class="append-btn-spinner"></span>
+        <button data-ng-show="!(model.search.state.loading || state.assets.loading || state.listings.loading)"
+          class="btn btn-success btn-add"
+          data-ng-click="model.modals.showAddListing=true"><i class="icon-plus icon-white"></i> Add Listing</button>
       </form>
     </div>
+    <div data-modal-add-listing="model.modals.showAddListing"></div>
   </div>
-  
   
   <div class="row">
     <div class="section section-recent-assets span6">

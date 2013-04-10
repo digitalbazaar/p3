@@ -1,6 +1,6 @@
 {
   "name": "payswarm-auth",
-  "version": "0.14.19",
+  "version": "0.14.20",
   "private": true,
   "scripts": {
     "start": "node index.js",

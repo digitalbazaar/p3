@@ -279,6 +279,20 @@
         }
       }
     },
+    "http-signature": {
+      "version": "0.9.11",
+      "dependencies": {
+        "assert-plus": {
+          "version": "0.1.2"
+        },
+        "asn1": {
+          "version": "0.1.11"
+        },
+        "ctype": {
+          "version": "0.5.2"
+        }
+      }
+    },
     "i18n": {
       "version": "0.3.9"
     },

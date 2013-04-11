@@ -9,7 +9,7 @@ More info is available at http://payswarm.com/wiki/Demo_Warning.
 *** NOTE ***
 
 {% endif -%}
-Your {% if withdrawal.destination.bankAccount %}bank account{% else %}account{% endif %} has been credited with ${{amount}} USD. 
+Your {% if withdrawal.destination.bankAccount %}bank account{% else %}account{% endif %} has been credited with ${{amount}} {{withdrawal.currency}}. 
 
 {%- if withdrawal.destination.bankAccount %}
 
@@ -26,10 +26,10 @@ Source:
 Destination:
 {% if withdrawal.destination.bankAccount %} Routing: {{withdrawal.destination.bankRoutingNumber}}
  Account: {{withdrawal.destination.bankAccount}}
-{% endif %} Credit:  ${{amount}} USD
+{% endif %} Credit:  ${{amount}} {{withdrawal.currency}}
 Withdrawal Details*:
 {%- for transfer in withdrawal.transfer %}
- {{transfer.comment}}: ${{transfer.amount}} USD
+ {{transfer.comment}}: ${{transfer.amount}} {{transfer.currency}}
 {%- endfor %}
 
 You can view your latest financial activity on your account activity page.

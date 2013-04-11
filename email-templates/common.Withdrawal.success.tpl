@@ -1,11 +1,14 @@
 To: withdrawals@{{supportDomain}}
 From: cluster@{{supportDomain}}
-Subject: {{subjectPrefix}}{{serviceName}} {{stage}} withdrawal: USD ${{amount}} ({{withdrawal.id}})
+Subject: {{subjectPrefix}}{{serviceName}} {{stage}} withdrawal: {{withdrawal.currency}} ${{amount}} ({{withdrawal.id}})
 
-Machine:        {{machine}}
-Transaction ID: {{withdrawal.id}}
-Date:           {{withdrawal.created}}
-Credit:         USD ${{amount}}
+Machine:         {{machine}}
+Transaction ID:  {{withdrawal.id}}
+Date:            {{withdrawal.created}}
+Credit:          {{withdrawal.currency}} ${{amount}}
+Requestor ID:    {{profile.id}}
+Requestor Email: {{profile.email}}
+Requestor Label: {{profile.label}}
 
 {% if headers %}
 ============================== HTTP Headers ================================

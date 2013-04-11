@@ -1,6 +1,6 @@
 {
   "name": "payswarm-auth",
-  "version": "0.14.19",
+  "version": "0.14.20",
   "private": true,
   "scripts": {
     "start": "node index.js",
@@ -22,6 +22,7 @@
     "cube": "~0.2.0",
     "emailjs": "git://github.com/digitalbazaar/emailjs.git",
     "express": "~3.0.0",
+    "http-signature": "~0.9.11",
     "i18n": "~0.3.5",
     "jqtpl": "~1.1.0",
     "jsdom": "~0.5.0",
@@ -47,8 +48,8 @@
     "winston-mail": "~0.2.1"
   },
   "devDependencies": {
+    "mocha": "~1.9.0",
     "payswarm": "git://github.com/digitalbazaar/payswarm.js.git",
-    "mocha": "~1.8.1",
     "should": "~1.2.2",
     "visionmedia-jscoverage": "~1.0.0"
   },

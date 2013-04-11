@@ -2,16 +2,16 @@ To: contracts@{{supportDomain}}
 From: cluster@{{supportDomain}}
 Subject: {{subjectPrefix}}{{serviceName}} Purchase for "{{contract.asset.title}}" from {{contract.assetProvider.label}}
 
-Asset:          {{contract.asset.id}}
-Title:          {{contract.asset.title}}
-Content:        {{contract.asset.assetContent}}
-Amount:         {{contract.currency}} ${{contract.amount}}
-Date:           {{contract.created}}
-Buyer:          {{contract.assetAcquirer.id}}
-Provider:       {{contract.assetProvider.id}}
-Vendor:         {{contract.vendor.id}}
-Transaction ID: {{contract.id}}
 Machine:        {{machine}}
+Transaction ID: {{contract.id}}
+Date:           {{contract.created}}
+Amount:         {{contract.currency}} ${{contract.amount}}
+Asset ID:       {{contract.asset.id}}
+Asset Title:    {{contract.asset.title}}
+Asset Content:  {{contract.asset.assetContent}}
+Acquirer ID:    {{contract.assetAcquirer.id}}
+Provider ID:    {{contract.assetProvider.id}}
+Vendor ID:      {{contract.vendor.id}}
 
 ================================ Contract ===================================
 {{toJson(contract)}}

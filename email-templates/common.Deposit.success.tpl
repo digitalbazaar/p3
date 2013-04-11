@@ -1,11 +1,14 @@
 To: deposits@{{supportDomain}}
 From: cluster@{{supportDomain}}
-Subject: {{subjectPrefix}}{{serviceName}} {{stage}} deposit: USD ${{deposit.amount}} ({{deposit.id}})
+Subject: {{subjectPrefix}}{{serviceName}} {{stage}} deposit: {{deposit.currency}} ${{deposit.amount}} ({{deposit.id}})
 
-Machine:        {{machine}}
-Transaction ID: {{deposit.id}}
-Date:           {{deposit.created}}
-Charge:         USD ${{deposit.amount}}
+Machine:         {{machine}}
+Transaction ID:  {{deposit.id}}
+Date:            {{deposit.created}}
+Charge:          {{deposit.currency}} ${{deposit.amount}}
+Requestor:       {{profile.id}}
+Requestor Email: {{profile.email}}
+Requestor Label: {{profile.label}}
 
 {% if headers %}
 ============================== HTTP Headers ================================

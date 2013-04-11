@@ -12,7 +12,7 @@
     "coverage": "rm -rf lib-cov; ./node_modules/visionmedia-jscoverage/jscoverage lib lib-cov && PAYSWARM_AUTH_COV=1 node test.js > coverage.html && rm -rf lib-cov"
   },
   "dependencies": {
-    "async": "~0.1.22",
+    "async": "~0.2.7",
     "bcrypt": "~0.7.2",
     "bignumber.js": "~1.0.0",
     "bossgeo": "~0.0.6",

@@ -1,4 +1,11 @@
+var jsonldContext = require('./jsonldContext');
+var jsonldType = require('./jsonldType');
+var payee = require('./payee');
+var payeeRule = require('./payeeRule');
 var payswarmId = require('./payswarmId');
+var url = require('./url');
+var vendor = require('./vendor');
+var w3cDateTime = require('./w3cDateTime');
 
 var getListingsQuery = {
   type: 'object',
@@ -36,6 +43,63 @@ var getListingsQuery = {
   additionalProperties: true
 };
 
+var postListings = {
+  title: 'Create Listing',
+  description: 'Contains all of the details required to create a new Listing.',
+  type: 'object',
+  properties: {
+    '@context': jsonldContext(),
+    // allow up to 4 additional custom types
+    type: jsonldType('Listing', 4),
+    vendor: vendor(),
+    payee: payee({required: false}),
+    payeeRule: payeeRule({required: false}),
+    asset: url(),
+    assetHash: {
+      required: false,
+      type: 'string'
+    },
+    license: url(),
+    licenseHash: {
+      required: true,
+      type: 'string'
+    }
+  },
+  additionalProperties: false
+};
+
+var postListing = {
+  title: 'Edit Listing',
+  description: 'Contains all of the details required to edit a Listing.',
+  type: 'object',
+  properties: {
+    '@context': jsonldContext(),
+    // allow up to 4 additional custom types
+    type: jsonldType('Listing', 4),
+    vendor: vendor(),
+    payee: payee({required: false}),
+    payeeRule: payeeRule({required: false}),
+    asset: url(),
+    assetHash: {
+      required: false,
+      type: 'string'
+    },
+    license: url(),
+    licenseHash: {
+      required: true,
+      type: 'string'
+    },
+    psaPublished: w3cDateTime({required: false})
+  },
+  additionalProperties: false
+};
+
 module.exports.getListingsQuery = function() {
   return getListingsQuery;
+};
+module.exports.postListings = function() {
+  return postListings;
+};
+module.exports.postListing = function() {
+  return postListing;
 };

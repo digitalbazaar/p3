@@ -1536,8 +1536,14 @@ angular.module('payswarm.services')
   };
 
   // add a new asset
-  service.add = function(asset, callback) {
+  service.add = function(asset, options, callback) {
+    if(typeof options === 'function') {
+      callback = options;
+      options = {};
+    }
+    options = options || {};
     callback = callback || angular.noop;
+
     service.state.loading = true;
     payswarm.hosted.assets.add({
       identity: identity.id,
@@ -1709,8 +1715,14 @@ angular.module('payswarm.services')
   };
 
   // add a new listing
-  service.add = function(listing, callback) {
+  service.add = function(listing, options, callback) {
+    if(typeof options === 'function') {
+      callback = options;
+      options = {};
+    }
+    options = options || {};
     callback = callback || angular.noop;
+
     service.state.loading = true;
     payswarm.hosted.listings.add({
       identity: identity.id,

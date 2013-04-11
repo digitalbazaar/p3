@@ -2023,7 +2023,9 @@ angular.module('payswarm.directives')
     $scope.model = {};
     $scope.model.loading = false;
     $scope.model.asset = {
-      '@context': 'https://w3id.org/payswarm/v1'
+      '@context': 'https://w3id.org/payswarm/v1',
+      // FIXME: remove me
+      title: 'TITLE'
     };
     $scope.model.listing = {
       '@context': 'https://w3id.org/payswarm/v1'
@@ -2032,24 +2034,25 @@ angular.module('payswarm.directives')
 
     $scope.addListing = function() {
       // FIXME: add more asset details
+      // FIXME: remove test data
       var asset = $scope.model.asset;
       asset.type = 'Asset';
       asset.creator = {fullName: 'My Full Name'};
       asset.created = window.iso8601.w3cDate();
-      asset.vendor = $scope.identity.id;
-      asset.assetProvider = $scope.identity.id;
-      asset.listingRestrictions = {vendor: $scope.identity.id};
+      asset.assetProvider = $scope.identity;
+      asset.listingRestrictions = {vendor: $scope.identity};
 
       // FIXME: add more listing details
+      // FIXME: remove test data
       var listing = $scope.model.listing;
       listing.type = ['Listing', 'gr:Offering'];
-      listing.vendor = $scope.identity.id;
+      listing.vendor = $scope.identity;
       listing.payee = [{
         type: 'Payee',
-        destination: $scope.model.destination,
+        destination: $scope.model.destination.id,
         currency: 'USD',
         payeeGroup: ['vendor'],
-        payeeRate: $scope.model.total,
+        payeeRate: '0.05', //$scope.model.total,
         payeeRateType: 'FlatAmount',
         payeeApplyType: 'ApplyExclusively',
         comment: 'Price for ' + asset.title
@@ -2065,16 +2068,18 @@ angular.module('payswarm.directives')
       // advanced users, provide custom URL + use license caching service
       // to get hash
       listing.license = 'https://w3id.org/payswarm/licenses/blogging';
-      listing.licenseHahs = 'urn:sha256:' +
+      listing.licenseHash = 'urn:sha256:' +
         'd9dcfb7b3ba057df52b99f777747e8fe0fc598a3bb364e3d3eb529f90d58e1b9';
 
       async.waterfall([
         function(callback) {
-          svcHostedAsset.add($scope.model.asset, callback);
+          console.log('asset', asset);
+          console.log('listing', listing);
+          svcHostedAsset.add(asset, callback);
         },
         function(asset, callback) {
-          $scope.model.listing.asset = asset.id;
-          svcHostedListing.add($scope.model.listing, callback);
+          listing.asset = asset.id;
+          svcHostedListing.add(listing, callback);
         }
       ], function(err, listing) {
         $scope.loading = false;

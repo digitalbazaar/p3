@@ -12,7 +12,7 @@ var schema = {
   items: {
     type: 'object',
     properties: {
-      id: payswarmId(),
+      id: payswarmId({required: false}),
       type: jsonldType('PayeeRule'),
       payeeGroupPrefix: {
         required: false,

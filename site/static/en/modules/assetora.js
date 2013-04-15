@@ -70,6 +70,14 @@ module.controller('AssetoraCtrl', function(
     $scope.listingToDelete = null;
   };
   $scope.search = function(input, state, callback) {
+    if(input.length === 0) {
+      $scope.model.search.assets.splice(
+        0, $scope.model.search.assets.length);
+      $scope.model.search.listings.splice(
+        0, $scope.model.search.listings.length);
+      return;
+    }
+
     // FIXME: remove me
     console.log('search', input, state);
 

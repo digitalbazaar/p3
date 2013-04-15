@@ -2261,6 +2261,13 @@ angular.module('payswarm.directives')
         // nothing to check
         if(value === undefined || value.length === 0) {
           state.loading = false;
+          scope.change({
+            input: '',
+            state: scope.state,
+            callback: function() {
+              scope.$apply();
+            }
+          });
           return;
         }
 

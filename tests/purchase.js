@@ -15,6 +15,8 @@ var sprintf = require('sprintf').sprintf;
 var util = require('util');
 var winston = require('winston');
 
+var strictSSL = false;
+
 function LoadTester() {
   events.EventEmitter.call(this);
   this.stats = {
@@ -344,7 +346,8 @@ function _createVendorProfile(self, vendorProfiles, callback) {
       // create the profile
       request.post({
           url: config.target + '/test/profile/create',
-          json: profileTemplate
+          json: profileTemplate,
+          strictSSL: strictSSL
         },
         function(err, response, body) {
           if(!err && response.statusCode >= 400) {
@@ -415,7 +418,8 @@ function _createBuyerProfile(self, buyerProfiles, callback) {
       // create the profile
       request.post({
         url: config.target + '/test/profile/create',
-        json: profileTemplate
+        json: profileTemplate,
+        strictSSL: strictSSL
       }, function(err, response, body) {
         if(!err && response.statusCode >= 400) {
           err = JSON.stringify(body, null, 2);
@@ -471,7 +475,7 @@ function _createListing(self, vendorProfiles, listings, callback) {
     function(callback) {
       // generate the asset
       var asset = {
-        '@context': payswarm.createDefaultJsonLdContext(),
+        '@context': payswarm.CONTEXT,
         id: assetId,
         type: ['Asset', 'pto:WebPage'],
         creator: {
@@ -500,7 +504,7 @@ function _createListing(self, vendorProfiles, listings, callback) {
 
       // generate the listing
       var listing = {
-        '@context': payswarm.createDefaultJsonLdContext(),
+        '@context': payswarm.CONTEXT,
         id: listingId,
         type: ['Listing', 'gr:Offering'],
         vendor: vendor.identity.id,
@@ -549,7 +553,8 @@ function _createListing(self, vendorProfiles, listings, callback) {
       request.post({
         headers: {'content-type': 'application/ld+json'},
         url: signedListing.id.split('#')[0],
-        body: JSON.stringify(assetAndListing, null, 2)
+        body: JSON.stringify(assetAndListing, null, 2),
+        strictSSL: strictSSL
       }, function(err, response, body) {
         if(!err && response.statusCode >= 400) {
           err = JSON.stringify(body, null, 2);
@@ -569,7 +574,7 @@ function _createListing(self, vendorProfiles, listings, callback) {
     },
     function(signedListing, callback) {
       // generate the listing hash and store it for later use
-      signedListing['@context'] = payswarm.createDefaultJsonLdContext();
+      signedListing['@context'] = payswarm.CONTEXT;
       payswarm.hash(signedListing, function(err, hash) {
         if(err) {
           return callback(err);
@@ -610,7 +615,7 @@ function _purchaseAsset(self, buyers, listings, callback) {
 
   // build the purchase request
   var purchaseRequest = {
-    '@context': payswarm.createDefaultJsonLdContext(),
+    '@context': payswarm.CONTEXT,
     type: 'PurchaseRequest',
     identity: buyer.identity.id,
     listing: listing.id,
@@ -631,7 +636,8 @@ function _purchaseAsset(self, buyers, listings, callback) {
     signedRequest['@context'] = 'https://w3id.org/payswarm/v1';
     request.post({
       url: config.target + '/transactions',
-      json: signedRequest
+      json: signedRequest,
+      strictSSL: strictSSL
     }, function(err, response, body) {
       if(!err && response.statusCode >= 400) {
         err = JSON.stringify(body, null, 2);

@@ -2031,7 +2031,9 @@ angular.module('payswarm.directives')
       creator: {fullName: 'My Full Name'},
       assetProvider: $scope.identity,
       listingRestrictions: {vendor: $scope.identity},
-      assetContent: 'https://payswarm.com'
+      assetContent: 'https://payswarm.com',
+      // FIXME: figure out whether published flag is desirable
+      psaPublished: window.iso8601.w3cDate()
     };
 
     $scope.addAsset = function() {
@@ -2102,6 +2104,8 @@ angular.module('payswarm.directives')
       listing.license = 'https://w3id.org/payswarm/licenses/blogging';
       listing.licenseHash = 'urn:sha256:' +
         'd9dcfb7b3ba057df52b99f777747e8fe0fc598a3bb364e3d3eb529f90d58e1b9';
+      // FIXME: figure out whether published flag is desirable
+      listing.psaPublished = window.iso8601.w3cDate();
 
       async.waterfall([
         function(callback) {

@@ -1450,6 +1450,7 @@ angular.module('payswarm.services')
         previous: options.previous || undefined,
         limit: options.limit || undefined,
         success: function(assets) {
+          console.log('assets', assets);
           if(options.storage) {
             _replaceArray(options.storage, assets);
           }
@@ -1629,6 +1630,7 @@ angular.module('payswarm.services')
         previous: options.previous || undefined,
         limit: options.limit || undefined,
         success: function(listings) {
+          console.log('listings', listings);
           if(options.storage) {
             _replaceArray(options.storage, listings);
           }

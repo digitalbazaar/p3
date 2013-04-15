@@ -70,7 +70,9 @@ var postAssets = {
         validFrom: w3cDateTime({required: false}),
         validUntil: w3cDateTime({required: false})
       }
-    }
+    },
+    // FIXME: is psaPublished desirable?
+    psaPublished: w3cDateTime({required: false})
   },
   additionalProperties: false
 };

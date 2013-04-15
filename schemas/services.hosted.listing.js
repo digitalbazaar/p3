@@ -63,7 +63,9 @@ var postListings = {
     licenseHash: {
       required: true,
       type: 'string'
-    }
+    },
+    // FIXME: is psaPublished desirable?
+    psaPublished: w3cDateTime({required: false})
   },
   additionalProperties: false
 };

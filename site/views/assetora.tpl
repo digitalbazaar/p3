@@ -44,9 +44,6 @@ ${set([
           data-ng-click="model.modals.showAddAsset=true"><i class="icon-plus icon-white"></i> Add Asset</button>
       </form>
     </div>
-    <div data-modal-add-asset="model.modals.showAddAsset"></div>
-    <div data-modal-add-listing="model.modals.showAddListing"
-      data-asset="model.currentAsset"></div>
   </div>
   
   <div class="row">
@@ -60,11 +57,12 @@ ${set([
             <th class="date">Date</th>
             <th class="name">Title</th>
             <th class="name">Creator</th>
+            <th class="action">Action</th>
           </tr>
         </thead>
         <tbody>
           <tr data-ng-repeat="asset in model.search.assets" class="asset"
-            data-fadein="asset.added">
+            data-fadein="asset.added" data-fadeout="asset.deleted">
             <!-- Date -->
             <td>
               <span class="date">{{asset.created | date:'medium'}}</span>
@@ -76,6 +74,32 @@ ${set([
             <!-- Creator -->
             <td>
               <span class="name">{{asset.creator.fullName}}</span>
+            </td>
+            <!-- Action -->
+            <td class="action">
+              <div class="btn-group">
+                <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
+                  <i class="icon-chevron-down"></i>
+                </a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a data-ng-click="model.modals.asset=asset; model.modals.showAddListing=true">
+                      <i class="icon-plus"></i> Add Listing
+                    </a>
+                  </li>
+                  <li>
+                    <a data-ng-click="model.modals.asset=asset; model.modals.showEditAsset=true">
+                      <i class="icon-pencil"></i> Edit
+                    </a>
+                  </li>
+                  <li class="divider"></li>
+                  <li class="btn-danger">
+                    <a data-ng-click="deleteAsset(asset)">
+                      <i class="icon-remove icon-white"></i> Delete
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </td>
           </tr>
         </tbody>
@@ -104,11 +128,12 @@ ${set([
             <th class="date">Date</th>
             <th class="name">Title</th>
             <th class="name">Creator</th>
+            <th class="action">Action</th>
           </tr>
         </thead>
         <tbody>
           <tr data-ng-repeat="listing in model.search.listings" class="listing"
-            data-fadein="listing.added">
+            data-fadein="listing.added" data-fadeout="listing.deleted">
             <!-- Date -->
             <td>
               <span class="date">{{listing.asset.created | date:'medium'}}</span>
@@ -120,6 +145,27 @@ ${set([
             <!-- Creator -->
             <td>
               <span class="name">{{listing.asset.creator.fullName}}</span>
+            </td>
+            <!-- Action -->
+            <td class="action">
+              <div class="btn-group">
+                <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
+                  <i class="icon-chevron-down"></i>
+                </a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a data-ng-click="model.modals.listing=listing; model.modals.showEditListing=true">
+                      <i class="icon-pencil"></i> Edit
+                    </a>
+                  </li>
+                  <li class="divider"></li>
+                  <li class="btn-danger">
+                    <a data-ng-click="deleteListing(listing)">
+                      <i class="icon-remove icon-white"></i> Delete
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </td>
           </tr>
         </tbody>
@@ -149,11 +195,12 @@ ${set([
             <th class="date">Date</th>
             <th class="name">Title</th>
             <th class="name">Creator</th>
+            <th class="action">Action</th>
           </tr>
         </thead>
         <tbody>
           <tr data-ng-repeat="asset in model.recentAssets" class="asset"
-            data-fadein="asset.added">
+            data-fadein="asset.added" data-fadeout="asset.deleted">
             <!-- Date -->
             <td>
               <span class="date">{{asset.created | date:'medium'}}</span>
@@ -165,6 +212,32 @@ ${set([
             <!-- Creator -->
             <td>
               <span class="name">{{asset.creator.fullName}}</span>
+            </td>
+            <!-- Action -->
+            <td class="action">
+              <div class="btn-group">
+                <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
+                  <i class="icon-chevron-down"></i>
+                </a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a data-ng-click="model.modals.asset=asset; model.modals.showAddListing=true">
+                      <i class="icon-plus"></i> Add Listing
+                    </a>
+                  </li>
+                  <li>
+                    <a data-ng-click="model.modals.asset=asset; model.modals.showEditAsset=true">
+                      <i class="icon-pencil"></i> Edit
+                    </a>
+                  </li>
+                  <li class="divider"></li>
+                  <li class="btn-danger">
+                    <a data-ng-click="deleteAsset(asset)">
+                      <i class="icon-remove icon-white"></i> Delete
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </td>
           </tr>
         </tbody>
@@ -192,11 +265,12 @@ ${set([
             <th class="date">Date</th>
             <th class="name">Title</th>
             <th class="name">Creator</th>
+            <th class="action">Action</th>
           </tr>
         </thead>
         <tbody>
           <tr data-ng-repeat="listing in model.recentListings" class="listing"
-            data-fadein="listing.added">
+            data-fadein="listing.added" data-fadeout="listing.deleted">
             <!-- Date -->
             <td>
               <span class="date">{{listing.asset.created | date:'medium'}}</span>
@@ -226,6 +300,35 @@ ${set([
       </div>
     </div>
   </div>
+  
+  <!-- Delete asset alert -->
+  <div data-modal-alert="showDeleteAssetAlert"
+    data-modal-header="Warning"
+    data-modal-ok="Delete"
+    data-modal-cancel="Cancel"
+    data-modal-on-close="confirmDeleteAsset(err, result)">
+    <div>
+      <p>Are you sure that you want to delete this asset?</p>
+      <div>FIXME: display asset</div>
+    </div>
+  </div>
+  
+  <!-- Delete listing alert -->
+  <div data-modal-alert="showDeleteListingAlert"
+    data-modal-header="Warning"
+    data-modal-ok="Delete"
+    data-modal-cancel="Cancel"
+    data-modal-on-close="confirmDeleteListing(err, result)">
+    <div>
+      <p>Are you sure that you want to delete this listing?</p>
+      <div>FIXME: display listing</div>
+    </div>
+  </div>
+
+  <!-- Modals -->  
+  <div data-modal-add-asset="model.modals.showAddAsset"></div>
+  <div data-modal-add-listing="model.modals.showAddListing"
+    data-asset="model.modals.asset"></div>
 
 </div>
 {{/verbatim}}

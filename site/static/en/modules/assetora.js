@@ -13,7 +13,6 @@ module.controller('AssetoraCtrl', function(
   // FIXME: globalize window.data access
   var data = window.data || {};
   $scope.identity = data.identity;
-  $scope.model.currentAsset = null;
   $scope.model.recentAssets = svcHostedAsset.recentAssets;
   $scope.model.recentListings = svcHostedListing.recentListings;
   $scope.state = {
@@ -22,6 +21,8 @@ module.controller('AssetoraCtrl', function(
   };
   $scope.model.search = {input: '', assets: [], listings: []};
   $scope.model.modals = {
+    asset: null,
+    listing: null,
     showEditAsset: false,
     showAddAsset: false,
     showEditListing: false,

@@ -2067,6 +2067,7 @@ angular.module('payswarm.directives')
 
     $scope.model = {};
     $scope.model.loading = false;
+    $scope.model.asset = $scope.asset;
     $scope.model.listing = {
       '@context': 'https://w3id.org/payswarm/v1'
     };

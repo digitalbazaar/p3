@@ -13,13 +13,14 @@ module.controller('AssetoraCtrl', function(
   // FIXME: globalize window.data access
   var data = window.data || {};
   $scope.identity = data.identity;
+  $scope.model.currentAsset = null;
   $scope.model.recentAssets = svcHostedAsset.recentAssets;
   $scope.model.recentListings = svcHostedListing.recentListings;
   $scope.state = {
     assets: svcHostedAsset.state,
     listings: svcHostedListing.state
   };
-  $scope.model.search = {input: '', results: []};
+  $scope.model.search = {input: '', assets: [], listings: []};
   $scope.model.modals = {
     showEditAsset: false,
     showAddAsset: false,
@@ -72,9 +73,25 @@ module.controller('AssetoraCtrl', function(
     // FIXME: remove me
     console.log('search', input, state);
 
+    // FIXME: have toggle for searching assets vs. listings, kinda messy ...
+    // would be better to just have search results return assets and listings
+    // together?
+
     // search listings for input as keywords
+    svcHostedAsset.get({
+      storage: $scope.model.search.assets,
+      keywords: $scope.model.search.input
+    }, function(err) {
+      if(err) {
+        state.error = err;
+      }
+      else {
+        state.error = null;
+      }
+      callback();
+    });
     svcHostedListing.get({
-      storage: $scope.model.search.results,
+      storage: $scope.model.search.listings,
       keywords: $scope.model.search.input
     }, function(err) {
       if(err) {

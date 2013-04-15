@@ -1,0 +1,43 @@
+<form class="well form-horizontal" action="">
+  <fieldset>
+    <div class="control-group" data-binding="assetContent">
+      <label class="control-label" for="assetContent">Asset Content URL</label>
+      <div class="controls">
+        <div class="input-prepend input-append">
+          <span class="add-on"><i class="icon-tag"></i></span><input
+            type="text" name="assetContent"
+            data-ng-model="model.asset.assetContent"
+            data-track-state="model.help.assetContent" />
+          <button class="btn" data-help-toggle="model.help.assetContent">
+            <i class="icon-question-sign"></i>
+          </button>
+        </div>
+        <p data-fade-toggle="model.help.assetContent.show" class="help-block">
+          Please enter the URL for the Asset content. This is the URL that
+          your customers will visit to see the content that they have
+          purchased.
+        </p>
+      </div>
+    </div>
+
+    <div class="control-group" data-binding="title">
+      <label class="control-label" for="title">Asset Title</label>
+      <div class="controls">
+        <div class="input-prepend input-append">
+          <span class="add-on"><i class="icon-tag"></i></span><input
+            type="text" name="title"
+            data-ng-model="model.asset.title"
+            data-track-state="model.help.title" />
+          <button class="btn" data-help-toggle="model.help.title">
+            <i class="icon-question-sign"></i>
+          </button>
+        </div>
+        <p data-fade-toggle="model.help.title.show" class="help-block">
+          Please enter the title for the Asset.
+          <br/><br/>
+          Suggestions: How to Bake Like a Boss, View From Atop Rainier
+        </p>
+      </div>
+    </div>
+  </fieldset>
+</form>

@@ -874,6 +874,7 @@ payswarm.hosted.assets = {};
  *   [createdStart]: new Date('2012-03-01'),
  *   [previous]: 'https://example.com/i/identity/assets/1.1.a',
  *   [limit]: 20,
+ *   [keywords]: 'The keywords to use',
  *   success: function(assets) {},
  *   error: function(err) {}
  * });
@@ -893,6 +894,9 @@ payswarm.hosted.assets.get = function(options) {
   }
   if(options.limit) {
     query.limit = options.limit;
+  }
+  if(options.keywords) {
+    query.keywords = options.keywords;
   }
 
   $.ajax({
@@ -1026,6 +1030,7 @@ payswarm.hosted.listings = {};
  *   [createdStart]: new Date('2012-03-01'),
  *   [previous]: 'https://example.com/i/identity/listings/1.1.a',
  *   [limit]: 20,
+ *   [keywords]: 'The keywords to use',
  *   success: function(listings) {},
  *   error: function(err) {}
  * });
@@ -1045,6 +1050,9 @@ payswarm.hosted.listings.get = function(options) {
   }
   if(options.limit) {
     query.limit = options.limit;
+  }
+  if(options.keywords) {
+    query.keywords = options.keywords;
   }
 
   $.ajax({

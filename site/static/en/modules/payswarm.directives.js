@@ -2013,8 +2013,8 @@ angular.module('payswarm.directives')
     link: Link
   });
 })
-.directive('modalAddListing', function(svcModal) {
-  function Ctrl($scope, svcHostedAsset, svcHostedListing) {
+.directive('modalAddAsset', function(svcModal) {
+  function Ctrl($scope, svcHostedAsset) {
     // FIXME: use root/global data, move over to model
     $scope.data = window.data || {};
     $scope.identity = data.identity || {};
@@ -2024,24 +2024,55 @@ angular.module('payswarm.directives')
     $scope.model.loading = false;
     $scope.model.asset = {
       '@context': 'https://w3id.org/payswarm/v1',
-      // FIXME: remove me
-      title: 'TITLE'
+      type: 'Asset',
+      // FIXME: add more asset details
+      // FIXME: remove test data
+      title: 'TITLE',
+      creator: {fullName: 'My Full Name'},
+      assetProvider: $scope.identity,
+      listingRestrictions: {vendor: $scope.identity},
+      assetContent: 'https://payswarm.com'
     };
+
+    $scope.addAsset = function() {
+      var asset = $scope.model.asset;
+      asset.created = window.iso8601.w3cDate();
+
+      console.log('asset', asset);
+      svcHostedAsset.add(asset, function(err, asset) {
+        $scope.loading = false;
+        if(!err) {
+          $scope.modal.close(null, asset);
+        }
+        $scope.feedback.error = err;
+      });
+    };
+  }
+
+  return svcModal.directive({
+    name: 'AddAsset',
+    templateUrl: '/partials/modals/add-asset.html',
+    controller: Ctrl,
+    link: function(scope, element, attrs) {
+      scope.feedbackTarget = element;
+    }
+  });
+})
+.directive('modalAddListing', function(svcModal) {
+  function Ctrl($scope, svcHostedAsset, svcHostedListing) {
+    // FIXME: use root/global data, move over to model
+    $scope.data = window.data || {};
+    $scope.identity = data.identity || {};
+    $scope.feedback = {};
+
+    $scope.model = {};
+    $scope.model.loading = false;
     $scope.model.listing = {
       '@context': 'https://w3id.org/payswarm/v1'
     };
     $scope.model.destination = null;
 
     $scope.addListing = function() {
-      // FIXME: add more asset details
-      // FIXME: remove test data
-      var asset = $scope.model.asset;
-      asset.type = 'Asset';
-      asset.creator = {fullName: 'My Full Name'};
-      asset.created = window.iso8601.w3cDate();
-      asset.assetProvider = $scope.identity;
-      asset.listingRestrictions = {vendor: $scope.identity};
-
       // FIXME: add more listing details
       // FIXME: remove test data
       var listing = $scope.model.listing;
@@ -2055,7 +2086,7 @@ angular.module('payswarm.directives')
         payeeRate: '0.05', //$scope.model.total,
         payeeRateType: 'FlatAmount',
         payeeApplyType: 'ApplyExclusively',
-        comment: 'Price for ' + asset.title
+        comment: 'Price for ' + $scope.asset.title
       }];
       listing.payeeRule = [{
         type: 'PayeeRule',
@@ -2073,12 +2104,8 @@ angular.module('payswarm.directives')
 
       async.waterfall([
         function(callback) {
-          console.log('asset', asset);
           console.log('listing', listing);
-          svcHostedAsset.add(asset, callback);
-        },
-        function(asset, callback) {
-          listing.asset = asset.id;
+          listing.asset = $scope.asset.id;
           svcHostedListing.add(listing, callback);
         }
       ], function(err, listing) {
@@ -2093,6 +2120,9 @@ angular.module('payswarm.directives')
 
   return svcModal.directive({
     name: 'AddListing',
+    scope: {
+      asset: '='
+    },
     templateUrl: '/partials/modals/add-listing.html',
     controller: Ctrl,
     link: function(scope, element, attrs) {

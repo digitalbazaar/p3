@@ -41,11 +41,103 @@ ${set([
           data-spinner-class="append-btn-spinner"></span>
         <button data-ng-show="!(model.search.state.loading || state.assets.loading || state.listings.loading)"
           class="btn btn-success btn-add"
-          data-ng-click="model.modals.showAddListing=true"><i class="icon-plus icon-white"></i> Add Listing</button>
+          data-ng-click="model.modals.showAddAsset=true"><i class="icon-plus icon-white"></i> Add Asset</button>
       </form>
     </div>
-    <div data-modal-add-listing="model.modals.showAddListing"></div>
+    <div data-modal-add-asset="model.modals.showAddAsset"></div>
+    <div data-modal-add-listing="model.modals.showAddListing"
+      data-asset="model.currentAsset"></div>
   </div>
+  
+  <div class="row">
+    <div class="section section-asset-search span6">
+      <h3 class="headline">Asset Search Results</h3>
+      
+      <table class="table table-condensed"
+        data-ng-show="!state.assets.loading && model.search.assets.length > 0">
+        <thead>
+          <tr>
+            <th class="date">Date</th>
+            <th class="name">Title</th>
+            <th class="name">Creator</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-ng-repeat="asset in model.search.assets" class="asset"
+            data-fadein="asset.added">
+            <!-- Date -->
+            <td>
+              <span class="date">{{asset.created | date:'medium'}}</span>
+            </td>
+            <!-- Title -->
+            <td>
+              <span class="name">{{asset.title}}</span>
+            </td>
+            <!-- Creator -->
+            <td>
+              <span class="name">{{asset.creator.fullName}}</span>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr data-ng-show="state.assets.loading">
+            <td colspan="3" style="text-align: center">
+              <span class="center">
+                <span data-spinner="state.assets.loading" data-spinner-class="table-spinner"></span>
+              </span>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+      <div data-ng-show="!state.assets.loading && model.search.assets.length == 0">
+        <p class="center">No matches.</p>
+      </div>
+    </div>
+  
+    <div class="section section-listing-search span6">
+      <h3 class="headline">Listing Search Results</h3>
+      
+      <table class="table table-condensed"
+        data-ng-show="!state.listings.loading && model.search.listings.length > 0">
+        <thead>
+          <tr>
+            <th class="date">Date</th>
+            <th class="name">Title</th>
+            <th class="name">Creator</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-ng-repeat="listing in model.search.listings" class="listing"
+            data-fadein="listing.added">
+            <!-- Date -->
+            <td>
+              <span class="date">{{listing.asset.created | date:'medium'}}</span>
+            </td>
+            <!-- Title -->
+            <td>
+              <span class="name">{{listing.asset.title}}</span>
+            </td>
+            <!-- Creator -->
+            <td>
+              <span class="name">{{listing.asset.creator.fullName}}</span>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr data-ng-show="state.listings.loading">
+            <td colspan="3" style="text-align: center">
+              <span class="center">
+                <span data-spinner="state.listings.loading" data-spinner-class="table-spinner"></span>
+              </span>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+      <div data-ng-show="!state.listings.loading && model.search.listings.length == 0">
+        <p class="center">No matches.</p>
+      </div>
+    </div>
+  </div>  
   
   <div class="row">
     <div class="section section-recent-assets span6">
@@ -103,19 +195,19 @@ ${set([
           </tr>
         </thead>
         <tbody>
-          <tr data-ng-repeat="asset in model.recentListings" class="listing"
-            data-fadein="asset.added">
+          <tr data-ng-repeat="listing in model.recentListings" class="listing"
+            data-fadein="listing.added">
             <!-- Date -->
             <td>
-              <span class="date">{{asset.created | date:'medium'}}</span>
+              <span class="date">{{listing.asset.created | date:'medium'}}</span>
             </td>
             <!-- Title -->
             <td>
-              <span class="name">{{asset.title}}</span>
+              <span class="name">{{listing.asset.title}}</span>
             </td>
             <!-- Creator -->
             <td>
-              <span class="name">{{asset.creator.fullName}}</span>
+              <span class="name">{{listing.asset.creator.fullName}}</span>
             </td>
           </tr>
         </tbody>

@@ -1450,7 +1450,6 @@ angular.module('payswarm.services')
         previous: options.previous || undefined,
         limit: options.limit || undefined,
         success: function(assets) {
-          console.log('assets', assets);
           if(options.storage) {
             _replaceArray(options.storage, assets);
           }
@@ -1612,6 +1611,8 @@ angular.module('payswarm.services')
    *          [keywords] any keywords to do the look up by.
    *          [previous] the previous listing (for pagination).
    *          [limit] the maximum number of listings to get.
+   *          [includeAsset] true if the asset information should be embedded
+   *            in any results, false if not (default: true).
    */
   service.get = function(options, callback) {
     if(typeof options === 'function') {
@@ -1629,8 +1630,8 @@ angular.module('payswarm.services')
         keywords: options.keywords || undefined,
         previous: options.previous || undefined,
         limit: options.limit || undefined,
+        includeAsset: options.includeAsset || undefined,
         success: function(listings) {
-          console.log('listings', listings);
           if(options.storage) {
             _replaceArray(options.storage, listings);
           }
@@ -1664,6 +1665,7 @@ angular.module('payswarm.services')
           // FIXME: make date ordering explicit
           identity: identity.id,
           limit: 10,
+          includeAsset: options.includeAsset || undefined,
           success: function(listings) {
             _replaceArray(service.recentListings, listings);
             expires = +new Date() + maxAge;

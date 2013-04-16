@@ -27,7 +27,7 @@
     "jqtpl": "~1.1.0",
     "jsdom": "~0.5.0",
     "json-schema": "git://github.com/digitalbazaar/json-schema.git",
-    "jsonld": "=0.0.49",
+    "jsonld": "=0.0.50",
     "mailparser": "~0.3.0",
     "mongodb": "~1.1.4",
     "passport": "~0.1.9",

@@ -82,17 +82,25 @@ module.controller('AddressCtrl', function($scope, svcAddress, svcIdentity) {
 module.controller('KeyCtrl', function($scope, svcKey) {
   $scope.state = svcKey.state;
   $scope.keys = svcKey.keys;
-  $scope.keyToRevoke = null;
+  $scope.modals = {
+    showEditKey: false,
+    showRevokeKeyAlert: false,
+    key: null
+  };
 
+  $scope.editKey = function(key) {
+    $scope.modals.showEditKey = true;
+    $scope.modals.key = key;
+  };
   $scope.revokeKey = function(key) {
-    $scope.showRevokeKeyAlert = true;
-    $scope.keyToRevoke = key;
+    $scope.modals.showRevokeKeyAlert = true;
+    $scope.modals.key = key;
   };
   $scope.confirmRevokeKey = function(err, result) {
     if(!err && result === 'ok') {
-      svcKey.revoke($scope.keyToRevoke);
+      svcKey.revoke($scope.modals.key);
     }
-    $scope.keyToRevoke = null;
+    $scope.modals.key = null;
   };
 
   svcKey.get();

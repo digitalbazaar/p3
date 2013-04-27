@@ -1165,12 +1165,74 @@ payswarm.keys.get = function(options) {
 };
 
 /**
+ * Get a key.
+ *
+ * Usage:
+ *
+ * payswarm.keys.getOne({
+ *   key: KEY_ID,
+ *   success: function(key) {},
+ *   error: function(err) {}
+ * });
+ */
+payswarm.keys.getOne = function(options) {
+  $.ajax({
+    async: true,
+    type: 'GET',
+    url: options.key,
+    dataType: 'json',
+    success: function(response, statusText) {
+      if(options.success) {
+        options.success(response);
+      }
+    },
+    error: function(xhr, textStatus, errorThrown) {
+      if(options.error) {
+        options.error(normalizeError(xhr, textStatus));
+      }
+    }
+  });
+};
+
+/**
+ * Updates a key.
+ *
+ * Usage:
+ *
+ * payswarm.keys.update({
+ *   key: key,
+ *   success: function() {},
+ *   error: function(err) {}
+ * });
+ */
+payswarm.keys.update = function(options) {
+  $.ajax({
+    async: true,
+    type: 'POST',
+    url: options.key.id,
+    dataType: 'json',
+    contentType: 'application/json',
+    data: JSON.stringify(options.key),
+    success: function(response, statusText) {
+      if(options.success) {
+        options.success();
+      }
+    },
+    error: function(xhr, textStatus, errorThrown) {
+      if(options.error) {
+        options.error(normalizeError(xhr, textStatus));
+      }
+    }
+  });
+};
+
+/**
  * Revokes a specific key for an identity.
  *
  * Usage:
  *
  * payswarm.keys.revoke({
- *   key: 'https://example.com/i/myidentity/keys/4',
+ *   key: KEY_ID,
  *   success: function(key) {},
  *   error: function(err) {}
  * });
@@ -1183,6 +1245,7 @@ payswarm.keys.revoke = function(options) {
     contentType: 'application/json',
     data: JSON.stringify({
       '@context': 'https://w3id.org/payswarm/v1',
+      id: options.key,
       revoked: ''
     }),
     dataType: 'json',

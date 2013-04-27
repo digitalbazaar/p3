@@ -1,13 +1,16 @@
-var label = require('./label');
-var status = require('./status');
-var publicKeyPem = require('./publicKeyPem');
 var jsonldContext = require('./jsonldContext');
+var label = require('./label');
+var payswarmId = require('./payswarmId');
+var publicKeyPem = require('./publicKeyPem');
 
 var postKey = {
   type: 'object',
   properties: {
     '@context': jsonldContext(),
+    id: payswarmId(),
+    label: label({required: false}),
     revoked: {
+      required: false,
       type: 'string'
     }
   },

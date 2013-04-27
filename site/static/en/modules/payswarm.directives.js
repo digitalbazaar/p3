@@ -2490,6 +2490,45 @@ angular.module('payswarm.directives')
       scope.feedbackTarget = element;
     }
   });
+})
+.directive('modalEditKey', function(svcModal) {
+  function Ctrl($scope, svcKey) {
+    $scope.model = {};
+    $scope.data = window.data || {};
+    $scope.feedback = {};
+    $scope.identity = data.identity || {};
+    // copy source budget for editing
+    $scope.key = {};
+    angular.extend($scope.key, $scope.sourceKey);
+
+    $scope.editKey = function() {
+      // set all fields from UI
+      var key = {
+        '@context': 'https://w3id.org/payswarm/v1',
+        id: $scope.key.id,
+        label: $scope.key.label
+      };
+
+      $scope.loading = true;
+      svcKey.update(key, function(err, key) {
+        $scope.loading = false;
+        if(!err) {
+          $scope.modal.close(null, key);
+        }
+        $scope.feedback.error = err;
+      });
+    };
+  }
+
+  return svcModal.directive({
+    name: 'EditKey',
+    scope: {sourceKey: '=key'},
+    templateUrl: '/partials/modals/edit-key.html',
+    controller: Ctrl,
+    link: function(scope, element, attrs) {
+      scope.feedbackTarget = element;
+    }
+  });
 });
 
 })(jQuery);

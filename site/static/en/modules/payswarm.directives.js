@@ -1236,7 +1236,7 @@ angular.module('payswarm.directives')
     $scope.loading = false;
     $scope.identityId = $scope.identityId || svcIdentity.identity.id;
     $scope.account = {
-      '@context': 'https://w3id.org/payswarm/v1',
+      '@context': payswarm.CONTEXT_URL,
       currency: 'USD',
       psaPublic: []
     };
@@ -1300,7 +1300,7 @@ angular.module('payswarm.directives')
 
     $scope.editAccount = function() {
       var account = {
-        '@context': 'https://w3id.org/payswarm/v1',
+        '@context': payswarm.CONTEXT_URL,
         id: $scope.account.id,
         label: $scope.account.label,
         psaPublic: []
@@ -1343,7 +1343,7 @@ angular.module('payswarm.directives')
     $scope.loading = false;
     $scope.identity = data.identity || {};
     $scope.budget = {
-      '@context': 'https://w3id.org/payswarm/v1'
+      '@context': payswarm.CONTEXT_URL
     };
     $scope.refreshChoices = [
       {label: 'Never', value: 'never'},
@@ -1471,7 +1471,7 @@ angular.module('payswarm.directives')
       }
 
       var budget = {
-        '@context': 'https://w3id.org/payswarm/v1',
+        '@context': payswarm.CONTEXT_URL,
         id: b.id,
         label: b.label,
         source: $scope.selection.account.id,
@@ -1529,7 +1529,7 @@ angular.module('payswarm.directives')
     $scope.paymentMethod = $scope.paymentMethods[0];
     $scope.label = '';
     $scope.card = {
-      '@context': 'https://w3id.org/payswarm/v1',
+      '@context': payswarm.CONTEXT_URL,
       type: 'CreditCard'
     };
     $scope.bankAccountTypes = [
@@ -1537,7 +1537,7 @@ angular.module('payswarm.directives')
       {id: 'Savings', label: 'Savings'}
     ];
     $scope.bankAccount = {
-      '@context': 'https://w3id.org/payswarm/v1',
+      '@context': payswarm.CONTEXT_URL,
       type: 'BankAccount',
       bankAccountType: 'Checking'
     };
@@ -1574,7 +1574,7 @@ angular.module('payswarm.directives')
 
       // create post data
       var token = {
-        '@context': 'https://w3id.org/payswarm/v1',
+        '@context': payswarm.CONTEXT_URL,
         label: $scope.label
       };
 
@@ -1666,7 +1666,7 @@ angular.module('payswarm.directives')
 
     $scope.review = function() {
       var verifyRequest = {
-        '@context': 'https://w3id.org/payswarm/v1',
+        '@context': payswarm.CONTEXT_URL,
         psaVerifyParameters: {
           amount: [
             $scope.psaVerifyParameters.amount[0],
@@ -1831,14 +1831,14 @@ angular.module('payswarm.directives')
     };
     angular.forEach($scope.identityTypes, function(type) {
       $scope.identity[type] = {
-        '@context': 'https://w3id.org/payswarm/v1',
+        '@context': payswarm.CONTEXT_URL,
         type: type
       };
     });
 
     // account
     $scope.account = {
-      '@context': 'https://w3id.org/payswarm/v1',
+      '@context': payswarm.CONTEXT_URL,
       label: 'Primary Account',
       psaSlug: 'primary',
       currency: 'USD',
@@ -1937,7 +1937,7 @@ angular.module('payswarm.directives')
     $scope.loading = false;
     $scope.identity = $scope.identity || svcIdentity.identity;
     $scope.originalAddress = {
-      '@context': 'https://w3id.org/payswarm/v1',
+      '@context': payswarm.CONTEXT_URL,
       type: 'Address',
       // default to US
       countryName: 'US'
@@ -1963,7 +1963,7 @@ angular.module('payswarm.directives')
         // FIXME: should backend handle this?
         // copy over non-validation fields
         $scope.validatedAddress = angular.extend(validated, {
-          '@context': 'https://w3id.org/payswarm/v1',
+          '@context': payswarm.CONTEXT_URL,
           type: 'Address',
           label: $scope.originalAddress.label,
           fullName: $scope.originalAddress.fullName
@@ -2229,7 +2229,7 @@ angular.module('payswarm.directives')
     $scope.review = function() {
       // clean deposit
       var deposit = {
-        '@context': 'https://w3id.org/payswarm/v1',
+        '@context': payswarm.CONTEXT_URL,
         type: ['Transaction', 'Deposit'],
         payee: [{
           type: 'Payee',
@@ -2375,7 +2375,7 @@ angular.module('payswarm.directives')
     $scope.review = function() {
       // clean withdrawal
       var withdrawal = {
-        '@context': 'https://w3id.org/payswarm/v1',
+        '@context': payswarm.CONTEXT_URL,
         type: ['Transaction', 'Withdrawal'],
         source: $scope.account.id,
         payee: [{
@@ -2504,7 +2504,7 @@ angular.module('payswarm.directives')
     $scope.editKey = function() {
       // set all fields from UI
       var key = {
-        '@context': 'https://w3id.org/payswarm/v1',
+        '@context': payswarm.CONTEXT_URL,
         id: $scope.key.id,
         label: $scope.key.label
       };

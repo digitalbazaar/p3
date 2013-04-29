@@ -12,6 +12,9 @@
 // payswarm API
 var payswarm = window.payswarm = window.payswarm || {};
 
+// default @context
+payswarm.CONTEXT_URL = 'https://w3id.org/payswarm/v1';
+
 // addresses API
 payswarm.addresses = {};
 
@@ -423,7 +426,7 @@ payswarm.budgets.addVendor = function(options) {
     dataType: 'json',
     contentType: 'application/json',
     data: JSON.stringify({
-      '@context': 'https://w3id.org/payswarm/v1',
+      '@context': payswarm.CONTEXT_URL,
       vendor: options.vendor
     }),
     success: function(data, textStatus) {
@@ -734,7 +737,7 @@ payswarm.paymentTokens.getOne = function(options) {
  * Usage:
  *
  * payswarm.paymentTokens.add({
- *   @context: 'https://w3id.org/payswarm/v1',
+ *   @context: payswarm.CONTEXT_URL,
  *   identity: 'https://example.com/i/myidentity',
  *   data: {label, gateway, source},
  *   success: function(paymentToken) {},
@@ -828,8 +831,8 @@ payswarm.paymentTokens.restore = function(options) {
  * Usage:
  *
  * payswarm.paymentTokens.verify({
- *   @context: 'https://w3id.org/payswarm/v1',
- *   paymentToken: paymentTokenId',
+ *   @context: payswarm.CONTEXT_URL,
+ *   paymentToken: paymentTokenId,
  *   data: {psaVerifyParameters [, amount] [, destination]},
  *   success: function(paymentToken) {},
  *   error: function(err) {}
@@ -1244,7 +1247,7 @@ payswarm.keys.revoke = function(options) {
     url: options.key,
     contentType: 'application/json',
     data: JSON.stringify({
-      '@context': 'https://w3id.org/payswarm/v1',
+      '@context': payswarm.CONTEXT_URL,
       id: options.key,
       revoked: ''
     }),

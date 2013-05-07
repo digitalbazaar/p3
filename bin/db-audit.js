@@ -1,7 +1,8 @@
 /*
- * Copyright (c) 2012 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2012-2013 Digital Bazaar, Inc. All rights reserved.
  */
 __libdir = require('path').resolve(__dirname, '../lib');
+var _ = require('underscore');
 var async = require('async');
 var audit = require('../lib/payswarm-auth/audit');
 var payswarmTools = require('../lib/payswarm-auth/tools');
@@ -36,6 +37,12 @@ main.run = function() {
     .option('--no-progress', 'Disable progress (default: enabled).')
     .option('--account <id>', 'Audit one account (default: *).', String)
     .option('--stop-on-error', 'Stop when an error is detected (default: no).')
+    .option('--modes <modes>', 'Audit modes (default: accounts).', 'accounts')
+    .on('--help', function() {
+      console.log('  The audit modes paramter takes a comma seperated list');
+      console.log('  of modes from [accounts, validate].');
+      console.log();
+    })
     .parse(process.argv);
 
   // initialize the configuration
@@ -43,10 +50,12 @@ main.run = function() {
   config.logLevel = program.logLevel;
   config.logFile = program.logFile;
   config.logFileLevel = program.logFileLevel;
-  config.logTimestamps = program.logTimestamps;
-  config.logColorize = program.logColorize;
-  config.progress = program.progress;
+  config.logTimestamps = !!program.logTimestamps;
+  config.logColorize = !!program.logColorize;
+  config.progress = !!program.progress;
   config.account = program.account || '*';
+  console.log('modes', program.modes);
+  config.modes = program.modes.split(',');
 
   // setup the logging framework
   var _transports = [];
@@ -75,12 +84,44 @@ main.run = function() {
   var buyers = [];
   var listings = [];
 
+  var doAccounts = (config.modes.indexOf('accounts') !== -1);
+  var doValidate = (config.modes.indexOf('validate') !== -1);
+  var collections = [];
+  if(doAccounts) {
+    collections = _.union(collections, [
+      'account',
+      'transaction'
+    ]);
+  }
+  if(doValidate) {
+    collections = _.union(collections, [
+      'account',
+      'asset',
+      'budget',
+      'contractCache',
+      'distributedId',
+      'identity',
+      'license',
+      'listing',
+      'paymentToken',
+      'profile',
+      'promo',
+      'promoCodeRedemption',
+      'publicKey',
+      'session',
+      'transaction'
+    ]);
+  }
+
   async.waterfall([
     function(callback) {
       // initialize the audit module
-      audit.init(config, callback);
+      audit.init(config, collections, callback);
     },
     function(callback) {
+      if(!doAccounts) {
+        return callback();
+      }
       // audit accounts
       var opts = {
         logger: logger,
@@ -88,6 +129,17 @@ main.run = function() {
         account: config.account
       };
       audit.accounts(opts, null, callback);
+    },
+    function(callback) {
+      if(!doValidate) {
+        return callback();
+      }
+      // validate
+      var opts = {
+        logger: logger,
+        progress: config.progress
+      };
+      audit.validate(opts, null, callback);
     }
   ], function(err) {
     if(err) {
@@ -102,7 +154,7 @@ process.on('uncaughtException', function(err) {
   logger.error(
     err.toString(), err.stack ? {stack: err.stack} : null);
   process.removeAllListeners('uncaughtException');
-  process.exit();
+  process.exit(1);
 });
 
 // run the program

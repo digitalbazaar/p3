@@ -11,10 +11,14 @@
         web server to provide a basic paywall for your asset content.
       </p>
       <div>
-        {{asset.title}}
+        Title: {{asset.title}}
       </div>
       <div>
-        {{asset.assetContent}}
+        URL: {{asset.assetContent}}
+      </div>
+      <div>
+        Stuff about how other assets in the same dir will be affected, maybe
+        even show which ones, but that might be asking too much.
       </div>
       <button data-ng-disabled="model.loading"
         class="btn btn-primary"

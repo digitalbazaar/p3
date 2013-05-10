@@ -2086,7 +2086,7 @@ angular.module('payswarm.directives')
         bits: bits,
         workers: 2,
         /*workLoad: 100,*/
-        workerScript: '/forge/prime.worker.js',
+        workerScript: '/forge/prime.worker.js'
       }, function(err, keypair) {
         var et = +new Date();
         console.log('Key-pair created in ' + (et - st) + 'ms.');

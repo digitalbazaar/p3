@@ -16,7 +16,7 @@ var schema = {
   description: 'A Listing.',
   type: 'object',
   properties: {
-    '@context': jsonldContext({type: 'object'}),
+    '@context': jsonldContext(),
     id: payswarmId(),
     // allow up to 4 additional custom types
     type: jsonldType('Listing', 4),

@@ -7,6 +7,9 @@ var schema = {
   type: [{
     type: 'string',
     pattern: '^https://w3id.org/payswarm/v1$'
+  }, {
+    type: 'object'
+    // FIXME: improve context object validator
   }]
 };
 

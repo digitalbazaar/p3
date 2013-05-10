@@ -6,7 +6,7 @@ var cacheLicense = {
   title: 'Cache License',
   type: 'object',
   properties: {
-    '@context': jsonldContext({type: ['object', 'string']}),
+    '@context': jsonldContext(),
     license: payswarmId(),
     licenseHash: {
       required: false,

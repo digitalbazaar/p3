@@ -2060,6 +2060,69 @@ angular.module('payswarm.directives')
     }
   });
 })
+.directive('modalProtectAsset', function(svcModal) {
+  function Ctrl($scope, svcHostedAsset) {
+    // FIXME: use root/global data, move over to model
+    $scope.data = window.data || {};
+    $scope.identity = data.identity || {};
+    $scope.feedback = {};
+
+    $scope.model = {};
+    $scope.model.loading = false;
+    $scope.model.state = {
+      assets: svcHostedAsset.state
+    };
+
+    $scope.generateBundle = function() {
+      $scope.model.loading = true;
+
+      console.log('Generating bundle...');
+      //var asset = $scope.model.asset;
+
+      var bits = 2048;
+      console.log('Generating ' + bits + '-bit key-pair...');
+      var st = +new Date();
+      forge.pki.rsa.generateKeyPair({
+        bits: bits,
+        workers: 2,
+        /*workLoad: 100,*/
+        workerScript: '/forge/prime.worker.js',
+      }, function(err, keypair) {
+        var et = +new Date();
+        console.log('Key-pair created in ' + (et - st) + 'ms.');
+        //console.log('private', forge.pki.privateKeyToPem(keypair.privateKey));
+        //console.log('public', forge.pki.publicKeyToPem(keypair.publicKey));
+
+        $scope.model.success = true;
+        $scope.model.loading = false;
+        $scope.$apply();
+      });
+
+      /*
+      svcHostedAsset.add(asset, function(err, asset) {
+        $scope.loading = false;
+        if(!err) {
+          $scope.modal.close(null, asset);
+        }
+        $scope.feedback.error = err;
+      });*/
+    };
+
+    $scope.saveBundle = function() {
+      console.log('Saving bundle...');
+    };
+  }
+
+  return svcModal.directive({
+    name: 'ProtectAsset',
+    scope: {asset: '='},
+    templateUrl: '/partials/modals/protect-asset.html',
+    controller: Ctrl,
+    link: function(scope, element, attrs) {
+      scope.feedbackTarget = element;
+    }
+  });
+})
 .directive('modalAddListing', function(svcModal) {
   function Ctrl($scope, svcHostedAsset, svcHostedListing) {
     // FIXME: use root/global data, move over to model

@@ -1,0 +1,46 @@
+<div class="modal">
+  <div class="modal-header">
+    <a class="close btn-close">&times;</a>
+    <h3>Protect Asset Content</h3>
+  </div>
+  <div class="modal-body">
+    <div data-ng-include="'/partials/demo-warning.html'"></div>
+    <div data-ng-hide="model.success">
+      <p>
+        This tool allows you to generate a bundle of files to host on your
+        web server to provide a basic paywall for your asset content.
+      </p>
+      <div>
+        {{asset.title}}
+      </div>
+      <div>
+        {{asset.assetContent}}
+      </div>
+      <button data-ng-disabled="model.loading"
+        class="btn btn-primary"
+        data-ng-click="generateBundle()">Generate Bundle</button>
+      <span data-ng-show="model.loading">This may take a while...</span>
+      <span data-spinner="model.loading"
+        data-spinner-class="append-btn-spinner"></span>
+    </div>
+    <div data-ng-show="model.success">
+      <p class="alert alert-success">
+        Bundle generated.
+      </p>
+      <button class="btn btn-primary"
+        data-ng-click="saveBundle()">Save Bundle</button>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="modal-feedback" data-feedback="feedback"
+      data-target="feedbackTarget"></div>
+    <span data-spinner="model.state.assets.loading"
+      data-spinner-class="prepend-btn-spinner"></span>
+    <span data-ng-hide="model.success">
+      <button class="btn btn-close">Cancel</button>
+    </span>
+    <span data-ng-show="model.success">
+      <button class="btn btn-primary btn-close">Done</button>
+    </span>
+  </div>
+</div>

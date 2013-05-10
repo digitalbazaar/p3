@@ -1,5 +1,6 @@
 ${set([
   pageTitle = "Assetora",
+  jsList.push("forge/forge.rsa.bundle"),
   jsList.push("modules/assetora"),
   inav = "assetora"
 ])}  
@@ -90,6 +91,11 @@ ${set([
                   <li>
                     <a data-ng-click="model.modals.asset=asset; model.modals.showEditAsset=true">
                       <i class="icon-pencil"></i> Edit
+                    </a>
+                  </li>
+                  <li>
+                    <a data-ng-click="model.modals.asset=asset; model.modals.showProtectAsset=true">
+                      <i class="icon-lock"></i> Protect
                     </a>
                   </li>
                   <li class="divider"></li>
@@ -230,6 +236,11 @@ ${set([
                       <i class="icon-pencil"></i> Edit
                     </a>
                   </li>
+                  <li>
+                    <a data-ng-click="model.modals.asset=asset; model.modals.showProtectAsset=true">
+                      <i class="icon-lock"></i> Protect
+                    </a>
+                  </li>
                   <li class="divider"></li>
                   <li class="btn-danger">
                     <a data-ng-click="deleteAsset(asset)">
@@ -325,8 +336,10 @@ ${set([
     </div>
   </div>
 
-  <!-- Modals -->  
+  <!-- Modals -->
   <div data-modal-add-asset="model.modals.showAddAsset"></div>
+  <div data-modal-protect-asset="model.modals.showProtectAsset"
+    data-asset="model.modals.asset"></div>
   <div data-modal-add-listing="model.modals.showAddListing"
     data-asset="model.modals.asset"></div>
 

@@ -1432,6 +1432,7 @@ angular.module('payswarm.services')
    *          [keywords] any keywords to do the look up by.
    *          [previous] the previous asset (for pagination).
    *          [limit] the maximum number of assets to get.
+   *          [assetContent] the asset content URL for the assets to get.
    */
   service.get = function(options, callback) {
     if(typeof options === 'function') {
@@ -1449,6 +1450,7 @@ angular.module('payswarm.services')
         keywords: options.keywords || undefined,
         previous: options.previous || undefined,
         limit: options.limit || undefined,
+        assetContent: options.assetContent || undefined,
         success: function(assets) {
           if(options.storage) {
             _replaceArray(options.storage, assets);

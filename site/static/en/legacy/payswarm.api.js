@@ -875,6 +875,7 @@ payswarm.hosted.assets = {};
  *   [previous]: 'https://example.com/i/identity/assets/1.1.a',
  *   [limit]: 20,
  *   [keywords]: 'The keywords to use',
+ *   [assetContent]: 'https://example.com/the-data',
  *   success: function(assets) {},
  *   error: function(err) {}
  * });
@@ -897,6 +898,9 @@ payswarm.hosted.assets.get = function(options) {
   }
   if(options.keywords) {
     query.keywords = options.keywords;
+  }
+  if(options.assetContent) {
+    query.assetContent = options.assetContent;
   }
 
   $.ajax({

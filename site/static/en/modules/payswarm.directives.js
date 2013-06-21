@@ -2072,6 +2072,11 @@ angular.module('payswarm.directives')
     $scope.model.state = {
       assets: svcHostedAsset.state
     };
+    // FIXME: figure out how to detect this and when it isn't available,
+    // hide the save button and show the files to be downloaded on
+    // the page individually for cut and paste (for IE9 essentially)
+    $scope.model.saveAsSupported = true;
+    $scope.model.keypair = null;
 
     $scope.generateBundle = function() {
       $scope.model.loading = true;
@@ -2090,8 +2095,12 @@ angular.module('payswarm.directives')
       }, function(err, keypair) {
         var et = +new Date();
         console.log('Key-pair created in ' + (et - st) + 'ms.');
-        //console.log('private', forge.pki.privateKeyToPem(keypair.privateKey));
-        //console.log('public', forge.pki.publicKeyToPem(keypair.publicKey));
+        $scope.model.keypair = {
+          privateKey: forge.pki.privateKeyToPem(keypair.privateKey),
+          publicKey: forge.pki.publicKeyToPem(keypair.publicKey)
+        };
+
+        // FIXME: send public key to server
 
         $scope.model.success = true;
         $scope.model.loading = false;
@@ -2108,8 +2117,13 @@ angular.module('payswarm.directives')
       });*/
     };
 
-    $scope.saveBundle = function() {
+    $scope.savePhpBundle = function() {
+      // FIXME: remove console.logs
       console.log('Saving bundle...');
+      var php = angular.element('#protect-asset-php').text();
+      console.log('php', php);
+      var blob = new Blob([php], {type: 'text/plain;charset=UTF-8'});
+      saveAs(blob, 'protect-asset-content.php');
     };
   }
 

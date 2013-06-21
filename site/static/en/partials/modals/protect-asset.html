@@ -29,10 +29,13 @@
     </div>
     <div data-ng-show="model.success">
       <p class="alert alert-success">
-        Bundle generated.
+        Bundle generated. Your content will not be protected until you
+        save the bundle and unzip it in the FIXME directory on your
+        web server.
       </p>
+      <div data-ng-include="'/partials/protect-asset-php.html'"></div>
       <button class="btn btn-primary"
-        data-ng-click="saveBundle()">Save Bundle</button>
+        data-ng-click="savePhpBundle()">Save PHP Bundle</button>
     </div>
   </div>
   <div class="modal-footer">

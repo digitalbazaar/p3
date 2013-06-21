@@ -14,6 +14,7 @@ module.controller('HostedAssetsCtrl', function(
   var data = window.data || {};
   $scope.model.query = data.query;
   $scope.model.assets = [];
+  $scope.model.listings = {};
   $scope.model.loading = false;
   $scope.model.error = null;
 

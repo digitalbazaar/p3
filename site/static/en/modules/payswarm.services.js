@@ -1426,6 +1426,7 @@ angular.module('payswarm.services')
    * Gets the hosted assets for an identity.
    *
    * @param options the options to use:
+   *          [identity] the identity to get the hosted assets for.
    *          [storage] an array to update w/the assets.
    *          [delay] a timeout to wait before fetching assets.
    *          [createdStart] the creation start date.
@@ -1445,7 +1446,7 @@ angular.module('payswarm.services')
     service.state.loading = true;
     $timeout(function() {
       payswarm.hosted.assets.get({
-        identity: identity.id,
+        identity: options.identity || identity.id,
         createdStart: options.createdStart || undefined,
         keywords: options.keywords || undefined,
         previous: options.previous || undefined,

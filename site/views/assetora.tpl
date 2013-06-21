@@ -1,6 +1,7 @@
 ${set([
   pageTitle = "Assetora",
   jsList.push("forge/forge.rsa.bundle"),
+  jsList.push("filesaver/FileSaver"),
   jsList.push("modules/assetora"),
   inav = "assetora"
 ])}  

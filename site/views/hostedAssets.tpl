@@ -21,10 +21,13 @@ ${set([
     </tr>
   </thead>
   <tbody>
-    <tr data-ng-repeat="asset in model.assets" class="asset">
+    <tr data-ng-repeat="row in table"
+      data-ng-hide="row.hidden"
+      data-ng-click="(row.type == 'asset' && showListings(row.asset)) || (row.type == 'listing' && purchase(row.listing))">
       <!-- Date -->
-      <td>
-        <span class="date">{{asset.created | date:'medium'}}</span>
+      <td data-ng-switch="row.type">
+        <span data-ng-switch-when="asset" class="date">{{asset.created | date:'medium'}}</span>
+        <span data-ng-switch-when="listing" class="date">{{listing.psaPublished | date:'medium'}}</span>
       </td>
       <!-- Title -->
       <td>

@@ -2078,6 +2078,10 @@ angular.module('payswarm.directives')
     $scope.model.saveAsSupported = true;
     $scope.model.keypair = null;
 
+    // configure zip
+    zip.useWebWorkers = (typeof Worker !== 'undefined');
+    zip.workerScriptsPath = '/zip/';
+
     $scope.generateBundle = function() {
       $scope.model.loading = true;
 
@@ -2122,8 +2126,38 @@ angular.module('payswarm.directives')
       console.log('Saving bundle...');
       var php = angular.element('#protect-asset-php').text();
       console.log('php', php);
-      var blob = new Blob([php], {type: 'text/plain;charset=UTF-8'});
-      saveAs(blob, 'protect-asset-content.php');
+
+      // FIXME: add other files to manifest
+      var manifest = [{
+        name: 'protect-asset-content.php',
+        blob: new Blob([php], {type: 'text/plain;charset=UTF-8'})
+      }];
+
+      zip.createWriter(
+        new zip.BlobWriter('application/zip'),
+        function(zipWriter) {
+          addEntry(zipWriter, manifest, 0);
+        },
+        function(err) {
+          // FIXME: handle/display error
+          console.log('error', err);
+        }
+      );
+
+      function addEntry(zipWriter, manifest, index) {
+        // last entry written, close and save zip
+        if(index === manifest.length) {
+          return zipWriter.close(function(zippedBlob) {
+            saveAs(zippedBlob, 'protect-asset-content.zip');
+          });
+        }
+
+        // write next entry
+        var entry = manifest[index];
+        zipWriter.add(entry.name, new zip.BlobReader(entry.blob), function() {
+          addEntry(zipWriter, manifest, index + 1);
+        });
+      }
     };
   }
 

@@ -33,7 +33,9 @@
         save the bundle and unzip it in the FIXME directory on your
         web server.
       </p>
-      <div data-ng-include="'/partials/protect-asset-php.html'"></div>
+      <div data-ng-hide="model.saveAsSupported">
+        <div data-ng-include="'/partials/protect-asset-php.html'"></div>
+      </div>
       <button class="btn btn-primary"
         data-ng-click="savePhpBundle()">Save PHP Bundle</button>
     </div>

@@ -2063,11 +2063,13 @@ angular.module('payswarm.directives')
 .directive('modalProtectAsset', function(svcModal) {
   function Ctrl($scope, svcHostedAsset) {
     // FIXME: use root/global data, move over to model
-    $scope.data = window.data || {};
+    data = window.data || {};
     $scope.identity = data.identity || {};
     $scope.feedback = {};
 
     $scope.model = {};
+    $scope.model.authority = data.authority;
+    $scope.model.identity = $scope.identity;
     $scope.model.loading = false;
     $scope.model.state = {
       assets: svcHostedAsset.state

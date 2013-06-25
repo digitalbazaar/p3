@@ -15,6 +15,7 @@ module.controller('HostedAssetsCtrl', function(
   $scope.model.query = data.query;
   $scope.model.assets = [];
   $scope.model.listings = {};
+  $scope.model.table = [];
   $scope.model.loading = false;
   $scope.model.error = null;
 
@@ -25,9 +26,23 @@ module.controller('HostedAssetsCtrl', function(
     identity: data.identityId,
     storage: $scope.model.assets
   });
+  $scope.model.loading = true;
   svcHostedAsset.get(options, function(err) {
     $scope.model.error = err;
-    $scope.model.loading = true;
+    $scope.model.loading = false;
+
+    if(err) {
+      return $scope.$apply();
+    }
+
+    $scope.model.table = [];
+    angular.forEach($scope.model.assets, function(asset) {
+      $scope.model.table.push({
+        type: 'asset',
+        asset: asset
+      });
+    });
+
     $scope.$apply();
   });
 });

@@ -121,6 +121,22 @@ angular.module('payswarm.filters')
   return function(value, format) {
     return $filter('date')(new Date(), format);
   };
+})
+.filter('embeddedString', function($filter) {
+  return function(value) {
+    if(value === undefined || value === null) {
+      return '';
+    }
+    return value.replace(/\r/g, '\\r').replace(/\n/g, '\\n');
+  };
+})
+.filter('encodeURIComponent', function($filter) {
+  return function(value) {
+    if(value === undefined || value === null) {
+      return '';
+    }
+    return encodeURIComponent(value);
+  };
 });
 
 })();

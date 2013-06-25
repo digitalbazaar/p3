@@ -1,12 +1,591 @@
 <div>
-<pre><code id="protect-asset-php">
+<pre><code id="protect-asset-php">&lt;?php
 
-&lt;?php
+/*
+New BSD License (3-clause)
+Copyright (c) 2010-2013, Digital Bazaar, Inc.
+All rights reserved.
 
-$private_key = {{model.keypair.privateKey}};
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
 
-/* end of file, omit ?&gt; */
+Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.
 
-</code></pre>
+Redistributions in binary form must reproduce the above copyright
+notice, this list of conditions and the following disclaimer in the
+documentation and/or other materials provided with the distribution.
+
+Neither the name of Digital Bazaar, Inc. nor the names of its
+contributors may be used to endorse or promote products derived from
+this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL DIGITAL BAZAAR BE LIABLE FOR ANY
+DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
+require_once('jsonld.php');
+
+// see if an encrypted message is available
+if(isset($_POST['encrypted-message'])) {
+  $encrypted_message = $_POST['encrypted-message'];
+
+  // make sure to remove magic quotes if in use
+  if(get_magic_quotes_gpc()) {
+    $encrypted_message = stripcslashes($encrypted_message);
+  }
+}
+
+// no message, redirect to the PaySwarm Authority page for the asset
+if(!isset($encrypted_message)) {
+  $url = '{{model.identity.id}}/assets?=assetContent=' .
+    "$_SERVER[REQUEST_URI]?$_SERVER[QUERY_STRING]";
+  header('HTTP/1.1 303 See Other');
+  header("Location: $url");
+  exit(0);
+}
+
+try {
+  // set jsonld context loader
+  jsonld_set_context_loader('payswarm_jsonld_load_context');
+
+  // get receipt from encrypted message
+  $receipt = payswarm_get_receipt($encrypted_message);
+
+  // get contract info
+  $contract = $receipt->contract;
+  $identity_id = $contract->assetAcquirer;
+  $asset = $contract->asset->id;
+  $asset_content = $contract->asset->assetContent;
+  $license = $contract->license;
+
+  // build requested asset URL
+  $protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' ?
+    'https' : 'http');
+  $port = $_SERVER['SERVER_PORT'];
+  $host = $_SERVER['HTTP_HOST'];
+  if(($port !== '80' && $protocol === 'http') ||
+    ($port !== '443' && $protocol === 'https')) {
+    $host .= ":$port";
+  }
+  $url = "$protocol://$host$_SERVER[REQUEST_URI]?$_SERVER[QUERY_STRING]";
+  
+  // ensure url matches asset content
+  if($url !== $asset_content) {
+    throw new Exception('PaySwarm Purchase Exception: ' .
+      'The Asset in the given Contract could not be found on this server.');
+  }
+  
+  // serve asset content
+  echo "CONTENT SERVED";
+  // FIXME:
+}
+catch(Exception $e) {
+  // FIXME: pretty print error
+  print_r($e);
+}
+
+/**
+ * Retrieves a JSON-LD context URL, returning the context.
+ *
+ * @param string $url the URL for the JSON-LD context.
+ *
+ * @return stdClass the JSON-LD context.
+ */
+function payswarm_jsonld_load_context($url) {
+  if($url === 'https://w3id.org/payswarm/v1') {
+    return (object)array(
+      '@context' => payswarm_create_default_jsonld_context());
+  }
+  return jsonld_default_get_secure_url($url);
+}
+
+/**
+ * Verifies that an encrypted message from the PaySwarm Authority contains a
+ * valid receipt.
+ *
+ * @param string $msg the JSON-encoded encrypted message.
+ *
+ * @return stdClass the PaySwarm Receipt.
+ */
+function payswarm_get_receipt($msg) {
+  // decode message
+  $receipt = payswarm_decode_authority_message($msg);
+
+  // check message type
+  if(payswarm_jsonld_has_type($receipt, 'Error')) {
+    throw new Exception('PaySwarm Purchase Exception: ' .
+      $receipt->errorMessage);
+  }
+  else if(!payswarm_jsonld_has_type($receipt, 'Receipt')) {
+    throw new Exception('PaySwarm Purchase Exception: ' .
+      'Invalid purchase response from PaySwarm Authority.');
+  }
+
+  // validate receipt
+  if(!property_exists($receipt, 'contract') or !is_object($receipt->contract)) {
+    throw new Exception('PaySwarm Purchase Exception: ' .
+      'Unknown Receipt format.');
+  }
+
+  // validate contract
+  $contract = $receipt->contract;
+  if(!property_exists($contract, 'assetAcquirer') or
+    !property_exists($contract, 'asset') or
+    !property_exists($contract, 'license')) {
+    throw new Exception('PaySwarm Purchase Exception: ' .
+      'Unknown Contract format.');
+  }
+
+  return $receipt;
+}
+
+/**
+ * Decodes a JSON-encoded, encrypted, digitally-signed message from a
+ * PaySwarm Authority.
+ *
+ * @param string $json_message the json-encoded message to verify.
+ *
+ * @return the JSON-LD decoded message (exception thrown on error).
+ */
+function payswarm_decode_authority_message($json_message) {
+  // convert message from json
+  $msg = json_decode($json_message);
+  if($msg === NULL) {
+    throw new Exception('PaySwarm Security Exception: ' .
+      'The message contains malformed JSON.');
+  }
+
+  // decrypt and verify message
+  $rval = payswarm_decrypt($msg);
+  payswarm_verify($rval);
+  return $rval;
+}
+
+/**
+ * Decrypts an encrypted JSON-LD object.
+ *
+ * @param stdClass $encrypted the message to decrypt.
+ * @param string $pem the PEM-encoded private key to decrypt the message.
+ *
+ * @return stdClass the decrypted JSON-LD object.
+ */
+function payswarm_decrypt($encrypted) {
+  if(!property_exists($encrypted, 'cipherAlgorithm') ||
+    $encrypted->cipherAlgorithm !== 'rsa-sha256-aes-128-cbc') {
+    $algorithm = $encrypted->cipherAlgorithm;
+    throw new Exception('PaySwarm Security Exception: ' .
+      'Unknown encryption algorithm "' . $algorithm . '"');
+  }
+
+  // load embedded private key
+  $pem = '{{model.keypair.privateKey | embeddedString}}';
+  $pkey = openssl_pkey_get_private($pem);
+  if($pkey === false) {
+    throw new Exception('PaySwarm Security Exception: ' .
+      'Failed to load the private key.');
+  }
+
+  // load private key from PEM
+  $pkey = openssl_pkey_get_private($pem);
+  if($pkey === false) {
+    throw new Exception('PaySwarm Security Exception: ' .
+      'Failed to load the private key.');
+  }
+
+  // decrypt symmetric key (be lenient with padding)
+  $encryption_key = base64_decode($encrypted->cipherKey);
+  if(openssl_private_decrypt(
+    $encryption_key, $skey, $pkey, OPENSSL_PKCS1_OAEP_PADDING) === false) {
+    if(openssl_private_decrypt($encryption_key, $skey, $pkey) === false) {
+      throw new PaySwarmAsymmetricCipherException(
+        'PaySwarm Security Exception: ' .
+        'Failed to decrypt the encryption key.');
+    }
+  }
+
+  // decrypt IV
+  $enc_iv = base64_decode($encrypted->initializationVector);
+  if(openssl_private_decrypt(
+    $enc_iv, $iv, $pkey, OPENSSL_PKCS1_OAEP_PADDING) === false) {
+    if(openssl_private_decrypt($enc_iv, $iv, $pkey) === false) {
+      throw new Exception('PaySwarm Security Exception: ' .
+        'Failed to decrypt the initialization vector (IV).');
+    }
+  }
+
+  // free private key resource
+  openssl_pkey_free($pkey);
+
+  // decrypt data
+  $data = openssl_decrypt($encrypted->cipherData, 'aes128', $skey, false, $iv);
+  if($data === false) {
+    throw new Exception('PaySwarm Security Exception: ' .
+      'Failed to decrypt the encrypted message due to an incorrect ' .
+      'symmetric key or an invalid initialization vector (IV).');
+  }
+
+  // decode JSON message
+  return payswarm_jsonld_decode($data);
+}
+
+/**
+ * Verifies a JSON-LD digitally signed object.
+ *
+ * @param stdClass $obj the JSON-LD object to verify.
+ *
+ * @return true if verified, false if not (exception thrown).
+ */
+function payswarm_verify($obj) {
+  $rval = false;
+
+  // frame message to retrieve signature
+  $frame = (object)array(
+    '@context' => payswarm_create_default_jsonld_context(),
+    'signature' => (object)array(
+      'created' => new stdClass(),
+      'creator' => new stdClass(),
+      'signatureValue' => new stdClass(),
+      'nonce' => new stdClass()
+    )
+  );
+  $obj = jsonld_frame($obj, $frame);
+  if(count($obj->{'@graph'}) === 0 ||
+    $obj->{'@graph'}[0]->signature === null) {
+    throw new Exception('PaySwarm Security Exception: ' .
+      'The message is not digitally signed.');
+  }
+
+  // save signature property and remove from object
+  $result = $obj->{'@graph'}[0];
+  $sprop = $result->signature;
+  unset($result->signature);
+
+  // ensure signature timestamp is +/- 15 minutes
+  $now = time();
+  $time = date_create($sprop->created)->getTimestamp();
+  if($time < ($now - 15*60) || $time > ($now + 15*60)) {
+    throw new Exception('PaySwarm Security Exception: ' .
+      'The message digital signature timestamp is out of range.');
+  }
+
+  // fetch public key
+  $key = json_decode(jsonld_default_get_secure_url($sprop->creator));
+  $pem = $key->publicKeyPem;
+  
+  // ensure key has not been revoked
+  if(property_exists($key, 'revoked')) {
+    throw new Exception('PaySwarm Security Exception: ' .
+      'The message was signed with a key that has been revoked.');
+  }
+  
+  // verify public key owner
+  if($sprop->creator !== $key->id) {
+    throw new Exception('PaySwarm Security Exception: ' .
+      'The message was signed with a key with an invalid owner.');
+  }
+  $owner = json_decode(jsonld_default_get_secure_url($key->owner));
+  $found = false;
+  $public_keys = JsonLdProcessor::arrayify($owner->publicKey);
+  foreach($public_keys as $public_key) {
+    if($public_key->id === $key->owner) {
+      $found = true;
+      break;
+    }
+  }
+  if(!$found) {
+    throw new Exception('PaySwarm Security Exception: ' .
+      'The message was signed with a key with an invalid owner.');
+  }
+  if($key->owner !== '{{model.authority}}') {
+    throw new Exception('PaySwarm Security Exception: ' .
+      'The message is not signed by a trusted public key.');
+  }
+
+  // normalize and serialize the object
+  $options = array('format' => 'application/nquads');
+  $nquads = jsonld_normalize($obj, $options);
+
+  // get the data to hash
+  $data = $sprop->created . $nquads;
+
+  // decode the signature value
+  $sig = base64_decode($sprop->signatureValue);
+
+  // verify the signature
+  $rc = payswarm_raw_verify($data, $sig, $pem);
+  if($rc === 1) {
+    $rval = true;
+  }
+  else if($rc === -1) {
+    // throw exception, error while trying to verify
+    throw new Exception('PaySwarm Security Exception: ' .
+      'Low-level API error: ' . openssl_error_string());
+  }
+  else {
+    throw new Exception('PaySwarm Security Exception: ' .
+      'The digital signature on the message is invalid.');
+  }
+
+  return $rval;
+}
+
+/**
+ * A compatibility wrapper for verifying a digital signature.
+ *
+ * @param string $data the data to verify.
+ * @param string $signature the signature to verify.
+ * @param string $pem the public key in PEM format.
+ *
+ * @return int 1 if verified, 0 if incorrect, -1 on error.
+ */
+function payswarm_raw_verify($data, $signature, $pem) {
+  if(defined('OPENSSL_ALGO_SHA256')) {
+    return openssl_verify($data, $signature, $pem, OPENSSL_ALGO_SHA256);
+  }
+
+  // load public key from PEM
+  $pkey = openssl_pkey_get_public($pem);
+  if($pkey === false) {
+    throw new Exception('PaySwarm Security Exception: ' .
+      'Failed to load the public key.');
+  }
+
+  // decrypt encrypted digest info
+  $rval = openssl_public_decrypt(
+    $signature, $decrypted, $pkey, OPENSSL_PKCS1_PADDING);
+  if(!$rval) {
+    return 0;
+  }
+
+  // free public key resource
+  openssl_pkey_free($pkey);
+
+  // manually do pkcs1 v1.5 encoding (DigestInfo) for comparison
+  $hash = hash('sha256', $data);
+  $digestInfo = pack('H*', '3031300d060960864801650304020105000420' . $hash);
+
+  // compare decrypted digest info to constructed one
+  return ($decrypted === $digestInfo) ? 1 : 0;
+}
+
+/**
+ * Creates a default payswarm JSON-LD context.
+ *
+ * @return stdClass the default payswarm JSON-LD context.
+ */
+function payswarm_create_default_jsonld_context() {
+  return (object)array(
+    // aliases
+    'id' => '@id',
+    'type' => '@type',
+
+    // prefixes
+    'ccard' => 'https://w3id.org/commerce/creditcard#',
+    'com' => 'https://w3id.org/commerce#',
+    'dc' => 'http://purl.org/dc/terms/',
+    'foaf' => 'http://xmlns.com/foaf/0.1/',
+    'gr' => 'http://purl.org/goodrelations/v1#',
+    'pto' => 'http://www.productontology.org/id/',
+    'ps' => 'https://w3id.org/payswarm#',
+    'rdf' => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
+    'rdfs' => 'http://www.w3.org/2000/01/rdf-schema#',
+    'sec' => 'https://w3id.org/security#',
+    'vcard' => 'http://www.w3.org/2006/vcard/ns#',
+    'xsd' => 'http://www.w3.org/2001/XMLSchema#',
+
+    // general
+    'address' => (object)array('@id' => 'vcard:adr', '@type' => '@id'),
+    'comment' => 'rdfs:comment',
+    'countryName' => 'vcard:country-name',
+    'created' => (object)array(
+      '@id' => 'dc:created', '@type' => 'xsd:dateTime'),
+    'creator' => (object)array('@id' => 'dc:creator', '@type' => '@id'),
+    'depiction' => (object)array('@id' => 'foaf:depiction', '@type' => '@id'),
+    'description' => 'dc:description',
+    'email' => 'foaf:mbox',
+    'fullName' => 'vcard:fn',
+    'label' => 'rdfs:label',
+    'locality' => 'vcard:locality',
+    'postalCode' => 'vcard:postal-code',
+    'region' => 'vcard:region',
+    'streetAddress' => 'vcard:street-address',
+    'title' => 'dc:title',
+    'website' => (object)array('@id' => 'foaf:homepage', '@type' => '@id'),
+    'Address' => 'vcard:Address',
+
+    // bank
+    'bankAccount' => 'bank:account',
+    'bankAccountType' => (object)array(
+      '@id' => 'bank:accountType', '@type' => '@vocab'),
+    'bankRoutingNumber' => 'bank:routing',
+    'BankAccount' => 'bank:BankAccount',
+    'Checking' => 'bank:Checking',
+    'Savings' => 'bank:Savings',
+
+    // credit card
+    'cardBrand' => (object)array('@id' => 'ccard:brand', '@type' => '@vocab'),
+    'cardCvm' => 'ccard:cvm',
+    'cardExpMonth' => (object)array(
+      '@id' => 'ccard:expMonth', '@type' => 'xsd:integer'),
+    'cardExpYear' => (object)array(
+      '@id' => 'ccard:expYear', '@type' => 'xsd:integer'),
+    'cardNumber' => 'ccard:number',
+    'AmericanExpress' => 'ccard:AmericanExpress',
+    'ChinaUnionPay' => 'ccard:ChinaUnionPay',
+    'CreditCard' => 'ccard:CreditCard',
+    'Discover' => 'ccard:Discover',
+    'Visa' => 'ccard:Visa',
+    'MasterCard' => 'ccard:MasterCard',
+
+    // commerce
+    'account' => (object)array('@id' => 'com:account', '@type' => '@id'),
+    'amount' => 'com:amount',
+    'authorized' => (object)array(
+      '@id' => 'com:authorized', '@type' => 'xsd:dateTime'),
+    'balance' => 'com:balance',
+    'currency' => (object)array('@id' => 'com:currency', '@type' => '@vocab'),
+    'destination' => (object)array(
+      '@id' => 'com:destination', '@type' => '@id'),
+    'maximumAmount' => 'com:maximumAmount',
+    'maximumPayeeRate' => 'com:maximumPayeeRate',
+    'minimumAmount' => 'com:minimumAmount',
+    'payee' => (object)array(
+      '@id' => 'com:payee', '@type' => '@id', '@container' => '@set'),
+    'payeeApplyAfter' => (object)array(
+      '@id' => 'com:payeeApplyAfter', '@container' => '@set'),
+    'payeeApplyGroup' => (object)array(
+      '@id' => 'com:payeeApplyGroup', '@container' => '@set'),
+    'payeeApplyType' => (object)array(
+      '@id' => 'com:payeeApplyType', '@type' => '@vocab'),
+    'payeeExemptGroup' => (object)array(
+      '@id' => 'com:payeeExemptGroup', '@container' => '@set'),
+    'payeeGroup' => (object)array(
+      '@id' => 'com:payeeGroup', '@container' => '@set'),
+    'payeeGroupPrefix' => (object)array(
+      '@id' => 'com:payeeGroupPrefix', '@container' => '@set'),
+    'payeeLimitation' => (object)array(
+      '@id' => 'com:payeeLimitation', '@type' => '@vocab'),
+    'payeeRate' => 'com:payeeRate',
+    'payeeRateType' => (object)array(
+      '@id' => 'com:payeeRateType', '@type' => '@vocab'),
+    'payeeRule' => (object)array(
+      '@id' => 'com:payeeRule', '@type' => '@id', '@container' => '@set'),
+    'paymentGateway' => 'com:paymentGateway',
+    'paymentMethod' => (object)array(
+      '@id' => 'com:paymentMethod', '@type' => '@vocab'),
+    'paymentToken' => 'com:paymentToken',
+    'referenceId' => 'com:referenceId',
+    'settled' => (object)array(
+      '@id' => 'com:settled', '@type' => 'xsd:dateTime'),
+    'source' => (object)array('@id' => 'com:source', '@type' => '@id'),
+    'transfer' => (object)array(
+      '@id' => 'com:transfer', '@type' => '@id', '@container' => '@set'),
+    'vendor' => (object)array('@id' => 'com:vendor', '@type' => '@id'),
+    'voided' => (object)array('@id' => 'com:voided', '@type' => 'xsd:dateTime'),
+    'ApplyExclusively' => 'com:ApplyExclusively',
+    'ApplyInclusively' => 'com:ApplyInclusively',
+    'FinancialAccount' => 'com:Account',
+    'FlatAmount' => 'com:FlatAmount',
+    'Deposit' => 'com:Deposit',
+    'NoAdditionalPayeesLimitation' => 'com:NoAdditionalPayeesLimitation',
+    'Payee' => 'com:Payee',
+    'PayeeRule' => 'com:PayeeRule',
+    'PayeeScheme' => 'com:PayeeScheme',
+    'PaymentToken' => 'com:PaymentToken',
+    'Percentage' => 'com:Percentage',
+    'Transaction' => 'com:Transaction',
+    'Transfer' => 'com:Transfer',
+    'Withdrawal' => 'com:Withdrawal',
+
+    // currencies
+    'USD' => 'https://w3id.org/currencies/USD',
+
+    // error
+    // FIXME
+    // 'errorMessage' => 'err:message'
+
+    // payswarm
+    'asset' =>(object)array('@id' => 'ps:asset', '@type' => '@id'),
+    'assetAcquirer' => (object)array(
+      '@id' => 'ps:assetAcquirer', '@type' => '@id'),
+    // FIXME: support inline content
+    'assetContent' => (object)array(
+      '@id' => 'ps:assetContent', '@type' => '@id'),
+    'assetHash' => 'ps:assetHash',
+    'assetProvider' => (object)array(
+      '@id' => 'ps:assetProvider', '@type' => '@id'),
+    'authority' => (object)array('@id' => 'ps:authority', '@type' => '@id'),
+    'contract' => (object)array('@id' => 'ps:contract', '@type' => '@id'),
+    'identityHash' => 'ps:identityHash',
+    // FIXME: move?
+    'ipv4Address' => 'ps:ipv4Address',
+    'license' => (object)array('@id' => 'ps:license', '@type' => '@id'),
+    'licenseHash' => 'ps:licenseHash',
+    'licenseTemplate' => 'ps:licenseTemplate',
+    'licenseTerms' => (object)array(
+      '@id' => 'ps:licenseTerms', '@type' => '@id'),
+    'listing' => (object)array('@id' => 'ps:listing', '@type' => '@id'),
+    'listingHash' => 'ps:listingHash',
+    'listingRestrictions' => (object)array(
+      '@id' => 'ps:listingRestrictions', '@type' => '@id'),
+    'preferences' => (object)array(
+      '@id' => 'ps:preferences', '@type' => '@vocab'),
+    'validFrom' => (object)array(
+      '@id' => 'ps:validFrom', '@type' => 'xsd:dateTime'),
+    'validUntil' => (object)array(
+      '@id' => 'ps:validUntil', '@type' => 'xsd:dateTime'),
+    'Asset' => 'ps:Asset',
+    'Budget' => 'ps:Budget',
+    'Contract' => 'ps:Contract',
+    'License' => 'ps:License',
+    'Listing' => 'ps:Listing',
+    'PersonalIdentity' => 'ps:PersonalIdentity',
+    'IdentityPreferences' => 'ps:IdentityPreferences',
+    'Profile' => 'ps:Profile',
+    'PurchaseRequest' => 'ps:PurchaseRequest',
+    'PreAuthorization' => 'ps:PreAuthorization',
+    'Receipt' => 'ps:Receipt',
+    'VendorIdentity' => 'ps:VendorIdentity',
+
+    // security
+    'cipherAlgorithm' => 'sec:cipherAlgorithm',
+    'cipherData' => 'sec:cipherData',
+    'cipherKey' => 'sec:cipherKey',
+    'digestAlgorithm' => 'sec:digestAlgorithm',
+    'digestValue' => 'sec:digestValue',
+    'expiration' => (object)array(
+      '@id' => 'sec:expiration', '@type' => 'xsd:dateTime'),
+    'initializationVector' => 'sec:initializationVector',
+    'nonce' => 'sec:nonce',
+    'normalizationAlgorithm' => 'sec:normalizationAlgorithm',
+    'owner' => (object)array('@id' => 'sec:owner', '@type' => '@id'),
+    'password' => 'sec:password',
+    'privateKey' => (object)array('@id' => 'sec:privateKey', '@type' => '@id'),
+    'privateKeyPem' => 'sec:privateKeyPem',
+    'publicKey' => (object)array('@id' => 'sec:publicKey', '@type' => '@id'),
+    'publicKeyPem' => 'sec:publicKeyPem',
+    'publicKeyService' => (object)array(
+      '@id' => 'sec:publicKeyService', '@type' => '@id'),
+    'revoked' => (object)array(
+      '@id' => 'sec:revoked', '@type' => 'xsd:dateTime'),
+    'signature' => 'sec:signature',
+    'signatureAlgorithm' => 'sec:signatureAlgorithm',
+    'signatureValue' => 'sec:signatureValue',
+    'EncryptedMessage' => 'sec:EncryptedMessage',
+    'CryptographicKey' => 'sec:Key',
+    'GraphSignature2012' => 'sec:GraphSignature2012'
+  );
+}
+
+/* end of file, omit ?&gt; */</code></pre>
 
 </div>

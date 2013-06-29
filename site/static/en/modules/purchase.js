@@ -291,7 +291,7 @@ module.controller('PurchaseCtrl', function(
     // ensure referring webpage is from vendor's website
     var referer = $scope.referer;
     var website = $scope.contract.vendor.website;
-    if(referer.indexOf(website) !== 0) {
+    if(!referer || referer.indexOf(website) !== 0) {
       return callback();
     }
 

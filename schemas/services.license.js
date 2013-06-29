@@ -1,12 +1,12 @@
-var payswarmId = require('./payswarmId');
 var jsonldContext = require('./jsonldContext');
 var graphSignature = require('./graphSignature');
+var payswarmId = require('./payswarmId');
 
 var cacheLicense = {
   title: 'Cache License',
   type: 'object',
   properties: {
-    '@context': jsonldContext({type: ['object', 'string']}),
+    '@context': jsonldContext(),
     license: payswarmId(),
     licenseHash: {
       required: false,

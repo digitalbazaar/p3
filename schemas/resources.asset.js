@@ -1,5 +1,6 @@
 var tools = require(__libdir + '/payswarm-auth/tools');
 
+var jsonldContext = require('./jsonldContext');
 var jsonldType = require('./jsonldType');
 var payswarmId = require('./payswarmId');
 var payee = require('./payee');
@@ -15,6 +16,7 @@ var schema = {
   description: 'An Asset.',
   type: 'object',
   properties: {
+    '@context': jsonldContext(),
     id: payswarmId(),
     // allow up to 4 additional custom types
     type: jsonldType('Asset', 4),

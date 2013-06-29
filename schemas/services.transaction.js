@@ -123,7 +123,7 @@ var postPurchaseRequest = {
       '@context': jsonldContext(),
       type: jsonldType('PurchaseRequest'),
       transactionId: payswarmId(),
-      nonce: nonce(),
+      nonce: nonce({required: false}),
       signature: graphSignature({required: false})
     },
     additionalProperties: false

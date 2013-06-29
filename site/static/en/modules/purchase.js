@@ -240,10 +240,15 @@ module.controller('PurchaseCtrl', function(
             }
             return rval;
           })(),
-          success: function(encryptedMessage) {
+          success: function(response) {
             $scope.alertType = 'purchased';
             $scope.purchased = true;
-            $scope.encryptedMessage = encryptedMessage;
+            if(response.type === 'EncryptedMessage') {
+              $scope.encryptedMessage = response;
+            }
+            else {
+              $scope.receipt = response;
+            }
 
             // auto-purchased, update budget
             if($scope.budget) {

@@ -18,8 +18,9 @@ ${set([
       <div class="alert alert-success">
         Click the button below to see the content you purchased.
       </div>
-      <form method="{{model.encryptedReceipt && 'post' || 'get'}}" action="{{model.asset.assetContent}}">
-        <fieldset data-ng-show="model.encryptedReceipt">
+      <form data-ng-show="model.encryptedReceipt" method="post"
+        action="{{model.asset.assetContent}}">
+        <fieldset>
           <input
             name="encrypted-message" value="{{model.encryptedReceipt | json}}"
             type="hidden" />
@@ -28,6 +29,9 @@ ${set([
           <button class="btn btn-primary">View content</button>
         </div>
       </form>
+      <div data-ng-hide="model.encryptedReceipt" class="well center">
+        <a class="btn btn-primary" href="{{model.asset.assetContent}}">View content</a>
+      </div>
     </div>
   </div>  
   

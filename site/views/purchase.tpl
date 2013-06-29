@@ -240,8 +240,16 @@ ${set([
           Click the button below to return to the vendor's website and view
           the item you purchased.
         </div>
-        <form method="post" action="{{callback}}">
+        <form data-ng-show="receipt" method="post" action="{{callback}}">
           <fieldset>
+            <input name="receipt" value="{{receipt | json}}" type="hidden" />
+          </fieldset>
+          <div class="well center">
+            <button class="btn btn-primary">Return to Vendor's Website</button>
+          </div>
+        </form>
+        <form data-ng-show="encryptedMessage" method="post" action="{{callback}}">
+          <fieldset data-ng-show="encryptedMessage">
             <input
               name="encrypted-message" value="{{encryptedMessage | json}}"
               type="hidden" />

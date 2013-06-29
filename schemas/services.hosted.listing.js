@@ -3,6 +3,7 @@ var jsonldType = require('./jsonldType');
 var payee = require('./payee');
 var payeeRule = require('./payeeRule');
 var payswarmId = require('./payswarmId');
+var receipt = require('./receipt');
 var url = require('./url');
 var vendor = require('./vendor');
 var w3cDateTime = require('./w3cDateTime');
@@ -96,6 +97,18 @@ var postListing = {
   additionalProperties: false
 };
 
+var postReceipt = {
+  title: 'Process Receipt',
+  description: 'Contains a JSON-encoded receipt to be processed.',
+  type: 'object',
+  properties: {
+    receipt: {
+      required: true,
+      type: 'string'
+    }
+  }
+};
+
 module.exports.getListingsQuery = function() {
   return getListingsQuery;
 };
@@ -104,4 +117,7 @@ module.exports.postListings = function() {
 };
 module.exports.postListing = function() {
   return postListing;
+};
+module.exports.postReceipt = function() {
+  return postReceipt;
 };

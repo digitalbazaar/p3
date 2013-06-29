@@ -28,6 +28,8 @@ var schema = {
       description: 'The short-form Contract that appears in a Receipt.',
       type: 'object',
       properties: {
+        type: jsonldType(['Transaction', 'Contract']),
+        id: payswarmId(),
         asset: payswarmId(),
         license: payswarmId(),
         listing: payswarmId(),
@@ -42,7 +44,7 @@ var schema = {
   additionalProperties: false
 };
 
-module.exports.schema = function(extend) {
+module.exports = function(extend) {
   if(extend) {
     return tools.extend(true, tools.clone(schema), extend);
   }

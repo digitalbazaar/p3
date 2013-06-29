@@ -2078,54 +2078,104 @@ angular.module('payswarm.directives')
     // hide the save button and show the files to be downloaded on
     // the page individually for cut and paste (for IE9 essentially)
     $scope.model.saveAsSupported = true;
+    $scope.model.bundleSaved = false;
     $scope.model.keypair = null;
 
     // configure zip
     zip.useWebWorkers = (typeof Worker !== 'undefined');
     zip.workerScriptsPath = '/zip/';
 
+    // private state
+    var state = {};
+
     $scope.generateBundle = function() {
       $scope.model.loading = true;
 
-      console.log('Generating bundle...');
       //var asset = $scope.model.asset;
 
-      var bits = 2048;
-      console.log('Generating ' + bits + '-bit key-pair...');
-      var st = +new Date();
-      forge.pki.rsa.generateKeyPair({
-        bits: bits,
-        workers: 2,
-        /*workLoad: 100,*/
-        workerScript: '/forge/prime.worker.js'
-      }, function(err, keypair) {
-        var et = +new Date();
-        console.log('Key-pair created in ' + (et - st) + 'ms.');
-        $scope.model.keypair = {
-          privateKey: forge.pki.privateKeyToPem(keypair.privateKey),
-          publicKey: forge.pki.publicKeyToPem(keypair.publicKey)
-        };
+      console.log('Generating bundle...');
+      async.auto({
+        getJsonLdProcessor: function(callback) {
+          $.ajax({
+            async: true,
+            type: 'GET',
+            url: '/php-json-ld/jsonld.php',
+            dataType: 'text',
+            success: function(response, statusText) {
+              callback(null, response);
+            },
+            error: function(xhr, textStatus, errorThrown) {
+              callback(errorThrown);
+            }
+          });
+        },
+        generateKeyPair: function(callback) {
+          var bits = data.keygenOptions.bitSize;
+          console.log('Generating ' + bits + '-bit key-pair...');
+          forge.pki.rsa.generateKeyPair({
+            bits: bits,
+            workers: 2,
+            /*workLoad: 100,*/
+            workerScript: '/forge/prime.worker.js'
+          }, callback);
+        },
+        sendPublicKey: ['generateKeyPair', function(callback, results) {
+          var keypair = results.generateKeyPair;
+          $scope.model.keypair = {
+            privateKey: forge.pki.privateKeyToPem(keypair.privateKey),
+            publicKey: forge.pki.publicKeyToPem(keypair.publicKey)
+          };
 
-        // FIXME: send public key to server
-
-        $scope.model.success = true;
+          // FIXME: send public key to server
+          callback();
+        }],
+        generatePhpBundle: ['getJsonLdProcessor', 'generateKeyPair',
+          function(callback, results) {
+            writePhpBundle({
+              jsonld: results.getJsonLdProcessor,
+              keypair: results.generateKeyPair
+            }, callback);
+        }]
+      }, function(err, results) {
+        $scope.feedback.error = err;
+        $scope.model.success = !err;
         $scope.model.loading = false;
+
+        if(err) {
+          // FIXME: handle error
+          console.log('error', err);
+          $scope.$apply();
+          return;
+        }
+
+        state.zippedBlob = results.generatePhpBundle;
         $scope.$apply();
       });
-
-      /*
-      svcHostedAsset.add(asset, function(err, asset) {
-        $scope.loading = false;
-        if(!err) {
-          $scope.modal.close(null, asset);
-        }
-        $scope.feedback.error = err;
-      });*/
     };
 
     $scope.savePhpBundle = function() {
       // FIXME: remove console.logs
       console.log('Saving bundle...');
+
+      saveAs(state.zippedBlob, 'protect-asset-content.zip');
+      /* FIXME: these event handlers have no effect
+      var saver = saveAs(state.zippedBlob, 'protect-asset-content.zip');
+      saver.onerror = function(event) {
+        console.log('saver error', event);
+      };
+      saver.onabort = function(event) {
+        console.log('saver abort', event);
+      };
+      saver.onwriteend = function(event) {
+        console.log('saver done', event);
+        $scope.model.bundleSaved = true;
+        $scope.apply();
+      };*/
+
+      $scope.model.bundleSaved = true;
+    };
+
+    function writePhpBundle(options, callback) {
       var php = angular.element('#protect-asset-php').text();
       console.log('php', php);
 
@@ -2133,24 +2183,26 @@ angular.module('payswarm.directives')
       var manifest = [{
         name: 'protect-asset-content.php',
         blob: new Blob([php], {type: 'text/plain;charset=UTF-8'})
-      }];
+      }, {
+        name: 'jsonld.php',
+        blob: new Blob([options.jsonld], {type: 'text/plain;charset=UTF-8'})
+      }/*, {
+        name: '.htaccess',
+        blob: new Blob(htaccess, {type: 'text/plain;charset=UTF-8'})
+      }*/];
 
       zip.createWriter(
         new zip.BlobWriter('application/zip'),
         function(zipWriter) {
           addEntry(zipWriter, manifest, 0);
         },
-        function(err) {
-          // FIXME: handle/display error
-          console.log('error', err);
-        }
-      );
+        callback);
 
       function addEntry(zipWriter, manifest, index) {
-        // last entry written, close and save zip
+        // last entry written, close and pass back zip
         if(index === manifest.length) {
           return zipWriter.close(function(zippedBlob) {
-            saveAs(zippedBlob, 'protect-asset-content.zip');
+            callback(null, zippedBlob);
           });
         }
 
@@ -2160,7 +2212,7 @@ angular.module('payswarm.directives')
           addEntry(zipWriter, manifest, index + 1);
         });
       }
-    };
+    }
   }
 
   return svcModal.directive({
@@ -2193,7 +2245,7 @@ angular.module('payswarm.directives')
       // FIXME: remove test data
       var listing = $scope.model.listing;
       listing.type = ['Listing', 'gr:Offering'];
-      listing.vendor = $scope.identity;
+      listing.vendor = $scope.identity.id;
       listing.payee = [{
         type: 'Payee',
         destination: $scope.model.destination.id,

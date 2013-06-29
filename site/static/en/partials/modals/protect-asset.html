@@ -36,8 +36,10 @@
       <div data-ng-hide="model.saveAsSupported">
         <div data-ng-include="'/partials/protect-asset-php.html'"></div>
       </div>
-      <button class="btn btn-primary"
-        data-ng-click="savePhpBundle()">Save PHP Bundle</button>
+      <div data-ng-show="model.saveAsSupported">
+        <button data-ng-hide="model.bundleSaved" class="btn btn-primary"
+          data-ng-click="savePhpBundle()">Save PHP Bundle</button>
+      </div>
     </div>
   </div>
   <div class="modal-footer">

@@ -22,7 +22,7 @@
     "cube": "~0.2.0",
     "emailjs": "git://github.com/digitalbazaar/emailjs.git",
     "express": "~3.2.5",
-    "http-signature": "~0.9.11",
+    "http-signature": "~0.10.0",
     "i18n": "~0.4.0",
     "jqtpl": "~1.1.0",
     "jsdom": "~0.6.5",
@@ -49,7 +49,7 @@
   },
   "devDependencies": {
     "mocha": "~1.10.0",
-    "payswarm": "~0.10.2",
+    "payswarm": "~0.10.3",
     "should": "~1.2.2",
     "visionmedia-jscoverage": "~1.0.0"
   },

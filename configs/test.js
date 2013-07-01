@@ -34,7 +34,7 @@ config.loggers.console.level = 'emergency';
 // 0 means use # of cpus
 config.server.workers = 1;
 config.server.port = 18443;
-config.server.httpPort = 18100;
+config.server.httpPort = 18080;
 config.server.bindAddr = ['payswarm.dev'];
 config.server.domain = 'payswarm.dev';
 config.server.host = 'payswarm.dev:18443';

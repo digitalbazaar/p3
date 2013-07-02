@@ -1608,10 +1608,12 @@ angular.module('payswarm.services')
    * Gets the hosted listings for an identity.
    *
    * @param options the options to use:
-   *          [storage] an array to update w/the assets.
+   *          [identity] the identity to get the hosted listings for.
+   *          [storage] an array to update w/the listings.
    *          [delay] a timeout to wait before fetching listings.
    *          [createdStart] the creation start date.
    *          [keywords] any keywords to do the look up by.
+   *          [asset] the asset to get the listings for.
    *          [previous] the previous listing (for pagination).
    *          [limit] the maximum number of listings to get.
    *          [includeAsset] true if the asset information should be embedded
@@ -1628,12 +1630,14 @@ angular.module('payswarm.services')
     service.state.loading = true;
     $timeout(function() {
       payswarm.hosted.listings.get({
-        identity: identity.id,
+        identity: options.identity || identity.id,
         createdStart: options.createdStart || undefined,
         keywords: options.keywords || undefined,
+        asset: options.asset || undefined,
         previous: options.previous || undefined,
         limit: options.limit || undefined,
-        includeAsset: options.includeAsset || undefined,
+        includeAsset: ('includeAsset' in options) ?
+          options.includeAsset : undefined,
         success: function(listings) {
           if(options.storage) {
             _replaceArray(options.storage, listings);

@@ -23,15 +23,20 @@ ${set([
   <tbody>
     <tr data-ng-repeat="row in model.table"
       data-ng-hide="row.hidden"
-      data-ng-click="(row.type == 'asset' && showListings(row.asset)) || (row.type == 'listing' && purchase(row.listing))">
+      data-ng-click="row.type == 'asset' && showListings(row)">
       <!-- Date -->
       <td data-ng-switch="row.type">
         <span data-ng-switch-when="asset" class="date">{{row.asset.created | date:'medium'}}</span>
-        <span data-ng-switch-when="listing" class="date">{{lrow.isting.psaPublished | date:'medium'}}</span>
+        <span data-ng-switch-when="listing" class="date">{{row.listing.psaPublished | date:'medium'}}</span>
       </td>
       <!-- Title -->
+      <td data-ng-switch="row.type">
+        <span data-ng-switch-when="asset" class="name">{{row.asset.title}}</span>
+        <span data-ng-switch-when="listing"><a href="{{row.purchaseUrl}}">Buy {{row.title}} for <span class="money"
+          data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact amount of this transaction is USD {{row.amount}}."
+          data-placement="bottom" data-trigger="hover"><span class="currency">USD</span> {{row.amount | ceil | currency:'$'}}</span></a></span>
+      </td>
       <td>
-        <span class="name">{{row.asset.title}}</span>
       </td>
       <!-- Creator -->
       <td>

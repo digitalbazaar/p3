@@ -1035,6 +1035,7 @@ payswarm.hosted.listings = {};
  *   [previous]: 'https://example.com/i/identity/listings/1.1.a',
  *   [limit]: 20,
  *   [keywords]: 'The keywords to use',
+ *   [asset]: 'https://example.com/i/identity/assets/1.1.1',
  *   [includeAsset]: true,
  *   success: function(listings) {},
  *   error: function(err) {}
@@ -1058,6 +1059,9 @@ payswarm.hosted.listings.get = function(options) {
   }
   if(options.keywords) {
     query.keywords = options.keywords;
+  }
+  if(options.asset) {
+    query.asset = options.asset;
   }
   if('includeAsset' in options && options.includeAsset !== undefined) {
     query.includeAsset = options.includeAsset;

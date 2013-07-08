@@ -13,14 +13,17 @@ var payswarm = {
 var PaySwarmError = payswarm.tools.PaySwarmError;
 
 // require https for @contexts
-var nodeContextLoader = jsonld.contextLoaders.node({secure: true});
-jsonld.loadContext = function(url, callback) {
+var nodeDocumentLoader = jsonld.documentLoaders.node({secure: true});
+jsonld.loadDocument = function(url, callback) {
   // FIXME: HACK: until https://w3id.org/payswarm/v1 is ready
   if(url === 'https://w3id.org/payswarm/v1') {
-    return callback(
-      null, url, {'@context': payswarm.tools.getDefaultJsonLdContext()});
+    return callback(null, {
+      contextUrl: null,
+      document: {'@context': payswarm.tools.getDefaultJsonLdContext()},
+      documentUrl: url
+    });
   }
-  nodeContextLoader(url, callback);
+  nodeDocumentLoader(url, callback);
 };
 
 var APP_NAME = 'payswarm.apps.UrlInfo';

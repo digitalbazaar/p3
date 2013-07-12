@@ -1,6 +1,6 @@
 {
   "name": "payswarm-auth",
-  "version": "0.14.23",
+  "version": "0.14.24",
   "dependencies": {
     "async": {
       "version": "0.2.9",

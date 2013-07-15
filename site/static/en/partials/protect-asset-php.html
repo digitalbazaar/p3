@@ -44,10 +44,21 @@ if(isset($_POST['encrypted-message'])) {
   }
 }
 
+// get requested asset content URL
+$protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' ?
+  'https' : 'http');
+$port = $_SERVER['SERVER_PORT'];
+$host = $_SERVER['HTTP_HOST'];
+if(($port !== '80' && $protocol === 'http') ||
+  ($port !== '443' && $protocol === 'https')) {
+  $host .= ":$port";
+}
+$requested_asset_content = "$protocol://$host" . $_SERVER['REQUEST_URI'];
+
 // no message, redirect to the PaySwarm Authority page for the asset
 if(!isset($encrypted_message)) {
   $url = '{{model.identity.id}}/assets?=assetContent=' .
-    "$_SERVER[REQUEST_URI]?$_SERVER[QUERY_STRING]";
+    rawurlencode($requested_asset_content);
   header('HTTP/1.1 303 See Other');
   header("Location: $url");
   exit(0);
@@ -66,20 +77,9 @@ try {
   $asset = $contract->asset->id;
   $asset_content = $contract->asset->assetContent;
   $license = $contract->license;
-
-  // build requested asset URL
-  $protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' ?
-    'https' : 'http');
-  $port = $_SERVER['SERVER_PORT'];
-  $host = $_SERVER['HTTP_HOST'];
-  if(($port !== '80' && $protocol === 'http') ||
-    ($port !== '443' && $protocol === 'https')) {
-    $host .= ":$port";
-  }
-  $url = "$protocol://$host$_SERVER[REQUEST_URI]?$_SERVER[QUERY_STRING]";
   
   // ensure url matches asset content
-  if($url !== $asset_content) {
+  if($requested_asset_content !== $asset_content) {
     throw new Exception('PaySwarm Purchase Exception: ' .
       'The Asset in the given Contract could not be found on this server.');
   }

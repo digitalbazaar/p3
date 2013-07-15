@@ -3,6 +3,7 @@ var jsonldType = require('./jsonldType');
 var payee = require('./payee');
 var payeeRule = require('./payeeRule');
 var payswarmId = require('./payswarmId');
+var publicKeyPem = require('./publicKeyPem');
 var url = require('./url');
 var vendor = require('./vendor');
 var w3cDateTime = require('./w3cDateTime');
@@ -115,6 +116,18 @@ var postAsset = {
   additionalProperties: false
 };
 
+var postAssetPublicKey = {
+  title: 'Set Asset Public Key',
+  description: 'Sets the Public Key for an Asset and any with content in ' +
+    'the same directory.',
+  type: 'object',
+  properties: {
+    '@context': jsonldContext(),
+    publicKeyPem: publicKeyPem()
+  },
+  additionalProperties: false
+};
+
 module.exports.getAssetsQuery = function() {
   return getAssetsQuery;
 };
@@ -123,4 +136,7 @@ module.exports.postAssets = function() {
 };
 module.exports.postAsset = function() {
   return postAsset;
+};
+module.exports.postAssetPublicKey = function() {
+  return postAssetPublicKey;
 };

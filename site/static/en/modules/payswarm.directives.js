@@ -2031,7 +2031,7 @@ angular.module('payswarm.directives')
       creator: {fullName: 'My Full Name'},
       assetProvider: $scope.identity,
       listingRestrictions: {vendor: $scope.identity},
-      assetContent: 'https://payswarm.com',
+      assetContent: 'http://wordpress.payswarm.dev/asset-content/test.html',
       // FIXME: figure out whether published flag is desirable
       psaPublished: window.iso8601.w3cDate()
     };
@@ -2080,6 +2080,7 @@ angular.module('payswarm.directives')
     $scope.model.saveAsSupported = true;
     $scope.model.bundleSaved = false;
     $scope.model.keypair = null;
+    $scope.model.bundleStep = '';
 
     // configure zip
     zip.useWebWorkers = (typeof Worker !== 'undefined');
@@ -2090,9 +2091,7 @@ angular.module('payswarm.directives')
 
     $scope.generateBundle = function() {
       $scope.model.loading = true;
-
-      //var asset = $scope.model.asset;
-
+      $scope.model.bundleStep = 'Generating security keys';
       console.log('Generating bundle...');
       async.auto({
         getJsonLdProcessor: function(callback) {
@@ -2120,17 +2119,25 @@ angular.module('payswarm.directives')
           }, callback);
         },
         sendPublicKey: ['generateKeyPair', function(callback, results) {
+          $scope.model.bundleStep = 'Registering generated keys';
+          $scope.$apply();
+
           var keypair = results.generateKeyPair;
           $scope.model.keypair = {
             privateKey: forge.pki.privateKeyToPem(keypair.privateKey),
             publicKey: forge.pki.publicKeyToPem(keypair.publicKey)
           };
 
-          // FIXME: send public key to server
-          callback();
+          // set asset's public key
+          svcHostedAsset.setKey($scope.asset.id, {
+            '@context': 'https://w3id.org/payswarm/v1',
+            publicKeyPem: $scope.model.keypair.publicKey
+          }, callback);
         }],
         generatePhpBundle: ['getJsonLdProcessor', 'generateKeyPair',
           function(callback, results) {
+            $scope.model.bundleStep = 'Compressing bundle';
+            $scope.$apply();
             writePhpBundle({
               jsonld: results.getJsonLdProcessor,
               keypair: results.generateKeyPair

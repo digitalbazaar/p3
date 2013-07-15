@@ -1590,6 +1590,26 @@ angular.module('payswarm.services')
     });
   };
 
+  // set an asset's public key
+  service.setKey = function(assetId, publicKey, callback) {
+    service.state.loading = true;
+    payswarm.hosted.assets.setKey({
+      assetId: assetId,
+      publicKey: publicKey,
+      success: function() {
+        // FIXME: track which assets have a public key set?
+        service.state.loading = false;
+        callback();
+        $rootScope.$apply();
+      },
+      error: function(err) {
+        service.state.loading = false;
+        callback(err);
+        $rootScope.$apply();
+      }
+    });
+  };
+
   return service;
 })
 .factory('svcHostedListing', function($timeout, $rootScope, svcIdentity) {

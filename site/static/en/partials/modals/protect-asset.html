@@ -20,10 +20,11 @@
         Stuff about how other assets in the same dir will be affected, maybe
         even show which ones, but that might be asking too much.
       </div>
-      <button data-ng-disabled="model.loading"
+      <button data-ng-hide="model.loading"
         class="btn btn-primary"
         data-ng-click="generateBundle()">Generate Bundle</button>
-      <span data-ng-show="model.loading">This may take a while...</span>
+      <span data-ng-show="model.loading">[{{model.bundleStep}}] </span>
+      <span data-ng-show="model.loading"> This may take a while...</span>
       <span data-spinner="model.loading"
         data-spinner-class="append-btn-spinner"></span>
     </div>

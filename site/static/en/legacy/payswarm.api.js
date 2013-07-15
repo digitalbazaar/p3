@@ -1017,6 +1017,39 @@ payswarm.hosted.assets.update = function(options) {
   });
 };
 
+/**
+ * Sets a hosted asset's public key.
+ *
+ * Usage:
+ *
+ * payswarm.hosted.assets.setKey({
+ *   assetId: assetId,
+ *   publicKey: publicKey,
+ *   success: function() {},
+ *   error: function(err) {}
+ * });
+ */
+payswarm.hosted.assets.setKey = function(options) {
+  $.ajax({
+    async: true,
+    type: 'POST',
+    url: options.assetId + '/key',
+    dataType: 'json',
+    contentType: 'application/json',
+    data: JSON.stringify(options.publicKey),
+    success: function(statusText) {
+      if(options.success) {
+        options.success();
+      }
+    },
+    error: function(xhr, textStatus, errorThrown) {
+      if(options.error) {
+        options.error(normalizeError(xhr, textStatus));
+      }
+    }
+  });
+};
+
 // hosted listings API
 payswarm.hosted.listings = {};
 

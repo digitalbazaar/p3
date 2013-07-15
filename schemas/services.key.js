@@ -1,5 +1,4 @@
 var label = require('./label');
-var status = require('./status');
 var publicKeyPem = require('./publicKeyPem');
 var jsonldContext = require('./jsonldContext');
 

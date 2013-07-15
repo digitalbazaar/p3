@@ -2029,8 +2029,8 @@ angular.module('payswarm.directives')
       // FIXME: remove test data
       title: 'TITLE',
       creator: {fullName: 'My Full Name'},
-      assetProvider: $scope.identity,
-      listingRestrictions: {vendor: $scope.identity},
+      assetProvider: $scope.identity.id,
+      listingRestrictions: {vendor: $scope.identity.id},
       assetContent: 'http://wordpress.payswarm.dev/asset-content/test.html',
       // FIXME: figure out whether published flag is desirable
       psaPublished: window.iso8601.w3cDate()

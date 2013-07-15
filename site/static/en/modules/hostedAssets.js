@@ -20,8 +20,6 @@ module.controller('HostedAssetsCtrl', function(
   $scope.model.error = null;
 
   // search listings for input as keywords
-  // FIXME: remove hard-coded assetContent
-  data.query.assetContent = 'https://payswarm.com';
   var options = angular.extend({}, data.query, {
     identity: data.identityId,
     storage: $scope.model.assets

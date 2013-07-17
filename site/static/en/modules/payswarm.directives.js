@@ -2193,10 +2193,13 @@ angular.module('payswarm.directives')
       }, {
         name: 'jsonld.php',
         blob: new Blob([options.jsonld], {type: 'text/plain;charset=UTF-8'})
-      }/*, {
+      }, {
         name: '.htaccess',
-        blob: new Blob(htaccess, {type: 'text/plain;charset=UTF-8'})
-      }*/];
+        blob: new Blob([
+          'RewriteEngine On\n' +
+          'RewriteRule ^(.*)$ protect-asset-content.php\n'],
+          {type: 'text/plain;charset=UTF-8'})
+      }];
 
       zip.createWriter(
         new zip.BlobWriter('application/zip'),

@@ -93,19 +93,22 @@ function processInput(input) {
       }
 
       // input is RDFa
-      jsdom.env(input, function(errors, window) {
-        if(errors && errors.length > 0) {
-          console.log('DOM Errors:', errors);
-          process.exit(1);
-        }
+      jsdom.env({
+        html: input,
+        done: function(errors, window) {
+          if(errors && errors.length > 0) {
+            console.log('DOM Errors:', errors);
+            process.exit(1);
+          }
 
-        try {
-          // extract JSON-LD from RDFa
-          RDFa.attach(window.document);
-          jsonld.fromRDF(window.document.data, {format: 'rdfa-api'}, callback);
-        }
-        catch(ex) {
-          return callback(ex);
+          try {
+            // extract JSON-LD from RDFa
+            RDFa.attach(window.document);
+            jsonld.fromRDF(window.document.data, {format: 'rdfa-api'}, callback);
+          }
+          catch(ex) {
+            return callback(ex);
+          }
         }
       });
     },

@@ -44,7 +44,7 @@
     "underscore": "~1.5.0",
     "ursa": "v0.8.0",
     "walk": "~2.2.1",
-    "winston": "~0.6.1",
+    "winston": "~0.7.0",
     "winston-mail": "~0.2.1"
   },
   "devDependencies": {

@@ -30,7 +30,19 @@ var schema = {
       properties: {
         type: jsonldType(['Transaction', 'Contract']),
         id: payswarmId(),
-        asset: payswarmId(),
+        asset: {
+          required: true,
+          type: [payswarmId(), {
+            required: true,
+            type: 'object',
+            properties: {
+              id: payswarmId(),
+              type: jsonldType('Asset'),
+              assetContent: payswarmId()
+            },
+            additionalProperties: false
+          }]
+        },
         license: payswarmId(),
         listing: payswarmId(),
         assetProvider: payswarmId(),

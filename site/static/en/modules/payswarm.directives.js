@@ -2134,7 +2134,7 @@ angular.module('payswarm.directives')
             publicKeyPem: $scope.model.keypair.publicKey
           }, callback);
         }],
-        generatePhpBundle: ['getJsonLdProcessor', 'generateKeyPair',
+        generatePhpBundle: ['getJsonLdProcessor', 'sendPublicKey',
           function(callback, results) {
             $scope.model.bundleStep = 'Compressing bundle';
             $scope.$apply();

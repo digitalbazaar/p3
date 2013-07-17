@@ -57,7 +57,7 @@ $requested_asset_content = "$protocol://$host" . $_SERVER['REQUEST_URI'];
 
 // no message, redirect to the PaySwarm Authority page for the asset
 if(!isset($encrypted_message)) {
-  $url = '{{model.identity.id}}/assets?=assetContent=' .
+  $url = '{{model.identity.id}}/assets?assetContent=' .
     rawurlencode($requested_asset_content);
   header('HTTP/1.1 303 See Other');
   header("Location: $url");
@@ -65,8 +65,8 @@ if(!isset($encrypted_message)) {
 }
 
 try {
-  // set jsonld context loader
-  jsonld_set_context_loader('payswarm_jsonld_load_context');
+  // set jsonld document loader
+  jsonld_set_document_loader('payswarm_jsonld_load_document');
 
   // get receipt from encrypted message
   $receipt = payswarm_get_receipt($encrypted_message);
@@ -84,9 +84,23 @@ try {
       'The Asset in the given Contract could not be found on this server.');
   }
   
+  // determine asset content filename
+  $filename = dirname($_SERVER['SCRIPT_FILENAME']) . DIRECTORY_SEPARATOR .
+    basename(parse_url($_SERVER['REQUEST_URI'])['path']);
+
+  // get file content-type  
+  $finfo = finfo_open(FILEINFO_MIME);
+  $content_type = finfo_file($finfo, $filename);
+  finfo_close($finfo);
+  
+  // send headers
+  header("Content-Type: $content_type");
+  header('Content-Length: ' . filesize($filename));
+  
   // serve asset content
-  echo "CONTENT SERVED";
-  // FIXME:
+  ob_end_flush();
+  flush();
+  readfile($filename);
 }
 catch(Exception $e) {
   // FIXME: pretty print error
@@ -94,16 +108,19 @@ catch(Exception $e) {
 }
 
 /**
- * Retrieves a JSON-LD context URL, returning the context.
+ * Retrieves a JSON-LD document URL, returning the remote document.
  *
- * @param string $url the URL for the JSON-LD context.
+ * @param string $url the URL for the JSON-LD document.
  *
- * @return stdClass the JSON-LD context.
+ * @return stdClass the JSON-LD RemoteDocument object.
  */
-function payswarm_jsonld_load_context($url) {
+function payswarm_jsonld_load_document($url) {
   if($url === 'https://w3id.org/payswarm/v1') {
     return (object)array(
-      '@context' => payswarm_create_default_jsonld_context());
+      'contextUrl' => null,
+      'documentUrl' => $url,
+      'document' => (object)array(
+        '@context' => payswarm_create_default_jsonld_context()));
   }
   return jsonld_default_get_secure_url($url);
 }
@@ -121,11 +138,11 @@ function payswarm_get_receipt($msg) {
   $receipt = payswarm_decode_authority_message($msg);
 
   // check message type
-  if(payswarm_jsonld_has_type($receipt, 'Error')) {
+  if(JsonLdProcessor::hasValue($receipt, 'type', 'Error')) {
     throw new Exception('PaySwarm Purchase Exception: ' .
       $receipt->errorMessage);
   }
-  else if(!payswarm_jsonld_has_type($receipt, 'Receipt')) {
+  else if(!JsonLdProcessor::hasValue($receipt, 'type', 'Receipt')) {
     throw new Exception('PaySwarm Purchase Exception: ' .
       'Invalid purchase response from PaySwarm Authority.');
   }
@@ -187,14 +204,7 @@ function payswarm_decrypt($encrypted) {
   }
 
   // load embedded private key
-  $pem = '{{model.keypair.privateKey | embeddedString}}';
-  $pkey = openssl_pkey_get_private($pem);
-  if($pkey === false) {
-    throw new Exception('PaySwarm Security Exception: ' .
-      'Failed to load the private key.');
-  }
-
-  // load private key from PEM
+  $pem = "{{model.keypair.privateKey | embeddedString}}";
   $pkey = openssl_pkey_get_private($pem);
   if($pkey === false) {
     throw new Exception('PaySwarm Security Exception: ' .
@@ -234,7 +244,7 @@ function payswarm_decrypt($encrypted) {
   }
 
   // decode JSON message
-  return payswarm_jsonld_decode($data);
+  return json_decode($data);
 }
 
 /**
@@ -253,8 +263,7 @@ function payswarm_verify($obj) {
     'signature' => (object)array(
       'created' => new stdClass(),
       'creator' => new stdClass(),
-      'signatureValue' => new stdClass(),
-      'nonce' => new stdClass()
+      'signatureValue' => new stdClass()
     )
   );
   $obj = jsonld_frame($obj, $frame);
@@ -278,7 +287,12 @@ function payswarm_verify($obj) {
   }
 
   // fetch public key
-  $key = json_decode(jsonld_default_get_secure_url($sprop->creator));
+  $remote_doc = jsonld_default_secure_document_loader($sprop->creator);
+  if(!$remote_doc) {
+    throw new Exception('PaySwarm Security Exception: ' .
+      'The public key for verifying the message could not be retrieved.');
+  }
+  $key = json_decode($remote_doc->document);
   $pem = $key->publicKeyPem;
   
   // ensure key has not been revoked
@@ -292,11 +306,16 @@ function payswarm_verify($obj) {
     throw new Exception('PaySwarm Security Exception: ' .
       'The message was signed with a key with an invalid owner.');
   }
-  $owner = json_decode(jsonld_default_get_secure_url($key->owner));
+  $remote_doc = jsonld_default_secure_document_loader($key->owner);
+  if(!$remote_doc) {
+    throw new Exception('PaySwarm Security Exception: ' .
+      'The owner of the public key could not be confirmed.');
+  }
+  $owner = json_decode($remote_doc->document);
   $found = false;
   $public_keys = JsonLdProcessor::arrayify($owner->publicKey);
   foreach($public_keys as $public_key) {
-    if($public_key->id === $key->owner) {
+    if($public_key->id === $key->id) {
       $found = true;
       break;
     }

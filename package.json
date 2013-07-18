@@ -15,7 +15,7 @@
     "async": "~0.2.8",
     "bcrypt": "~0.7.2",
     "bignumber.js": "~1.0.0",
-    "bossgeo": "~0.0.6",
+    "bossgeo": "~0.0.7",
     "commander": "~1.3.0",
     "connect": "~2.7.10",
     "connect-mongo": "git://github.com/digitalbazaar/connect-mongo.git",

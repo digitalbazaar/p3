@@ -22,7 +22,8 @@
     },
     "bossgeo": {
       "version": "0.0.7",
-      "from": "bossgeo@~0.0.6",
+      "from": "bossgeo@0.0.7",
+      "resolved": "https://registry.npmjs.org/bossgeo/-/bossgeo-0.0.7.tgz",
       "dependencies": {
         "bases": {
           "version": "0.1.0",

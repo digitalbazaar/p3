@@ -7,7 +7,7 @@ var fs = require('fs');
 var async = require('async');
 
 // Checkout the following repo and rebuild the data:
-var repo = 'https://github.com/lukes/ISO-3166-Countries-with-Regional-Codes'
+var repo = 'https://github.com/lukes/ISO-3166-Countries-with-Regional-Codes';
 
 // JSON file with all the ISO 3166 data
 var allfile = 'ISO-3166-Countries-with-Regional-Codes/all/all.json';
@@ -34,7 +34,7 @@ async.waterfall([
     // Load data
     fs.readFile(program.file, function(err, data) {
       if(err) {
-        throw Error(err);
+        throw new Error(err);
       }
       callback(null, JSON.parse(data));
     });

@@ -283,7 +283,8 @@ ${set([
                 <tr>
                   <th>Name</th>
                   <th>Status</th>
-                  <th class="action">Revoke</th>
+                  <th>Edit</th>
+                  <th>Revoke</th>
                 </tr>
               </thead>
               <tbody>
@@ -296,6 +297,10 @@ ${set([
                   <td>
                     <span data-ng-show="key.psaStatus == 'disabled'">Revoked</span>
                     <span data-ng-show="key.psaStatus == 'active'">Active</span>
+                  </td>
+                  <!-- Edit -->
+                  <td class="action">
+                    <button class="btn" title="Edit" data-ng-click="editKey(key)"><i class="icon-pencil"></i></button>
                   </td>
                   <!-- Revoke -->
                   <td class="action">
@@ -321,7 +326,7 @@ ${set([
           </div>
         </div>
         <!-- Revoking key alert -->
-        <div data-modal-alert="showRevokeKeyAlert"
+        <div data-modal-alert="modals.showRevokeKeyAlert"
           data-modal-header="Warning"
           data-modal-ok="Revoke"
           data-modal-cancel="Cancel"
@@ -335,6 +340,9 @@ ${set([
           You can relist your items or re-enable your applications by
           registering a new key.</p>
           <p>Are you sure that you want to revoke this key?</p>
+        </div>
+        <div data-modal-edit-key="modals.showEditKey"
+          data-key="modals.key"></div>
         </div>
       </div>
       <!-- End Keys Tab -->

@@ -71,6 +71,7 @@ $(document).ready(function() {
       .metric('sum(voided(amount).eq(currency, "' + currency + '")) / sum(voided.eq(currency, "' + currency + '"))')
       .alias(currency + ' Voided Amount (avg)'));
 
+    // FIXME: busted
     metrics.push(cube
       .metric('sum(settled(amount).eq(currency, "' + currency + '").eq(type,"contract"))')
       .alias(currency + ' Contract Amount'));
@@ -80,6 +81,9 @@ $(document).ready(function() {
     metrics.push(cube
       .metric('sum(settled(amount).eq(currency, "' + currency + '").eq(type,"withdrawal"))')
       .alias(currency + ' Withdrawal Amount'));
+
+    // FIXME: registrations, logins, etc
+    // ...
   }
 
   //console.log(cube);

@@ -475,7 +475,7 @@ function _createListing(self, vendorProfiles, listings, callback) {
     function(callback) {
       // generate the asset
       var asset = {
-        '@context': payswarm.CONTEXT,
+        '@context': payswarm.CONTEXT_URL,
         id: assetId,
         type: ['Asset', 'pto:WebPage'],
         creator: {
@@ -504,7 +504,7 @@ function _createListing(self, vendorProfiles, listings, callback) {
 
       // generate the listing
       var listing = {
-        '@context': payswarm.CONTEXT,
+        '@context': payswarm.CONTEXT_URL,
         id: listingId,
         type: ['Listing', 'gr:Offering'],
         vendor: vendor.identity.id,
@@ -574,7 +574,7 @@ function _createListing(self, vendorProfiles, listings, callback) {
     },
     function(signedListing, callback) {
       // generate the listing hash and store it for later use
-      signedListing['@context'] = payswarm.CONTEXT;
+      signedListing['@context'] = payswarm.CONTEXT_URL;
       payswarm.hash(signedListing, function(err, hash) {
         if(err) {
           return callback(err);
@@ -615,7 +615,7 @@ function _purchaseAsset(self, buyers, listings, callback) {
 
   // build the purchase request
   var purchaseRequest = {
-    '@context': payswarm.CONTEXT,
+    '@context': payswarm.CONTEXT_URL,
     type: 'PurchaseRequest',
     identity: buyer.identity.id,
     listing: listing.id,

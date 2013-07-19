@@ -663,6 +663,7 @@ angular.module('payswarm.services')
 
   // update a budget
   service.update = function(budget, callback) {
+    callback = callback || angular.noop;
     service.state.loading = true;
     payswarm.budgets.update({
       identity: identity.id,
@@ -967,6 +968,51 @@ angular.module('payswarm.services')
         callback(null, service.keys);
       });
     }
+  };
+
+  // get a single key
+  service.getOne = function(keyId, options, callback) {
+    if(typeof options === 'function') {
+      callback = options;
+      options = {};
+    }
+    options = options || {};
+    callback = callback || angular.noop;
+
+    service.state.loading = true;
+    $timeout(function() {
+      payswarm.keys.getOne({
+        key: keyId,
+        success: function(key) {
+          _replaceInArray(service.keys, key);
+          service.state.loading = false;
+          callback(null, key);
+          $rootScope.$apply();
+        },
+        error: function(err) {
+          service.state.loading = false;
+          callback(err);
+          $rootScope.$apply();
+        }
+      });
+    }, options.delay || 0);
+  };
+
+  // update a key
+  service.update = function(key, callback) {
+    service.state.loading = true;
+    payswarm.keys.update({
+      key: key,
+      success: function() {
+        // get key
+        service.getOne(key.id, callback);
+      },
+      error: function(err) {
+        service.state.loading = false;
+        callback(err);
+        $rootScope.$apply();
+      }
+    });
   };
 
   // revoke a key

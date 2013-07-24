@@ -14,7 +14,7 @@ var PaySwarmError = payswarm.tools.PaySwarmError;
 
 // require https for @contexts
 var nodeDocumentLoader = jsonld.documentLoaders.node({secure: true});
-jsonld.loadDocument = function(url, callback) {
+jsonld.documentLoader = function(url, callback) {
   // FIXME: HACK: until https://w3id.org/payswarm/v1 is ready
   if(url === 'https://w3id.org/payswarm/v1') {
     return callback(null, {

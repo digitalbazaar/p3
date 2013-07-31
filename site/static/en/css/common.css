@@ -430,6 +430,9 @@ span.currency {
   position: relative;
   float: none;
 }
+.well.well-transparent {
+  background-color: transparent;
+}
 
 /* Resize rules */
 .resize-both {

@@ -20,8 +20,8 @@ module.config(function($locationProvider, $routeProvider) {
       templateUrl: '/partials/tools/assetora.html', 
       controller: AssetoraCtrl
     })
-    .when('/i/:identity/bills', {
-      templateUrl: '/partials/tools/bills.html', 
+    .when('/i/:identity/invoices', {
+      templateUrl: '/partials/tools/invoices.html', 
       controller: BillsCtrl
     })
     .when('/i/:identity/causes', {

@@ -22,7 +22,7 @@ module.config(function($locationProvider, $routeProvider) {
     })
     .when('/i/:identity/invoices', {
       templateUrl: '/partials/tools/invoices.html', 
-      controller: BillsCtrl
+      controller: InvoicesCtrl
     })
     .when('/i/:identity/causes', {
       templateUrl: '/partials/tools/causes.html', 
@@ -148,7 +148,7 @@ function AssetoraCtrl($scope, svcHostedAsset, svcHostedListing) {
   svcHostedListing.getRecent({force: true});
 }
 
-function BillsCtrl($scope, svcHostedAsset, svcHostedListing) {
+function InvoicesCtrl($scope, svcHostedAsset, svcHostedListing) {
   $scope.model = {};
   // FIXME: globalize window.data access
   var data = window.data || {};

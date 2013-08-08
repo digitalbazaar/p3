@@ -1,4 +1,5 @@
 var jsonldContext = require('./jsonldContext');
+var jsonldType = require('./jsonldType');
 var label = require('./label');
 var money = require('./money');
 var payswarmId = require('./payswarmId');
@@ -13,6 +14,7 @@ var postBudget = {
     properties: {
       '@context': jsonldContext(),
       id: payswarmId(),
+      type: jsonldType('Budget'),
       label: label({required: false}),
       source: payswarmId({required: false}),
       amount: money.precisePositive({required: false}),
@@ -49,6 +51,7 @@ var postBudgets = {
   type: 'object',
   properties: {
     '@context': jsonldContext(),
+    type: jsonldType('Budget'),
     label: label(),
     source: payswarmId(),
     amount: money.precisePositive(),

@@ -1343,7 +1343,8 @@ angular.module('payswarm.directives')
     $scope.loading = false;
     $scope.identity = data.identity || {};
     $scope.budget = {
-      '@context': payswarm.CONTEXT_URL
+      '@context': payswarm.CONTEXT_URL,
+      type: 'Budget'
     };
     $scope.refreshChoices = [
       {label: 'Never', value: 'never'},
@@ -1473,6 +1474,7 @@ angular.module('payswarm.directives')
       var budget = {
         '@context': payswarm.CONTEXT_URL,
         id: b.id,
+        type: 'Budget',
         label: b.label,
         source: $scope.selection.account.id,
         amount: b.amount,

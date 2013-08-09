@@ -533,8 +533,9 @@
       "resolved": "git://github.com/digitalbazaar/json-schema.git#edf8b1f3072d58cd78eae7e2bd6f6dd1a703d70e"
     },
     "jsonld": {
-      "version": "0.0.64",
-      "from": "jsonld@0.0.64",
+      "version": "0.1.0",
+      "from": "jsonld@0.1.0",
+      "resolved": "https://registry.npmjs.org/jsonld/-/jsonld-0.1.0.tgz",
       "dependencies": {
         "xmldom": {
           "version": "0.1.16",

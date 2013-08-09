@@ -18,9 +18,9 @@ ${set([
               </a>
               <ul class="dropdown-menu">
                 <li {{if inav == "assetora"}}class="active"{{/if}}><a href="${session.identity.id}/assetora"><i class="icon-cloud"></i> Sell Digital Content</a></li>
-                <li {{if inav == "invoicing"}}class="active"{{/if}}><a href="${session.identity.id}/invoices"><i class="icon-money"></i> Invoice Customers</a></li>
-                <li {{if inav == "cause"}}class="active"{{/if}}><a href="${session.identity.id}/causes"><i class="icon-heart"></i> Collect for a Cause</a></li>
-                <li {{if inav == "invoice"}}class="active"{{/if}}><a href="${session.identity.id}/tickets"><i class="icon-ticket"></i> Sell Tickets</a></li>
+                <li {{if inav == "invoices"}}class="active"{{/if}}><a href="${session.identity.id}/invoices"><i class="icon-money"></i> Invoices</a></li>
+                <li {{if inav == "causes"}}class="active"{{/if}}><a href="${session.identity.id}/causes"><i class="icon-heart"></i> Causes</a></li>
+                <li {{if inav == "tickets"}}class="active"{{/if}}><a href="${session.identity.id}/tickets"><i class="icon-ticket"></i> Tickets</a></li>
                 <li class="divider"></li>
                 <li><a href="${session.identity.id}/tools"><i class="icon-list"></i> More</a></li>
               </ul>

@@ -875,12 +875,12 @@ angular.module('payswarm.directives')
     $scope.grid = [];
     $scope.$watch('items', function(value) {
       if($scope.columns !== undefined) {
-        buildGrid(Math.max(1, parseInt($scope.columns)));
+        buildGrid(Math.max(1, parseInt($scope.columns, 10)));
       }
     }, true);
     $scope.$watch('columns', function(value) {
       if(value !== undefined) {
-        buildGrid(Math.max(1, parseInt(value)));
+        buildGrid(Math.max(1, parseInt(value, 10)));
       }
     });
 

@@ -1,5 +1,5 @@
 var path = require('path');
-__libdir = process.env['PAYSWARM_AUTH_COV'] ?
+__libdir = process.env.PAYSWARM_AUTH_COV ?
   path.resolve(__dirname, '../lib-cov') :
   path.resolve(__dirname, '../lib');
 var config = require(__libdir + '/config');

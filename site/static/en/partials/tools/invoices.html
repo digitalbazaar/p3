@@ -2,16 +2,134 @@
 
   <div class="row">
     <div class="title-section span12">
-      <h1 class="headline">Invoice Customers</h1>
+      <h1 class="headline">Invoices</h1>
       
-      <p>FIXME: Invoice Customers description.</p>
+      <!--
+      <p>Create and pay invoices.</p>
+      -->
     </div>
   </div>
   
   <div class="row">
     <div class="section span12">
-      <p>FIXME</p>
+      <h3 class="headline">Invoices</h3>
+
+      <button data-ng-show="!(model.search.state.loading || state.assets.loading || state.listings.loading)"
+        class="btn btn-success btn-add"
+        data-ng-click="model.modals.showAddInvoice=true"><i class="icon-plus icon-white"></i> Add Invoice</button>
+
+      <form class="form-search pull-right">
+        <!--
+        <label class="checkbox">
+          <input type="checkbox" name="owner"> My Invoices
+        </label>
+        -->
+        <input type="text" name="search" class="input-xlarge search-query"
+          data-ng-model="model.search.input"
+          placeholder="Search..." />
+        <span data-input-watcher="model.search.input"
+          data-input-watcher-state="model.search.state"
+          data-input-change="search(input, state, callback)">
+        </span>
+        <span data-spinner="model.search.state.loading || state.assets.loading || state.listings.loading"
+          data-spinner-class="append-btn-spinner"></span>
+      </form>
+
+      <span class="clearfix"></span>
+      
+      <table class="table table-condensed"
+        data-ng-show="!state.assets.loading && model.search.assets.length > 0">
+        <thead>
+          <tr>
+            <th class="compact">Paid</th>
+            <th class="date">Date</th>
+            <th class="name">Title</th>
+            <th class="name">Creator</th>
+            <th class="action">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-ng-repeat="asset in model.search.assets" class="asset"
+            data-fadein="asset.added" data-fadeout="asset.deleted">
+            <!-- Paid -->
+            <td>
+              <span>X</span>
+            </td>
+            <!-- Date -->
+            <td>
+              <span class="date">{{asset.created | date:'medium'}}</span>
+            </td>
+            <!-- Title -->
+            <td>
+              <span class="name">{{asset.title}}</span>
+            </td>
+            <!-- Creator -->
+            <td>
+              <span class="name">{{asset.creator.fullName}}</span>
+            </td>
+            <!-- Action -->
+            <td class="action">
+              <div class="btn-group">
+                <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
+                  <i class="icon-chevron-down"></i>
+                </a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a data-ng-click="model.modals.asset=asset; model.modals.showAddListing=true">
+                      <i class="icon-plus"></i> Add Listing
+                    </a>
+                  </li>
+                  <li>
+                    <a data-ng-click="model.modals.asset=asset; model.modals.showEditAsset=true">
+                      <i class="icon-pencil"></i> Edit
+                    </a>
+                  </li>
+                  <li>
+                    <a data-ng-click="model.modals.asset=asset; model.modals.showProtectAsset=true">
+                      <i class="icon-lock"></i> Protect
+                    </a>
+                  </li>
+                  <li class="divider"></li>
+                  <li class="btn-danger">
+                    <a data-ng-click="deleteAsset(asset)">
+                      <i class="icon-remove icon-white"></i> Delete
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr data-ng-show="state.assets.loading">
+            <td colspan="3" style="text-align: center">
+              <span class="center">
+                <span data-spinner="state.assets.loading" data-spinner-class="table-spinner"></span>
+              </span>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+      <div data-ng-show="!state.assets.loading && model.search.assets.length == 0">
+        <p class="center">None found.</p>
+      </div>
     </div>
   </div>
+  
+  <!-- delete alert -->
+  <div data-modal-alert="showDeleteInvoiceAlert"
+    data-modal-header="Warning"
+    data-modal-ok="Delete"
+    data-modal-cancel="Cancel"
+    data-modal-on-close="confirmDeleteInvoice(err, result)">
+    <div>
+      <p>Are you sure that you want to delete this invoice?</p>
+      <div>FIXME: display invoice</div>
+    </div>
+  </div>
+  
+  <!-- Modals -->
+  <div data-modal-add-invoice="model.modals.showAddInvoice"></div>
+  <!--<div data-modal-edit-invoice="model.modals.showEditInvoice"></div>-->
 
 </div>

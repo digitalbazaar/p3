@@ -2312,6 +2312,125 @@ angular.module('payswarm.directives')
     }
   });
 })
+.directive('modalAddInvoice', function(svcModal) {
+  function Ctrl($scope, svcHostedAsset, svcHostedListing) {
+    // FIXME: use root/global data, move over to model
+    $scope.data = window.data || {};
+    $scope.identity = data.identity || {};
+    $scope.feedback = {};
+
+    $scope.model = {};
+    $scope.model.loading = false;
+    $scope.model.asset = {
+      '@context': [
+        'https://w3id.org/payswarm/v1',
+        //'https://w3id.org/meritora/v1',
+        {
+          'meritora': 'https://w3id.org/meritora#',
+          'invoice': 'https://w3id.org/meritora/invoice#',
+          'Invoice': 'invoice:Invoice',
+          'Item': 'invoice:Item',
+          // FIXME: use @container: @list?
+          'invoiceItem': 'invoice:item'
+        }
+      ],
+      type: ['Asset', 'Invoice'],
+      // FIXME: add more asset details
+      // FIXME: remove test data
+      title: '',
+      creator: {fullName: $scope.identity.label},
+      assetProvider: $scope.identity.id,
+      listingRestrictions: {vendor: $scope.identity.id},
+      //assetContent: null,
+      invoiceItem: [],
+      // FIXME: figure out whether published flag is desirable
+      psaPublished: null,
+      created: null
+    };
+    $scope.model.destination = null;
+
+    $scope.addInvoice = function() {
+      var asset = $scope.model.asset;
+      asset.created = window.iso8601.w3cDate();
+      asset.psaPublished = asset.created;
+
+      console.log('invoice asset', asset);
+      svcHostedAsset.add(asset, function(err, asset) {
+        $scope.loading = false;
+        if(!err) {
+          $scope.modal.close(null, asset);
+        }
+        $scope.feedback.error = err;
+      });
+      // FIXME: create and add associated Listing
+    };
+  }
+
+  return svcModal.directive({
+    name: 'AddInvoice',
+    templateUrl: '/partials/modals/add-invoice.html',
+    controller: Ctrl,
+    link: function(scope, element, attrs) {
+      scope.feedbackTarget = element;
+    }
+  });
+})
+.directive('modalAddInvoiceItem', function(svcModal) {
+  function Ctrl($scope) {
+    // FIXME: use root/global data, move over to model
+    $scope.data = window.data || {};
+    $scope.identity = data.identity || {};
+    $scope.feedback = {};
+
+    console.log('modal-add-invoice-item $scope.asset', $scope.asset);
+    console.log('modal-add-invoice-item $scope', $scope);
+    $scope.model = {};
+    $scope.model.loading = false;
+    $scope.model.asset = $scope.asset;
+    $scope.model.item = {
+      '@context': [
+        'https://w3id.org/payswarm/v1',
+        //'https://w3id.org/meritora/v1',
+        {
+          'meritora': 'https://w3id.org/meritora#',
+          'invoice': 'https://w3id.org/meritora/invoice#',
+          'Invoice': 'invoice:Invoice',
+          'Item': 'invoice:Item',
+          // FIXME: use @container: @list?
+          'invoiceItem': 'invoice:item'
+        }
+      ],
+      type: 'Item',
+      label: '',
+      comment: '',
+      amount: ''
+      // FIXME: add more item details
+      // - date range of item
+      // - time used for item
+      // - who performed item
+      // - item comment
+      // ... etc
+    };
+
+    $scope.addInvoiceItem = function() {
+      var item = $scope.model.item;
+      $scope.model.asset.invoiceItem.push(item);
+      $scope.modal.close(null, item);
+    };
+  }
+
+  return svcModal.directive({
+    name: 'AddInvoiceItem',
+    scope: {
+      asset: '='
+    },
+    templateUrl: '/partials/modals/add-invoice-item.html',
+    controller: Ctrl,
+    link: function(scope, element, attrs) {
+      scope.feedbackTarget = element;
+    }
+  });
+})
 .directive('modalRedeemPromoCode', function(svcModal, svcPromo) {
   function Ctrl($scope) {
     $scope.model = {};

@@ -94,6 +94,10 @@ config.mail.vars = {
   machine: require('os').hostname()
 };
 
+
+// base URL for tests
+config.website.baseUrl = 'https://payswarm.dev:19443/';
+
 require('./roles');
 require('./common-data');
 require('./dev-data');

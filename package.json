@@ -8,7 +8,7 @@
     "bootstrap": "make -C ../payswarm-bootstrap bootstrap && rsync -av ../payswarm-bootstrap/bootstrap/ ./site/static/en/bootstrap/",
     "cube-collector": "node node_modules/cube/bin/collector.js",
     "cube-evaluator": "node node_modules/cube/bin/evaluator.js",
-    "test": "node test.js",
+    "test": "node test.js --unit",
     "lint": "jshint *.js bin/*js configs/*.js email-templates/*.js lib/*.js lib/payswarm-auth/*.js lib/payswarm-auth/tests/*.js locales/*.js schemas/*.js site/static/en/legacy/*.js site/static/en/modules/*.js test/*.js tests/*.js",
     "ci-lint": "mkdir -p reports && jshint --reporter=checkstyle *.js bin/*js configs/*.js email-templates/*.js lib/*.js lib/payswarm-auth/*.js lib/payswarm-auth/tests/*.js locales/*.js schemas/*.js site/static/en/legacy/*.js site/static/en/modules/*.js test/*.js tests/*.js > reports/jshint.xml || exit 0",
     "coverage": "mkdir -p reports && rm -rf lib-cov; ./node_modules/visionmedia-jscoverage/jscoverage lib lib-cov && PAYSWARM_AUTH_COV=1 node test.js > reports/coverage.html && rm -rf lib-cov"

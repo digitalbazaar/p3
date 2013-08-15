@@ -10,7 +10,7 @@ config.modules.push('test');
 // app info
 config.app.masterTitle = 'payswarm1d';
 config.app.workerTitle = 'payswarm1d-worker';
-config.app.restartWorkers = false;
+config.app.restartWorkers = true;
 // system group and user IDs (can be groupname/username instead of numbers)
 config.app.user.groupId = process.getuid();
 config.app.user.userId = process.getgid();
@@ -32,7 +32,7 @@ config.loggers.console.level = 'emergency';
 
 // server info
 // 0 means use # of cpus
-config.server.workers = 1;
+config.server.workers = 0;
 config.server.port = 18443;
 config.server.httpPort = 18080;
 config.server.bindAddr = ['payswarm.dev'];
@@ -96,7 +96,7 @@ config.mail.vars = {
 
 
 // base URL for tests
-config.website.baseUrl = 'https://payswarm.dev:19443/';
+config.website.baseUrl = 'https://payswarm.dev:18443/';
 
 require('./roles');
 require('./common-data');

@@ -12,11 +12,11 @@ program
   .version('0.0.1')
   .usage('[options]')
   .option('-u, --unit', 'Perform all unit tests')
-  .option('-i, --integration', 'Perform all integration tests')
-  .option('-d, --display', 'The X display to use for integration tests')
+  .option('-s, --system', 'Perform all system tests')
+  .option('-d, --display', 'The X display to use for system tests')
   .parse(process.argv);
 
-// browser-based integration tests should connect to an X display
+// browser-based system tests should connect to an X display
 if(!process.env.DISPLAY) {
   process.env.DISPLAY = program.display ? program.display : ':0';
 }
@@ -26,8 +26,8 @@ var tests = [];
 if(program.unit) {
   tests.push('unit');
 }
-if(program.integration) {
-  tests.push('integration');
+if(program.system) {
+  tests.push('system');
 }
 
 if(tests.length < 1) {

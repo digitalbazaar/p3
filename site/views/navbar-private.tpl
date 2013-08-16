@@ -1,8 +1,3 @@
-${set([
-  jsList.push("legacy/payswarm.api"),
-  jsList.push("modules/navbar")
-])}
-
 <div data-ng-controller="NavbarCtrl" class="navbar ng-cloak">
   <div class="navbar-inner navbar-inner-banner">
     <div class="container">

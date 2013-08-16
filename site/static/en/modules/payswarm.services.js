@@ -7,8 +7,9 @@
  */
 (function($) {
 
+// FIXME: see dependency injection minimize protection
 angular.module('payswarm.services')
-.factory('svcTemplateCache', function($http, $templateCache) {
+.factory('svcTemplateCache', ['$http', '$templateCache', function($http, $templateCache) {
   var service = {};
   service.get = function(url, callback) {
     $http.get(url, {cache: $templateCache})
@@ -20,7 +21,7 @@ angular.module('payswarm.services')
       });
   };
   return service;
-})
+}])
 .factory('svcConstant', function() {
   var service = {};
 

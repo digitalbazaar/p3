@@ -1,8 +1,3 @@
-${set([
-  jsList.push("legacy/payswarm.api"),
-  jsList.push("modules/login")
-])}
-
 {{if pageLayout == "normal"}}
 <div class="navbar navbar-login">
 {{else}}
@@ -13,7 +8,7 @@ ${set([
       <a class="brand" href="/"><img
       src="${cacheRoot}${style.brand.src}"
       width="${style.brand.width}" height="${style.brand.height}"
-      alt="${style.brand.alt}" /></a>      
+      alt="${style.brand.alt}" /></a>
       {{if pageLayout == "normal"}}
       {{verbatim}}
       <form class="navbar-form pull-right" data-ng-submit="submit()">

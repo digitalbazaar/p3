@@ -1,8 +1,7 @@
 ${set([
   pageTitle = "Identity Dashboard",
-  jsList.push("modules/dashboard"),
   inav = "dashboard"
-])}  
+])}
 {{partial "head.tpl"}}
 
 {{verbatim}}
@@ -13,7 +12,7 @@ ${set([
       <h1 class="headline">Dashboard</h1>
     </div>
   </div>
-    
+
   <div class="row">
     <div class="section section-accounts span6">
       <h3 class="headline">Accounts</h3>
@@ -72,7 +71,7 @@ ${set([
           <tr data-ng-hide="state.accounts.loading">
             <!-- Add Account -->
             <td colspan="3">
-              <button 
+              <button
                 class="btn btn-success btn-add-account pull-right"
                 data-ng-click="modals.showAddAccount=true"><i class="icon-plus icon-white"></i> Add Account</button>
             </td>
@@ -89,7 +88,7 @@ ${set([
       </table>
       <div data-ng-show="!state.accounts.loading && accounts.length == 0">
         <p class="center">You have no accounts for this identity.</p>
-        <button 
+        <button
           class="btn btn-success btn-add-account pull-right"
           data-ng-click="modals.showAddAccount=true"><i class="icon-plus icon-white"></i> Add Account</button>
       </div>
@@ -103,7 +102,7 @@ ${set([
       <div data-modal-redeem-promo-code="modals.showRedeemPromoCode"
         data-account="modals.account"></div>
     </div>
-    
+
     <div class="section section-budgets span6">
       <h3 class="headline">Budgets</h3>
       <table class="table table-condensed" data-ng-show="state.budgets.loading || budgets.length > 0">
@@ -205,7 +204,7 @@ ${set([
   <div class="row">
     <div class="section section-recent-transactions span6">
       <h3 class="headline">Recent Transactions</h3>
-      
+
       <table class="table table-condensed" data-ng-show="state.txns.loading || txns.length > 0">
         <thead>
           <tr>
@@ -256,7 +255,7 @@ ${set([
         <p class="center">You have no recent transactions for this identity.</p>
       </div>
     </div>
-    
+
     <div class="section section-messages span6">
       <h3 class="headline">Messages</h3>
       <p class="center">You have no new messages.</p>

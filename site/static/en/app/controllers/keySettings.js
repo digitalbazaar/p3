@@ -1,0 +1,42 @@
+/*!
+ * Key Settings.
+ *
+ * @author Dave Longley
+ */
+(function() {
+
+define([], function() {
+
+var name = 'KeySettingsCtrl';
+var deps = ['$scope', 'svcKey'];
+var factory = function($scope, svcKey) {
+  $scope.state = svcKey.state;
+  $scope.keys = svcKey.keys;
+  $scope.modals = {
+    showEditKey: false,
+    showRevokeKeyAlert: false,
+    key: null
+  };
+
+  $scope.editKey = function(key) {
+    $scope.modals.showEditKey = true;
+    $scope.modals.key = key;
+  };
+  $scope.revokeKey = function(key) {
+    $scope.modals.showRevokeKeyAlert = true;
+    $scope.modals.key = key;
+  };
+  $scope.confirmRevokeKey = function(err, result) {
+    if(!err && result === 'ok') {
+      svcKey.revoke($scope.modals.key);
+    }
+    $scope.modals.key = null;
+  };
+
+  svcKey.get();
+};
+
+return {name: name, deps: deps, factory: factory};
+});
+
+})();

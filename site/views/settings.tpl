@@ -192,7 +192,7 @@ ${set([
       <!-- Addresses Tab -->
       <div class="container-fluid tab-pane"
         id="addresses"
-        data-ng-controller="AddressCtrl">
+        data-ng-controller="AddressSettingsCtrl">
         <div class="row-fluid">
           <div class="section span12">
             <h3 class="headline">Addresses</h3>
@@ -273,7 +273,7 @@ ${set([
       <!-- Keys Tab -->
       <div class="container-fluid tab-pane"
         id="keys"
-        data-ng-controller="KeyCtrl">
+        data-ng-controller="KeySettingsCtrl">
         <div class="row-fluid">
           <div class="section span12">
             <h3 class="headline">Keys</h3>

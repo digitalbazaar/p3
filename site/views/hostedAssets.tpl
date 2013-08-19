@@ -1,6 +1,5 @@
 ${set([
-  pageTitle = "Hosted Assets",
-  jsList.push("modules/hostedAssets")
+  pageTitle = "Hosted Assets"
 ])}
 {{partial "head.tpl"}}
 

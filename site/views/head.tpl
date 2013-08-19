@@ -41,7 +41,7 @@
     <link rel="shortcut icon" href="/favicon.ico" />
 
     {{if pageLayout != "error"}}
-    <script data-main="/modules/main.js" src="/requirejs/require.js"></script>
+    <script data-main="/modules/main.${jsExt}" src="/requirejs/require.js"></script>
     {{/if}}
   </head>
 

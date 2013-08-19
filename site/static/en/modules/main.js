@@ -42,17 +42,16 @@ require.config({
     'jquery.placeholder': {deps: ['jquery']},
     'jquery-ui': {deps: ['jquery']},
     underscore: {exports: '_'},
-    // FIXME: remove once assetora/whatever uses forge via AMD properly
-    'forge/forge': {exports: 'forge'},
     // FIXME: port to requireJS and remove these
     'payswarm.api': {deps: ['async', 'jquery']},
     'payswarm': {deps: ['angular', 'async']},
     'payswarm.services': {deps: ['payswarm', 'payswarm.api']},
-    'payswarm.directives': {deps: ['payswarm', 'iso8601', 'jquery.placeholder', 'jquery-ui', 'spin']},
+    // FIXME: move forge dependency once directives are split
+    'payswarm.directives': {deps: ['payswarm', 'iso8601', 'jquery.placeholder', 'jquery-ui', 'spin', 'forge/forge']},
     'payswarm.filters': {deps: ['payswarm']},
     'account': {deps: ['payswarm', 'payswarm.services', 'payswarm.directives', 'payswarm.filters']},
     'activity': {deps: ['payswarm', 'payswarm.services', 'payswarm.directives', 'payswarm.filters']},
-    'assetora': {deps: ['payswarm', 'payswarm.services', 'payswarm.directives', 'payswarm.filters', 'zip', 'deflate', 'FileSaver', 'TypedArray', 'Blob', 'forge/pki']},
+    'assetora': {deps: ['payswarm', 'payswarm.services', 'payswarm.directives', 'payswarm.filters', 'zip', 'deflate', 'FileSaver', 'TypedArray', 'Blob']},
     'budget': {deps: ['payswarm', 'payswarm.services', 'payswarm.directives', 'payswarm.filters']},
     'dashboard': {deps: ['payswarm', 'payswarm.services', 'payswarm.directives', 'payswarm.filters']},
     'contentPortal': {deps: ['payswarm', 'payswarm.services', 'payswarm.directives', 'payswarm.filters']},
@@ -70,6 +69,8 @@ require.config({
 });
 
 require([
+  // FIXME: remove once AMD properly used in other modules
+  'forge/forge',
   'angular',
   'angular-ui',
   'bootstrap',
@@ -93,10 +94,10 @@ require([
   'purchase',
   'register',
   'settings'
-], function(angular) {
-  console.log('bootstrapping...');
+], function(forgeTmp, angular) {
+  // FIXME: remove global definition
+  forge = forgeTmp;
   angular.bootstrap(document, ['payswarm']);
-  console.log('loaded');
 });
 
 })();

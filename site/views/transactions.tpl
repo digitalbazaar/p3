@@ -1,6 +1,5 @@
 ${set([
-  pageTitle = "Transaction Activity",
-  jsList.push("modules/activity")
+  pageTitle = "Transaction Activity"
 ])}
 {{partial "head.tpl"}}
 
@@ -37,11 +36,11 @@ ${set([
       data-ng-pluralize="" data-count="txns.length"
       data-when="{'1': 'transaction', 'other': 'transactions'}"></span>
   </span>
-  
+
   <form class="form-horizontal" action="">
     <fieldset>
       <div class="control-group">
-        <label class="control-label" for="dateField">Start Date</label> 
+        <label class="control-label" for="dateField">Start Date</label>
         <div class="controls">
           <input name="dateField" type="text"
             data-ng-model="textDate"

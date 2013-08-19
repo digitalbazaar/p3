@@ -1,7 +1,5 @@
 ${set([
-  pageTitle = "Reset Password",
-  jsList.push("legacy/payswarm.api"),
-  jsList.push("modules/passcode")
+  pageTitle = "Reset Password"
 ])}
 {{partial "head.tpl"}}
 
@@ -14,7 +12,7 @@ ${set([
 
 <div class="row">
   <div class="span6 offset3">
-  
+
     <form id="emailFeedbackTarget" class="form-horizontal" action="" data-ng-submit="sendReset()">
       <fieldset>
       <legend>Get Passcode</legend>
@@ -51,7 +49,7 @@ ${set([
 
 <div class="row">
   <div class="span6 offset3">
-  
+
     <form id="passwordFeedbackTarget" class="form-horizontal" action="" data-ng-submit="updatePassword()">
       <fieldset>
       <legend>Update Your Password</legend>
@@ -61,7 +59,7 @@ ${set([
         <div class="controls">
           <div class="input-append">
             <input name="input" type="text" maxlength="320"
-              data-ng-model="email" 
+              data-ng-model="email"
               data-track-state="model.help.resetEmail"
               data-ng-disabled="loading" />
             <button class="btn" data-help-toggle="model.help.resetEmail">
@@ -74,7 +72,7 @@ ${set([
           </p>
         </div>
       </div>
-      
+
       <div class="control-group" data-binding="psaPasscode">
         <label class="control-label" for="passcode">Passcode</label>
         <div class="controls">
@@ -93,7 +91,7 @@ ${set([
           </p>
         </div>
       </div>
-      
+
       <div class="control-group" data-binding="psaPasswordNew">
         <label class="control-label" for="new-password">New Password</label>
         <div class="controls">

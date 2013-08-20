@@ -3,13 +3,12 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define([], function() {
 
-var name = 'budgetSelector';
 var deps = [];
-var factory = function() {
+return {budgetSelector: deps.concat(factory)};
+
+function factory() {
   function Ctrl($scope, svcBudget, svcAccount) {
     $scope.model = {};
     $scope.services = {
@@ -117,9 +116,6 @@ var factory = function() {
     templateUrl: '/partials/budget-selector.html',
     link: Link
   };
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

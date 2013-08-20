@@ -3,13 +3,12 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define(['async'], function(async) {
 
-var name = 'modalAddListing';
 var deps = ['svcModal'];
-var factory = function(svcModal) {
+return {modalAddListing: deps.concat(factory)};
+
+function factory(svcModal) {
   function Ctrl($scope, svcHostedAsset, svcHostedListing) {
     // FIXME: use root/global data, move over to model
     $scope.data = window.data || {};
@@ -83,9 +82,6 @@ var factory = function(svcModal) {
       scope.feedbackTarget = element;
     }
   });
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

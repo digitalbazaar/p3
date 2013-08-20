@@ -3,13 +3,12 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define([], function() {
 
-var name = 'budgetBar';
 var deps = ['$timeout'];
-var factory = function($timeout) {
+return {budgetBar: deps.concat(factory)};
+
+function factory($timeout) {
   return {
     scope: {
       budget: '=budgetBar'
@@ -54,9 +53,6 @@ var factory = function($timeout) {
       }, true);
     }
   };
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

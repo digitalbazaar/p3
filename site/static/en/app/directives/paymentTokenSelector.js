@@ -3,13 +3,12 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define([], function() {
 
-var name = 'paymentTokenSelector';
 var deps = ['svcPaymentToken'];
-var factory = function(svcPaymentToken) {
+return {paymentTokenSelector: deps.concat(factory)};
+
+function factory(svcPaymentToken) {
   function Ctrl($scope) {
     $scope.model = {};
     $scope.services = {
@@ -55,9 +54,6 @@ var factory = function(svcPaymentToken) {
     templateUrl: '/partials/payment-token-selector.html',
     link: Link
   };
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

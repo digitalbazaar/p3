@@ -3,13 +3,12 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define([], function() {
 
-var name = 'inputWatcher';
 var deps = ['$parse', '$http'];
-var factory = function($parse, $http) {
+return {inputWatcher: deps.concat(factory)};
+
+function factory($parse, $http) {
   return {
     restrict: 'A',
     scope: {
@@ -70,9 +69,6 @@ var factory = function($parse, $http) {
       });
     }
   };
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

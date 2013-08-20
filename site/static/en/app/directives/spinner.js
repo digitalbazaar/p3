@@ -3,13 +3,12 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define(['spin'], function(Spinner) {
 
-var name = 'spinner';
 var deps = [];
-var factory = function() {
+return {spinner: deps.concat(factory)};
+
+function factory() {
   return {
     scope: {
       spin: '=spinner',
@@ -62,9 +61,6 @@ var factory = function() {
       });
     }
   };
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

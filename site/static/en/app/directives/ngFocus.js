@@ -3,13 +3,12 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define([], function() {
 
-var name = 'ngFocus';
 var deps = ['$parse'];
-var factory = function($parse) {
+return {ngFocus: deps.concat(factory)};
+
+function factory($parse) {
   // FIXME: polyfill until implemented in core AngularJS
   return function(scope, element, attrs) {
     var fn = $parse(attrs.ngFocus);
@@ -19,9 +18,6 @@ var factory = function($parse) {
       });
     });
   };
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

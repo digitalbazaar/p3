@@ -3,13 +3,12 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define([], function() {
 
-var name = 'accountSelector';
 var deps = ['svcAccount', 'svcIdentity'];
-var factory = function(svcAccount, svcIdentity) {
+return {accountSelector: deps.concat(factory)};
+
+function factory(svcAccount, svcIdentity) {
   function Ctrl($scope) {
     $scope.model = {};
     $scope.services = {
@@ -83,9 +82,6 @@ var factory = function(svcAccount, svcIdentity) {
     templateUrl: '/partials/account-selector.html',
     link: Link
   };
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

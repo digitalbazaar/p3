@@ -3,13 +3,12 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define([], function() {
 
-var name = 'duplicateChecker';
 var deps = ['$http', '$filter'];
-var factory = function($http, $filter) {
+return {duplicateChecker: deps.concat(factory)};
+
+function factory($http, $filter) {
   return {
     restrict: 'A',
     scope: {
@@ -133,9 +132,6 @@ var factory = function($http, $filter) {
       });
     }
   };
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

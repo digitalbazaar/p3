@@ -3,13 +3,12 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define(['angular'], function(angular) {
 
-var name = 'mouseoverToggle';
 var deps = ['$parse'];
-var factory = function($parse) {
+return {mouseoverToggle: deps.concat(factory)};
+
+function factory($parse) {
   return function(scope, element, attrs) {
     var get = $parse(attrs.mouseoverToggle);
     var set = get.assign || angular.noop;
@@ -24,9 +23,6 @@ var factory = function($parse) {
       });
     });
   };
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

@@ -3,16 +3,15 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 // FIXME: use forge/pki only
 define([
   'angular', 'async', 'forge/forge', 'FileSaver',
   'zip', 'TypedArray', 'Blob'], function(angular, async, forge, saveAs, zip) {
 
-var name = 'modalProtectAsset';
 var deps = ['svcModal'];
-var factory = function(svcModal) {
+return {modalProtectAsset: deps.concat(factory)};
+
+function factory(svcModal) {
   function Ctrl($scope, svcHostedAsset) {
     // FIXME: use root/global data, move over to model
     var data = window.data || {};
@@ -186,9 +185,6 @@ var factory = function(svcModal) {
       scope.feedbackTarget = element;
     }
   });
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

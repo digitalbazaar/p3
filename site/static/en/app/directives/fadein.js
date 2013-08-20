@@ -3,13 +3,12 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define(['angular'], function(angular) {
 
-var name = 'fadein';
 var deps = ['$parse'];
-var factory = function($parse) {
+return {fadein: deps.concat(factory)};
+
+function factory($parse) {
   return {
     link: function(scope, element, attrs) {
       scope.$watch(attrs.fadein, function(value) {
@@ -24,9 +23,6 @@ var factory = function($parse) {
       });
     }
   };
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

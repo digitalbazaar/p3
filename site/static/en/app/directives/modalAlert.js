@@ -3,13 +3,12 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define([], function() {
 
-var name = 'modalAlert';
 var deps = ['svcModal'];
-var factory = function(svcModal) {
+return {modalAlert: deps.concat(factory)};
+
+function factory(svcModal) {
   return svcModal.directive({
     name: 'Alert',
     transclude: true,
@@ -20,9 +19,6 @@ var factory = function(svcModal) {
       cancel: '@modalCancel'
     }
   });
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

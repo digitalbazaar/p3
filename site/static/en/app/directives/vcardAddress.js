@@ -3,13 +3,12 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define([], function() {
 
-var name = 'vcardAddress';
 var deps = [];
-var factory = function() {
+return {vcardAddress: deps.concat(factory)};
+
+function factory() {
   return {
     scope: {
       address: '=vcardAddress',
@@ -17,9 +16,6 @@ var factory = function() {
     },
     templateUrl: '/partials/vcard-address.html'
   };
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

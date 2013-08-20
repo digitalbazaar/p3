@@ -3,13 +3,12 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define([], function() {
 
-var name = 'addressSelector';
 var deps = [];
-var factory = function() {
+return {addressSelector: deps.concat(factory)};
+
+function factory() {
   function Ctrl($scope, svcIdentity, svcAddress) {
     $scope.model = {};
     $scope.services = {
@@ -41,9 +40,6 @@ var factory = function() {
     templateUrl: '/partials/address-selector.html',
     link: Link
   };
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

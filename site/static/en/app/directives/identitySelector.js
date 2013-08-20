@@ -3,13 +3,12 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define([], function() {
 
-var name = 'identitySelector';
 var deps = [];
-var factory = function() {
+return {identitySelector: deps.concat(factory)};
+
+function factory() {
   function Link(scope, element, attrs) {
     attrs.$observe('fixed', function(value) {
       scope.fixed = value;
@@ -27,9 +26,6 @@ var factory = function() {
     templateUrl: '/partials/identity-selector.html',
     link: Link
   };
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

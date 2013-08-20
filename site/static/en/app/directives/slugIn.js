@@ -3,13 +3,12 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define(['angular'], function(angular) {
 
-var name = 'slugIn';
 var deps = ['$filter', '$parse'];
-var factory = function($filter, $parse) {
+return {slugIn: deps.concat(factory)};
+
+function factory($filter, $parse) {
   return {
     restrict: 'A',
     require: 'ngModel',
@@ -54,9 +53,6 @@ var factory = function($filter, $parse) {
       });
     }
   };
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

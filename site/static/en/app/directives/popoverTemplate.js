@@ -3,13 +3,12 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define([], function() {
 
-var name = 'popoverTemplate';
 var deps = ['svcTemplateCache', '$compile', '$timeout'];
-var factory = function(svcTemplateCache, $compile, $timeout) {
+return {popoverTemplate: deps.concat(factory)};
+
+function factory(svcTemplateCache, $compile, $timeout) {
   // FIXME: popover needs cleanup/rewrite to handle scopes properly and
   // to better deal with placement, etc. -- but wait for bootstrap update to
   // popovers/modals
@@ -147,9 +146,6 @@ var factory = function(svcTemplateCache, $compile, $timeout) {
       });
     }
   };
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

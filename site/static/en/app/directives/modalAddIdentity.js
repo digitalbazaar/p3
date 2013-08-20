@@ -3,13 +3,12 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define(['angular', 'payswarm.api'], function(angular, payswarm) {
 
-var name = 'modalAddIdentity';
 var deps = ['svcModal', 'svcIdentity', 'svcAccount'];
-var factory = function(svcModal, svcIdentity, svcAccount) {
+return {modalAddIdentity: deps.concat(factory)};
+
+function factory(svcModal, svcIdentity, svcAccount) {
   function Ctrl($scope) {
     $scope.baseUrl = window.location.protocol + '//' + window.location.host;
     $scope.model = {};
@@ -93,9 +92,6 @@ var factory = function(svcModal, svcIdentity, svcAccount) {
       scope.feedbackTarget = element;
     }
   });
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

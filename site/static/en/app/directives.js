@@ -55,13 +55,8 @@ define([
   'app/directives/trackState',
   'app/directives/vcardAddress'
 ], function(angular) {
-  // FIXME: simplify filter boilerplate to eliminate loop here
-  // FIXME: use app.directives?
-  var module = angular.module('app.directives', []);
-  var directives = Array.prototype.slice.call(arguments, 1);
-  angular.forEach(directives, function(directive) {
-    module.directive(directive.name, directive.deps.concat(directive.factory));
-  });
+  angular.module('app.directives', []).directive(angular.extend.apply(
+    null, [{}].concat(Array.prototype.slice.call(arguments, 1))));
 });
 
 })();

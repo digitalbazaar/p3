@@ -3,13 +3,12 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define([], function() {
 
-var name = 'promoCodeChecker';
 var deps = ['$parse', '$http'];
-var factory = function($parse, $http) {
+return {promoCodeChecker: deps.concat(factory)};
+
+function factory($parse, $http) {
   return {
     restrict: 'A',
     scope: {
@@ -77,9 +76,6 @@ var factory = function($parse, $http) {
       });
     }
   };
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

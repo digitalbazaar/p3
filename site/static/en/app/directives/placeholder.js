@@ -3,13 +3,12 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define([], function() {
 
-var name = 'placeholder';
 var deps = [];
-var factory = function() {
+return {placeholder: deps.concat(factory)};
+
+function factory() {
   return {
     restrict: 'A',
     require: 'ngModel',
@@ -19,9 +18,6 @@ var factory = function() {
       }
     }
   };
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

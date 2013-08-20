@@ -3,13 +3,12 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define([], function() {
 
-var name = 'modalRedeemPromoCode';
 var deps = ['svcModal', 'svcPromo'];
-var factory = function(svcModal, svcPromo) {
+return {modalRedeemPromoCode: deps.concat(factory)};
+
+function factory(svcModal, svcPromo) {
   function Ctrl($scope) {
     $scope.model = {};
     $scope.data = window.data || {};
@@ -42,9 +41,6 @@ var factory = function(svcModal, svcPromo) {
     controller: Ctrl,
     link: Link
   });
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

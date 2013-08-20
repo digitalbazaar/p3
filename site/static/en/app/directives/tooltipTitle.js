@@ -3,13 +3,12 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define([], function() {
 
-var name = 'tooltipTitle';
 var deps = [];
-var factory = function() {
+return {tooltipTitle: deps.concat(factory)};
+
+function factory() {
   return function(scope, element, attrs) {
     var show = false;
     attrs.$observe('tooltipTitle', function(value) {
@@ -42,9 +41,6 @@ var factory = function() {
       }
     });
   };
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

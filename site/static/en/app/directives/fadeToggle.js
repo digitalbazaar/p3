@@ -3,13 +3,12 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define([], function() {
 
-var name = 'fadeToggle';
 var deps = ['$parse'];
-var factory = function($parse) {
+return {fadeToggle: deps.concat(factory)};
+
+function factory($parse) {
   return {
     link: function(scope, element, attrs) {
       // init to hidden
@@ -34,9 +33,6 @@ var factory = function($parse) {
       });
     }
   };
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

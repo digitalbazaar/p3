@@ -3,13 +3,12 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define(['angular'], function(angular) {
 
-var name = 'trackState';
 var deps = ['$parse'];
-var factory = function($parse) {
+return {trackState: deps.concat(factory)};
+
+function factory($parse) {
   return {
     link: function(scope, element, attrs) {
       // init scope state object
@@ -55,9 +54,6 @@ var factory = function($parse) {
       });
     }
   };
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

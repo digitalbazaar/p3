@@ -3,13 +3,12 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define([], function() {
 
-var name = 'ngBlur';
 var deps = ['$parse'];
-var factory = function($parse) {
+return {ngBlur: deps.concat(factory)};
+
+function factory($parse) {
   // FIXME: polyfill until implemented in core AngularJS
   return function(scope, element, attrs) {
     var fn = $parse(attrs.ngBlur);
@@ -19,9 +18,6 @@ var factory = function($parse) {
       });
     });
   };
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

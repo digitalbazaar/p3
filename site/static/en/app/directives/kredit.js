@@ -3,13 +3,12 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define(['jquery'], function($) {
 
-var name = 'kredit';
 var deps = [];
-var factory = function() {
+return {kredit: deps.concat(factory)};
+
+function factory() {
   // FIXME: remove once webkit non-windows font difference is fixed
   return function(scope, element, attrs) {
     if($.browser.webkit) {
@@ -20,9 +19,6 @@ var factory = function() {
       });
     }
   };
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

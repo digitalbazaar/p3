@@ -3,13 +3,12 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define([], function() {
 
-var name = 'creditCardSelector';
 var deps = [];
-var factory = function() {
+return {creditCardSelector: deps.concat(factory)};
+
+function factory() {
   return {
     scope: {
       number: '=creditCardSelector',
@@ -65,9 +64,6 @@ var factory = function() {
       });
     }
   };
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

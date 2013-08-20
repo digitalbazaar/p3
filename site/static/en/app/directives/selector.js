@@ -3,13 +3,12 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define(['angular'], function(angular) {
 
-var name = 'selector';
 var deps = ['$filter'];
-var factory = function($filter) {
+return {selector: deps.concat(factory)};
+
+function factory($filter) {
   function Ctrl($scope) {
     $scope.model = {};
     $scope.$watch('selected', function(value) {
@@ -87,9 +86,6 @@ var factory = function($filter) {
     templateUrl: '/partials/selector.html',
     link: Link
   };
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

@@ -3,13 +3,12 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define([], function() {
 
-var name = 'submitForm';
 var deps = [];
-var factory = function() {
+return {submitForm: deps.concat(factory)};
+
+function factory() {
   return function(scope, element, attrs) {
     // manually prevent form default action
     element.closest('form').bind('submit', function(e) {
@@ -28,9 +27,6 @@ var factory = function() {
       }
     });
   };
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

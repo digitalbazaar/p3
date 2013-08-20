@@ -3,13 +3,12 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define(['angular'], function(angular) {
 
-var name = 'helpToggle';
 var deps = ['$parse'];
-var factory = function($parse) {
+return {helpToggle: deps.concat(factory)};
+
+function factory($parse) {
   return {
     link: function(scope, element, attrs) {
       // hide (use opacity to preserve layout), make element untabbable
@@ -124,9 +123,6 @@ var factory = function($parse) {
       });
     }
   };
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

@@ -3,13 +3,12 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define(['angular'], function(angular) {
 
-var name = 'slugOut';
 var deps = ['$filter', '$parse'];
-var factory = function($filter, $parse) {
+return {slugOut: deps.concat(factory)};
+
+function factory($filter, $parse) {
   return {
     restrict: 'A',
     link: function(scope, element, attrs) {
@@ -22,9 +21,6 @@ var factory = function($filter, $parse) {
       });
     }
   };
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

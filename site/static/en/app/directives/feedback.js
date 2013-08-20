@@ -3,13 +3,12 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define(['angular', 'jquery'], function(angular, $) {
 
-var name = 'feedback';
 var deps = [];
-var factory = function() {
+return {feedback: deps.concat(factory)};
+
+function factory() {
   /*
    * Show stack of feedback items ordered as:
    *   errors, alerts, successes, infos
@@ -87,9 +86,6 @@ var factory = function() {
       }, true);
     }
   };
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

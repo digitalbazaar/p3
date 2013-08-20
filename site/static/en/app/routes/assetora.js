@@ -5,7 +5,7 @@
  */
 define([], function() {
 
-return function($locationProvider, $routeProvider) {
+return function($routeProvider) {
   $routeProvider.when('/i/:identity/tools', {
     templateUrl: '/partials/tools/tools.html'
   })

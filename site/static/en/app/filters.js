@@ -19,12 +19,11 @@ define([
   'app/filters/prefill',
   'app/filters/slug'
 ], function(angular) {
-  // FIXME: simplify filter boilerplate to eliminate loop here
-  // FIXME: use app.filters?
   var module = angular.module('app.filters', []);
-  var filters = Array.prototype.slice.call(arguments, 1);
-  angular.forEach(filters, function(filter) {
-    module.filter(filter.name, filter.deps.concat(filter.factory));
+  var filters = angular.extend.apply(
+    null, [{}].concat(Array.prototype.slice.call(arguments, 1)));
+  angular.forEach(filters, function(filter, name) {
+    module.filter(name, filter);
   });
 });
 

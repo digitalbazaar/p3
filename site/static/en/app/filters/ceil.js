@@ -3,13 +3,12 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define([], function() {
 
-var name = 'ceil';
 var deps = [];
-var factory = function() {
+return {ceil: deps.concat(factory)};
+
+function factory() {
   // Note: does not deal w/values w/leading zeros
   return function(value, digits) {
     value = (!value) ? '0' : value.toString();
@@ -33,9 +32,6 @@ var factory = function() {
     }
     return value + new Array(length - value.length + 1).join('0');
   };
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

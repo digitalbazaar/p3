@@ -3,13 +3,12 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define([], function() {
 
-var name = 'cardBrand';
 var deps = [];
-var factory = function() {
+return {cardBrand: deps.concat(factory)};
+
+function factory() {
   return function(input, logo) {
     if(input === 'Visa') {
       return logo ? 'cc-logo-visa' : 'Visa';
@@ -27,9 +26,6 @@ var factory = function() {
       return logo ? 'cc-logo-china-up' : 'China Union Pay';
     }
   };
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

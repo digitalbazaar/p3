@@ -3,13 +3,12 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define([], function() {
 
-var name = 'prefill';
 var deps = [];
-var factory = function() {
+return {prefill: deps.concat(factory)};
+
+function factory() {
   return function(value, length, ch) {
     if(length === undefined) {
       length = 2;
@@ -20,9 +19,6 @@ var factory = function() {
     value = (value === undefined || value === null) ? '' : value.toString();
     return new Array(length - value.length + 1).join(ch) + value;
   };
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

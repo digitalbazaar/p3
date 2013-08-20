@@ -3,13 +3,12 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define([], function() {
 
-var name = 'ellipsis';
 var deps = [];
-var factory = function() {
+return {ellipsis: deps.concat(factory)};
+
+function factory() {
   return function(value, length) {
     length = Math.max(3, length);
     length -= 3;
@@ -18,9 +17,6 @@ var factory = function() {
     }
     return value;
   };
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

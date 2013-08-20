@@ -14,10 +14,9 @@ define([
   'app/filters',
   'app/controllers'
 ], function(angular) {
-  angular.module('app', [
-    'app.directives', 'app.filters', 'app.services', 'app.controllers', 'ui'])
-    // FIXME: protect against minimization
-    .run(function($rootScope) {
+  var module = angular.module('app', [
+    'app.directives', 'app.filters', 'app.services', 'app.controllers', 'ui']);
+  module.run(['$rootScope', function($rootScope) {
     // utility functions
     var jsonld = $rootScope.jsonld = {};
     jsonld.isType = function(obj, value) {
@@ -30,7 +29,7 @@ define([
       }
       return false;
     };
-  });
+  }]);
 
   angular.bootstrap(document, ['app']);
 });

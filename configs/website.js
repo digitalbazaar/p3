@@ -47,17 +47,14 @@ config.website.views.vars = {
       width: '182'
     }
   },
-  // extensions for webpage loaded resources can be adjusted to 'min.js' or
+  // extensions for webpage loaded resources can be adjusted to 'min.css' or
   // similar to load minimized resources
   // local resources
   cssExt: 'css',
-  jsExt: 'js',
   // library resources
   cssLibExt: 'css',
-  jsLibExt: 'js',
-  // list of js files to load without the extension
+  // list of css files to load without the extension
   cssList: [],
-  jsList: [],
   cacheRoot: '',
   // client-side data
   clientData: {

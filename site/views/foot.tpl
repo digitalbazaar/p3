@@ -41,12 +41,6 @@
       </footer>
     </div>
 
-    {{if jsList && jsList.length > 0}}
-    {{each(idx, jsFile) jsList}}
-    <script type="text/javascript" src="${cacheRoot}/${jsFile}.${jsExt}"></script>
-    {{/each}}
-    {{/if}}
-
     {{! Analytics }}
     {{if googleAnalytics.enabled}}
       <script type="text/javascript">

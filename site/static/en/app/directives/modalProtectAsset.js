@@ -3,10 +3,9 @@
  *
  * @author Dave Longley
  */
-// FIXME: use forge/pki only
 define([
-  'angular', 'async', 'forge/forge', 'FileSaver',
-  'zip', 'TypedArray', 'Blob'], function(angular, async, forge, saveAs, zip) {
+  'angular', 'async', 'forge/pki', 'FileSaver',
+  'zip', 'TypedArray', 'Blob'], function(angular, async, pki, saveAs, zip) {
 
 var deps = ['svcModal'];
 return {modalProtectAsset: deps.concat(factory)};
@@ -36,6 +35,9 @@ function factory(svcModal) {
     // configure zip
     zip.useWebWorkers = (typeof Worker !== 'undefined');
     zip.workerScriptsPath = '/zip/';
+
+    // prepare forge
+    var forge = {pki: pki()};
 
     // private state
     var state = {};

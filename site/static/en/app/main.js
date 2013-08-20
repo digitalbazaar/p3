@@ -36,11 +36,13 @@ require.config({
     'angular-ui': {deps: ['angular', 'jquery-ui']},
     async: {exports: 'async'},
     bootstrap: {deps: ['jquery']},
+    'FileSaver': {exports: 'saveAs'},
     jquery: {exports: 'jQuery'},
     'jquery.placeholder': {deps: ['jquery']},
     'jquery-ui': {deps: ['jquery']},
     'spin': {exports: 'Spinner'},
     underscore: {exports: '_'},
+    'zip': {exports: 'zip'},
     // FIXME: port to requireJS and remove these
     'payswarm.api': {deps: ['async', 'jquery'], exports: 'payswarm'}
     // FIXME: remove once converted to AMD and tested

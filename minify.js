@@ -20,23 +20,8 @@
     // FIXME: port to requireJS
     'payswarm.api': 'legacy/payswarm.api'
   },
-  shim: {
-    // export globals for non-requireJS libs
-    angular: {exports: 'angular', deps: ['jquery']},
-    'angular-ui': {deps: ['angular', 'jquery-ui']},
-    async: {exports: 'async'},
-    bootstrap: {deps: ['jquery']},
-    jquery: {exports: 'jQuery'},
-    'jquery.placeholder': {deps: ['jquery']},
-    'jquery-ui': {deps: ['jquery']},
-    'spin': {exports: 'Spinner'},
-    underscore: {exports: '_'},
-    // FIXME: port to requireJS and remove these
-    'payswarm.api': {deps: ['async', 'jquery'], exports: 'payswarm'}
-    // FIXME: remove once converted to AMD and tested
-    //'controllers/system.dashboard': {deps: ['payswarm', 'payswarm.services', 'payswarm.directives', 'payswarm.filters']}
-	},
   name: 'app/main',
+  mainConfigFile: 'site/static/en/app/main.js',
   out: 'site/static/en/app/main.min.js',
   preserveLicenseComments: false
 })

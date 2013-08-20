@@ -9,6 +9,8 @@ define([
   'angular',
   'angular-ui',
   'bootstrap',
+  'jquery-ui',
+  'jquery.placeholder',
   'app/services',
   'app/directives',
   'app/filters',

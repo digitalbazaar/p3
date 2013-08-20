@@ -9,12 +9,13 @@ define([
   'angular',
   'angular-ui',
   'bootstrap',
-  'services',
-  'directives',
-  'filters',
-  'controllers'
+  'app/services',
+  'app/directives',
+  'app/filters',
+  'app/controllers'
 ], function(angular) {
-  angular.module('app', ['app.directives', 'app.filters', 'app.services', 'app.controllers', 'ui'])
+  angular.module('app', [
+    'app.directives', 'app.filters', 'app.services', 'app.controllers', 'ui'])
     // FIXME: protect against minimization
     .run(function($rootScope) {
     // utility functions

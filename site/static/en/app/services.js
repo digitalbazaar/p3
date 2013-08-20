@@ -7,20 +7,20 @@
 
 define([
   'angular',
-  'services/account',
-  'services/address',
-  'services/budget',
-  'services/constant',
-  'services/hostedAsset',
-  'services/hostedListing',
-  'services/identity',
-  'services/key',
-  'services/modal',
-  'services/model',
-  'services/paymentToken',
-  'services/promo',
-  'services/templateCache',
-  'services/transaction'
+  'app/services/account',
+  'app/services/address',
+  'app/services/budget',
+  'app/services/constant',
+  'app/services/hostedAsset',
+  'app/services/hostedListing',
+  'app/services/identity',
+  'app/services/key',
+  'app/services/modal',
+  'app/services/model',
+  'app/services/paymentToken',
+  'app/services/promo',
+  'app/services/templateCache',
+  'app/services/transaction'
 ], function(angular) {
   // FIXME: simplify service boilerplate to eliminate loop here
   var module = angular.module('app.services', []);

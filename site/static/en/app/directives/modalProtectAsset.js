@@ -5,8 +5,10 @@
  */
 (function() {
 
-define(['angular', 'async', 'FileSaver', 'forge/forge', 'zip'], function(
-  angular, async, saveAs, forge, zip) {
+// FIXME: use forge/pki only
+define([
+  'angular', 'async', 'forge/forge', 'FileSaver',
+  'zip', 'TypedArray', 'Blob'], function(angular, async, forge, saveAs, zip) {
 
 var name = 'modalProtectAsset';
 var deps = ['svcModal'];

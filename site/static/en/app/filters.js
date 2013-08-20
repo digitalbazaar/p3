@@ -7,17 +7,17 @@
 
 define([
   'angular',
-  'filters/cardBrand',
-  'filters/ccNumber',
-  'filters/ceil',
-  'filters/ellipsis',
-  'filters/embeddedString',
-  'filters/encodeURIComponent',
-  'filters/floor',
-  'filters/mask',
-  'filters/now',
-  'filters/prefill',
-  'filters/slug'
+  'app/filters/cardBrand',
+  'app/filters/ccNumber',
+  'app/filters/ceil',
+  'app/filters/ellipsis',
+  'app/filters/embeddedString',
+  'app/filters/encodeURIComponent',
+  'app/filters/floor',
+  'app/filters/mask',
+  'app/filters/now',
+  'app/filters/prefill',
+  'app/filters/slug'
 ], function(angular) {
   // FIXME: simplify filter boilerplate to eliminate loop here
   // FIXME: use app.filters?

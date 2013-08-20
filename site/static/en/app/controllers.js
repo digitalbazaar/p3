@@ -7,23 +7,23 @@
 
 define([
   'angular',
-  'controllers/account',
-  'controllers/activity',
-  'controllers/addressSettings',
-  'controllers/assetora',
-  'controllers/budget',
-  'controllers/contentPortal',
-  'controllers/createProfile',
-  'controllers/dashboard',
-  'controllers/externalAccountSettings',
-  'controllers/hostedAssets',
-  'controllers/key',
-  'controllers/keySettings',
-  'controllers/login',
-  'controllers/navbar',
-  'controllers/passcode',
-  'controllers/purchase',
-  'controllers/register'
+  'app/controllers/account',
+  'app/controllers/activity',
+  'app/controllers/addressSettings',
+  'app/controllers/assetora',
+  'app/controllers/budget',
+  'app/controllers/contentPortal',
+  'app/controllers/createProfile',
+  'app/controllers/dashboard',
+  'app/controllers/externalAccountSettings',
+  'app/controllers/hostedAssets',
+  'app/controllers/key',
+  'app/controllers/keySettings',
+  'app/controllers/login',
+  'app/controllers/navbar',
+  'app/controllers/passcode',
+  'app/controllers/purchase',
+  'app/controllers/register'
 ], function(angular) {
   // FIXME: simplify controller boilerplate to eliminate loop here
   // FIXME: use app.controllers?

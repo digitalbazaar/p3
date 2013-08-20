@@ -3,8 +3,6 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define([
   'angular',
   'app/directives/accountSelector',
@@ -58,5 +56,3 @@ define([
   angular.module('app.directives', []).directive(angular.extend.apply(
     null, [{}].concat(Array.prototype.slice.call(arguments, 1))));
 });
-
-})();

@@ -3,8 +3,6 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define([
   'angular',
   'angular-ui',
@@ -12,10 +10,12 @@ define([
   'app/services',
   'app/directives',
   'app/filters',
-  'app/controllers'
+  'app/controllers',
+  'app/templates'
 ], function(angular) {
   var module = angular.module('app', [
-    'app.directives', 'app.filters', 'app.services', 'app.controllers', 'ui']);
+    'app.directives', 'app.filters', 'app.services', 'app.controllers',
+    'app.templates', 'ui']);
   module.run(['$rootScope', function($rootScope) {
     // utility functions
     var jsonld = $rootScope.jsonld = {};
@@ -33,5 +33,3 @@ define([
 
   angular.bootstrap(document, ['app']);
 });
-
-})();

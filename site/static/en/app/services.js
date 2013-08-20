@@ -3,8 +3,6 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define([
   'angular',
   'app/services/account',
@@ -25,5 +23,3 @@ define([
   angular.module('app.services', []).factory(angular.extend.apply(
     null, [{}].concat(Array.prototype.slice.call(arguments, 1))));
 });
-
-})();

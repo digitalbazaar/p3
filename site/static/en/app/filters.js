@@ -3,8 +3,6 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define([
   'angular',
   'app/filters/cardBrand',
@@ -26,5 +24,3 @@ define([
     module.filter(name, filter);
   });
 });
-
-})();

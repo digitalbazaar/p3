@@ -20,9 +20,7 @@ define([
       // route not known, redirect to simple path
       $routeProvider.otherwise({
         redirectTo: function(params, path, search) {
-          if(window.location.pathname !== path) {
-            window.location.href = path;
-          }
+          window.location.href = path;
         }
       });
     }

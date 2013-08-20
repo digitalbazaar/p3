@@ -3,13 +3,12 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define(['angular', 'payswarm.api'], function(angular, payswarm) {
 
-var name = 'svcIdentity';
 var deps = ['$rootScope'];
-var factory = function($rootScope) {
+return {svcIdentity: deps.concat(factory)};
+
+function factory($rootScope) {
   var service = {};
 
   var data = window.data || {};
@@ -83,9 +82,6 @@ var factory = function($rootScope) {
   };
 
   return service;
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

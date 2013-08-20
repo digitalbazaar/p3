@@ -3,13 +3,12 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define(['angular'], function(angular) {
 
-var name = 'svcTemplateCache';
 var deps = ['$http', '$templateCache'];
-var factory = function($http, $templateCache) {
+return {svcTemplateCache: deps.concat(factory)};
+
+function factory($http, $templateCache) {
   var service = {};
   service.get = function(url, callback) {
     $http.get(url, {cache: $templateCache})
@@ -21,9 +20,6 @@ var factory = function($http, $templateCache) {
       });
   };
   return service;
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

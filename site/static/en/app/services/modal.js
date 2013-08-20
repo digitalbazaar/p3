@@ -3,15 +3,14 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define(['angular', 'jquery'], function(angular, $) {
 
-var name = 'svcModal';
 var deps = [
   '$compile', '$controller', '$rootScope',
   '$templateCache', 'svcTemplateCache'];
-var factory = function(
+return {svcModal: deps.concat(factory)};
+
+function factory(
   $compile, $controller, $rootScope, $templateCache, svcTemplateCache) {
   var service = {};
 
@@ -338,9 +337,6 @@ var factory = function(
   }
 
   return service;
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

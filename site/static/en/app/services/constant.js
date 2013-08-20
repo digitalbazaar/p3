@@ -3,13 +3,12 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define([], function() {
 
-var name = 'svcConstant';
 var deps = [];
-var factory = function() {
+return {svcConstant: deps.concat(factory)};
+
+function factory() {
   var service = {};
 
   // months for date handling
@@ -276,9 +275,6 @@ var factory = function() {
   ];
 
   return service;
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

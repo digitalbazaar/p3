@@ -22,12 +22,8 @@ define([
   'app/services/templateCache',
   'app/services/transaction'
 ], function(angular) {
-  // FIXME: simplify service boilerplate to eliminate loop here
-  var module = angular.module('app.services', []);
-  var services = Array.prototype.slice.call(arguments, 1);
-  angular.forEach(services, function(service) {
-    module.factory(service.name, service.deps.concat(service.factory));
-  });
+  angular.module('app.services', []).factory(angular.extend.apply(
+    null, [{}].concat(Array.prototype.slice.call(arguments, 1))));
 });
 
 })();

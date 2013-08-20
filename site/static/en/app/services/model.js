@@ -3,13 +3,12 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define(['angular'], function(angular) {
 
-var name = 'svcModel';
 var deps = [];
-var factory = function() {
+return {svcModel: deps.concat(factory)};
+
+function factory() {
   var service = {};
 
   service.replace = function(dst, src) {
@@ -94,9 +93,6 @@ var factory = function() {
   };
 
   return service;
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

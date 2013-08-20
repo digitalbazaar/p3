@@ -7,15 +7,16 @@ define([
   'angular',
   'angular-ui',
   'bootstrap',
-  'app/templates',
-  'app/services',
+  'app/controllers',
   'app/directives',
   'app/filters',
-  'app/controllers'
+  'app/services',
+  'app/routes',
+  'app/templates'
 ], function(angular) {
   var module = angular.module('app', [
-    'app.directives', 'app.filters', 'app.services', 'app.controllers',
-    'app.templates', 'ui']);
+    'app.templates', 'app.directives', 'app.filters', 'app.services',
+    'app.controllers', 'app.routes', 'ui']);
   module.run(['$rootScope', function($rootScope) {
     // utility functions
     var jsonld = $rootScope.jsonld = {};

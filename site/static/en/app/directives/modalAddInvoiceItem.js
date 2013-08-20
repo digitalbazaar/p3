@@ -3,7 +3,7 @@
  *
  * @author David I. Lehn
  */
-define(['angular', 'payswarm.api'], function(angular, payswarm) {
+define([], function() {
 
 var deps = ['svcModal'];
 return {modalAddInvoiceItem: deps.concat(factory)};

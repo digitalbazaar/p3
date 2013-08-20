@@ -11,7 +11,8 @@
     "test": "node test.js",
     "lint": "jshint *.js bin/*js configs/*.js email-templates/*.js lib/*.js lib/payswarm-auth/*.js lib/payswarm-auth/tests/*.js locales/*.js schemas/*.js site/static/en/legacy/*.js site/static/en/modules/*.js test/*.js tests/*.js",
     "ci-lint": "mkdir -p reports && jshint --reporter=checkstyle *.js bin/*js configs/*.js email-templates/*.js lib/*.js lib/payswarm-auth/*.js lib/payswarm-auth/tests/*.js locales/*.js schemas/*.js site/static/en/legacy/*.js site/static/en/modules/*.js test/*.js tests/*.js > reports/jshint.xml || exit 0",
-    "coverage": "mkdir -p reports && rm -rf lib-cov; ./node_modules/visionmedia-jscoverage/jscoverage lib lib-cov && PAYSWARM_AUTH_COV=1 node test.js > reports/coverage.html && rm -rf lib-cov"
+    "coverage": "mkdir -p reports && rm -rf lib-cov; ./node_modules/visionmedia-jscoverage/jscoverage lib lib-cov && PAYSWARM_AUTH_COV=1 node test.js > reports/coverage.html && rm -rf lib-cov",
+    "minify": "./node_modules/grunt-cli/bin/grunt && ./node_modules/requirejs/bin/r.js -o minify.js"
   },
   "dependencies": {
     "async": "~0.2.8",
@@ -24,6 +25,9 @@
     "cube": "~0.2.0",
     "emailjs": "git://github.com/digitalbazaar/emailjs.git",
     "express": "~3.3.5",
+    "grunt": "~0.4.1",
+    "grunt-cli": "~0.1.9",
+    "grunt-angular-templates": "~0.3.10",
     "http-signature": "~0.10.0",
     "i18n": "~0.4.0",
     "jqtpl": "~1.1.0",

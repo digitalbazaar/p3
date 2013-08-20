@@ -7,11 +7,11 @@ define([
   'angular',
   'angular-ui',
   'bootstrap',
+  'app/templates',
   'app/services',
   'app/directives',
   'app/filters',
-  'app/controllers',
-  'app/templates'
+  'app/controllers'
 ], function(angular) {
   var module = angular.module('app', [
     'app.directives', 'app.filters', 'app.services', 'app.controllers',

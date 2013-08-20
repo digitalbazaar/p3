@@ -31,7 +31,7 @@ Running the Code Coverage Tool
 Minimizing the RequireJS client-side JS
 =======================================
 
-1. Run ./node_modules/requirejs/bin/r.js -o minify.js
+1. npm run minify
 2. To test in dev mode, change:
 
 <script data-main="/app/main.${jsExt}" ...

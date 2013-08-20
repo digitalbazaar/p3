@@ -1,5 +1,5 @@
       {{! Avoid extra whitespace between elements for proper inline layout }}
-      
+
       {{if pageLayout == "normal"}}
       <hr/>
       {{/if}}
@@ -31,8 +31,8 @@
           <ul>
             <li><!--
               -->Copyright &#169; 2013
-              <span about="http://digitalbazaar.com/contact#company" 
-                typeof="vcard:VCard com:Business gr:BusinessEntity" 
+              <span about="http://digitalbazaar.com/contact#company"
+                typeof="vcard:VCard com:Business gr:BusinessEntity"
                 property="rdfs:label vcard:fn gr:legalName"><a href="http://digitalbazaar.com/">Digital Bazaar, Inc.</a></span>
                 All rights reserved.<!--
             --></li>
@@ -41,9 +41,6 @@
       </footer>
     </div>
 
-    <script type="text/javascript" src="${cacheRoot}/async/async.${jsLibExt}"></script>
-    <script type="text/javascript" src="${cacheRoot}/spin/spin.${jsLibExt}"></script>
-    <script type="text/javascript" src="${cacheRoot}/bootstrap/js/bootstrap.${jsLibExt}"></script>
     {{if jsList && jsList.length > 0}}
     {{each(idx, jsFile) jsList}}
     <script type="text/javascript" src="${cacheRoot}/${jsFile}.${jsExt}"></script>

@@ -1,7 +1,6 @@
 ${set([
-  pageTitle = "Content Portal",
-  jsList.push("modules/contentPortal")
-])}  
+  pageTitle = "Content Portal"
+])}
 {{partial "head.tpl"}}
 
 {{verbatim}}
@@ -12,7 +11,7 @@ ${set([
       <h1 class="headline">Content Portal</h1>
     </div>
   </div>
-  
+
   <div class="row">
     <div class="span6 offset3">
       <div class="alert alert-success">
@@ -33,8 +32,8 @@ ${set([
         <a class="btn btn-primary" href="{{model.asset.assetContent}}">View content</a>
       </div>
     </div>
-  </div>  
-  
+  </div>
+
 </div>
 {{/verbatim}}
 

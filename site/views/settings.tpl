@@ -1,20 +1,19 @@
 ${set([
   pageTitle = "Identity Settings",
-  jsList.push("modules/settings"),
   inav = "settings"
 ])}
 
 {{partial "head.tpl"}}
 
 {{verbatim}}
-<div class="container ng-cloak" data-ng-controller="SettingsCtrl">
+<div class="container ng-cloak">
 
   <div class="row">
     <div class="title-section span12">
       <h1 class="headline">Settings</h1>
     </div>
   </div>
-  
+
   <div class="tabbable tabs-left first-tabbable">
     <ul class="nav nav-tabs">
       <li class="active"><a href="#external-accounts" data-toggle="tab">External Accounts</a></li>
@@ -71,11 +70,11 @@ ${set([
                 <tr data-ng-hide="state.loading">
                   <!-- Add Credit Card -->
                   <td colspan="5">
-                    <button 
+                    <button
                       class="btn btn-success pull-right"
                       data-ng-click="modals.showAddCreditCard=true"><i class="icon-plus icon-white"></i> Add Credit Card</button>
                   </td>
-                </tr>              
+                </tr>
                 <tr data-ng-show="state.loading">
                   <td colspan="5" style="text-align: center">
                     <span class="center">
@@ -87,7 +86,7 @@ ${set([
             </table>
             <div data-ng-show="!state.loading && creditCards.length == 0">
               <p class="center">You have no credit cards associated with this identity.</p>
-              <button 
+              <button
                 class="btn btn-success pull-right"
                 data-ng-click="modals.showAddCreditCard=true"><i class="icon-plus icon-white"></i> Add Credit Card</button>
             </div>
@@ -99,7 +98,7 @@ ${set([
         <div class="row-fluid">
           <div class="span12"></div>
         </div>
-        
+
         <div class="row-fluid">
           <div class="section span12">
             <h3 class="headline">Bank Accounts</h3>
@@ -164,11 +163,11 @@ ${set([
                 <tr data-ng-hide="state.loading">
                   <!-- Add Bank Account -->
                   <td colspan="6">
-                    <button 
+                    <button
                       class="btn btn-success pull-right"
                       data-ng-click="modals.showAddBankAccount=true"><i class="icon-plus icon-white"></i> Add Bank Account</button>
                   </td>
-                </tr>              
+                </tr>
                 <tr data-ng-show="state.loading">
                   <td colspan="6" style="text-align: center">
                     <span class="center">
@@ -180,7 +179,7 @@ ${set([
             </table>
             <div data-ng-show="!state.loading && bankAccounts.length == 0">
               <p class="center">You have no bank accounts associated with this identity.</p>
-              <button 
+              <button
                 class="btn btn-success pull-right"
                 data-ng-click="modals.showAddBankAccount=true"><i class="icon-plus icon-white"></i> Add Bank Account</button>
             </div>
@@ -189,11 +188,11 @@ ${set([
         </div>
       </div>
       <!-- End External Accounts Tab -->
-      
+
       <!-- Addresses Tab -->
       <div class="container-fluid tab-pane"
         id="addresses"
-        data-ng-controller="AddressCtrl">
+        data-ng-controller="AddressSettingsCtrl">
         <div class="row-fluid">
           <div class="section span12">
             <h3 class="headline">Addresses</h3>
@@ -225,11 +224,11 @@ ${set([
                 <tr data-ng-hide="state.loading">
                   <!-- Add Address -->
                   <td colspan="5">
-                    <button 
+                    <button
                       class="btn btn-success pull-right"
                       data-ng-click="modals.showAddAddress=true"><i class="icon-plus icon-white"></i> Add Address</button>
                   </td>
-                </tr>              
+                </tr>
                 <tr data-ng-show="state.loading">
                   <td colspan="5" style="text-align: center">
                     <span class="center">
@@ -244,12 +243,12 @@ ${set([
 
               <div class="center alert">
                 <button type="button" class="close" data-dismiss="alert">×</button>
-                <strong>Warning!</strong> 
+                <strong>Warning!</strong>
                 Without any addresses you are unable to buy or sell with this
                 identity.
               </div>
 
-              <button 
+              <button
                 class="btn btn-success pull-right"
                 data-ng-click="modals.showAddAddress=true"><i class="icon-plus icon-white"></i> Add Address</button>
             </div>
@@ -274,7 +273,7 @@ ${set([
       <!-- Keys Tab -->
       <div class="container-fluid tab-pane"
         id="keys"
-        data-ng-controller="KeyCtrl">
+        data-ng-controller="KeySettingsCtrl">
         <div class="row-fluid">
           <div class="section span12">
             <h3 class="headline">Keys</h3>
@@ -332,7 +331,7 @@ ${set([
           data-modal-cancel="Cancel"
           data-modal-on-close="confirmRevokeKey(err, result)">
           <div class="center alert">
-            <strong>Warning!</strong> 
+            <strong>Warning!</strong>
             Revoking an access key is permanent.
           </div>
           <p>Any items that you have listed for sale using this key will be
@@ -349,7 +348,7 @@ ${set([
 
     </div>
   </div>
-  
+
 </div>
 {{/verbatim}}
 

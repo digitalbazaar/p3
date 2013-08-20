@@ -37,24 +37,15 @@
     <link href="${cacheRoot}/${cssFile}.${cssExt}" rel="stylesheet" type="text/css" />
     {{/each}}
     {{/if}}
-    
+
     <link rel="shortcut icon" href="/favicon.ico" />
-    
-    <script type="text/javascript" src="${cacheRoot}/jquery/jquery.${jsLibExt}"></script>
-    <script type="text/javascript" src="${cacheRoot}/jquery/jquery.placeholder.${jsLibExt}"></script>
-    <script type="text/javascript" src="${cacheRoot}/jquery-ui/js/jquery-ui.${jsLibExt}"></script>
+
     {{if pageLayout != "error"}}
-    <script type="text/javascript" src="${cacheRoot}/angular/angular.${jsLibExt}"></script>
-    <script type="text/javascript" src="${cacheRoot}/angular/angular-ui.${jsLibExt}"></script>
-    <script type="text/javascript" src="${cacheRoot}/iso8601/iso8601.${jsExt}"></script>
-    <script type="text/javascript" src="${cacheRoot}/modules/payswarm.${jsExt}"></script>
-    <script type="text/javascript" src="${cacheRoot}/modules/payswarm.directives.${jsExt}"></script>
-    <script type="text/javascript" src="${cacheRoot}/modules/payswarm.filters.${jsExt}"></script>
-    <script type="text/javascript" src="${cacheRoot}/modules/payswarm.services.${jsExt}"></script>
+    <script data-main="/app/main.${jsExt}" src="/requirejs/require.js"></script>
     {{/if}}
   </head>
 
-  <body data-ng-app="payswarm">
+  <body>
     {{if pageLayout == "error"}}
       {{partial "navbar-plain.tpl"}}
     {{else}}
@@ -64,14 +55,14 @@
         {{partial "navbar-public.tpl"}}
       {{/if}}
     {{/if}}
-    
+
     {{if userAgent.obsolete}}
     <div class="alert alert-error">
       Your browser (${userAgent.family} ${userAgent.major}) is <strong>out of date</strong>.
       Please <a href="http://www.updateyourbrowser.net/">update your browser.</a>
     </div>
     {{/if}}
-    
+
     <div class="container ng-cloak">
 
       {{! Javascript warning }}
@@ -80,7 +71,7 @@
           <p>Javascript must be enabled to use this site.</p>
         </div>
       </noscript>
-      
+
       {{if pageLayout != "error"}}
       <!-- Force load fonts -->
       <div>
@@ -89,6 +80,6 @@
         <span class="cc-font-shine"></span>
         <span class="bank-font"></span>
       </div>
-      
+
       {{partial "data.tpl"}}
       {{/if}}

@@ -1,12 +1,5 @@
 ${set([
   pageTitle = "Assetora",
-  jsList.push("polyfill/typedarray"),
-  jsList.push("polyfill/Blob"),
-  jsList.push("forge/forge.rsa.bundle"),
-  jsList.push("zip/zip"),
-  jsList.push("zip/deflate"),
-  jsList.push("filesaver/FileSaver"),
-  jsList.push("modules/assetora"),
   inav = "assetora"
 ])}  
 {{partial "head.tpl"}}

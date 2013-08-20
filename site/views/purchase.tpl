@@ -1,6 +1,5 @@
 ${set([
   pageTitle = "Payment",
-  jsList.push("modules/purchase"),
   pageLayout = "minimal"
 ])}
 {{partial "head.tpl"}}
@@ -136,7 +135,7 @@ ${set([
         </table>
       </div>
     </div>
-    
+
     <div class="row" data-ng-show="{{contract.vendor.id != contract.assetProvider.id}})">
       <div class="section span6 offset3">
         <h4 class="headline">Asset Provider</h4>

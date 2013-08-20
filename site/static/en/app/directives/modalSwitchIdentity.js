@@ -34,7 +34,7 @@ function factory(svcModal, svcIdentity) {
   return svcModal.directive({
     name: 'SwitchIdentity',
     templateUrl: '/partials/modals/switch-identity.html',
-    controller: Ctrl
+    controller: ['$scope', Ctrl]
   });
 }
 

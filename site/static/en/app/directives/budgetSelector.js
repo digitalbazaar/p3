@@ -112,7 +112,7 @@ function factory() {
       minBalance: '@',
       fixed: '@'
     },
-    controller: Ctrl,
+    controller: ['$scope', 'svcBudget', 'svcAccount', Ctrl],
     templateUrl: '/partials/budget-selector.html',
     link: Link
   };

@@ -36,7 +36,7 @@ function factory() {
       invalid: '=',
       fixed: '@'
     },
-    controller: Ctrl,
+    controller: ['$scope', 'svcIdentity', 'svcAddress', Ctrl],
     templateUrl: '/partials/address-selector.html',
     link: Link
   };

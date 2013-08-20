@@ -15,9 +15,9 @@ function factory($timeout) {
     },
     replace: true,
     templateUrl: '/partials/budget-bar.html',
-    controller: function($scope, svcBudget) {
+    controller: ['$scope', 'svcBudget', function($scope, svcBudget) {
       $scope.services = {budget: svcBudget};
-    },
+    }],
     link: function(scope, element, attrs) {
       var progress = $('.progress', element);
       var bar = $('.bar', progress);

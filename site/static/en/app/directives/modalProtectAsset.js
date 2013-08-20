@@ -180,7 +180,7 @@ function factory(svcModal) {
     name: 'ProtectAsset',
     scope: {asset: '='},
     templateUrl: '/partials/modals/protect-asset.html',
-    controller: Ctrl,
+    controller: ['$scope', 'svcHostedAsset', Ctrl],
     link: function(scope, element, attrs) {
       scope.feedbackTarget = element;
     }

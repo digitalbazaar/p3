@@ -58,7 +58,7 @@ function factory(svcModal, svcIdentity, svcAccount) {
       identityId: '@'
     },
     templateUrl: '/partials/modals/add-account.html',
-    controller: Ctrl,
+    controller: ['$scope', Ctrl],
     link: Link
   });
 }

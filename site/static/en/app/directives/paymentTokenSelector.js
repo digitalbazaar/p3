@@ -50,7 +50,7 @@ function factory(svcPaymentToken) {
       fixed: '@',
       instant: '='
     },
-    controller: Ctrl,
+    controller: ['$scope', Ctrl],
     templateUrl: '/partials/payment-token-selector.html',
     link: Link
   };

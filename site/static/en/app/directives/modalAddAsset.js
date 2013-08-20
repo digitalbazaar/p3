@@ -49,7 +49,7 @@ function factory(svcModal) {
   return svcModal.directive({
     name: 'AddAsset',
     templateUrl: '/partials/modals/add-asset.html',
-    controller: Ctrl,
+    controller: ['$scope', 'svcHostedAsset', Ctrl],
     link: function(scope, element, attrs) {
       scope.feedbackTarget = element;
     }

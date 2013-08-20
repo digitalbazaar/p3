@@ -51,7 +51,7 @@ function factory(svcModal, svcAccount) {
     name: 'EditAccount',
     scope: {sourceAccount: '=account'},
     templateUrl: '/partials/modals/edit-account.html',
-    controller: Ctrl,
+    controller: ['$scope', Ctrl],
     link: function(scope, element, attrs) {
       scope.feedbackTarget = element;
     }

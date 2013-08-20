@@ -154,7 +154,8 @@ function factory(svcModal) {
       account: '='
     },
     templateUrl: '/partials/modals/withdraw.html',
-    controller: Ctrl,
+    controller: [
+      '$scope', 'svcPaymentToken', 'svcAccount', 'svcTransaction', Ctrl],
     link: function(scope, element, attrs) {
       scope.feedbackTarget = element;
     }

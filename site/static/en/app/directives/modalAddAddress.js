@@ -90,7 +90,7 @@ function factory(
       showAlert: '@modalAddAddressAlert'
     },
     templateUrl: '/partials/modals/add-address.html',
-    controller: Ctrl,
+    controller: ['$scope', Ctrl],
     link: Link
   });
 }

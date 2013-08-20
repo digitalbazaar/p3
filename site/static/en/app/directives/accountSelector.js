@@ -78,7 +78,7 @@ function factory(svcAccount, svcIdentity) {
       identity: '@',
       instant: '='
     },
-    controller: Ctrl,
+    controller: ['$scope', Ctrl],
     templateUrl: '/partials/account-selector.html',
     link: Link
   };

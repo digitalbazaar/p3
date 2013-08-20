@@ -18,7 +18,7 @@ function factory(svcTemplateCache, $compile, $timeout) {
       visible: '=popoverVisible',
       minWidth: '&popoverMinWidth'
     },
-    controller: function($scope) {
+    controller: ['$scope', function($scope) {
       // FIXME: use $watch and $parse().assign to get/set visible instead?
       // manually inherit from parent scope because scope is auto-isolated
       // when inheriting 'visible' property w/another name
@@ -28,7 +28,7 @@ function factory(svcTemplateCache, $compile, $timeout) {
           $scope[prop] = $scope.$parent[prop];
         }
       }
-    },
+    }],
     link: function(scope, element, attrs) {
       svcTemplateCache.get(attrs.popoverTemplate, function(err, data) {
         // initialize popover, toggle on click

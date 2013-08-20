@@ -124,7 +124,7 @@ function factory(svcModal) {
       paymentMethods: '='
     },
     templateUrl: '/partials/modals/add-payment-token.html',
-    controller: Ctrl,
+    controller: ['$scope', 'svcPaymentToken', 'svcConstant', Ctrl],
     link: function(scope, element, attrs) {
       scope.feedbackTarget = element;
     }

@@ -41,7 +41,7 @@ function factory(svcModal) {
     name: 'EditKey',
     scope: {sourceKey: '=key'},
     templateUrl: '/partials/modals/edit-key.html',
-    controller: Ctrl,
+    controller: ['$scope', 'svcKey', Ctrl],
     link: function(scope, element, attrs) {
       scope.feedbackTarget = element;
     }

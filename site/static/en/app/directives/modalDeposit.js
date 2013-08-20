@@ -139,7 +139,8 @@ function factory(svcModal) {
       instant: '='
     },
     templateUrl: '/partials/modals/deposit.html',
-    controller: Ctrl,
+    controller: [
+      '$scope', 'svcPaymentToken', 'svcAccount', 'svcTransaction', Ctrl],
     link: function(scope, element, attrs) {
       scope.feedbackTarget = element;
     }

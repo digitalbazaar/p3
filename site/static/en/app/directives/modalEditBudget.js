@@ -113,7 +113,7 @@ function factory(svcModal) {
     name: 'EditBudget',
     scope: {sourceBudget: '=budget'},
     templateUrl: '/partials/modals/edit-budget.html',
-    controller: Ctrl,
+    controller: ['$scope', 'svcBudget', 'svcAccount', Ctrl],
     link: function(scope, element, attrs) {
       scope.feedbackTarget = element;
     }

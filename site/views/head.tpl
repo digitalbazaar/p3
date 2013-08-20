@@ -41,7 +41,11 @@
     <link rel="shortcut icon" href="/favicon.ico" />
 
     {{if pageLayout != "error"}}
-    <script data-main="/app/main.${jsExt}" src="/requirejs/require.js"></script>
+      {{if productionMode}}
+        <script src="/app/main.min.js"></script>
+      {{else}}
+        <script data-main="/app/main.${jsExt}" src="/requirejs/require.js"></script>
+      {{/if}}
     {{/if}}
   </head>
 

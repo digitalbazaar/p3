@@ -6,8 +6,11 @@
     // override templates
     'app/templates': 'app/templates.min'
   },
-  name: 'app/main',
   mainConfigFile: 'site/static/en/app/main.js',
+  name: '../../../node_modules/almond/almond',
+  include: ['app/main'],
+  insertRequire: ['app/main'],
   out: 'site/static/en/app/main.min.js',
+  wrap: true,
   preserveLicenseComments: false
 })

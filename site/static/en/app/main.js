@@ -35,7 +35,7 @@ require.config({
 	shim: {
     // export globals for non-requireJS libs
     angular: {exports: 'angular', deps: ['jquery']},
-    'angular-ui': {deps: ['angular']},
+    'angular-ui': {deps: ['angular', 'jquery-ui']},
     async: {exports: 'async'},
     bootstrap: {deps: ['jquery']},
     jquery: {exports: 'jQuery'},
@@ -44,14 +44,14 @@ require.config({
     'spin': {exports: 'Spinner'},
     underscore: {exports: '_'},
     // FIXME: port to requireJS and remove these
-    'payswarm.api': {deps: ['async', 'jquery'], exports: 'payswarm'},
+    'payswarm.api': {deps: ['async', 'jquery'], exports: 'payswarm'}
     //'payswarm': {deps: ['angular', 'async']},
     //'payswarm.services': {deps: ['payswarm', 'payswarm.api']},
     // FIXME: move forge dependency once directives are split
     //'payswarm.directives': {deps: ['payswarm', 'iso8601', 'jquery.placeholder', 'jquery-ui', 'spin', 'forge/forge']},
     //'controllers/assetora': {deps: ['payswarm', 'payswarm.services', 'payswarm.directives', 'payswarm.filters', 'zip', 'deflate', 'FileSaver', 'TypedArray', 'Blob']},
     // FIXME: remove once converted to AMD and tested
-    'controllers/system.dashboard': {deps: ['payswarm', 'payswarm.services', 'payswarm.directives', 'payswarm.filters']}
+    //'controllers/system.dashboard': {deps: ['payswarm', 'payswarm.services', 'payswarm.directives', 'payswarm.filters']}
 	}
 });
 

@@ -6,7 +6,7 @@ ${set([
 {{partial "head.tpl"}}
 
 {{verbatim}}
-<div class="container ng-cloak" data-ng-controller="SettingsCtrl">
+<div class="container ng-cloak">
 
   <div class="row">
     <div class="title-section span12">

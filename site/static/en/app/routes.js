@@ -9,12 +9,12 @@ define([
 ], function(angular) {
   var routes = Array.prototype.slice.call(arguments, 1);
   angular.module('app.routes', []).config(
-    ['$locationProvider', '$routeProvider',
-    function($locationProvider, $routeProvider) {
+    ['$routeProvider', '$locationProvider',
+    function($routeProvider, $locationProvider) {
       $locationProvider.html5Mode(true);
       $locationProvider.hashPrefix('!');
       angular.forEach(routes, function(route) {
-        route($locationProvider, $routeProvider);
+        route($routeProvider, $locationProvider);
       });
 
       // route not known, redirect to simple path

@@ -29,8 +29,8 @@ require.config({
     'zip': 'zip/zip',
     // FIXME: port to requireJS
     'payswarm.api': 'legacy/payswarm.api'
-	},
-	shim: {
+  },
+  shim: {
     // export globals for non-requireJS libs
     angular: {exports: 'angular', deps: ['jquery']},
     'angular-ui': {deps: ['angular', 'jquery-ui']},
@@ -47,7 +47,7 @@ require.config({
     'payswarm.api': {deps: ['async', 'jquery'], exports: 'payswarm'}
     // FIXME: remove once converted to AMD and tested
     //'controllers/system.dashboard': {deps: ['payswarm', 'payswarm.services', 'payswarm.directives', 'payswarm.filters']}
-	}
+  }
 });
 
 require(['app/app'], function() {});

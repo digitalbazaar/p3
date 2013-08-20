@@ -3,9 +3,10 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define(['angular'], function(angular) {
+
+var deps = ['$scope', 'svcHostedAsset', 'svcHostedListing', '$timeout'];
+return {AssetoraCtrl: deps.concat(factory)};
 
 // FIXME: separate routes into own file/do this elsewhere?
 /*var module = angular.module('app');
@@ -39,11 +40,7 @@ module.config(function($locationProvider, $routeProvider) {
     });
 });*/
 
-var name = 'accountSelector';
-var deps = ['$scope', 'svcHostedAsset', 'svcHostedListing', '$timeout'];
-var factory = AssetoraCtrl;
-
-function AssetoraCtrl($scope, svcHostedAsset, svcHostedListing, $timeout) {
+function factory($scope, svcHostedAsset, svcHostedListing, $timeout) {
   $scope.model = {};
   // FIXME: globalize window.data access
   var data = window.data || {};
@@ -176,7 +173,4 @@ function TicketsCtrl($scope, svcHostedAsset, svcHostedListing) {
   $scope.identity = data.identity;
 }
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

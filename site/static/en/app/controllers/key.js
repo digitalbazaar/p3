@@ -5,19 +5,15 @@
  * @author David I. Lehn
  * @author Dave Longley
  */
-(function() {
-
 define([], function() {
 
-var name = 'KeyCtrl';
 var deps = ['$scope'];
-var factory = function($scope) {
+return {KeyCtrl: deps.concat(factory)};
+
+function factory($scope) {
   $scope.model = {};
   var data = window.data || {};
   $scope.key = data.key;
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

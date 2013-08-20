@@ -3,13 +3,12 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define(['angular', 'payswarm.api'], function(angular, payswarm) {
 
-var name = 'ActivityCtrl';
 var deps = ['$scope', 'svcTransaction'];
-var factory = function($scope, svcTransaction) {
+return {ActivityCtrl: deps.concat(factory)};
+
+function factory($scope, svcTransaction) {
   $scope.model = {};
   var data = window.data || {};
   $scope.session = data.session || null;
@@ -99,7 +98,7 @@ var factory = function($scope, svcTransaction) {
 
   // populate table with first set of txns
   $scope.getMore();
-};
+}
 
 // adds a txn to the model
 function _addTxn($scope, txn) {
@@ -142,7 +141,4 @@ function _addTxn($scope, txn) {
   });
 }
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

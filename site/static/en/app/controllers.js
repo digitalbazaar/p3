@@ -25,14 +25,8 @@ define([
   'app/controllers/purchase',
   'app/controllers/register'
 ], function(angular) {
-  // FIXME: simplify controller boilerplate to eliminate loop here
-  // FIXME: use app.controllers?
-  var module = angular.module('app.controllers', []);
-  var controllers = Array.prototype.slice.call(arguments, 1);
-  angular.forEach(controllers, function(controller) {
-    module.controller(
-      controller.name, controller.deps.concat(controller.factory));
-  });
+  angular.module('app.controllers', []).controller(angular.extend.apply(
+    null, [{}].concat(Array.prototype.slice.call(arguments, 1))));
 });
 
 })();

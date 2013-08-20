@@ -3,13 +3,12 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define([], function() {
 
-var name = 'ExternalAccountsCtrl';
 var deps = ['$scope', 'svcPaymentToken'];
-var factory = function($scope, svcPaymentToken) {
+return {ExternalAccountsCtrl: deps.concat(factory)};
+
+function factory($scope, svcPaymentToken) {
   $scope.state = svcPaymentToken.state;
 
   // types for UI directives
@@ -39,9 +38,6 @@ var factory = function($scope, svcPaymentToken) {
   };
 
   svcPaymentToken.get();
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

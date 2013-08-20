@@ -3,13 +3,12 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define(['jquery'], function($) {
 
-var name = 'NavbarCtrl';
 var deps = ['$scope'];
-var factory = function($scope) {
+return {NavbarCtrl: deps.concat(factory)};
+
+function factory($scope) {
   $scope.model = {};
   $scope.session = window.data.session;
 
@@ -29,9 +28,6 @@ var factory = function($scope) {
 
     return rval;
   };
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

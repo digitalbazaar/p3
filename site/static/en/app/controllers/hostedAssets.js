@@ -3,13 +3,12 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define(['angular', 'async'], function(angular, async) {
 
-var name = 'HostedAssetsCtrl';
 var deps = ['$scope', 'svcHostedAsset', 'svcHostedListing'];
-var factory = function($scope, svcHostedAsset, svcHostedListing) {
+return {HostedAssetsCtrl: deps.concat(factory)};
+
+function factory($scope, svcHostedAsset, svcHostedListing) {
   $scope.model = {};
   // FIXME: globalize window.data access
   var data = window.data || {};
@@ -147,9 +146,6 @@ var factory = function($scope, svcHostedAsset, svcHostedListing) {
       $scope.$apply();
     });
   };
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

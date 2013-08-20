@@ -3,13 +3,12 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define([], function() {
 
-var name = 'KeySettingsCtrl';
 var deps = ['$scope', 'svcKey'];
-var factory = function($scope, svcKey) {
+return {KeySettingsCtrl: deps.concat(factory)};
+
+function factory($scope, svcKey) {
   $scope.state = svcKey.state;
   $scope.keys = svcKey.keys;
   $scope.modals = {
@@ -34,9 +33,6 @@ var factory = function($scope, svcKey) {
   };
 
   svcKey.get();
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

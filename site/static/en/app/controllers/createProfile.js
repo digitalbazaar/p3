@@ -4,13 +4,12 @@
  * @author Dave Longley
  * @author Manu Sporny
  */
-(function() {
-
 define([], function() {
 
-var name = 'CreateProfileCtrl';
 var deps = ['$scope', '$http'];
-var factory = function($scope, $http) {
+return {CreateProfileCtrl: deps.concat(factory)};
+
+function factory($scope, $http) {
   $scope.model = {};
   $scope.data = window.data || {};
   $scope.feedback = {};
@@ -50,9 +49,6 @@ var factory = function($scope, $http) {
         $scope.feedback.error = err;
       });
   };
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

@@ -4,13 +4,12 @@
  * @author David I. Lehn
  * @author Dave Longley
  */
-(function() {
-
 define([], function() {
 
-var name = 'BudgetCtrl';
 var deps = ['$scope', '$routeParams', '$timeout', 'svcAccount', 'svcBudget'];
-var factory = function($scope, $routeParams, $timeout, svcAccount, svcBudget) {
+return {BudgetCtrl: deps.concat(factory)};
+
+function factory($scope, $routeParams, $timeout, svcAccount, svcBudget) {
   $scope.model = {};
   var data = window.data || {};
 
@@ -59,9 +58,6 @@ var factory = function($scope, $routeParams, $timeout, svcAccount, svcBudget) {
       });
     }
   });
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

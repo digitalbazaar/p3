@@ -3,13 +3,12 @@
  *
  * @author Dave Longley
  */
-(function() {
-
 define([], function() {
 
-var name = 'AddressSettingsCtrl';
 var deps = ['$scope', 'svcAddress', 'svcIdentity'];
-var factory = function($scope, svcAddress, svcIdentity) {
+return {AddressSettingsCtrl: deps.concat(factory)};
+
+function factory($scope, svcAddress, svcIdentity) {
   $scope.identity = svcIdentity.identity;
   $scope.state = svcAddress.state;
   $scope.addresses = svcAddress.addresses;
@@ -43,9 +42,6 @@ var factory = function($scope, svcAddress, svcIdentity) {
   };
 
   svcAddress.get();
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

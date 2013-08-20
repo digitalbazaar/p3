@@ -4,13 +4,12 @@
  * @author Dave Longley
  * @author Manu Sporny
  */
-(function() {
-
 define(['payswarm.api'], function(payswarm) {
 
-var name = 'PasscodeCtrl';
 var deps = ['$scope'];
-var factory = function($scope) {
+return {PasscodeCtrl: deps.concat(factory)};
+
+function factory($scope) {
   $scope.model = {};
   var data = window.data || {};
   $scope.email = data.session ? data.session.profile.email : '';
@@ -68,9 +67,6 @@ var factory = function($scope) {
       }
     });
   };
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

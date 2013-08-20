@@ -4,13 +4,12 @@
  * @author Manu Sporny
  * @author Dave Longley
  */
-(function() {
-
 define(['async', 'payswarm.api'], function(async, payswarm) {
 
-var name = 'RegisterCtrl';
 var deps = ['$scope', '$timeout', 'svcIdentity', 'svcAccount', 'svcAddress'];
-var factory = function($scope, $timeout, svcIdentity, svcAccount, svcAddress) {
+return {RegisterCtrl: deps.concat(factory)};
+
+function factory($scope, $timeout, svcIdentity, svcAccount, svcAddress) {
   $scope.model = {};
   var data = window.data;
   $scope.feedback = {};
@@ -153,9 +152,6 @@ var factory = function($scope, $timeout, svcIdentity, svcAccount, svcAddress) {
     var registrationDelay = ($scope.registrationType === 'vendor') ? 5000 : 0;
     $timeout(callback, registrationDelay);
   }
-};
+}
 
-return {name: name, deps: deps, factory: factory};
 });
-
-})();

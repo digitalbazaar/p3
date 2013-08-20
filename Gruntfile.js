@@ -1,3 +1,6 @@
+var path = require('path');
+var fs = require('fs');
+
 module.exports = function(grunt) {
   // project configuration
   grunt.initConfig({
@@ -15,7 +18,7 @@ module.exports = function(grunt) {
             define: true
           }
         },
-        src: 'site/static/en/partials/**.html',
+        src: 'site/static/en/partials/**/*.html',
         dest: 'site/static/en/app/templates.min.js'
       }
     }
@@ -23,7 +26,14 @@ module.exports = function(grunt) {
 
   // plugins
   grunt.loadNpmTasks('grunt-angular-templates');
+  
+  grunt.registerTask('templates2requireJS', function() {
+    var filename = path.join(__dirname, 'site/static/en/app/templates.min.js');
+    var module = fs.readFileSync(filename, 'utf8');
+    module = "define(['angular'], function(angular) {\n" + module + '});\n';
+    fs.writeFileSync(filename, module);
+  });
 
   // default tasks
-  grunt.registerTask('default', ['ngtemplates']);
+  grunt.registerTask('default', ['ngtemplates', 'templates2requireJS']);
 };

@@ -32,10 +32,4 @@ Minimizing the RequireJS client-side JS
 =======================================
 
 1. npm run minify
-2. To test in dev mode, change:
-
-<script data-main="/app/main.${jsExt}" ...
-
-To:
-
-<script data-main="/app/main.min.js" ...
+2. To test in dev mode, set the website config var 'minimizeJS' to true.

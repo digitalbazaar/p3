@@ -44,7 +44,11 @@
       {{if productionMode}}
         <script src="/app/main.min.js"></script>
       {{else}}
-        <script data-main="/app/main.${jsExt}" src="/requirejs/require.js"></script>
+        {{if minimizeJS}}
+          <script src="/app/main.min.js"></script>
+        {{else}}
+          <script data-main="/app/main.js" src="/requirejs/require.js"></script>
+        {{/if}}
       {{/if}}
     {{/if}}
   </head>

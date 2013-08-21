@@ -6,39 +6,35 @@
 define(['angular'], function(angular) {
 
 var deps = ['$scope', 'svcHostedAsset', 'svcHostedListing', '$timeout'];
-return {AssetoraCtrl: deps.concat(factory)};
-
-// FIXME: separate routes into own file/do this elsewhere?
-/*var module = angular.module('app');
-module.config(function($locationProvider, $routeProvider) {
-  $locationProvider.html5Mode(true);
-  $locationProvider.hashPrefix('!');
-  $routeProvider
-    .when('/i/:identity/tools', {
-      templateUrl: '/partials/tools/tools.html'
-    })
-    .when('/i/:identity/assetora', {
+return {
+  controller: {AssetoraCtrl: deps.concat(factory)},
+  routes: [{
+    path: '/i/:identity/assetora',
+    options: {
       templateUrl: '/partials/tools/assetora.html',
-      controller: AssetoraCtrl
-    })
-    .when('/i/:identity/invoices', {
+      controller: 'AssetoraCtrl'
+    }
+  // FIXME: move other routes to their respective controller files
+  }, {
+    path: '/i/:identity/invoices',
+    options: {
       templateUrl: '/partials/tools/invoices.html',
-      controller: InvoicesCtrl
-    })
-    .when('/i/:identity/causes', {
+      controller: 'InvoicesCtrl'
+    }
+  }, {
+    path: '/i/:identity/causes',
+    options: {
       templateUrl: '/partials/tools/causes.html',
-      controller: CausesCtrl
-    })
-    .when('/i/:identity/tickets', {
+      controller: 'CausesCtrl'
+    }
+  }, {
+    path: '/i/:identity/tickets',
+    options: {
       templateUrl: '/partials/tools/tickets.html',
-      controller: TicketsCtrl
-    })
-    .otherwise({
-      redirectTo: function(params, path, search) {
-        window.location.href = path;
-      }
-    });
-});*/
+      controller: 'TicketsCtrl'
+    }
+  }]
+};
 
 function factory($scope, svcHostedAsset, svcHostedListing, $timeout) {
   $scope.model = {};

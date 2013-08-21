@@ -21,8 +21,41 @@ define([
   'app/controllers/navbar',
   'app/controllers/passcode',
   'app/controllers/purchase',
-  'app/controllers/register'
+  'app/controllers/register',
+  'app/controllers/tools'
 ], function(angular) {
-  angular.module('app.controllers', []).controller(angular.extend.apply(
-    null, [{}].concat(Array.prototype.slice.call(arguments, 1))));
+  // register controllers and gather routes
+  var module = angular.module('app.controllers', []);
+  var controllers = Array.prototype.slice.call(arguments, 1);
+  var routes = [];
+  angular.forEach(controllers, function(controller) {
+    if('controller' in controller || 'routes' in controller) {
+      module.controller(controller.controller || {});
+      routes.push.apply(routes, controller.routes || []);
+    }
+    else {
+      module.controller(controller);
+    }
+  });
+
+  // register routes
+  module.config(['$locationProvider', '$routeProvider',
+    function($locationProvider, $routeProvider) {
+      $locationProvider.html5Mode(true);
+      $locationProvider.hashPrefix('!');
+      angular.forEach(routes, function(route) {
+        $routeProvider.when(route.path, route.options);
+      });
+
+      // route not known, redirect to simple path
+      $routeProvider.otherwise({
+        redirectTo: function(params, path, search) {
+          // FIXME: needs work
+          if(path !== window.location.pathname) {
+            window.location.href = path;
+          }
+        }
+      });
+    }
+  ]);
 });

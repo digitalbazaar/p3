@@ -11,12 +11,11 @@ define([
   'app/directives',
   'app/filters',
   'app/services',
-  'app/routes',
   'app/templates'
 ], function(angular) {
   var module = angular.module('app', [
     'app.templates', 'app.directives', 'app.filters', 'app.services',
-    'app.controllers', 'app.routes', 'ui']);
+    'app.controllers', 'ui']);
   module.run(['$rootScope', function($rootScope) {
     // utility functions
     var jsonld = $rootScope.jsonld = {};

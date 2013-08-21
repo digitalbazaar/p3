@@ -10,11 +10,13 @@ define([
   'app/controllers/addressSettings',
   'app/controllers/assetora',
   'app/controllers/budget',
+  'app/controllers/causes',
   'app/controllers/contentPortal',
   'app/controllers/createProfile',
   'app/controllers/dashboard',
   'app/controllers/externalAccountSettings',
   'app/controllers/hostedAssets',
+  'app/controllers/invoices',
   'app/controllers/key',
   'app/controllers/keySettings',
   'app/controllers/login',
@@ -22,6 +24,7 @@ define([
   'app/controllers/passcode',
   'app/controllers/purchase',
   'app/controllers/register',
+  'app/controllers/tickets',
   'app/controllers/tools'
 ], function(angular) {
   // register controllers and gather routes

@@ -24,7 +24,7 @@ define([
     // reload page if switching between routes and non-routes
     $rootScope.$on('$routeChangeStart', function(event, next, last) {
       if(last && last !== next && (next.none || last.none)) {
-        window.location.href = $location.url();
+        window.location.href = $location.absUrl();
       }
     });
 

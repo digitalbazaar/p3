@@ -1,0 +1,114 @@
+<form class="well form-horizontal" action="">
+  <fieldset>
+    <div class="control-group" data-binding="title">
+      <label class="control-label" for="title">Title</label>
+      <div class="controls">
+        <div class="input-prepend input-append">
+          <span class="add-on"><i class="icon-tag"></i></span><input
+            type="text" name="title"
+            data-ng-model="model.asset.title"
+            data-track-state="model.help.title"
+            placeholder="Title" />
+          <button class="btn" data-help-toggle="model.help.title">
+            <i class="icon-question-sign"></i>
+          </button>
+        </div>
+        <p data-fade-toggle="model.help.title.show" class="help-block">
+          Please enter the title for the invoice.
+          <!--
+          <br/><br/>
+          Suggestions: ...
+          -->
+        </p>
+      </div>
+    </div>
+  </fieldset>
+</form>
+
+<div class="section">
+  <h4 class="headline">Items</h4>
+
+  <button data-ng-show="!(model.search.state.loading || state.assets.loading || state.listings.loading)"
+    class="btn btn-success btn-add"
+    data-ng-click="model.modals.showAddInvoiceItem=true"><i class="icon-plus icon-white"></i> Add Item</button>
+
+  <table class="table table-condensed"
+    data-ng-show="!state.assets.loading && model.asset.invoiceItem.length > 0">
+    <thead>
+      <tr>
+        <th class="name">Title</th>
+        <th class="money compact">Amount</th>
+        <th class="action">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr data-ng-repeat="item in model.asset.invoiceItem" class="asset"
+        data-fadein="asset.added" data-fadeout="asset.deleted">
+        <!-- Description -->
+        <td>
+          <span class="name">{{item.label}}</span>
+          <div data-ng-show="item.comment">
+            <hr/>
+            <span>{{item.comment}}</span>
+          </div>
+        </td>
+        <!-- Amount -->
+        <td class="money compact">
+          <span class="money">{{item.amount}}</span>
+        </td>
+        <!-- Action -->
+        <td class="action">
+          <div class="btn-group">
+            <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
+              <i class="icon-chevron-down"></i>
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                <a data-ng-click="model.modals.item=item; model.modals.showEditInvoiceItem=true">
+                  <i class="icon-pencil"></i> Edit
+                </a>
+              </li>
+              <li data-ng-show="!$first">
+                <a data-ng-click="">
+                  <i class="icon-chevron-up"></i> Move Up
+                </a>
+              </li>
+              <li data-ng-show="!$last">
+                <a data-ng-click="">
+                  <i class="icon-chevron-down"></i> Move Down
+                </a>
+              </li>
+              <li class="divider"></li>
+              <li class="btn-danger">
+                <a data-ng-click="deleteInvoiceItem(item)">
+                  <i class="icon-remove icon-white"></i> Delete
+                </a>
+              </li>
+            </ul>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr data-ng-show="state.assets.loading">
+        <td colspan="3" style="text-align: center">
+          <span class="center">
+            <span data-spinner="state.assets.loading" data-spinner-class="table-spinner"></span>
+          </span>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+  <div data-ng-show="!state.assets.loading && model.asset.invoiceItem.length == 0">
+    <p class="center">No items.</p>
+  </div>
+
+  <div data-modal-add-invoice-item="model.modals.showAddInvoiceItem"
+    data-asset="model.asset"></div>
+</div>
+
+<div class="section">
+  <h4 class="headline">Select Destination Account</h4>
+  <div data-account-selector data-selected="model.destination"
+    data-invalid="selection.invalidAccount"></div>
+</div>

@@ -14,19 +14,6 @@ return {
       templateUrl: '/partials/tools/invoices.html',
       controller: 'InvoicesCtrl'
     }
-  // FIXME: move other routes to their respective controller files
-  }, {
-    path: '/i/:identity/causes',
-    options: {
-      templateUrl: '/partials/tools/causes.html',
-      controller: 'CausesCtrl'
-    }
-  }, {
-    path: '/i/:identity/tickets',
-    options: {
-      templateUrl: '/partials/tools/tickets.html',
-      controller: 'TicketsCtrl'
-    }
   }]
 };
 

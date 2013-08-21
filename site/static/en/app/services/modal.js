@@ -126,7 +126,12 @@ function factory(
     };
 
     // create new modal element
-    var element = $($templateCache.get(options.templateUrl)[1]);
+    var template = $templateCache.get(options.templateUrl);
+    if(angular.isArray(template)) {
+      // cached http response [http response code, value]
+      template = template[1];
+    }
+    var element = $(template);
     $compile(element, transcludeFn)(childScope);
 
     // initialize modal

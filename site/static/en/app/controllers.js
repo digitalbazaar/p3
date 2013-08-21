@@ -50,15 +50,8 @@ define([
         $routeProvider.when(route.path, route.options);
       });
 
-      // route not known, redirect to simple path
-      $routeProvider.otherwise({
-        redirectTo: function(params, path, search) {
-          // FIXME: needs work
-          if(path !== window.location.pathname) {
-            window.location.href = path;
-          }
-        }
-      });
+      // non-route
+      $routeProvider.otherwise({none: true});
     }
   ]);
 });

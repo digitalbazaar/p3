@@ -20,15 +20,7 @@ function factory(svcModal, svcHostedAsset, svcHostedListing) {
     $scope.model.asset = {
       '@context': [
         'https://w3id.org/payswarm/v1',
-        //'https://w3id.org/meritora/v1',
-        {
-          'meritora': 'https://w3id.org/meritora#',
-          'invoice': 'https://w3id.org/meritora/invoice#',
-          'Invoice': 'invoice:Invoice',
-          'Item': 'invoice:Item',
-          // FIXME: use @container: @list?
-          'invoiceItem': 'invoice:item'
-        }
+        'https://w3id.org/meritora/v1'
       ],
       type: ['Asset', 'Invoice'],
       // FIXME: add more asset details

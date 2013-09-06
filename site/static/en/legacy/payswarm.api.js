@@ -885,6 +885,9 @@ payswarm.hosted.assets = {};
  */
 payswarm.hosted.assets.get = function(options) {
   var query = {};
+  if(options.type) {
+    query.type = options.type;
+  }
   if(options.createdStart) {
     if(query.createdStart instanceof Date) {
       query.createdStart = (+options.createdStart / 1000);

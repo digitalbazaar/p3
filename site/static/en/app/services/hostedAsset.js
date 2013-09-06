@@ -28,6 +28,7 @@ function factory(
    *          [identity] the identity to get the hosted assets for.
    *          [storage] an array to update w/the assets.
    *          [delay] a timeout to wait before fetching assets.
+   *          [type] the asset type to get.
    *          [createdStart] the creation start date.
    *          [keywords] any keywords to do the look up by.
    *          [previous] the previous asset (for pagination).
@@ -46,6 +47,7 @@ function factory(
     $timeout(function() {
       payswarm.hosted.assets.get({
         identity: options.identity || identity.id,
+        type: options.type || undefined,
         createdStart: options.createdStart || undefined,
         keywords: options.keywords || undefined,
         previous: options.previous || undefined,

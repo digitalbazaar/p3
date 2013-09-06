@@ -12,6 +12,10 @@ var getAssetsQuery = {
   title: 'GET Hosted Asset Query',
   type: 'object',
   properties: {
+    type: {
+      required: false,
+      type: 'string'
+    },
     keywords: {
       required: false,
       type: 'string'

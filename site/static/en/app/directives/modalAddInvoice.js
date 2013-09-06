@@ -39,6 +39,8 @@ function factory(svcModal, svcHostedAsset, svcHostedListing) {
 
     $scope.addInvoice = function() {
       var asset = $scope.model.asset;
+      // FIXME: where should angular $$xxx property removal go?
+      asset = JSON.parse(angular.toJson(asset));
       asset.created = window.iso8601.w3cDate();
       asset.psaPublished = asset.created;
 

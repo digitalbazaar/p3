@@ -1,11 +1,12 @@
 var tools = require(__libdir + '/payswarm-auth/tools');
 
+var graphSignature = require('./graphSignature');
 var jsonldContext = require('./jsonldContext');
 var jsonldType = require('./jsonldType');
-var payswarmId = require('./payswarmId');
 var payee = require('./payee');
 var payeeRule = require('./payeeRule');
-var graphSignature = require('./graphSignature');
+var payswarmId = require('./payswarmId');
+var title = require('./title');
 var url = require('./url');
 var vendor = require('./vendor');
 var w3cDateTime = require('./w3cDateTime');
@@ -24,10 +25,7 @@ var schema = {
       required: false,
       type: [url(), {type: 'object'}]
     },
-    title: {
-      type: 'string',
-      required: false
-    },
+    title: title({required: false}),
     assetContent: url({required: false}),
     assetProvider: payswarmId(),
     listingRestrictions: {

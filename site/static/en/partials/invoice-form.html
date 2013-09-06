@@ -46,15 +46,14 @@
         data-fadein="asset.added" data-fadeout="asset.deleted">
         <!-- Description -->
         <td>
-          <span class="name">{{item.label}}</span>
+          <span class="name">{{item.title}}</span>
           <div data-ng-show="item.comment">
-            <hr/>
-            <span>{{item.comment}}</span>
+            <p class="muted">{{item.comment}}</p>
           </div>
         </td>
         <!-- Amount -->
         <td class="money compact">
-          <span class="money">{{item.amount}}</span>
+          <span class="money"><span class="currency">{{item.currency}}</span> <strong>{{item.amount | currency:'$'}}</strong></span>
         </td>
         <!-- Action -->
         <td class="action">
@@ -90,6 +89,20 @@
       </tr>
     </tbody>
     <tfoot>
+      <tr>
+        <td></td>
+        <th class="money">Total</th>
+        <td></td>
+      </tr>
+      <tr>
+        <td>
+          Invoice total.
+        </td>
+        <td class="money">
+          <span class="money"><span class="currency">{{model.destination.currency}}</span> {{0 | currency:'$'}}</span>
+        </td>
+        <td></td>
+      </tr>
       <tr data-ng-show="state.assets.loading">
         <td colspan="3" style="text-align: center">
           <span class="center">
@@ -104,7 +117,7 @@
   </div>
 
   <div data-modal-add-invoice-item="model.modals.showAddInvoiceItem"
-    data-asset="model.asset"></div>
+    data-asset="model.asset" data-destination="model.destination"></div>
 </div>
 
 <div class="section">

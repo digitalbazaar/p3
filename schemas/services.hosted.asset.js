@@ -1,3 +1,4 @@
+var asset = require('./asset');
 var jsonldContext = require('./jsonldContext');
 var jsonldType = require('./jsonldType');
 var payee = require('./payee');
@@ -48,76 +49,20 @@ var getAssetsQuery = {
 var postAssets = {
   title: 'Create Asset',
   description: 'Contains all of the details required to create a new Asset.',
-  type: 'object',
-  properties: {
-    '@context': jsonldContext(),
-    // allow up to 4 additional custom types
-    type: jsonldType('Asset', 4),
-    creator: {
-      required: false,
-      type: [url(), {type: 'object'}]
-    },
-    created: w3cDateTime(),
-    title: {
-      type: 'string',
-      required: false
-    },
-    assetContent: url({required: false}),
-    assetProvider: payswarmId(),
-    listingRestrictions: {
-      title: 'Listing Restrictions',
-      description: 'Restrictions on the listing of this Asset for sale.',
-      required: false,
-      type: 'object',
-      properties: {
-        payee: payee({required: false}),
-        payeeRule: payeeRule({required: false}),
-        vendor: vendor({required: false}),
-        validFrom: w3cDateTime({required: false}),
-        validUntil: w3cDateTime({required: false})
-      }
-    },
-    // FIXME: is psaPublished desirable?
-    psaPublished: w3cDateTime({required: false})
-  },
-  additionalProperties: false
+  type: [asset({
+    // service does a more strict check based on extra asset types
+    // FIXME: library doesn't handle 'true'
+    additionalProperties: undefined
+  })],
+  //additionalProperties: true
 };
 
 var postAsset = {
   title: 'Edit Asset',
   description: 'Contains all of the details required to edit an Asset.',
-  type: 'object',
-  properties: {
-    '@context': jsonldContext(),
-    // allow up to 4 additional custom types
-    type: jsonldType('Asset', 4),
-    creator: {
-      required: false,
-      type: [url(), {type: 'object'}]
-    },
-    created: w3cDateTime(),
-    title: {
-      type: 'string',
-      required: false
-    },
-    assetContent: url({required: false}),
-    assetProvider: payswarmId(),
-    listingRestrictions: {
-      title: 'Listing Restrictions',
-      description: 'Restrictions on the listing of this Asset for sale.',
-      required: false,
-      type: 'object',
-      properties: {
-        payee: payee({required: false}),
-        payeeRule: payeeRule({required: false}),
-        vendor: vendor({required: false}),
-        validFrom: w3cDateTime({required: false}),
-        validUntil: w3cDateTime({required: false})
-      }
-    },
-    psaPublished: w3cDateTime({required: false})
-  },
-  additionalProperties: false
+  type: asset(),
+  // service does a more strict check based on extra asset types
+  additionalProperties: true
 };
 
 var postAssetPublicKey = {

@@ -22,11 +22,13 @@ function factory($scope, svcHostedAsset, svcHostedListing, $timeout) {
   // FIXME: globalize window.data access
   var data = window.data || {};
   $scope.identity = data.identity;
-  $scope.model.recentAssets = svcHostedAsset.recentAssets;
   $scope.state = {
     assets: svcHostedAsset.state
   };
-  $scope.model.search = {input: '', assets: []};
+  $scope.model.search = {
+    input: '',
+    assets: []
+  };
   $scope.model.modals = {
     asset: null,
     item: null,
@@ -86,7 +88,13 @@ function factory($scope, svcHostedAsset, svcHostedListing, $timeout) {
     });
   };
 
-  svcHostedAsset.getRecent({force: true});
+  svcHostedAsset.get({
+    // FIXME
+    limit: 10,
+    type: 'Invoice',
+    storage: $scope.model.search.assets
+    //force: true
+  });
 }
 
 });

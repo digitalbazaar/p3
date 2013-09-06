@@ -21,27 +21,16 @@ function factory(svcModal) {
     $scope.model.loading = false;
     $scope.model.asset = $scope.asset;
     $scope.model.item = {
-      '@context': [
-        'https://w3id.org/payswarm/v1',
-        //'https://w3id.org/meritora/v1',
-        {
-          'meritora': 'https://w3id.org/meritora#',
-          'invoice': 'https://w3id.org/meritora/invoice#',
-          'Invoice': 'invoice:Invoice',
-          'Item': 'invoice:Item',
-          // FIXME: use @container: @list?
-          'invoiceItem': 'invoice:item'
-        }
-      ],
-      type: 'Item',
-      label: '',
-      comment: '',
-      amount: ''
+      // @context set in parent Invoice
+      type: 'InvoiceItem',
+      title: '',
+      amount: '',
+      currency: $scope.destination.currency,
+      comment: ''
       // FIXME: add more item details
       // - date range of item
       // - time used for item
       // - who performed item
-      // - item comment
       // ... etc
     };
 
@@ -55,7 +44,8 @@ function factory(svcModal) {
   return svcModal.directive({
     name: 'AddInvoiceItem',
     scope: {
-      asset: '='
+      asset: '=',
+      destination: '='
     },
     templateUrl: '/partials/modals/add-invoice-item.html',
     controller: ['$scope', Ctrl],

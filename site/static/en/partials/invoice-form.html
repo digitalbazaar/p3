@@ -53,7 +53,7 @@
         </td>
         <!-- Amount -->
         <td class="money compact">
-          <span class="money"><span class="currency">{{item.currency}}</span> <strong>{{item.amount | currency:'$'}}</strong></span>
+          <span class="money"><span class="currency">{{item.currency}}</span> {{item.amount | currency:'$'}}</span>
         </td>
         <!-- Action -->
         <td class="action">
@@ -99,7 +99,7 @@
           Invoice total.
         </td>
         <td class="money">
-          <span class="money"><span class="currency">{{model.destination.currency}}</span> {{0 | currency:'$'}}</span>
+          <span class="money"><span class="currency">{{model.destination.currency}}</span> <strong>{{0 | currency:'$'}}</strong></span>
         </td>
         <td></td>
       </tr>

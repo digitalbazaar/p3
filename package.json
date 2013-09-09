@@ -9,8 +9,8 @@
     "cube-collector": "node node_modules/cube/bin/collector.js",
     "cube-evaluator": "node node_modules/cube/bin/evaluator.js",
     "test": "node test.js",
-    "lint": "jshint *.js bin/*js configs/*.js email-templates/*.js lib/*.js lib/payswarm-auth/*.js lib/payswarm-auth/tests/*.js locales/*.js schemas/*.js site/static/en/legacy/*.js site/static/en/modules/*.js test/*.js tests/*.js",
-    "ci-lint": "mkdir -p reports && jshint --reporter=checkstyle *.js bin/*js configs/*.js email-templates/*.js lib/*.js lib/payswarm-auth/*.js lib/payswarm-auth/tests/*.js locales/*.js schemas/*.js site/static/en/legacy/*.js site/static/en/modules/*.js test/*.js tests/*.js > reports/jshint.xml || exit 0",
+    "lint": "jshint *.js bin/*js configs/*.js email-templates/*.js lib/*.js lib/payswarm-auth/*.js lib/payswarm-auth/tests/*.js locales/*.js schemas/*.js site/static/en/app/*.js site/static/en/app/controllers/*.js site/static/en/app/directives/*.js site/static/en/app/filters/*.js site/static/en/app/services/*.js site/static/en/legacy/*.js test/*.js tests/*.js",
+    "ci-lint": "mkdir -p reports && jshint --reporter=checkstyle *.js bin/*js configs/*.js email-templates/*.js lib/*.js lib/payswarm-auth/*.js lib/payswarm-auth/tests/*.js locales/*.js schemas/*.js site/static/en/app/*.js site/static/en/app/controllers/*.js site/static/en/app/directives/*.js site/static/en/app/filters/*.js site/static/en/app/services/*.js site/static/en/legacy/*.js test/*.js tests/*.js > reports/jshint.xml || exit 0",
     "coverage": "mkdir -p reports && rm -rf lib-cov; ./node_modules/visionmedia-jscoverage/jscoverage lib lib-cov && PAYSWARM_AUTH_COV=1 node test.js > reports/coverage.html && rm -rf lib-cov",
     "minify": "./node_modules/grunt-cli/bin/grunt && ./node_modules/requirejs/bin/r.js -o minify.js"
   },

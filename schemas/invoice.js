@@ -36,7 +36,8 @@ var schema = {
       invoiceItem: {
         required: true,
         type: 'array',
-        items: invoiceItem
+        items: invoiceItem,
+        minItems: 1
       }
     }
   }),

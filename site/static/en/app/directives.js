@@ -22,6 +22,7 @@ define([
   'app/directives/kredit',
   'app/directives/modalAddAccount',
   'app/directives/modalAddAddress',
+  'app/directives/modalAddAsset',
   'app/directives/modalAddBudget',
   'app/directives/modalAddIdentity',
   'app/directives/modalAddInvoice',

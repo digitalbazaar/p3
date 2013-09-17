@@ -23,8 +23,8 @@ define([
   'app/controllers/navbar',
   'app/controllers/passcode',
   'app/controllers/purchase',
-  'app/controllers/register',
-  'app/controllers/tickets'//,
+  'app/controllers/register'//,
+  //'app/controllers/tickets',
   //'app/controllers/tools'
 ], function(angular) {
   // register controllers and gather routes

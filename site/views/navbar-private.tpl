@@ -3,10 +3,10 @@
     <div class="container">
       {{if session.loaded && session.identity.owner == session.profile.id}}
         {{if pageLayout == "normal"}}
-          <a class="brand" href="/"><img src="${cacheRoot}${style.brand.src}" width="${style.brand.width}" height="${style.brand.height}" alt="${style.brand.alt}" /></a>      
+          <a class="brand" href="/"><img src="${cacheRoot}${style.brand.src}" width="${style.brand.width}" height="${style.brand.height}" alt="${style.brand.alt}" /></a>
           <ul class="nav">
             <li {{if inav == "dashboard"}}class="active"{{/if}}><a href="${session.identity.id}/dashboard"><i class="icon-dashboard"></i> Dashboard</a></li>
-            <li class="dropdown">
+            <!-- <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <i class="icon-briefcase"></i> Tools
                 <b class="caret"></b>
@@ -19,7 +19,7 @@
                 <li class="divider"></li>
                 <li><a href="${session.identity.id}/tools"><i class="icon-list"></i> More</a></li>
               </ul>
-            </li>
+            </li> -->
             <li {{if inav == "settings"}}class="active"{{/if}}><a href="${session.identity.id}/settings"><i class="icon-wrench"></i> Settings</a></li>
           </ul>
         {{else}}

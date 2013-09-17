@@ -1,7 +1,7 @@
 <?php
 /**
  * PHP implementation of the JSON-LD API.
- * Version: 0.0.38
+ * Version: 0.2.1
  *
  * @author Dave Longley
  *
@@ -44,7 +44,7 @@
  * @param assoc [$options] options to use:
  *          [base] the base IRI to use.
  *          [graph] true to always output a top-level graph (default: false).
- *          [loadDocument(url)] the document loader.
+ *          [documentLoader(url)] the document loader.
  *
  * @return mixed the compacted JSON-LD output.
  */
@@ -59,7 +59,7 @@ function jsonld_compact($input, $ctx, $options=array()) {
  * @param mixed $input the JSON-LD object to expand.
  * @param assoc[$options] the options to use:
  *          [base] the base IRI to use.
- *          [loadDocument(url)] the document loader.
+ *          [documentLoader(url)] the document loader.
  *
  * @return array the expanded JSON-LD output.
  */
@@ -76,7 +76,7 @@ function jsonld_expand($input, $options=array()) {
  *          null.
  * @param [options] the options to use:
  *          [base] the base IRI to use.
- *          [loadDocument(url)] the document loader.
+ *          [documentLoader(url)] the document loader.
  *
  * @return mixed the flattened JSON-LD output.
  */
@@ -95,7 +95,7 @@ function jsonld_flatten($input, $ctx, $options=array()) {
  *          [embed] default @embed flag (default: true).
  *          [explicit] default @explicit flag (default: false).
  *          [omitDefault] default @omitDefault flag (default: false).
- *          [loadDocument(url)] the document loader.
+ *          [documentLoader(url)] the document loader.
  *
  * @return stdClass the framed JSON-LD output.
  */
@@ -112,8 +112,8 @@ function jsonld_frame($input, $frame, $options=array()) {
  * @param assoc [$options] the options to use:
  *          [base] the base IRI to use.
  *          [format] the format if output is a string:
- *            'application/nquads' for N-Quads (default).
- *          [loadDocument(url)] the document loader.
+ *            'application/nquads' for N-Quads.
+ *          [documentLoader(url)] the document loader.
  *
  * @return mixed the normalized output.
  */
@@ -149,14 +149,69 @@ function jsonld_from_rdf($input, $options=array()) {
  * @param assoc [$options] the options to use:
  *          [base] the base IRI to use.
  *          [format] the format to use to output a string:
- *            'application/nquads' for N-Quads (default).
- *          [loadDocument(url)] the document loader.
+ *            'application/nquads' for N-Quads.
+ *          [produceGeneralizedRdf] true to output generalized RDF, false
+ *            to produce only standard RDF (default: false).
+ *          [documentLoader(url)] the document loader.
  *
  * @return mixed the resulting RDF dataset (or a serialization of it).
  */
 function jsonld_to_rdf($input, $options=array()) {
   $p = new JsonLdProcessor();
   return $p->toRDF($input, $options);
+}
+
+/**
+ * Parses a link header. The results will be key'd by the value of "rel".
+ *
+ * Link: <http://json-ld.org/contexts/person.jsonld>; rel="http://www.w3.org/ns/json-ld#context"; type="application/ld+json"
+ *
+ * Parses as: {
+ *   'http://www.w3.org/ns/json-ld#context': {
+ *     target: http://json-ld.org/contexts/person.jsonld,
+ *     type: 'application/ld+json'
+ *   }
+ * }
+ *
+ * If there is more than one "rel" with the same IRI, then entries in the
+ * resulting map for that "rel" will be arrays of objects, otherwise they will
+ * be single objects.
+ *
+ * @param string $header the link header to parse.
+ *
+ * @return assoc the parsed result.
+ */
+function jsonld_parse_link_header($header) {
+  $rval = array();
+  // split on unbracketed/unquoted commas
+  if(!preg_match_all(
+    '/(?:<[^>]*?>|"[^"]*?"|[^,])+/', $header, $entries, PREG_SET_ORDER)) {
+    return $rval;
+  }
+  $r_link_header = '/\s*<([^>]*?)>\s*(?:;\s*(.*))?/';
+  foreach($entries as $entry) {
+    if(!preg_match($r_link_header, $entry[0], $match)) {
+      continue;
+    }
+    $result = (object)array('target' => $match[1]);
+    $params = $match[2];
+    $r_params = '/(.*?)=(?:(?:"([^"]*?)")|([^"]*?))\s*(?:(?:;\s*)|$)/';
+    preg_match_all($r_params, $params, $matches, PREG_SET_ORDER);
+    foreach($matches as $match) {
+      $result->{$match[1]} = $match[2] ?: $match[3];
+    }
+    $rel = property_exists($result, 'rel') ? $result->rel : '';
+    if(!isset($rval[$rel])) {
+      $rval[$rel] = $result;
+    }
+    else if(is_array($rval[$rel])) {
+      $rval[$rel][] = $result;
+    }
+    else {
+      $rval[$rel] = array($rval[$rel], $result);
+    }
+  }
+  return $rval;
 }
 
 /**
@@ -178,7 +233,7 @@ $jsonld_cache->activeCtx = new ActiveContextCache();
 
 /** Stores the default JSON-LD document loader. */
 global $jsonld_default_load_document;
-$jsonld_default_load_document = null;
+$jsonld_default_load_document = 'jsonld_default_document_loader';
 
 /**
  * Sets the default JSON-LD document loader.
@@ -206,7 +261,7 @@ function jsonld_get_url($url) {
     $document_loader = $jsonld_default_document_loader;
   }
 
-  $remote_doc = $document_loader($url);
+  $remote_doc = call_user_func($document_loader, $url);
   if($remote_doc) {
     return $remote_doc->document;
   }
@@ -221,6 +276,8 @@ function jsonld_get_url($url) {
  * @return stdClass the RemoteDocument object.
  */
 function jsonld_default_document_loader($url) {
+  $doc = (object)array(
+    'contextUrl' => null, 'document' => null, 'documentUrl' => $url);
   $redirects = array();
 
   $opts = array(
@@ -235,28 +292,61 @@ function jsonld_default_document_loader($url) {
       'header' =>
         "Accept: application/ld+json\r\n" .
         "User-Agent: JSON-LD PHP Client/1.0\r\n"));
-  $stream = stream_context_create($opts);
-  stream_context_set_params($stream, array('notification' =>
-    function($notification_code, $severity, $message) use (&$redirects) {
+  $context = stream_context_create($opts);
+  $content_type = null;
+  stream_context_set_params($context, array('notification' =>
+    function($notification_code, $severity, $message) use (
+      &$redirects, &$content_type) {
       switch($notification_code) {
       case STREAM_NOTIFY_REDIRECTED:
         $redirects[] = $message;
         break;
+      case STREAM_NOTIFY_MIME_TYPE_IS:
+        $content_type = $message;
+        break;
       };
     }));
-  $result = @file_get_contents($url, false, $stream);
+  $result = @file_get_contents($url, false, $context);
   if($result === false) {
-    throw new Exception("Could not GET url: '$url'");
+    throw new JsonLdException(
+      'Could not retrieve a JSON-LD document from the URL.',
+      'jsonld.LoadDocumentError', 'loading document failed');
   }
+  $link_header = array();
+  foreach($http_response_header as $header) {
+    if(strpos($header, 'link') === 0) {
+      $value = explode(': ', $header);
+      if(count($value) > 1) {
+        $link_header[] = $value[1];
+      }
+    }
+  }
+  $link_header = jsonld_parse_link_header(join(',', $link_header));
+  if(isset($link_header['http://www.w3.org/ns/json-ld#context'])) {
+    $link_header = $link_header['http://www.w3.org/ns/json-ld#context'];
+  }
+  else {
+    $link_header = null;
+  }
+  if($link_header && $content_type !== 'application/ld+json') {
+    // only 1 related link header permitted
+    if(is_array($link_header)) {
+      throw new JsonLdException(
+        'URL could not be dereferenced, it has more than one ' .
+        'associated HTTP Link Header.', 'jsonld.LoadDocumentError',
+        'multiple context link headers', array('url' => $url));
+    }
+    $doc->{'contextUrl'} = $link_header->target;
+  }
+
+  // update document url based on redirects
   $redirs = count($redirects);
   if($redirs > 0) {
     $url = $redirects[$redirs - 1];
   }
-  // return RemoteDocument
-  return (object)array(
-    'contextUrl' => null,
-    'document' => $result,
-    'documentUrl' => $url);
+  $doc->document = $result;
+  $doc->documentUrl = $url;
+  return $doc;
 }
 
 /**
@@ -268,9 +358,13 @@ function jsonld_default_document_loader($url) {
  */
 function jsonld_default_secure_document_loader($url) {
   if(strpos($url, 'https') !== 0) {
-    throw new Exception("Could not GET url: '$url'; 'https' is required.");
+    throw new JsonLdException(
+      "Could not GET url: '$url'; 'https' is required.",
+      'jsonld.LoadDocumentError', 'loading document failed');
   }
 
+  $doc = (object)array(
+    'contextUrl' => null, 'document' => null, 'documentUrl' => $url);
   $redirects = array();
 
   // default JSON-LD https GET implementation
@@ -281,31 +375,65 @@ function jsonld_default_secure_document_loader($url) {
       'header' =>
         "Accept: application/ld+json\r\n" .
         "User-Agent: JSON-LD PHP Client/1.0\r\n"));
-  $stream = stream_context_create($opts);
-  stream_context_set_params($stream, array('notification' =>
-    function($notification_code, $severity, $message) use (&$redirects) {
+  $context = stream_context_create($opts);
+  $content_type = null;
+  stream_context_set_params($context, array('notification' =>
+    function($notification_code, $severity, $message) use (
+      &$redirects, &$content_type) {
       switch($notification_code) {
       case STREAM_NOTIFY_REDIRECTED:
         $redirects[] = $message;
         break;
+      case STREAM_NOTIFY_MIME_TYPE_IS:
+        $content_type = $message;
+        break;
       };
-  }));
-  $result = @file_get_contents($url, false, $stream);
+    }));
+  $result = @file_get_contents($url, false, $context);
   if($result === false) {
-    throw new Exception("Could not GET url: '$url'");
+    throw new JsonLdException(
+      'Could not retrieve a JSON-LD document from the URL.',
+      'jsonld.LoadDocumentError', 'loading document failed');
   }
+  $link_header = array();
+  foreach($http_response_header as $header) {
+    if(strpos($header, 'link') === 0) {
+      $value = explode(': ', $header);
+      if(count($value) > 1) {
+        $link_header[] = $value[1];
+      }
+    }
+  }
+  $link_header = jsonld_parse_link_header(join(',', $link_header));
+  if(isset($link_header['http://www.w3.org/ns/json-ld#context'])) {
+    $link_header = $link_header['http://www.w3.org/ns/json-ld#context'];
+  }
+  else {
+    $link_header = null;
+  }
+  if($link_header && $content_type !== 'application/ld+json') {
+    // only 1 related link header permitted
+    if(is_array($link_header)) {
+      throw new JsonLdException(
+        'URL could not be dereferenced, it has more than one ' .
+        'associated HTTP Link Header.', 'jsonld.LoadDocumentError',
+        'multiple context link headers', array('url' => $url));
+    }
+    $doc->{'contextUrl'} = $link_header->target;
+  }
+
+  // update document url based on redirects
   foreach($redirects as $redirect) {
     if(strpos($redirect, 'https') !== 0) {
-      throw new Exception(
-        "Could not GET redirected url: '$redirect'; 'https' is required.");
+      throw new JsonLdException(
+        "Could not GET redirected url: '$redirect'; 'https' is required.",
+        'jsonld.LoadDocumentError', 'loading document failed');
     }
     $url = $redirect;
   }
-  // return RemoteDocument
-  return (object)array(
-    'contextUrl' => null,
-    'document' => $result,
-    'documentUrl' => $url);
+  $doc->document = $result;
+  $doc->documentUrl = $url;
+  return $doc;
 }
 
 /** Registered global RDF dataset parsers hashed by content-type. */
@@ -608,6 +736,7 @@ class JsonLdProcessor {
   const XSD_STRING = 'http://www.w3.org/2001/XMLSchema#string';
 
   /** RDF constants */
+  const RDF_LIST = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#List';
   const RDF_FIRST = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#first';
   const RDF_REST = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#rest';
   const RDF_NIL = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#nil';
@@ -639,7 +768,7 @@ class JsonLdProcessor {
    *          [skipExpansion] true to assume the input is expanded and skip
    *            expansion, false not to, defaults to false.
    *          [activeCtx] true to also return the active context used.
-   *          [loadDocument(url)] the document loader.
+   *          [documentLoader(url)] the document loader.
    *
    * @return mixed the compacted JSON-LD output.
    */
@@ -647,7 +776,7 @@ class JsonLdProcessor {
     if($ctx === null) {
       throw new JsonLdException(
         'The compaction context must not be null.',
-        'jsonld.CompactError');
+        'jsonld.CompactError', 'invalid local context');
     }
 
     // nothing to compact
@@ -661,7 +790,7 @@ class JsonLdProcessor {
       'graph' => false,
       'skipExpansion' => false,
       'activeCtx' => false,
-      'loadDocument' => 'jsonld_default_document_loader'));
+      'documentLoader' => 'jsonld_default_document_loader'));
 
     if($options['skipExpansion'] === true) {
       $expanded = $input;
@@ -674,7 +803,7 @@ class JsonLdProcessor {
       catch(JsonLdException $e) {
         throw new JsonLdException(
           'Could not expand input before compaction.',
-          'jsonld.CompactError', null, $e);
+          'jsonld.CompactError', null, null, $e);
       }
     }
 
@@ -686,7 +815,7 @@ class JsonLdProcessor {
     catch(JsonLdException $e) {
       throw new JsonLdException(
         'Could not process context before compaction.',
-        'jsonld.CompactError', null, $e);
+        'jsonld.CompactError', null, null, $e);
     }
 
     // do compaction
@@ -770,19 +899,18 @@ class JsonLdProcessor {
    *          [expandContext] a context to expand with.
    *          [keepFreeFloatingNodes] true to keep free-floating nodes,
    *            false not to, defaults to false.
-   *          [loadDocument(url)] the document loader.
+   *          [documentLoader(url)] the document loader.
    *
    * @return array the expanded JSON-LD output.
    */
   public function expand($input, $options) {
     self::setdefaults($options, array(
-      'base' => is_string($input) ? $input : '',
       'keepFreeFloatingNodes' => false,
-      'loadDocument' => 'jsonld_default_document_loader'));
+      'documentLoader' => 'jsonld_default_document_loader'));
 
     // if input is a string, attempt to dereference remote document
     if(is_string($input)) {
-      $remote_doc = $options['loadDocument']($input);
+      $remote_doc = call_user_func($options['documentLoader'], $input);
     }
     else {
       $remote_doc = (object)array(
@@ -791,9 +919,29 @@ class JsonLdProcessor {
         'document' => $input);
     }
 
+    try {
+      if($remote_doc->document === null) {
+        throw new JsonLdException(
+          'No remote document found at the given URL.',
+          'jsonld.NullRemoteDocument');
+      }
+      if(is_string($remote_doc->document)) {
+        $remote_doc->document = self::_parse_json($remote_doc->document);
+      }
+    }
+    catch(Exception $e) {
+      throw new JsonLdException(
+        'Could not retrieve a JSON-LD document from the URL.',
+        'jsonld.LoadDocumentError', 'loading document failed',
+        array('remoteDoc' => $remote_doc), $e);
+    }
+
+    // set default base
+    self::setdefault($options, 'base', $remote_doc->documentUrl ?: '');
+
     // build meta-object and retrieve all @context urls
     $input = (object)array(
-      'document' => self::copy($input),
+      'document' => self::copy($remote_doc->document),
       'remoteContext' => (object)array(
         '@context' => $remote_doc->contextUrl));
     if(isset($options['expandContext'])) {
@@ -810,12 +958,12 @@ class JsonLdProcessor {
     // retrieve all @context URLs in the input
     try {
       $this->_retrieveContextUrls(
-        $input, new stdClass(), $options['loadDocument'], $options['base']);
+        $input, new stdClass(), $options['documentLoader'], $options['base']);
     }
     catch(Exception $e) {
       throw new JsonLdException(
         'Could not perform JSON-LD expansion.',
-        'jsonld.ExpandError', null, $e);
+        'jsonld.ExpandError', null, null, $e);
     }
 
     $active_ctx = $this->_getInitialContext($options);
@@ -857,14 +1005,14 @@ class JsonLdProcessor {
    * @param assoc $options the options to use:
    *          [base] the base IRI to use.
    *          [expandContext] a context to expand with.
-   *          [loadDocument(url)] the document loader.
+   *          [documentLoader(url)] the document loader.
    *
    * @return array the flattened output.
    */
   public function flatten($input, $ctx, $options) {
     self::setdefaults($options, array(
       'base' => is_string($input) ? $input : '',
-      'loadDocument' => 'jsonld_default_document_loader'));
+      'documentLoader' => 'jsonld_default_document_loader'));
 
     try {
       // expand input
@@ -873,7 +1021,7 @@ class JsonLdProcessor {
     catch(Exception $e) {
       throw new JsonLdException(
         'Could not expand input before flattening.',
-        'jsonld.FlattenError', null, $e);
+        'jsonld.FlattenError', null, null, $e);
     }
 
     // do flattening
@@ -892,7 +1040,7 @@ class JsonLdProcessor {
     catch(Exception $e) {
       throw new JsonLdException(
         'Could not compact flattened output.',
-        'jsonld.FlattenError', null, $e);
+        'jsonld.FlattenError', null, null, $e);
     }
 
     return $compacted;
@@ -909,7 +1057,7 @@ class JsonLdProcessor {
    *          [embed] default @embed flag (default: true).
    *          [explicit] default @explicit flag (default: false).
    *          [omitDefault] default @omitDefault flag (default: false).
-   *          [loadDocument(url)] the document loader.
+   *          [documentLoader(url)] the document loader.
    *
    * @return stdClass the framed JSON-LD output.
    */
@@ -920,17 +1068,34 @@ class JsonLdProcessor {
       'embed' => true,
       'explicit' => false,
       'omitDefault' => false,
-      'loadDocument' => 'jsonld_default_document_loader'));
+      'documentLoader' => 'jsonld_default_document_loader'));
 
     // if frame is a string, attempt to dereference remote document
     if(is_string($frame)) {
-      $remote_frame = $options['loadDocument']($frame);
+      $remote_frame = call_user_func($options['documentLoader'], $frame);
     }
     else {
       $remote_frame = (object)array(
         'contextUrl' => null,
         'documentUrl' => null,
         'document' => $frame);
+    }
+
+    try {
+      if($remote_frame->document === null) {
+        throw new JsonLdException(
+          'No remote document found at the given URL.',
+          'jsonld.NullRemoteDocument');
+      }
+      if(is_string($remote_frame->document)) {
+        $remote_frame->document = self::_parse_json($remote_frame->document);
+      }
+    }
+    catch(Exception $e) {
+      throw new JsonLdException(
+        'Could not retrieve a JSON-LD document from the URL.',
+        'jsonld.LoadDocumentError', 'loading document failed',
+        array('remoteDoc' => $remote_doc), $e);
     }
 
     // preserve frame context
@@ -957,19 +1122,19 @@ class JsonLdProcessor {
     catch(Exception $e) {
       throw new JsonLdException(
         'Could not expand input before framing.',
-        'jsonld.FrameError', null, $e);
+        'jsonld.FrameError', null, null, $e);
     }
 
     try {
       // expand frame
-      $opts = self::copy($options);
+      $opts = $options;
       $opts['keepFreeFloatingNodes'] = true;
       $expanded_frame = $this->expand($frame, $opts);
     }
     catch(Exception $e) {
       throw new JsonLdException(
         'Could not expand frame before framing.',
-        'jsonld.FrameError', null, $e);
+        'jsonld.FrameError', null, null, $e);
     }
 
     // do framing
@@ -985,7 +1150,7 @@ class JsonLdProcessor {
     catch(Exception $e) {
       throw new JsonLdException(
         'Could not compact framed output.',
-        'jsonld.FrameError', null, $e);
+        'jsonld.FrameError', null, null, $e);
     }
 
     $compacted = $result['compacted'];
@@ -1008,27 +1173,28 @@ class JsonLdProcessor {
    *          [expandContext] a context to expand with.
    *          [format] the format if output is a string:
    *            'application/nquads' for N-Quads.
-   *          [loadDocument(url)] the document loader.
+   *          [documentLoader(url)] the document loader.
    *
    * @return mixed the normalized output.
    */
   public function normalize($input, $options) {
     self::setdefaults($options, array(
       'base' => is_string($input) ? $input : '',
-      'loadDocument' => 'jsonld_default_document_loader'));
+      'documentLoader' => 'jsonld_default_document_loader'));
 
     try {
       // convert to RDF dataset then do normalization
-      $opts = self::copy($options);
+      $opts = $options;
       if(isset($opts['format'])) {
         unset($opts['format']);
       }
+      $opts['produceGeneralizedRdf'] = false;
       $dataset = $this->toRDF($input, $opts);
     }
     catch(Exception $e) {
       throw new JsonLdException(
         'Could not convert input to RDF dataset before normalization.',
-        'jsonld.NormalizeError', null, $e);
+        'jsonld.NormalizeError', null, null, $e);
     }
 
     // do normalization
@@ -1071,7 +1237,7 @@ class JsonLdProcessor {
         !property_exists($jsonld_rdf_parsers, $options['format'])) {
         throw new JsonLdException(
           'Unknown input format.',
-          'jsonld.UnknownFormat', array('format' => $options['format']));
+          'jsonld.UnknownFormat', null, array('format' => $options['format']));
       }
       if($this->rdfParsers !== null) {
         $callable = $this->rdfParsers->{$options['format']};
@@ -1079,7 +1245,7 @@ class JsonLdProcessor {
       else {
         $callable = $jsonld_rdf_parsers->{$options['format']};
       }
-      $dataset = $callable($dataset);
+      $dataset = call_user_func($callable, $dataset);
     }
 
     // convert from RDF
@@ -1094,15 +1260,18 @@ class JsonLdProcessor {
    *          [base] the base IRI to use.
    *          [expandContext] a context to expand with.
    *          [format] the format to use to output a string:
-   *            'application/nquads' for N-Quads (default).
-   *          [loadDocument(url)] the document loader.
+   *            'application/nquads' for N-Quads.
+   *          [produceGeneralizedRdf] true to output generalized RDF, false
+   *            to produce only standard RDF (default: false).
+   *          [documentLoader(url)] the document loader.
    *
    * @return mixed the resulting RDF dataset (or a serialization of it).
    */
   public function toRDF($input, $options) {
     self::setdefaults($options, array(
       'base' => is_string($input) ? $input : '',
-      'loadDocument' => 'jsonld_default_document_loader'));
+      'produceGeneralizedRdf' => false,
+      'documentLoader' => 'jsonld_default_document_loader'));
 
     try {
       // expand input
@@ -1110,8 +1279,8 @@ class JsonLdProcessor {
     }
     catch(JsonLdException $e) {
       throw new JsonLdException(
-        'Could not expand input before conversion to RDF.',
-        'jsonld.RdfError', $e);
+        'Could not expand input before serialization to RDF.',
+        'jsonld.RdfError', null, null, $e);
     }
 
     // create node map for default graph (and any named graphs)
@@ -1125,7 +1294,10 @@ class JsonLdProcessor {
     sort($graph_names);
     foreach($graph_names as $graph_name) {
       $graph = $node_map->{$graph_name};
-      $dataset->{$graph_name} = $this->_graphToRDF($graph, $namer);
+      // skip relative IRIs
+      if($graph_name === '@default' || self::_isAbsoluteIri($graph_name)) {
+        $dataset->{$graph_name} = $this->_graphToRDF($graph, $namer, $options);
+      }
     }
 
     $rval = $dataset;
@@ -1138,8 +1310,8 @@ class JsonLdProcessor {
       }
       else {
         throw new JsonLdException(
-          'Unknown output format.',
-          'jsonld.UnknownFormat', array('format' => $options['format']));
+          'Unknown output format.', 'jsonld.UnknownFormat',
+          null, array('format' => $options['format']));
       }
     }
 
@@ -1153,13 +1325,14 @@ class JsonLdProcessor {
    * @param stdClass $active_ctx the current active context.
    * @param mixed $local_ctx the local context to process.
    * @param assoc $options the options to use:
-   *          [loadDocument(url)] the document loader.
+   *          [documentLoader(url)] the document loader.
    *
    * @return stdClass the new active context.
    */
   public function processContext($active_ctx, $local_ctx, $options) {
     self::setdefaults($options, array(
-      'loadDocument' => 'jsonld_default_document_loader'));
+      'base' => '',
+      'documentLoader' => 'jsonld_default_document_loader'));
 
     // return initial context early for null context
     if($local_ctx === null) {
@@ -1174,12 +1347,13 @@ class JsonLdProcessor {
     }
     try {
       $this->_retrieveContextUrls(
-        $local_ctx, new stdClass(), $options['loadDocument'], $options['base']);
+        $local_ctx, new stdClass(),
+        $options['documentLoader'], $options['base']);
     }
     catch(Exception $e) {
       throw new JsonLdException(
         'Could not process JSON-LD context.',
-        'jsonld.ContextError', null, $e);
+        'jsonld.ContextError', null, null, $e);
     }
 
     // process context
@@ -1477,7 +1651,7 @@ class JsonLdProcessor {
       if(!preg_match($quad, $line, $match)) {
         throw new JsonLdException(
           'Error while parsing N-Quads; invalid quad.',
-          'jsonld.ParseError', array('line' => $line_number));
+          'jsonld.ParseError', null, array('line' => $line_number));
       }
 
       // create RDF triple
@@ -1731,9 +1905,7 @@ class JsonLdProcessor {
     if(is_object($value) || is_array($value)) {
       return unserialize(serialize($value));
     }
-    else {
-      return $value;
-    }
+    return $value;
   }
 
   /**
@@ -1941,8 +2113,8 @@ class JsonLdProcessor {
                 'JSON-LD compact error; property has a "@list" @container ' .
                 'rule but there is more than a single @list that matches ' .
                 'the compacted term in the document. Compaction might mix ' .
-                'unwanted items into the list.',
-                'jsonld.SyntaxError');
+                'unwanted items into the list.', 'jsonld.SyntaxError',
+                'compaction to list of lists');
             }
           }
 
@@ -2015,6 +2187,9 @@ class JsonLdProcessor {
     // recursively expand array
     if(is_array($element)) {
       $rval = array();
+      $container = self::getContextValue(
+        $active_ctx, $active_property, '@container');
+      $inside_list = $inside_list || $container === '@list';
       foreach($element as $e) {
         // expand element
         $e = $this->_expand(
@@ -2023,10 +2198,10 @@ class JsonLdProcessor {
           // lists of lists are illegal
           throw new JsonLdException(
             'Invalid JSON-LD syntax; lists of lists are not permitted.',
-            'jsonld.SyntaxError');
+            'jsonld.SyntaxError', 'list of lists');
         }
         // drop null values
-        else if($e !== null) {
+        if($e !== null) {
           if(is_array($e)) {
             $rval = array_merge($rval, $e);
           }
@@ -2038,357 +2213,368 @@ class JsonLdProcessor {
       return $rval;
     }
 
-    // recursively expand object
-    if(is_object($element)) {
-      // if element has a context, process it
-      if(property_exists($element, '@context')) {
-        $active_ctx = $this->_processContext(
-          $active_ctx, $element->{'@context'}, $options);
+    if(!is_object($element)) {
+      // drop free-floating scalars that are not in lists
+      if(!$inside_list &&
+        ($active_property === null ||
+        $this->_expandIri($active_ctx, $active_property,
+          array('vocab' => true)) === '@graph')) {
+        return null;
       }
 
-      // expand the active property
-      $expanded_active_property = $this->_expandIri(
-        $active_ctx, $active_property, array('vocab' => true));
+      // expand element according to value expansion rules
+      return $this->_expandValue($active_ctx, $active_property, $element);
+    }
 
-      $rval = new stdClass();
-      $keys = array_keys((array)$element);
-      sort($keys);
-      foreach($keys as $key) {
-        $value = $element->{$key};
+    // recursively expand object:
 
-        if($key === '@context') {
-          continue;
-        }
+    // if element has a context, process it
+    if(property_exists($element, '@context')) {
+      $active_ctx = $this->_processContext(
+        $active_ctx, $element->{'@context'}, $options);
+    }
 
-        // get term definition for key
-        if(property_exists($active_ctx->mappings, $key)) {
-          $mapping = $active_ctx->mappings->{$key};
-        }
-        else {
-          $mapping = null;
-        }
+    // expand the active property
+    $expanded_active_property = $this->_expandIri(
+      $active_ctx, $active_property, array('vocab' => true));
 
-        // expand key to IRI
-        $expanded_property = $this->_expandIri(
-          $active_ctx, $key, array('vocab' => true));
+    $rval = new stdClass();
+    $keys = array_keys((array)$element);
+    sort($keys);
+    foreach($keys as $key) {
+      $value = $element->{$key};
 
-        // drop non-absolute IRI keys that aren't keywords
-        if($expanded_property === null ||
-          !(self::_isAbsoluteIri($expanded_property) ||
-          self::_isKeyword($expanded_property))) {
-          continue;
-        }
+      if($key === '@context') {
+        continue;
+      }
 
-        if(self::_isKeyword($expanded_property) &&
-          $expanded_active_property === '@reverse') {
+      // expand key to IRI
+      $expanded_property = $this->_expandIri(
+        $active_ctx, $key, array('vocab' => true));
+
+      // drop non-absolute IRI keys that aren't keywords
+      if($expanded_property === null ||
+        !(self::_isAbsoluteIri($expanded_property) ||
+        self::_isKeyword($expanded_property))) {
+        continue;
+      }
+
+      if(self::_isKeyword($expanded_property)) {
+        if($expanded_active_property === '@reverse') {
           throw new JsonLdException(
             'Invalid JSON-LD syntax; a keyword cannot be used as a @reverse ' .
-            'property.',
-            'jsonld.SyntaxError', array('value' => $value));
+            'property.', 'jsonld.SyntaxError', 'invalid reverse property map',
+            array('value' => $value));
         }
-
-        // syntax error if @id is not a string
-        if($expanded_property === '@id' && !is_string($value)) {
+        if(property_exists($rval, $expanded_property)) {
           throw new JsonLdException(
-              'Invalid JSON-LD syntax; "@id" value must a string.',
-              'jsonld.SyntaxError', array('value' => $value));
+            'Invalid JSON-LD syntax; colliding keywords detected.',
+            'jsonld.SyntaxError', 'colliding keywords',
+            array('keyword' => $expanded_property));
         }
+      }
 
-        // validate @type value
-        if($expanded_property === '@type') {
-          $this->_validateTypeValue($value);
-        }
-
-        // @graph must be an array or an object
-        if($expanded_property === '@graph' &&
-          !(is_object($value) || is_array($value))) {
+      // syntax error if @id is not a string
+      if($expanded_property === '@id' && !is_string($value)) {
+        if(!isset($options['isFrame']) || !$options['isFrame']) {
           throw new JsonLdException(
-            'Invalid JSON-LD syntax; "@value" value must not be an ' .
-            'object or an array.',
-            'jsonld.SyntaxError', array('value' => $value));
+            'Invalid JSON-LD syntax; "@id" value must a string.',
+            'jsonld.SyntaxError', 'invalid @id value',
+            array('value' => $value));
         }
-
-        // @value must not be an object or an array
-        if($expanded_property === '@value' &&
-          (is_object($value) || is_array($value))) {
+        if(!is_object($value)) {
           throw new JsonLdException(
-            'Invalid JSON-LD syntax; "@value" value must not be an ' .
-            'object or an array.',
-            'jsonld.SyntaxError', array('value' => $value));
+            'Invalid JSON-LD syntax; "@id" value must a string or an object.',
+            'jsonld.SyntaxError', 'invalid @id value',
+            array('value' => $value));
         }
+      }
 
-        // @language must be a string
-        if($expanded_property === '@language' && !is_string($value)) {
+      // validate @type value
+      if($expanded_property === '@type') {
+        $this->_validateTypeValue($value);
+      }
+
+      // @graph must be an array or an object
+      if($expanded_property === '@graph' &&
+        !(is_object($value) || is_array($value))) {
+        throw new JsonLdException(
+          'Invalid JSON-LD syntax; "@graph" value must not be an ' .
+          'object or an array.', 'jsonld.SyntaxError',
+          'invalid @graph value', array('value' => $value));
+      }
+
+      // @value must not be an object or an array
+      if($expanded_property === '@value' &&
+        (is_object($value) || is_array($value))) {
+        throw new JsonLdException(
+          'Invalid JSON-LD syntax; "@value" value must not be an ' .
+          'object or an array.', 'jsonld.SyntaxError',
+          'invalid value object value', array('value' => $value));
+      }
+
+      // @language must be a string
+      if($expanded_property === '@language') {
+        if(!is_string($value)) {
           throw new JsonLdException(
             'Invalid JSON-LD syntax; "@language" value must not be a string.',
-            'jsonld.SyntaxError', array('value' => $value));
-          // ensure language value is lowercase
-          $value = strtolower($value);
+            'jsonld.SyntaxError', 'invalid language-tagged string',
+            array('value' => $value));
+        }
+        // ensure language value is lowercase
+        $value = strtolower($value);
+      }
+
+      // @index must be a string
+      if($expanded_property === '@index') {
+        if(!is_string($value)) {
+          throw new JsonLdException(
+            'Invalid JSON-LD syntax; "@index" value must be a string.',
+            'jsonld.SyntaxError', 'invalid @index value',
+            array('value' => $value));
+        }
+      }
+
+      // @reverse must be an object
+      if($expanded_property === '@reverse') {
+        if(!is_object($value)) {
+          throw new JsonLdException(
+            'Invalid JSON-LD syntax; "@reverse" value must be an object.',
+            'jsonld.SyntaxError', 'invalid @reverse value',
+            array('value' => $value));
         }
 
-        // @index must be a string
-        if($expanded_property === '@index') {
-          if(!is_string($value)) {
-            throw new JsonLdException(
-              'Invalid JSON-LD syntax; "@index" value must be a string.',
-              'jsonld.SyntaxError', array('value' => $value));
-          }
-        }
+        $expanded_value = $this->_expand(
+          $active_ctx, '@reverse', $value, $options, $inside_list);
 
-        // @reverse must be an object
-        if($expanded_property === '@reverse') {
-          if(!is_object($value)) {
-            throw new JsonLdException(
-              'Invalid JSON-LD syntax; "@reverse" value must be an object.',
-              'jsonld.SyntaxError', array('value' => $value));
-          }
-
-          $expanded_value = $this->_expand(
-            $active_ctx, '@reverse', $value, $options, $inside_list);
-
-          // properties double-reversed
-          if(property_exists($expanded_value, '@reverse')) {
-            foreach($expanded_value->{'@reverse'} as $rproperty => $rvalue) {
-              self::addValue(
-                $rval, $rproperty, $rvalue, array('propertyIsArray' => true));
-            }
-          }
-
-          // FIXME: can this be merged with code below to simplify?
-          // merge in all reversed properties
-          if(property_exists($rval, '@reverse')) {
-            $reverse_map = $rval->{'@reverse'};
-          }
-          else {
-            $reverse_map = null;
-          }
-          foreach($expanded_value as $property => $items) {
-            if($property === '@reverse') {
-              continue;
-            }
-            if($reverse_map === null) {
-              $reverse_map = $rval->{'@reverse'} = new stdClass();
-            }
+        // properties double-reversed
+        if(property_exists($expanded_value, '@reverse')) {
+          foreach($expanded_value->{'@reverse'} as $rproperty => $rvalue) {
             self::addValue(
-              $reverse_map, $property, array(),
-              array('propertyIsArray' => true));
-            foreach($items as $item) {
-              if(self::_isValue($item) || self::_isList($item)) {
-                throw new JsonLdException(
-                  'Invalid JSON-LD syntax; "@reverse" value must not be a ' +
-                  '@value or an @list.',
-                  'jsonld.SyntaxError',
-                  array('value' => $expanded_value));
-              }
-              self::addValue(
-                $reverse_map, $property, $item,
-                array('propertyIsArray' => true));
-            }
+              $rval, $rproperty, $rvalue, array('propertyIsArray' => true));
           }
-
-          continue;
         }
 
-        $container = self::getContextValue($active_ctx, $key, '@container');
-
-        // handle language map container (skip if value is not an object)
-        if($container === '@language' && is_object($value)) {
-          $expanded_value = $this->_expandLanguageMap($value);
-        }
-        // handle index container (skip if value is not an object)
-        else if($container === '@index' && is_object($value)) {
-          $expand_index_map = function($active_property) use (
-            $active_ctx, $options, $value) {
-            $rval = array();
-            $keys = array_keys((array)$value);
-            sort($keys);
-            foreach($keys as $key) {
-              $val = $value->{$key};
-              $val = self::arrayify($val);
-              $val = $this->_expand(
-                $active_ctx, $active_property, $val, $options, false);
-              foreach($val as $item) {
-                if(!property_exists($item, '@index')) {
-                  $item->{'@index'} = $key;
-                }
-                $rval[] = $item;
-              }
-            }
-            return $rval;
-          };
-          $expanded_value = $expand_index_map($key);
+        // FIXME: can this be merged with code below to simplify?
+        // merge in all reversed properties
+        if(property_exists($rval, '@reverse')) {
+          $reverse_map = $rval->{'@reverse'};
         }
         else {
-          // recurse into @list or @set keeping the active property
-          $is_list = ($expanded_property === '@list');
-          if($is_list || $expanded_property === '@set') {
-            $next_active_property = $active_property;
-            if($is_list && $expanded_active_property === '@graph') {
-              $next_active_property = null;
-            }
-            $expanded_value = $this->_expand(
-              $active_ctx, $next_active_property, $value, $options, $is_list);
-            if($is_list && self::_isList($expanded_value)) {
-              throw new JsonLdException(
-                'Invalid JSON-LD syntax; lists of lists are not permitted.',
-                'jsonld.SyntaxError');
-            }
+          $reverse_map = null;
+        }
+        foreach($expanded_value as $property => $items) {
+          if($property === '@reverse') {
+            continue;
           }
-          else {
-            // recursively expand value with key as new active property
-            $expanded_value = $this->_expand(
-              $active_ctx, $key, $value, $options, false);
+          if($reverse_map === null) {
+            $reverse_map = $rval->{'@reverse'} = new stdClass();
           }
-        }
-
-        // drop null values if property is not @value
-        if($expanded_value === null && $expanded_property !== '@value') {
-          continue;
-        }
-
-        // convert expanded value to @list if container specifies it
-        if($expanded_property !== '@list' && !self::_isList($expanded_value) &&
-          $container === '@list') {
-          // ensure expanded value is an array
-          $expanded_value = (object)array(
-            '@list' => self::arrayify($expanded_value));
-        }
-
-        // FIXME: can this be merged with code above to simplify?
-        // merge in reverse properties
-        if(property_exists($active_ctx->mappings, $key) &&
-          $active_ctx->mappings->{$key} &&
-          $active_ctx->mappings->{$key}->reverse) {
-          $reverse_map = $rval->{'@reverse'} = new stdClass();
-          $expanded_value = self::arrayify($expanded_value);
-          foreach($expanded_value as $item) {
+          self::addValue(
+            $reverse_map, $property, array(),
+            array('propertyIsArray' => true));
+          foreach($items as $item) {
             if(self::_isValue($item) || self::_isList($item)) {
               throw new JsonLdException(
                 'Invalid JSON-LD syntax; "@reverse" value must not be a ' +
-                '@value or an @list.',
-                'jsonld.SyntaxError', array('value' => $expanded_value));
+                '@value or an @list.', 'jsonld.SyntaxError',
+                'invalid reverse property value',
+                array('value' => $expanded_value));
             }
             self::addValue(
-              $reverse_map, $expanded_property, $item,
+              $reverse_map, $property, $item,
               array('propertyIsArray' => true));
           }
-          continue;
         }
 
-        // add value for property
-        // use an array except for certain keywords
-        $use_array = (!in_array(
-          $expanded_property, array(
-            '@index', '@id', '@type', '@value', '@language')));
-        self::addValue(
-          $rval, $expanded_property, $expanded_value,
-          array('propertyIsArray' => $use_array));
+        continue;
       }
 
-      // get property count on expanded output
-      $keys = array_keys((array)$rval);
-      $count = count($keys);
+      $container = self::getContextValue($active_ctx, $key, '@container');
 
-      // @value must only have @language or @type
-      if(property_exists($rval, '@value')) {
-        // @value must only have @language or @type
-        if(property_exists($rval, '@type') &&
-          property_exists($rval, '@language')) {
-          throw new JsonLdException(
-            'Invalid JSON-LD syntax; an element containing "@value" may not ' .
-            'contain both "@type" and "@language".',
-            'jsonld.SyntaxError', array('element' => $rval));
-        }
-        $valid_count = $count - 1;
-        if(property_exists($rval, '@type')) {
-          $valid_count -= 1;
-        }
-        if(property_exists($rval, '@index')) {
-          $valid_count -= 1;
-        }
-        if(property_exists($rval, '@language')) {
-          $valid_count -= 1;
-        }
-        if($valid_count !== 0) {
-          throw new JsonLdException(
-            'Invalid JSON-LD syntax; an element containing "@value" may only ' .
-            'have an "@index" property and at most one other property ' .
-            'which can be "@type" or "@language".',
-            'jsonld.SyntaxError', array('element' => $rval));
-        }
-        // drop null @values
-        if($rval->{'@value'} === null) {
-          $rval = null;
-        }
-        // drop @language if @value isn't a string
-        else if(property_exists($rval, '@language') &&
-          !is_string($rval->{'@value'})) {
-          unset($rval->{'@language'});
+      // handle language map container (skip if value is not an object)
+      if($container === '@language' && is_object($value)) {
+        $expanded_value = $this->_expandLanguageMap($value);
+      }
+      // handle index container (skip if value is not an object)
+      else if($container === '@index' && is_object($value)) {
+        $expanded_value = array();
+        $value_keys = array_keys((array)$value);
+        sort($value_keys);
+        foreach($value_keys as $value_key) {
+          $val = $value->{$value_key};
+          $val = self::arrayify($val);
+          $val = $this->_expand($active_ctx, $key, $val, $options, false);
+          foreach($val as $item) {
+            if(!property_exists($item, '@index')) {
+              $item->{'@index'} = $value_key;
+            }
+            $expanded_value[] = $item;
+          }
         }
       }
-      // convert @type to an array
-      else if(property_exists($rval, '@type') && !is_array($rval->{'@type'})) {
-        $rval->{'@type'} = array($rval->{'@type'});
-      }
-      // handle @set and @list
-      else if(property_exists($rval, '@set') ||
-        property_exists($rval, '@list')) {
-        if($count > 1 && ($count !== 2 && property_exists($rval, '@index'))) {
-          throw new JsonLdException(
-            'Invalid JSON-LD syntax; if an element has the property "@set" ' .
-            'or "@list", then it can have at most one other property that is ' .
-            '"@index".',
-            'jsonld.SyntaxError', array('element' => $rval));
-        }
-        // optimize away @set
-        if(property_exists($rval, '@set')) {
-          $rval = $rval->{'@set'};
-          $keys = array_keys((array)$rval);
-          $count = count($keys);
-        }
-      }
-      // drop objects with only @language
-      else if($count === 1 && property_exists($rval, '@language')) {
-        $rval = null;
-      }
-
-      // drop certain top-level objects that do not occur in lists
-      if(is_object($rval) &&
-        !$options['keepFreeFloatingNodes'] && !$inside_list &&
-        ($active_property === null || $expanded_active_property === '@graph')) {
-        // drop empty object or top-level @value
-        if($count === 0 || property_exists($rval, '@value')) {
-          $rval = null;
+      else {
+        // recurse into @list or @set
+        $is_list = ($expanded_property === '@list');
+        if($is_list || $expanded_property === '@set') {
+          $next_active_property = $active_property;
+          if($is_list && $expanded_active_property === '@graph') {
+            $next_active_property = null;
+          }
+          $expanded_value = $this->_expand(
+            $active_ctx, $next_active_property, $value, $options, $is_list);
+          if($is_list && self::_isList($expanded_value)) {
+            throw new JsonLdException(
+              'Invalid JSON-LD syntax; lists of lists are not permitted.',
+              'jsonld.SyntaxError', 'list of lists');
+          }
         }
         else {
-          // drop subjects that generate no triples
-          $has_triples = false;
-          $ignore = array('@graph', '@type');
-          foreach($keys as $key) {
-            if(!self::_isKeyword($key) || in_array($key, $ignore)) {
-              $has_triples = true;
-              break;
-            }
-          }
-          if(!$has_triples) {
-            $rval = null;
-          }
+          // recursively expand value with key as new active property
+          $expanded_value = $this->_expand(
+            $active_ctx, $key, $value, $options, false);
         }
       }
 
-      return $rval;
+      // drop null values if property is not @value
+      if($expanded_value === null && $expanded_property !== '@value') {
+        continue;
+      }
+
+      // convert expanded value to @list if container specifies it
+      if($expanded_property !== '@list' && !self::_isList($expanded_value) &&
+        $container === '@list') {
+        // ensure expanded value is an array
+        $expanded_value = (object)array(
+          '@list' => self::arrayify($expanded_value));
+      }
+
+      // FIXME: can this be merged with code above to simplify?
+      // merge in reverse properties
+      if(property_exists($active_ctx->mappings, $key) &&
+        $active_ctx->mappings->{$key} &&
+        $active_ctx->mappings->{$key}->reverse) {
+        $reverse_map = $rval->{'@reverse'} = new stdClass();
+        $expanded_value = self::arrayify($expanded_value);
+        foreach($expanded_value as $item) {
+          if(self::_isValue($item) || self::_isList($item)) {
+            throw new JsonLdException(
+              'Invalid JSON-LD syntax; "@reverse" value must not be a ' +
+              '@value or an @list.', 'jsonld.SyntaxError',
+              'invalid reverse property value',
+              array('value' => $expanded_value));
+          }
+          self::addValue(
+            $reverse_map, $expanded_property, $item,
+            array('propertyIsArray' => true));
+        }
+        continue;
+      }
+
+      // add value for property
+      // use an array except for certain keywords
+      $use_array = (!in_array(
+        $expanded_property, array(
+          '@index', '@id', '@type', '@value', '@language')));
+      self::addValue(
+        $rval, $expanded_property, $expanded_value,
+        array('propertyIsArray' => $use_array));
     }
 
-    // drop top-level scalars that are not in lists
-    if(!$inside_list &&
-      ($active_property === null ||
-      $this->_expandIri($active_ctx, $active_property,
-        array('vocab' => true)) === '@graph')) {
-      return null;
+    // get property count on expanded output
+    $keys = array_keys((array)$rval);
+    $count = count($keys);
+
+    // @value must only have @language or @type
+    if(property_exists($rval, '@value')) {
+      // @value must only have @language or @type
+      if(property_exists($rval, '@type') &&
+        property_exists($rval, '@language')) {
+        throw new JsonLdException(
+          'Invalid JSON-LD syntax; an element containing "@value" may not ' .
+          'contain both "@type" and "@language".',
+          'jsonld.SyntaxError', 'invalid value object',
+          array('element' => $rval));
+      }
+      $valid_count = $count - 1;
+      if(property_exists($rval, '@type')) {
+        $valid_count -= 1;
+      }
+      if(property_exists($rval, '@index')) {
+        $valid_count -= 1;
+      }
+      if(property_exists($rval, '@language')) {
+        $valid_count -= 1;
+      }
+      if($valid_count !== 0) {
+        throw new JsonLdException(
+          'Invalid JSON-LD syntax; an element containing "@value" may only ' .
+          'have an "@index" property and at most one other property ' .
+          'which can be "@type" or "@language".',
+          'jsonld.SyntaxError', 'invalid value object',
+          array('element' => $rval));
+      }
+      // drop null @values
+      if($rval->{'@value'} === null) {
+        $rval = null;
+      }
+      // if @language is present, @value must be a string
+      else if(property_exists($rval, '@language') &&
+        !is_string($rval->{'@value'})) {
+        throw new JsonLdException(
+          'Invalid JSON-LD syntax; only strings may be language-tagged.',
+          'jsonld.SyntaxError', 'invalid language-tagged value',
+          array('element' => $rval));
+      }
+      else if(property_exists($rval, '@type') &&
+        (!self::_isAbsoluteIri($rval->{'@type'}) ||
+        strpos($rval->{'@type'}, '_:') === 0)) {
+        throw new JsonLdException(
+          'Invalid JSON-LD syntax; an element containing "@value" ' .
+          'and "@type" must have an absolute IRI for the value ' .
+          'of "@type".', 'jsonld.SyntaxError', 'invalid typed value',
+          array('element' => $rval));
+      }
+    }
+    // convert @type to an array
+    else if(property_exists($rval, '@type') && !is_array($rval->{'@type'})) {
+      $rval->{'@type'} = array($rval->{'@type'});
+    }
+    // handle @set and @list
+    else if(property_exists($rval, '@set') ||
+      property_exists($rval, '@list')) {
+      if($count > 1 && !($count === 2 && property_exists($rval, '@index'))) {
+        throw new JsonLdException(
+          'Invalid JSON-LD syntax; if an element has the property "@set" ' .
+          'or "@list", then it can have at most one other property that is ' .
+          '"@index".', 'jsonld.SyntaxError', 'invalid set or list object',
+          array('element' => $rval));
+      }
+      // optimize away @set
+      if(property_exists($rval, '@set')) {
+        $rval = $rval->{'@set'};
+        $keys = array_keys((array)$rval);
+        $count = count($keys);
+      }
+    }
+    // drop objects with only @language
+    else if($count === 1 && property_exists($rval, '@language')) {
+      $rval = null;
     }
 
-    // expand element according to value expansion rules
-    return $this->_expandValue($active_ctx, $active_property, $element);
+    // drop certain top-level objects that do not occur in lists
+    if(is_object($rval) &&
+      !$options['keepFreeFloatingNodes'] && !$inside_list &&
+      ($active_property === null || $expanded_active_property === '@graph')) {
+      // drop empty object or top-level @value/@list, or object with only @id
+      if($count === 0 || property_exists($rval, '@value') ||
+        property_exists($rval, '@list') ||
+        ($count === 1 && property_exists($rval, '@id'))) {
+        $rval = null;
+      }
+    }
+
+    return $rval;
   }
 
   /**
@@ -2423,7 +2609,11 @@ class JsonLdProcessor {
       $ids = array_keys((array)$node_map);
       sort($ids);
       foreach($ids as $id) {
-        $subject->{'@graph'}[] = $node_map->{$id};
+        $node = $node_map->{$id};
+        // only add full subjects
+        if(!self::_isSubjectReference($node)) {
+          $subject->{'@graph'}[] = $node;
+        }
       }
     }
 
@@ -2432,7 +2622,11 @@ class JsonLdProcessor {
     $keys = array_keys((array)$default_graph);
     sort($keys);
     foreach($keys as $key) {
-      $flattened[] = $default_graph->{$key};
+      $node = $default_graph->{$key};
+      // only add full subjects to top-level
+      if(!self::_isSubjectReference($node)) {
+        $flattened[] = $node;
+      }
     }
     return $flattened;
   }
@@ -2618,7 +2812,7 @@ class JsonLdProcessor {
       }
       throw new JsonLdException(
         'Unknown output format.',
-        'jsonld.UnknownFormat', array('format' => $options['format']));
+        'jsonld.UnknownFormat', null, array('format' => $options['format']));
     }
 
     // return RDF dataset
@@ -2629,7 +2823,7 @@ class JsonLdProcessor {
    * Converts an RDF dataset to JSON-LD.
    *
    * @param stdClass $dataset the RDF dataset.
-   * @param assoc $options the RDF conversion options.
+   * @param assoc $options the RDF serialization options.
    *
    * @return array the JSON-LD output.
    */
@@ -2657,8 +2851,7 @@ class JsonLdProcessor {
         $node = $node_map->{$s};
 
         $object_is_id = ($o->type === 'IRI' || $o->type === 'blank node');
-        if($object_is_id && $o->value !== self::RDF_NIL &&
-          !property_exists($node_map, $o->value)) {
+        if($object_is_id && !property_exists($node_map, $o->value)) {
           $node_map->{$o->value} = (object)array('@id' => $o->value);
         }
 
@@ -2668,90 +2861,94 @@ class JsonLdProcessor {
           continue;
         }
 
-        if($object_is_id &&
-          $o->value === self::RDF_NIL && $p !== self::RDF_REST) {
-          // empty list detected
-          $value = (object)array('@list' => array());
-        }
-        else {
-          $value = self::_RDFToObject($o, $options['useNativeTypes']);
-        }
+        $value = self::_RDFToObject($o, $options['useNativeTypes']);
         self::addValue($node, $p, $value, array('propertyIsArray' => true));
 
-        // object may be the head of an RDF list but we can't know easily
-        // until all triples are read
-        if($o->type === 'blank node' &&
-          !($p === self::RDF_FIRST || $p === self::RDF_REST)) {
+        // object may be an RDF list/partial list node but we can't know
+        // easily until all triples are read
+        if($object_is_id) {
           $object = $node_map->{$o->value};
-          if(!property_exists($object, 'listHeadFor')) {
-            $object->listHeadFor = $value;
+          if(!property_exists($object, 'usages')) {
+            $object->usages = array();
           }
-          // can't be a list head if referenced more than once
-          else {
-            $object->listHeadFor = null;
-          }
+          $object->usages[] = (object)array(
+            'node' => $node,
+            'property' => $p,
+            'value' => $value);
         }
       }
     }
 
     // convert linked lists to @list arrays
     foreach($graph_map as $name => $graph_object) {
-      foreach($graph_object as $subject => $node) {
-        // if subject not in graph_object, it has been removed as it was
-        // part of an RDF list, continue
-        if(!property_exists($graph_object, $subject)) {
-          continue;
-        }
-        // if value is not an object, it can't be a list head, continue
-        $value = (property_exists($node, 'listHeadFor') ?
-          $node->listHeadFor : null);
-        if(!is_object($value)) {
-          continue;
-        }
+      // no @lists to be converted, continue
+      if(!property_exists($graph_object, self::RDF_NIL)) {
+        continue;
+      }
 
+      // iterate backwards through each RDF list
+      $nil = $graph_object->{self::RDF_NIL};
+      foreach($nil->usages as $usage) {
+        $node = $usage->node;
+        $property = $usage->property;
+        $head = $usage->value;
         $list = array();
-        $eliminated_nodes = new stdClass();
-        while($subject !== self::RDF_NIL && $list !== null) {
-          // ensure node is a valid list node; node must:
-          // 1. Be a blank node
-          // 2. Have no keys other than: @id, listHeadFor, rdf:first, rdf:rest.
-          // 3. Have an array for rdf:first that has 1 item.
-          // 4. Have an array for rdf:rest that has 1 object with @id.
-          // 5. Not already be in a list (it is in the eliminated nodes map).
-          $node_key_count = (is_object($node) ?
-            count(array_keys((array)$node)) : 0);
-          if(!(is_object($node) && strpos($node->{'@id'}, '_:') === 0 &&
-            ($node_key_count === 3 || ($node_key_count === 4 &&
-              property_exists($node, 'listHeadFor'))) &&
-            property_exists($node, self::RDF_FIRST) &&
-            property_exists($node, self::RDF_REST) &&
-            is_array($node->{self::RDF_FIRST}) &&
-            count($node->{self::RDF_FIRST}) === 1 &&
-            is_array($node->{self::RDF_REST}) &&
-            count($node->{self::RDF_REST}) === 1 &&
-            is_object($node->{self::RDF_REST}[0]) &&
-            property_exists($node->{self::RDF_REST}[0], '@id') &&
-            !property_exists($eliminated_nodes, $subject))) {
-            $list = null;
+        $list_nodes = array();
+
+        // ensure node is a well-formed list node; it must:
+        // 1. Be used only once in a list.
+        // 2. Have an array for rdf:first that has 1 item.
+        // 3. Have an array for rdf:rest that has 1 item.
+        // 4. Have no keys other than: @id, usages, rdf:first, rdf:rest, and,
+        //   optionally, @type where the value is rdf:List.
+        $node_key_count = count(array_keys((array)$node));
+        while($property === self::RDF_REST && count($node->usages) === 1 &&
+          property_exists($node, self::RDF_FIRST) &&
+          property_exists($node, self::RDF_REST) &&
+          is_array($node->{self::RDF_FIRST}) &&
+          is_array($node->{self::RDF_REST}) &&
+          count($node->{self::RDF_FIRST}) === 1 &&
+          count($node->{self::RDF_REST}) === 1 &&
+          ($node_key_count === 4 || ($node_key_count === 5 &&
+            property_exists($node, '@type') && is_array($node->{'@type'}) &&
+            count($node->{'@type'}) === 1 &&
+            $node->{'@type'}[0] === self::RDF_LIST))) {
+          $list[] = $node->{self::RDF_FIRST}[0];
+          $list_nodes[] = $node->{'@id'};
+
+          // get next node, moving backwards through list
+          $usage = $node->usages[0];
+          $node = $usage->node;
+          $property = $usage->property;
+          $head = $usage->value;
+          $node_key_count = count(array_keys((array)$node));
+
+          // if node is not a blank node, then list head found
+          if(strpos($node->{'@id'}, '_:') !== 0) {
             break;
           }
-
-          $list[] = $node->{self::RDF_FIRST}[0];
-          $eliminated_nodes->{$node->{'@id'}} = true;
-          $subject = $node->{self::RDF_REST}[0]->{'@id'};
-          $node = (property_exists($graph_object, $subject) ?
-            $graph_object->{$subject} : null);
         }
 
-        // bad list detected, skip it
-        if($list === null) {
-          continue;
+        // list is nested in another list
+        if($property === self::RDF_FIRST) {
+          // empty list
+          if($node->{'@id'} === self::RDF_NIL) {
+            // can't convert rdf:nil to a @list object because it would
+            // result in a list of lists which isn't supported
+            continue;
+          }
+
+          // preserve list head
+          $head = $graph_object->{$head->{'@id'}}->{self::RDF_REST}[0];
+          array_pop($list);
+          array_pop($list_nodes);
         }
 
-        unset($value->{'@id'});
-        $value->{'@list'} = $list;
-        foreach($eliminated_nodes as $id => $b) {
-          unset($graph_object->{$id});
+        // transform list into @list object
+        unset($head->{'@id'});
+        $head->{'@list'} = array_reverse($list);
+        foreach($list_nodes as $list_node) {
+          unset($graph_object->{$list_node});
         }
       }
     }
@@ -2768,12 +2965,18 @@ class JsonLdProcessor {
         sort($subjects_);
         foreach($subjects_ as $subject_) {
           $node_ = $graph_object->{$subject_};
-          unset($node_->listHeadFor);
-          $node->{'@graph'}[] = $node_;
+          unset($node_->usages);
+          // only add full subjects to top-level
+          if(!self::_isSubjectReference($node_)) {
+            $node->{'@graph'}[] = $node_;
+          }
         }
       }
-      unset($node->listHeadFor);
-      $result[] = $node;
+      unset($node->usages);
+      // only add full subjects to top-level
+      if(!self::_isSubjectReference($node)) {
+        $result[] = $node;
+      }
     }
 
     return $result;
@@ -2823,7 +3026,8 @@ class JsonLdProcessor {
       if(!is_object($ctx)) {
         throw new JsonLdException(
           'Invalid JSON-LD syntax; @context must be an object.',
-          'jsonld.SyntaxError', array('context' => $ctx));
+          'jsonld.SyntaxError', 'invalid local context',
+          array('context' => $ctx));
       }
 
       // get context from cache if available
@@ -2855,13 +3059,13 @@ class JsonLdProcessor {
           throw new JsonLdException(
             'Invalid JSON-LD syntax; the value of "@base" in a ' .
             '@context must be a string or null.',
-            'jsonld.SyntaxError', array('context' => $ctx));
+            'jsonld.SyntaxError', 'invalid base IRI', array('context' => $ctx));
         }
         else if($base !== '' && !self::_isAbsoluteIri($base)) {
           throw new JsonLdException(
             'Invalid JSON-LD syntax; the value of "@base" in a ' .
             '@context must be an absolute IRI or the empty string.',
-            'jsonld.SyntaxError', array('context' => $ctx));
+            'jsonld.SyntaxError', 'invalid base IRI', array('context' => $ctx));
         }
         $rval->{'@base'} = jsonld_parse_url($base);
         $defined->{'@base'} = true;
@@ -2877,13 +3081,15 @@ class JsonLdProcessor {
           throw new JsonLdException(
             'Invalid JSON-LD syntax; the value of "@vocab" in a ' .
             '@context must be a string or null.',
-            'jsonld.SyntaxError', array('context' => $ctx));
+            'jsonld.SyntaxError', 'invalid vocab mapping',
+            array('context' => $ctx));
         }
         else if(!self::_isAbsoluteIri($value)) {
           throw new JsonLdException(
             'Invalid JSON-LD syntax; the value of "@vocab" in a ' .
             '@context must be an absolute IRI.',
-            'jsonld.SyntaxError', array('context' => $ctx));
+            'jsonld.SyntaxError', 'invalid vocab mapping',
+            array('context' => $ctx));
         }
         else {
           $rval->{'@vocab'} = $value;
@@ -2901,7 +3107,8 @@ class JsonLdProcessor {
           throw new JsonLdException(
             'Invalid JSON-LD syntax; the value of "@language" in a ' .
             '@context must be a string or null.',
-            'jsonld.SyntaxError', array('context' => $ctx));
+            'jsonld.SyntaxError', 'invalid default language',
+            array('context' => $ctx));
         }
         else {
           $rval->{'@language'} = strtolower($value);
@@ -2941,7 +3148,8 @@ class JsonLdProcessor {
         if(!is_string($item)) {
           throw new JsonLdException(
             'Invalid JSON-LD syntax; language map values must be strings.',
-            'jsonld.SyntaxError', array('languageMap', $language_map));
+            'jsonld.SyntaxError', 'invalid language map value',
+            array('languageMap', $language_map));
         }
         $rval[] = (object)array(
           '@value' => $item,
@@ -3064,10 +3272,11 @@ class JsonLdProcessor {
    *
    * @param stdClass $graph the graph to create RDF triples for.
    * @param UniqueNamer $namer for assigning bnode names.
+   * @param assoc $options the RDF serialization options.
    *
    * @return array the array of RDF triples for the given graph.
    */
-  protected function _graphToRDF($graph, $namer) {
+  protected function _graphToRDF($graph, $namer, $options) {
     $rval = array();
 
     $ids = array_keys((array)$graph);
@@ -3086,6 +3295,11 @@ class JsonLdProcessor {
         }
 
         foreach($items as $item) {
+          // skip relative IRI subjects and predicates
+          if(!(self::_isAbsoluteIri($id) && self::_isAbsoluteIri($property))) {
+            continue;
+          }
+
           // RDF subject
           $subject = new stdClass();
           $subject->type = (strpos($id, '_:') === 0) ? 'blank node' : 'IRI';
@@ -3097,6 +3311,12 @@ class JsonLdProcessor {
             'blank node' : 'IRI');
           $predicate->value = $property;
 
+          // skip bnode predicates unless producing generalized RDF
+          if($predicate->type === 'blank node' &&
+            !$options['produceGeneralizedRdf']) {
+            continue;
+          }
+
           // convert @list to triples
           if(self::_isList($item)) {
             $this->_listToRDF(
@@ -3105,10 +3325,13 @@ class JsonLdProcessor {
           // convert value or node object to triple
           else {
             $object = $this->_objectToRDF($item);
-            $rval[] = (object)array(
-              'subject' => $subject,
-              'predicate' => $predicate,
-              'object' => $object);
+            // skip null objects (they are relative IRIs)
+            if($object) {
+              $rval[] = (object)array(
+                'subject' => $subject,
+                'predicate' => $predicate,
+                'object' => $object);
+            }
           }
         }
       }
@@ -3144,8 +3367,13 @@ class JsonLdProcessor {
       $subject = $blank_node;
       $predicate = $first;
       $object = $this->_objectToRDF($item);
-      $triples[] = (object)array(
-        'subject' => $subject, 'predicate' => $predicate, 'object' => $object);
+      // skip null objects (they are relative IRIs)
+      if($object) {
+        $triples[] = (object)array(
+          'subject' => $subject,
+          'predicate' => $predicate,
+          'object' => $object);
+      }
 
       $predicate = $rest;
     }
@@ -3200,6 +3428,11 @@ class JsonLdProcessor {
       $id = is_object($item) ? $item->{'@id'} : $item;
       $object->type = (strpos($id, '_:') === 0) ? 'blank node' : 'IRI';
       $object->value = $id;
+    }
+
+    // skip relative IRIs
+    if($object->type === 'IRI' && !self::_isAbsoluteIri($object->value)) {
+      return null;
     }
 
     return $object;
@@ -3302,9 +3535,6 @@ class JsonLdProcessor {
         if(strpos($type, '_:') === 0) {
           $type = $input->{'@type'} = $namer->getName($type);
         }
-        if(!property_exists($graphs->{$graph}, $type)) {
-          $graphs->{$graph}->{$type} = (object)array('@id' => $type);
-        }
       }
       if($list !== null) {
         $list[] = $input;
@@ -3388,7 +3618,8 @@ class JsonLdProcessor {
         if($property === '@index' && property_exists($subject, '@index')) {
           throw new JsonLdException(
             'Invalid JSON-LD syntax; conflicting @index property detected.',
-            'jsonld.SyntaxError', array('subject' => $subject));
+            'jsonld.SyntaxError', 'conflicting indexes',
+            array('subject' => $subject));
         }
         $subject->{$property} = $input->{$property};
         continue;
@@ -3412,9 +3643,6 @@ class JsonLdProcessor {
         if($property === '@type') {
           // rename @type blank nodes
           $o = (strpos($o, '_:') === 0) ? $namer->getName($o) : $o;
-          if(!property_exists($graphs->{$graph}, $o)) {
-            $graphs->{$graph}->{$o} = (object)array('@id' => $o);
-          }
         }
 
         // handle embedded subject or subject reference
@@ -3562,7 +3790,7 @@ class JsonLdProcessor {
                 // recurse into subject reference
                 if(self::_isSubjectReference($o)) {
                   $this->_matchFrame(
-                    $state, array($o->{'@id'}), $frame->{$prop},
+                    $state, array($o->{'@id'}), $frame->{$prop}[0]->{'@list'},
                     $list, '@list');
                 }
                 // include other values automatically
@@ -3641,7 +3869,7 @@ class JsonLdProcessor {
     if(!is_array($frame) || count($frame) !== 1 || !is_object($frame[0])) {
       throw new JsonLdException(
         'Invalid JSON-LD syntax; a JSON-LD frame must be a single object.',
-        'jsonld.SyntaxError', array('frame' => $frame));
+        'jsonld.SyntaxError', null, array('frame' => $frame));
     }
   }
 
@@ -3901,7 +4129,8 @@ class JsonLdProcessor {
       $t1->object->language !== $t2->object->language) {
       return false;
     }
-    if($t1->object->datatype !== $t2->object->datatype) {
+    if(property_exists($t1->object, 'datatype') &&
+      $t1->object->datatype !== $t2->object->datatype) {
       return false;
     }
     return true;
@@ -4506,8 +4735,8 @@ class JsonLdProcessor {
       // cycle detected
       throw new JsonLdException(
         'Cyclical context definition detected.',
-        'jsonld.CyclicalContext',
-        (object)array('context' => $local_ctx, 'term' => $term));
+        'jsonld.CyclicalContext', 'cyclic IRI mapping',
+        array('context' => $local_ctx, 'term' => $term));
     }
 
     // now defining term
@@ -4516,7 +4745,8 @@ class JsonLdProcessor {
     if(self::_isKeyword($term)) {
       throw new JsonLdException(
         'Invalid JSON-LD syntax; keywords cannot be overridden.',
-        'jsonld.SyntaxError', array('context' => $local_ctx));
+        'jsonld.SyntaxError', 'keyword redefinition',
+        array('context' => $local_ctx));
     }
 
     // remove old mapping
@@ -4543,8 +4773,8 @@ class JsonLdProcessor {
     if(!is_object($value)) {
       throw new JsonLdException(
         'Invalid JSON-LD syntax; @context property values must be ' .
-        'strings or objects.',
-        'jsonld.SyntaxError', array('context' => $local_ctx));
+        'strings or objects.', 'jsonld.SyntaxError', 'invalid term definition',
+        array('context' => $local_ctx));
     }
 
     // create new mapping
@@ -4555,20 +4785,29 @@ class JsonLdProcessor {
       if(property_exists($value, '@id')) {
         throw new JsonLdException(
           'Invalid JSON-LD syntax; a @reverse term definition must not ' +
-          'contain @id.',
-          'jsonld.SyntaxError', array('context' => $local_ctx));
+          'contain @id.', 'jsonld.SyntaxError', 'invalid reverse property',
+          array('context' => $local_ctx));
       }
       $reverse = $value->{'@reverse'};
       if(!is_string($reverse)) {
         throw new JsonLdException(
           'Invalid JSON-LD syntax; a @context @reverse value must be a string.',
-          'jsonld.SyntaxError', array('context' => $local_ctx));
+          'jsonld.SyntaxError', 'invalid IRI mapping',
+          array('context' => $local_ctx));
       }
 
       // expand and add @id mapping
-      $mapping->{'@id'} = $this->_expandIri(
+      $id = $this->_expandIri(
         $active_ctx, $reverse, array('vocab' => true, 'base' => false),
         $local_ctx, $defined);
+      if(!self::_isAbsoluteIri($id)) {
+        throw new JsonLdException(
+          'Invalid JSON-LD syntax; @context @reverse value must be ' .
+          'an absolute IRI or a blank node identifier.',
+          'jsonld.SyntaxError', 'invalid IRI mapping',
+          array('context' => $local_ctx));
+      }
+      $mapping->{'@id'} = $id;
       $mapping->reverse = true;
     }
     else if(property_exists($value, '@id')) {
@@ -4576,13 +4815,22 @@ class JsonLdProcessor {
       if(!is_string($id)) {
         throw new JsonLdException(
           'Invalid JSON-LD syntax; @context @id value must be a string.',
-          'jsonld.SyntaxError', array('context' => $local_ctx));
+          'jsonld.SyntaxError', 'invalid IRI mapping',
+          array('context' => $local_ctx));
       }
       if($id !== $term) {
         // add @id to mapping
-        $mapping->{'@id'} = $this->_expandIri(
+        $id = $this->_expandIri(
           $active_ctx, $id, array('vocab' => true, 'base' => false),
           $local_ctx, $defined);
+        if(!self::_isAbsoluteIri($id) && !self::_isKeyword($id)) {
+          throw new JsonLdException(
+            'Invalid JSON-LD syntax; @context @id value must be an ' .
+            'absolute IRI, a blank node identifier, or a keyword.',
+            'jsonld.SyntaxError', 'invalid IRI mapping',
+            array('context' => $local_ctx));
+        }
+        $mapping->{'@id'} = $id;
       }
     }
 
@@ -4614,7 +4862,7 @@ class JsonLdProcessor {
         if(!property_exists($active_ctx, '@vocab')) {
           throw new JsonLdException(
             'Invalid JSON-LD syntax; @context terms must define an @id.',
-            'jsonld.SyntaxError',
+            'jsonld.SyntaxError', 'invalid IRI mapping',
             array('context' => $local_ctx, 'term' => $term));
         }
         // prepend vocab to term
@@ -4630,14 +4878,27 @@ class JsonLdProcessor {
       if(!is_string($type)) {
         throw new JsonLdException(
           'Invalid JSON-LD syntax; @context @type values must be strings.',
-          'jsonld.SyntaxError', array('context' => $local_ctx));
+          'jsonld.SyntaxError', 'invalid type mapping',
+          array('context' => $local_ctx));
       }
 
-      if($type !== '@id') {
+      if($type !== '@id' && $type !== '@vocab') {
         // expand @type to full IRI
         $type = $this->_expandIri(
-          $active_ctx, $type, array('vocab' => true, 'base' => true),
-          $local_ctx, $defined);
+          $active_ctx, $type, array('vocab' => true), $local_ctx, $defined);
+        if(!self::_isAbsoluteIri($type)) {
+          throw new JsonLdException(
+            'Invalid JSON-LD syntax; an @context @type value must ' .
+            'be an absolute IRI.', 'jsonld.SyntaxError',
+            'invalid type mapping', array('context' => $local_ctx));
+        }
+        if(strpos($type, '_:') === 0) {
+          throw new JsonLdException(
+            'Invalid JSON-LD syntax; an @context @type values must ' .
+            'be an IRI, not a blank node identifier.',
+            'jsonld.SyntaxError', 'invalid type mapping',
+            array('context' => $local_ctx));
+        }
       }
 
       // add @type to mapping
@@ -4651,14 +4912,16 @@ class JsonLdProcessor {
         throw new JsonLdException(
           'Invalid JSON-LD syntax; @context @container value must be ' .
           'one of the following: @list, @set, @index, or @language.',
-          'jsonld.SyntaxError', array('context' => $local_ctx));
+          'jsonld.SyntaxError', 'invalid container mapping',
+          array('context' => $local_ctx));
       }
       if($mapping->reverse && $container !== '@index' &&
         $container !== '@set' && $container !== null) {
         throw new JsonLdException(
           'Invalid JSON-LD syntax; @context @container value for a @reverse ' +
           'type definition must be @index or @set.',
-          'jsonld.SyntaxError', array('context' => $local_ctx));
+          'jsonld.SyntaxError', 'invalid reverse property',
+          array('context' => $local_ctx));
       }
 
       // add @container to mapping
@@ -4671,8 +4934,8 @@ class JsonLdProcessor {
       if($language !== null && !is_string($language)) {
         throw new JsonLdException(
           'Invalid JSON-LD syntax; @context @language value must be ' .
-          'a string or null.',
-          'jsonld.SyntaxError', array('context' => $local_ctx));
+          'a string or null.', 'jsonld.SyntaxError',
+          'invalid language mapping', array('context' => $local_ctx));
       }
 
       // add @language to mapping
@@ -4687,7 +4950,8 @@ class JsonLdProcessor {
     if($id === '@context' || $id === '@preserve') {
       throw new JsonLdException(
         'Invalid JSON-LD syntax; @context and @preserve cannot be aliased.',
-        'jsonld.SyntaxError', array('context' => $local_ctx));
+        'jsonld.SyntaxError', 'invalid keyword alias',
+        array('context' => $local_ctx));
     }
   }
 
@@ -4777,17 +5041,6 @@ class JsonLdProcessor {
       $rval = jsonld_prepend_base($active_ctx->{'@base'}, $rval);
     }
 
-    if($local_ctx) {
-      // value must now be an absolute IRI
-      if(!self::_isAbsoluteIri($rval)) {
-        throw new JsonLdException(
-          'Invalid JSON-LD syntax; a @context value does not expand to ' .
-          'an absolute IRI.',
-          'jsonld.SyntaxError',
-          array('context' => $local_ctx, 'value' => $value));
-      }
-    }
-
     return $rval;
   }
 
@@ -4872,11 +5125,15 @@ class JsonLdProcessor {
     if(count(get_object_vars($cycles)) > self::MAX_CONTEXT_URLS) {
       throw new JsonLdException(
         'Maximum number of @context URLs exceeded.',
-        'jsonld.ContextUrlError', array('max' => self::MAX_CONTEXT_URLS));
+        'jsonld.ContextUrlError', 'loading remote context failed',
+        array('max' => self::MAX_CONTEXT_URLS));
     }
 
     // for tracking the URLs to retrieve
     $urls = new stdClass();
+
+    // regex for validating URLs
+    $regex = '/(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/';
 
     // find all URLs in the given input
     $this->_findContextUrls($input, $urls, false, $base);
@@ -4885,6 +5142,12 @@ class JsonLdProcessor {
     $queue = array();
     foreach($urls as $url => $ctx) {
       if($ctx === false) {
+        // validate URL
+        if(!preg_match($regex, $url)) {
+          throw new JsonLdException(
+            'Malformed or unsupported URL.', 'jsonld.InvalidUrl',
+            'loading remote context failed', array('url' => $url));
+        }
         $queue[] = $url;
       }
     }
@@ -4895,42 +5158,26 @@ class JsonLdProcessor {
       if(property_exists($cycles, $url)) {
         throw new JsonLdException(
           'Cyclical @context URLs detected.',
-          'jsonld.ContextUrlError', array('url' => $url));
+          'jsonld.ContextUrlError', 'recursive context inclusion',
+          array('url' => $url));
       }
       $_cycles = self::copy($cycles);
       $_cycles->{$url} = true;
 
       // retrieve URL
-      $remote_doc = $load_document($url);
+      $remote_doc = call_user_func($load_document, $url);
       $ctx = $remote_doc->document;
 
       // parse string context as JSON
       if(is_string($ctx)) {
-        $ctx = json_decode($ctx);
-        switch(json_last_error()) {
-          case JSON_ERROR_NONE:
-            break;
-          case JSON_ERROR_DEPTH:
-            throw new JsonLdException(
-            'Could not parse JSON from URL; the maximum stack depth has ' .
-            'been exceeded.', 'jsonld.ParseError', array('url' => $url));
-          case JSON_ERROR_STATE_MISMATCH:
-            throw new JsonLdException(
-            'Could not parse JSON from URL; invalid or malformed JSON.',
-            'jsonld.ParseError', array('url' => $url));
-          case JSON_ERROR_CTRL_CHAR:
-          case JSON_ERROR_SYNTAX:
-            throw new JsonLdException(
-            'Could not parse JSON from URL; syntax error, malformed JSON.',
-            'jsonld.ParseError', array('url' => $url));
-          case JSON_ERROR_UTF8:
-            throw new JsonLdException(
-            'Could not parse JSON from URL; malformed UTF-8 characters.',
-            'jsonld.ParseError', array('url' => $url));
-          default:
-            throw new JsonLdException(
-            'Could not parse JSON from URL; unknown error.',
-            'jsonld.ParseError', array('url' => $url));
+        try {
+          $ctx = self::_parse_json($ctx);
+        }
+        catch(Exception $e) {
+          throw new JsonLdException(
+            'Could not parse JSON from URL.',
+            'jsonld.ParseError', 'loading remote context failed',
+            array('url' => $url), $e);
         }
       }
 
@@ -4938,7 +5185,7 @@ class JsonLdProcessor {
       if(!is_object($ctx)) {
         throw new JsonLdException(
           'Derefencing a URL did not result in a valid JSON-LD object.',
-          'jsonld.InvalidUrl', array('url' => $url));
+          'jsonld.InvalidUrl', 'invalid remote context', array('url' => $url));
       }
 
       // use empty context if no @context key is present
@@ -5184,7 +5431,7 @@ class JsonLdProcessor {
       throw new JsonLdException(
         'Invalid JSON-LD syntax; "@type" value must a string, an array ' .
         'of strings, or an empty object.',
-        'jsonld.SyntaxError', array('value' => $v));
+        'jsonld.SyntaxError', 'invalid type value', array('value' => $v));
     }
   }
 
@@ -5323,6 +5570,47 @@ class JsonLdProcessor {
     }
     return !property_exists($o2, $key);
   }
+
+  /**
+   * Parses JSON and sets an appropriate exception message on error.
+   *
+   * @param string $json the JSON to parse.
+   *
+   * @return mixed the parsed JSON object or array.
+   */
+  protected static function _parse_json($json) {
+    $rval = json_decode($json);
+    $error = json_last_error();
+    if($error === JSON_ERROR_NONE && $rval === null) {
+      $error = JSON_ERROR_SYNTAX;
+    }
+    switch($error) {
+    case JSON_ERROR_NONE:
+      break;
+    case JSON_ERROR_DEPTH:
+      throw new JsonLdException(
+        'Could not parse JSON; the maximum stack depth has been exceeded.',
+        'jsonld.ParseError');
+    case JSON_ERROR_STATE_MISMATCH:
+      throw new JsonLdException(
+        'Could not parse JSON; invalid or malformed JSON.',
+        'jsonld.ParseError');
+    case JSON_ERROR_CTRL_CHAR:
+    case JSON_ERROR_SYNTAX:
+      throw new JsonLdException(
+        'Could not parse JSON; syntax error, malformed JSON.',
+        'jsonld.ParseError');
+    case JSON_ERROR_UTF8:
+      throw new JsonLdException(
+        'Could not parse JSON from URL; malformed UTF-8 characters.',
+        'jsonld.ParseError');
+    default:
+      throw new JsonLdException(
+        'Could not parse JSON from URL; unknown error.',
+        'jsonld.ParseError');
+    }
+    return $rval;
+  }
 }
 
 // register the N-Quads RDF parser
@@ -5333,17 +5621,19 @@ jsonld_register_rdf_parser(
  * A JSON-LD Exception.
  */
 class JsonLdException extends Exception {
-  protected $type;
-  protected $details;
-  protected $cause;
-  public function __construct($msg, $type, $details=null, $previous=null) {
+  public function __construct(
+    $msg, $type, $code='error', $details=null, $previous=null) {
     $this->type = $type;
+    $this->code = $code;
     $this->details = $details;
     $this->cause = $previous;
     parent::__construct($msg, 0, $previous);
   }
   public function __toString() {
     $rval = __CLASS__ . ": [{$this->type}]: {$this->message}\n";
+    if($this->code) {
+      $rval .= 'Code: ' . $this->code . "\n";
+    }
     if($this->details) {
       $rval .= 'Details: ' . print_r($this->details, true) . "\n";
     }

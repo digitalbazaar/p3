@@ -1,6 +1,5 @@
 ${set([
   pageTitle = "Access Key Registration",
-  jsList.push("modules/register"),
   pageLayout = "minimal"
 ])}
 
@@ -16,9 +15,9 @@ ${set([
 <div class="row">
   <div class="span6 offset3">
     <p>
-    This page registers an access key that your software will use to 
+    This page registers an access key that your software will use to
     make trusted requests from this website. You may limit the power of this
-    access key and only grant the software that is using the key certain rights 
+    access key and only grant the software that is using the key certain rights
     to access and modify your account.
     </p>
   </div>
@@ -45,7 +44,7 @@ ${set([
           </label>
           </div>
         </div>
-        
+
         <div class="control-group">
           <label class="control-label" for="identity-selector">Identity</label>
           <div class="controls">
@@ -56,7 +55,7 @@ ${set([
               data-invalid="selection.invalidIdentity"></div>
           </div>
         </div>
-          
+
         <div class="control-group">
           <label class="control-label" for="account-selector">Financial Account</label>
           <div class="controls">
@@ -66,7 +65,7 @@ ${set([
               data-identity="{{selection.identity.id}}"></div>
           </div>
         </div>
-    
+
         <div class="control-group" data-binding="publicKey.label">
           <label class="control-label" for="access-key-label">Access Key Label</label>
           <div class="controls">
@@ -75,7 +74,7 @@ ${set([
               name="publicKeyLabel" type="text" />
           </div>
         </div>
-    
+
         <div class="control-group" data-binding="publicKey.publicKeyPem">
           <label class="control-label" for="public-key-pem">Access Key</label>
           <div class="controls">
@@ -103,7 +102,7 @@ ${set([
 
     <div data-ng-show="registered">
       <p>The access key has been registered.</p>
-    
+
       <form data-ng-show="registrationCallback" id="vendor-form"
         class="form-vertical" method="post" action="{{registrationCallback}}">
         <input name="encrypted-message" value="{{encryptedMessage}}"
@@ -116,7 +115,7 @@ ${set([
         <button class="btn btn-large btn-primary"
           type="submit">Complete Vendor Registration</button>
       </form>
-      
+
       <div data-ng-hide="registrationCallback">
         <p>
         Cut and paste the following data into your software to finish

@@ -1,6 +1,5 @@
 ${set(
-  pageTitle = "Budget Details",
-  jsList.push("modules/budget")
+  pageTitle = "Budget Details"
 )}
 {{partial "head.tpl"}}
 
@@ -149,7 +148,7 @@ ${set(
       </tbody>
     </table>
   </div>
-</div>    
+</div>
 
 </div>
 {{/verbatim}}

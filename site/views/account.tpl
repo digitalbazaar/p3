@@ -1,6 +1,5 @@
 ${set(
-  pageTitle = "Financial Account Details",
-  jsList.push("modules/account")
+  pageTitle = "Financial Account Details"
 )}
 {{partial "head.tpl"}}
 
@@ -12,11 +11,11 @@ ${set(
 <div data-ng-controller="AccountCtrl" class="ng-cloak">
 
   <div data-ng-show="account.label" class="row">
-    <h3 class="headline">{{account.label}} 
+    <h3 class="headline">{{account.label}}
       <span data-ng-show="account.psaStatus">({{account.psaStatus}})</span>
     </h3>
   <div>
-  
+
   <div data-ng-show="account.balance" class="row">
     <div class="offset3 span6">
       <h1 class="money headline">
@@ -36,7 +35,7 @@ ${set(
       </h3>
     </div>
   </div>
-  
+
 </div>
 {{/verbatim}}
 

@@ -1,8 +1,3 @@
-${set([
-  jsList.push("legacy/payswarm.api"),
-  jsList.push("modules/navbar")
-])}
-
 <div data-ng-controller="NavbarCtrl" class="navbar ng-cloak">
   <div class="navbar-inner navbar-inner-banner">
     <div class="container">
@@ -10,7 +5,21 @@ ${set([
         {{if pageLayout == "normal"}}
           <a class="brand" href="/"><img src="${cacheRoot}${style.brand.src}" width="${style.brand.width}" height="${style.brand.height}" alt="${style.brand.alt}" /></a>      
           <ul class="nav">
-            <li {{if inav == "dashboard"}}class="active"{{/if}}><a href="${session.identity.id}/dashboard"><i class="icon-info-sign"></i> Dashboard</a></li>
+            <li {{if inav == "dashboard"}}class="active"{{/if}}><a href="${session.identity.id}/dashboard"><i class="icon-dashboard"></i> Dashboard</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="icon-briefcase"></i> Tools
+                <b class="caret"></b>
+              </a>
+              <ul class="dropdown-menu">
+                <li {{if inav == "assetora"}}class="active"{{/if}}><a href="${session.identity.id}/assetora"><i class="icon-cloud"></i> Sell Digital Content</a></li>
+                <li {{if inav == "invoices"}}class="active"{{/if}}><a href="${session.identity.id}/invoices"><i class="icon-money"></i> Invoices</a></li>
+                <li {{if inav == "causes"}}class="active"{{/if}}><a href="${session.identity.id}/causes"><i class="icon-heart"></i> Causes</a></li>
+                <li {{if inav == "tickets"}}class="active"{{/if}}><a href="${session.identity.id}/tickets"><i class="icon-ticket"></i> Tickets</a></li>
+                <li class="divider"></li>
+                <li><a href="${session.identity.id}/tools"><i class="icon-list"></i> More</a></li>
+              </ul>
+            </li>
             <li {{if inav == "settings"}}class="active"{{/if}}><a href="${session.identity.id}/settings"><i class="icon-wrench"></i> Settings</a></li>
           </ul>
         {{else}}

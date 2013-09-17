@@ -1,5 +1,10 @@
 /* PaySwarm Authority common style */
 
+/* Hide AngularJS templates prior to bootstrapping AngularJS */
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none;
+}
+
 /* Fonts */
 @font-face {
   font-family: 'Kredit Front';
@@ -430,6 +435,9 @@ span.currency {
   position: relative;
   float: none;
 }
+.well.well-transparent {
+  background-color: transparent;
+}
 
 /* Resize rules */
 .resize-both {
@@ -468,7 +476,7 @@ span.currency {
   font-size: 0.9em;
 }
 .popover-content {
-  font-size: 14px;  
+  font-size: 14px;
 }
 
 /* Icon positioning */
@@ -785,7 +793,7 @@ h1 > .rest-summary > .rest-path {
   display: block;
   font-size: 11px;
   font-weight: bold;
-  text-align: right;  
+  text-align: right;
 }
 .bank-font {
   font-family: 'GnuMICR';
@@ -915,8 +923,8 @@ textarea.placeholder {
 ::-moz-placeholder {
   color: #aaa;
 }
-input:-moz-placeholder {  
-  color: #aaa;  
+input:-moz-placeholder {
+  color: #aaa;
 }
 
 /* Responsive changes */

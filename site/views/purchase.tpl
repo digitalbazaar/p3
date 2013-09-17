@@ -1,6 +1,5 @@
 ${set([
   pageTitle = "Payment",
-  jsList.push("modules/purchase"),
   pageLayout = "minimal"
 ])}
 {{partial "head.tpl"}}
@@ -136,7 +135,7 @@ ${set([
         </table>
       </div>
     </div>
-    
+
     <div class="row" data-ng-show="{{contract.vendor.id != contract.assetProvider.id}})">
       <div class="section span6 offset3">
         <h4 class="headline">Asset Provider</h4>
@@ -240,8 +239,16 @@ ${set([
           Click the button below to return to the vendor's website and view
           the item you purchased.
         </div>
-        <form method="post" action="{{callback}}">
+        <form data-ng-show="receipt" method="post" action="{{callback}}">
           <fieldset>
+            <input name="receipt" value="{{receipt | json}}" type="hidden" />
+          </fieldset>
+          <div class="well center">
+            <button class="btn btn-primary">Return to Vendor's Website</button>
+          </div>
+        </form>
+        <form data-ng-show="encryptedMessage" method="post" action="{{callback}}">
+          <fieldset data-ng-show="encryptedMessage">
             <input
               name="encrypted-message" value="{{encryptedMessage | json}}"
               type="hidden" />

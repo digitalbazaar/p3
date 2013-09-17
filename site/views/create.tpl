@@ -1,6 +1,5 @@
 ${set([
-  pageTitle = "Create a Profile",
-  jsList.push("modules/createProfile")
+  pageTitle = "Create a Profile"
 ])}
 {{partial "head.tpl"}}
 
@@ -8,21 +7,21 @@ ${set([
 <div class="row ng-cloak" data-ng-controller="CreateProfileCtrl">
   <div class="span8 offset2">
     <h2>Create a Profile</h2>
-    
+
     <p>
     By creating a profile, you will be able to buy and sell digital goods
     online, raise money for projects, fund other projects, and enter a new
     world of collaboration on the web.
     </p>
-    
+
     <div data-ng-include="'/partials/demo-warning.html'"></div>
-    
+
     <hr />
-    
+
     <form id="createProfileFeedbackTarget" class="form-horizontal" action="" data-ng-submit="submit()">
       <fieldset>
         <legend>Your Profile Details</legend>
-        
+
         <div class="control-group" data-binding="email">
           <label class="control-label" for="email">Email</label>
           <div class="controls">
@@ -51,13 +50,13 @@ ${set([
             </p>
           </div>
         </div>
-    
+
         <div class="control-group" data-binding="psaPassword">
           <label class="control-label" for="password">Password</label>
           <div class="controls">
             <div class="input-append">
               <input class="input-xlarge"
-                name="password" data-binding="psaPassword" 
+                name="password" data-binding="psaPassword"
                 maxlength="32" type="password"
                 data-ng-model="profile.psaPassword"
                 data-track-state="model.help.password"
@@ -73,10 +72,10 @@ ${set([
           </div>
         </div>
       </fieldset>
-    
+
       <fieldset>
         <legend>Your Identity</legend>
-    
+
         <div class="control-group">
           <p class="help-block">
     Your identity will be used to keep track of and verify your online
@@ -88,12 +87,12 @@ ${set([
     same email address, if you want to.
           </p>
         </div>
-    
+
         <div class="control-group" data-binding="psaIdentity.label">
           <label class="control-label" for="identity">Identity Name</label>
           <div class="controls">
             <div class="input-append">
-              <input class="input-xlarge" 
+              <input class="input-xlarge"
                 name="identity-label" type="text"
                 data-slug-out="profile.psaIdentity.psaSlug"
                 data-ng-model="profile.psaIdentity.label"
@@ -127,28 +126,28 @@ ${set([
           </div>
         </div>
       </fieldset>
-      
+
       <!-- <button class="btn" data-toggle="collapse" data-target="#account-form">
         Advanced
       </button> -->
-     
-      <div class="collapse">  
+
+      <div class="collapse">
         <fieldset>
           <legend>Your Default Financial Account</legend>
-      
+
           <div class="control-group">
             <p class="help-block">
       Your default financial account is where you will keep your money and have
-      others send you money. You start off with one financial account, but you can 
+      others send you money. You start off with one financial account, but you can
       add others at any point at no extra cost.
             </p>
           </div>
-      
+
           <div class="control-group" data-binding="account.label">
             <label class="control-label" for="account">Account Name</label>
             <div class="controls">
               <div class="input-append">
-                <input class="input-xlarge" 
+                <input class="input-xlarge"
                   name="account-label" value="Primary Account" type="text"
                   data-ng-model="profile.account.label"
                   data-slug-out="profile.account.psaSlug"
@@ -171,18 +170,18 @@ ${set([
                 data-ng-disabled="loading" /></p>
             </div>
           </div>
-      
+
         </fieldset>
       </div>
 
       <fieldset>
         <legend>Service Agreement</legend>
-        
+
         <label class="checkbox">
           <input type="checkbox" data-ng-model="agreementChecked"> I agree to the <a href="/legal#tos">Terms of Service</a> and <a href="/legal#pp">Privacy Policy</a>.
         </label>
       </fieldset>
-        
+
       <div class="form-actions">
         <div class="modal-feedback"
           data-feedback="feedback" data-target="feedbackTarget"></div>
@@ -192,7 +191,7 @@ ${set([
         <span data-spinner="loading"
           data-spinner-class="append-btn-spinner"></span>
       </div>
-    
+
       <div name="create-feedback" class="feedback"></div>
     </form>
   </div>

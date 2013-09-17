@@ -1,6 +1,5 @@
 ${set([
   pageTitle = "Sign In",
-  jsList.push("modules/login"),
   pageLayout = "minimal"
 ])}
 {{partial "head.tpl"}}
@@ -22,7 +21,7 @@ ${set([
           data-ng-model="profile"
           placeholder="Email" data-ng-disabled="loading" />
       </div>
-        
+
       <div data-ng-show="multiple">
         <p class="alert alert-info">
           <strong>Note:</strong>
@@ -40,15 +39,15 @@ ${set([
       </div>
 
       <input type="hidden" name="ref" value="{{ref}}"/>
-        
+
       <div class="controls">
         <input name="password" type="password" placeholder="Password"
           data-ng-model="password" data-ng-disabled="loading" />
       </div>
-        
+
       <div data-spinner="loading"
         data-spinner-class="center-spinner"></div>
-          
+
       <div data-ng-hide="loading" class="controls btn-group">
         <button class="btn btn-primary" data-submit-form
           data-ng-disabled="loading">Sign In</button>
@@ -73,7 +72,7 @@ ${set([
           </li>
         </ul>
       </div>
-        
+
       <div data-ng-show="error">
         <hr />
         <div class="alert alert-error">{{error}}</div>

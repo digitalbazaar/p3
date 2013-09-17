@@ -27,7 +27,8 @@ module.exports.map = function(mapping) {
     'common.Withdrawal.ach-merchant-account-log',
     'common.Withdrawal.failure',
     'common.Withdrawal.success',
-    'common.Withdrawal.success-profile'
+    'common.Withdrawal.success-profile',
+    'hosted.Listing.assetExpired-profile'
   ];
 
   // FIXME: can't just map to filenames because swig can't use more than

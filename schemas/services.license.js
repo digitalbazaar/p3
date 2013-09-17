@@ -1,6 +1,6 @@
-var payswarmId = require('./payswarmId');
 var jsonldContext = require('./jsonldContext');
 var graphSignature = require('./graphSignature');
+var payswarmId = require('./payswarmId');
 
 var cacheLicense = {
   title: 'Cache License',

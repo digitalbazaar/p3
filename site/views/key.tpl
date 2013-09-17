@@ -1,6 +1,5 @@
 ${set(
-  pageTitle = "Access Key Details",
-  jsList.push("modules/key")
+  pageTitle = "Access Key Details"
 )}
 {{partial "head.tpl"}}
 
@@ -19,7 +18,7 @@ ${set(
     </h3>
   </div>
 {{/verbatim}}
-  
+
 {{if key.revoked}}
   <div class="row">
     <div class="offset3 span6">
@@ -33,11 +32,11 @@ ${set(
 {{verbatim}}
   <div class="row">
     <div class="offset3 span6">
-      <pre data-ng-show="key.publicKeyPem" 
+      <pre data-ng-show="key.publicKeyPem"
         property="sec:publicKeyPem">{{key.publicKeyPem}}</pre>
     </div>
   </div>
-  
+
   <div class="row">
     <div class="offset3 span6">
       <h3 class="headline">
@@ -45,7 +44,7 @@ ${set(
       </h3>
     </div>
   </div>
-  
+
 </div>
 {{/verbatim}}
 

@@ -77,13 +77,7 @@ config.profile.profiles.push({
   email: 'authority@payswarm.com',
   label: 'PaySwarm Development Authority',
   psaPassword: 'password',
-  psaRole: [
-    baseUri + '/roles/financial_administrator',
-    baseUri + '/roles/identity_administrator',
-    baseUri + '/roles/role_administrator',
-    baseUri + '/roles/system_administrator',
-    baseUri + '/roles/profile_administrator'
-  ]
+  psaRole: [baseUri + '/roles/authority']
 });
 config.profile.profiles.push({
   id: baseUri + '/profiles/dev',
@@ -92,10 +86,7 @@ config.profile.profiles.push({
   email: 'dev@payswarm.com',
   label: 'Dev',
   psaPassword: 'password',
-  psaRole: [
-    baseUri + '/roles/profile_registered',
-    baseUri + '/roles/identity_manager',
-    baseUri + '/roles/financial_manager']
+  psaRole: [baseUri + '/roles/profile_registered']
 });
 config.profile.profiles.push({
   id: baseUri + '/profiles/customer',
@@ -104,10 +95,7 @@ config.profile.profiles.push({
   email: 'customer@payswarm.com',
   label: 'Customer',
   psaPassword: 'password',
-  psaRole: [
-    baseUri + '/roles/profile_registered',
-    baseUri + '/roles/identity_manager',
-    baseUri + '/roles/financial_manager']
+  psaRole: [baseUri + '/roles/profile_registered']
 });
 config.profile.profiles.push({
   id: baseUri + '/profiles/vendor',
@@ -116,11 +104,7 @@ config.profile.profiles.push({
   email: 'vendor@payswarm.com',
   label: 'Vendor',
   psaPassword: 'password',
-  psaRole: [
-    baseUri + '/roles/profile_registered',
-    baseUri + '/roles/identity_manager',
-    baseUri + '/roles/financial_manager'
- ]
+  psaRole: [baseUri + '/roles/profile_registered']
 });
 
 // identities

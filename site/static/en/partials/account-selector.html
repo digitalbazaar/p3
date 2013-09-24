@@ -10,16 +10,25 @@
       <table class="table table-condensed">
         <thead>
           <tr>
-            <th colspan="2"><span title="{{selected.id}}">{{selected.label}}</a></th>
+            <th colspan="6"><span title="{{selected.id}}">{{selected.label}}</a></th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td class="compact">Balance</td>
             <td>
-              <span class="money" data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact balance of this account is {{selected.currency}} {{selected.balance}}."
+              <span data-account-balance="selected"></span>
+            </td>
+            <td data-ng-show="selected.creditLimit > '0.0000000000'" class="compact">Credit</td>
+            <td data-ng-show="selected.creditLimit > '0.0000000000'">
+              <span class="money" data-placement="bottom" data-trigger="hover"><span
+                class="currency">{{selected.currency}}</span> {{model.remainingCredit | floor | currency:'$'}}</span>
+            </td>
+            <td data-ng-show="selected.creditLimit > '0.0000000000'" class="compact">Limit</td>
+            <td data-ng-show="selected.creditLimit > '0.0000000000'">
+              <span class="money" data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact credit limit for this account is {{selected.currency}} {{selected.creditLimit}}."
                 data-placement="bottom" data-trigger="hover"><span
-                class="currency">{{selected.currency}}</span> {{selected.balance | floor | currency:'$'}}</span>
+                class="currency">{{selected.currency}}</span> {{selected.creditLimit | floor | currency:'$'}}</span>
             </td>
           </tr>
         </tbody>
@@ -32,7 +41,7 @@
       </div>
       <div data-ng-show="balanceTooLow">
         <hr />
-        <div class="alert alert-error">You must select an account with a balance of at least <span
+        <div class="alert alert-error">You must select an account with a balance or remaining credit of at least <span
         class="currency">{{selected.currency}}</span> {{minBalance | ceil | currency:'$'}}.</div>
       </div>
     </div>

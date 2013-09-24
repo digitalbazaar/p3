@@ -10,7 +10,9 @@ return {accountSelector: deps.concat(factory)};
 
 function factory(svcAccount, svcIdentity) {
   function Ctrl($scope) {
-    $scope.model = {};
+    $scope.model = {
+      remainingCredit: 0
+    };
     $scope.services = {
       account: svcAccount.state
     };
@@ -38,27 +40,9 @@ function factory(svcAccount, svcIdentity) {
       scope.fixed = value;
     });
 
-    scope.$watch('selected.balance', function(value) {
-      scope.invalid = false;
-      scope.balanceTooLow = false;
-      if(value && scope.minBalance !== undefined) {
-        if(parseFloat(value) < parseFloat(scope.minBalance)) {
-          scope.balanceTooLow = true;
-          scope.invalid = true;
-        }
-      }
-    });
-
-    scope.$watch('minBalance', function(value) {
-      scope.invalid = false;
-      scope.balanceTooLow = false;
-      if(scope.selected && value !== undefined) {
-        if(parseFloat(scope.selected.balance) < parseFloat(value)) {
-          scope.balanceTooLow = true;
-          scope.invalid = true;
-        }
-      }
-    });
+    scope.$watch('selected.balance', update);
+    scope.$watch('selected.creditLimit', update);
+    scope.$watch('minBalance', update);
 
     scope.$watch('identity', function(value) {
       if(value) {
@@ -66,6 +50,25 @@ function factory(svcAccount, svcIdentity) {
         updateAccounts(scope);
       }
     });
+
+    function update() {
+      // update remaining credit
+      scope.remainingCredit = 0;
+      if(scope.selected) {
+        scope.remainingCredit = parseFloat(scope.selected.balance) +
+          parseFloat(scope.selected.creditLimit || '0');
+      }
+
+      // update minimum balance display
+      scope.invalid = false;
+      scope.balanceTooLow = false;
+      if(scope.selected && scope.minBalance !== undefined) {
+        if(scope.remainingCredit < parseFloat(scope.minBalance)) {
+          scope.balanceTooLow = true;
+          scope.invalid = true;
+        }
+      }
+    }
   }
 
   return {

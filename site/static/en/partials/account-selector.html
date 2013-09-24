@@ -10,7 +10,7 @@
       <table class="table table-condensed">
         <thead>
           <tr>
-            <th colspan="6"><span title="{{selected.id}}">{{selected.label}}</a></th>
+            <th colspan="4"><span title="{{selected.id}}">{{selected.label}}</a></th>
           </tr>
         </thead>
         <tbody>
@@ -21,14 +21,9 @@
             </td>
             <td data-ng-show="selected.creditLimit > '0.0000000000'" class="compact">Credit</td>
             <td data-ng-show="selected.creditLimit > '0.0000000000'">
-              <span class="money" data-placement="bottom" data-trigger="hover"><span
-                class="currency">{{selected.currency}}</span> {{model.remainingCredit | floor | currency:'$'}}</span>
-            </td>
-            <td data-ng-show="selected.creditLimit > '0.0000000000'" class="compact">Limit</td>
-            <td data-ng-show="selected.creditLimit > '0.0000000000'">
               <span class="money" data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact credit limit for this account is {{selected.currency}} {{selected.creditLimit}}."
                 data-placement="bottom" data-trigger="hover"><span
-                class="currency">{{selected.currency}}</span> {{selected.creditLimit | floor | currency:'$'}}</span>
+                class="currency">{{selected.currency}}</span> {{model.remainingCredit | floor | currency:'$'}} / {{selected.creditLimit | floor | currency:'$'}}</span>
             </td>
           </tr>
         </tbody>

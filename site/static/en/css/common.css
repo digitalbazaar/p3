@@ -328,6 +328,9 @@ span.currency {
   color: #aaa;
   font-size: 13px;
 }
+span.negative-money {
+  color: #b94a48;
+}
 .micropayment-note {
   text-align: center;
   font-size: small;

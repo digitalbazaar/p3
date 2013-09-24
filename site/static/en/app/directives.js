@@ -5,6 +5,7 @@
  */
 define([
   'angular',
+  'app/directives/accountBalance',
   'app/directives/accountSelector',
   'app/directives/addressSelector',
   'app/directives/budgetBar',

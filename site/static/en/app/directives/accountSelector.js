@@ -53,17 +53,23 @@ function factory(svcAccount, svcIdentity) {
 
     function update() {
       // update remaining credit
-      scope.remainingCredit = 0;
+      scope.model.remainingCredit = 0;
       if(scope.selected) {
-        scope.remainingCredit = parseFloat(scope.selected.balance) +
-          parseFloat(scope.selected.creditLimit || '0');
+        scope.model.remainingCredit = parseFloat(
+          scope.selected.creditLimit || '0');
+        var balance = parseFloat(scope.selected.balance);
+        if(balance < 0) {
+          scope.model.remainingCredit += balance;
+        }
       }
 
       // update minimum balance display
       scope.invalid = false;
       scope.balanceTooLow = false;
       if(scope.selected && scope.minBalance !== undefined) {
-        if(scope.remainingCredit < parseFloat(scope.minBalance)) {
+        var available = scope.model.remainingCredit +
+          parseFloat(scope.selected.balance);
+        if(available < parseFloat(scope.minBalance)) {
           scope.balanceTooLow = true;
           scope.invalid = true;
         }

@@ -18,7 +18,7 @@ function factory() {
     link: function(scope, element, attrs) {
       scope.$watch('account', function(account) {
         scope.isNegative = parseFloat(account.balance) < 0;
-      });
+      }, true);
     }
   };
 }

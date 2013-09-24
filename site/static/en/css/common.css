@@ -338,6 +338,12 @@ span.negative-money {
 .payment-radio-group {
   margin-left: 10px;
 }
+.account-activity-well {
+  padding: 14px 19px 0;
+}
+.account-activity-form {
+  margin: 6px 0 20px;
+}
 
 /* Activity Spinner */
 .center-spinner {

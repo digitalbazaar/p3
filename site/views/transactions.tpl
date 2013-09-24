@@ -30,14 +30,19 @@ ${set([
 
 <h2 class="headline">Account Activity at or before {{startDate | date:'medium'}}</h2>
 
-<div class="well">
-  <span class="pull-right" data-ng-show="txn.length > 0">
-    Showing {{txns.length}} <span
-      data-ng-pluralize="" data-count="txns.length"
-      data-when="{'1': 'transaction', 'other': 'transactions'}"></span>
-  </span>
+<div class="well account-activity-well">
+  <div class="pull-right">
+    <div>
+      <span>Balance: <span data-account-balance="account"></span></span>
+    </div>
+    <div>
+      Showing {{txns.length}} <span
+        data-ng-pluralize="" data-count="txns.length"
+        data-when="{'1': 'transaction', 'other': 'transactions'}"></span>
+    </div>
+  </div>
 
-  <form class="form-horizontal" action="">
+  <form class="form-horizontal account-activity-form" action="">
     <fieldset>
       <div class="control-group">
         <label class="control-label" for="dateField">Start Date</label>

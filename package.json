@@ -20,7 +20,7 @@
     "async": "~0.2.8",
     "almond": "~0.2.6",
     "bcrypt": "~0.7.2",
-    "bignumber.js": "~1.1.0",
+    "bignumber.js": "~1.2.1",
     "bossgeo": "~0.0.7",
     "commander": "~1.3.0",
     "connect": "~2.7.10",

@@ -1,7 +1,7 @@
 <?php
 /**
  * PHP implementation of the JSON-LD API.
- * Version: 0.2.1
+ * Version: 0.2.5
  *
  * @author Dave Longley
  *
@@ -681,10 +681,12 @@ function jsonld_remove_base($base, $iri) {
   // remove root from IRI
   $rel = jsonld_parse_url(substr($iri, strlen($root)));
 
-  // remove path segments that match
+  // remove path segments that match (do not remove last segment unless there
+  // is a hash or query)
   $base_segments = explode('/', $base['normalizedPath']);
   $iri_segments = explode('/', $rel['normalizedPath']);
-  while(count($base_segments) > 0 && count($iri_segments) > 0) {
+  $last = (isset($rel['query']) || isset($rel['fragment'])) ? 0 : 1;
+  while(count($base_segments) > 0 && count($iri_segments) > $last) {
     if($base_segments[0] !== $iri_segments[0]) {
       break;
     }
@@ -2855,7 +2857,7 @@ class JsonLdProcessor {
           $node_map->{$o->value} = (object)array('@id' => $o->value);
         }
 
-        if($p === self::RDF_TYPE && $object_is_id) {
+        if($p === self::RDF_TYPE && !$options['useRdfType'] && $object_is_id) {
           self::addValue(
             $node, '@type', $o->value, array('propertyIsArray' => true));
           continue;
@@ -3592,10 +3594,17 @@ class JsonLdProcessor {
         $reverse_map = $input->{'@reverse'};
         foreach($reverse_map as $reverse_property => $items) {
           foreach($items as $item) {
+            $item_name = null;
+            if(property_exists($item, '@id')) {
+              $item_name = $item->{'@id'};
+            }
+            if(self::_isBlankNode($item)) {
+              $item_name = $namer->getName($item_name);
+            }
+            $this->_createNodeMap($item, $graphs, $graph, $namer, $item_name);
             self::addValue(
-              $item, $reverse_property, $referenced_node,
+              $subjects->{$item_name}, $reverse_property, $referenced_node,
               array('propertyIsArray' => true, 'allowDuplicate' => false));
-            $this->_createNodeMap($item, $graphs, $graph, $namer);
           }
         }
         continue;
@@ -5848,7 +5857,7 @@ class ActiveContextCache {
     if(!property_exists($this->cache, $key1)) {
       $this->cache->{$key1} = new stdClass();
     }
-    $this->cache->{$key1}->{$key2} = $result;
+    $this->cache->{$key1}->{$key2} = JsonLdProcessor::copy($result);
   }
 }
 

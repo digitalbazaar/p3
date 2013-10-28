@@ -57,11 +57,6 @@ if(program.request && program.charge) {
   process.stdout.write(program.helpInformation());
   process.exit(1);
 }
-if(program.request && program.charge) {
-  console.log('\nError: Incompatible options "--request" and "--charge".');
-  process.stdout.write(program.helpInformation());
-  process.exit(1);
-}
 if(program.request && program.hold) {
   console.log('\nError: Incompatible options "--request" and "--hold".');
   process.stdout.write(program.helpInformation());
@@ -69,6 +64,16 @@ if(program.request && program.hold) {
 }
 if(program.request && program.capture) {
   console.log('\nError: Incompatible options "--request" and "--capture".');
+  process.stdout.write(program.helpInformation());
+  process.exit(1);
+}
+if(program.charge && program.hold) {
+  console.log('\nError: Incompatible options "--charge" and "--hold".');
+  process.stdout.write(program.helpInformation());
+  process.exit(1);
+}
+if(program.charge && program.capture) {
+  console.log('\nError: Incompatible options "--charge" and "--capture".');
   process.stdout.write(program.helpInformation());
   process.exit(1);
 }
@@ -122,7 +127,8 @@ async.waterfall([
     }
   },
   function(callback) {
-    var filename = program.request || program.verify || program.charge;
+    var filename = (program.request || program.verify || program.charge ||
+      program.hold || program.capture);
     try {
       var data = JSON.parse(fs.readFileSync(filename, 'utf8'));
       if('amount' in program) {

@@ -18,6 +18,13 @@ program
     'on success.')
   .option('--charge <filename>', 'A JSON-LD file containing a payment ' +
     'token to charge. The "--amount" parameter must also be specified.')
+  .option('--hold <filename>', 'A JSON-LD file containing a payment ' +
+    'token with funds to hold. The "--amount" parameter must also be ' +
+    'specified.')
+  .option('--capture <filename>', 'A JSON-LD file containing a transaction ' +
+    'with psaGatewayRefId set to the ID of a payflow transaction with held ' +
+    'funds to be captured. The "--amount" parameter may be optionally ' +
+    'specified.')
   .option('--amount <amount>', 'A dollar amount to charge (eg: "1.00").')
   .option('--timeout <timeout>', 'The request timeout in seconds.', parseInt)
   .option('--no-review', 'Do not require confirmation before sending ' +
@@ -49,8 +56,18 @@ if(program.request && program.charge) {
   process.stdout.write(program.helpInformation());
   process.exit(1);
 }
-if(program.request && program.amount) {
-  console.log('\nError: Incompatible options "--request" and "--amount".');
+if(program.request && program.charge) {
+  console.log('\nError: Incompatible options "--request" and "--charge".');
+  process.stdout.write(program.helpInformation());
+  process.exit(1);
+}
+if(program.request && program.hold) {
+  console.log('\nError: Incompatible options "--request" and "--hold".');
+  process.stdout.write(program.helpInformation());
+  process.exit(1);
+}
+if(program.request && program.capture) {
+  console.log('\nError: Incompatible options "--request" and "--capture".');
   process.stdout.write(program.helpInformation());
   process.exit(1);
 }
@@ -61,6 +78,11 @@ if(program.verify && program.amount) {
 }
 if(program.charge && !program.amount) {
   console.log('\nError: You must provide "--amount" with "--charge".');
+  process.stdout.write(program.helpInformation());
+  process.exit(1);
+}
+if(program.hold && !program.amount) {
+  console.log('\nError: You must provide "--amount" with "--hold".');
   process.stdout.write(program.helpInformation());
   process.exit(1);
 }
@@ -102,6 +124,9 @@ async.waterfall([
     var filename = program.request || program.verify || program.charge;
     try {
       var data = JSON.parse(fs.readFileSync(filename, 'utf8'));
+      if('amount' in program) {
+        // FIXME: validate program.amount
+      }
       if(program.request) {
         return callback(null, data);
       }
@@ -110,8 +135,17 @@ async.waterfall([
         return callback(null, client.createVerifyRequest(data));
       }
       if(program.charge) {
-        // FIXME: validate program.amount
         return callback(null, client.createChargeRequest(data, program.amount));
+      }
+      if(program.hold) {
+        return callback(null, client.createHoldRequest(data, program.amount));
+      }
+      if(program.capture) {
+        var options = {};
+        if('amount' in program) {
+          options.amount = program.amount;
+        }
+        return callback(null, client.createCaptureRequest(data, options));
       }
     }
     catch(ex) {

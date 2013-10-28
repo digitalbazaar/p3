@@ -40,9 +40,10 @@ if(!program.auth) {
   process.stdout.write(program.helpInformation());
   process.exit(1);
 }
-if(!program.request && !program.verify && !program.charge) {
+if(!program.request && !program.verify && !program.charge && !program.hold &&
+  !program.capture) {
   console.log('\nError: Missing required option ' +
-    '"--request" or "--verify" or "--charge".');
+    '"--request", "--verify", "--charge", "--hold", or "--capture".');
   process.stdout.write(program.helpInformation());
   process.exit(1);
 }

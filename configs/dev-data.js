@@ -261,6 +261,12 @@ config.financial.paymentGateway.Test.payees = {};
 config.financial.paymentGateway.Test.payees.deposit = {};
 config.financial.paymentGateway.Test.payees.withdrawal = {};
 
+// increment settleAfter by 30 seconds when status check result is pending
+config.financial.paymentGateway.Test.bankAccountStatusSettleAfterIncrement =
+  1000 * 30;
+config.financial.paymentGateway.Test.creditCardStatusSettleAfterIncrement =
+  1000 * 30;
+
 /* A note about merchant service fee payees:
 
   Fees for deposits are applied exclusively so that the amount selected for

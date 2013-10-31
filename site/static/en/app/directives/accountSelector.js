@@ -66,12 +66,24 @@ function factory(svcAccount, svcIdentity) {
       // update minimum balance display
       scope.invalid = false;
       scope.balanceTooLow = false;
+      scope.instantTransferRequired = false;
       if(scope.selected && scope.minBalance !== undefined) {
         var available = scope.model.remainingCredit +
           parseFloat(scope.selected.balance);
-        if(available < parseFloat(scope.minBalance)) {
-          scope.balanceTooLow = true;
-          scope.invalid = true;
+        var minBalance = parseFloat(scope.minBalance);
+        if(available < minBalance) {
+          // show instant transfer required warning
+          var minInstantTransfer = parseFloat(
+            scope.selected.psaMinInstantTransfer || 0);
+          if(scope.allowInstantTransfer === 'true' &&
+            scope.selected.psaAllowInstantTransfer &&
+            minInstantTransfer <= minBalance) {
+            scope.instantTransferRequired = true;
+          }
+          else {
+            scope.balanceTooLow = true;
+            scope.invalid = true;
+          }
         }
       }
     }
@@ -85,7 +97,8 @@ function factory(svcAccount, svcIdentity) {
       minBalance: '@',
       showDepositButton: '@',
       identity: '@',
-      instant: '='
+      instant: '=',
+      allowInstantTransfer: '@'
     },
     controller: ['$scope', Ctrl],
     templateUrl: '/partials/account-selector.html',

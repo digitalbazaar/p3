@@ -28,7 +28,7 @@
         <hr />
         <div class="alert alert-error">You must select a budget with a balance of at least <span
         class="currency">{{selected.currency}}</span> {{minBalance | ceil | currency:'$'}}. The budget's
-        associated account must also have enough funds.</div>
+        associated account must also have enough funds unless instant transfer is enabled.</div>
       </div>
       <div data-ng-show="maxPerUseTooLow">
         <hr />

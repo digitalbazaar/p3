@@ -39,6 +39,10 @@
         <div class="alert alert-error">You must select an account with a balance or remaining credit of at least <span
         class="currency">{{selected.currency}}</span> {{minBalance | ceil | currency:'$'}}.</div>
       </div>
+      <div data-ng-show="allowInstantTransfer && instantTransferRequired">
+        <hr />
+        <div class="alert alert-warning">An instant transfer will be performed to complete this purchase because the selected account does not have sufficient funds.</div>
+      </div>
     </div>
   </div>
   <div data-modal-add-account="showAddAccountModal"

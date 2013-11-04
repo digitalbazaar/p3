@@ -285,6 +285,7 @@ payswarm.accounts.update = function(options) {
  *
  * payswarm.accounts.addCreditLine({
  *   account: 'ACCOUNT_ID',
+ *   backupSource: 'PAYMENT_TOKEN_ID',
  *   success: function() {},
  *   error: function(err) {}
  * });
@@ -297,7 +298,8 @@ payswarm.accounts.addCreditLine = function(options) {
     dataType: 'json',
     contentType: 'application/json',
     data: JSON.stringify({
-      '@context': payswarm.CONTEXT_URL
+      '@context': payswarm.CONTEXT_URL,
+      backupSource: options.backupSource
     }),
     success: function(response, statusText) {
       if(options.success) {

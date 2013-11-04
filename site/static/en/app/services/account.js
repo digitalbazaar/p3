@@ -145,11 +145,12 @@ function factory($timeout, $rootScope, svcModel, svcIdentity) {
   };
 
   // add a credit line to an account
-  service.addCreditLine = function(accountId, callback) {
+  service.addCreditLine = function(accountId, backupSourceId, callback) {
     callback = callback || angular.noop;
     service.state.loading = true;
     payswarm.accounts.addCreditLine({
       account: accountId,
+      backupSource: backupSourceId,
       success: function() {
         // get account
         service.getOne(accountId, callback);

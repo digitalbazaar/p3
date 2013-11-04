@@ -22,7 +22,8 @@ function factory(svcModal) {
 
     $scope.confirm = function() {
       model.loading = true;
-      svcAccount.addCreditLine($scope.account.id, function(err) {
+      svcAccount.addCreditLine(
+        $scope.account.id, model.backupSource.id, function(err) {
         model.loading = false;
         if(err) {
           $scope.feedback.contactSupport = true;

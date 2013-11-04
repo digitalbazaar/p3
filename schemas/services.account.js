@@ -65,9 +65,11 @@ var postAccount = {
 };
 
 var postAccountCreditLine = {
+  title: 'Open Account Credit Line',
   type: 'object',
   properties: {
-    '@context': jsonldContext()/*,
+    '@context': jsonldContext(),
+    backupSource: payswarmId({required: false})/*,
     amount: ...*/
   },
   additionalProperties: false

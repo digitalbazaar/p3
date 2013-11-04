@@ -144,6 +144,24 @@ function factory($timeout, $rootScope, svcModel, svcIdentity) {
     });
   };
 
+  // add a credit line to an account
+  service.addCreditLine = function(accountId, callback) {
+    callback = callback || angular.noop;
+    service.state.loading = true;
+    payswarm.accounts.addCreditLine({
+      account: accountId,
+      success: function() {
+        // get account
+        service.getOne(accountId, callback);
+      },
+      error: function(err) {
+        service.state.loading = false;
+        callback(err);
+        $rootScope.$apply();
+      }
+    });
+  };
+
   return service;
 }
 

@@ -56,6 +56,11 @@ ${set([
                       <i class="icon-pencil"></i> Edit
                     </a>
                   </li>
+                  <li data-ng-show="!account.creditLimit || account.creditLimit == 0">
+                    <a data-ng-click="modals.account=account; modals.showAddCreditLine=true">
+                      <i class="icon-credit-card"></i> Open Credit Line
+                    </a>
+                  </li>
                   <li>
                     <a data-ng-click="modals.account=account; modals.showRedeemPromoCode=true">
                       <i class="icon-money"></i> Redeem Promo Code
@@ -98,6 +103,8 @@ ${set([
       <div data-modal-edit-account="modals.showEditAccount"
         data-account="modals.account"></div>
       <div data-modal-add-account="modals.showAddAccount"></div>
+      <div data-modal-add-credit-line="modals.showAddCreditLine"
+        data-account="modals.account"></div>
       <div data-modal-redeem-promo-code="modals.showRedeemPromoCode"
         data-account="modals.account"></div>
     </div>

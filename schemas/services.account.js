@@ -64,6 +64,15 @@ var postAccount = {
   additionalProperties: false
 };
 
+var postAccountCreditLine = {
+  type: 'object',
+  properties: {
+    '@context': jsonldContext()/*,
+    amount: ...*/
+  },
+  additionalProperties: false
+};
+
 module.exports.getAccountsQuery = function() {
   return getAccountsQuery;
 };
@@ -75,4 +84,7 @@ module.exports.getAccountQuery = function() {
 };
 module.exports.postAccount = function() {
   return postAccount;
+};
+module.exports.postAccountCreditLine = function() {
+  return postAccountCreditLine;
 };

@@ -278,6 +278,40 @@ payswarm.accounts.update = function(options) {
   });
 };
 
+/**
+ * Adds a credit line to an account.
+ *
+ * Usage:
+ *
+ * payswarm.accounts.addCreditLine({
+ *   account: 'ACCOUNT_ID',
+ *   success: function() {},
+ *   error: function(err) {}
+ * });
+ */
+payswarm.accounts.addCreditLine = function(options) {
+  $.ajax({
+    async: true,
+    type: 'POST',
+    url: options.account + '/credit-line',
+    dataType: 'json',
+    contentType: 'application/json',
+    data: JSON.stringify({
+      '@context': payswarm.CONTEXT_URL
+    }),
+    success: function(response, statusText) {
+      if(options.success) {
+        options.success(response);
+      }
+    },
+    error: function(xhr, textStatus, errorThrown) {
+      if(options.error) {
+        options.error(normalizeError(xhr, textStatus));
+      }
+    }
+  });
+};
+
 // budgets API
 payswarm.budgets = {};
 

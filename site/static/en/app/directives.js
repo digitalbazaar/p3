@@ -25,6 +25,7 @@ define([
   'app/directives/modalAddAddress',
   'app/directives/modalAddAsset',
   'app/directives/modalAddBudget',
+  'app/directives/modalAddCreditLine',
   'app/directives/modalAddIdentity',
   //'app/directives/modalAddInvoice',
   //'app/directives/modalAddInvoiceItem',

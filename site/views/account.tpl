@@ -19,11 +19,7 @@ ${set(
   <div data-ng-show="account.balance" class="row">
     <div class="offset3 span6">
       <h1 class="money headline">
-        <span class="currency">USD</span>
-          <span class="money right" title="USD ${{account.balance}}">
-            {{account.balance | floor | currency:'$'}}
-          </span>
-        </span>
+        <span data-account-balance="account"></span>
       </h1>
     </div>
   </div>

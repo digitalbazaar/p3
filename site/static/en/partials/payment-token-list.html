@@ -1,0 +1,79 @@
+<div>
+  <table class="table table-condensed" data-ng-show="state.loading || account.backupSource.length > 0">
+    <thead>
+      <tr>
+        <th class="name">Priority</th>
+        <th class="name">Type</th>
+        <th class="name">Name</th>
+        <th class="action">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr data-ng-repeat="token in tokenList"
+        data-fadeout="token.deleted"
+        data-fadeout-callback="deletePaymentToken(token)">
+        <!-- Priority -->
+        <td>
+          <span>{{$index + 1}}</span>
+        </td>
+        <!-- Type -->
+        <td data-ng-when="token.paymentMethod">
+          <span data-ng-when="CreditCard"><i class="icon-credit-card"></i></span>
+          <span data-ng-show="BankAccount"><i class="icon-building"></i></span>
+        </td>
+        <!-- Name -->
+        <td>
+          <span>{{token.label}}</span>
+        </td>
+        <!-- Action -->
+        <td class="action">
+          <div class="btn-group">
+            <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
+              <i class="icon-chevron-down"></i>
+            </a>
+            <ul class="dropdown-menu">
+              <li data-ng-show="!$first">
+                <a data-ng-click="moveBackupSourceUp($index)">
+                  <i class="icon-chevron-up"></i> Move Up
+                </a>
+              </li>
+              <li data-ng-show="!$last">
+                <a data-ng-click="moveBackupSourceDown($index)">
+                  <i class="icon-chevron-down"></i> Move Down
+                </a>
+              </li>
+              <li data-ng-hide="$first && $last" class="divider"></li>
+              <li class="btn-danger">
+                <a data-ng-click="deleteBackupSource(token)">
+                  <i class="icon-remove icon-white"></i> Delete
+                </a>
+              </li>
+            </ul>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr data-ng-hide="state.loading">
+        <!-- Use Payment Token -->
+        <td colspan="5">
+          <button
+            class="btn btn-success pull-right"
+            data-ng-click="modals.showPaymentTokenListSelector=true"><i class="icon-plus icon-white"></i> Use Payment Method</button>
+        </td>
+      </tr>
+      <tr data-ng-show="state.loading">
+        <td colspan="5" style="text-align: center">
+          <span class="center">
+            <span data-spinner="state.loading" data-spinner-class="table-spinner"></span>
+          </span>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+  <div data-ng-show="account.backupSource.length == 0">
+    <p class="center">You have no backup sources associated with this account.</p>
+    <button class="btn btn-success pull-right" data-ng-click="modals.showPaymentTokenListSelector=true"><i class="icon-plus icon-white"></i> Select Payment Method</button>
+  </div>
+  <div data-modal-payment-token-list-selector="modals.showPaymentTokenListSelector" data-account="account"></div>
+</div>

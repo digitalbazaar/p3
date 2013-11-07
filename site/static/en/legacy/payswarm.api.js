@@ -314,6 +314,75 @@ payswarm.accounts.addCreditLine = function(options) {
   });
 };
 
+/**
+ * Adds a backup source to an account.
+ *
+ * Usage:
+ *
+ * payswarm.accounts.addCreditLine({
+ *   account: 'ACCOUNT_ID',
+ *   backupSource: 'PAYMENT_TOKEN_ID',
+ *   success: function() {},
+ *   error: function(err) {}
+ * });
+ */
+payswarm.accounts.addBackupSource = function(options) {
+  $.ajax({
+    async: true,
+    type: 'POST',
+    url: options.account + '/backup-source',
+    dataType: 'json',
+    contentType: 'application/json',
+    data: JSON.stringify({
+      '@context': payswarm.CONTEXT_URL,
+      backupSource: options.backupSource
+    }),
+    success: function(response, statusText) {
+      if(options.success) {
+        options.success(response);
+      }
+    },
+    error: function(xhr, textStatus, errorThrown) {
+      if(options.error) {
+        options.error(normalizeError(xhr, textStatus));
+      }
+    }
+  });
+};
+
+/**
+ * Delete a backup source to an account.
+ *
+ * Usage:
+ *
+ * payswarm.accounts.addCreditLine({
+ *   account: 'ACCOUNT_ID',
+ *   backupSource: 'PAYMENT_TOKEN_ID',
+ *   success: function() {},
+ *   error: function(err) {}
+ * });
+ */
+payswarm.accounts.delBackupSource = function(options) {
+  $.ajax({
+    async: true,
+    type: 'DELETE',
+    url: options.account + '?' + $.param({
+      backupSource: options.backupSource
+    }),
+    dataType: 'json',
+    success: function(data, textStatus) {
+      if(options.success) {
+        options.success(data);
+      }
+    },
+    error: function(xhr, textStatus, errorThrown) {
+      if(options.error) {
+        options.error(normalizeError(xhr, textStatus));
+      }
+    }
+  });
+};
+
 // budgets API
 payswarm.budgets = {};
 

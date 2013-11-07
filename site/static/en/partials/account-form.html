@@ -42,23 +42,73 @@
     <div class="control-group">
       <label class="control-label" for="visibility">Account Visibility</label>
       <div class="controls">
-        <div class="input-prepend">
+        <div class="input-prepend input-append">
           <span class="add-on"><i class="icon-eye-open"></i></span><select
             name="visibility" data-ng-model="accountVisibility"
             data-ng-options="value as key for (key, value) in {Hidden: 'hidden', Public: 'public'}">
           </select>
+          <button class="btn" data-help-toggle="model.help.visibility">
+            <i class="icon-question-sign"></i>
+          </button>
         </div>
+        <p data-fade-toggle="model.help.visibility.show" class="help-block">
+          Choose if the account is public or private.
+        </p>
       </div>
     </div>
     <div data-ng-hide="editing" class="control-group">
       <label class="control-label" for="currency">Currency</label>
       <div class="controls">
-        <div class="input-prepend">
-          <span class="add-on">$</span><select
+        <div class="input-prepend input-append">
+          <span class="add-on"><i class="icon-money"></i></span><select
             name="currency" data-ng-model="account.currency"
             data-ng-options="value as key for (key, value) in {'US Dollars $': 'USD'}">
           </select>
+          <button class="btn" data-help-toggle="model.help.currency">
+            <i class="icon-question-sign"></i>
+          </button>
         </div>
+        <p data-fade-toggle="model.help.currency.show" class="help-block">
+          Choose the currency for the account. This can not be changed after an account is created.
+        </p>
+      </div>
+    </div>
+    <div data-ng-hide="!editing" class="control-group">
+      <label class="control-label" for="creditLimit">Credit Limit</label>
+      <div class="controls">
+        <div class="input-prepend input-append">
+          <!--
+          <span class="add-on"><i class="icon-money"></i></span><input
+            type="text" name="creditLimit"
+            data-ng-model="account.creditLimit"
+            data-track-state="model.help.creditLimit"
+            autocomplete="off" />
+          -->
+          <span class="add-on"><i class="icon-money"></i></span><span class="input-large uneditable-input">{{account.creditLimit}}</span>
+          <button class="btn" data-help-toggle="model.help.creditLimit">
+            <i class="icon-question-sign"></i>
+          </button>
+        </div>
+        <p data-fade-toggle="model.help.creditLimit.show" class="help-block">
+          Choose a credit limit for this account. Other factors may reduce your maximum available credit.
+        </p>
+      </div>
+    </div>
+    <div data-ng-hide="!editing" class="control-group">
+      <label class="control-label" for="backups">Credit Line Payment Methods</label>
+      <div class="controls">
+        <!--
+        <div class="input-append pull-right">
+          ...
+          <button class="btn" data-help-toggle="model.help.backups">
+            <i class="icon-question-sign"></i>
+          </button>
+        </div>
+        -->
+        <div data-payment-token-list data-instant="true" data-account="account"></div>
+        <p data-fade-toggle="model.help.backups.show" class="help-block">
+          Choose the payment methods that are used to fund this account.
+        </p>
       </div>
     </div>
   </fieldset>

@@ -163,6 +163,44 @@ function factory($timeout, $rootScope, svcModel, svcIdentity) {
     });
   };
 
+  // add a backup source to an account
+  service.addBackupSource = function(accountId, backupSourceId, callback) {
+    callback = callback || angular.noop;
+    service.state.loading = true;
+    payswarm.accounts.addBackupSource({
+      account: accountId,
+      backupSource: backupSourceId,
+      success: function() {
+        // get account
+        service.getOne(accountId, callback);
+      },
+      error: function(err) {
+        service.state.loading = false;
+        callback(err);
+        $rootScope.$apply();
+      }
+    });
+  };
+
+  // delete a backup source from an account
+  service.delBackupSource = function(accountId, backupSourceId, callback) {
+    callback = callback || angular.noop;
+    service.state.loading = true;
+    payswarm.accounts.delBackupSource({
+      account: accountId,
+      backupSource: backupSourceId,
+      success: function() {
+        // get account
+        service.getOne(accountId, callback);
+      },
+      error: function(err) {
+        service.state.loading = false;
+        callback(err);
+        $rootScope.$apply();
+      }
+    });
+  };
+
   return service;
 }
 

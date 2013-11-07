@@ -64,6 +64,17 @@ var postAccount = {
   additionalProperties: false
 };
 
+var delAccountQuery = {
+  type: 'object',
+  properties: {
+    backupSource: {
+      required: true,
+      type: payswarmId()
+    }
+  },
+  additionalProperties: true
+};
+
 var postAccountCreditLine = {
   title: 'Open Account Credit Line',
   type: 'object',
@@ -71,6 +82,16 @@ var postAccountCreditLine = {
     '@context': jsonldContext(),
     backupSource: payswarmId({required: false})/*,
     amount: ...*/
+  },
+  additionalProperties: false
+};
+
+var postAccountBackupSource = {
+  title: 'Add an Account Backup Source',
+  type: 'object',
+  properties: {
+    '@context': jsonldContext(),
+    backupSource: payswarmId()
   },
   additionalProperties: false
 };
@@ -87,6 +108,12 @@ module.exports.getAccountQuery = function() {
 module.exports.postAccount = function() {
   return postAccount;
 };
+module.exports.delAccountQuery = function() {
+  return delAccountQuery;
+};
 module.exports.postAccountCreditLine = function() {
   return postAccountCreditLine;
+};
+module.exports.postAccountBackupSource = function() {
+  return postAccountBackupSource;
 };

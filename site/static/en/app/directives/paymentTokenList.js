@@ -21,13 +21,21 @@ function factory(svcModel, svcPaymentToken) {
       loadList($scope);
     }, true);
     svcPaymentToken.get();
-    $scope.moveBackupSourceUp = function(token) {
-      console.log('UP', token);
-      // FIXME
+    $scope.moveBackupSourceUp = function(index) {
+      var list = $scope.account.backupSource;
+      // swap index and index-1
+      var old = list[index-1];
+      list[index-1] = list[index];
+      list[index] = old;
+      loadList($scope);
     };
-    $scope.moveBackupSourceDown = function(token) {
-      console.log('DOWN', token);
-      // FIXME
+    $scope.moveBackupSourceDown = function(index) {
+      var list = $scope.account.backupSource;
+      // swap index and index+1
+      var old = list[index+1];
+      list[index+1] = list[index];
+      list[index] = old;
+      loadList($scope);
     };
     $scope.deleteBackupSource = function(token) {
       $scope.model.loading = true;

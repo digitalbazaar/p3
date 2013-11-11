@@ -63,9 +63,11 @@ function factory() {
     var dst_ = dst.slice();
     dst.splice(0, dst.length);
     angular.forEach(src, function(value) {
-      // overwrite existing value in dst_ if exists
+      var valueIsObject = angular.isObject(value);
+      // overwrite existing object value in dst_ if exists
       for(var i = 0; i < dst_.length; ++i) {
-        if(dst_[i][id] === value[id]) {
+        if(angular.isObject(dst_[i]) && valueIsObject &&
+          dst_[i][id] === value[id]) {
           value = service.replace(dst_[i], value);
           dst_.splice(i, 1);
           break;

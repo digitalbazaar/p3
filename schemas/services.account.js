@@ -59,6 +59,15 @@ var postAccount = {
     psaPublic: {
       required: false,
       type: visibility()
+    },
+    backupSource: {
+      required: false,
+      type: 'array',
+      uniqueItems: true,
+      minLength: 1,
+      items: {
+        type: payswarmId()
+      }
     }
   },
   additionalProperties: false

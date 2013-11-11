@@ -21,6 +21,10 @@ function factory(svcModel, svcPaymentToken) {
       loadList($scope);
     }, true);
     svcPaymentToken.get();
+    $scope.addBackupSource = function(err, token) {
+      $scope.account.backupSource.push(token.id);
+      loadList($scope);
+    };
     $scope.moveBackupSourceUp = function(index) {
       var list = $scope.account.backupSource;
       // swap index and index-1
@@ -37,12 +41,9 @@ function factory(svcModel, svcPaymentToken) {
       list[index] = old;
       loadList($scope);
     };
-    $scope.deleteBackupSource = function(token) {
-      $scope.model.loading = true;
-      svcAccount.delBackupSource($scope.account.id, token.id, function(err) {
-        $scope.model.loading = true;
-        $scope.feedback.error = err;
-      });
+    $scope.deleteBackupSource = function(index) {
+      $scope.account.backupSource.splice(index, 1);
+      loadList($scope);
     };
   }
 
@@ -95,6 +96,8 @@ function factory(svcModel, svcPaymentToken) {
 
   return {
     scope: {
+      // FIXME
+      //feedback: '=',
       account: '=',
       invalid: '=',
       fixed: '@',

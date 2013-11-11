@@ -9,7 +9,7 @@ var deps = ['svcModal'];
 return {modalPaymentTokenListSelector: deps.concat(factory)};
 
 function factory(svcModal) {
-  function Ctrl($scope, svcAccount) {
+  function Ctrl($scope) {
     $scope.data = window.data || {};
     $scope.feedback = {};
 
@@ -19,25 +19,18 @@ function factory(svcModal) {
     model.backupSource = null;
 
     $scope.confirm = function() {
-      model.loading = true;
-      svcAccount.addBackupSource(
-        $scope.account.id, model.backupSource.id, function(err) {
-        model.loading = false;
-        if(!err) {
-          $scope.modal.close(null);
-        }
-        $scope.feedback.error = err;
-      });
+      $scope.modal.close(null, model.backupSource);
     };
   }
 
   return svcModal.directive({
     name: 'PaymentTokenListSelector',
-    scope: {
-      account: '='
-    },
+    // FIXME support not showing duplicates of current list
+    //scope: {
+    //  current: '='
+    //},
     templateUrl: '/partials/modals/payment-token-list-selector.html',
-    controller: ['$scope', 'svcAccount', Ctrl],
+    controller: ['$scope', Ctrl],
     link: function(scope, element) {
       scope.feedbackTarget = element;
     }

@@ -17,8 +17,7 @@ function factory(svcModal, svcAccount) {
     $scope.identity = $scope.data.identity || {};
 
     // copy account for editing
-    $scope.account = {};
-    angular.extend($scope.account, $scope.sourceAccount);
+    $scope.account = angular.copy($scope.sourceAccount);
 
     $scope.accountVisibility = ($scope.account.psaPublic.length === 0) ?
       'hidden' : 'public';
@@ -34,6 +33,11 @@ function factory(svcModal, svcAccount) {
       if($scope.accountVisibility === 'public') {
         account.psaPublic.push('label');
         account.psaPublic.push('owner');
+      }
+      // let server handle add/del operations
+      if(!angular.equals(
+        $scope.sourceAccount.backupSource, $scope.account.backupSource)) {
+        account.backupSource = angular.copy($scope.account.backupSource);
       }
 
       $scope.loading = true;

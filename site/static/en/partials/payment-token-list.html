@@ -2,10 +2,10 @@
   <table class="table table-condensed" data-ng-show="state.loading || account.backupSource.length > 0">
     <thead>
       <tr>
-        <th class="name">Priority</th>
-        <th class="name">Type</th>
+        <th class="name compact">Priority</th>
+        <th class="name compact">Type</th>
         <th class="name">Name</th>
-        <th class="action">Action</th>
+        <th class="action" data-ng-show="tokenList.length > 1">Action</th>
       </tr>
     </thead>
     <tbody>
@@ -13,11 +13,11 @@
         data-fadeout="token.deleted"
         data-fadeout-callback="deletePaymentToken(token)">
         <!-- Priority -->
-        <td>
+        <td class="compact">
           <span>{{$index + 1}}</span>
         </td>
         <!-- Type -->
-        <td data-ng-when="token.paymentMethod">
+        <td class="compact" data-ng-when="token.paymentMethod">
           <span data-ng-when="CreditCard"><i class="icon-credit-card"></i></span>
           <span data-ng-show="BankAccount"><i class="icon-building"></i></span>
         </td>
@@ -26,7 +26,7 @@
           <span>{{token.label}}</span>
         </td>
         <!-- Action -->
-        <td class="action">
+        <td class="action" data-ng-show="tokenList.length > 1">
           <div class="btn-group">
             <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
               <i class="icon-chevron-down"></i>
@@ -42,9 +42,9 @@
                   <i class="icon-chevron-down"></i> Move Down
                 </a>
               </li>
-              <li data-ng-hide="$first && $last" class="divider"></li>
+              <li class="divider"></li>
               <li class="btn-danger">
-                <a data-ng-click="deleteBackupSource(token)">
+                <a data-ng-click="deleteBackupSource($index)">
                   <i class="icon-remove icon-white"></i> Delete
                 </a>
               </li>
@@ -75,5 +75,5 @@
     <p class="center">You have no backup sources associated with this account.</p>
     <button class="btn btn-success pull-right" data-ng-click="modals.showPaymentTokenListSelector=true"><i class="icon-plus icon-white"></i> Select Payment Method</button>
   </div>
-  <div data-modal-payment-token-list-selector="modals.showPaymentTokenListSelector" data-account="account"></div>
+  <div data-modal-payment-token-list-selector="modals.showPaymentTokenListSelector" data-account="account" data-modal-on-close="addBackupSource(err, result)"></div>
 </div>

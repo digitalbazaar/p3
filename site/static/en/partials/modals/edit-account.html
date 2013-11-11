@@ -5,12 +5,16 @@
   </div>
   <div class="modal-body">
     <div data-ng-include="'/partials/demo-warning.html'"></div>
-
     <div data-ng-include="'/partials/account-form.html'"></div>
   </div>
   <div class="modal-footer">
-    <div name="feedback"></div>
-    <button class="btn btn-primary" data-ng-click="editAccount()"><i class="icon-ok icon-white"></i> Save</button>
-    <button class="btn btn-close">Cancel</button>
+    <div class="modal-feedback"
+      data-feedback="feedback" data-target="feedbackTarget"></div>
+    <span data-spinner="loading"
+      data-spinner-class="prepend-btn-spinner"></span>
+    <button class="btn btn-primary"
+      data-ng-disabled="loading"
+      data-ng-click="editAccount()"><i class="icon-ok icon-white"></i> Save</button>
+    <button class="btn btn-close" data-ng-disabled="loading">Cancel</button>
   </div>
 </div>

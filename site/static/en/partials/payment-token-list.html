@@ -1,5 +1,5 @@
 <div>
-  <table class="table table-condensed" data-ng-show="state.loading || account.backupSource.length > 0">
+  <table class="table table-condensed" data-ng-show="state.loading || idList.length > 0">
     <thead>
       <tr>
         <th class="name compact">Priority</th>
@@ -33,18 +33,18 @@
             </a>
             <ul class="dropdown-menu">
               <li data-ng-show="!$first">
-                <a data-ng-click="moveBackupSourceUp($index)">
+                <a data-ng-click="moveIndexUp($index)">
                   <i class="icon-chevron-up"></i> Move Up
                 </a>
               </li>
               <li data-ng-show="!$last">
-                <a data-ng-click="moveBackupSourceDown($index)">
+                <a data-ng-click="moveIndexDown($index)">
                   <i class="icon-chevron-down"></i> Move Down
                 </a>
               </li>
               <li class="divider"></li>
               <li class="btn-danger">
-                <a data-ng-click="deleteBackupSource($index)">
+                <a data-ng-click="deleteIndex($index)">
                   <i class="icon-remove icon-white"></i> Delete
                 </a>
               </li>
@@ -71,9 +71,9 @@
       </tr>
     </tfoot>
   </table>
-  <div data-ng-show="account.backupSource.length == 0">
-    <p class="center">You have no backup sources associated with this account.</p>
+  <div data-ng-show="idList.length == 0">
+    <p class="center">None.</p>
     <button class="btn btn-success pull-right" data-ng-click="modals.showPaymentTokenListSelector=true"><i class="icon-plus icon-white"></i> Select Payment Method</button>
   </div>
-  <div data-modal-payment-token-list-selector="modals.showPaymentTokenListSelector" data-account="account" data-modal-on-close="addBackupSource(err, result)"></div>
+  <div data-modal-payment-token-list-selector="modals.showPaymentTokenListSelector" data-instant="instant" data-omit="idList" data-modal-on-close="addToken(err, result)"></div>
 </div>

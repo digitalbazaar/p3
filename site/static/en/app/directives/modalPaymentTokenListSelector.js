@@ -25,10 +25,10 @@ function factory(svcModal) {
 
   return svcModal.directive({
     name: 'PaymentTokenListSelector',
-    // FIXME support not showing duplicates of current list
-    //scope: {
-    //  current: '='
-    //},
+    scope: {
+      instant: '=',
+      omit: '='
+    },
     templateUrl: '/partials/modals/payment-token-list-selector.html',
     controller: ['$scope', Ctrl],
     link: function(scope, element) {

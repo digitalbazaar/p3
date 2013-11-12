@@ -12,37 +12,39 @@ function factory(svcModel, svcPaymentToken) {
   function Ctrl($scope, svcAccount) {
     $scope.model = {};
     $scope.feedback = {};
-    $scope.services = {
-      token: svcPaymentToken.state
-    };
     $scope.tokenList = [];
     $scope.paymentTokens = svcPaymentToken.paymentTokens;
     $scope.$watch('paymentTokens', function(tokens) {
       loadList($scope);
     }, true);
     svcPaymentToken.get();
-    $scope.addBackupSource = function(err, token) {
-      $scope.account.backupSource.push(token.id);
+
+    $scope.addToken = function(err, token) {
+      if(err) {
+        // FIXME: display real errors (not 'cancelled', etc)
+        return;
+      }
+      $scope.idList.push(token.id);
       loadList($scope);
     };
-    $scope.moveBackupSourceUp = function(index) {
-      var list = $scope.account.backupSource;
+    $scope.moveIndexUp = function(index) {
+      var list = $scope.idList;
       // swap index and index-1
       var old = list[index-1];
       list[index-1] = list[index];
       list[index] = old;
       loadList($scope);
     };
-    $scope.moveBackupSourceDown = function(index) {
-      var list = $scope.account.backupSource;
+    $scope.moveIndexDown = function(index) {
+      var list = $scope.idList;
       // swap index and index+1
       var old = list[index+1];
       list[index+1] = list[index];
       list[index] = old;
       loadList($scope);
     };
-    $scope.deleteBackupSource = function(index) {
-      $scope.account.backupSource.splice(index, 1);
+    $scope.deleteIndex = function(index) {
+      $scope.idList.splice(index, 1);
       loadList($scope);
     };
   }
@@ -50,7 +52,7 @@ function factory(svcModel, svcPaymentToken) {
   function loadList($scope) {
     // load token objects from the ids
     var tokenList = [];
-    angular.forEach($scope.account.backupSource, function(id) {
+    angular.forEach($scope.idList, function(id) {
       var found = false;
       for(var i = 0; i < $scope.paymentTokens.length; ++i) {
         var token = $scope.paymentTokens[i];
@@ -72,24 +74,7 @@ function factory(svcModel, svcPaymentToken) {
   }
 
   function Link(scope, element, attrs) {
-    attrs.$observe('fixed', function(value) {
-      scope.fixed = value;
-    });
-    scope.$watch('instant', function(value) {
-      if(value === 'non') {
-        scope.paymentTokens = svcPaymentToken.nonInstant;
-        scope.paymentMethods = svcPaymentToken.nonInstantPaymentMethods;
-      }
-      else if(value) {
-        scope.paymentTokens = svcPaymentToken.instant;
-        scope.paymentMethods = svcPaymentToken.instantPaymentMethods;
-      }
-      else {
-        scope.paymentTokens = svcPaymentToken.paymentTokens;
-        scope.paymentMethods = svcPaymentToken.paymentMethods;
-      }
-    });
-    scope.$watch('account.backupSource', function(value) {
+    scope.$watch('idList', function(value) {
       loadList(scope);
     });
   }
@@ -98,9 +83,7 @@ function factory(svcModel, svcPaymentToken) {
     scope: {
       // FIXME
       //feedback: '=',
-      account: '=',
-      invalid: '=',
-      fixed: '@',
+      idList: '=',
       instant: '='
     },
     controller: ['$scope', 'svcAccount', Ctrl],

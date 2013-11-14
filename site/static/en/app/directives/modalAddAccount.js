@@ -20,11 +20,11 @@ function factory(svcModal, svcIdentity, svcAccount) {
       currency: 'USD',
       psaPublic: []
     };
-    $scope.accountVisibility = 'hidden';
+    $scope.model.accountVisibility = 'hidden';
 
     $scope.addAccount = function() {
       $scope.account.psaPublic = [];
-      if($scope.accountVisibility === 'public') {
+      if($scope.model.accountVisibility === 'public') {
         $scope.account.psaPublic.push('label');
         $scope.account.psaPublic.push('owner');
       }

@@ -19,7 +19,7 @@ function factory(svcModal, svcAccount) {
     // copy account for editing
     $scope.account = angular.copy($scope.sourceAccount);
 
-    $scope.accountVisibility = ($scope.account.psaPublic.length === 0) ?
+    $scope.model.accountVisibility = ($scope.account.psaPublic.length === 0) ?
       'hidden' : 'public';
     $scope.editing = true;
 
@@ -30,7 +30,7 @@ function factory(svcModal, svcAccount) {
         label: $scope.account.label,
         psaPublic: []
       };
-      if($scope.accountVisibility === 'public') {
+      if($scope.model.accountVisibility === 'public') {
         account.psaPublic.push('label');
         account.psaPublic.push('owner');
       }

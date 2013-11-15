@@ -17,7 +17,8 @@ function factory() {
     templateUrl: '/partials/account-balance.html',
     link: function(scope, element, attrs) {
       scope.$watch('account', function(account) {
-        scope.isNegative = parseFloat(account.balance) < 0;
+        var balance = account ? account.balance : 0;
+        scope.isNegative = parseFloat(balance) < 0;
       }, true);
     }
   };

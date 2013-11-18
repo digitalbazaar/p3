@@ -58,7 +58,7 @@ function factory(svcModal) {
       }
       $scope.loading = true;
       svcPaymentToken.verify(
-        $scope.token.id, verifyRequest, function(err, deposit) {
+        $scope.paymentToken.id, verifyRequest, function(err, deposit) {
         $scope.feedback.verifyError = false;
         if(!err) {
           // copy to avoid angular keys in POSTed data
@@ -149,7 +149,7 @@ function factory(svcModal) {
     $scope.confirm = function() {
       $scope.loading = true;
       svcPaymentToken.verify(
-        $scope.token.id, $scope._deposit, function(err, deposit) {
+        $scope.paymentToken.id, $scope._deposit, function(err, deposit) {
         $scope.loading = false;
         if(!err) {
           // show complete page
@@ -158,7 +158,7 @@ function factory(svcModal) {
           $scope.$apply();
 
           // get updated token
-          svcPaymentToken.getOne($scope.token.id);
+          svcPaymentToken.getOne($scope.paymentToken.id);
 
           // get updated balance after a delay
           if($scope.selection.destination) {
@@ -181,7 +181,7 @@ function factory(svcModal) {
   return svcModal.directive({
     name: 'VerifyBankAccount',
     scope: {
-      token: '='
+      paymentToken: '='
     },
     templateUrl: '/partials/modals/verify-bank-account.html',
     controller: ['$scope', 'svcPaymentToken', 'svcAccount', Ctrl],

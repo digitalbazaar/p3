@@ -1,0 +1,253 @@
+<div class="section">
+  <h4 class="headline">Select Payment Method Name</h4>
+  <form class="well form-horizontal" action="">
+    <fieldset>
+      <div class="control-group" data-binding="label">
+        <label class="control-label" for="label">Name</label>
+        <div class="controls">
+          <div class="input-append">
+            <input type="text" name="label" data-ng-model="paymentToken.label"
+              data-track-state="model.help.label" />
+            <button class="btn" data-help-toggle="model.help.label">
+              <i class="icon-question-sign"></i>
+            </button>
+          </div>
+          <p data-fade-toggle="model.help.label.show" class="help-block">
+            Please enter a memorable name that describes this method of
+            payment. It will be displayed to you later.
+            <br/><br/>
+            Suggestions: <span data-ng-show="paymentMethod == 'CreditCard'">My MasterCard, Visa Rewards</span><span data-ng-show="paymentMethod == 'BankAccount'">Checking Account, ING Direct</span>
+          </p>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+</div>
+
+<div class="section" data-ng-show="!editing">
+  <h4 class="headline">Enter Payment Details</h4>
+  <form class="well form-horizontal" action="">
+    <fieldset>
+      <div class="control-group" data-ng-show="multiEnabled">
+        <div class="controls">
+          <label class="radio inline" data-ng-show="creditCardEnabled">
+            <input type="radio" name="payment-type" value="CreditCard"
+              checked="checked" data-ng-model="paymentMethod" />
+            Credit Card
+          </label>
+          <label class="radio inline" data-ng-show="bankAccountEnabled">
+            <input type="radio" name="payment-type" value="BankAccount"
+              data-ng-model="paymentMethod" />
+            Bank Account
+          </label>
+        </div>
+      </div>
+      <div name="payment-type-fields" data-ng-switch="paymentMethod">
+        <div data-ng-switch-when="CreditCard">
+          <div class="control-group" data-binding="source.cardBrand">
+            <label class="control-label" for="card-brand">Type</label>
+            <div class="controls">
+              <span name="card-brand"
+                data-credit-card-selector="card.cardNumber"
+                data-credit-card-brand="card.cardBrand"></span>
+            </div>
+          </div>
+          <div class="control-group" data-binding="source.cardNumber">
+            <label class="control-label" for="card-number">Card Number</label>
+            <div class="controls">
+              <div class="input-append">
+                <input class="input-large" type="text"
+                  name="card-number" maxlength="16"
+                  data-ng-model="card.cardNumber"
+                  data-track-state="model.help.cardNumber"
+                  autocomplete="off" />
+                <button class="btn"
+                  data-help-toggle="model.help.cardNumber">
+                  <i class="icon-question-sign"></i>
+                </button>
+              </div>                    
+              <p data-fade-toggle="model.help.cardNumber.show"
+                class="help-block">
+                Please enter your credit card number, which must be 16 digits long.
+              </p>
+            </div>
+          </div>
+          <div></div>
+          <div class="control-group" data-binding="source.cardExpMonth">
+            <label class="control-label" for="card-exp-month">Expiration Month</label>
+            <div class="controls">
+              <select class="input-medium" name="card-exp-month"
+                data-ng-model="card.cardExpMonth"
+                data-ng-options="month.index as month.label for month in monthLabels">
+                <option value=""></option>
+              </select>
+            </div>
+          </div>
+          <div class="control-group" data-binding="source.cardExpYear">
+            <label class="control-label" for="card-exp-year">Expiration Year</label>
+            <div class="controls">
+              <select class="input-small" name="card-exp-year"
+                data-ng-model="card.cardExpYear"
+                data-ng-options="year for year in years">
+                <option value=""></option>
+              </select>
+            </div>
+          </div>
+          <div></div>
+          <div class="control-group" data-binding="source.cardCvm">
+            <label class="control-label" for="card-cvm">Security Code</label>
+            <div class="controls">
+              <div class="input-prepend input-append">
+                <span class="add-on"><img src="/img/scode.png" /></span><input
+                  class="input-small" type="text"
+                  name="card-cvm" maxlength="4"
+                  data-ng-model="card.cardCvm"
+                  data-track-state="model.help.cardCvm"
+                  autocomplete="off" />
+                <button class="btn" data-help-toggle="model.help.cardCvm">
+                  <i class="icon-question-sign"></i>
+                </button>
+              </div>
+              <p data-fade-toggle="model.help.cardCvm.show"
+                class="help-block">
+                Please enter the 3-digit security code located on the back
+                of your credit card. If you are using American Express,
+                then the number will be on the front and will be 4 digits
+                long.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div data-ng-switch-when="BankAccount">
+          <div class="bank-box bank-example">
+            <table class="bank-table">
+              <tbody>
+                <tr>
+                  <td class="bank-layer">
+                    <i class="bank-icon"></i>
+                    <span class="bank-label">
+                      <strong>My Bank</strong>
+                    </span>
+                  </td>
+                  <td class="bank-layer"><span class="bank-date">{{'' | now:'d MMM yyyy'}}</span></td>
+                </tr>
+                <tr>
+                  <td class="text-align-center bank-layer bank-font">
+                    <span class="bank-routing-outline">A123456789A</span>
+                  </td>
+                  <td class="text-align-center bank-layer bank-font">
+                    <span class="bank-account-outline">C098765C</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-align-center bank-layer">
+                    <span class="bank-routing-highlight">Routing</span>
+                  </td>
+                  <td class="text-align-center bank-layer">
+                    <span class="bank-account-highlight">Account</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        
+          <div class="control-group" data-binding="source.bankRoutingNumber">
+            <label class="control-label" for="bank-routing-number">Routing Number</label>
+            <div class="controls">
+              <div class="input-append">
+                <input type="text" name="bank-routing-number" maxlength="9"
+                  data-ng-model="bankAccount.bankRoutingNumber"
+                  data-track-state="model.help.bankRoutingNumber"
+                  autocomplete="off" />
+                <button class="btn"
+                  data-help-toggle="model.help.bankRoutingNumber">
+                  <i class="icon-question-sign"></i>
+                </button>
+              </div>
+              <p data-fade-toggle="model.help.bankRoutingNumber.show"
+                class="help-block">
+                Please enter your bank's routing number. This can be found in your checkbook or by signing into your bank online.
+              </p>
+            </div>
+          </div>
+          <div class="control-group" data-binding="source.bankAccountType">
+            <label class="control-label" for="bank-account-type">Account Type</label>
+            <div class="controls">
+              <select class="input-medium" name="bank-account-type"
+                data-ng-model="bankAccount.bankAccountType"
+                data-ng-options="type.id as type.label for type in bankAccountTypes">
+              </select>
+              <p class="help-block">
+                If your bank account does not have a type, choose 'Checking'.
+              </p>
+            </div>
+          </div>
+          <div class="control-group" data-binding="source.bankAccount">
+            <label class="control-label" for="bank-account">Account Number</label>
+            <div class="controls">
+              <div class="input-append">
+                <input type="text" name="bank-account" maxlength="30"
+                  data-ng-model="bankAccount.bankAccount"
+                  data-track-state="model.help.bankAccount"
+                  autocomplete="off" />
+                <button class="btn"
+                  data-help-toggle="model.help.bankAccount">
+                  <i class="icon-question-sign"></i>
+                </button>
+              </div>
+              <p data-fade-toggle="model.help.bankAccount.show"
+                class="help-block">
+                Please enter your bank account number. This can be found
+                in your checkbook or by signing into your bank online.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+</div>
+
+<div class="section" data-ng-show="!editing && model.billingAddressRequired">
+  <h4 class="headline">Select Billing Address</h4>
+  <div data-address-selector data-selected="selection.address"
+    data-invalid="selection.invalidAddress"></div>
+</div>
+
+<div class="section" data-ng-show="!editing && paymentMethod == 'BankAccount'">
+  <h4 class="headline">Bank Account Agreement</h4>
+  <div class="well">
+
+    <p>By adding a new bank account, you affirm that you have the authority
+    from the account owner to permit us to transfer funds both to and from
+    the account. You also acknowledge that you will be charged fees
+    whenever you request that we transfer money to or from this bank
+    account according to our
+    <a target="_blank" href="/help/pricing">pricing policy and rates</a>.
+    These fees are charged to us by the banking network and passed on to you.</p>
+
+    <p>We make two small deposits into the bank account in order to verify
+    that you have access to it. These amounts will show up in your bank
+    account in 3-7 business days, after which you must enter the amounts
+    into this website to complete verification.</p>
+
+    <p><strong>Your bank account cannot be used to transfer funds until the
+    verification process is complete. Upon completion of the verification
+    process, the verification funds we deposited into your account will be
+    withdrawn and you will be charged a small transaction fee by the
+    banking network.</strong></p>
+
+    <p>You may elect to include an initial deposit at the time of
+    verification to avoid an additional bank fee. This deposit will
+    take 3-7 business days to be processed.</p>
+
+    <hr/>
+    <form class="form-vertical" action="">
+      <fieldset>
+        <label class="checkbox">
+          <input type="checkbox" data-ng-model="model.agreementChecked"> I agree to the above terms and conditions.</input>
+        </label>
+      </fieldset>
+    </form>
+  </div>
+</div>

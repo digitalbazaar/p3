@@ -36,7 +36,7 @@ ${set([
                   <th class="name">Brand</th>
                   <th class="name">Number</th>
                   <th>Expiration</th>
-                  <th class="action">Delete</th>
+                  <th class="action">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -57,12 +57,29 @@ ${set([
                   </td>
                   <!-- Expiration -->
                   <td>
+                    <!-- FIXME: add warning for near or already expired cards -->
                     <span>{{card.cardExpMonth}} / {{card.cardExpYear}}</span>
                   </td>
-                  <!-- Delete -->
+                  <!-- Action -->
                   <td class="action">
-                    <button class="btn btn-danger" title="Delete"
-                      data-ng-click="card.deleted=true"><i class="icon-remove icon-white"></i></button>
+                    <div class="btn-group">
+                      <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
+                        <i class="icon-chevron-down"></i>
+                      </a>
+                      <ul class="dropdown-menu pull-right">
+                        <li>
+                          <a data-ng-click="modals.paymentToken=card; modals.showEditPaymentToken=true">
+                            <i class="icon-pencil"></i> Edit
+                          </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li class="btn-danger">
+                          <a data-ng-click="card.deleted=true">
+                            <i class="icon-remove icon-white"></i> Delete
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
                   </td>
                 </tr>
               </tbody>
@@ -91,6 +108,8 @@ ${set([
                 data-ng-click="modals.showAddCreditCard=true"><i class="icon-plus icon-white"></i> Add Credit Card</button>
             </div>
             <div data-modal-add-payment-token="modals.showAddCreditCard" data-payment-methods="creditCardMethods"></div>
+            <div data-modal-edit-payment-token="modals.showEditPaymentToken"
+               data-payment-token="modals.paymentToken"></div>
           </div>
         </div>
 
@@ -109,8 +128,7 @@ ${set([
                   <th>Number</th>
                   <th>Routing</th>
                   <th>Status</th>
-                  <th class="action">Delete</th>
-                  <th class="action">Restore</th>
+                  <th class="action">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -128,34 +146,50 @@ ${set([
                     <span>{{bankAccount.bankRoutingNumber}}</span>
                   </td>
                   <!-- Status -->
-                  <td>
-                    <a data-ng-show="bankAccount.psaStatus == 'active' && !bankAccount.psaVerified && bankAccount.psaVerifyReady"
-                      data-ng-click="showVerifyBankAccountModal=true">Verify</a>
+                  <td data-ng-show="bankAccount.psaStatus == 'active' || bankAccount.psaStatus == 'disabled'">
+                    <button data-ng-show="bankAccount.psaStatus == 'active' && !bankAccount.psaVerified && bankAccount.psaVerifyReady"
+                      data-ng-click="modals.paymentToken=bankAccount; modals.showVerifyBankAccountModal=true"
+                      class="btn btn-primary" title="Verify">Verify</button>
                     <span data-ng-show="bankAccount.psaStatus == 'disabled'"
                       data-tooltip-title="This payment method was likely disabled because your bank account information could not be verified. Please delete this payment method and try to add it again with corrected information."
-                      data-placement="bottom" data-trigger="hover">Disabled</span>
-                    <span data-ng-show="bankAccount.psaStatus != 'active' && bankAccount.psaStatus != 'disabled' && bankAccount.psaStatus != 'deleted' && !bankAccount.psaVerified">Unverified</span>
-                    <span data-ng-show="bankAccount.psaStatus == 'active' && !bankAccount.psaVerified && !bankAccount.psaVerifyReady">Pending</span>
-                    <span data-ng-show="bankAccount.psaVerified">Verified</span>
+                      data-placement="bottom" data-trigger="hover" class="label label-important">Disabled</span>
+                    <span data-ng-show="bankAccount.psaStatus != 'active' && bankAccount.psaStatus != 'disabled' && bankAccount.psaStatus != 'deleted' && !bankAccount.psaVerified" class="label label-warning">Unverified</span>
+                    <span data-ng-show="bankAccount.psaStatus == 'active' && !bankAccount.psaVerified && !bankAccount.psaVerifyReady" class="label label-info">Pending</span>
+                    <span data-ng-show="bankAccount.psaVerified" class="label label-success">Verified</span>
+                  </td>
+                  <td data-ng-show="bankAccount.psaStatus == 'deleted'">
                     <span
-                      data-modal-verify-bank-account="showVerifyBankAccountModal"
-                      data-token="bankAccount"></span>
-                  </td>
-                  <!-- Delete -->
-                  <td class="action">
-                    <button data-ng-show="bankAccount.psaStatus == 'active' || bankAccount.psaStatus == 'disabled'"
-                      class="btn btn-danger" title="Delete"
-                      data-ng-disabled="!bankAccount.psaVerified && bankAccount.psaStatus != 'disabled'"
-                      data-ng-click="deletePaymentToken(bankAccount)"><i class="icon-trash icon-white"></i></button>
-                    <span data-ng-show="bankAccount.psaStatus == 'deleted'"
                       data-tooltip-title="Because verifying a bank account is a costly process, we do not delete bank accounts immediately. You may restore the bank account before the expiration date passes if you wish."
-                      data-placement="bottom" data-trigger="hover">Expires {{bankAccount.psaExpires | date:'MMM d'}}</span>
+                      data-placement="bottom" data-trigger="hover" class="label label-warning">Expires {{bankAccount.psaExpires | date:'MMM d'}}</span>
                   </td>
-                  <!-- Restore -->
+                  <!-- Action -->
                   <td class="action">
-                    <button data-ng-show="!bankAccount.psaStatus || bankAccount.psaStatus == 'deleted'"
-                      class="btn btn-success" title="Restore"
-                      data-ng-click="restorePaymentToken(bankAccount)"><i class="icon-undo icon-white"></i></button>
+                    <div class="btn-group">
+                      <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
+                        <i class="icon-chevron-down"></i>
+                      </a>
+                      <ul class="dropdown-menu pull-right">
+                        <li>
+                          <a data-ng-click="modals.paymentToken=card; modals.showEditPaymentToken=true">
+                            <i class="icon-pencil"></i> Edit
+                          </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li class="btn-danger"
+                          data-ng-show="bankAccount.psaStatus == 'active' || bankAccount.psaStatus == 'disabled'"
+                          data-ng-disabled="!bankAccount.psaVerified && bankAccount.psaStatus != 'disabled'">
+                          <a data-ng-click="deletePaymentToken(bankAccount)">
+                            <i class="icon-trash icon-white"></i> Delete
+                          </a>
+                        </li>
+                        <li class="btn-success"
+                          data-ng-show="!bankAccount.psaStatus || bankAccount.psaStatus == 'deleted'">
+                          <a data-ng-click="restorePaymentToken(bankAccount)">
+                            <i class="icon-undo icon-white"></i> Restore
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
                   </td>
                 </tr>
               </tbody>
@@ -184,6 +218,10 @@ ${set([
                 data-ng-click="modals.showAddBankAccount=true"><i class="icon-plus icon-white"></i> Add Bank Account</button>
             </div>
             <div data-modal-add-payment-token="modals.showAddBankAccount" data-payment-methods="bankAccountMethods"></div>
+            <div data-modal-edit-payment-token="modals.showEditPaymentToken"
+               data-payment-token="modals.paymentToken"></div>
+            <div data-modal-verify-bank-account="modals.showVerifyBankAccountModal"
+               data-payment-token="modals.bankAccount"></div>
           </div>
         </div>
       </div>

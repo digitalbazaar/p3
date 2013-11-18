@@ -1,9 +1,10 @@
+var bankAccount = require('./bankAccount');
 var creditCard = require('./creditCard');
 var deposit = require('./deposit');
-var bankAccount = require('./bankAccount');
 var jsonldContext = require('./jsonldContext');
 var label = require('./label');
 var money = require('./money');
+var payswarmId = require('./payswarmId');
 
 var postPaymentTokens = {
   type: 'object',
@@ -28,6 +29,19 @@ var getPaymentTokensQuery = {
     }
   },
   additionalProperties: true
+};
+
+var postPaymentToken = {
+  type: 'object',
+  properties: {
+    '@context': jsonldContext(),
+    id: payswarmId(),
+    label: {
+      required: true,
+      type: label()
+    }
+  },
+  additionalProperties: false
 };
 
 var postPaymentTokenQuery = {
@@ -81,19 +95,18 @@ var postVerifyDeposit = deposit('signed');
 module.exports.postPaymentTokens = function() {
   return postPaymentTokens;
 };
-
 module.exports.getPaymentTokensQuery = function() {
   return getPaymentTokensQuery;
 };
-
+module.exports.postPaymentToken = function() {
+  return postPaymentToken;
+};
 module.exports.postPaymentTokenQuery = function() {
   return postPaymentTokenQuery;
 };
-
 module.exports.postVerifyPrepare = function() {
   return postVerifyPrepare;
 };
-
 module.exports.postVerifyDeposit = function() {
   return postVerifyDeposit;
 };

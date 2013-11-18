@@ -171,19 +171,15 @@ function factory($timeout, $rootScope, svcModel, svcIdentity) {
   };
 
   // update a paymentToken
-  /*
   service.update = function(paymentToken, callback) {
     callback = callback || angular.noop;
     service.state.loading = true;
     payswarm.paymentTokens.update({
       identity: identity.id,
-      data: paymentToken,
-      success: function(paymentToken) {
-        svcModel.replaceInArray(service.paymentTokens, paymentToken);
-        _updateTokens();
-        service.state.loading = false;
-        callback(null, paymentToken);
-        $rootScope.$apply();
+      paymentToken: paymentToken,
+      success: function() {
+        // get paymentToken
+        service.getOne(paymentToken.id, callback);
       },
       error: function(err) {
         service.state.loading = false;
@@ -192,7 +188,6 @@ function factory($timeout, $rootScope, svcModel, svcIdentity) {
       }
     });
   };
-  */
 
   // deletes a paymentToken
   service.del = function(paymentTokenId, callback) {

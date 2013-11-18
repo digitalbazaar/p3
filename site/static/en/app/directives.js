@@ -36,6 +36,7 @@ define([
   'app/directives/modalEditAccount',
   'app/directives/modalEditBudget',
   'app/directives/modalEditKey',
+  'app/directives/modalEditPaymentToken',
   //'app/directives/modalProtectAsset',
   'app/directives/modalPaymentTokenListSelector',
   'app/directives/modalRedeemPromoCode',

@@ -21,11 +21,16 @@ function factory(svcModal) {
     $scope.feedback = {contactSupport: true};
     $scope.loading = false;
     $scope.identity = $scope.data.identity || {};
+    $scope.editing = false;
+
+    // common fields to all types
+    $scope.paymentToken = {
+      label: ''
+    };
     $scope.paymentMethods =
       $scope.paymentMethods || ['CreditCard', 'BankAccount'];
     // default to first payment method
     $scope.paymentMethod = $scope.paymentMethods[0];
-    $scope.label = '';
     $scope.card = {
       '@context': payswarm.CONTEXT_URL,
       type: 'CreditCard'
@@ -45,14 +50,14 @@ function factory(svcModal) {
     $scope.bankAccountEnabled =
       ($scope.paymentMethods.indexOf('BankAccount') !== -1);
 
-    $scope.agreementChecked = false;
-    $scope.billingAddressRequired = true;
+    $scope.model.agreementChecked = false;
+    $scope.model.billingAddressRequired = true;
     // billing address UI depends on payment method
     $scope.$watch('scope.paymentMethod', function() {
       var isCreditCard = ($scope.paymentMethod === 'CreditCard');
       var isBankAccount = ($scope.paymentMethod === 'BankAccount');
-      $scope.billingAddressRequired = isCreditCard || isBankAccount;
-      $scope.agreementChecked = false;
+      $scope.model.billingAddressRequired = isCreditCard || isBankAccount;
+      $scope.model.agreementChecked = false;
     });
 
     $scope.add = function() {
@@ -73,7 +78,7 @@ function factory(svcModal) {
       // create post data
       var token = {
         '@context': payswarm.CONTEXT_URL,
-        label: $scope.label
+        label: $scope.paymentToken.label
       };
 
       // handle payment method specifics

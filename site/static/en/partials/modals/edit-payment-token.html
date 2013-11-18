@@ -1,7 +1,7 @@
 <div class="modal">
   <div class="modal-header">
     <a class="close btn-close">&times;</a>
-    <h3>New Payment Method</h3>
+    <h3>Edit Payment Method</h3>
   </div>
   <div class="modal-body">
     <div data-ng-include="'/partials/demo-warning.html'"></div>
@@ -13,10 +13,8 @@
     <span data-spinner="loading"
       data-spinner-class="prepend-btn-spinner"></span>
     <button class="btn btn-primary"
-      data-ng-disabled="loading ||
-        (paymentMethod == 'BankAccount' && !model.agreementChecked) ||
-        (model.billingAddressRequired && selection.address == null)"
-      data-ng-click="add()"><i class="icon-ok icon-white"></i> Add</button>
+      data-ng-disabled="loading"
+      data-ng-click="editPaymentToken()"><i class="icon-ok icon-white"></i> Save</button>
     <button class="btn btn-close" data-ng-disabled="loading">Cancel</button>
   </div>
 </div>

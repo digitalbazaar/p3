@@ -871,6 +871,39 @@ payswarm.paymentTokens.add = function(options) {
 };
 
 /**
+ * Updates a paymentToken.
+ *
+ * Usage:
+ *
+ * payswarm.paymentTokens.update({
+ *   paymentToken: paymentToken,
+ *   success: function() {},
+ *   error: function(err) {}
+ * });
+ */
+payswarm.paymentTokens.update = function(options) {
+  $.ajax({
+    async: true,
+    type: 'POST',
+    url: options.paymentToken.id,
+    dataType: 'json',
+    contentType: 'application/json',
+    data: JSON.stringify(options.paymentToken),
+    success: function(response, statusText) {
+      if(options.success) {
+        options.success();
+      }
+    },
+    error: function(xhr, textStatus, errorThrown) {
+      if(options.error) {
+        options.error(normalizeError(xhr, textStatus));
+      }
+    }
+  });
+};
+
+
+/**
  * Deletes a paymentToken. If the token is only marked for later removal
  * then it will be returned with the up-to-date expiration information in
  * the success call.

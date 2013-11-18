@@ -218,8 +218,6 @@ ${set([
                 data-ng-click="modals.showAddBankAccount=true"><i class="icon-plus icon-white"></i> Add Bank Account</button>
             </div>
             <div data-modal-add-payment-token="modals.showAddBankAccount" data-payment-methods="bankAccountMethods"></div>
-            <div data-modal-edit-payment-token="modals.showEditPaymentToken"
-               data-payment-token="modals.paymentToken"></div>
             <div data-modal-verify-bank-account="modals.showVerifyBankAccountModal"
                data-payment-token="modals.bankAccount"></div>
           </div>

@@ -40,7 +40,7 @@ ${set([
                 <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
                   <i class="icon-chevron-down"></i>
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu pull-right">
                   <li>
                     <a data-ng-click="modals.account=account; modals.showDeposit=true">
                       <i class="icon-plus"></i> Deposit
@@ -147,7 +147,7 @@ ${set([
                 <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
                   <i class="icon-chevron-down"></i>
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu pull-right">
                   <li>
                     <a data-ng-click="modals.budget=budget; modals.showEditBudget=true">
                       <i class="icon-pencil"></i> Edit

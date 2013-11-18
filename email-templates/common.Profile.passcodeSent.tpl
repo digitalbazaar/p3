@@ -3,13 +3,13 @@ From: "{{serviceName}} Customer Support" <support@{{supportDomain}}>
 Subject: {{profileSubjectPrefix}}Your {{serviceName}} passcode
 
 {% if usage === "reset" -%}
-You requested a passcode so you could reset your {{serviceName}} password. 
+You requested a passcode so you could reset your {{serviceName}} password.
 If you did not make this request, simply ignore this email and your password
 will not be changed.
 {%- else -%}
 You requested a passcode so you could verify your {{serviceName}} email
 address.
-{% endif %}
+{%- endif %}
 
 You may visit the following page and enter your code manually:
 

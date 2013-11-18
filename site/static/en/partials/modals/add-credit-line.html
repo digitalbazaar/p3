@@ -23,7 +23,7 @@
       <button class="btn btn-primary"
         data-ng-disabled="model.loading || !model.backupSource"
         data-ng-click="confirm()"><i class="icon-ok icon-white"></i> Confirm</button>
-      <button data-ng-disabled="loading" class="btn btn-close">Cancel</button>
+      <button data-ng-disabled="model.loading" class="btn btn-close">Cancel</button>
     </span>
     <span data-ng-show="model.state == 'complete'">
       <button class="btn btn-close btn-done">Done</button>

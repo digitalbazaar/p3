@@ -28,7 +28,7 @@ var postPasscode = {
   properties: {
     psaIdentifier: {
       required: true,
-      type: [slug(), email()]
+      type: [payswarmId(), slug(), email()]
     }
   },
   additionalProperties: false
@@ -53,10 +53,24 @@ var postPasswordReset = {
   properties: {
     psaIdentifier: {
       required: true,
-      type: [slug(), email()]
+      type: [payswarmId(), slug(), email()]
     },
     psaPasscode: passcode(),
     psaPasswordNew: password()
+  },
+  additionalProperties: false
+};
+
+var postEmailVerify = {
+  title: 'Verify email',
+  description: 'Verify an email address.',
+  type: 'object',
+  properties: {
+    psaIdentifier: {
+      required: true,
+      type: [payswarmId(), slug(), email()]
+    },
+    psaPasscode: passcode()
   },
   additionalProperties: false
 };
@@ -167,6 +181,9 @@ module.exports.postPassword = function() {
 };
 module.exports.postPasswordReset = function() {
   return postPasswordReset;
+};
+module.exports.postEmailVerify = function() {
+  return postEmailVerify;
 };
 module.exports.postCreate = function() {
   return postCreate;

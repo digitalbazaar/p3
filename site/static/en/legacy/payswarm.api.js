@@ -1775,22 +1775,30 @@ payswarm.profiles.login = function(options) {
 };
 
 /**
- * Sends a password reset email to the provided and email address or
- * a profile name.
+ * Sends a password reset or a verification email to the provided and email
+ * address or a profile name.
  *
  * Usage:
  *
  * payswarm.profiles.passcode({
  *   profile: {psaIdentifier: "foo@example.com"},
- *   success: function(contract) {},
+ *   [usage]: 'reset'/'verify',
+ *   success: function() {},
  *   error: function(err) {}
  * });
  */
 payswarm.profiles.passcode = function(options) {
+  var url = '/profile/passcode?usage=';
+  if(options.usage) {
+    url += options.usage;
+  }
+  else {
+    url += 'reset';
+  }
   $.ajax({
     async: true,
     type: 'POST',
-    url: '/profile/passcode',
+    url: url,
     contentType: 'application/json',
     dataType: 'json',
     data: JSON.stringify(options.profile),
@@ -1818,8 +1826,8 @@ payswarm.profiles.passcode = function(options) {
  *     "psaIdentifier": "foo@example.com",
  *     "psaPasscode": "fhj32hfg8",
  *     "psaPasswordNew": "password12345",
- *     },
- *   success: function(contract) {},
+ *   },
+ *   success: function() {},
  *   error: function(err) {}
  * });
  */
@@ -1828,6 +1836,41 @@ payswarm.profiles.password = function(options) {
     async: true,
     type: 'POST',
     url: '/profile/password/reset',
+    contentType: 'application/json',
+    dataType: 'json',
+    data: JSON.stringify(options.profile),
+    success: function(response, statusText) {
+      if(options.success) {
+        options.success(response);
+      }
+    },
+    error: function(xhr, textStatus, errorThrown) {
+      if(options.error) {
+        options.error(normalizeError(xhr, textStatus));
+      }
+    }
+  });
+};
+
+/**
+ * Verifies an email address.
+ *
+ * Usage:
+ *
+ * payswarm.profiles.verifyEmail({
+ *   profile: {
+ *     "psaIdentifier": "foo@example.com",
+ *     "psaPasscode": "fhj32hfg8"
+ *   },
+ *   success: function() {},
+ *   error: function(err) {}
+ * });
+ */
+payswarm.profiles.verifyEmail = function(options) {
+  $.ajax({
+    async: true,
+    type: 'POST',
+    url: '/profile/email/verify',
     contentType: 'application/json',
     dataType: 'json',
     data: JSON.stringify(options.profile),

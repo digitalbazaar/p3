@@ -60,6 +60,17 @@ function factory($timeout, $rootScope, svcModel, svcIdentity) {
 
       if(token.paymentMethod === 'CreditCard') {
         creditCards.push(token);
+
+        // add computed properties for expiration notifications
+        var expires = new Date(token.cardExpYear, token.cardExpMonth);
+        var hour = 60 * 60 * 1000;
+        var month = 30 * 24 * hour;
+        // find time to live
+        // offset notifications by an hour
+        var ttl = expires - (new Date()) - hour;
+        // show warning a month early
+        token.showExpirationWarning = (ttl > 0 && ttl <= month);
+        token.showExpired = (ttl <= 0);
       }
       else if(token.paymentMethod === 'BankAccount') {
         bankAccounts.push(token);

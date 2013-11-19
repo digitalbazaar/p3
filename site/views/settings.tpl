@@ -42,7 +42,8 @@ ${set([
               <tbody>
                 <tr data-ng-repeat="card in creditCards | orderBy:'label'"
                   data-fadeout="card.deleted"
-                  data-fadeout-callback="deletePaymentToken(card)">
+                  data-fadeout-callback="deletePaymentToken(card)"
+                  data-ng-class="{warning: card.showExpirationWarning, error: card.showExpired}">
                   <!-- Name -->
                   <td>
                     <span>{{card.label}}</span>
@@ -59,6 +60,12 @@ ${set([
                   <td>
                     <!-- FIXME: add warning for near or already expired cards -->
                     <span>{{card.cardExpMonth}} / {{card.cardExpYear}}</span>
+                    <span data-ng-show="card.showExpirationWarning"
+                      data-tooltip-title="This payment method will expire in less than a month. Please update or replace the credit card information."
+                      data-placement="bottom" data-trigger="hover"><i class="icon icon-warning-sign"></i></span>
+                    <span data-ng-show="card.showExpired"
+                      data-tooltip-title="This payment method has expired. Please update or replace the credit card information."
+                      data-placement="bottom" data-trigger="hover"><i class="icon icon-warning-sign"></i></span>
                   </td>
                   <!-- Action -->
                   <td class="action">

@@ -8,7 +8,7 @@ define(['angular', 'payswarm.api'], function(angular, payswarm) {
 var deps = ['svcModal'];
 return {modalEditAccount: deps.concat(factory)};
 
-function factory(svcModal, svcAccount) {
+function factory(svcModal) {
   function Ctrl($scope, svcAccount, svcPaymentToken) {
     $scope.model = {};
     $scope.data = window.data || {};

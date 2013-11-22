@@ -5,7 +5,7 @@
       <div data-ng-transclude></div>
     </div>
   </div>
-  
+
   <div class="control-group inline-block">
     <div data-modal-selector="showSelectorModal"
       data-modal-title="modalTitle"
@@ -17,12 +17,17 @@
         </li>
       </ul>
       <div data-ng-show="custom" data-ng-transclude></div>
+      <div class="pull-right">
+        <button class="btn btn-success btn-add"
+          data-ng-click="addItem()"><i class="icon-plus icon-white"></i> Add {{itemType}}</button>
+      </div>
+      <div style="clear:both"></div>
     </div>
     <div data-ng-hide="fixed" class="pull-right">
       <button class="btn btn-success btn-change"
-        data-ng-show="items.length > 1"
+        data-ng-show="items.length > 0"
         data-ng-click="showSelectorModal=true"><i class="icon-list icon-white"></i> Change</button>
-      <button class="btn btn-success btn-add"
+      <button data-ng-show="items.length == 0" class="btn btn-success btn-add"
         data-ng-click="addItem()"><i class="icon-plus icon-white"></i> Add {{itemType}}</button>
     </div>
   </div>

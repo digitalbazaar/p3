@@ -3,7 +3,7 @@
  *
  * @author Dave Longley
  */
-define([], function() {
+define(['angular'], function(angular) {
 
 var deps = ['svcPaymentToken', 'svcModel'];
 return {paymentTokenSelector: deps.concat(factory)};

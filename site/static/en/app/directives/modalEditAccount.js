@@ -31,15 +31,15 @@ function factory(svcModal) {
       $scope.loading = true;
       svcPaymentToken.get(function(err) {
         $scope.loading = false;
-        if(!err) {
-          $scope.loading = true;
-          svcPaymentToken.find($scope.sourceAccount.backupSource[0].id, function(err, token) {
-            $scope.loading = false;
-            if(!err) {
-              $scope.model.backupSource = token;
-            }
-          });
+        if(err) {
+          return;
         }
+        svcPaymentToken.find(
+          $scope.sourceAccount.backupSource[0], function(err, token) {
+          if(!err) {
+            $scope.model.backupSource = token;
+          }
+        });
       });
     }
     $scope.showExpirationWarning = false;

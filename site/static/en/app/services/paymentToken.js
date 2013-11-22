@@ -282,7 +282,7 @@ function factory($timeout, $rootScope, svcModel, svcIdentity) {
         break;
       }
     }
-    callback(null, token);
+    callback(null, result);
     return result;
   };
 

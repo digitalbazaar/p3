@@ -32,12 +32,20 @@ function factory(svcPaymentToken, svcModel) {
     // omit tokens if needed
     var filteredByInstant = scope.tokensFilteredByInstant;
     var omit = scope.omit || [];
+    if(!angular.isArray(omit)) {
+      omit = [omit];
+    }
     var tokens = [];
     for(var ti = 0; ti < filteredByInstant.length; ++ti) {
       var token = filteredByInstant[ti];
       var skip = false;
       for(var oi = 0; oi < omit.length && !skip; ++oi) {
-        skip = (token.id === omit[oi]);
+        // get id if omit item is an object
+        var omitId = omit[oi];
+        if(angular.isObject(omitId)) {
+          omitId = omitId.id;
+        }
+        skip = (token.id === omitId);
       }
       if(!skip) {
         tokens.push(token);

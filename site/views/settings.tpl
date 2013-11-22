@@ -139,7 +139,8 @@ ${set([
                 </tr>
               </thead>
               <tbody>
-                <tr data-ng-repeat="bankAccount in bankAccounts | orderBy:'label'">
+                <tr data-ng-repeat="bankAccount in bankAccounts | orderBy:'label'"
+                  data-ng-class="{info: bankAccount.psaStatus == 'active' && !bankAccount.psaVerified && bankAccount.psaVerifyReady}">
                   <!-- Name -->
                   <td>
                     <span>{{bankAccount.label}}</span>

@@ -5,11 +5,11 @@
  */
 define(['angular', 'payswarm.api'], function(angular, payswarm) {
 
-var deps = ['svcModal', 'svcAccount'];
+var deps = ['svcModal'];
 return {modalEditAccount: deps.concat(factory)};
 
 function factory(svcModal, svcAccount) {
-  function Ctrl($scope) {
+  function Ctrl($scope, svcAccount, svcPaymentToken) {
     $scope.model = {};
     $scope.data = window.data || {};
     $scope.feedback = {};
@@ -21,6 +21,29 @@ function factory(svcModal, svcAccount) {
 
     $scope.model.accountVisibility = ($scope.account.psaPublic.length === 0) ?
       'hidden' : 'public';
+    // storage for backupSource object
+    // backend needs just a list of ids
+    // only use first element if there are more than one
+    // use sourceAccount object vs copy to use angular ids
+    $scope.model.backupSource = null;
+    if($scope.sourceAccount.backupSource[0]) {
+      // FIXME: handle errors below or let it use defaults?
+      $scope.loading = true;
+      svcPaymentToken.get(function(err) {
+        $scope.loading = false;
+        if(!err) {
+          $scope.loading = true;
+          svcPaymentToken.find($scope.sourceAccount.backupSource[0].id, function(err, token) {
+            $scope.loading = false;
+            if(!err) {
+              $scope.model.backupSource = token;
+            }
+          });
+        }
+      });
+    }
+    $scope.showExpirationWarning = false;
+    $scope.showExpired = false;
     $scope.editing = true;
 
     $scope.editAccount = function() {
@@ -34,10 +57,11 @@ function factory(svcModal, svcAccount) {
         account.psaPublic.push('label');
         account.psaPublic.push('owner');
       }
+      // use list of backupSource ids vs objects
+      var newBackupSource = [$scope.model.backupSource.id];
       // let server handle add/del operations
-      if(!angular.equals(
-        $scope.sourceAccount.backupSource, $scope.account.backupSource)) {
-        account.backupSource = angular.copy($scope.account.backupSource);
+      if(!angular.equals($scope.sourceAccount.backupSource, newBackupSource)) {
+        account.backupSource = newBackupSource;
       }
 
       $scope.loading = true;
@@ -55,7 +79,7 @@ function factory(svcModal, svcAccount) {
     name: 'EditAccount',
     scope: {sourceAccount: '=account'},
     templateUrl: '/partials/modals/edit-account.html',
-    controller: ['$scope', Ctrl],
+    controller: ['$scope', 'svcAccount', 'svcPaymentToken', Ctrl],
     link: function(scope, element, attrs) {
       scope.feedbackTarget = element;
     }

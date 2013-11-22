@@ -269,6 +269,23 @@ function factory($timeout, $rootScope, svcModel, svcIdentity) {
     });
   };
 
+  // find a currently loaded token by id
+  // result returned from function and/or callback
+  // returns null if not found
+  service.find = function(paymentTokenId, callback) {
+    callback = callback || angular.noop;
+    var result = null;
+    for(var i = 0; i < service.paymentTokens.length; ++i) {
+      var token = service.paymentTokens[i];
+      if(token.id === paymentTokenId) {
+        result = token;
+        break;
+      }
+    }
+    callback(null, token);
+    return result;
+  };
+
   return service;
 }
 

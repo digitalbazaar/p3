@@ -36,6 +36,11 @@ ${set([
                   <th class="name">Brand</th>
                   <th class="name">Number</th>
                   <th>Expiration</th>
+                  <th class="compact">
+                    <span
+                      data-tooltip-title="Links from accouts to this payment method. A payment method can not be deleted while in use."
+                      data-placement="bottom" data-trigger="hover"><i class="icon icon-link"></i></span>
+                  </th>
                   <th class="action">Action</th>
                 </tr>
               </thead>
@@ -67,6 +72,10 @@ ${set([
                       data-tooltip-title="This payment method has expired. Please update or replace the credit card information."
                       data-placement="bottom" data-trigger="hover"><i class="icon icon-warning-sign"></i></span>
                   </td>
+                  <!-- Links -->
+                  <td class="compact">
+                    <span class="badge">{{card.backupSourceFor.length || ''}}</span>
+                  </td>
                   <!-- Action -->
                   <td class="action">
                     <div class="btn-group">
@@ -93,14 +102,14 @@ ${set([
               <tfoot>
                 <tr data-ng-hide="state.loading">
                   <!-- Add Credit Card -->
-                  <td colspan="5">
+                  <td colspan="6">
                     <button
                       class="btn btn-success pull-right"
                       data-ng-click="modals.showAddCreditCard=true"><i class="icon-plus icon-white"></i> Add Credit Card</button>
                   </td>
                 </tr>
                 <tr data-ng-show="state.loading">
-                  <td colspan="5" style="text-align: center">
+                  <td colspan="6" style="text-align: center">
                     <span class="center">
                       <span data-spinner="state.loading" data-spinner-class="table-spinner"></span>
                     </span>

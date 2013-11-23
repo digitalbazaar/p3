@@ -114,6 +114,8 @@ ${set([
                 class="btn btn-success pull-right"
                 data-ng-click="modals.showAddCreditCard=true"><i class="icon-plus icon-white"></i> Add Credit Card</button>
             </div>
+            <div
+              data-feedback="creditCardFeedback"></div>
             <div data-modal-add-payment-token="modals.showAddCreditCard" data-payment-methods="creditCardMethods"></div>
             <div data-modal-edit-payment-token="modals.showEditPaymentToken"
                data-payment-token="modals.paymentToken"></div>
@@ -225,6 +227,8 @@ ${set([
                 class="btn btn-success pull-right"
                 data-ng-click="modals.showAddBankAccount=true"><i class="icon-plus icon-white"></i> Add Bank Account</button>
             </div>
+            <div
+              data-feedback="bankAccountFeedback"></div>
             <div data-modal-add-payment-token="modals.showAddBankAccount" data-payment-methods="bankAccountMethods"></div>
             <div data-modal-verify-bank-account="modals.showVerifyBankAccountModal"
                data-payment-token="modals.bankAccount"></div>

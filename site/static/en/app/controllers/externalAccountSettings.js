@@ -20,6 +20,10 @@ function factory($scope, svcPaymentToken) {
   $scope.creditCards = svcPaymentToken.creditCards;
   $scope.bankAccounts = svcPaymentToken.bankAccounts;
 
+  // feedback
+  $scope.creditCardFeedback = {};
+  $scope.bankAccountFeedback = {};
+
   // modals
   $scope.modals = {
     showAddCreditCard: false,
@@ -30,6 +34,16 @@ function factory($scope, svcPaymentToken) {
     svcPaymentToken.del(paymentToken.id, function(err) {
       if(err) {
         paymentToken.deleted = false;
+      }
+      // reset feedback and update based on type
+      $scope.creditCardFeedback.error = null;
+      $scope.bankAccountFeedback.error = null;
+
+      if(paymentToken.paymentMethod === 'CreditCard') {
+        $scope.creditCardFeedback.error = err;
+      }
+      else if(paymentToken.paymentMethod === 'BankAccount') {
+        $scope.bankAccountFeedback.error = err;
       }
     });
   };

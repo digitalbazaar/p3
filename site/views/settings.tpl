@@ -38,7 +38,7 @@ ${set([
                   <th>Expiration</th>
                   <th class="compact">
                     <span
-                      data-tooltip-title="Links from accouts to this payment method. A payment method can not be deleted while in use."
+                      data-tooltip-title="Links from accounts to this payment method. A payment method cannot be deleted while linked."
                       data-placement="bottom" data-trigger="hover"><i class="icon icon-link"></i></span>
                   </th>
                   <th class="action">Action</th>

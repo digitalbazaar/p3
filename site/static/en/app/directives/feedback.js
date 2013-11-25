@@ -63,8 +63,12 @@ function factory() {
 
       feedbackElement.append(alert);
 
-      alert.append($(
-        '<button type="button" class="close" data-dismiss="alert">&times;</button>'));
+      // FIXME: should be using angular ($compile, etc.)
+      var button = $('<button type="button" class="close">&times;</button>');
+      button.on('click', function() {
+        alert.remove();
+      });
+      alert.append(button);
     }
   }
 
@@ -84,8 +88,17 @@ function factory() {
       target: '='
     },
     link: function(scope, element, attrs) {
+      var ignore;
       scope.$watch('feedback', function(value) {
+        // ignore feedback if it was set to be ignored and there have been
+        // no changes to it
+        if(scope.feedback === ignore && Object.keys(ignore).length === 0) {
+          scope.feedback = {};
+          return;
+        }
+        ignore = {};
         processFeedback(scope, element);
+        scope.feedback = ignore;
       }, true);
     }
   };

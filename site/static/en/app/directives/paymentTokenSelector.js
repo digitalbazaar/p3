@@ -17,7 +17,8 @@ function factory(svcPaymentToken, svcModel) {
     $scope.paymentTokens = [];
     $scope.tokensFilteredByInstant = [];
     $scope.$watch('paymentTokens', function(tokens) {
-      if(!$scope.selected || $.inArray($scope.selected, tokens) === -1) {
+      // use first token if available and none yet selected
+      if(!$scope.selected) {
         $scope.selected = tokens[0] || null;
       }
     }, true);

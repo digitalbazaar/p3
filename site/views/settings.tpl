@@ -48,6 +48,8 @@ ${set([
                 <tr data-ng-repeat="card in creditCards | orderBy:'label'"
                   data-fadeout="card.deleted"
                   data-fadeout-callback="deletePaymentToken(card)"
+                  data-fadein="!!card.deleted"
+                  data-fadein-callback="clearDeletedFlag(card)"
                   data-ng-class="{warning: card.showExpirationWarning, error: card.showExpired}">
                   <!-- Name -->
                   <td>

@@ -50,6 +50,9 @@ function factory($scope, svcPaymentToken) {
   $scope.restorePaymentToken = function(paymentToken) {
     svcPaymentToken.restore(paymentToken.id);
   };
+  $scope.clearDeletedFlag = function(paymentToken) {
+    delete paymentToken.deleted;
+  };
 
   svcPaymentToken.get();
 }

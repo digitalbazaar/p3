@@ -8,6 +8,7 @@ define([
   'app/directives/accountBalance',
   'app/directives/accountSelector',
   'app/directives/addressSelector',
+  'app/directives/animate',
   'app/directives/budgetBar',
   'app/directives/budgetSelector',
   'app/directives/creditCardSelector',

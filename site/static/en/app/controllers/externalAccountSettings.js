@@ -34,6 +34,7 @@ function factory($scope, svcPaymentToken) {
     svcPaymentToken.del(paymentToken.id, function(err) {
       if(err) {
         paymentToken.deleted = false;
+        paymentToken.showDeletedError = true;
       }
       // reset feedback and update based on type
       $scope.creditCardFeedback.error = null;
@@ -50,8 +51,8 @@ function factory($scope, svcPaymentToken) {
   $scope.restorePaymentToken = function(paymentToken) {
     svcPaymentToken.restore(paymentToken.id);
   };
-  $scope.clearDeletedFlag = function(paymentToken) {
-    delete paymentToken.deleted;
+  $scope.clearDeletedError = function(paymentToken) {
+    delete paymentToken.showDeletedError;
   };
 
   svcPaymentToken.get();

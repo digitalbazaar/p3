@@ -62,6 +62,9 @@ function factory() {
       }
 
       feedbackElement.append(alert);
+
+      alert.append($(
+        '<button type="button" class="close" data-dismiss="alert">&times;</button>'));
     }
   }
 

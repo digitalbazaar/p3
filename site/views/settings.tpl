@@ -93,8 +93,8 @@ ${set([
                             <i class="icon-pencil"></i> Edit
                           </a>
                         </li>
-                        <li class="divider"></li>
-                        <li class="btn-danger">
+                        <li data-ng-hide="card.backupSourceFor.length" class="divider"></li>
+                        <li data-ng-hide="card.backupSourceFor.length" class="btn-danger">
                           <a data-ng-click="card.deleted=true">
                             <i class="icon-remove icon-white"></i> Delete
                           </a>

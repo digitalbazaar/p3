@@ -5,10 +5,10 @@
  */
 define([], function() {
 
-var deps = ['$scope', 'svcPaymentToken'];
+var deps = ['$scope', '$timeout', 'svcPaymentToken'];
 return {ExternalAccountsCtrl: deps.concat(factory)};
 
-function factory($scope, svcPaymentToken) {
+function factory($scope, $timeout, svcPaymentToken) {
   $scope.state = svcPaymentToken.state;
 
   // types for UI directives
@@ -33,8 +33,10 @@ function factory($scope, svcPaymentToken) {
   $scope.deletePaymentToken = function(paymentToken) {
     svcPaymentToken.del(paymentToken.id, function(err) {
       if(err) {
-        paymentToken.deleted = false;
-        paymentToken.showDeletedError = true;
+        $timeout(function() {
+          paymentToken.deleted = false;
+          paymentToken.showDeletedError = true;
+        }, 500);
       }
       // reset feedback and update based on type
       $scope.creditCardFeedback.error = null;

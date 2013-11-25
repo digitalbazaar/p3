@@ -152,8 +152,12 @@ function factory(
         modal.$backdrop.click(function(event) {
           // only focus/hide if the click is on the backdrop itself
           if(event.target === modal.$backdrop[0]) {
-            (modal.options.backdrop === 'static' ?
-              element.focus() : modal.hide());
+            if(modal.options.backdrop === 'static') {
+              element.focus();
+            }
+            else {
+              modal.hide();
+            }
           }
         });
       }

@@ -51,9 +51,9 @@ ${set([
                   data-fadein="card.showDeletedError"
                   data-fadein-callback="card.animateDeletedError=true"
                   data-animate="card.animateDeletedError"
-                  data-animate-options="[{properties: {opacity: 0}, duration: 500},{properties: {opacity: 1}, duration: 500},{properties: {opacity: 0}, duration: 500},{properties: {opacity: 1}, duration: 500}]"
+                  data-animate-options="[{properties: {opacity: 0}, duration: 500},{properties: {opacity: 1}, duration: 500}]"
                   data-animate-callback="card.animateDeletedError=false;card.showDeletedError=false"
-                  data-ng-class="{warning: card.showExpirationWarning, error: card.showExpired || card.showDeletedError}">
+                  data-ng-class="{warning: card.showExpirationWarning, error: card.showExpired}">
                   <!-- Name -->
                   <td>
                     <span>{{card.label}}</span>

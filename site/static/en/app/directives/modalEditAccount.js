@@ -10,7 +10,7 @@ return {modalEditAccount: deps.concat(factory)};
 
 function factory(svcModal) {
   function Ctrl($scope, svcAccount, svcPaymentToken) {
-    $scope.model = {};
+    var model = $scope.model = {};
     $scope.data = window.data || {};
     $scope.feedback = {};
     $scope.loading = false;
@@ -19,13 +19,13 @@ function factory(svcModal) {
     // copy account for editing
     $scope.account = angular.copy($scope.sourceAccount);
 
-    $scope.model.accountVisibility = ($scope.account.psaPublic.length === 0) ?
+    model.accountVisibility = ($scope.account.psaPublic.length === 0) ?
       'hidden' : 'public';
     // storage for backupSource object
     // backend needs just a list of ids
     // only use first element if there are more than one
     // use sourceAccount object vs copy to use angular ids
-    $scope.model.backupSource = null;
+    model.backupSource = null;
     if($scope.sourceAccount.backupSource[0]) {
       // FIXME: handle errors below or let it use defaults?
       $scope.loading = true;
@@ -37,7 +37,7 @@ function factory(svcModal) {
         svcPaymentToken.find(
           $scope.sourceAccount.backupSource[0], function(err, token) {
           if(!err) {
-            $scope.model.backupSource = token;
+            model.backupSource = token;
           }
         });
       });
@@ -53,12 +53,12 @@ function factory(svcModal) {
         label: $scope.account.label,
         psaPublic: []
       };
-      if($scope.model.accountVisibility === 'public') {
+      if(model.accountVisibility === 'public') {
         account.psaPublic.push('label');
         account.psaPublic.push('owner');
       }
       // use list of backupSource ids vs objects
-      var newBackupSource = [$scope.model.backupSource.id];
+      var newBackupSource = [model.backupSource.id];
       // let server handle add/del operations
       if(!angular.equals($scope.sourceAccount.backupSource, newBackupSource)) {
         account.backupSource = newBackupSource;

@@ -26,7 +26,8 @@ function factory(svcModal) {
     // only use first element if there are more than one
     // use sourceAccount object vs copy to use angular ids
     model.backupSource = null;
-    if($scope.sourceAccount.backupSource[0]) {
+    if($scope.sourceAccount.backupSource &&
+      $scope.sourceAccount.backupSource[0]) {
       // FIXME: handle errors below or let it use defaults?
       $scope.loading = true;
       svcPaymentToken.get(function(err) {

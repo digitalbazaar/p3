@@ -18,7 +18,7 @@ module.exports = function(grunt) {
             define: true
           }
         },
-        src: 'site/static/en/partials/**/*.html',
+        src: 'site/static/en/app/templates/**/*.html',
         dest: 'site/static/en/app/templates.min.js'
       }
     }

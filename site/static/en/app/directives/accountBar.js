@@ -54,7 +54,7 @@ function factory() {
             model.creditBar = creditLimit / maxBalance * 100;
           }
           else {
-            model.creditBar = -balance / maxBalance * 100;
+            model.creditBar = model.remainingCredit / maxBalance * 100;
             model.creditBar = Math.max(0, Math.min(model.creditBar, 100));
           }
         }

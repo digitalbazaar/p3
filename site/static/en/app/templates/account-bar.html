@@ -1,0 +1,26 @@
+<div>
+  <div class="progress progress-striped no-margin"
+    data-tooltip-title="The red portion of your balance represents your remaining credit, if any, once your balance is negative. The green portion represents a positive balance in your account. Since we support micro-payments, we track your account balance very accurately. The exact amount in this account is {{account.currency}} {{account.balance}}. This account's credit limit is {{account.currency}} {{account.creditLimit || '0.0000000000'}}">
+    <div class="progressbar-text-back">
+      <span>{{account.currency}}</span>
+      <span data-ng-show="model.balanceBar > 0 || !model.hasCreditLine">{{account.balance | floor | currency:'$'}}</span>
+      <span data-ng-show="model.balanceBar <= 0 && model.hasCreditLine">{{model.remainingCredit || '0' | floor | currency:'$'}} / {{account.creditLimit || '0' | floor | currency:'$'}}</span>
+    </div>
+    <div class="bar bar-danger" style="width: {{model.creditBar}}%"
+      data-ng-class="{'stacked-bar-first': model.balanceBar > 0, 'stacked-bar-last': model.balanceBar == 0}"></div>
+    <div class="bar stacked-bar-last bar-success" style="width: {{model.balanceBar}}%"></div>
+    <div class="bar stacked-bar-text" style="width: {{model.creditBar+model.balanceBar}}%;">
+      <div class="progressbar-text-front" style="width: {{model.barText}}%">
+        <span>{{account.currency}}</span>
+        <span data-ng-show="model.balanceBar > 0 || !model.hasCreditLine">{{account.balance | floor | currency:'$'}}</span>
+        <span data-ng-show="model.balanceBar <= 0 && model.hasCreditLine">{{model.remainingCredit || '0' | floor | currency:'$'}} / {{account.creditLimit || '0' | floor | currency:'$'}}</span>
+      </div>
+    </div>
+  </div>
+  <!-- Ensures bar is appropriate width -->
+  <div class="progressbar-text-front" style="width: {{model.barText}}%; height: 0px; visibility: hidden;">
+    <span>{{account.currency}}</span>
+    <span data-ng-show="model.balanceBar > 0 || !model.hasCreditLine">{{account.balance | floor | currency:'$'}}</span>
+    <span data-ng-show="model.balanceBar <= 0 && model.hasCreditLine">{{model.remainingCredit || '0' | floor | currency:'$'}} / {{account.creditLimit || '0' | floor | currency:'$'}}</span>
+  </div>
+</div>

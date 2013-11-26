@@ -32,7 +32,7 @@ ${set([
             </td>
             <!-- Balance -->
             <td class="money">
-              <span data-account-balance="account"></span>
+              <span data-account-bar="account"></span>
             </td>
             <!-- Action -->
             <td class="action">

@@ -28,7 +28,11 @@ ${set([
           <tr data-ng-repeat="account in accounts | orderBy:'label'" class="account">
             <!-- Label -->
             <td>
-              <a href="{{account.id}}?view=activity">{{account.label}}</a><span data-ng-show="account.psaStatus != 'active'" class="disabled">(Disabled)</span>
+              <a href="{{account.id}}?view=activity">{{account.label}}</a>
+              <span data-ng-show="account.psaStatus != 'active'" class="disabled">(Disabled)</span>
+              <span data-ng-show="!account.backupSource || !account.backupSource.length"
+                data-tooltip-title="This account has no associated payment methods. Please edit the account information."
+                data-placement="bottom" data-trigger="hover"><i class="icon icon-warning-sign"></i></span>
             </td>
             <!-- Balance -->
             <td class="money">

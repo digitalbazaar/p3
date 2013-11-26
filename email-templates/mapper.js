@@ -3,7 +3,9 @@ var config = require(__libdir + '/config');
 
 module.exports.map = function(mapping) {
   var ids = [
-    'common.Account.created',
+    'common.FinancialAccount.created',
+    'common.FinancialAccount.unbackedCreditPayoffFailed',
+    'common.FinancialAccount.unbackedCreditPayoffFailed-profile',
     'common.Deposit.ach-merchant-account-log',
     'common.Deposit.cc-merchant-account-log',
     'common.Deposit.failure',

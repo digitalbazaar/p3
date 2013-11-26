@@ -4,7 +4,7 @@
     <div class="progressbar-text-back">
       <span>{{account.currency}}</span>
       <span data-ng-show="model.balanceBar > 0 || !model.hasCreditLine">{{account.balance | floor | currency:'$'}}</span>
-      <span data-ng-show="model.balanceBar <= 0 && model.hasCreditLine">{{model.remainingCredit || '0' | floor | currency:'$'}} / {{account.creditLimit || '0' | floor | currency:'$'}}</span>
+      <span data-ng-show="model.balanceBar <= 0 && model.hasCreditLine">{{model.remainingCredit || '0' | floor | currency:'$'}} / {{account.creditLimit || '0' | floor | currency:'$'}} CR</span>
     </div>
     <div class="bar bar-danger" style="width: {{model.creditBar}}%"
       data-ng-class="{'stacked-bar-first': model.balanceBar > 0, 'stacked-bar-last': model.balanceBar == 0}"></div>
@@ -13,7 +13,7 @@
       <div class="progressbar-text-front" style="width: {{model.barText}}%">
         <span>{{account.currency}}</span>
         <span data-ng-show="model.balanceBar > 0 || !model.hasCreditLine">{{account.balance | floor | currency:'$'}}</span>
-        <span data-ng-show="model.balanceBar <= 0 && model.hasCreditLine">{{model.remainingCredit || '0' | floor | currency:'$'}} / {{account.creditLimit || '0' | floor | currency:'$'}}</span>
+        <span data-ng-show="model.balanceBar <= 0 && model.hasCreditLine">{{model.remainingCredit || '0' | floor | currency:'$'}} / {{account.creditLimit || '0' | floor | currency:'$'}} CR</span>
       </div>
     </div>
   </div>
@@ -21,6 +21,6 @@
   <div class="progressbar-text-front" style="width: {{model.barText}}%; height: 0px; visibility: hidden;">
     <span>{{account.currency}}</span>
     <span data-ng-show="model.balanceBar > 0 || !model.hasCreditLine">{{account.balance | floor | currency:'$'}}</span>
-    <span data-ng-show="model.balanceBar <= 0 && model.hasCreditLine">{{model.remainingCredit || '0' | floor | currency:'$'}} / {{account.creditLimit || '0' | floor | currency:'$'}}</span>
+    <span data-ng-show="model.balanceBar <= 0 && model.hasCreditLine">{{model.remainingCredit || '0' | floor | currency:'$'}} / {{account.creditLimit || '0' | floor | currency:'$'}} CR</span>
   </div>
 </div>

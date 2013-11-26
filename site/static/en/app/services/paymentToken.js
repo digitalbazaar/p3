@@ -37,12 +37,7 @@ function factory($timeout, $rootScope, svcModel, svcIdentity) {
   service.nonInstantPaymentMethods = ['BankAccount'];
   service.instantPaymentMethods = ['CreditCard'];
 
-  function _updateTokens(paymentTokens) {
-    if(paymentTokens) {
-      // update tokens
-      svcModel.replaceArray(service.paymentTokens, paymentTokens);
-    }
-
+  function _updateTokens() {
     // filter types of tokens
     var active = [];
     var deleted = [];
@@ -109,7 +104,8 @@ function factory($timeout, $rootScope, svcModel, svcIdentity) {
         payswarm.paymentTokens.get({
           identity: identity.id,
           success: function(paymentTokens) {
-            _updateTokens(paymentTokens);
+            svcModel.replaceArray(service.paymentTokens, paymentTokens);
+            _updateTokens();
             expires = +new Date() + maxAge;
             service.state.loading = false;
             callback(null, service.paymentTokens);
@@ -232,8 +228,8 @@ function factory($timeout, $rootScope, svcModel, svcIdentity) {
     service.state.loading = true;
     payswarm.paymentTokens.restore({
       paymentToken: paymentTokenId,
-      success: function(token) {
-        svcModel.replaceInArray(service.paymentTokens, token);
+      success: function(paymentToken) {
+        svcModel.replaceInArray(service.paymentTokens, paymentToken);
         _updateTokens();
         service.state.loading = false;
         callback();

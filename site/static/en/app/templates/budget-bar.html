@@ -14,7 +14,7 @@
     </div>
   </div>
   <!-- Ensures bar is appropriate width -->
-  <div class=".progressbar-text-front" style="width: {{model.textPercentage}}%; height: 0px; visibility: hidden;">
+  <div class="progressbar-text-front" style="width: {{model.textPercentage}}%; height: 0px; visibility: hidden;">
     <span>{{budget.currency}}</span>
     <span>{{budget.balance | floor | currency:'$'}} / {{budget.amount | floor | currency:'$'}}</span>
   </div>

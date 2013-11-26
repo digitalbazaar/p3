@@ -1,7 +1,7 @@
 <div>
   <div class="progress progress-striped no-margin"
     data-ng-class="{'progress-success': model.barPercentage >= 50, 'progress-warning': model.barPercentage < 50 && model.barPercentage >= 25, 'progress-danger': model.barPercentage < 25}"
-    data-tooltip-title="Since we support micro-payments, we track your budget balance very accurately. The exact balance of this budget is USD ${{budget.balance}} / ${{budget.amount}}">
+    data-tooltip-title="Since we support micro-payments, we track your budget balance very accurately. The exact balance of this budget is {{budget.currency}} {{budget.balance}} / {{budget.amount}}">
     <div class="progressbar-text-back">
       <span>{{budget.currency}}</span>
       <span>{{budget.balance | floor | currency:'$'}} / {{budget.amount | floor | currency:'$'}}</span>

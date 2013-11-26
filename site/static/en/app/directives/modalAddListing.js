@@ -76,7 +76,7 @@ function factory(svcModal) {
     scope: {
       asset: '='
     },
-    templateUrl: '/partials/modals/add-listing.html',
+    templateUrl: '/app/templates/modals/add-listing.html',
     controller: ['$scope', 'svcHostedAsset', 'svcHostedListing', Ctrl],
     link: function(scope, element, attrs) {
       scope.feedbackTarget = element;

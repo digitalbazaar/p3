@@ -138,7 +138,7 @@ function factory(svcModal) {
       account: '=',
       instant: '='
     },
-    templateUrl: '/partials/modals/deposit.html',
+    templateUrl: '/app/templates/modals/deposit.html',
     controller: [
       '$scope', 'svcPaymentToken', 'svcAccount', 'svcTransaction', Ctrl],
     link: function(scope, element, attrs) {

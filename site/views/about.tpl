@@ -13,6 +13,6 @@ PaySwarm is for you. If you would like to learn more about PaySwarm, the
 <a href="http://payswarm.com/">official community website</a> is a good 
 place to start.</p>
 
-{{partial "partials/credits.tpl"}}
+{{partial "app/templates/credits.tpl"}}
 
 {{partial "foot.tpl"}}

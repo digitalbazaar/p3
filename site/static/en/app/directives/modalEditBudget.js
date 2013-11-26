@@ -112,7 +112,7 @@ function factory(svcModal) {
   return svcModal.directive({
     name: 'EditBudget',
     scope: {sourceBudget: '=budget'},
-    templateUrl: '/partials/modals/edit-budget.html',
+    templateUrl: '/app/templates/modals/edit-budget.html',
     controller: ['$scope', 'svcBudget', 'svcAccount', Ctrl],
     link: function(scope, element, attrs) {
       scope.feedbackTarget = element;

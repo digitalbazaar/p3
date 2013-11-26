@@ -89,7 +89,7 @@ function factory(
       identity: '=',
       showAlert: '@modalAddAddressAlert'
     },
-    templateUrl: '/partials/modals/add-address.html',
+    templateUrl: '/app/templates/modals/add-address.html',
     controller: ['$scope', Ctrl],
     link: Link
   });

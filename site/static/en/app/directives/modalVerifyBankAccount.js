@@ -183,7 +183,7 @@ function factory(svcModal) {
     scope: {
       paymentToken: '='
     },
-    templateUrl: '/partials/modals/verify-bank-account.html',
+    templateUrl: '/app/templates/modals/verify-bank-account.html',
     controller: ['$scope', 'svcPaymentToken', 'svcAccount', Ctrl],
     link: function(scope, element, attrs) {
       scope.feedbackTarget = element;

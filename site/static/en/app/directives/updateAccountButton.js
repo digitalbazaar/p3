@@ -41,7 +41,7 @@ function factory(svcAccount) {
       account: '=',
       callback: '&'
     },
-    templateUrl: '/partials/update-account-button.html',
+    templateUrl: '/app/templates/update-account-button.html',
     controller: ['$scope', Ctrl],
     link: function(scope, element) {
       scope.feedbackTarget = element;

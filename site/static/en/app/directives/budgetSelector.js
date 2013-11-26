@@ -113,7 +113,7 @@ function factory() {
       fixed: '@'
     },
     controller: ['$scope', 'svcBudget', 'svcAccount', Ctrl],
-    templateUrl: '/partials/budget-selector.html',
+    templateUrl: '/app/templates/budget-selector.html',
     link: Link
   };
 }

@@ -87,7 +87,7 @@ function factory(svcModel, svcPaymentToken) {
       instant: '='
     },
     controller: ['$scope', 'svcAccount', Ctrl],
-    templateUrl: '/partials/payment-token-list.html',
+    templateUrl: '/app/templates/payment-token-list.html',
     link: Link
   };
 }

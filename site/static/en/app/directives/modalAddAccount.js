@@ -57,7 +57,7 @@ function factory(svcModal, svcIdentity, svcAccount) {
       showAlert: '@modalAddAccountAlert',
       identityId: '@'
     },
-    templateUrl: '/partials/modals/add-account.html',
+    templateUrl: '/app/templates/modals/add-account.html',
     controller: ['$scope', Ctrl],
     link: Link
   });

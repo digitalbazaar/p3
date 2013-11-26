@@ -14,7 +14,7 @@ function factory() {
       address: '=vcardAddress',
       noLabel: '='
     },
-    templateUrl: '/partials/vcard-address.html'
+    templateUrl: '/app/templates/vcard-address.html'
   };
 }
 

@@ -11,7 +11,7 @@ return {
   routes: [{
     path: '/i/:identity/causes',
     options: {
-      templateUrl: '/partials/tools/causes.html',
+      templateUrl: '/app/templates/tools/causes.html',
       controller: 'CausesCtrl'
     }
   }]

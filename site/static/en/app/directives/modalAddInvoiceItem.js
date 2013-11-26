@@ -47,7 +47,7 @@ function factory(svcModal) {
       asset: '=',
       destination: '='
     },
-    templateUrl: '/partials/modals/add-invoice-item.html',
+    templateUrl: '/app/templates/modals/add-invoice-item.html',
     controller: ['$scope', Ctrl],
     link: function(scope, element, attrs) {
       scope.feedbackTarget = element;

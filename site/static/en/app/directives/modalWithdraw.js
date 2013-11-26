@@ -153,7 +153,7 @@ function factory(svcModal) {
     scope: {
       account: '='
     },
-    templateUrl: '/partials/modals/withdraw.html',
+    templateUrl: '/app/templates/modals/withdraw.html',
     controller: [
       '$scope', 'svcPaymentToken', 'svcAccount', 'svcTransaction', Ctrl],
     link: function(scope, element, attrs) {

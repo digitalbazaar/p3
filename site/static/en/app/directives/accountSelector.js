@@ -101,7 +101,7 @@ function factory(svcAccount, svcIdentity) {
       allowInstantTransfer: '@'
     },
     controller: ['$scope', Ctrl],
-    templateUrl: '/partials/account-selector.html',
+    templateUrl: '/app/templates/account-selector.html',
     link: Link
   };
 }

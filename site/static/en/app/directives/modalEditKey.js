@@ -40,7 +40,7 @@ function factory(svcModal) {
   return svcModal.directive({
     name: 'EditKey',
     scope: {sourceKey: '=key'},
-    templateUrl: '/partials/modals/edit-key.html',
+    templateUrl: '/app/templates/modals/edit-key.html',
     controller: ['$scope', 'svcKey', Ctrl],
     link: function(scope, element, attrs) {
       scope.feedbackTarget = element;

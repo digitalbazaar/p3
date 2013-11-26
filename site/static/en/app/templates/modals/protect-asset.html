@@ -4,7 +4,7 @@
     <h3>Protect Asset Content</h3>
   </div>
   <div class="modal-body">
-    <div data-ng-include="'/partials/demo-warning.html'"></div>
+    <div data-ng-include="'/app/templates/demo-warning.html'"></div>
     <div data-ng-hide="model.success">
       <p>
         This tool allows you to generate a bundle of files to host on your
@@ -35,7 +35,7 @@
         web server.
       </p>
       <div data-ng-hide="model.saveAsSupported">
-        <div data-ng-include="'/partials/protect-asset-php.html'"></div>
+        <div data-ng-include="'/app/templates/protect-asset-php.html'"></div>
       </div>
       <div data-ng-show="model.saveAsSupported">
         <button data-ng-hide="model.bundleSaved" class="btn btn-primary"

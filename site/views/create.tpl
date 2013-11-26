@@ -14,7 +14,7 @@ ${set([
     world of collaboration on the web.
     </p>
 
-    <div data-ng-include="'/partials/demo-warning.html'"></div>
+    <div data-ng-include="'/app/templates/demo-warning.html'"></div>
 
     <hr />
 

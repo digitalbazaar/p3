@@ -14,7 +14,7 @@ function factory() {
       account: '=accountBalance'
     },
     replace: true,
-    templateUrl: '/partials/account-balance.html',
+    templateUrl: '/app/templates/account-balance.html',
     link: function(scope, element, attrs) {
       scope.$watch('account', function(account) {
         var balance = account ? account.balance : 0;

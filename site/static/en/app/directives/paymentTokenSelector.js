@@ -90,7 +90,7 @@ function factory(svcPaymentToken, svcModel) {
       omit: '='
     },
     controller: ['$scope', Ctrl],
-    templateUrl: '/partials/payment-token-selector.html',
+    templateUrl: '/app/templates/payment-token-selector.html',
     link: Link
   };
 }

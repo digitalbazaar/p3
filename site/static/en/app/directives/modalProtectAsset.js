@@ -181,7 +181,7 @@ function factory(svcModal) {
   return svcModal.directive({
     name: 'ProtectAsset',
     scope: {asset: '='},
-    templateUrl: '/partials/modals/protect-asset.html',
+    templateUrl: '/app/templates/modals/protect-asset.html',
     controller: ['$scope', 'svcHostedAsset', Ctrl],
     link: function(scope, element, attrs) {
       scope.feedbackTarget = element;

@@ -79,7 +79,7 @@ function factory(svcModal) {
   return svcModal.directive({
     name: 'EditAccount',
     scope: {sourceAccount: '=account'},
-    templateUrl: '/partials/modals/edit-account.html',
+    templateUrl: '/app/templates/modals/edit-account.html',
     controller: ['$scope', 'svcAccount', 'svcPaymentToken', Ctrl],
     link: function(scope, element, attrs) {
       scope.feedbackTarget = element;

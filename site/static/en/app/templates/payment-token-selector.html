@@ -10,13 +10,13 @@
       </li>
     </ul>
     <div data-ng-hide="services.token.loading || selecting">
-      <div data-ng-include="'/partials/payment-token-display.html'"></div>
+      <div data-ng-include="'/app/templates/payment-token-display.html'"></div>
     </div>
     <div data-ng-show="!services.token.loading && selecting" class="container-fluid">
       <div data-ng-repeat="row in grid">
         <div class="row-fluid">
           <div class="span6" data-ng-repeat="selected in row">
-            <div data-ng-include="'/partials/payment-token-display.html'"></div>
+            <div data-ng-include="'/app/templates/payment-token-display.html'"></div>
           </div>
         </div>
       </div>

@@ -98,7 +98,7 @@ function factory(svcModal) {
     scope: {
       account: '='
     },
-    templateUrl: '/partials/modals/add-credit-line.html',
+    templateUrl: '/app/templates/modals/add-credit-line.html',
     controller: ['$scope', 'svcAccount', Ctrl],
     link: function(scope, element) {
       scope.feedbackTarget = element;

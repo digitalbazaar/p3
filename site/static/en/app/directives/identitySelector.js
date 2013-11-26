@@ -23,7 +23,7 @@ function factory() {
       invalid: '=',
       fixed: '@'
     },
-    templateUrl: '/partials/identity-selector.html',
+    templateUrl: '/app/templates/identity-selector.html',
     link: Link
   };
 }

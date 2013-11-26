@@ -83,7 +83,7 @@ function factory($filter) {
       columns: '@'
     },
     controller: ['$scope', Ctrl],
-    templateUrl: '/partials/selector.html',
+    templateUrl: '/app/templates/selector.html',
     link: Link
   };
 }

@@ -11,7 +11,7 @@ return {
   routes: [{
     path: '/i/:identity/tickets',
     options: {
-      templateUrl: '/partials/tools/tickets.html',
+      templateUrl: '/app/templates/tools/tickets.html',
       controller: 'TicketsCtrl'
     }
   }]

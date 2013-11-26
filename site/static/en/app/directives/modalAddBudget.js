@@ -71,7 +71,7 @@ function factory(svcModal) {
 
   return svcModal.directive({
     name: 'AddBudget',
-    templateUrl: '/partials/modals/add-budget.html',
+    templateUrl: '/app/templates/modals/add-budget.html',
     controller: ['$scope', 'svcBudget', Ctrl],
     link: function(scope, element, attrs) {
       scope.feedbackTarget = element;

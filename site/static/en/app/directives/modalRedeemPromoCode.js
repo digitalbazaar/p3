@@ -37,7 +37,7 @@ function factory(svcModal, svcPromo) {
     scope: {
       account: '='
     },
-    templateUrl: '/partials/modals/redeem-promo-code.html',
+    templateUrl: '/app/templates/modals/redeem-promo-code.html',
     controller: ['$scope', Ctrl],
     link: Link
   });

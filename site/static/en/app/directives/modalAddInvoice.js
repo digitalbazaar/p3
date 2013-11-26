@@ -58,7 +58,7 @@ function factory(svcModal, svcHostedAsset, svcHostedListing) {
 
   return svcModal.directive({
     name: 'AddInvoice',
-    templateUrl: '/partials/modals/add-invoice.html',
+    templateUrl: '/app/templates/modals/add-invoice.html',
     controller: ['$scope', Ctrl],
     link: function(scope, element, attrs) {
       scope.feedbackTarget = element;

@@ -71,7 +71,7 @@ function factory(svcModal) {
       paymentMethods: '=',
       sourcePaymentToken: '=paymentToken'
     },
-    templateUrl: '/partials/modals/edit-payment-token.html',
+    templateUrl: '/app/templates/modals/edit-payment-token.html',
     controller: ['$scope', 'svcPaymentToken', 'svcConstant', Ctrl],
     link: function(scope, element, attrs) {
       scope.feedbackTarget = element;

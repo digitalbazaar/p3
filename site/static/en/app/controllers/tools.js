@@ -10,7 +10,7 @@ return {
   routes: [{
     path: '/i/:identity/tools',
     options: {
-      templateUrl: '/partials/tools/tools.html'
+      templateUrl: '/app/templates/tools/tools.html'
     }
   }]
 };

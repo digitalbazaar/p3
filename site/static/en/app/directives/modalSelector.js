@@ -17,7 +17,7 @@ function factory(svcModal) {
       itemType: '='
     },
     transclude: true,
-    templateUrl: '/partials/modals/selector.html'
+    templateUrl: '/app/templates/modals/selector.html'
   });
 }
 

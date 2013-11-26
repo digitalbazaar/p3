@@ -6,15 +6,15 @@
     <h3 data-ng-switch-when="complete">Deposit Complete</h3>
   </div>
   <div class="modal-body" data-ng-switch="state">
-    <div data-ng-include="'/partials/demo-warning.html'"></div>
+    <div data-ng-include="'/app/templates/demo-warning.html'"></div>
     <div data-ng-switch-when="preparing">
-      <div data-ng-include="'/partials/modals/deposit-prepare.html'"></div>
+      <div data-ng-include="'/app/templates/modals/deposit-prepare.html'"></div>
     </div>
     <div data-ng-switch-when="reviewing">
-      <div data-ng-include="'/partials/modals/deposit-review.html'"></div>
+      <div data-ng-include="'/app/templates/modals/deposit-review.html'"></div>
     </div>
     <div data-ng-switch-when="complete">
-      <div data-ng-include="'/partials/modals/deposit-complete.html'"></div>
+      <div data-ng-include="'/app/templates/modals/deposit-complete.html'"></div>
     </div>
   </div>
   <div class="modal-footer">

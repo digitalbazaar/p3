@@ -36,7 +36,7 @@
             <div class="btn-group btn-group-banner">
               <a class="btn btn-primary" data-submit-form>Sign In</a>
               <a class="btn btn-primary"
-                data-popover-template="/partials/navbar-profile-actions.html"
+                data-popover-template="/app/templates/navbar-profile-actions.html"
                 data-popover-visible="showProfileActions"
                 data-title="Profile Actions"
                 data-placement="bottom">

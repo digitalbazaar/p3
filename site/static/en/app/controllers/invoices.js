@@ -11,7 +11,7 @@ return {
   routes: [{
     path: '/i/:identity/invoices',
     options: {
-      templateUrl: '/partials/tools/invoices.html',
+      templateUrl: '/app/templates/tools/invoices.html',
       controller: 'InvoicesCtrl'
     }
   }]

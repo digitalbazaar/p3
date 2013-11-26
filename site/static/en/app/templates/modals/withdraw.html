@@ -6,15 +6,15 @@
     <h3 data-ng-switch-when="complete">Withdrawal Complete</h3>
   </div>
   <div class="modal-body" data-ng-switch="state">
-    <div data-ng-include="'/partials/demo-warning.html'"></div>
+    <div data-ng-include="'/app/templates/demo-warning.html'"></div>
     <div data-ng-switch-when="preparing">
-      <div data-ng-include="'/partials/modals/withdraw-prepare.html'"></div>
+      <div data-ng-include="'/app/templates/modals/withdraw-prepare.html'"></div>
     </div>
     <div data-ng-switch-when="reviewing">
-      <div data-ng-include="'/partials/modals/withdraw-review.html'"></div>
+      <div data-ng-include="'/app/templates/modals/withdraw-review.html'"></div>
     </div>
     <div data-ng-switch-when="complete">
-      <div data-ng-include="'/partials/modals/withdraw-complete.html'"></div>
+      <div data-ng-include="'/app/templates/modals/withdraw-complete.html'"></div>
     </div>
   </div>
   <div class="modal-footer">

@@ -11,7 +11,7 @@ return {
   routes: [{
     path: '/i/:identity/assetora',
     options: {
-      templateUrl: '/partials/tools/assetora.html',
+      templateUrl: '/app/templates/tools/assetora.html',
       controller: 'AssetoraCtrl'
     }
   }]

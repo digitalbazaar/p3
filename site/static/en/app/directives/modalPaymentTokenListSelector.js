@@ -29,7 +29,7 @@ function factory(svcModal) {
       instant: '=',
       omit: '='
     },
-    templateUrl: '/partials/modals/payment-token-list-selector.html',
+    templateUrl: '/app/templates/modals/payment-token-list-selector.html',
     controller: ['$scope', Ctrl],
     link: function(scope, element) {
       scope.feedbackTarget = element;

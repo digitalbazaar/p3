@@ -14,7 +14,7 @@ function factory($timeout) {
       budget: '=budgetBar'
     },
     replace: true,
-    templateUrl: '/partials/budget-bar.html',
+    templateUrl: '/app/templates/budget-bar.html',
     controller: ['$scope', 'svcBudget', function($scope, svcBudget) {
       $scope.services = {budget: svcBudget};
     }],

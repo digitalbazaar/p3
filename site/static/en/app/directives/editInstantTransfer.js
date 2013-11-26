@@ -13,7 +13,7 @@ function factory() {
     scope: {
       model: '='
     },
-    templateUrl: '/partials/edit-instant-transfer.html',
+    templateUrl: '/app/templates/edit-instant-transfer.html',
     link: function(scope, element) {
       // FIXME: watch $scope.model.backupSource for changes?
       // display backupSource(s) to be used for instant transfer in template?

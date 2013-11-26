@@ -5,18 +5,17 @@
  */
 define([], function() {
 
-var deps = ['$timeout'];
+var deps = [];
 return {budgetBar: deps.concat(factory)};
 
-function factory($timeout) {
+function factory() {
   return {
     scope: {
       budget: '=budgetBar'
     },
     replace: true,
     templateUrl: '/app/templates/budget-bar.html',
-    controller: ['$scope', 'svcBudget', function($scope, svcBudget) {
-      $scope.services = {budget: svcBudget};
+    controller: ['$scope', function($scope) {
     }],
     link: function(scope, element, attrs) {
       var progress = $('.progress', element);

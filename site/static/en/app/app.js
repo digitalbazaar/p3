@@ -29,6 +29,9 @@ define([
     });
 
     // utility functions
+    var util = $rootScope.util = {};
+    util.parseFloat = parseFloat;
+
     var jsonld = $rootScope.jsonld = {};
     jsonld.isType = function(obj, value) {
       var types = obj.type;

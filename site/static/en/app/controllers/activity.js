@@ -5,10 +5,10 @@
  */
 define(['angular', 'payswarm.api'], function(angular, payswarm) {
 
-var deps = ['$scope', 'svcTransaction'];
+var deps = ['$scope', '$timeout', 'svcTransaction'];
 return {ActivityCtrl: deps.concat(factory)};
 
-function factory($scope, svcTransaction) {
+function factory($scope, $timeout, svcTransaction) {
   $scope.model = {};
   var data = window.data || {};
   $scope.session = data.session || null;
@@ -17,21 +17,23 @@ function factory($scope, svcTransaction) {
   $scope.table = [];
   $scope.error = null;
   $scope.loading = false;
+  $scope.datePickerOpen = false;
 
   // set start date to last ms of today
   var now = new Date();
   $scope.startDate = new Date(
     now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
-  $scope.textDate = $scope.startDate.toString();
+  $scope.datePickerDate = new Date($scope.startDate);
 
-  // convert the text date into the last millisecond of the day, also
-  // separate model vars are used to avoid modifying the text while
-  // typing and to ensure the input blurs when using the calendar selector
+  // convert date into the last millisecond of the day, also separate model
+  // vars are used to avoid modifying the text while typing and to ensure the
+  // input blurs when using the calendar selector
   $scope.dateChanged = function() {
-    var d = new Date($scope.textDate);
-    if(!isNaN(+d)) {
+    if($scope.datePickerDate) {
       $scope.startDate = new Date(
-        d.getFullYear(), d.getMonth(), d.getDate(), 23, 59, 59, 999);
+        $scope.datePickerDate.getFullYear(),
+        $scope.datePickerDate.getMonth(),
+        $scope.datePickerDate.getDate(), 23, 59, 59, 999);
       $scope.txns = [];
       $scope.table = [];
       $scope.getMore();
@@ -40,8 +42,15 @@ function factory($scope, svcTransaction) {
 
   // lose focus and hide datepicker
   $scope.dateQuitKeyPressed = function($event) {
-    $($event.target).datepicker('hide');
+    $scope.datePickerOpen = false;
     $event.target.blur();
+  };
+
+  $scope.openDatePicker = function() {
+    var isOpen = $scope.datePickerOpen;
+    $timeout(function() {
+      $scope.datePickerOpen = !isOpen;
+    });
   };
 
   $scope.getRowType = svcTransaction.getType;

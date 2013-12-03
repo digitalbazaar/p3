@@ -48,9 +48,11 @@ ${set([
         <label class="control-label" for="dateField">Start Date</label>
         <div class="controls">
           <input name="dateField" type="text"
-            data-ng-model="textDate"
-            data-ui-date="" data-ng-change="dateChanged()"
-            data-ui-keypress="{13: 'dateQuitKeyPressed($event)', 27: 'dateQuitKeyPressed($event)'}" />
+            data-ng-model="datePickerDate"
+            data-datepicker-popup="yyyy/MM/dd" data-ng-change="dateChanged()"
+            data-is-open="datePickerOpen"
+            data-ui-keyup="{'enter esc': 'dateQuitKeyPressed($event)'}" />
+          <button class="btn" ng-click="openDatePicker()"><i class="icon-calendar"></i></button>
         </div>
       </div>
     </fieldset>

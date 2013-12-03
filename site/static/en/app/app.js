@@ -5,8 +5,9 @@
  */
 define([
   'angular',
-  'angular-ui',
   'bootstrap',
+  'ui-bootstrap',
+  'ui-utils',
   'app/controllers',
   'app/directives',
   'app/filters',
@@ -15,7 +16,7 @@ define([
 ], function(angular) {
   var module = angular.module('app', [
     'app.templates', 'app.directives', 'app.filters', 'app.services',
-    'app.controllers', 'ui']);
+    'app.controllers', 'ui.bootstrap', 'ui.utils']);
   module.run(['$rootScope', '$location', '$route', function(
     $rootScope, $location, $route) {
     /* Note: $route is injected above to trigger watching routes to ensure

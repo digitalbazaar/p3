@@ -18,14 +18,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>${siteTitle}{{if pageTitle}}: ${pageTitle}{{/if}}</title>
     <link href="https://fonts.googleapis.com/css?family=Droid+Sans:400,700" rel="stylesheet" type="text/css">
-    <link href="${cacheRoot}/jquery-ui/css/jquery-ui.${cssExt}" rel="stylesheet" type="text/css" />
-    <!--[if IE]>
-    <link href="${cacheRoot}/jquery-ui/css/jquery-ui.ie.${cssExt}" rel="stylesheet" type="text/css" />
-    <![endif]-->
     <link href="${cacheRoot}/bootstrap/css/bootstrap.${cssLibExt}" rel="stylesheet" type="text/css" />
     <link href="${cacheRoot}/bootstrap/css/bootstrap-responsive.${cssLibExt}" rel="stylesheet" type="text/css" />
     <link href="${cacheRoot}/font-awesome/css/font-awesome.${cssLibExt}" rel="stylesheet" type="text/css" />
-    <link href="${cacheRoot}/angular/angular-ui.${cssLibExt}" rel="stylesheet" type="text/css" />
     <link href="${cacheRoot}/css/common.${cssExt}" rel="stylesheet" type="text/css" />
     <link href="${cacheRoot}/css/cc-logos.${cssExt}" rel="stylesheet" type="text/css" />
     <link href="${cacheRoot}/css/custom.${cssExt}" rel="stylesheet" type="text/css" />

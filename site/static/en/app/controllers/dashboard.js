@@ -6,16 +6,19 @@
  */
 define(['angular'], function(angular) {
 
-var deps = ['$scope', 'svcAccount', 'svcBudget', 'svcTransaction', '$timeout'];
+var deps = ['$scope', 'svcAccount', 'svcPaymentToken', 'svcBudget',
+  'svcTransaction', '$timeout'];
 return {DashboardCtrl: deps.concat(factory)};
 
-function factory($scope, svcAccount, svcBudget, svcTransaction, $timeout) {
+function factory($scope, svcAccount, svcPaymentToken, svcBudget,
+  svcTransaction, $timeout) {
   $scope.model = {};
   var data = window.data || {};
   $scope.identity = data.identity;
   $scope.accounts = svcAccount.accounts;
   $scope.budgets = svcBudget.budgets;
   $scope.txns = svcTransaction.recentTxns;
+  $scope.tokens = svcPaymentToken.paymentTokens;
   $scope.state = {
     accounts: svcAccount.state,
     budgets: svcBudget.state,
@@ -56,7 +59,13 @@ function factory($scope, svcAccount, svcBudget, svcTransaction, $timeout) {
 
   $scope.getTxnType = svcTransaction.getType;
 
+  // FIXME
+  $scope.$watch('tokens', function(value) {
+    svcAccount.updateAccounts();
+  });
+
   svcAccount.get({force: true});
+  svcPaymentToken.get({force: true});
   svcBudget.get({force: true});
   svcTransaction.getRecent({force: true});
 }

@@ -33,6 +33,12 @@ ${set([
               <span data-ng-show="(account.creditLimit && util.parseFloat(account.creditLimit) != 0) && (!account.backupSource || !account.backupSource.length)"
                 data-tooltip-title="This account has no associated payment methods. Please edit the account information."
                 data-placement="bottom" data-trigger="hover"><i class="icon icon-warning-sign"></i></span>
+              <span data-ng-show="account.showExpirationWarning"
+                data-tooltip-title="This account uses a payment method that will expire soon."
+                data-placement="bottom" data-trigger="hover"><i class="icon icon-warning-sign"></i></span>
+              <span data-ng-show="account.showExpired"
+                data-tooltip-title="This account uses an expired payment method."
+                data-placement="bottom" data-trigger="hover"><i class="icon icon-warning-sign"></i></span>
             </td>
             <!-- Balance -->
             <td class="money">

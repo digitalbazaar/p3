@@ -5,10 +5,12 @@
  */
 define(['angular', 'jquery', 'payswarm.api'], function(angular, $, payswarm) {
 
-var deps = ['$timeout', '$rootScope', 'svcModel', 'svcIdentity'];
+var deps = ['$timeout', '$rootScope', 'svcModel', 'svcIdentity',
+  'svcPaymentToken'];
 return {svcAccount: deps.concat(factory)};
 
-function factory($timeout, $rootScope, svcModel, svcIdentity) {
+function factory($timeout, $rootScope, svcModel, svcIdentity,
+  svcPaymentToken) {
   var service = {};
 
   function _entry(identityId) {
@@ -29,6 +31,25 @@ function factory($timeout, $rootScope, svcModel, svcIdentity) {
     loading: false
   };
 
+  service.updateAccounts = function() {
+    angular.forEach(service.identities, function(identity) {
+      angular.forEach(identity.accounts, function(account) {
+        account.showExpirationWarning = false;
+        account.showExpired = false;
+        angular.forEach(account.backupSource, function(sourceId) {
+          svcPaymentToken.find(sourceId, function(err, token) {
+            if(!err && token) {
+              account.showExpirationWarning =
+                account.showExpirationWarning || token.showExpirationWarning;
+              account.showExpired =
+                account.showExpired || token.showExpired;
+            }
+          });
+        });
+      });
+    });
+  };
+
   // get all accounts for an identity
   service.get = function(options, callback) {
     if(typeof options === 'function') {
@@ -47,6 +68,7 @@ function factory($timeout, $rootScope, svcModel, svcIdentity) {
           identity: identityId,
           success: function(accounts) {
             svcModel.replaceArray(entry.accounts, accounts);
+            service.updateAccounts();
             entry.expires = +new Date() + maxAge;
             service.state.loading = false;
             callback(null, entry.accounts);
@@ -83,6 +105,7 @@ function factory($timeout, $rootScope, svcModel, svcIdentity) {
         success: function(account) {
           var entry = _entry(account.owner);
           svcModel.replaceInArray(entry.accounts, account);
+          service.updateAccounts();
           service.state.loading = false;
           callback(null, account);
           $rootScope.$apply();

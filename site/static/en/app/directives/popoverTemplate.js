@@ -57,6 +57,7 @@ function factory(svcTemplateCache, $compile, $timeout) {
         // compile and link popover when showing (must be done after the
         // popover is attached to the dom)
         var oldShow = popover.show;
+        var childScope = null;
         popover.show = function() {
           oldShow.call(popover);
           var tip = this.tip();
@@ -93,7 +94,11 @@ function factory(svcTemplateCache, $compile, $timeout) {
           }
 
           // compile and link tooltip to scope
-          $compile(tip)(scope.$new());
+          if(childScope) {
+            childScope.$destroy();
+          }
+          childScope = scope.$new();
+          $compile(tip)(childScope);
 
           // hide when pressing escape
           $(document).bind('keyup', hideOnEscape);
@@ -112,6 +117,10 @@ function factory(svcTemplateCache, $compile, $timeout) {
           var tip = popover.tip();
           if($(e.target).closest(tip).length === 0) {
             scope.visible = false;
+            if(childScope) {
+              childScope.$destroy();
+              childScope = null;
+            }
             scope.$apply();
           }
         }
@@ -121,6 +130,10 @@ function factory(svcTemplateCache, $compile, $timeout) {
           if(e.keyCode === 27) {
             e.stopPropagation();
             scope.visible = false;
+            if(childScope) {
+              childScope.$destroy();
+              childScope = null;
+            }
             scope.$apply();
           }
         }

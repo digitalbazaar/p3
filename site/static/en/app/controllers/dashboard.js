@@ -59,10 +59,10 @@ function factory($scope, svcAccount, svcPaymentToken, svcBudget,
 
   $scope.getTxnType = svcTransaction.getType;
 
-  // FIXME
+  // FIXME: token watch/update should be in the account service
   $scope.$watch('tokens', function(value) {
     svcAccount.updateAccounts();
-  });
+  }, true);
 
   svcAccount.get({force: true});
   svcPaymentToken.get({force: true});

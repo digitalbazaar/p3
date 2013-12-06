@@ -35,9 +35,9 @@
         </div>
       </div>
       <!-- Ensures bar is appropriate width -->
-      <div class="progressbar-text-front" style="width: {{model.creditBar.textWidth}}%; height: 0px; visibility: hidden;">
-        <span>{{account.currency}}</span>
-        <span>{{model.remainingCredit | floor | currency:'$'}} / {{account.creditLimit | floor | currency:'$'}}</span>
+      <div class="progressbar-text-front" style="width: {{model.creditBar.textWidth}}%; height: 0px; display: none; visibility: hidden;">
+        <div style="display: inline-block; height 0px;">{{account.currency}}</div>
+        <div style="display: inline-block; height 0px;">{{model.remainingCredit | floor | currency:'$'}} / {{account.creditLimit | floor | currency:'$'}}</div>
       </div>
       <div data-ng-show="account.creditPaymentDue">
         <div style="clear: both"></div>

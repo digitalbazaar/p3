@@ -39,6 +39,9 @@ function factory() {
           model.remainingCredit = model.creditLimit + model.balance;
         }
 
+        // get total balance (includes remaining credit)
+        model.totalBalance = model.balance + model.remainingCredit;
+
         // credit bar
         model.hasCreditLine = (model.creditLimit > 0);
         if(model.hasCreditLine) {

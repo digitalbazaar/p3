@@ -681,8 +681,8 @@ h1 > .rest-summary > .rest-path {
   -moz-border-radius: 12px;
   border-radius: 12px;
 }
-.cc-layer {
-  position: relative;
+.cc-table th, .cc-table tr, .cc-table td {
+  border: none;
   vertical-align: top;
 }
 .cc-label {

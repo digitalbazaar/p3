@@ -6,8 +6,8 @@
   <div data-collapse="model.isCollapsed">
     <!-- <h5 class="headline">Balance Breakdown</h5> -->
     <div>
-      <span data-ng-show="model.hasCreditLine" class="pull-left"><small><strong>Exact Balance, not including credit </strong></small></span>
-      <span data-ng-hide="model.hasCreditLine" class="pull-left"><small><strong>Exact Balance </strong></small></span>
+      <span data-ng-show="model.hasCreditLine" class="pull-left"><small><strong>Exact balance, not including credit </strong></small></span>
+      <span data-ng-hide="model.hasCreditLine" class="pull-left"><small><strong>Exact balance </strong></small></span>
       <div style="clear: both"></div>
       <span class="money pull-left">
         <small>
@@ -19,7 +19,7 @@
     </div>
     <div data-ng-show="model.hasCreditLine">
       <div style="clear: both"></div>
-      <div class="pull-left"><small><strong>Remaining Credit</strong></small></div>
+      <div class="pull-left"><small><strong>Remaining credit</strong></small></div>
       <div style="clear: both"></div>
       <div class="progress progress-striped no-margin"
         data-ng-class="{'progress-success': model.creditBar.width >= 50, 'progress-warning': model.creditBar.width < 50 && model.creditBar.width >= 25, 'progress-danger': model.creditBar.width < 25}">

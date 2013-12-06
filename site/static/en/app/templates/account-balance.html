@@ -1,2 +1,44 @@
-<span class="money" data-tooltip-title="Since we support micro-payments, we track your account balance very accurately. The exact amount in this account is {{account.currency}} {{account.balance}}."
-  data-placement="bottom" data-trigger="hover"><span class="currency">{{account.currency}}</span> <span class="{{isNegative && 'negative-money'}}">{{account.balance | floor | currency:'$'}}</span></span>
+<div>
+  <div>
+    <span class="money"><span class="currency">{{account.currency}}</span> <span class="{{isNegative && 'negative-money'}}">{{account.balance | floor | currency:'$'}}</span></span>
+    <a data-ng-click="model.isCollapsed=!model.isCollapsed">
+      <i class="icon-question-sign"></i>
+    </a>
+  </div>
+  <div collapse="model.isCollapsed">
+    <!-- <h5 class="headline">Balance Breakdown</h5> -->
+    <div>
+      <span data-ng-show="model.hasCreditLine" class="pull-left"><small><strong>Exact Balance, not including credit </strong></small></span>
+      <span data-ng-hide="model.hasCreditLine" class="pull-left"><small><strong>Exact Balance </strong></small></span>
+      <div style="clear: both"></div>
+      <span class="money pull-left">
+        <small>
+          <span class="currency">{{account.currency}}</span>
+          <span class="{{model.isNegative && 'negative-money'}}">{{account.balance}}</span>
+        </small>
+      </span>
+    </div>
+    <div data-ng-show="model.hasCreditLine">
+      <div style="clear: both"></div>
+      <div class="pull-left"><small><strong>Remaining Credit</strong></small></div>
+      <div style="clear: both"></div>
+      <div class="progress progress-striped no-margin">
+        <div class="progressbar-text-back">
+          <span>{{account.currency}}</span>
+          <span>{{model.remainingCredit | floor | currency:'$'}} / {{model.creditLimit | floor | currency:'$'}}</span>
+        </div>
+        <div class="bar" style="width: {{model.creditBar.width}}%">
+          <div class="progressbar-text-front" style="width: {{model.creditBar.textWidth}}%">
+            <span>{{account.currency}}</span>
+            <span>{{model.remainingCredit | floor | currency:'$'}} / {{account.creditLimit | floor | currency:'$'}}</span>
+          </div>
+        </div>
+      </div>
+      <!-- Ensures bar is appropriate width -->
+      <div class="progressbar-text-front" style="width: {{model.creditBar.textWidth}}%; height: 0px; visibility: hidden;">
+        <span>{{account.currency}}</span>
+        <span>{{model.remainingCredit | floor | currency:'$'}} / {{account.creditLimit | floor | currency:'$'}}</span>
+      </div>
+    </div>
+  </div>
+</div>

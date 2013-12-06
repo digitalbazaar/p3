@@ -15,10 +15,42 @@ function factory() {
     },
     replace: true,
     templateUrl: '/app/templates/account-balance.html',
+    controller: ['$scope', function($scope) {
+      var model = $scope.model = {};
+      model.isCollapsed = true;
+      model.creditBar = {
+        width: 0,
+        textWidth: 0
+      };
+      model.hasCreditLine = ($scope.account ?
+        parseFloat($scope.account.creditLimit || '0') > 0 : false);
+    }],
     link: function(scope, element, attrs) {
+      // update progress bar when account changes
       scope.$watch('account', function(account) {
-        var balance = account ? account.balance : 0;
-        scope.isNegative = parseFloat(balance) < 0;
+        var model = scope.model;
+        model.balance = parseFloat(account ? account.balance : 0);
+        model.creditLimit = parseFloat(
+          account ? account.creditLimit || '0' : 0);
+
+        // calculate remaining credit
+        model.remainingCredit = model.creditLimit;
+        if(model.balance < 0) {
+          model.remainingCredit = model.creditLimit + model.balance;
+        }
+
+        // credit bar
+        model.hasCreditLine = (model.creditLimit > 0);
+        if(model.hasCreditLine) {
+          if(model.balance >= 0) {
+            model.creditBar.width = 100;
+          }
+          else {
+            var p = model.remainingCredit / model.creditLimit * 100;
+            model.creditBar.width = Math.max(0, Math.min(p, 100));
+          }
+        }
+        model.creditBar.textWidth = 100 / model.creditBar.width * 100;
       }, true);
     }
   };

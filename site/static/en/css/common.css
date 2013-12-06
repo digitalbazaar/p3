@@ -5,6 +5,11 @@
   display: none;
 }
 
+/* Ensure pointer cursor is used w/links that have no href, etc. */
+a {
+  cursor: pointer;
+}
+
 /* Fonts */
 @font-face {
   font-family: 'Kredit Front';

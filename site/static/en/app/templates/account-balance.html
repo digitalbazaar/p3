@@ -1,10 +1,8 @@
 <div>
-  <div>
-    <span class="money"><span class="currency">{{account.currency}}</span> <span class="{{isNegative && 'negative-money'}}">{{model.totalBalance | floor | currency:'$'}}</span></span>
-    <a data-ng-click="model.isCollapsed=!model.isCollapsed">
-      <i class="icon-question-sign"></i>
-    </a>
-  </div>
+  <span class="money"><span class="currency">{{account.currency}}</span> <span class="{{isNegative && 'negative-money'}}">{{model.totalBalance | floor | currency:'$'}}</span></span>
+  <a data-ng-click="model.isCollapsed=!model.isCollapsed">
+    <i class="icon-question-sign"></i>
+  </a>
   <div collapse="model.isCollapsed">
     <!-- <h5 class="headline">Balance Breakdown</h5> -->
     <div>

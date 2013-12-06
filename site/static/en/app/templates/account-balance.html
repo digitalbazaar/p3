@@ -3,7 +3,7 @@
   <a data-ng-click="model.isCollapsed=!model.isCollapsed">
     <i class="icon-question-sign"></i>
   </a>
-  <div collapse="model.isCollapsed">
+  <div data-collapse="model.isCollapsed">
     <!-- <h5 class="headline">Balance Breakdown</h5> -->
     <div>
       <span data-ng-show="model.hasCreditLine" class="pull-left"><small><strong>Exact Balance, not including credit </strong></small></span>
@@ -37,6 +37,34 @@
       <div class="progressbar-text-front" style="width: {{model.creditBar.textWidth}}%; height: 0px; visibility: hidden;">
         <span>{{account.currency}}</span>
         <span>{{model.remainingCredit | floor | currency:'$'}} / {{account.creditLimit | floor | currency:'$'}}</span>
+      </div>
+      <div data-ng-show="account.creditPaymentDue">
+        <div style="clear: both"></div>
+        <div class="pull-left"><small><strong>Next automatic payment</strong></small></div>
+        <div style="clear: both"></div>
+        <div class="pull-left">
+          <small>
+            {{account.creditPaymentDue | date:'mediumDate'}}
+            <span data-ng-show="account.backupSource && account.backupSource.length">
+              <a data-ng-click="model.paymentMethodIsCollapsed=!model.paymentMethodIsCollapsed">
+                <i class="icon-credit-card"></i>
+              </a>
+            </span>
+            <span data-ng-show="!account.backupSource || !account.backupSource.length"
+              data-tooltip-title="This account has no associated payment methods. Please edit the account information."
+              data-placement="bottom" data-trigger="hover"><i class="icon icon-warning-sign"></i></span>
+            <span data-ng-show="account.showExpirationWarning"
+              data-tooltip-title="This account uses a payment method that will expire soon."
+              data-placement="bottom" data-trigger="hover"><i class="icon icon-warning-sign"></i></span>
+            <span data-ng-show="account.showExpired"
+              data-tooltip-title="This account uses an expired payment method."
+              data-placement="bottom" data-trigger="hover"><i class="icon icon-warning-sign"></i></span>
+          </small>
+        </div>
+        <div style="clear: both"></div>
+        <div data-collapse="model.paymentMethodIsCollapsed">
+          <div data-payment-token-selector data-selected="model.backupSource" data-instant="true" fixed="true"></div>
+        </div>
       </div>
     </div>
   </div>

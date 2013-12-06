@@ -5,10 +5,10 @@
  */
 define([], function() {
 
-var deps = [];
+var deps = ['svcPaymentToken'];
 return {accountBalance: deps.concat(factory)};
 
-function factory() {
+function factory(svcPaymentToken) {
   return {
     scope: {
       account: '=accountBalance'
@@ -18,6 +18,7 @@ function factory() {
     controller: ['$scope', function($scope) {
       var model = $scope.model = {};
       model.isCollapsed = true;
+      model.paymentMethodIsCollapsed = true;
       model.creditBar = {
         width: 0,
         textWidth: 0
@@ -29,6 +30,8 @@ function factory() {
       // update progress bar when account changes
       scope.$watch('account', function(account) {
         var model = scope.model;
+
+        // get balance and credit limit
         model.balance = parseFloat(account ? account.balance : 0);
         model.creditLimit = parseFloat(
           account ? account.creditLimit || '0' : 0);
@@ -42,9 +45,16 @@ function factory() {
         // get total balance (includes remaining credit)
         model.totalBalance = model.balance + model.remainingCredit;
 
-        // credit bar
+        // credit info display
         model.hasCreditLine = (model.creditLimit > 0);
         if(model.hasCreditLine) {
+          // get backup source token
+          model.backupSource = null;
+          if(account.backupSource && account.backupSource.length) {
+            model.backupSource = svcPaymentToken.find(account.backupSource[0]);
+          }
+
+          // credit bar width
           if(model.balance >= 0) {
             model.creditBar.width = 100;
           }

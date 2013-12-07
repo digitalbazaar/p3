@@ -51,20 +51,23 @@
                 <i class="icon-credit-card"></i>
               </a>
             </span>
-            <span data-ng-show="!account.backupSource || !account.backupSource.length"
-              data-tooltip-title="This account has no associated payment methods. Please edit the account information."
-              data-placement="bottom" data-trigger="hover"><i class="icon icon-warning-sign"></i></span>
-            <span data-ng-show="account.showExpirationWarning"
-              data-tooltip-title="This account uses a payment method that will expire soon."
-              data-placement="bottom" data-trigger="hover"><i class="icon icon-warning-sign"></i></span>
-            <span data-ng-show="account.showExpired"
-              data-tooltip-title="This account uses an expired payment method."
-              data-placement="bottom" data-trigger="hover"><i class="icon icon-warning-sign"></i></span>
           </small>
         </div>
         <div style="clear: both"></div>
         <div data-collapse="model.paymentMethodIsCollapsed">
           <div data-payment-token-selector data-selected="model.backupSource" data-instant="true" fixed="true"></div>
+        </div>
+      </div>
+      <div data-ng-show="!account.backupSource || !account.backupSource.length || account.showExpirationWarning || account.showExpired">
+        <div style="clear: both; margin-bottom: 20px"></div>
+        <div data-ng-show="!account.backupSource || !account.backupSource.length" class="alert alert-error">
+          This account has no associated payment methods. Please edit the account information.
+        </div>
+        <div data-ng-show="account.showExpirationWarning" class="alert alert-warning">
+          This account uses a payment method that will expire soon.
+        </div>
+        <div data-ng-show="account.showExpired" class="alert alert-warning">
+          This account uses an expired payment method.
         </div>
       </div>
     </div>

@@ -12,7 +12,7 @@
           <tr>
             <th colspan="2">
               <span title="{{selected.id}}">{{selected.label}}</span>
-              <a data-ng-click="model.showEditAccount=true"
+              <a data-ng-show="selecting" data-ng-click="model.showEditAccount=true"
                 data-tooltip-title="Edit"
                 data-placement="bottom" data-trigger="hover">
                 <i class="icon-pencil"></i>

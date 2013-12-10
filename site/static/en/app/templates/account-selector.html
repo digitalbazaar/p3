@@ -10,7 +10,17 @@
       <table class="table table-condensed">
         <thead>
           <tr>
-            <th colspan="2"><span title="{{selected.id}}">{{selected.label}}</a></th>
+            <th colspan="2">
+              <span title="{{selected.id}}">{{selected.label}}</span>
+              <a data-ng-click="model.showEditAccount=true"
+                data-tooltip-title="Edit"
+                data-placement="bottom" data-trigger="hover">
+                <i class="icon-pencil"></i>
+              </a>
+            </th>
+            <th>
+              <span></span>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -53,4 +63,5 @@
   <div data-modal-add-account="showAddAccountModal"
     data-identity-id="{{identityId}}"
     data-modal-on-close="!err && (selected=result)"></div>
+  <div data-modal-edit-account="model.showEditAccount" data-account="selected"></div>
 </div>

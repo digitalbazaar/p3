@@ -12,7 +12,8 @@ function factory(svcAccount, svcIdentity, svcPaymentToken) {
   function Ctrl($scope) {
     $scope.model = {
       remainingCredit: 0,
-      paymentMethodIsCollapsed: true
+      paymentMethodIsCollapsed: true,
+      showEditAccount: false
     };
     $scope.services = {
       account: svcAccount.state

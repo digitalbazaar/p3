@@ -1,5 +1,12 @@
 <div>
   <div class="well">
+    <div data-ng-hide="fixed" class="pull-right">
+      <button class="btn btn-success btn-change"
+        data-ng-show="items.length > 0"
+        data-ng-click="showSelectorModal=true"><i class="icon-list icon-white"></i> Change</button>
+      <button data-ng-show="items.length == 0" class="btn btn-success btn-add"
+        data-ng-click="addItem()"><i class="icon-plus icon-white"></i> Add {{itemType}}</button>
+    </div>
     <div data-ng-show="selected == null">None found.</div>
     <div data-ng-show="selected != null">
       <div data-ng-transclude></div>
@@ -22,13 +29,6 @@
           data-ng-click="addItem()"><i class="icon-plus icon-white"></i> Add {{itemType}}</button>
       </div>
       <div style="clear:both"></div>
-    </div>
-    <div data-ng-hide="fixed" class="pull-right">
-      <button class="btn btn-success btn-change"
-        data-ng-show="items.length > 0"
-        data-ng-click="showSelectorModal=true"><i class="icon-list icon-white"></i> Change</button>
-      <button data-ng-show="items.length == 0" class="btn btn-success btn-add"
-        data-ng-click="addItem()"><i class="icon-plus icon-white"></i> Add {{itemType}}</button>
     </div>
   </div>
 </div>

@@ -32,7 +32,7 @@ ${set([
 
 <table class="table table-condensed">
   <tbody>
-    <tr>
+    <tr data-ng-show="account">
       <td class="compact">Balance</td>
       <td>
         <span data-account-balance="account"></span>

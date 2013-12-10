@@ -2,20 +2,21 @@
 that you received two small deposits from us. You should see two deposits that
 have the label <strong>DIGITAL BAZAAR CREDIT</strong> on your bank statement.
 Please enter those amounts below. You may enter them in any order; the order
-they appear on your bank statement is not significant. Once you have entered
-the amounts, you may optionally add an amount for an initial deposit. The
-amounts you enter, the optional initial deposit, and any transfer fees will
+they appear on your bank statement is not significant.<span data-ng-show="selection.destination.psaAllowStoredValue"> Once you have entered
+the amounts, you may optionally add an amount for an initial deposit.</span> The
+amounts you enter<span data-ng-show="selection.destination.psaAllowStoredValue">, the optional initial deposit,</span> and any transfer fees will
 be withdrawn from your bank account.</p>
 
 <div class="section">
   <h4 class="headline">Bank Account</h4>
   <div data-payment-token-selector
-    data-selected="token"
+    data-selected="paymentToken"
     data-fixed="true"></div>
 </div>
 
 <div class="section">
-  <h4 class="headline">Verification and Deposit Details</h4>
+  <h4 data-ng-show="selection.destination.psaAllowStoredValue" class="headline">Verification and Deposit Details</h4>
+  <h4 data-ng-hide="selection.destination.psaAllowStoredValue" class="headline">Verification Details</h4>
   <form class="well form-horizontal" action="">
     <fieldset>
       <label class="control-label" for="verifyAmount0">First Amount</label>
@@ -56,8 +57,8 @@ be withdrawn from your bank account.</p>
           </p>
         </div>
       </div>
-      <label class="control-label" for="verificationAmount1">Deposit (optional)</label>
-      <div class="control-group" data-binding="amount">
+      <label data-ng-show="selection.destination.psaAllowStoredValue" class="control-label" for="verificationAmount1">Deposit (optional)</label>
+      <div data-ng-show="selection.destination.psaAllowStoredValue" class="control-group" data-binding="amount">
         <div class="controls">
           <div class="input-prepend input-append">
             <span class="add-on">$</span><input
@@ -80,7 +81,7 @@ be withdrawn from your bank account.</p>
   </form>
 </div>
 
-<div class="section">
+<div data-ng-show="selection.destination.psaAllowStoredValue" class="section">
   <h4 class="headline">Deposit Destination</h4>
   <div data-account-selector
     data-selected="selection.destination"

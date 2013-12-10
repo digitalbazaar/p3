@@ -245,7 +245,7 @@ ${set([
               data-feedback="bankAccountFeedback"></div>
             <div data-modal-add-payment-token="modals.showAddBankAccount" data-payment-methods="bankAccountMethods"></div>
             <div data-modal-verify-bank-account="modals.showVerifyBankAccountModal"
-               data-payment-token="modals.bankAccount"></div>
+               data-payment-token="modals.paymentToken"></div>
           </div>
         </div>
       </div>

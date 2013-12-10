@@ -27,10 +27,9 @@ function factory(svcModal) {
         null
       ]
     };
-    var source = $scope.input ? $scope.input.source : null;
     $scope.input = {
       // payment token source
-      source: source,
+      source: $scope.paymentToken,
       amount: ''
     };
 

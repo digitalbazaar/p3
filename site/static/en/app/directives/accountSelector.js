@@ -57,8 +57,13 @@ function factory(svcAccount, svcIdentity, svcPaymentToken) {
       // update remaining credit
       scope.model.remainingCredit = 0;
       if(scope.selected) {
-        scope.model.remainingCredit = parseFloat(
-          scope.selected.creditLimit || '0');
+        if(scope.selected.psaCreditDisabled) {
+          scope.model.remainingCredit = 0;
+        }
+        else {
+          scope.model.remainingCredit = parseFloat(
+            scope.selected.creditLimit || '0');
+        }
         var balance = parseFloat(scope.selected.balance);
         if(balance < 0) {
           scope.model.remainingCredit += balance;
@@ -70,10 +75,11 @@ function factory(svcAccount, svcIdentity, svcPaymentToken) {
       scope.balanceTooLow = false;
       scope.instantTransferRequired = false;
       if(scope.selected && scope.minBalance !== undefined) {
-        var available = scope.model.remainingCredit +
+        var max =
+          parseFloat(scope.model.creditLimit || '0') +
           parseFloat(scope.selected.balance);
         var minBalance = parseFloat(scope.minBalance);
-        if(available < minBalance) {
+        if(max < minBalance) {
           // show instant transfer required warning
           var minInstantTransfer = parseFloat(
             scope.selected.psaMinInstantTransfer || 0);

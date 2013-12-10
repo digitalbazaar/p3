@@ -333,6 +333,9 @@ span.currency {
   color: #aaa;
   font-size: 13px;
 }
+span.disabled-credit {
+  color: #b94a48;
+}
 span.negative-money {
   color: #b94a48;
 }
@@ -898,6 +901,26 @@ h1 > .rest-summary > .rest-path {
   width: 100%;
   font-size: 14px;
   text-align: center;
+}
+.progress-disabled .bar,
+.progress .bar-disabled {
+  background-color: #999999;
+  background-image: -moz-linear-gradient(top, #a9a9a9, #898989);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#a9a9a9), to(#898989));
+  background-image: -webkit-linear-gradient(top, #a9a9a9, #898989);
+  background-image: -o-linear-gradient(top, #a9a9a9, #898989);
+  background-image: linear-gradient(to bottom, #a9a9a9, #898989);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffa9a9a9', endColorstr='#ff898989', GradientType=0);
+}
+.progress-disabled.progress-striped .bar,
+.progress-striped .bar-disabled {
+  background-color: #a9a9a9;
+  background-image: -webkit-gradient(linear, 0 100%, 100% 0, color-stop(0.25, rgba(255, 255, 255, 0.15)), color-stop(0.25, transparent), color-stop(0.5, transparent), color-stop(0.5, rgba(255, 255, 255, 0.15)), color-stop(0.75, rgba(255, 255, 255, 0.15)), color-stop(0.75, transparent), to(transparent));
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: -moz-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
 }
 
 /* Modals */

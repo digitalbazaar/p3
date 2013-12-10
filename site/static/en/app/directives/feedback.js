@@ -33,11 +33,13 @@ function factory() {
         alert.addClass('alert-' + type);
       }
 
+      alert.append('<button type="button" class="close" data-dismiss="alert">&times;</button>');
+
       // handle form feedback
       switch(item.type) {
       // generic form errors
       case 'payswarm.validation.ValidationError':
-        alert.text('Please correct the information you entered.');
+        alert.append('Please correct the information you entered.');
         $.each(item.details.errors, function(i, detailError) {
           var binding = detailError.details.path;
           if(binding) {
@@ -58,17 +60,10 @@ function factory() {
             ' Please <a target="_blank" href="/contact">contact</a> us if ' +
             'you need assistance.';
         }
-        alert.html(message);
+        alert.append(message);
       }
 
       feedbackElement.append(alert);
-
-      // FIXME: should be using angular ($compile, etc.)
-      var button = $('<button type="button" class="close">&times;</button>');
-      button.on('click', function() {
-        alert.remove();
-      });
-      alert.append(button);
     }
   }
 
@@ -77,10 +72,10 @@ function factory() {
     $('[data-binding]', scope.target).removeClass('error');
     feedbackElement.empty();
 
-    processFeedbackType(scope, feedbackElement, 'error', true);
-    processFeedbackType(scope, feedbackElement, 'alert', false);
-    processFeedbackType(scope, feedbackElement, 'success', false);
-    processFeedbackType(scope, feedbackElement, 'info', false);
+    processFeedbackType(scope, feedbackElement, 'error');
+    processFeedbackType(scope, feedbackElement, 'alert');
+    processFeedbackType(scope, feedbackElement, 'success');
+    processFeedbackType(scope, feedbackElement, 'info');
   }
   return {
     scope: {

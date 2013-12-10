@@ -24,6 +24,7 @@ module.exports.map = function(mapping) {
     'common.Profile.passcodeSent',
     'common.Purchase.success',
     'common.Purchase.success-profile',
+    'common.Transaction.externalTransactionVoided',
     'common.Transaction.statusCheckError',
     'common.Transaction.statusChecksExceeded',
     'common.Withdrawal.ach-merchant-account-log',

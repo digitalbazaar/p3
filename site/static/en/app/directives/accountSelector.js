@@ -5,13 +5,14 @@
  */
 define([], function() {
 
-var deps = ['svcAccount', 'svcIdentity'];
+var deps = ['svcAccount', 'svcIdentity', 'svcPaymentToken'];
 return {accountSelector: deps.concat(factory)};
 
-function factory(svcAccount, svcIdentity) {
+function factory(svcAccount, svcIdentity, svcPaymentToken) {
   function Ctrl($scope) {
     $scope.model = {
-      remainingCredit: 0
+      remainingCredit: 0,
+      paymentMethodIsCollapsed: true
     };
     $scope.services = {
       account: svcAccount.state
@@ -42,6 +43,7 @@ function factory(svcAccount, svcIdentity) {
 
     scope.$watch('selected.balance', update);
     scope.$watch('selected.creditLimit', update);
+    scope.$watch('selected.backupSource', update);
     scope.$watch('minBalance', update);
 
     scope.$watch('identity', function(value) {
@@ -84,6 +86,15 @@ function factory(svcAccount, svcIdentity) {
             scope.balanceTooLow = true;
             scope.invalid = true;
           }
+        }
+      }
+
+      // get backup source token
+      scope.backupSource = null;
+      if(scope.selected) {
+        var account = scope.selected;
+        if(account.backupSource && account.backupSource.length) {
+          scope.backupSource = svcPaymentToken.find(account.backupSource[0]);
         }
       }
     }

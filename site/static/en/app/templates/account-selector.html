@@ -35,7 +35,18 @@
       </div>
       <div data-ng-show="allowInstantTransfer && instantTransferRequired">
         <hr />
-        <div class="alert alert-warning">An instant transfer will be performed to complete this purchase because the selected account does not have sufficient funds.</div>
+        <div class="alert alert-warning">
+          An instant transfer will be performed to complete this purchase because the selected account does not have sufficient funds.
+          <span data-ng-show="backupSource">
+            <a data-ng-click="model.paymentMethodIsCollapsed=!model.paymentMethodIsCollapsed">
+              <i class="icon-credit-card"></i>
+            </a>
+          </span>
+        </div>
+        <div data-collapse="model.paymentMethodIsCollapsed">
+          <h5>Instant Transfer Payment Method</h5>
+          <div data-payment-token-selector data-selected="model.backupSource" data-instant="true" fixed="true"></div>
+        </div>
       </div>
     </div>
   </div>

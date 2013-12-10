@@ -12,7 +12,7 @@
       <span class="money pull-left">
         <small>
           <span class="currency">{{account.currency}}</span>
-          <span data-ng-show="model.balance < 0" class="negative-money">({{-account.balance}})</span>
+          <span data-ng-show="model.balance < 0" class="negative-money">({{account.balance.substr(1)}})</span>
           <span data-ng-show="model.balance >= 0">{{account.balance}}</span>
         </small>
       </span>

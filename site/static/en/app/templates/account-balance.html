@@ -1,5 +1,5 @@
 <div>
-  <span class="money"><span class="currency">{{account.currency}}</span> {{model.totalBalance | floor | currency:'$'}}</span>
+  <span class="money"><span class="currency">{{account.currency}}</span> <span data-ng-class="model.totalBalance < 0 && 'negative-money'">{{model.totalBalance | floor | currency:'$'}}</span></span>
   <a data-ng-click="model.isCollapsed=!model.isCollapsed">
     <i class="icon-info-sign"></i>
   </a>
@@ -12,7 +12,7 @@
       <span class="money pull-left">
         <small>
           <span class="currency">{{account.currency}}</span>
-          <span data-ng-show="model.balance < 0" class="negative-money">({{account.balance}})</span>
+          <span data-ng-show="model.balance < 0" class="negative-money">({{-account.balance}})</span>
           <span data-ng-show="model.balance >= 0">{{account.balance}}</span>
         </small>
       </span>

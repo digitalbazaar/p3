@@ -11,7 +11,6 @@ return {modalAddCreditLine: deps.concat(factory)};
 function factory(svcModal) {
   function Ctrl($scope, svcAccount) {
     var data = $scope.data = window.data || {};
-    $scope.feedback = {};
 
     var model = $scope.model = {};
     model.loading = false;
@@ -19,10 +18,7 @@ function factory(svcModal) {
     model.psaPasscode = '';
     model.passcodeFeedbackTarget = $('#passcodeFeedbackTarget');
     model.verifyEmailFeedbackTarget = $('#verifyEmailFeedbackTarget');
-    model.feedback = {
-      passcode: {},
-      email: {}
-    };
+    model.feedback = {};
     // payment backup source for account's credit line
     model.backupSource = null;
     // state in ('reviewing' and 'complete')
@@ -51,7 +47,9 @@ function factory(svcModal) {
     $scope.resetFeedback = function() {
       model.feedback.passcode = {};
       model.feedback.email = {};
+      model.feedback.modal = {};
     };
+    $scope.resetFeedback();
 
     $scope.verifyEmail = function() {
       $scope.resetFeedback();
@@ -76,15 +74,15 @@ function factory(svcModal) {
 
     $scope.confirm = function() {
       model.loading = true;
+      $scope.resetFeedback();
       svcAccount.addCreditLine(
         $scope.account.id, model.backupSource.id, function(err) {
         model.loading = false;
         if(err) {
-          model.feedback.contactSupport = true;
-          model.feedback.error = err;
+          model.feedback.modal.contactSupport = true;
+          model.feedback.modal.error = err;
         }
         else {
-          model.feedback = {};
           // show complete page
           model.state = 'complete';
         }

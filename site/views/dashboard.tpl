@@ -66,7 +66,7 @@ ${set([
                       <i class="icon-pencil"></i> Edit
                     </a>
                   </li>
-                  <li data-ng-show="!account.creditLimit || account.creditLimit == 0">
+                  <li data-ng-show="profile.psaUnbackedCreditEmailAvailable && (!account.creditLimit || account.creditLimit == 0)">
                     <a data-ng-click="modals.account=account; modals.showAddCreditLine=true">
                       <i class="icon-credit-card"></i> Open Credit Line
                     </a>

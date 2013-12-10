@@ -14,6 +14,7 @@ function factory($scope, svcAccount, svcPaymentToken, svcBudget,
   svcTransaction, $timeout) {
   $scope.model = {};
   var data = window.data || {};
+  $scope.profile = data.session.profile;
   $scope.identity = data.identity;
   $scope.accounts = svcAccount.accounts;
   $scope.budgets = svcBudget.budgets;

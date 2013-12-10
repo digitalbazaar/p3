@@ -76,7 +76,7 @@ function factory(svcAccount, svcIdentity, svcPaymentToken) {
       scope.instantTransferRequired = false;
       if(scope.selected && scope.minBalance !== undefined) {
         var max =
-          parseFloat(scope.model.creditLimit || '0') +
+          parseFloat(scope.selected.creditLimit || '0') +
           parseFloat(scope.selected.balance);
         var minBalance = parseFloat(scope.minBalance);
         if(max < minBalance) {

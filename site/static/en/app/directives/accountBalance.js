@@ -43,7 +43,10 @@ function factory(svcPaymentToken) {
         }
 
         // get total balance (includes remaining credit)
-        model.totalBalance = model.balance + model.remainingCredit;
+        model.totalBalance = model.remainingCredit;
+        if(model.balance > 0) {
+          model.totalBalance += model.balance;
+        }
 
         // credit info display
         model.hasCreditLine = (model.creditLimit > 0);

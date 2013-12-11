@@ -41,7 +41,14 @@ function factory($scope, svcAddress, svcIdentity) {
     $scope.addressToDelete = null;
   };
 
-  svcAddress.get();
+  function refresh(force) {
+    var opts = {force: !!force};
+    svcAddress.get(opts);
+  }
+  $scope.$on('refreshData', function() {
+    refresh(true);
+  });
+  refresh();
 }
 
 });

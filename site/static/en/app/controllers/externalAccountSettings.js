@@ -57,7 +57,14 @@ function factory($scope, $timeout, svcPaymentToken) {
     delete paymentToken.showDeletedError;
   };
 
-  svcPaymentToken.get();
+  function refresh(force) {
+    var opts = {force: !!force};
+    svcPaymentToken.get(opts);
+  }
+  $scope.$on('refreshData', function() {
+    refresh(true);
+  });
+  refresh();
 }
 
 });

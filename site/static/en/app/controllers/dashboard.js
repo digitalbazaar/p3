@@ -65,10 +65,17 @@ function factory($scope, svcAccount, svcPaymentToken, svcBudget,
     svcAccount.updateAccounts();
   }, true);
 
-  svcAccount.get({force: true});
-  svcPaymentToken.get({force: true});
-  svcBudget.get({force: true});
-  svcTransaction.getRecent({force: true});
+  function refresh(force) {
+    var opts = {force: !!force};
+    svcAccount.get(opts);
+    svcPaymentToken.get(opts);
+    svcBudget.get(opts);
+    svcTransaction.getRecent(opts);
+  }
+  $scope.$on('refreshData', function() {
+    refresh(true);
+  });
+  refresh();
 }
 
 });

@@ -5,10 +5,10 @@
  */
 define(['jquery'], function($) {
 
-var deps = ['$scope'];
+var deps = ['$scope', '$rootScope'];
 return {NavbarCtrl: deps.concat(factory)};
 
-function factory($scope) {
+function factory($scope, $rootScope) {
   $scope.model = {};
   $scope.session = window.data.session;
 
@@ -27,6 +27,10 @@ function factory($scope) {
     el.remove();
 
     return rval;
+  };
+
+  $scope.refreshData = function() {
+    $rootScope.$broadcast('refreshData');
   };
 }
 

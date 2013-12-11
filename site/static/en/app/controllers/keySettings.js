@@ -32,7 +32,14 @@ function factory($scope, svcKey) {
     $scope.modals.key = null;
   };
 
-  svcKey.get();
+  function refresh(force) {
+    var opts = {force: !!force};
+    svcKey.get(opts);
+  }
+  $scope.$on('refreshData', function() {
+    refresh(true);
+  });
+  refresh();
 }
 
 });

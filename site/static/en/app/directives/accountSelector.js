@@ -97,11 +97,11 @@ function factory(svcAccount, svcIdentity, svcPaymentToken) {
       }
 
       // get backup source token
-      scope.backupSource = null;
+      scope.model.backupSource = null;
       if(scope.selected) {
         var account = scope.selected;
         if(account.backupSource && account.backupSource.length) {
-          scope.backupSource = svcPaymentToken.find(account.backupSource[0]);
+          scope.model.backupSource = svcPaymentToken.find(account.backupSource[0]);
         }
       }
     }

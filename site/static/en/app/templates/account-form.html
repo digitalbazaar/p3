@@ -116,5 +116,41 @@
         </p>
       </div>
     </div>
+    <div class="control-group">
+      <label class="control-label" for="psaAllowInstantTransfer">Instant Transfer</label>
+      <div class="controls">
+        <label class="radio inline">
+          <input type="radio" name="enable-instant-transfer"
+            data-ng-value="true" data-ng-model="account.psaAllowInstantTransfer" />
+          Enable
+        </label>
+        <label class="radio inline">
+          <input type="radio" name="enable-instant-transfer"
+            data-ng-value="false" data-ng-model="account.psaAllowInstantTransfer" />
+          Disable
+        </label>
+      </div>
+    </div>
+    <div class="control-group" data-binding="psaMinInstantTransfer">
+      <label class="control-label" for="psaMinInstantTransfer">Minimum Amount</label>
+      <div class="controls">
+        <div class="input-prepend input-append">
+          <span class="add-on"><i class="icon-money"></i></span><input
+            type="text" name="psaMinInstantTransfer"
+            data-ng-model="account.psaMinInstantTransfer"
+            data-track-state="model.help.psaMinInstantTransfer" />
+          <button class="btn" data-help-toggle="model.help.psaMinInstantTransfer">
+            <i class="icon-question-sign"></i>
+          </button>
+        </div>
+        <p data-fade-toggle="model.help.psaMinInstantTransfer.show" class="help-block">
+          Please enter the minimum purchase amount required in order to trigger an
+          instant transfer.
+          <br/><br/>
+          You must enter a valid monetary amount like 1 or 5.00.
+        </p>
+      </div>
+    </div>
   </fieldset>
 </form>
+***{{account|json}}***

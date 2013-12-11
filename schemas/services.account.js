@@ -1,6 +1,7 @@
 var currency = require('./currency');
 var jsonldContext = require('./jsonldContext');
 var label = require('./label');
+var money = require('./money');
 var payswarmId = require('./payswarmId');
 var slug = require('./slug');
 var visibility = require('./propertyVisibility');
@@ -68,7 +69,12 @@ var postAccount = {
       items: {
         type: payswarmId()
       }
-    }
+    },
+    psaAllowInstantTransfer: {
+      required: false,
+      type: 'boolean'
+    },
+    psaMinInstantTransfer: money.preciseNonNegative({required: false})
   },
   additionalProperties: false
 };

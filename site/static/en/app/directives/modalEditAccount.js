@@ -19,6 +19,12 @@ function factory(svcModal) {
     // copy account for editing
     $scope.account = angular.copy($scope.sourceAccount);
 
+    // ensure defaults
+    $scope.account.psaAllowInstantTransfer =
+      !!$scope.account.psaAllowInstantTransfer;
+    $scope.account.psaMinInstantTransfer =
+      $scope.account.psaMinInstantTransfer || '';
+
     model.accountVisibility = ($scope.account.psaPublic.length === 0) ?
       'hidden' : 'public';
     // storage for backupSource object
@@ -52,7 +58,9 @@ function factory(svcModal) {
         '@context': payswarm.CONTEXT_URL,
         id: $scope.account.id,
         label: $scope.account.label,
-        psaPublic: []
+        psaPublic: [],
+        psaAllowInstantTransfer: $scope.account.psaAllowInstantTransfer,
+        psaMinInstantTransfer: $scope.account.psaMinInstantTransfer || '0'
       };
       if(model.accountVisibility === 'public') {
         account.psaPublic.push('label');

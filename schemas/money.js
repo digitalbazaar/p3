@@ -5,10 +5,22 @@ var precise = {
   title: 'Precise money',
   description: 'A monetary amount that is precise.',
   type: 'string',
-  pattern: '^([\\-]?[1-9]{1}[0-9]{0,}(\\.[0-9]{0,10})?|[\\-]?0\\.[0-9]{0,10}|[\\-]?\\.[0-9]{1,10})$',
+  pattern: '^([\\-]?[1-9]{1}[0-9]{0,}(\\.[0-9]{0,10})?|[\\-]?0\\.[0-9]{0,10}|[\\-]?\\.[0-9]{1,10}|0)$',
   errors: {
     invalid: 'The monetary amount must be in the following format: ' +
       '"x.xx". Example: 10.00',
+    missing: 'Please enter a monetary amount.'
+  }
+};
+
+var preciseNonNegative = {
+  required: true,
+  title: 'Precise money',
+  description: 'A monetary amount that is precise and greater than or equal to zero.',
+  type: 'string',
+  pattern: '^(0|[1-9]{1}[0-9]{0,}(\\.[0-9]{0,10})?|0\\.[0-9]{0,10}|\\.[0-9]{1,10})$',
+  errors: {
+    invalid: 'The monetary amount must be equal to or greater than 0.00.',
     missing: 'Please enter a monetary amount.'
   }
 };
@@ -30,6 +42,12 @@ module.exports.precise = function(extend) {
     return tools.extend(true, tools.clone(precise), extend);
   }
   return precise;
+};
+module.exports.preciseNonNegative = function(extend) {
+  if(extend) {
+    return tools.extend(true, tools.clone(preciseNonNegative), extend);
+  }
+  return preciseNonNegative;
 };
 module.exports.precisePositive = function(extend) {
   if(extend) {

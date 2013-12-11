@@ -41,11 +41,22 @@ function factory($scope, svcAccount, svcBudget, svcAddress, svcIdentity) {
   $scope.alertType = null;
   $scope.purchaseDisabled = false;
 
+  function updatePurchaseDisabled() {
+    $scope.purchaseDisabled = true;
+    switch($scope.sourceType) {
+      case 'account':
+        $scope.purchaseDisabled = $scope.selection.invalidAccount;
+        break;
+      case 'budget':
+        $scope.purchaseDisabled = $scope.selection.invalidBudget;
+        break;
+    }
+  }
   $scope.$watch('selection.invalidAccount', function(value) {
-    $scope.purchaseDisabled = !!value;
+    updatePurchaseDisabled();
   });
   $scope.$watch('selection.invalidBudget', function(value) {
-    $scope.purchaseDisabled = !!value;
+    updatePurchaseDisabled();
   });
   $scope.$watch('selection.account', function(value) {
     if($scope.sourceType === 'account') {
@@ -80,6 +91,7 @@ function factory($scope, svcAccount, svcBudget, svcAddress, svcIdentity) {
         updateQuote($scope.source);
       }
     }
+    updatePurchaseDisabled();
   });
 
   // purchase clicked

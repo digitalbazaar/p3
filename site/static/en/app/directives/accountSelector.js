@@ -46,6 +46,7 @@ function factory(svcAccount, svcIdentity, svcPaymentToken) {
     scope.$watch('selected.creditLimit', update);
     scope.$watch('selected.backupSource', update);
     scope.$watch('minBalance', update);
+    scope.$watch('instantTransferDeposit', update, true);
 
     scope.$watch('identity', function(value) {
       if(value) {
@@ -88,6 +89,11 @@ function factory(svcAccount, svcIdentity, svcPaymentToken) {
             scope.selected.psaAllowInstantTransfer &&
             minInstantTransfer <= minBalance) {
             scope.instantTransferRequired = true;
+            scope.model.instantTransferAmount = 0;
+            if(scope.instantTransferDeposit) {
+              scope.model.instantTransferAmount = parseFloat(
+                scope.instantTransferDeposit.amount);
+            }
           }
           else {
             scope.balanceTooLow = true;

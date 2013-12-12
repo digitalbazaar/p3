@@ -31,6 +31,10 @@ var precisePositive = {
   description: 'A monetary amount that is precise and greater than zero.',
   type: 'string',
   pattern: '^([1-9]{1}[0-9]{0,}(\\.[0-9]{0,10})?|0\\.[0-9]{1,10}|\\.[0-9]{1,10})$',
+  disallow: {
+    type: 'string',
+    pattern: '^(0|(0)?\\.([0]{1,10})?)$'
+  },
   errors: {
     invalid: 'The monetary amount must be greater than 0.00.',
     missing: 'Please enter a monetary amount greater than 0.'

@@ -62,7 +62,8 @@ ${set([
             <div id="account-selector" data-account-selector
               data-selected="selection.account"
               data-invalid="selection.invalidAccount"
-              data-identity="{{selection.identity.id}}"></div>
+              data-identity="{{selection.identity.id}}"
+              data-instant-transfer-deposit="ignore"></div>
           </div>
         </div>
 

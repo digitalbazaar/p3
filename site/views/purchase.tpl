@@ -211,7 +211,8 @@ ${set([
             data-show-deposit-button="true"
             data-instant="true"
             data-min-balance="{{contract.amount}}"
-            data-allow-instant-transfer="true"></div>
+            data-allow-instant-transfer="true"
+            data-instant-transfer-deposit="contract.triggered"></div>
         </div>
         <div data-ng-show="sourceType == 'budget'">
           <h4 class="headline">Budget</h4>

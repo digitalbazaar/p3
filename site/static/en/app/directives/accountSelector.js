@@ -116,7 +116,9 @@ function factory(svcAccount, svcIdentity, svcPaymentToken) {
       showDepositButton: '@',
       identity: '@',
       instant: '=',
-      allowInstantTransfer: '@'
+      allowInstantTransfer: '@',
+      // FIXME: use optional '=' once angularJS upgraded
+      instantTransferDeposit: '='
     },
     controller: ['$scope', Ctrl],
     templateUrl: '/app/templates/account-selector.html',

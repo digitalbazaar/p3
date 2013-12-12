@@ -72,7 +72,8 @@ ${set(
   <td>Source</td>
   <td>
     <div data-account-selector data-selected="account"
-      data-invalid="invalidAccount" data-fixed="true"></div>
+      data-invalid="invalidAccount" data-fixed="true"
+      data-instant-transfer-deposit="ignore"></div>
   </td>
 </tr>
 <tr>

@@ -4,18 +4,18 @@
  * @author Dave Longley
  * @author David I. Lehn
  */
-define(['angular'], function(angular) {
+define(['angular', 'payswarm.api'], function(angular, payswarm) {
 
 var deps = ['$scope', 'svcAccount', 'svcPaymentToken', 'svcBudget',
-  'svcTransaction', '$timeout'];
+  'svcTransaction', 'svcIdentity', '$timeout'];
 return {DashboardCtrl: deps.concat(factory)};
 
 function factory($scope, svcAccount, svcPaymentToken, svcBudget,
-  svcTransaction, $timeout) {
+  svcTransaction, svcIdentity, $timeout) {
   $scope.model = {};
   var data = window.data || {};
   $scope.profile = data.session.profile;
-  $scope.identity = data.identity;
+  $scope.identity = svcIdentity.identity;
   $scope.accounts = svcAccount.accounts;
   $scope.budgets = svcBudget.budgets;
   $scope.txns = svcTransaction.recentTxns;
@@ -56,6 +56,23 @@ function factory($scope, svcAccount, svcPaymentToken, svcBudget,
       }, 400);
     }
     $scope.budgetToDelete = null;
+  };
+
+  $scope.setDefaultAccount = function(account) {
+    var update = {
+      '@context': payswarm.CONTEXT_URL,
+      type: 'IdentityPreferences',
+      source: account.id
+    };
+
+    svcIdentity.updatePreferences(
+      $scope.identity.id, update,
+      function(err) {
+        // FIXME: show error feedback
+        if(err) {
+          console.error('setDefaultAccount error:', err);
+        }
+      });
   };
 
   $scope.getTxnType = svcTransaction.getType;

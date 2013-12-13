@@ -1,7 +1,9 @@
 var graphSignature = require('./graphSignature');
 var jsonldContext = require('./jsonldContext');
+var jsonldType = require('./jsonldType');
 var label = require('./label');
 var nonce = require('./nonce');
+var payswarmId = require('./payswarmId');
 var publicKeyPem = require('./publicKeyPem');
 var slug = require('./slug');
 var url = require('./url');
@@ -79,12 +81,11 @@ var postPreferences = {
   type: 'object',
   properties: {
     '@context': jsonldContext(),
-    destination: {
-      required: true,
-      type: 'string'
-    },
+    type: jsonldType('IdentityPreferences'),
+    destination: payswarmId({required: false}),
+    source: payswarmId({required: false}),
     publicKey: {
-      required: true,
+      required: false,
       type: [{
         // IRI only
         type: 'string'

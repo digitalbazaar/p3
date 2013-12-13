@@ -30,6 +30,9 @@ ${set([
             <td>
               <a href="{{account.id}}?view=activity">{{account.label}}</a>
               <span data-ng-show="account.psaStatus != 'active'" class="disabled">(Disabled)</span>
+              <span data-ng-show="identity.preferences.source == account.id"
+                data-tooltip-title="This is the default account."
+                data-placement="bottom" data-trigger="hover"><i class="icon icon-star"></i></span>
               <span data-ng-show="(account.creditLimit && util.parseFloat(account.creditLimit) != 0) && (!account.backupSource || !account.backupSource.length)"
                 data-tooltip-title="This account has no associated payment methods. Please edit the account information."
                 data-placement="bottom" data-trigger="hover"><i class="icon icon-warning-sign"></i></span>
@@ -51,6 +54,11 @@ ${set([
                   <i class="icon-chevron-down"></i>
                 </a>
                 <ul class="dropdown-menu pull-right">
+                  <li data-ng-show="identity.preferences.source != account.id">
+                    <a data-ng-click="setDefaultAccount(account)">
+                      <i class="icon-star"></i> Set as Default
+                    </a>
+                  </li>
                   <li>
                     <a data-ng-click="modals.account=account; modals.showDeposit=true">
                       <i class="icon-plus"></i> Deposit

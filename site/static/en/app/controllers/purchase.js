@@ -41,6 +41,17 @@ function factory($scope, svcAccount, svcBudget, svcAddress, svcIdentity) {
   $scope.alertType = null;
   $scope.purchaseDisabled = false;
 
+  // load and use default account if possible
+  if(svcIdentity.identity.preferences.source) {
+    svcAccount.getOne(svcIdentity.identity.preferences.source, function(err, account) {
+      if(err) {
+        $scope.error = err;
+        return;
+      }
+      $scope.selection.account = account;
+    });
+  }
+
   function updatePurchaseDisabled() {
     $scope.purchaseDisabled = true;
     switch($scope.sourceType) {

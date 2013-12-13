@@ -63,6 +63,8 @@ function factory($rootScope) {
           responseNonce: nonce,
           success: function(prefs) {
             service.state.loading = false;
+            // update preferences
+            service.identity.preferences = prefs;
             callback(null, prefs);
             $rootScope.$apply();
           },

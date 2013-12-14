@@ -45,6 +45,7 @@ define([
   'app/directives/modalSwitchIdentity',
   'app/directives/modalVerifyBankAccount',
   'app/directives/modalWithdraw',
+  'app/directives/money',
   'app/directives/mouseoverToggle',
   'app/directives/ngBlur',
   'app/directives/ngFocus',
@@ -60,6 +61,7 @@ define([
   'app/directives/submitForm',
   'app/directives/tooltipTitle',
   'app/directives/trackState',
+  'app/directives/transactionDetails',
   'app/directives/vcardAddress'
 ], function(angular) {
   angular.module('app.directives', []).directive(angular.extend.apply(

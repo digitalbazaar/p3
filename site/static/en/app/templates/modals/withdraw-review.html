@@ -30,7 +30,7 @@
         </td>
         <td>
           <span data-ng-show="transfer.destination != withdrawal.destination.id"><a href="{{transfer.destination}}" target="_blank">{{accounts[transfer.destination].label}}</a></span>
-          <span data-ng-show="transfer.destination == withdrawal.destination.id"><strong>{{accounts[transfer.destination].label}}</strong></span>
+          <span data-ng-show="transfer.destination == withdrawal.destination.id"><strong>{{withdrawal.destination.label}}</strong></span>
         </td>
         <td class="money">
           <span data-money="transfer"></span>

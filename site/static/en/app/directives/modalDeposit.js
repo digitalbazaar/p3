@@ -53,21 +53,19 @@ function factory(svcModal) {
         success: function(deposit) {
           // get public account information for all payees
           $scope.accounts = {};
-          for(var i in deposit.transfer) {
-            $scope.accounts[deposit.transfer[i].destination] = {};
-          }
-          async.forEach(Object.keys($scope.accounts),
-            function(account, callback) {
-            payswarm.accounts.getOne({
-              account: account,
-              success: function(response) {
-                $scope.accounts[account].label = response.label;
-                callback();
-              },
-              error: function(err) {
-                $scope.accounts[account].label = 'Private Account';
-                callback();
-              }
+          async.forEach(deposit.transfer, function(transfer, callback) {
+            var destinationId = transfer.destination;
+            if(destinationId in $scope.accounts) {
+              return callback();
+            }
+            var info = $scope.accounts[destinationId] = {
+              loading: true,
+              label: ''
+            };
+            svcAccount.getOne(destinationId, function(err, account) {
+              info.loading = false;
+              info.label = err ? 'Private Account' : account.label;
+              callback();
             });
           }, function(err) {
             // FIXME: handle err

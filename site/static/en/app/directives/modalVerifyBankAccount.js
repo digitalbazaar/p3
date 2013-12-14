@@ -110,27 +110,32 @@ function factory(svcModal) {
           return;
         }
 
-        // FIXME: duplicated from deposit code
-        // get public account information for all payees
-        $scope.accounts = {};
         angular.forEach(deposit.transfer, function(xfer) {
-          $scope.accounts[xfer.destination] = {};
           if($scope.selection.destination &&
             $scope.selection.destination.id === xfer.destination) {
             $scope.depositTransfer = xfer;
             $scope.depositDestination = $scope.selection.destination.id;
           }
         });
-        async.forEach(
-          Object.keys($scope.accounts),
-          function(accountId, callback) {
-            svcAccount.getOne(accountId, function(err, account) {
-              $scope.accounts[accountId].label = (err ?
-                'Private Account' : account.label);
-              callback();
-            });
+        // FIXME: duplicated from deposit code
+        // get public account information for all payees
+        $scope.accounts = {};
+        async.forEach(deposit.transfer, function(transfer, callback) {
+          var destinationId = transfer.destination;
+          if(destinationId in $scope.accounts) {
+            return callback();
+          }
+          $scope.accounts[destinationId] = {
+            loading: true,
+            label: ''
+          };
+          svcAccount.getOne(destinationId, function(err, account) {
+            var info = $scope.accounts[destinationId];
+            info.loading = false;
+            info.label = err ? 'Private Account' : account.label;
+            callback();
+          });
         }, function(err) {
-          $scope.loading = false;
           // FIXME: handle err
           $scope.feedback = {};
           //
@@ -138,6 +143,8 @@ function factory(svcModal) {
           // FIXME: use directive to do this
           //var target = options.target;
           //$(target).animate({scrollTop: 0}, 0);
+
+          $scope.loading = false;
 
           $scope.state = 'reviewing';
           $scope.$apply();

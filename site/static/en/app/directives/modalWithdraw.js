@@ -65,25 +65,25 @@ function factory(svcModal) {
         success: function(withdrawal) {
           // get public account information for all payees
           $scope.accounts = {};
-          angular.forEach(withdrawal.transfer, function(xfer) {
-            $scope.accounts[xfer.destination] = {};
-          });
-          async.forEach(Object.keys($scope.accounts),
-            function(account, callback) {
-            if(account.indexOf('urn') === 0) {
-              $scope.accounts[account].label = $scope.input.destination.label;
+          async.forEach(withdrawal.transfer, function(transfer, callback) {
+            var destinationId = transfer.destination;
+            if(destinationId in $scope.accounts ||
+              destinationId === $scope.input.destination.id) {
               return callback();
             }
-            payswarm.accounts.getOne({
-              account: account,
-              success: function(response) {
-                $scope.accounts[account].label = response.label;
-                callback();
-              },
-              error: function(err) {
-                $scope.accounts[account].label = 'Private Account';
-                callback();
-              }
+            var info = $scope.accounts[destinationId] = {
+              loading: true,
+              label: ''
+            };
+            if(destinationId.indexOf('urn') === 0) {
+              info.label = $scope.input.destination.label;
+              info.loading = false;
+              return callback();
+            }
+            svcAccount.getOne(destinationId, function(err, account) {
+              info.loading = false;
+              info.label = err ? 'Private Account' : account.label;
+              callback();
             });
           }, function(err) {
             // FIXME: handle err

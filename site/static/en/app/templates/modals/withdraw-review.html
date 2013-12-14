@@ -33,8 +33,7 @@
           <span data-ng-show="transfer.destination == withdrawal.destination.id"><strong>{{accounts[transfer.destination].label}}</strong></span>
         </td>
         <td class="money">
-          <span class="money" data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact amount of this transfer is USD {{transfer.amount}}."
-            data-placement="bottom" data-trigger="hover"><span class="currency">USD</span> {{transfer.amount | currency:'$'}}</span>
+          <span data-money="transfer"></span>
         </td>
       </tr>
     </tbody>
@@ -50,7 +49,7 @@
           account.
         </td>
         <td class="money">
-          <span class="money"><span class="currency">USD</span> <strong>{{withdrawal.amount | currency:'$'}}</strong></span>
+          <span data-money="withdrawal" data-important="true"></span>
         </td>
       </tr>
       <tr>
@@ -63,7 +62,7 @@
           </span>.
         </td>
         <td class="money">
-          <span class="money"><span class="currency">USD</span> <strong>{{withdrawal.transfer[0].amount | currency:'$'}}</strong></span>
+          <span data-money="withdrawal.transfer[0]" data-important="true"></span>
         </td>
       </tr>
     </tfoot>

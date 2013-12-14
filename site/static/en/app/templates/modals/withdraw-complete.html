@@ -1,14 +1,14 @@
 <p>
   You have withdrawn
-  <strong><span class="money">USD $<span class="amount">{{withdrawal.amount}}</span></span></strong>
+  <span data-money="withdrawal" data-important="true"></span>
   from your
   "<strong>{{account.label}}</strong>"
   account.
 </p>
 
 <div class="section">
-<h4 class="headline">Withdrawal Details</h4>
-  <table class="well table table-condensed">
+  <h4 class="headline">Withdrawal Details</h4>
+  <table class="table table-condensed">
     <thead>
       <tr>
         <th>Description</th>
@@ -28,8 +28,7 @@
           <span data-ng-show="transfer.destination == withdrawal.destination.id"><strong>{{accounts[transfer.destination].label}}</strong></span>
         </td>
         <td class="money">
-          <span class="money" data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact amount of this transfer is USD {{transfer.amount}}."
-            data-placement="bottom" data-trigger="hover"><span class="currency">USD</span> {{transfer.amount | currency:'$'}}</span>
+          <span data-money="transfer"></span>
         </td>
       </tr>
     </tbody>
@@ -45,7 +44,7 @@
           account.
         </td>
         <td class="money">
-          <span class="money"><span class="currency">USD</span> <strong>{{withdrawal.amount | currency:'$'}}</strong></span>
+          <span data-money="withdrawal" data-important="true"></span>
         </td>
       </tr>
       <tr>
@@ -58,24 +57,27 @@
           </span>.
         </td>
         <td class="money">
-          <span class="money"><span class="currency">USD</span> <strong>{{withdrawal.transfer[0].amount | currency:'$'}}</strong></span>
+          <span data-money="withdrawal.transfer[0]" data-important="true"></span>
         </td>
       </tr>
     </tfoot>
   </table>
 </div>
 
-<p style="margin-top: 10px;">
-  Your 
-  <span data-ng-switch="input.destination.paymentMethod">
-    <span data-ng-switch-when="BankAccount">bank account</span>
-    <span data-ng-switch-default>external account</span>
-  </span>
-  "{{input.destination.label}}" was credited
-  <strong><span class="money">USD {{withdrawal.transfer[0].amount | currency:'$'}}</span></strong>
-  on
-  <span class="date">{{withdrawal.created | date:'medium'}}</span>.
-  "Digital Bazaar" will appear on your bank statement.
-</p>
+<div class="section">
+  <h4 class="headline">Summary</h4>
+  <p>
+    Your 
+    <span data-ng-switch="input.destination.paymentMethod">
+      <span data-ng-switch-when="BankAccount">bank account</span>
+      <span data-ng-switch-default>external account</span>
+    </span>
+    "<strong>{{input.destination.label}}</strong>" was credited
+    <span data-money="withdrawal.transfer[0]" data-important="true"></span>
+    on
+    <span class="date">{{withdrawal.created | date:'medium'}}</span>.
+    "Digital Bazaar" will appear on your bank statement.
+  </p>
 
-<p>A copy of this receipt has been sent to your email address.</p>
+  <p>A copy of this receipt has been sent to your email address.</p>
+</div>

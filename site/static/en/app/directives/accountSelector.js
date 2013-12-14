@@ -89,11 +89,6 @@ function factory(svcAccount, svcIdentity, svcPaymentToken) {
             scope.selected.psaAllowInstantTransfer &&
             minInstantTransfer <= minBalance) {
             scope.instantTransferRequired = true;
-            scope.model.instantTransferAmount = 0;
-            if(scope.instantTransferDeposit) {
-              scope.model.instantTransferAmount = parseFloat(
-                scope.instantTransferDeposit.amount);
-            }
           }
           else {
             scope.balanceTooLow = true;

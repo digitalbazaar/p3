@@ -46,16 +46,25 @@
       <div data-ng-show="allowInstantTransfer && instantTransferRequired">
         <hr />
         <div class="alert alert-warning">
-          An instant transfer of {{model.instantTransferAmount | ceil | currency:'$'}} will be performed to complete this purchase because the selected account does not have sufficient funds.
+          The selected account does not have sufficient funds. An instant transfer of <span data-money="instantTransferDeposit" data-important="true"></span> from your "<strong>{{model.backupSource.label}}</strong>" payment method will be performed to complete this purchase.
           <span data-ng-show="model.backupSource">
-            <a data-ng-click="model.paymentMethodIsCollapsed=!model.paymentMethodIsCollapsed">
-              <i class="icon-credit-card"></i>
-            </a>
+            Details of this instant transfer are available for review: <a data-ng-click="model.paymentMethodIsCollapsed=!model.paymentMethodIsCollapsed">
+              <i class="icon-list-alt"></i>
+            </a>.
           </span>
         </div>
         <div data-collapse="model.paymentMethodIsCollapsed">
-          <h5>Instant Transfer Payment Method</h5>
-          <div data-payment-token-selector data-selected="model.backupSource" data-instant="true" fixed="true"></div>
+          <h5 class="headline">Instant Transfer Payment Method</h5>
+          <div data-payment-token-selector
+            data-selected="model.backupSource"
+            data-instant="true" data-fixed="true"></div>
+        <div>
+        <div data-collapse="model.paymentMethodIsCollapsed">
+          <h5 class="headline">Instant Transfer Deposit Details</h5>
+            <div data-transaction-details="instantTransferDeposit"
+              data-source="model.backupSource"
+              data-complete="false"></div>
+          </div>
         </div>
       </div>
     </div>

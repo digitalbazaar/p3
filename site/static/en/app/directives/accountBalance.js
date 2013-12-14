@@ -54,7 +54,9 @@ function factory(svcPaymentToken) {
           // get backup source token
           model.backupSource = null;
           if(account.backupSource && account.backupSource.length) {
-            model.backupSource = svcPaymentToken.find(account.backupSource[0]);
+            svcPaymentToken.getOne(account.backupSource[0], function(err, token) {
+              model.backupSource = token;
+            });
           }
 
           // credit bar width

@@ -20,10 +20,13 @@ ${set(pageTitle = "Transaction Info")}
       <span class="currency">USD</span> $${transaction.amount}
     </span>
   </td></tr>
+{{if transaction.triggeredBy && transaction.triggerReason == 'InsufficientFunds'}}
+<tr><td>Instant Transfer For</td><td><a href="${transaction.triggeredBy}">${transaction.triggeredBy}</a></td></tr>
+{{/if}}
 {{if isContract}}
 <tr>
   <td>Asset</td>
-  <td><a href="${asset.assetContent}">${asset.title}</a> by 
+  <td><a href="${asset.assetContent}">${asset.title}</a> by
   ${asset.creator.fullName}</td>
 </tr>
 <tr>
@@ -59,7 +62,7 @@ ${set(pageTitle = "Transaction Info")}
     {{if transaction.source && transfer.source === transaction.source.id}}
       ${transaction.source.label}
       {{if transaction.source.paymentMethod === "CreditCard"}}
-        (Credit Card: ${transaction.source.cardNumber}) 
+        (Credit Card: ${transaction.source.cardNumber})
       {{else transaction.source.paymentMethod === "BankAccount"}}
         (Bank Account: ${transaction.source.bankAccount})
       {{/if}}
@@ -70,11 +73,11 @@ ${set(pageTitle = "Transaction Info")}
     <i class="icon-plus" title="Destination Account"></i>
     <span class="money right" title="USD $${transfer.amount}">
       $ ${transfer.amount}
-    </span> to 
+    </span> to
     {{if transaction.destination && transfer.destination === transaction.destination.id}}
       ${transaction.destination.label}
       {{if transaction.destination.paymentMethod === "CreditCard"}}
-        (Credit Card: ${transaction.destination.cardNumber}) 
+        (Credit Card: ${transaction.destination.cardNumber})
       {{else transaction.destination.paymentMethod === "BankAccount"}}
         (Bank Account: ${transaction.destination.bankAccount})
       {{/if}}

@@ -1119,6 +1119,7 @@
         , actualHeight
         , placement
         , tp
+        , container
 
       if (this.hasContent() && this.enabled) {
         $tip = this.tip()
@@ -1137,7 +1138,9 @@
         $tip
           .detach()
           .css({ top: 0, left: 0, display: 'block' })
-          .insertAfter(this.$element)
+
+        container = this.options.container === '' ? '' : $(this.options.container)
+        container.length ? $tip.appendTo(container) : $tip.insertAfter(this.$element)
 
         pos = this.getPosition(inside)
 

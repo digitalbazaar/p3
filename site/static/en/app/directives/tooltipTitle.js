@@ -16,8 +16,13 @@ function factory() {
         element.tooltip('hide');
         element.removeData('tooltip');
       }
+      var container = element.closest('.modal-body');
+      if(!container.length) {
+        container = 'body';
+      }
       element.tooltip({
-        title: value
+        title: value,
+        container: container
       });
       if(show) {
         element.data('tooltip').show();

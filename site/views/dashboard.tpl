@@ -90,7 +90,7 @@ ${set([
             </td>
           </tr>
           <tr>
-            <td colspan="3" style="border: none; padding-top: 0; padding-bottom: 0">
+            <td colspan="3" style="border: none; padding-top: 0; padding-bottom: {{model.expandAccountBalance[account.id] && '4px' || '0'}}">
               <div data-account-balance-details="account" data-expand="model.expandAccountBalance[account.id]"></div>
             </td>
           </tr>

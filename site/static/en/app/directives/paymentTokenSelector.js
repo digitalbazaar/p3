@@ -73,8 +73,17 @@ function factory(svcPaymentToken, svcModel) {
         scope.tokensFilteredByInstant = svcPaymentToken.paymentTokens;
         scope.paymentMethods = svcPaymentToken.paymentMethods;
       }
-      filterTokens(scope);
     });
+
+    // FIXME: suboptimal -- tokensFilteredByInstant and paymentMethods
+    // generally change together so extra filtering will occur
+    scope.$watch('tokensFilteredByInstant', function(value) {
+      filterTokens(scope);
+    }, true);
+
+    scope.$watch('paymentMethods', function(value) {
+      filterTokens(scope);
+    }, true);
 
     scope.$watch('omit', function(value) {
       filterTokens(scope);

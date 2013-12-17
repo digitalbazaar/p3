@@ -28,7 +28,22 @@ ${set([
 
         <div class="row-fluid">
           <div class="section span12">
-            <h3 class="headline">Credit Cards</h3>
+            <h3 class="headline">
+              Credit Cards
+              <span data-ng-hide="state.loading" class="btn-group pull-right">
+                <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
+                  <i class="icon-chevron-down"></i>
+                </a>
+                <ul class="dropdown-menu pull-right">
+                  <li>
+                    <a data-ng-click="modals.showAddCreditCard=true"><i class="icon-plus icon-white"></i> Add Credit Card</a>
+                  </li>
+                </ul>
+              </span>
+              <span data-ng-show="state.loading" class="pull-right">
+                <span data-spinner="state.loading" data-spinner-class="h3-spinner"></span>
+              </span>
+            </h3>
             <table class="table table-condensed" data-ng-show="state.loading || creditCards.length > 0">
               <thead>
                 <tr>
@@ -104,23 +119,6 @@ ${set([
                   </td>
                 </tr>
               </tbody>
-              <tfoot>
-                <tr data-ng-hide="state.loading">
-                  <!-- Add Credit Card -->
-                  <td colspan="6">
-                    <button
-                      class="btn btn-success pull-right"
-                      data-ng-click="modals.showAddCreditCard=true"><i class="icon-plus icon-white"></i> Add Credit Card</button>
-                  </td>
-                </tr>
-                <tr data-ng-show="state.loading">
-                  <td colspan="6" style="text-align: center">
-                    <span class="center">
-                      <span data-spinner="state.loading" data-spinner-class="table-spinner"></span>
-                    </span>
-                  </td>
-                </tr>
-              </tfoot>
             </table>
             <div data-ng-show="!state.loading && creditCards.length == 0">
               <p class="center">You have no credit cards associated with this identity.</p>
@@ -143,7 +141,22 @@ ${set([
 
         <div class="row-fluid">
           <div class="section span12">
-            <h3 class="headline">Bank Accounts</h3>
+            <h3 class="headline">
+              Bank Accounts
+              <span data-ng-hide="state.loading" class="btn-group pull-right">
+                <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
+                  <i class="icon-chevron-down"></i>
+                </a>
+                <ul class="dropdown-menu pull-right">
+                  <li>
+                    <a data-ng-click="modals.showAddBankAccount=true"><i class="icon-plus icon-white"></i> Add Bank Account</a>
+                  </li>
+                </ul>
+              </span>
+              <span data-ng-show="state.loading" class="pull-right">
+                <span data-spinner="state.loading" data-spinner-class="h3-spinner"></span>
+              </span>
+            </h3>
             <table class="table table-condensed" data-ng-show="state.loading || bankAccounts.length > 0">
               <thead>
                 <tr>
@@ -217,23 +230,6 @@ ${set([
                   </td>
                 </tr>
               </tbody>
-              <tfoot>
-                <tr data-ng-hide="state.loading">
-                  <!-- Add Bank Account -->
-                  <td colspan="6">
-                    <button
-                      class="btn btn-success pull-right"
-                      data-ng-click="modals.showAddBankAccount=true"><i class="icon-plus icon-white"></i> Add Bank Account</button>
-                  </td>
-                </tr>
-                <tr data-ng-show="state.loading">
-                  <td colspan="6" style="text-align: center">
-                    <span class="center">
-                      <span data-spinner="state.loading" data-spinner-class="table-spinner"></span>
-                    </span>
-                  </td>
-                </tr>
-              </tfoot>
             </table>
             <div data-ng-show="!state.loading && bankAccounts.length == 0">
               <p class="center">You have no bank accounts associated with this identity.</p>
@@ -257,7 +253,22 @@ ${set([
         data-ng-controller="AddressSettingsCtrl">
         <div class="row-fluid">
           <div class="section span12">
-            <h3 class="headline">Addresses</h3>
+            <h3 class="headline">
+              Addresses
+              <span data-ng-hide="state.loading" class="btn-group pull-right">
+                <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
+                  <i class="icon-chevron-down"></i>
+                </a>
+                <ul class="dropdown-menu pull-right">
+                  <li>
+                    <a data-ng-click="modals.showAddAddress=true"><i class="icon-plus icon-white"></i> Add Address</a>
+                  </li>
+                </ul>
+              </span>
+              <span data-ng-show="state.loading" class="pull-right">
+                <span data-spinner="state.loading" data-spinner-class="h3-spinner"></span>
+              </span>
+            </h3>
             <table class="table table-condensed" data-ng-show="state.loading || addresses.length > 0">
               <thead>
                 <tr>
@@ -282,23 +293,6 @@ ${set([
                   </td>
                 </tr>
               </tbody>
-              <tfoot>
-                <tr data-ng-hide="state.loading">
-                  <!-- Add Address -->
-                  <td colspan="5">
-                    <button
-                      class="btn btn-success pull-right"
-                      data-ng-click="modals.showAddAddress=true"><i class="icon-plus icon-white"></i> Add Address</button>
-                  </td>
-                </tr>
-                <tr data-ng-show="state.loading">
-                  <td colspan="5" style="text-align: center">
-                    <span class="center">
-                      <span data-spinner="state.loading" data-spinner-class="table-spinner"></span>
-                    </span>
-                  </td>
-                </tr>
-              </tfoot>
             </table>
             <div data-ng-show="!state.loading && addresses.length == 0">
               <p class="center">You have no addresses associated with this identity.</p>
@@ -338,7 +332,12 @@ ${set([
         data-ng-controller="KeySettingsCtrl">
         <div class="row-fluid">
           <div class="section span12">
-            <h3 class="headline">Keys</h3>
+            <h3 class="headline">
+              Keys
+              <span data-ng-show="state.loading" class="pull-right">
+                <span data-spinner="state.loading" data-spinner-class="h3-spinner"></span>
+              </span>
+            </h3>
             <table class="table table-condensed" data-ng-show="state.loading || keys.length > 0">
               <thead>
                 <tr>
@@ -369,15 +368,6 @@ ${set([
                   </td>
                 </tr>
               </tbody>
-              <tfoot data-ng-show="state.loading">
-                <tr>
-                  <td colspan="5" style="text-align: center">
-                    <span class="center">
-                      <span data-spinner="state.loading" data-spinner-class="table-spinner"></span>
-                    </span>
-                  </td>
-                </tr>
-              </tfoot>
             </table>
             <div data-ng-show="!state.loading && keys.length == 0">
               <p class="center">You have no keys associated with this identity.

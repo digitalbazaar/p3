@@ -259,6 +259,17 @@ body {
   border-left: none;
 }
 
+/* Align at the top of their rows. */
+.table .name, .table .money, .table .action {
+  vertical-align: top
+}
+.table .money {
+  padding-top: 9px;
+}
+.table .name {
+  padding-top: 9px;
+}
+
 /* Override bootstrap to inherit vertical alignment for condensed tables. */
 .table-condensed {
   margin-bottom: 0px;

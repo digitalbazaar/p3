@@ -27,7 +27,7 @@ ${set([
         <tbody>
           <tr data-ng-repeat="account in accounts | orderBy:'label'" class="account">
             <!-- Label -->
-            <td>
+            <td class="name">
               <a href="{{account.id}}?view=activity">{{account.label}}</a>
               <span data-ng-show="account.psaStatus != 'active'" class="disabled">(Disabled)</span>
               <span data-ng-show="identity.preferences.source == account.id"

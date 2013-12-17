@@ -403,6 +403,11 @@ span.negative-money {
   display: inline-block;
   margin: 15px 0 0 -15px;
 }
+.h3-spinner {
+  display: inline-block;
+  padding-right: 12px;
+  margin-bottom: 9px;
+}
 
 /* Misc */
 .table th.compact, .table td.compact {

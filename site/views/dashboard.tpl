@@ -15,7 +15,22 @@ ${set([
 
   <div class="row">
     <div class="section section-accounts span6">
-      <h3 class="headline">Accounts</h3>
+      <h3 class="headline">
+        Accounts
+        <span data-ng-hide="state.accounts.loading" class="btn-group pull-right">
+          <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
+            <i class="icon-chevron-down"></i>
+          </a>
+          <ul class="dropdown-menu pull-right">
+            <li>
+              <a data-ng-click="modals.showAddAccount=true"><i class="icon-plus icon-white"></i> Add Account</a>
+            </li>
+          </ul>
+        </span>
+        <span data-ng-show="state.accounts.loading" class="pull-right">
+          <span data-spinner="state.accounts.loading" data-spinner-class="h3-spinner"></span>
+        </span>
+      </h3>
       <table class="table table-condensed" data-ng-show="state.accounts.loading || accounts.length > 0">
         <thead>
           <tr>
@@ -95,24 +110,6 @@ ${set([
             </td>
           </tr>
         </tbody>
-        <tfoot>
-          <tr data-ng-hide="state.accounts.loading">
-            <!-- Add Account -->
-            <td colspan="3">
-              <button
-                class="btn btn-success btn-add-account pull-right"
-                data-ng-click="modals.showAddAccount=true"><i class="icon-plus icon-white"></i> Add Account</button>
-            </td>
-          </tr>
-          <tr data-ng-show="state.accounts.loading">
-            <td colspan="3" style="text-align: center">
-              <span class="center">
-                <span data-spinner="state.accounts.loading"
-                  data-spinner-class="table-spinner"></span>
-              </span>
-            </td>
-          </tr>
-        </tfoot>
       </table>
       <div data-ng-show="!state.accounts.loading && accounts.length == 0">
         <p class="center">You have no accounts for this identity.</p>
@@ -134,7 +131,22 @@ ${set([
     </div>
 
     <div class="section section-budgets span6">
-      <h3 class="headline">Budgets</h3>
+      <h3 class="headline">
+        Budgets
+        <span data-ng-hide="state.budgets.loading" class="btn-group pull-right">
+          <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
+            <i class="icon-chevron-down"></i>
+          </a>
+          <ul class="dropdown-menu pull-right">
+            <li>
+              <a data-ng-click="modals.showAddBudget=true"><i class="icon-plus icon-white"></i> Add Budget</a>
+            </li>
+          </ul>
+        </span>
+        <span data-ng-show="state.budgets.loading" class="pull-right">
+          <span data-spinner="state.budgets.loading" data-spinner-class="h3-spinner"></span>
+        </span>
+      </h3>
       <table class="table table-condensed" data-ng-show="state.budgets.loading || budgets.length > 0">
         <thead>
           <tr>
@@ -188,23 +200,6 @@ ${set([
             </td>
           </tr>
         </tbody>
-        <tfoot>
-          <tr data-ng-hide="state.budgets.loading">
-            <td colspan="4">
-              <button
-                class="btn btn-success btn-add-budget pull-right"
-                data-ng-click="modals.showAddBudget=true"><i class="icon-plus icon-white"></i> Add Budget</button>
-            </td>
-          </tr>
-          <tr data-ng-show="state.budgets.loading">
-            <td colspan="4" style="text-align: center">
-              <span class="center">
-                <span data-spinner="state.budgets.loading"
-                  data-spinner-class="table-spinner"></span>
-              </span>
-            </td>
-          </tr>
-        </tfoot>
       </table>
       <!-- Delete budget alert -->
       <div data-modal-alert="showDeleteBudgetAlert"
@@ -233,8 +228,12 @@ ${set([
 
   <div class="row">
     <div class="section section-recent-transactions span6">
-      <h3 class="headline">Recent Transactions</h3>
-
+      <h3 class="headline">
+        Recent Transactions
+        <span data-ng-show="state.txns.loading" class="pull-right">
+          <span data-spinner="state.txns.loading" data-spinner-class="h3-spinner"></span>
+        </span>
+      </h3>
       <table class="table table-condensed" data-ng-show="state.txns.loading || txns.length > 0">
         <thead>
           <tr>
@@ -270,13 +269,6 @@ ${set([
           <tr data-ng-hide="state.txns.loading">
             <td colspan="5">
               <a href="accounts?view=activity" class="btn pull-right"><i class="icon-list"></i> More <i class="icon-chevron-right"></i></a>
-            </td>
-          </tr>
-          <tr data-ng-show="state.txns.loading">
-            <td colspan="5" style="text-align: center">
-              <span class="center">
-                <span data-spinner="state.txns.loading" data-spinner-class="table-spinner"></span>
-              </span>
             </td>
           </tr>
         </tfoot>

@@ -19,7 +19,7 @@ ${set([
         Accounts
         <span data-ng-hide="state.accounts.loading" class="btn-group pull-right">
           <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
-            <i class="icon-align-justify"></i>
+            <i class="icon-reorder"></i>
           </a>
           <ul class="dropdown-menu pull-right">
             <li>
@@ -135,7 +135,7 @@ ${set([
         Budgets
         <span data-ng-hide="state.budgets.loading" class="btn-group pull-right">
           <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
-            <i class="icon-align-justify"></i>
+            <i class="icon-reorder"></i>
           </a>
           <ul class="dropdown-menu pull-right">
             <li>

@@ -260,13 +260,13 @@ body {
 }
 
 /* Align at the top of their rows. */
-.table .name, .table .money, .table .action {
+.table .name td, .table .money td, .table .action td {
   vertical-align: top
 }
-.table .money {
+.table .money td {
   padding-top: 9px;
 }
-.table .name {
+.table .name td {
   padding-top: 9px;
 }
 

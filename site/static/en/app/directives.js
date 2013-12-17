@@ -6,6 +6,8 @@
 define([
   'angular',
   'app/directives/accountBalance',
+  'app/directives/accountBalanceDetails',
+  'app/directives/accountBalanceSummary',
   'app/directives/accountSelector',
   'app/directives/addressSelector',
   'app/directives/animate',

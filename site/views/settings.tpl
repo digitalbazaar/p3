@@ -6,7 +6,9 @@ ${set([
 {{partial "head.tpl"}}
 
 {{verbatim}}
-<div class="container ng-cloak">
+<div class="ng-cloak">
+
+<div class="container">
 
   <div class="row">
     <div class="title-section span12">
@@ -400,10 +402,11 @@ ${set([
 
     </div>
   </div>
-
 </div>
 {{/verbatim}}
 
 {{partial "demo-warning.tpl"}}
 
 {{partial "foot.tpl"}}
+
+</div>

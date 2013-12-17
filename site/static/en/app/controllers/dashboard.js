@@ -12,7 +12,7 @@ return {DashboardCtrl: deps.concat(factory)};
 
 function factory($scope, svcAccount, svcPaymentToken, svcBudget,
   svcTransaction, svcIdentity, $timeout) {
-  $scope.model = {};
+  var model = $scope.model = {};
   var data = window.data || {};
   $scope.profile = data.session.profile;
   $scope.identity = svcIdentity.identity;
@@ -35,6 +35,7 @@ function factory($scope, svcAccount, svcPaymentToken, svcBudget,
     account: null,
     budget: null
   };
+  model.expandAccountBalance = {};
   $scope.getBudgetRefreshDuration = svcBudget.getRefreshDuration;
   $scope.deleteBudget = function(budget) {
     $scope.showDeleteBudgetAlert = true;

@@ -24,8 +24,9 @@ ${set([
             <th class="action">Action</th>
           </tr>
         </thead>
-        <tbody>
-          <tr data-ng-repeat="account in accounts | orderBy:'label'" class="account">
+        <!-- FIXME: use ng-repeat-start/ng-repeat-end on tr once using AngularJS 1.2 -->
+        <tbody data-ng-repeat="account in accounts | orderBy:'label'" class="account" style="border: none">
+          <tr>
             <!-- Label -->
             <td class="name">
               <a href="{{account.id}}?view=activity">{{account.label}}</a>
@@ -45,7 +46,7 @@ ${set([
             </td>
             <!-- Balance -->
             <td class="money">
-              <span data-account-balance="account"></span>
+              <div data-account-balance-summary="account" data-expand="model.expandAccountBalance[account.id]"></div>
             </td>
             <!-- Action -->
             <td class="action">
@@ -86,6 +87,11 @@ ${set([
                   </li>
                 </ul>
               </div>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="3" style="border: none; padding-top: 0; padding-bottom: 0">
+              <div data-account-balance-details="account" data-expand="model.expandAccountBalance[account.id]"></div>
             </td>
           </tr>
         </tbody>

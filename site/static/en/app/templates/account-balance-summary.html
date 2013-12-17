@@ -1,0 +1,6 @@
+<div>
+  <span class="money"><span class="currency">{{account.currency}}</span> <span data-ng-class="model.totalBalance < 0 && 'negative-money'">{{model.totalBalance | floor | currency:'$'}}</span></span>
+  <a data-ng-click="expand=!expand">
+    <i class="icon-info-sign"></i>
+  </a>
+</div>

@@ -32,7 +32,7 @@ ${set([
               Credit Cards
               <span data-ng-hide="state.loading" class="btn-group pull-right">
                 <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
-                  <i class="icon-chevron-down"></i>
+                  <i class="icon-align-justify"></i>
                 </a>
                 <ul class="dropdown-menu pull-right">
                   <li>
@@ -145,7 +145,7 @@ ${set([
               Bank Accounts
               <span data-ng-hide="state.loading" class="btn-group pull-right">
                 <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
-                  <i class="icon-chevron-down"></i>
+                  <i class="icon-align-justify"></i>
                 </a>
                 <ul class="dropdown-menu pull-right">
                   <li>
@@ -257,7 +257,7 @@ ${set([
               Addresses
               <span data-ng-hide="state.loading" class="btn-group pull-right">
                 <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
-                  <i class="icon-chevron-down"></i>
+                  <i class="icon-align-justify"></i>
                 </a>
                 <ul class="dropdown-menu pull-right">
                   <li>

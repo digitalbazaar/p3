@@ -319,7 +319,7 @@ payswarm.accounts.addCreditLine = function(options) {
  *
  * Usage:
  *
- * payswarm.accounts.addCreditLine({
+ * payswarm.accounts.addBackupSource({
  *   account: 'ACCOUNT_ID',
  *   backupSource: 'PAYMENT_TOKEN_ID',
  *   success: function() {},
@@ -351,11 +351,11 @@ payswarm.accounts.addBackupSource = function(options) {
 };
 
 /**
- * Delete a backup source to an account.
+ * Delete a backup source from an account.
  *
  * Usage:
  *
- * payswarm.accounts.addCreditLine({
+ * payswarm.accounts.delBackupSource({
  *   account: 'ACCOUNT_ID',
  *   backupSource: 'PAYMENT_TOKEN_ID',
  *   success: function() {},

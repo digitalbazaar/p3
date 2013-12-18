@@ -65,7 +65,6 @@ var postAccount = {
       required: false,
       type: 'array',
       uniqueItems: true,
-      minLength: 1,
       items: {
         type: payswarmId()
       }

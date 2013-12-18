@@ -97,6 +97,16 @@
     <div data-ng-hide="!editing" class="control-group">
       <label class="control-label" for="backups">Credit Line Payment Method</label>
       <div class="controls">
+        <label class="radio inline">
+          <input type="radio" name="enable-backup-source"
+            data-ng-value="true" data-ng-model="model.backupSourceEnabled" />
+          Enable
+        </label>
+        <label class="radio inline">
+          <input type="radio" name="enable-backup-source"
+            data-ng-value="false" data-ng-model="model.backupSourceEnabled" />
+          Disable
+        </label>
         <!--
         <div class="input-append pull-right">
           ...
@@ -105,15 +115,17 @@
           </button>
         </div>
         -->
-        <div data-payment-token-selector data-selected="model.backupSource"
-          data-instant="true"></div>
+        <div data-ng-show="model.backupSourceEnabled">
+          <div data-payment-token-selector data-selected="model.backupSource"
+            data-instant="true"></div>
+        </div>
 
         <!--
         <div data-payment-token-list data-instant="true" data-id-list="account.backupSource"></div>
-        -->
         <p data-fade-toggle="model.help.backups.show" class="help-block">
           Choose the payment methods that are used to fund this account.
         </p>
+        -->
       </div>
     </div>
     <div data-ng-hide="!editing" class="control-group">

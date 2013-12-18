@@ -27,15 +27,18 @@ function factory(svcModal) {
 
     model.accountVisibility = ($scope.account.psaPublic.length === 0) ?
       'hidden' : 'public';
+
     // storage for backupSource object
     // backend needs just a list of ids
     // only use first element if there are more than one
     // use sourceAccount object vs copy to use angular ids
     model.backupSource = null;
+    model.backupSourceEnabled = false;
     if($scope.sourceAccount.backupSource &&
       $scope.sourceAccount.backupSource[0]) {
       // FIXME: handle errors below or let it use defaults?
       $scope.loading = true;
+      model.backupSourceEnabled = true;
       svcPaymentToken.get(function(err) {
         $scope.loading = false;
         if(err) {
@@ -67,7 +70,9 @@ function factory(svcModal) {
         account.psaPublic.push('owner');
       }
       // use list of backupSource ids vs objects
-      var newBackupSource = [model.backupSource.id];
+      // use empty list if backupSources disabled
+      var newBackupSource =
+        model.backupSourceEnabled ? [model.backupSource.id] : [];
       // let server handle add/del operations
       if(!angular.equals($scope.sourceAccount.backupSource, newBackupSource)) {
         account.backupSource = newBackupSource;

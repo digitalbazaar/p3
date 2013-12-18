@@ -485,6 +485,13 @@ span.negative-money {
 .resize-none {
   resize: none;
 }
+.active-true {
+  text-decoration: none;
+}
+.active-false {
+  text-decoration: line-through;
+  color: grey;
+}
 
 /* Font effects */
 .headline {

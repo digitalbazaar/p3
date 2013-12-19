@@ -95,7 +95,12 @@
       </div>
     </div>
     <div data-ng-hide="!editing" class="control-group">
-      <label class="control-label" for="backups">Credit Line Payment Method</label>
+      <label class="control-label" for="backups">
+        External Payment Method
+        <a data-help-toggle="model.help.backupSource">
+          <i class="icon-question-sign"></i>
+        </a>
+      </label>
       <div class="controls">
         <label class="radio inline">
           <input type="radio" name="enable-backup-source"
@@ -107,15 +112,14 @@
             data-ng-value="false" data-ng-model="model.backupSourceEnabled" />
           Disable
         </label>
-        <!--
-        <div class="input-append pull-right">
-          ...
-          <button class="btn" data-help-toggle="model.help.backups">
-            <i class="icon-question-sign"></i>
-          </button>
+        <div data-fade-toggle="model.help.backupSource.show" style="margin-top: 10px">
+          <p class="help-block">
+            An external payment method is used to automatically pay back used
+            credit on its due date and to provide funds if an instant transfer
+            is required to complete a purchase.
+          </p>
         </div>
-        -->
-        <div style="padding: 5px"></div>
+        <div style="margin-top: 10px"></div>
         <div data-ng-show="model.backupSourceEnabled">
           <div data-payment-token-selector data-selected="model.backupSource"
             data-instant="true"></div>
@@ -123,7 +127,7 @@
         <div data-ng-hide="model.backupSourceEnabled || model.creditDisabled || model.fullyBackedCredit"
           class="alert alert-warning">
           <strong>Warning:</strong>
-          Use of your credit line will be disabled until a payment method is enabled.
+          Use of your credit line and instant transfer will be disabled until a payment method is enabled.
         </div>
 
         <!--
@@ -135,7 +139,12 @@
       </div>
     </div>
     <div data-ng-hide="!editing" class="control-group">
-      <label class="control-label" for="psaAllowInstantTransfer">Instant Transfer</label>
+      <label class="control-label" for="psaAllowInstantTransfer">
+        Instant Transfer
+        <a data-help-toggle="model.help.psaAllowInstantTransfer">
+          <i class="icon-question-sign"></i>
+        </a>
+      </label>
       <div class="controls">
         <label class="radio inline">
           <input type="radio" name="enable-instant-transfer"
@@ -147,6 +156,13 @@
             data-ng-value="false" data-ng-model="account.psaAllowInstantTransfer" />
           Disable
         </label>
+        <div data-fade-toggle="model.help.psaAllowInstantTransfer.show" style="margin-top: 10px">
+          <p class="help-block">
+            Enabling instant transfer will cause purchases that exceed your
+            credit limit to be performed using the payment method of your
+            choice. Extra fees will be applied per purchase.
+          </p>
+        </div>
       </div>
     </div>
     <div data-ng-hide="!editing" class="control-group" data-binding="psaMinInstantTransfer">

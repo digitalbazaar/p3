@@ -115,9 +115,15 @@
           </button>
         </div>
         -->
+        <div style="padding: 5px"></div>
         <div data-ng-show="model.backupSourceEnabled">
           <div data-payment-token-selector data-selected="model.backupSource"
             data-instant="true"></div>
+        </div>
+        <div data-ng-hide="model.backupSourceEnabled || model.creditDisabled || model.fullyBackedCredit"
+          class="alert alert-warning">
+          <strong>Warning:</strong>
+          Use of your credit line will be disabled until a payment method is enabled.
         </div>
 
         <!--

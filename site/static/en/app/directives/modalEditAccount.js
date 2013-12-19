@@ -24,6 +24,14 @@ function factory(svcModal) {
       !!$scope.account.psaAllowInstantTransfer;
     $scope.account.psaMinInstantTransfer =
       $scope.account.psaMinInstantTransfer || '';
+    $scope.account.creditLimit = $scope.account.creditLimit || '0.0000000000';
+    $scope.account.creditBackedAmount =
+      $scope.account.creditBackedAmount || '0.0000000000';
+
+    var creditLimit = parseFloat($scope.account.creditLimit);
+    var backedAmount = parseFloat($scope.account.creditBackedAmount);
+    model.fullyBackedCredit = (creditLimit - backedAmount) <= 0;
+    model.creditDisabled = !!$scope.account.psaDisabled;
 
     model.accountVisibility = ($scope.account.psaPublic.length === 0) ?
       'hidden' : 'public';

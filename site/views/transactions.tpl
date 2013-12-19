@@ -35,7 +35,12 @@ ${set([
     <tr data-ng-show="account">
       <td class="compact">Balance</td>
       <td>
-        <span data-account-balance="account"></span>
+        <div data-account-balance-summary="account" data-expand="model.expandAccountBalance"></div>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" style="border: none; padding-top: 0; padding-bottom: {{(model.expandAccountBalance && '5px') || '0'}}">
+        <div data-account-balance-details="account" data-expand="model.expandAccountBalance"></div>
       </td>
     </tr>
     <tr>

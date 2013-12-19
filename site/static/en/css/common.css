@@ -688,6 +688,21 @@ h1 > .rest-summary > .rest-path {
   -moz-box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.15);
   box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.15);
 }
+.cc-box.visa {
+  background-color: #1e5799;
+}
+.cc-box.mastercard {
+  background-color: #800000;
+}
+.cc-box.americanexpress {
+  background-color: #4b7d47;
+}
+.cc-box.discover {
+  background-color: #f08000;
+}
+.cc-box.chinaunionpay {
+  background-color: #800080;
+}
 .cc-table {
   width: 235px;
   height: 147.558px;
@@ -706,6 +721,60 @@ h1 > .rest-summary > .rest-path {
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
   border-radius: 12px;
+}
+.cc-table.visa {
+  background: #1e5799; /* Old browsers */
+  background: -moz-radial-gradient(center, ellipse cover,  #72b3e5 0%, #2989d8 42%, #207cca 58%, #1e5799 100%); /* FF3.6+ */
+  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#72b3e5), color-stop(42%,#2989d8), color-stop(58%,#207cca), color-stop(100%,#1e5799)); /* Chrome,Safari4+ */
+  background: -webkit-radial-gradient(center, ellipse cover,  #72b3e5 0%,#2989d8 42%,#207cca 58%,#1e5799 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-radial-gradient(center, ellipse cover,  #72b3e5 0%,#2989d8 42%,#207cca 58%,#1e5799 100%); /* Opera 12+ */
+  background: -ms-radial-gradient(center, ellipse cover,  #72b3e5 0%,#2989d8 42%,#207cca 58%,#1e5799 100%); /* IE10+ */
+  background: radial-gradient(ellipse at center,  #72b3e5 0%,#2989d8 42%,#207cca 58%,#1e5799 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#72b3e5', endColorstr='#1e5799',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+}
+.cc-table.mastercard {
+  background: #800000; /* Old browsers */
+  background: -moz-radial-gradient(center, ellipse cover,  #b26666 0%, #993232 42%, #8c1919 58%, #800000 100%); /* FF3.6+ */
+  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#b26666), color-stop(42%,#993232), color-stop(58%,#8c1919), color-stop(100%,#800000)); /* Chrome,Safari4+ */
+  background: -webkit-radial-gradient(center, ellipse cover,  #b26666 0%,#993232 42%,#8c1919 58%,#800000 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-radial-gradient(center, ellipse cover,  #b26666 0%,#993232 42%,#8c1919 58%,#800000 100%); /* Opera 12+ */
+  background: -ms-radial-gradient(center, ellipse cover,  #b26666 0%,#993232 42%,#8c1919 58%,#800000 100%); /* IE10+ */
+  background: radial-gradient(ellipse at center,  #b26666 0%,#993232 42%,#8c1919 58%,#800000 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b26666', endColorstr='#800000',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+  border: 1px solid #800000;
+}
+.cc-table.americanexpress {
+  background: #4b7d47; /* Old browsers */
+  background: -moz-radial-gradient(center, ellipse cover,  #93b190 0%, #6e976b 42%, #5d8a59 58%, #4b7d47 100%); /* FF3.6+ */
+  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#93b190), color-stop(42%,#6e976b), color-stop(58%,#5d8a59), color-stop(100%,#4b7d47)); /* Chrome,Safari4+ */
+  background: -webkit-radial-gradient(center, ellipse cover,  #93b190 0%,#6e976b 42%,#5d8a59 58%,#4b7d47 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-radial-gradient(center, ellipse cover,  #93b190 0%,#6e976b 42%,#5d8a59 58%,#4b7d47 100%); /* Opera 12+ */
+  background: -ms-radial-gradient(center, ellipse cover,  #93b190 0%,#6e976b 42%,#5d8a59 58%,#4b7d47 100%); /* IE10+ */
+  background: radial-gradient(ellipse at center,  #93b190 0%,#6e976b 42%,#5d8a59 58%,#4b7d47 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#93b190', endColorstr='#4b7d47',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+  border: 1px solid #4b7d47;
+}
+.cc-table.discover {
+  background: #f08000; /* Old browsers */
+  background: -moz-radial-gradient(center, ellipse cover,  #f6b266 0%, #f39932 42%, #f18c19 58%, #f08000 100%); /* FF3.6+ */
+  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#f6b266), color-stop(42%,#f39932), color-stop(58%,#f18c19), color-stop(100%,#f08000)); /* Chrome,Safari4+ */
+  background: -webkit-radial-gradient(center, ellipse cover,  #f6b266 0%,#f39932 42%,#f18c19 58%,#f08000 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-radial-gradient(center, ellipse cover,  #f6b266 0%,#f39932 42%,#f18c19 58%,#f08000 100%); /* Opera 12+ */
+  background: -ms-radial-gradient(center, ellipse cover,  #f6b266 0%,#ff9932 42%,#f18c19 58%,#f08000 100%); /* IE10+ */
+  background: radial-gradient(ellipse at center,  #f6b266 0%,#f39932 42%,#f18c19 58%,#f08000 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6b266', endColorstr='#f08000',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+  border: 1px solid #f08000;
+}
+.cc-table.chinaunionpay {
+  background: #800080; /* Old browsers */
+  background: -moz-radial-gradient(center, ellipse cover,  #b266b2 0%, #993299 42%, #8c198c 58%, #800080 100%); /* FF3.6+ */
+  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#b266b2), color-stop(42%,#993299), color-stop(58%,#8c198c), color-stop(100%,#800080)); /* Chrome,Safari4+ */
+  background: -webkit-radial-gradient(center, ellipse cover,  #b266b2 0%,#993299 42%,#8c198c 58%,#800080 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-radial-gradient(center, ellipse cover,  #b266b2 0%,#993299 42%,#8c198c 58%,#800080 100%); /* Opera 12+ */
+  background: -ms-radial-gradient(center, ellipse cover,  #b266b2 0%,#993299 42%,#8c198c 58%,#800080 100%); /* IE10+ */
+  background: radial-gradient(ellipse at center,  #b266b2 0%,#993299 42%,#8c198c 58%,#800080 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b266b2', endColorstr='#800080',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+  border: 1px solid #800080;
 }
 .cc-table th, .cc-table tr, .cc-table td {
   border: none;
@@ -759,6 +828,21 @@ h1 > .rest-summary > .rest-path {
 .cc-selecting {
   margin-bottom: 10px;
   margin-left: 1px;
+}
+.cc-table.visa .cc-font-back {
+  color: #18457a;
+}
+.cc-table.mastercard .cc-font-back {
+  color: #660000;
+}
+.cc-table.americanexpress .cc-font-back {
+  color: #3c6438;
+}
+.cc-table.discover .cc-font-back {
+  color: #c06600;
+}
+.cc-table.chinaunionpay .cc-font-back {
+  color: #660066;
 }
 
 .bank-icon {

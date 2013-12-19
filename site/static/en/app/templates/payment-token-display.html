@@ -1,7 +1,7 @@
 <div class="paymentToken" data-ng-switch="selected.paymentMethod">
-  <div class="cc-box" data-ng-switch-when="CreditCard"
+  <div class="cc-box {{selected.cardBrand | lowercase}}" data-ng-switch-when="CreditCard"
     data-ng-class="{'cc-selecting': selecting}">
-    <table class="cc-table" data-ng-class="selecting && 'item-hover'"
+    <table class="cc-table {{selected.cardBrand | lowercase}}" data-ng-class="selecting && 'item-hover'"
       data-ng-click="selecting && select(selected)">
       <tbody>
         <tr>

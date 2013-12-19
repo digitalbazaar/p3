@@ -18,9 +18,10 @@ ${set(
 
   <div data-ng-show="account.balance" class="row">
     <div class="offset3 span6">
-      <h1 class="money headline">
-        <span data-account-balance="account"></span>
+      <h1 class="headline">
+        <div data-account-balance-summary="account" data-expand="model.expandAccountBalance"></div>
       </h1>
+      <div data-account-balance-details="account" data-expand="model.expandAccountBalance"></div>
     </div>
   </div>
 

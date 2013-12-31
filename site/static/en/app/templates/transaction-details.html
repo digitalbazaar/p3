@@ -16,8 +16,9 @@
       <td class="compact">
         <i class="icon-arrow-right"></i>
       </td>
-      <td>
-        <a href="{{transfer.destination}}" target="_blank">
+      <td data-ng-switch="type == 'Withdrawal' && transfer.destination == transaction.destination.id">
+        <strong data-ng-switch-when="true">{{transaction.destination.label}}</strong>
+        <a data-ng-switch-default href="{{transfer.destination}}" target="_blank">
           <span data-spinner="accounts[transfer.destination].loading" data-spinner-class="center-spinner"></span>
           {{accounts[transfer.destination].label}}
         </a>
@@ -32,7 +33,29 @@
       <th colspan="3"></th>
       <th class="money">Total</th>
     </tr>
-    <tr>
+    <tr data-ng-show="type == 'Deposit'">
+      <td colspan="3">
+        Total <span data-ng-hide="complete">to be</span>
+        deposited into your
+        "<strong>{{accounts[transaction.transfer[0].destination].label}}</strong>"
+        account.
+      </td>
+      <td class="money">
+        <span data-money="transaction.transfer[0]" data-important="true"></span>
+      </td>
+    </tr>
+    <tr data-ng-show="type == 'Withdrawal'">
+      <td colspan="3">
+        Total <span data-ng-hide="complete">to be</span>
+        debited from your
+        "<strong>{{accounts[transaction.transfer[0].source].label}}</strong>"
+        account.
+      </td>
+      <td class="money">
+        <span data-money="transaction" data-important="true"></span>
+      </td>
+    </tr>
+    <tr data-ng-show="type == 'Deposit'">
       <td colspan="3">
         Total <span data-ng-hide="complete">to be</span>
         <span data-ng-switch="source.paymentMethod">
@@ -50,6 +73,26 @@
       </td>
       <td class="money">
         <span data-money="transaction" data-important="true"></span>
+      </td>
+    </tr>
+    <tr data-ng-show="type == 'Withdrawal'">
+      <td colspan="3">
+        Total <span data-ng-hide="complete">to be</span>
+        <span data-ng-switch="destination.paymentMethod">
+          <span data-ng-switch-when="CreditCard">credited to</span>
+          <span data-ng-switch-when="BankAccount">deposited into</span>
+          <span data-ng-switch-default>credited to</span>
+        </span>
+        your
+        "<strong>{{destination.label}}</strong>"
+        <span data-ng-switch="destination.paymentMethod">
+          <span data-ng-switch-when="CreditCard">credit card</span>
+          <span data-ng-switch-when="BankAccount">bank account</span>
+          <span data-ng-switch-default>external account</span>
+        </span>.
+      </td>
+      <td class="money">
+        <span data-money="transaction.transfer[0]" data-important="true"></span>
       </td>
     </tr>
   </tfoot>

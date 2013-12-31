@@ -8,60 +8,9 @@
 
 <div class="section">
   <h4 class="headline">Withdrawal Details</h4>
-  <table class="table table-condensed">
-    <thead>
-      <tr>
-        <th>Description</th>
-        <th></th>
-        <th>Account</th>
-        <th class="money">Amount</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr data-ng-repeat="transfer in withdrawal.transfer">
-        <td>{{transfer.comment}}</td>
-        <td class="compact">
-          <i class="icon-arrow-right"></i>
-        </td>
-        <td>
-          <span data-ng-show="transfer.destination != withdrawal.destination.id"><a href="{{transfer.destination}}" target="_blank">{{accounts[transfer.destination].label}}</a></span>
-          <span data-ng-show="transfer.destination == withdrawal.destination.id"><strong>{{accounts[transfer.destination].label}}</strong></span>
-        </td>
-        <td class="money">
-          <span data-money="transfer"></span>
-        </td>
-      </tr>
-    </tbody>
-    <tfoot>
-      <tr>
-        <td colspan="3"></td>
-        <td class="money">Total</td>
-      </tr>
-      <tr>
-        <td colspan="3">
-          Total debited from your
-          "<strong>{{account.label}}</strong>"
-          account.
-        </td>
-        <td class="money">
-          <span data-money="withdrawal" data-important="true"></span>
-        </td>
-      </tr>
-      <tr>
-        <td colspan="3">
-          Total credited to your
-          "<strong>{{input.destination.label}}</strong>"
-          <span data-ng-switch="input.destination.paymentMethod">
-            <span data-ng-switch-when="BankAccount">bank account</span>
-            <span data-ng-switch-default>external account</span>
-          </span>.
-        </td>
-        <td class="money">
-          <span data-money="withdrawal.transfer[0]" data-important="true"></span>
-        </td>
-      </tr>
-    </tfoot>
-  </table>
+  <div data-transaction-details="withdrawal"
+    data-destination="input.destination"
+    data-complete="true"></div>
 </div>
 
 <div class="section">
@@ -72,7 +21,8 @@
       <span data-ng-switch-when="BankAccount">bank account</span>
       <span data-ng-switch-default>external account</span>
     </span>
-    "<strong>{{input.destination.label}}</strong>" was credited
+    "<strong>{{input.destination.label}}</strong>"
+    was credited
     <span data-money="withdrawal.transfer[0]" data-important="true"></span>
     on
     <span class="date">{{withdrawal.created | date:'medium'}}</span>.

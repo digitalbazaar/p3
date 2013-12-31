@@ -33,12 +33,17 @@ function factory(svcModal) {
       };
     }
 
+    function clearFeedback() {
+      $scope.feedback.error = null;
+      $scope.feedback.contactSupport = false;
+    }
+
     // state in ('preparing', 'reviewing', 'complete')
     $scope.state = 'preparing';
 
     $scope.prepare = function() {
       $scope.state = 'preparing';
-      $scope.feedback = {};
+      clearFeedback();
     };
 
     $scope.review = function() {
@@ -61,6 +66,8 @@ function factory(svcModal) {
       payswarm.deposit.sign({
         deposit: deposit,
         success: function(deposit) {
+          clearFeedback();
+
           // get public account information for all payees
           $scope.accounts = {};
           async.forEach(deposit.transfer, function(transfer, callback) {
@@ -79,7 +86,7 @@ function factory(svcModal) {
             });
           }, function(err) {
             // FIXME: handle err
-            $scope.feedback = {};
+            clearFeedback();
             //
             // go to top of page
             // FIXME: use directive to do this
@@ -97,6 +104,7 @@ function factory(svcModal) {
         },
         error: function(err) {
           $scope.loading = false;
+          clearFeedback();
           $scope.feedback.error = err;
           $scope.$apply();
         }
@@ -109,7 +117,7 @@ function factory(svcModal) {
         deposit: $scope._deposit,
         success: function(deposit) {
           $scope.loading = false;
-          $scope.feedback = {};
+          clearFeedback();
 
           // show complete page
           $scope.deposit = deposit;
@@ -128,6 +136,7 @@ function factory(svcModal) {
         },
         error: function(err) {
           $scope.loading = false;
+          clearFeedback();
           $scope.feedback.contactSupport = true;
           $scope.feedback.error = err;
           $scope.$apply();

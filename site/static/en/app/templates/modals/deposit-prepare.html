@@ -25,20 +25,36 @@ like to deposit.</p>
       <label class="control-label" for="amount">Deposit</label>
       <div class="control-group" data-binding="payee[0].payeeRate">
         <div class="controls">
-          <div class="input-prepend input-append">
-            <span class="add-on"><i class="icon-money"></i></span><input
-              type="text" name="amount" placeholder="Enter deposit amount..."
-              data-ng-model="input.amount"
-              data-track-state="model.help.amount" />
-            <button class="btn" data-help-toggle="model.help.amount">
-              <i class="icon-question-sign"></i>
-            </button>
+          <label class="radio" data-ng-hide="account.psaAllowStoredValue">
+            <input
+              type="radio" name="amount"
+              data-ng-model="input.mode"
+              value="all"
+              data-ng-change="input.amount = input.max.amount" />
+            Pay back used credit: <span data-money="input.max"></span>.
+          </label>
+          <div>
+            <input
+              type="radio" name="amount"
+              data-ng-model="input.mode"
+              value="custom"
+              data-ng-hide="account.psaAllowStoredValue" />
+            <div class="input-prepend input-append">
+              <span class="add-on"><i class="icon-money"></i></span><input
+                type="text" name="amount" placeholder="Enter deposit amount..."
+                data-ng-model="input.amount"
+                data-track-state="model.help.amount" />
+              <button class="btn" data-help-toggle="model.help.amount">
+                <i class="icon-question-sign"></i>
+              </button>
+            </div>
+            <br/>
+            <p data-fade-toggle="model.help.amount.show" class="help-block">
+              Please enter an amount to deposit into your
+              "<strong>{{account.label}}</strong>" account. You must enter a
+              valid monetary amount, like 25 or 25.82.
+            </p>
           </div>
-          <p data-fade-toggle="model.help.amount.show" class="help-block">
-            Please enter an amount to deposit into your
-            "<strong>{{account.label}}</strong>" account. You must enter a
-            valid monetary amount, like 25 or 25.82.
-          </p>
         </div>
       </div>
     </fieldset>

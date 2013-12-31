@@ -50,7 +50,7 @@ function factory(svcModal) {
         payee: [{
           type: 'Payee',
           payeeGroup: ['withdrawal'],
-          payeeRate: $scope.input.amount,
+          payeeRate: ''+$scope.input.amount,
           payeeRateType: 'FlatAmount',
           payeeApplyType: 'ApplyExclusively',
           destination: $scope.input.destination.id,

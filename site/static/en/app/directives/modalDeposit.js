@@ -20,8 +20,18 @@ function factory(svcModal) {
     $scope.input = {
       // payment token source
       source: source,
+      mode: 'custom',
       amount: ''
     };
+
+    if(!$scope.account.psaAllowStoredValue) {
+      // FIXME: fix rounding
+      // FIXME: get latest account info
+      $scope.input.max = {
+        currency: $scope.account.currency,
+        amount: -parseFloat($scope.account.balance)
+      };
+    }
 
     // state in ('preparing', 'reviewing', 'complete')
     $scope.state = 'preparing';
@@ -39,7 +49,7 @@ function factory(svcModal) {
         payee: [{
           type: 'Payee',
           payeeGroup: ['deposit'],
-          payeeRate: $scope.input.amount,
+          payeeRate: ''+$scope.input.amount,
           payeeRateType: 'FlatAmount',
           payeeApplyType: 'ApplyExclusively',
           destination: $scope.account.id,

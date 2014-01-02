@@ -277,7 +277,7 @@ ${set([
   {{error.message}}
   <div data-ng-show="error.details" class="container">
     <br/>
-    <em>Error Details</em>
+    <em data-ng-show="error.details.length > 0">Error Details</em>
     <div class="row" data-ng-repeat="(key, detail) in error.details">
       <span class="span12"><strong>{{key}}</strong>: {{detail}}</span>
     </div>

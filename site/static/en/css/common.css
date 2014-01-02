@@ -299,11 +299,6 @@ body {
   margin-top: 0;
 }
 
-/* Inherit overflow in tab-content (avoid scrollbars if desired) */
-.tab-content {
-  overflow: inherit;
-}
-
 /* First tabbable below headline */
 .first-tabbable {
   margin-top: 10px;

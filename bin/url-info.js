@@ -7,8 +7,9 @@ var RDFa = require('../lib/payswarm-auth/rdfa');
 var request = require('request');
 var util = require('util');
 var payswarm = {
+  constants: require('../lib/payswarm-auth/constants'),
   security: require('../lib/payswarm-auth/security'),
-  tools: require('../lib/payswarm-auth/tools.js')
+  tools: require('../lib/payswarm-auth/tools')
 };
 var PaySwarmError = payswarm.tools.PaySwarmError;
 
@@ -19,7 +20,7 @@ jsonld.documentLoader = function(url, callback) {
   if(url === 'https://w3id.org/payswarm/v1') {
     return callback(null, {
       contextUrl: null,
-      document: {'@context': payswarm.tools.getDefaultJsonLdContext()},
+      document: {'@context': payswarm.constants.CONTEXT},
       documentUrl: url
     });
   }
@@ -158,7 +159,7 @@ function processType(data, type, callback) {
       if(!type) {
         return callback(null, data);
       }
-      var frames = payswarm.tools.getDefaultJsonLdFrames();
+      var frames = payswarm.constants.FRAMES;
       if(!(type in frames)) {
         return callback(new PaySwarmError(
           'No frame for type.',

@@ -27,24 +27,37 @@ function factory(svcModal) {
       amount: ''
     };
 
-    if(!$scope.account.psaAllowStoredValue) {
-      // FIXME: fix rounding
-      // FIXME: get latest account info
-      $scope.input.max = {
-        currency: $scope.account.currency,
-        amount: -parseFloat($scope.account.balance)
-      };
-    }
-
     function clearFeedback() {
       $scope.feedback.error = null;
       $scope.feedback.contactSupport = false;
+    }
+
+    function reloadAccount(callback) {
+      callback = callback || angular.noop;
+      // load latest account info if showing unpaid balance
+      if(!$scope.account.psaAllowStoredValue) {
+        $scope.loading = true;
+        svcAccount.getOne($scope.account.id, function(err) {
+          $scope.loading = false;
+          // FIXME: handle errors or just use old info?
+          $scope.input.max = {
+            currency: $scope.account.currency,
+            // FIXME: fix rounding
+            amount: -parseFloat($scope.account.balance)
+          };
+          callback();
+        });
+      }
+      else {
+        callback();
+      }
     }
 
     $scope.prepare = function() {
       $scope.state = 'preparing';
       $scope.enableConfirm = true;
       clearFeedback();
+      reloadAccount();
     };
 
     $scope.prepare();
@@ -108,6 +121,7 @@ function factory(svcModal) {
         error: function(err) {
           $scope.loading = false;
           clearFeedback();
+          reloadAccount();
           $scope.feedback.error = err;
           $scope.$apply();
         }

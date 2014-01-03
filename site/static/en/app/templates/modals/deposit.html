@@ -31,7 +31,7 @@
     </span>
     <span data-ng-show="state == 'reviewing'">
       <button class="btn btn-primary btn-deposit"
-        data-ng-disabled="loading"
+        data-ng-disabled="loading || !enableConfirm"
         data-ng-click="confirm()"><i class="icon-ok icon-white"></i> Deposit</button>
       <button class="btn"
         data-ng-disabled="loading"

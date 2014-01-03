@@ -15,6 +15,9 @@ function factory(svcModal) {
     $scope.data = window.data || {};
     $scope.feedback = {};
     $scope.loading = false;
+    $scope.enableConfirm = false;
+    // state in ('preparing', 'reviewing', 'complete')
+    $scope.state = null;
 
     var destination = $scope.input ? $scope.input.destination : null;
     $scope.input = {
@@ -34,17 +37,17 @@ function factory(svcModal) {
     };
 
     function clearFeedback() {
-      delete $scope.feedback.error = null;
-      delete $scope.feedback.contactSupport = false;
+      $scope.feedback.error = null;
+      $scope.feedback.contactSupport = false;
     }
-
-    // state in ('preparing', 'reviewing', 'complete')
-    $scope.state = 'preparing';
 
     $scope.prepare = function() {
       $scope.state = 'preparing';
+      $scope.enableConfirm = true;
       clearFeedback();
     };
+
+    $scope.prepare();
 
     $scope.review = function() {
       // clean withdrawal
@@ -120,6 +123,8 @@ function factory(svcModal) {
 
     $scope.confirm = function() {
       $scope.loading = true;
+      // only allow a single confirm attempt
+      $scope.enableConfirm = false;
       payswarm.withdrawal.confirm({
         withdrawal: $scope._withdrawal,
         success: function(withdrawal) {

@@ -15,6 +15,9 @@ function factory(svcModal) {
     $scope.data = window.data || {};
     $scope.feedback = {};
     $scope.loading = false;
+    $scope.enableConfirm = false;
+    // state in ('preparing', 'reviewing', 'complete')
+    $scope.state = null;
 
     var source = $scope.input ? $scope.input.source : null;
     $scope.input = {
@@ -38,13 +41,13 @@ function factory(svcModal) {
       $scope.feedback.contactSupport = false;
     }
 
-    // state in ('preparing', 'reviewing', 'complete')
-    $scope.state = 'preparing';
-
     $scope.prepare = function() {
       $scope.state = 'preparing';
+      $scope.enableConfirm = true;
       clearFeedback();
     };
+
+    $scope.prepare();
 
     $scope.review = function() {
       // clean deposit
@@ -113,6 +116,8 @@ function factory(svcModal) {
 
     $scope.confirm = function() {
       $scope.loading = true;
+      // only allow a single confirm attempt
+      $scope.enableConfirm = false;
       payswarm.deposit.confirm({
         deposit: $scope._deposit,
         success: function(deposit) {

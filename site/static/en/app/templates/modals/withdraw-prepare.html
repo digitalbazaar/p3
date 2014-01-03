@@ -35,7 +35,7 @@ like to withdraw.</p>
               data-ng-model="input.mode"
               value="all"
               data-ng-change="input.amount = account.balance" />
-            Withdraw all money: <strong>{{account.currency}} {{account.balance|currency:'$'}}</strong>.
+            Withdraw all money: <span data-money="account" data-important="true" data-value-field="balance"></span>
           </label>
           <div>
             <input

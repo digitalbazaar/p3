@@ -22,7 +22,13 @@ like to deposit.</p>
   <h4 class="headline">Deposit Details</h4>
   <form class="well form-horizontal" action="">
     <fieldset>
-      <label class="control-label" for="amount">Deposit</label>
+      <label class="control-label" for="account">Account</label>
+      <div class="control-group">
+        <div class="controls">
+          Money will be deposited into your "<strong>{{account.label}}</strong>" account.
+        </div>
+      </div>
+      <label class="control-label" for="amount">Amount</label>
       <div class="control-group" data-binding="payee[0].payeeRate">
         <div class="controls">
           <label class="radio" data-ng-hide="account.psaAllowStoredValue">
@@ -30,8 +36,10 @@ like to deposit.</p>
               type="radio" name="amount"
               data-ng-model="input.mode"
               value="all"
-              data-ng-change="input.amount = input.max.amount" />
-            Pay back used credit: <span data-money="input.max" data-important="true"></span>
+              data-ng-change="setAmount(input.max.amount)" />
+            Maximum deposit: <span data-money="input.max" data-important="true" data-round-mode="up"></span>
+            <br/>
+            <span class="muted">The maxiumum deposit will fully pay back your used credit.</span>
           </label>
           <div>
             <input

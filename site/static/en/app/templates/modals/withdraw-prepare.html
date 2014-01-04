@@ -34,8 +34,8 @@ like to withdraw.</p>
               type="radio" name="amount"
               data-ng-model="input.mode"
               value="all"
-              data-ng-change="input.amount = account.balance" />
-            Withdraw all money: <span data-money="account" data-important="true" data-value-field="balance"></span>
+              data-ng-change="setAmount(account.balance)" />
+            Maximum withdrawal: <span data-money="account" data-important="true" data-value-field="balance" data-round-mode="down"></span>
           </label>
           <div>
             <input

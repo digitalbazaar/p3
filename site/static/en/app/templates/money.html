@@ -1,8 +1,8 @@
 <span class="money"
-  data-tooltip-title="This system supports micro-payments and tracks amounts very accurately. The exact amount of this value is {{money.currency}} {{symbol}}{{money[valueField]}}."
+  data-tooltip-title="This system supports micro-payments and tracks amounts very accurately. The exact amount of this value is {{money.currency}} {{symbol}}{{exactAmount}}."
   data-placement="bottom"
   data-trigger="hover">
   <span class="currency">{{money.currency}}</span>
-  <strong data-ng-show="important">{{symbol}}{{money[valueField] | ceil:digits}}</strong>
-  <span data-ng-hide="important">{{symbol}}{{money[valueField] | ceil:digits}}</span>
+  <strong data-ng-show="important">{{symbol}}{{formattedAmount}}</strong>
+  <span data-ng-hide="important">{{symbol}}{{formattedAmount}}</span>
 </span>

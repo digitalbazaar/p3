@@ -10,7 +10,7 @@ var deps = ['svcModal'];
 return {modalWithdraw: deps.concat(factory)};
 
 function factory(svcModal) {
-  function Ctrl($scope, svcPaymentToken, svcAccount, svcTransaction) {
+  function Ctrl($scope, $filter, svcPaymentToken, svcAccount, svcTransaction) {
     $scope.model = {};
     $scope.data = window.data || {};
     $scope.feedback = {};
@@ -40,6 +40,16 @@ function factory(svcModal) {
       $scope.feedback.error = null;
       $scope.feedback.contactSupport = false;
     }
+
+    $scope.setAmount = function(amount, precision) {
+      // FIXME: assume USD, get currency details from elsewhere
+      if(precision === undefined) {
+        precision = 2;
+      }
+      // must round up to smallest currency unit for deposits to account for
+      // paying back the fractional part of used credit
+      $scope.input.amount = $filter('floor')(amount, precision);
+    };
 
     $scope.prepare = function() {
       $scope.state = 'preparing';
@@ -168,7 +178,8 @@ function factory(svcModal) {
     },
     templateUrl: '/app/templates/modals/withdraw.html',
     controller: [
-      '$scope', 'svcPaymentToken', 'svcAccount', 'svcTransaction', Ctrl],
+      '$scope', '$filter', 'svcPaymentToken', 'svcAccount', 'svcTransaction',
+      Ctrl],
     link: function(scope, element, attrs) {
       scope.feedbackTarget = element;
     }

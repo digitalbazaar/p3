@@ -101,22 +101,12 @@ ${set([
                   <!-- Action -->
                   <td class="action">
                     <div class="btn-group">
-                      <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
+                      <a class="btn"
+                        data-popover-template="/app/templates/credit-card-action-menu.html"
+                        data-popover-visible="showCreditCardActionMenu"
+                        data-placement="bottom">
                         <i class="icon-chevron-down"></i>
                       </a>
-                      <ul class="dropdown-menu pull-right">
-                        <li>
-                          <a data-ng-click="modals.paymentToken=card; modals.showEditPaymentToken=true">
-                            <i class="icon-pencil"></i> Edit
-                          </a>
-                        </li>
-                        <li data-ng-hide="card.backupSourceFor.length" class="divider"></li>
-                        <li data-ng-hide="card.backupSourceFor.length" class="btn-danger">
-                          <a data-ng-click="card.deleted=true">
-                            <i class="icon-remove icon-white"></i> Delete
-                          </a>
-                        </li>
-                      </ul>
                     </div>
                   </td>
                 </tr>
@@ -204,30 +194,12 @@ ${set([
                   <!-- Action -->
                   <td class="action">
                     <div class="btn-group">
-                      <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
+                      <a class="btn"
+                        data-popover-template="/app/templates/bank-account-action-menu.html"
+                        data-popover-visible="showBankAccountActionMenu"
+                        data-placement="bottom">
                         <i class="icon-chevron-down"></i>
                       </a>
-                      <ul class="dropdown-menu pull-right">
-                        <li>
-                          <a data-ng-click="modals.paymentToken=card; modals.showEditPaymentToken=true">
-                            <i class="icon-pencil"></i> Edit
-                          </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li class="btn-danger"
-                          data-ng-show="bankAccount.psaStatus == 'active' || bankAccount.psaStatus == 'disabled'"
-                          data-ng-disabled="!bankAccount.psaVerified && bankAccount.psaStatus != 'disabled'">
-                          <a data-ng-click="deletePaymentToken(bankAccount)">
-                            <i class="icon-trash icon-white"></i> Delete
-                          </a>
-                        </li>
-                        <li class="btn-success"
-                          data-ng-show="!bankAccount.psaStatus || bankAccount.psaStatus == 'deleted'">
-                          <a data-ng-click="restorePaymentToken(bankAccount)">
-                            <i class="icon-undo icon-white"></i> Restore
-                          </a>
-                        </li>
-                      </ul>
                     </div>
                   </td>
                 </tr>

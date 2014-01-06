@@ -1,0 +1,13 @@
+<ul class="dropdown-menu pull-right">
+  <li>
+    <a data-ng-click="modals.paymentToken=card; modals.showEditPaymentToken=true">
+      <i class="icon-pencil"></i> Edit
+    </a>
+  </li>
+  <li data-ng-hide="card.backupSourceFor.length" class="divider"></li>
+  <li data-ng-hide="card.backupSourceFor.length" class="btn-danger">
+    <a data-ng-click="card.deleted=true">
+      <i class="icon-remove icon-white"></i> Delete
+    </a>
+  </li>
+</ul>

@@ -1,0 +1,21 @@
+<ul class="dropdown-menu pull-right">
+  <li>
+    <a data-ng-click="modals.paymentToken=card; modals.showEditPaymentToken=true">
+      <i class="icon-pencil"></i> Edit
+    </a>
+  </li>
+  <li class="divider"></li>
+  <li class="btn-danger"
+    data-ng-show="bankAccount.psaStatus == 'active' || bankAccount.psaStatus == 'disabled'"
+    data-ng-disabled="!bankAccount.psaVerified && bankAccount.psaStatus != 'disabled'">
+    <a data-ng-click="deletePaymentToken(bankAccount)">
+      <i class="icon-trash icon-white"></i> Delete
+    </a>
+  </li>
+  <li class="btn-success"
+    data-ng-show="!bankAccount.psaStatus || bankAccount.psaStatus == 'deleted'">
+    <a data-ng-click="restorePaymentToken(bankAccount)">
+      <i class="icon-undo icon-white"></i> Restore
+    </a>
+  </li>
+</ul>

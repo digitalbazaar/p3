@@ -36,8 +36,8 @@ like to deposit.</p>
               type="radio" name="amount"
               data-ng-model="input.mode"
               value="all"
-              data-ng-change="setAmount(input.max.amount)" />
-            Maximum deposit: <span data-money="input.max" data-important="true" data-round-mode="up"></span>
+              data-ng-change="input.amount = input.max.amount" />
+            Maximum deposit: <span data-money="input.max" data-important="true" data-exact="true"></span>
             <br/>
             <span class="muted">The maxiumum deposit will fully pay back your used credit.</span>
           </label>

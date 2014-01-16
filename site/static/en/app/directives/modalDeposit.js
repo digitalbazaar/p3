@@ -10,7 +10,7 @@ var deps = ['svcModal'];
 return {modalDeposit: deps.concat(factory)};
 
 function factory(svcModal) {
-  function Ctrl($scope, $filter, svcPaymentToken, svcAccount, svcTransaction) {
+  function Ctrl($scope, svcPaymentToken, svcAccount, svcTransaction) {
     $scope.model = {};
     $scope.data = window.data || {};
     $scope.feedback = {};
@@ -52,16 +52,6 @@ function factory(svcModal) {
         callback();
       }
     }
-
-    $scope.setAmount = function(amount, precision) {
-      // FIXME: assume USD, get currency details from elsewhere
-      if(precision === undefined) {
-        precision = 2;
-      }
-      // must round up to smallest currency unit for deposits to account for
-      // paying back the fractional part of used credit
-      $scope.input.amount = $filter('ceil')(amount, precision);
-    };
 
     $scope.prepare = function() {
       $scope.state = 'preparing';
@@ -186,7 +176,7 @@ function factory(svcModal) {
     },
     templateUrl: '/app/templates/modals/deposit.html',
     controller: [
-      '$scope', '$filter', 'svcPaymentToken', 'svcAccount', 'svcTransaction',
+      '$scope', 'svcPaymentToken', 'svcAccount', 'svcTransaction',
       Ctrl],
     link: function(scope, element, attrs) {
       scope.feedbackTarget = element;

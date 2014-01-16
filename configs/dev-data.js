@@ -267,6 +267,10 @@ config.financial.paymentGateway.Test.bankAccountStatusSettleAfterIncrement =
 config.financial.paymentGateway.Test.creditCardStatusSettleAfterIncrement =
   1000 * 30;
 
+// source/destination for funds due to rounding adjustments
+config.financial.paymentGateway.Test.roundingAdjustmentAccount =
+  baseUri + '/i/authority/accounts/fees';
+
 /* A note about merchant service fee payees:
 
   Fees for deposits are applied exclusively so that the amount selected for

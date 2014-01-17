@@ -59,7 +59,10 @@ function factory() {
         $scope.valueField = $scope.valueField || 'amount';
         $scope.roundMode = $scope.roundMode || 'up';
 
-        var amount = money[$scope.valueField] || '';
+        var amount = '';
+        if($scope.valueField in money) {
+          amount = money[$scope.valueField];
+        }
         var currency = money.currency || 'DEFAULT';
         $scope.symbol = CURRENCY_INFO[currency].symbol;
         var precision = CURRENCY_INFO[currency].precision;
@@ -68,10 +71,10 @@ function factory() {
           $scope.formattedAmount = amount;
         }
         else if($scope.roundMode === 'down') {
-          $scope.formattedAmount = $filter('floor')(amount, $scope.precision);
+          $scope.formattedAmount = $filter('floor')(amount, precision);
         }
         else if($scope.roundMode === 'up') {
-          $scope.formattedAmount = $filter('ceil')(amount, $scope.precision);
+          $scope.formattedAmount = $filter('ceil')(amount, precision);
         }
         else {
           $scope.formattedAmount = amount;

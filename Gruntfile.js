@@ -16,6 +16,16 @@ module.exports = function(grunt) {
           module: {
             name: 'app.templates',
             define: true
+          },
+          htmlmin: {
+            collapseBooleanAttributes:      true,
+            collapseWhitespace:             true,
+            removeAttributeQuotes:          true,
+            removeComments:                 true,
+            removeEmptyAttributes:          true,
+            removeRedundantAttributes:      true,
+            removeScriptTypeAttributes:     true,
+            removeStyleLinkTypeAttributes:  true
           }
         },
         src: 'site/static/en/app/templates/**/*.html',
@@ -26,7 +36,7 @@ module.exports = function(grunt) {
 
   // plugins
   grunt.loadNpmTasks('grunt-angular-templates');
-  
+
   grunt.registerTask('templates2requireJS', function() {
     var filename = path.join(__dirname, 'site/static/en/app/templates.min.js');
     var module = fs.readFileSync(filename, 'utf8');

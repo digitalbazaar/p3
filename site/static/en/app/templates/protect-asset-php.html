@@ -281,7 +281,7 @@ function payswarm_verify($obj) {
   // ensure signature timestamp is +/- 15 minutes
   $now = time();
   $time = date_create($sprop->created)->getTimestamp();
-  if($time < ($now - 15*60) || $time > ($now + 15*60)) {
+  if($time &lt; ($now - 15*60) || $time &gt; ($now + 15*60)) {
     throw new Exception('PaySwarm Security Exception: ' .
       'The message digital signature timestamp is out of range.');
   }

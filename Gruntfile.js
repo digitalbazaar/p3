@@ -13,10 +13,7 @@ module.exports = function(grunt) {
           // prepend path to $templateCache ID
           prepend: '/',
           // the module the templates will be added to
-          module: {
-            name: 'app.templates',
-            define: true
-          },
+          module: 'app.templates',
           htmlmin: {
             collapseBooleanAttributes:      true,
             collapseWhitespace:             true,
@@ -26,7 +23,9 @@ module.exports = function(grunt) {
             removeRedundantAttributes:      true,
             removeScriptTypeAttributes:     true,
             removeStyleLinkTypeAttributes:  true
-          }
+          },
+          // define the templates module
+          standalone: true
         },
         src: 'site/static/en/app/templates/**/*.html',
         dest: 'site/static/en/app/templates.min.js'

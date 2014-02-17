@@ -115,8 +115,7 @@ ${set([
             <div data-ng-show="!state.loading && creditCards.length == 0">
               <p class="center">You have no credit cards associated with this identity.</p>
             </div>
-            <div
-              data-feedback="creditCardFeedback"></div>
+            <div data-feedback="creditCardFeedback"></div>
             <div data-modal-add-payment-token="modals.showAddCreditCard" data-payment-methods="creditCardMethods"></div>
             <div data-modal-edit-payment-token="modals.showEditPaymentToken"
                data-payment-token="modals.paymentToken"></div>
@@ -205,8 +204,7 @@ ${set([
             <div data-ng-show="!state.loading && bankAccounts.length == 0">
               <p class="center">You have no bank accounts associated with this identity.</p>
             </div>
-            <div
-              data-feedback="bankAccountFeedback"></div>
+            <div data-feedback="bankAccountFeedback"></div>
             <div data-modal-add-payment-token="modals.showAddBankAccount" data-payment-methods="bankAccountMethods"></div>
             <div data-modal-verify-bank-account="modals.showVerifyBankAccountModal"
                data-payment-token="modals.paymentToken"></div>

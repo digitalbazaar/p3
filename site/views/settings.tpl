@@ -114,9 +114,6 @@ ${set([
             </table>
             <div data-ng-show="!state.loading && creditCards.length == 0">
               <p class="center">You have no credit cards associated with this identity.</p>
-              <button
-                class="btn btn-success pull-right"
-                data-ng-click="modals.showAddCreditCard=true"><i class="icon-plus icon-white"></i> Add Credit Card</button>
             </div>
             <div
               data-feedback="creditCardFeedback"></div>
@@ -207,9 +204,6 @@ ${set([
             </table>
             <div data-ng-show="!state.loading && bankAccounts.length == 0">
               <p class="center">You have no bank accounts associated with this identity.</p>
-              <button
-                class="btn btn-success pull-right"
-                data-ng-click="modals.showAddBankAccount=true"><i class="icon-plus icon-white"></i> Add Bank Account</button>
             </div>
             <div
               data-feedback="bankAccountFeedback"></div>

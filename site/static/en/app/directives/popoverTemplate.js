@@ -144,10 +144,6 @@ function factory(svcTemplateCache, $compile, $parse, $timeout) {
           var tip = popover.tip();
           if($(e.target).closest(tip).length === 0) {
             setVisible(scope, false);
-            if(childScope) {
-              childScope.$destroy();
-              childScope = null;
-            }
             scope.$apply();
           }
         }
@@ -157,10 +153,6 @@ function factory(svcTemplateCache, $compile, $parse, $timeout) {
           if(e.keyCode === 27) {
             e.stopPropagation();
             setVisible(scope, false);
-            if(childScope) {
-              childScope.$destroy();
-              childScope = null;
-            }
             scope.$apply();
           }
         }

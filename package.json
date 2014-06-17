@@ -26,6 +26,7 @@
     "connect": "~2.7.10",
     "connect-mongo": "git://github.com/digitalbazaar/connect-mongo.git",
     "cube": "~0.2.0",
+    "d3": "^3.4.8",
     "emailjs": "git://github.com/digitalbazaar/emailjs.git",
     "express": "~3.3.5",
     "filesaver.js": "^0.1.0",

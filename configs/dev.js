@@ -181,7 +181,7 @@ config.website.views.vars.supportDomain = 'payswarm.dev';
 config.website.views.vars.googleAnalytics.enabled = false;
 config.website.views.vars.googleAnalytics.account = '';
 
-//config.website.views.vars.style.brand.src = '/img/truecred.png';
+//config.website.views.vars.style.brand.src = '/img/payswarm.png';
 //config.website.views.vars.style.brand.alt = config.brand.name;
 //config.website.views.vars.style.brand.height = '24';
 //config.website.views.vars.style.brand.width = '182';

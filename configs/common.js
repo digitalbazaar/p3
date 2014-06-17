@@ -10,13 +10,13 @@ var path = require('path');
 require('./constants');
 
 // add routes
-// - string: '/foo/bar' -> site/views/foo/bar.tpl
-// - array: ['/foo', '/foo/index.tpl'] -> site/views/foo/index.tpl
-config.website.views.routes.push(['/', 'index.tpl']);
+// - string: '/foo/bar' -> site/views/foo/bar.html
+// - array: ['/foo', '/foo/index.html'] -> site/views/foo/index.html
+config.website.views.routes.push(['/', 'index.html']);
 config.website.views.routes.push('/about');
 config.website.views.routes.push('/legal');
 config.website.views.routes.push('/contact');
-config.website.views.routes.push(['/help', 'help/index.tpl']);
+config.website.views.routes.push(['/help', 'help/index.html']);
 config.website.views.routes.push('/help/pricing');
 config.website.views.routes.push('/help/wordpress');
 

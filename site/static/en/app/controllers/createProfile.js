@@ -14,7 +14,7 @@ function factory($scope, $http) {
   $scope.data = window.data || {};
   $scope.feedback = {};
   // FIXME: temporary code to be removed after feedback improvements.
-  //      : also remove the id fom the form in create.tpl.
+  //      : also remove the id fom the form in create.html.
   $scope.feedbackTarget = $('#createProfileFeedbackTarget');
   $scope.loading = false;
   $scope.baseUrl = window.location.protocol + '//' + window.location.host;

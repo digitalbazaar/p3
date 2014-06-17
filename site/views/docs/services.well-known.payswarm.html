@@ -1,9 +1,9 @@
 ${set([
   category = "Discovery",
   freeLimit = ["by-ip"],
-  shortDescription = "Retrieves the Web Keys configuration for the site."
+  shortDescription = "Retrieves the PaySwarm configuration for the site."
 ])}
-{{partial "head.tpl"}}
+{{partial "head.html"}}
 
 <h1 class="row">
   <div class="span12 rest-summary">
@@ -18,21 +18,20 @@ ${set([
   <div class="span12">
     <h2>Overview</h2>
     <p>
-The <a href="http://payswarm.com/specs/source/web-keys/">Web Keys</a> 
-specification describes how to setup a Web-native  
-<a href="http://en.wikipedia.org/wiki/Public_key_infrastructure">Public 
-Key Infrastructure</a>. The specification covers key registration, updates,
-revocation, and expiration. The specification also covers how developers
-may perform encryption and digital signatures for REST-based Web Services 
-using Web Keys.
+The <a href="http://payswarm.com/">PaySwarm</a> specifications detail how
+to transfer money and perform commercial transactions via the Web. Each service
+described in a PaySwarm specification has a REST Web Service endpoint. In order
+for a PaySwarm client to use these endpoints, they must first be discovered.
     </p>
+    
     <p>
-This URL is the Web Keys Service Discovery endpoint. It returns the
-endpoints elaborated upon in the Web Keys specification for uploading and
-managing keys via HTTP. The document returned is a simple JSON-LD document
+This URL is the PaySwarm Services Discovery endpoint. It returns the
+endpoints elaborated upon in the 
+<a href="http://payswarm.com/specs/">PaySwarm specifications</a>.
+The document returned is a simple JSON-LD document
 that contains service name to URL bindings. By retrieving this document,
-a Web Keys client will discover the necessary endpoints to interact with the
-website's Web Keys services.
+a PaySwarm client will discover the endpoints needed to perform transactions
+and a variety of other tasks via a PaySwarm network.
     </p>
   </div>
 </div>
@@ -69,17 +68,23 @@ website's Web Keys services.
   <div class="span12">
     <h2>Example</h2>
     <p>
-To retrieve the example below, a simple HTTP GET is performed on the following
+To retrieve the document below, a simple HTTP GET is performed on the following
 URL: <a href="https://${host}${docs.path}">https://${host}${docs.path}</a>
     </p>
     <table>
       <tr><td>Response</td><td><pre class="span11">{
   "@context": "https://w3id.org/payswarm/v1",
-  "publicKeyService": "https://${host}/i?form=register"
+  "id": "https://${host}/",
+  "authorityIdentity": "https://${host}/i/authority",
+  "publicKey": "https://${host}/i/authority/keys/1",
+  "contractService": "https://${host}/contracts",
+  "licenseService": "https://${host}/licenses",
+  "paymentService": "https://${host}/transactions?form=pay",
+  "vendorRegistrationService": "https://${host}/i?form=register"
 }
 </pre></td</tr>
     </table>
   </div>
 </div>
 
-{{partial "foot.tpl"}}
+{{partial "foot.html"}}

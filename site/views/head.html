@@ -50,12 +50,12 @@
 
   <body>
     {{if pageLayout == "error"}}
-      {{partial "navbar-plain.tpl"}}
+      {{partial "navbar-plain.html"}}
     {{else}}
       {{if session.auth}}
-        {{partial "navbar-private.tpl"}}
+        {{partial "navbar-private.html"}}
       {{else}}
-        {{partial "navbar-public.tpl"}}
+        {{partial "navbar-public.html"}}
       {{/if}}
     {{/if}}
 
@@ -84,5 +84,5 @@
         <span class="bank-font"></span>
       </div>
 
-      {{partial "data.tpl"}}
+      {{partial "data.html"}}
       {{/if}}

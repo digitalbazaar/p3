@@ -4,6 +4,7 @@
  * Copyright (c) 2014 Digital Bazaar, Inc. All rights reserved.
  */
 var config = require('bedrock').config;
+var baseIdPath = config.server.baseUri + config.identity.basePath;
 var authorityId = config.authority.id;
 
 // test address validator
@@ -74,7 +75,6 @@ config.financial.paymentTokens.push({
 config.promo.paymentToken = 'urn:authority-bank-account';
 
 // identities
-var baseIdPath = config.server.baseUri + config.identity.basePath;
 
 // Admin
 config.identity.identities.push({
@@ -151,7 +151,7 @@ config.identity.identities.push({
     generateResource: 'id'
   }],
   url: 'http://wordpress.payswarm.dev',
-  description: 'The default PaySwarm Vendor'
+  description: 'The default PaySwarm Vendor',
   address: [{
     label: 'Business',
     type: 'Address',
@@ -186,7 +186,7 @@ config.identity.keys.push({
 // accounts
 // fees first so auto-deposit has a fee account to work with
 config.financial.accounts.push({
-  id: baseUri + '/i/authority/accounts/fees',
+  id: authorityId + '/accounts/fees',
   type: 'FinancialAccount',
   owner: authorityId,
   psaSlug: 'fees',
@@ -195,7 +195,7 @@ config.financial.accounts.push({
   currency: 'USD'
 });
 config.financial.accounts.push({
-  id: baseUri + '/i/authority/accounts/main',
+  id: authorityId + '/accounts/main',
   type: 'FinancialAccount',
   owner: authorityId,
   psaSlug: 'main',
@@ -203,7 +203,7 @@ config.financial.accounts.push({
   currency: 'USD'
 });
 config.financial.accounts.push({
-  id: baseUri + '/i/authority/accounts/verify',
+  id: authorityId + '/accounts/verify',
   type: 'FinancialAccount',
   owner: authorityId,
   psaSlug: 'verify',
@@ -211,25 +211,25 @@ config.financial.accounts.push({
   currency: 'USD'
 });
 config.financial.accounts.push({
-  id: baseUri + '/i/dev/accounts/primary',
+  id: baseIdPath + '/dev/accounts/primary',
   type: 'FinancialAccount',
-  owner: baseUri + '/i/dev',
+  owner: baseIdPath + '/dev',
   psaSlug: 'primary',
   label: 'Primary Account',
   currency: 'USD'
 });
 config.financial.accounts.push({
-  id: baseUri + '/i/customer/accounts/primary',
+  id: baseIdPath + '/customer/accounts/primary',
   type: 'FinancialAccount',
-  owner: baseUri + '/i/customer',
+  owner: baseIdPath + '/customer',
   psaSlug: 'primary',
   label: 'Primary Account',
   currency: 'USD'
 });
 config.financial.accounts.push({
-  id: baseUri + '/i/vendor/accounts/primary',
+  id: baseIdPath + '/vendor/accounts/primary',
   type: 'FinancialAccount',
-  owner: baseUri + '/i/vendor',
+  owner: baseIdPath + '/vendor',
   psaSlug: 'primary',
   label: 'Primary Account',
   psaPublic: ['label', 'owner'],
@@ -281,7 +281,7 @@ config.financial.paymentGateway.Test.creditCardStatusSettleAfterIncrement =
 
 // source/destination for funds due to rounding adjustments
 config.financial.paymentGateway.Test.roundingAdjustmentAccount =
-  baseUri + '/i/authority/accounts/fees';
+  authorityId + '/accounts/fees';
 
 /* A note about merchant service fee payees:
 
@@ -363,7 +363,7 @@ config.financial.paymentGateway.Test.roundingAdjustmentAccount =
 // shared for any CC or bank account gateway
 var merchantBankFixedDepositPayee = {
   type: 'Payee',
-  destination: baseUri + '/i/authority/accounts/fees',
+  destination: authorityId + '/accounts/fees',
   currency: 'USD',
   payeeGroup: ['authority', 'authority_flat'],
   payeeApplyGroup: ['authority_gateway'],
@@ -375,7 +375,7 @@ var merchantBankFixedDepositPayee = {
 };
 var merchantBankFixedWithdrawalPayee = {
   type: 'Payee',
-  destination: baseUri + '/i/authority/accounts/fees',
+  destination: authorityId + '/accounts/fees',
   currency: 'USD',
   payeeGroup: ['authority', 'authority_flat'],
   payeeApplyGroup: ['authority_gateway'],
@@ -389,7 +389,7 @@ var merchantBankFixedWithdrawalPayee = {
 // BankAccount fees
 config.financial.paymentGateway.Test.payees.deposit.BankAccount = [{
   type: 'Payee',
-  destination: baseUri + '/i/authority/accounts/fees',
+  destination: authorityId + '/accounts/fees',
   currency: 'USD',
   payeeGroup: ['authority', 'authority_percentage'],
   payeeApplyGroup: ['authority_gateway', 'authority_flat'],
@@ -401,7 +401,7 @@ config.financial.paymentGateway.Test.payees.deposit.BankAccount = [{
   comment: 'Bank ACH Deposit Service (Percentage Charge)'
 }, {
   type: 'Payee',
-  destination: baseUri + '/i/authority/accounts/fees',
+  destination: authorityId + '/accounts/fees',
   currency: 'USD',
   payeeGroup: ['authority', 'authority_flat'],
   payeeApplyGroup: ['authority_gateway'],
@@ -413,7 +413,7 @@ config.financial.paymentGateway.Test.payees.deposit.BankAccount = [{
 }, merchantBankFixedDepositPayee];
 config.financial.paymentGateway.Test.payees.withdrawal.BankAccount = [{
   type: 'Payee',
-  destination: baseUri + '/i/authority/accounts/fees',
+  destination: authorityId + '/accounts/fees',
   currency: 'USD',
   payeeGroup: ['authority', 'authority_percentage'],
   payeeApplyGroup: ['authority_gateway'],
@@ -426,7 +426,7 @@ config.financial.paymentGateway.Test.payees.withdrawal.BankAccount = [{
   comment: 'Bank ACH Withdrawal Service (Percentage Charge)'
 }, {
   type: 'Payee',
-  destination: baseUri + '/i/authority/accounts/fees',
+  destination: authorityId + '/accounts/fees',
   currency: 'USD',
   payeeGroup: ['authority', 'authority_flat'],
   payeeApplyGroup: ['authority_gateway'],
@@ -440,7 +440,7 @@ config.financial.paymentGateway.Test.payees.withdrawal.BankAccount = [{
 // CreditCard fees
 var ccPercentPayee = {
   type: 'Payee',
-  destination: baseUri + '/i/authority/accounts/fees',
+  destination: authorityId + '/accounts/fees',
   currency: 'USD',
   payeeGroup: ['authority', 'authority_percentage'],
   payeeApplyGroup: ['authority_gateway', 'authority_flat'],
@@ -453,7 +453,7 @@ var ccPercentPayee = {
 };
 var ccFixedPayee = {
   type: 'Payee',
-  destination: baseUri + '/i/authority/accounts/fees',
+  destination: authorityId + '/accounts/fees',
   currency: 'USD',
   payeeGroup: ['authority', 'authority_flat'],
   payeeApplyGroup: ['authority_gateway'],
@@ -466,7 +466,7 @@ var ccFixedPayee = {
 // extra 0.15 for amex
 var ccAmexPayee = {
   type: 'Payee',
-  destination: baseUri + '/i/authority/accounts/fees',
+  destination: authorityId + '/accounts/fees',
   currency: 'USD',
   payeeGroup: ['authority', 'authority_flat'],
   payeeApplyGroup: ['authority_gateway'],

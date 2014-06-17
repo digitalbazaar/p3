@@ -28,6 +28,7 @@
     "cube": "~0.2.0",
     "emailjs": "git://github.com/digitalbazaar/emailjs.git",
     "express": "~3.3.5",
+    "filesaver.js": "^0.1.0",
     "grunt": "~0.4.1",
     "grunt-cli": "~0.1.9",
     "grunt-angular-templates": "git://github.com/digitalbazaar/grunt-angular-templates",

@@ -36,6 +36,11 @@ config.server.static.push({
   path: path.join(node_modules, 'underscore', 'underscore.js'),
   file: true
 });
+config.server.static.push({
+  route: '/filesaver/FileSaver.js',
+  path: path.join(node_modules, 'filesaver.js', 'FileSaver.js'),
+  file: true
+});
 
 // the supported non-english languages for the site
 config.website.locales = ['es', 'zh', 'ru', 'ja', 'de', 'fr'];

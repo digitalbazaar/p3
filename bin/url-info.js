@@ -1,5 +1,6 @@
 __libdir = require('path').resolve(__dirname, '../lib');
 var async = require('async');
+var bedrock = require('bedrock');
 var program = require('commander');
 var jsdom = require('jsdom');
 var jsonld = require('jsonld')(); // use localized jsonld API
@@ -7,7 +8,7 @@ var RDFa = require('../lib/payswarm-auth/rdfa');
 var request = require('request');
 var util = require('util');
 var payswarm = {
-  constants: require('../lib/payswarm-auth/constants'),
+  constants: bedrock.config.constants,
   security: require('../lib/payswarm-auth/security'),
   tools: require('../lib/payswarm-auth/tools')
 };

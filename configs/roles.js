@@ -1,4 +1,5 @@
-var config = require(__libdir + '/payswarm-auth').config;
+// FIXME: needs bedrock update
+var config = require('bedrock').config;
 
 config.permission.roles.push({
   id: config.authority.baseUri + '/roles/profile_administrator',

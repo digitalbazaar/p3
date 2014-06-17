@@ -1,3 +1,5 @@
+// FIXME: needs bedrock update
+
 var path = require('path');
 __libdir = process.env.PAYSWARM_AUTH_COV ?
   path.resolve(__dirname, '../lib-cov') :

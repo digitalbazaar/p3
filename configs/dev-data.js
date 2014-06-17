@@ -1,4 +1,5 @@
-var config = require(__libdir + '/payswarm-auth').config;
+// FIXME: needs bedrock update
+var config = require('bedrock').config;
 var baseUri = config.authority.baseUri;
 var authorityId = config.authority.id;
 

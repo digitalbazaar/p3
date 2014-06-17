@@ -23,27 +23,18 @@ config.website.views.routes.push('/help/wordpress');
 // add static paths for website
 var node_modules = path.join(__dirname, '..', 'node_modules');
 config.server.static.push({
-  route: '/forge',
-  path: path.join(node_modules, 'node-forge', 'js')
-});
-config.server.static.push({
-  route: '/requirejs/require.js',
-  path: path.join(node_modules, 'requirejs', 'require.js'),
-  file: true
-});
-config.server.static.push({
-  route: '/underscore/underscore.js',
-  path: path.join(node_modules, 'underscore', 'underscore.js'),
-  file: true
-});
-config.server.static.push({
-  route: '/filesaver/FileSaver.js',
-  path: path.join(node_modules, 'filesaver.js', 'FileSaver.js'),
+  route: '/cubism/cubism.v1.js',
+  path: path.join(node_modules, 'cubism', 'cubism.v1.js'),
   file: true
 });
 config.server.static.push({
   route: '/d3/d3.js',
   path: path.join(node_modules, 'd3', 'd3.js'),
+  file: true
+});
+config.server.static.push({
+  route: '/filesaver/FileSaver.js',
+  path: path.join(node_modules, 'filesaver.js', 'FileSaver.js'),
   file: true
 });
 

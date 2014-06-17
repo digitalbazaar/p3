@@ -1,6 +1,9 @@
-// FIXME: needs bedrock update
+/*
+ * PaySwarm development configuration data.
+ *
+ * Copyright (c) 2014 Digital Bazaar, Inc. All rights reserved.
+ */
 var config = require('bedrock').config;
-var baseUri = config.authority.baseUri;
 var authorityId = config.authority.id;
 
 // test address validator
@@ -61,7 +64,7 @@ config.financial.paymentTokens.push({
     id: config.financial.devPaymentToken,
     type: 'PaymentToken',
     label: 'Authority External Bank Account',
-    owner: config.authority.id,
+    owner: authorityId,
     psaStatus: 'active',
     psaVerified: true,
     psaVerifyReady: true
@@ -70,104 +73,112 @@ config.financial.paymentTokens.push({
 // promo authority payment token for granting funds for claimed promo codes
 config.promo.paymentToken = 'urn:authority-bank-account';
 
-// profiles
-config.profile.profiles.push({
-  id: baseUri + '/profiles/authority',
-  type: 'Profile',
-  psaSlug: 'authority',
-  email: 'authority@payswarm.com',
-  label: 'PaySwarm Development Authority',
-  psaPassword: 'password',
-  psaRole: [baseUri + '/roles/authority']
-});
-config.profile.profiles.push({
-  id: baseUri + '/profiles/dev',
-  type: 'Profile',
-  psaSlug: 'dev',
-  email: 'dev@payswarm.com',
-  label: 'Dev',
-  psaPassword: 'password',
-  psaRole: [baseUri + '/roles/profile_registered']
-});
-config.profile.profiles.push({
-  id: baseUri + '/profiles/customer',
-  type: 'Profile',
-  psaSlug: 'customer',
-  email: 'customer@payswarm.com',
-  label: 'Customer',
-  psaPassword: 'password',
-  psaRole: [baseUri + '/roles/profile_registered']
-});
-config.profile.profiles.push({
-  id: baseUri + '/profiles/vendor',
-  type: 'Profile',
-  psaSlug: 'vendor',
-  email: 'vendor@payswarm.com',
-  label: 'Vendor',
-  psaPassword: 'password',
-  psaRole: [baseUri + '/roles/profile_registered']
+// identities
+var baseIdPath = config.server.baseUri + config.identity.basePath;
+
+// Admin
+config.identity.identities.push({
+  id: config.admin.id,
+  type: 'Identity',
+  sysSlug: 'admin',
+  label: 'Admin',
+  email: 'admin@payswarm.dev',
+  sysPassword: 'password',
+  sysPublic: ['label', 'url', 'description'],
+  sysResourceRole: [{
+    sysRole: 'payswarm.admin'
+  }],
+  url: config.server.baseUri,
+  description: 'Administrator'
 });
 
-// identities
+// Authority
 config.identity.identities.push({
-  id: authorityId,
-  owner: baseUri + '/profiles/authority',
-  psaSlug: 'authority',
-  psaPublic: ['label', 'website', 'description'],
-  label: 'PaySwarm Authority',
-  website: baseUri,
-  description: 'Development PaySwarm Authority'
+  id: config.authority.id,
+  type: 'Identity',
+  sysSlug: 'authority',
+  label: config.authority.name,
+  email: 'authority@payswarm.dev',
+  sysPassword: 'password',
+  sysPublic: ['label', 'url', 'description'],
+  sysResourceRole: [{
+    sysRole: 'payswarm.admin',
+    generateResource: 'id'
+  }],
+  url: config.server.baseUri,
+  description: 'Authority'
 });
+
+// Dev
 config.identity.identities.push({
-  id: baseUri + '/i/dev',
-  type: 'PersonalIdentity',
-  owner: baseUri + '/profiles/dev',
-  psaSlug: 'dev',
-  label: 'Dev'
+  id: baseIdPath + '/dev',
+  type: 'Identity',
+  sysSlug: 'dev',
+  label: 'Dev',
+  email: 'dev@payswarm.dev',
+  sysPassword: 'password',
+  sysResourceRole: [{
+    sysRole: 'identity.registered',
+    generateResource: 'id'
+  }]
 });
+
+// Customer
 config.identity.identities.push({
-  id: baseUri + '/i/customer',
-  type: 'PersonalIdentity',
-  owner: baseUri + '/profiles/customer',
-  psaSlug: 'customer',
-  label: 'Customer'
+  id: baseIdPath + '/customer',
+  type: 'Identity',
+  sysSlug: 'customer',
+  label: 'Customer',
+  email: 'customer@payswarm.dev',
+  sysPassword: 'password',
+  sysResourceRole: [{
+    sysRole: 'identity.registered',
+    generateResource: 'id'
+  }]
 });
+
+// Vendor
 config.identity.identities.push({
-  id: baseUri + '/i/vendor',
-  type: 'VendorIdentity',
-  owner: baseUri + '/profiles/vendor',
-  psaSlug: 'vendor',
+  id: baseIdPath + '/vendor',
+  type: 'Identity',
+  sysSlug: 'vendor',
   label: 'Vendor',
-  psaPublic: ['label', 'website', 'description'],
-  website: 'http://wordpress.payswarm.dev',
-  description: 'The default PaySwarm Vendor',
+  email: 'vendor@payswarm.dev',
+  sysPublic: ['label', 'url', 'description'],
+  sysPassword: 'password',
+  sysResourceRole: [{
+    sysRole: 'identity.registered',
+    generateResource: 'id'
+  }],
+  url: 'http://wordpress.payswarm.dev',
+  description: 'The default PaySwarm Vendor'
   address: [{
     label: 'Business',
     type: 'Address',
-    fullName: 'Shop Owner',
+    name: 'Shop Owner',
     streetAddress: '100 Vendor St',
     locality: 'City',
     region: 'State',
     postalCode: '10000',
     countryName: 'US',
-    psaValidated: true
+    sysValidated: true
   }]
 });
 
 // keys
 config.identity.keys.push({
   publicKey: {
-    id: authorityId + '/keys/1',
+    id: config.authority.id + '/keys/1',
     type: 'CryptographicKey',
-    owner: authorityId,
+    owner: config.authority.id,
     label: 'Key 1',
     publicKeyPem: '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqMbYknpvLLx6+ZQ3IucP\nl6dsEdSj82CBw9Xd7GQIsD7qYIzE18LKe9I+SroxHhDDpBuwTZREV9kOwyvOcvbD\nbp46+ymA7TGIRoScz6L7e8QSCqEPg/z6FBWtsCNpVx+AUF68Ci99IBU0xWKHyPRp\n6ZHpW9ET4150Q3ZFQLcw7xD8pt9lCb7YGbmWcZWYvMysLRZ4ihuYCbbaBzgtTp3i\nQQGmrZ2gcQVwdx898/OcJ8Kj9PNJEyoydoqcIQtVyQtfKev+Ofegy6pfH69i5+Z3\nOqs2Ochr3tVnzPAMIVsvW/eVtnXacyxUsyT+m2uhRtC+e72zlDmobpLPm7RPYGJA\nkQIDAQAB\n-----END PUBLIC KEY-----\n'
   },
   privateKey: {
     type: 'CryptographicKey',
-    owner: authorityId,
+    owner: config.authority.id,
     label: 'Key 1',
-    publicKey: authorityId + '/keys/1',
+    publicKey: config.authority.id + '/keys/1',
     privateKeyPem: '-----BEGIN RSA PRIVATE KEY-----\nMIIEowIBAAKCAQEAqMbYknpvLLx6+ZQ3IucPl6dsEdSj82CBw9Xd7GQIsD7qYIzE\n18LKe9I+SroxHhDDpBuwTZREV9kOwyvOcvbDbp46+ymA7TGIRoScz6L7e8QSCqEP\ng/z6FBWtsCNpVx+AUF68Ci99IBU0xWKHyPRp6ZHpW9ET4150Q3ZFQLcw7xD8pt9l\nCb7YGbmWcZWYvMysLRZ4ihuYCbbaBzgtTp3iQQGmrZ2gcQVwdx898/OcJ8Kj9PNJ\nEyoydoqcIQtVyQtfKev+Ofegy6pfH69i5+Z3Oqs2Ochr3tVnzPAMIVsvW/eVtnXa\ncyxUsyT+m2uhRtC+e72zlDmobpLPm7RPYGJAkQIDAQABAoIBAFBxFeAawspLu0Eh\nR3Y3MtNRVMza0Jm7MZ4pXPDCbPGzyvnhniBIE0IY3t+3BpoR221oVQtk034bUlHr\nmyZoPpWGjQ4QpgZnSVBy/Fpqj/pZZU/zm/WIqZjRDEubVSXVOc8UmAMyxyx3bwN1\nBsrc024jwVmluRjxd/B/elpx9by7Ub50tJgdrUMJU5QuzPKXublnUVZFH9czg3ck\noDbZCEkKL1yvCqxbD0EOZl/C/Rfw/jFT4bCDHu5h8JQSuBZ7Rpj1CThbA3LYsESj\nax4CQ57jWIkqcwXKvy74mY9uxPxR6S7JQt1uA0NPfcGPFcnODNDJkpFu395RsUVB\nhXptMAECgYEA1JKzGUwksqNP2cnfbHXnOflpXUCorbnaPjGKysZU7dqSe/ygxGUP\ngQyJS2Mbvlcx1MkobEZtuw6ESjhuTwmKaZ4g+KhhdH/D0izca4m5DamirFBwkhfy\nXxNa1j6VVcLMDJB0FdkSaqGgq/6e0L391O4l+KaC4L5W+F4MwKWU68ECgYEAy0Gn\nw2QFbsqksQmlk134QsGNFpYCUn4fmD1V3EJAPdliBIJAsTRmezvKkYLmQEUXTJQf\nasdBPanpJuGaiJcnSigBbFS9csOWzCzq5k8mz0giFMZW7mUuEM7ktENISfO5kiAN\nnyzDhrndvsEEnbbJWeBIqePE3a0CHSRjk51fyNECgYBi/yLrgBuDGi1g1vP3Nf2G\ncVIRfMBRj8FEv5vMjYsV7nnTxjY04H/U8Lqr4i8UeNUbLMdnjXEi8ULIsfklU+Mj\nBuKCCyC/uZS/t+a7KjuFUmAQ8bFLSF22y3O9XQ39D6gpnciCOEKsaDNEhmL+Ac1J\nsdL7Nsiy09H6/wnfWf29wQKBgCTZ0HrCZaHCp71ZTGW9gcdIpDXWGLGwIDZP2INI\nl7Ee+oBqxSPbpkDthDqBixFX9XNy34dSfOebKKRd/tCI5xywyCFF89sczvhRpH0B\nGL44C8XMd/Jc8c8mU5zDHhYaVCjEGvQi/4grpqJxCE831qWu3j2/B/BQ77Ms58jZ\nnYYhAoGBAIQFLVpI6HLah+ETKpH5+/SPqBE5D9YPATGIjczU/WVKyclnVzlEmE2I\n4Ddv5Usp7KQdDaM/ZZ4Ict3mXJf9Sf/JxqMfex7rHD2s3zHm52LZEmqwk9Cx3hFV\njQZJvKo6cWiuyPAZFh1TNZsQUaLnXNLJUWdIjXqKI4aQ9fdTi5E+\n-----END RSA PRIVATE KEY-----\n'
   }
 });

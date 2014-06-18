@@ -207,11 +207,9 @@ config.identity.owner = config.authority.id;
 config.addressValidator.module = './av.test';
 
 // financial config
-config.financial.defaults = {
-  paymentGateways: {
-    CreditCard: 'Test',
-    BankAccount: 'Test'
-  }
+config.financial.defaults.paymentGateways = {
+  CreditCard: 'Test',
+  BankAccount: 'Test'
 };
 
 // permit initial account balances for testing (*ONLY* true in dev mode!)

@@ -484,12 +484,3 @@ config.identity.defaults.identity = config.identity.defaults.personal;
 config.identity.identities = [];
 config.identity.keys = [];
 // FIXME: port above to bedrock
-
-// FIXME: remove me (was in common-data.js)
-// profile config
-config.profile.defaults = {
-  profile: {
-    psaStatus: 'active',
-    psaRole: [config.authority.baseUri + '/roles/profile_registered']
-  }
-};

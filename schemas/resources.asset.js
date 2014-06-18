@@ -1,15 +1,10 @@
-var tools = require(__libdir + '/payswarm-auth/tools');
+var bedrock = require('bedrock');
+var schemas = bedrock.validation.schemas;
+var tools = bedrock.tools;
 
-var graphSignature = require('./graphSignature');
-var jsonldContext = require('./jsonldContext');
-var jsonldType = require('./jsonldType');
 var payee = require('./payee');
 var payeeRule = require('./payeeRule');
-var payswarmId = require('./payswarmId');
-var title = require('./title');
-var url = require('./url');
 var vendor = require('./vendor');
-var w3cDateTime = require('./w3cDateTime');
 
 var schema = {
   required: true,
@@ -17,17 +12,17 @@ var schema = {
   description: 'An Asset.',
   type: 'object',
   properties: {
-    '@context': jsonldContext(),
-    id: payswarmId(),
+    '@context': schemas.jsonldContext(),
+    id: schemas.url(),
     // allow up to 4 additional custom types
-    type: jsonldType('Asset', 4),
+    type: schemas.jsonldType('Asset', 4),
     creator: {
       required: false,
-      type: [url(), {type: 'object'}]
+      type: [schemas.url(), {type: 'object'}]
     },
-    title: title({required: false}),
-    assetContent: url({required: false}),
-    assetProvider: payswarmId(),
+    title: schemas.title({required: false}),
+    assetContent: schemas.url({required: false}),
+    assetProvider: schemas.url(),
     listingRestrictions: {
       required: false,
       title: 'Listing Restrictions',
@@ -37,11 +32,11 @@ var schema = {
         payee: payee({required: false}),
         payeeRule: payeeRule({required: false}),
         vendor: vendor({required: false}),
-        validFrom: w3cDateTime({required: false}),
-        validUntil: w3cDateTime({required: false})
+        validFrom: schemas.w3cDateTime({required: false}),
+        validUntil: schemas.w3cDateTime({required: false})
       }
     },
-    signature: graphSignature()
+    signature: schemas.graphSignature()
   }
 };
 

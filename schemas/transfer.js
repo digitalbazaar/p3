@@ -1,10 +1,9 @@
-var tools = require(__libdir + '/payswarm-auth/tools');
+var bedrock = require('bedrock');
+var schemas = bedrock.validation.schemas;
+var tools = bedrock.tools;
 
 var currency = require('./currency');
-var jsonldType = require('./jsonldType');
-var payswarmId = require('./payswarmId');
 var money = require('./money');
-var comment = require('./comment');
 
 var schema = {
   required: true,
@@ -12,12 +11,12 @@ var schema = {
   description: 'A financial Transfer.',
   type: 'object',
   properties: {
-    type: jsonldType('Transfer'),
-    source: payswarmId(),
-    destination: payswarmId(),
+    type: schemas.jsonldType('Transfer'),
+    source: schemas.url(),
+    destination: schemas.url(),
     amount: money.precisePositive(),
     currency: currency(),
-    comment: comment()
+    comment: schemas.comment()
   },
   additionalProperties: false
 };

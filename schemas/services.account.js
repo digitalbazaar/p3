@@ -1,10 +1,8 @@
+var bedrock = require('bedrock');
+var schemas = bedrock.validation.schemas;
+
 var currency = require('./currency');
-var jsonldContext = require('./jsonldContext');
-var label = require('./label');
 var money = require('./money');
-var payswarmId = require('./payswarmId');
-var slug = require('./slug');
-var visibility = require('./propertyVisibility');
 
 var getAccountsQuery = {
   type: 'object',
@@ -21,15 +19,15 @@ var getAccountsQuery = {
 var postAccounts = {
   type: 'object',
   properties: {
-    '@context': jsonldContext(),
-    psaSlug: slug(),
+    '@context': schemas.jsonldContext(),
+    psaSlug: schemas.slug(),
     label: {
       required: true,
-      type: label()
+      type: schemas.label()
     },
     psaPublic: {
       required: false,
-      type: visibility()
+      type: schemas.propertyVisibility()
     },
     currency: currency()
   },
@@ -51,22 +49,22 @@ var getAccountQuery = {
 var postAccount = {
   type: 'object',
   properties: {
-    '@context': jsonldContext(),
-    id: payswarmId(),
+    '@context': schemas.jsonldContext(),
+    id: schemas.url(),
     label: {
       required: true,
-      type: label()
+      type: schemas.label()
     },
     psaPublic: {
       required: false,
-      type: visibility()
+      type: schemas.propertyVisibility()
     },
     backupSource: {
       required: false,
       type: 'array',
       uniqueItems: true,
       items: {
-        type: payswarmId()
+        type: schemas.url()
       }
     },
     psaAllowInstantTransfer: {
@@ -83,7 +81,7 @@ var delAccountQuery = {
   properties: {
     backupSource: {
       required: true,
-      type: payswarmId()
+      type: schemas.url()
     }
   },
   additionalProperties: true
@@ -93,8 +91,8 @@ var postAccountCreditLine = {
   title: 'Open Account Credit Line',
   type: 'object',
   properties: {
-    '@context': jsonldContext(),
-    backupSource: payswarmId({required: false})/*,
+    '@context': schemas.jsonldContext(),
+    backupSource: schemas.url({required: false})/*,
     amount: ...*/
   },
   additionalProperties: false
@@ -104,8 +102,8 @@ var postAccountBackupSource = {
   title: 'Add an Account Backup Source',
   type: 'object',
   properties: {
-    '@context': jsonldContext(),
-    backupSource: payswarmId()
+    '@context': schemas.jsonldContext(),
+    backupSource: schemas.url()
   },
   additionalProperties: false
 };

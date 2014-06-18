@@ -1,10 +1,9 @@
-var tools = require(__libdir + '/payswarm-auth/tools');
+var bedrock = require('bedrock');
+var schemas = bedrock.validation.schemas;
+var tools = bedrock.tools;
 
-var jsonldType = require('./jsonldType');
 var transfer = require('./transfer');
 var depositAmount = require('./depositAmount');
-var w3cDateTime = require('./w3cDateTime');
-var comment = require('./comment');
 
 var schema = {
   required: true,
@@ -12,8 +11,8 @@ var schema = {
   description: 'A financial Transaction.',
   type: 'object',
   properties: {
-    type: jsonldType('Transaction'),
-    created: w3cDateTime(),
+    type: schemas.jsonldType('Transaction'),
+    created: schemas.w3cDateTime(),
     // FIXME: seems incorrect to use deposit amount here
     amount: depositAmount(),
     transfer: {

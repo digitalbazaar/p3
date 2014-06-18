@@ -1,12 +1,10 @@
-var tools = require(__libdir + '/payswarm-auth/tools');
+var bedrock = require('bedrock');
+var schemas = bedrock.validation.schemas;
+var tools = bedrock.tools;
 
 var asset = require('./asset');
-var comment = require('./comment');
 var currency = require('./currency');
-var jsonldType = require('./jsonldType');
 var money = require('./money');
-var payswarmId = require('./payswarmId');
-var title = require('./title');
 
 var invoiceItem = {
   required: true,
@@ -14,12 +12,12 @@ var invoiceItem = {
   description: 'An item that is part of an Invoice.',
   type: 'object',
   properties: {
-    type: jsonldType('InvoiceItem'),
-    title: title(),
+    type: schemas.jsonldType('InvoiceItem'),
+    title: schemas.title(),
     // allow negative values for discounts, etc
     amount: money.precise(),
     currency: currency(),
-    comment: comment({
+    comment: schemas.comment({
       minLength: 0
     })
   },
@@ -32,7 +30,7 @@ var schema = {
   description: 'An invoice asset.',
   type: asset({
     properties: {
-      type: jsonldType('Invoice', 4),
+      type: schemas.jsonldType('Invoice', 4),
       invoiceItem: {
         required: true,
         type: 'array',

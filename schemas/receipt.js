@@ -1,9 +1,6 @@
-var tools = require(__libdir + '/payswarm-auth/tools');
-
-var jsonldContext = require('./jsonldContext');
-var jsonldType = require('./jsonldType');
-var graphSignature = require('./graphSignature');
-var payswarmId = require('./payswarmId');
+var bedrock = require('bedrock');
+var schemas = bedrock.validation.schemas;
+var tools = bedrock.tools;
 
 var schema = {
   required: true,
@@ -11,8 +8,8 @@ var schema = {
   description: 'A financial Receipt.',
   type: 'object',
   properties: {
-    '@context': jsonldContext(),
-    type: jsonldType('Receipt'),
+    '@context': schemas.jsonldContext(),
+    type: schemas.jsonldType('Receipt'),
     preferences: {
       required: false,
       title: 'Purchase Preferences',
@@ -28,30 +25,30 @@ var schema = {
       description: 'The short-form Contract that appears in a Receipt.',
       type: 'object',
       properties: {
-        type: jsonldType(['Transaction', 'Contract']),
-        id: payswarmId(),
+        type: schemas.jsonldType(['Transaction', 'Contract']),
+        id: schemas.url(),
         asset: {
           required: true,
-          type: [payswarmId(), {
+          type: [schemas.url(), {
             required: true,
             type: 'object',
             properties: {
-              id: payswarmId(),
-              type: jsonldType('Asset'),
-              assetContent: payswarmId()
+              id: schemas.url(),
+              type: schemas.jsonldType('Asset'),
+              assetContent: schemas.url()
             },
             additionalProperties: false
           }]
         },
-        license: payswarmId(),
-        listing: payswarmId(),
-        assetProvider: payswarmId(),
-        assetAcquirer: payswarmId(),
-        vendor: payswarmId()
+        license: schemas.url(),
+        listing: schemas.url(),
+        assetProvider: schemas.url(),
+        assetAcquirer: schemas.url(),
+        vendor: schemas.url()
       },
       additionalProperties: false
     },
-    signature: graphSignature()
+    signature: schemas.graphSignature()
   },
   additionalProperties: false
 };

@@ -1,12 +1,9 @@
+var bedrock = require('bedrock');
+var schemas = bedrock.validation.schemas;
+
 var deposit = require('./deposit');
-var graphSignature = require('./graphSignature');
-var jsonldContext = require('./jsonldContext');
-var jsonldType = require('./jsonldType');
-var nonce = require('./nonce');
-var payswarmId = require('./payswarmId');
 var referenceId = require('./referenceId');
 var resourceHash = require('./resourceHash');
-var url = require('./url');
 var withdrawal = require('./withdrawal');
 
 var getTransactionsQuery = {
@@ -19,15 +16,15 @@ var getTransactionsQuery = {
     },
     listing: {
       required: false,
-      type: url()
+      type: schemas.url()
     },
     'listing-hash': resourceHash({required: false}),
     'reference-id': referenceId({required: false}),
     'callback': {
       required: false,
-      type: url()
+      type: schemas.url()
     },
-    'response-nonce': nonce({required: false}),
+    'response-nonce': schemas.nonce({required: false}),
     createdStart: {
       required: false,
       type: 'string'
@@ -40,11 +37,11 @@ var getTransactionsQuery = {
     },
     account: {
       required: false,
-      type: payswarmId()
+      type: schemas.url()
     },
     previous: {
       required: false,
-      type: payswarmId()
+      type: schemas.url()
     },
     limit: {
       required: false,
@@ -71,12 +68,12 @@ var postTransactionsQuery = {
 var postQuote = {
   type: 'object',
   properties: {
-    '@context': jsonldContext(),
-    listing: payswarmId(),
+    '@context': schemas.jsonldContext(),
+    listing: schemas.url(),
     listingHash: resourceHash(),
-    source: payswarmId(),
+    source: schemas.url(),
     referenceId: referenceId({required: false}),
-    nonce: nonce({required: false})
+    nonce: schemas.nonce({required: false})
   },
   additionalProperties: false
 };
@@ -85,8 +82,8 @@ var postContract = {
   type: 'object',
   // FIXME: We should be more precise about what we allow here
   properties: {
-    '@context': jsonldContext(),
-    type: jsonldType(['Transaction', 'Contract'])
+    '@context': schemas.jsonldContext(),
+    type: schemas.jsonldType(['Transaction', 'Contract'])
   }
 };
 
@@ -100,19 +97,19 @@ var postPurchaseRequest = {
     title: 'Purchase Request',
     description: 'Contains all of the details required to perform a purchase',
     properties: {
-      '@context': jsonldContext(),
-      type: jsonldType('PurchaseRequest'),
-      identity: payswarmId(),
-      listing: payswarmId(),
+      '@context': schemas.jsonldContext(),
+      type: schemas.jsonldType('PurchaseRequest'),
+      identity: schemas.url(),
+      listing: schemas.url(),
       listingHash: resourceHash(),
-      source: payswarmId({required: false}),
+      source: schemas.url({required: false}),
       referenceId: {
         title: 'Asset Reference Identifier',
         description: 'A unique serial number associated with the asset purchase.',
         required: false,
         type: 'string'
       },
-      signature: graphSignature({required: false})
+      signature: schemas.graphSignature({required: false})
     },
     additionalProperties: false
   }, {
@@ -120,11 +117,11 @@ var postPurchaseRequest = {
     title: 'Pre-approved Purchase Request',
     description: 'A purchase request containing a pre-assigned transactionId.',
     properties: {
-      '@context': jsonldContext(),
-      type: jsonldType('PurchaseRequest'),
-      transactionId: payswarmId(),
-      nonce: nonce({required: false}),
-      signature: graphSignature({required: false})
+      '@context': schemas.jsonldContext(),
+      type: schemas.jsonldType('PurchaseRequest'),
+      transactionId: schemas.url(),
+      nonce: schemas.nonce({required: false}),
+      signature: schemas.graphSignature({required: false})
     },
     additionalProperties: false
   }]
@@ -134,7 +131,7 @@ var postTransfer = {
   type: 'object',
   // FIXME: we should be more precise about what we allow here
   properties: {
-    type: jsonldType(['Transaction'])
+    type: schemas.jsonldType(['Transaction'])
   }
 };
 

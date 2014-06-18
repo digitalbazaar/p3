@@ -1,9 +1,6 @@
-var tools = require(__libdir + '/payswarm-auth/tools');
-
-var jsonldContext = require('./jsonldContext');
-var jsonldType = require('./jsonldType');
-var label = require('./label');
-var personName = require('./personName');
+var bedrock = require('bedrock');
+var schemas = bedrock.validation.schemas;
+var tools = bedrock.tools;
 
 var schema = {
   required: true,
@@ -13,11 +10,11 @@ var schema = {
   properties: {
     '@context': {
       required: false,
-      type: jsonldContext()
+      type: schemas.jsonldContext()
     },
-    type: jsonldType('Address'),
-    label: label(),
-    fullName: personName(),
+    type: schemas.jsonldType('Address'),
+    label: schemas.label(),
+    fullName: schemas.personName(),
     streetAddress: {
       required: true,
       type: 'string',

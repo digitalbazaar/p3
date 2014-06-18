@@ -1,16 +1,17 @@
-var payswarmId = require('./payswarmId');
-var tools = require(__libdir + '/payswarm-auth/tools');
+var bedrock = require('bedrock');
+var schemas = bedrock.validation.schemas;
+var tools = bedrock.tools;
 
 var schema = {
   required: true,
   title: 'Vendor',
   description: 'A vendor for a Listing or a permitted vendor for a particular Asset.',
   type: [
-    payswarmId(),
+    schemas.url(),
     {
       type: 'array',
       uniqueItems: true,
-      items: payswarmId(),
+      items: schemas.url(),
       errors: {
         invalid: 'The vendor is invalid.',
         missing: 'The vendor is missing.'

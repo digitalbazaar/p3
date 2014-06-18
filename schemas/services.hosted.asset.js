@@ -1,13 +1,7 @@
+var bedrock = require('bedrock');
+var schemas = bedrock.validation.schemas;
+
 var asset = require('./asset');
-var jsonldContext = require('./jsonldContext');
-var jsonldType = require('./jsonldType');
-var payee = require('./payee');
-var payeeRule = require('./payeeRule');
-var payswarmId = require('./payswarmId');
-var publicKeyPem = require('./publicKeyPem');
-var url = require('./url');
-var vendor = require('./vendor');
-var w3cDateTime = require('./w3cDateTime');
 
 var getAssetsQuery = {
   title: 'GET Hosted Asset Query',
@@ -33,7 +27,7 @@ var getAssetsQuery = {
     },
     previous: {
       required: false,
-      type: payswarmId()
+      type: schemas.url()
     },
     limit: {
       required: false,
@@ -41,7 +35,7 @@ var getAssetsQuery = {
       type: 'string',
       pattern: '^([1-9]|[12][0-9]|30)$'
     },
-    assetContent: url({required: false})
+    assetContent: schemas.url({required: false})
   },
   additionalProperties: true
 };
@@ -71,8 +65,8 @@ var postAssetPublicKey = {
     'the same directory.',
   type: 'object',
   properties: {
-    '@context': jsonldContext(),
-    publicKeyPem: publicKeyPem()
+    '@context': schemas.jsonldContext(),
+    publicKeyPem: schemas.publicKeyPem()
   },
   additionalProperties: false
 };

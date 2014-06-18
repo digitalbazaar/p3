@@ -1,8 +1,6 @@
-var tools = require(__libdir + '/payswarm-auth/tools');
-
-var payswarmId = require('./payswarmId');
-var jsonldType = require('./jsonldType');
-var label = require('./label');
+var bedrock = require('bedrock');
+var schemas = bedrock.validation.schemas;
+var tools = bedrock.tools;
 
 var schema = {
   required: true,
@@ -11,9 +9,9 @@ var schema = {
   type: [{
     type: 'object',
     properties: {
-      id: payswarmId(),
-      type: jsonldType('PaymentToken'),
-      owner: payswarmId(),
+      id: schemas.url(),
+      type: schemas.jsonldType('PaymentToken'),
+      owner: schemas.url(),
       paymentToken: {
         required: true,
         type: 'string'

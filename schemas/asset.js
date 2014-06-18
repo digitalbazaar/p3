@@ -1,14 +1,10 @@
-var tools = require(__libdir + '/payswarm-auth/tools');
+var bedrock = require('bedrock');
+var schemas = bedrock.validation.schemas;
+var tools = bedrock.tools;
 
-var jsonldContext = require('./jsonldContext');
-var jsonldType = require('./jsonldType');
 var payee = require('./payee');
 var payeeRule = require('./payeeRule');
-var payswarmId = require('./payswarmId');
-var title = require('./title');
-var url = require('./url');
 var vendor = require('./vendor');
-var w3cDateTime = require('./w3cDateTime');
 
 var schema = {
   required: true,
@@ -16,17 +12,17 @@ var schema = {
   description: 'PaySwarm Asset.',
   type: 'object',
   properties: {
-    '@context': jsonldContext(),
+    '@context': schemas.jsonldContext(),
     // allow up to 4 additional custom types
-    type: jsonldType('Asset', 4),
+    type: schemas.jsonldType('Asset', 4),
     creator: {
       required: false,
-      type: [url(), {type: 'object'}]
+      type: [schemas.url(), {type: 'object'}]
     },
-    created: w3cDateTime(),
-    title: title({required: false}),
-    assetContent: url({required: false}),
-    assetProvider: payswarmId(),
+    created: schemas.w3cDateTime(),
+    title: schemas.title({required: false}),
+    assetContent: schemas.url({required: false}),
+    assetProvider: schemas.url(),
     listingRestrictions: {
       title: 'Listing Restrictions',
       description: 'Restrictions on the listing of this Asset for sale.',
@@ -36,12 +32,12 @@ var schema = {
         payee: payee({required: false}),
         payeeRule: payeeRule({required: false}),
         vendor: vendor({required: false}),
-        validFrom: w3cDateTime({required: false}),
-        validUntil: w3cDateTime({required: false})
+        validFrom: schemas.w3cDateTime({required: false}),
+        validUntil: schemas.w3cDateTime({required: false})
       }
     },
     // FIXME: is psaPublished desirable?
-    psaPublished: w3cDateTime({required: false}),
+    psaPublished: schemas.w3cDateTime({required: false}),
     // Meritora custom asset properties
     // FIXME: need semantic type-based validation
     // FIXME: this is currently a hack to allow these to pass through

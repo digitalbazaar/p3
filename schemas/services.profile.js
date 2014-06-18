@@ -1,12 +1,5 @@
-var url = require('./url');
-var email = require('./email');
-var slug = require('./slug');
-var passcode = require('./passcode');
-var password = require('./password');
-var label = require('./label');
-var payswarmId = require('./payswarmId');
-var jsonldContext = require('./jsonldContext');
-var visibility = require('./propertyVisibility');
+var bedrock = require('bedrock');
+var schemas = bedrock.validation.schemas;
 
 var getPasscodeQuery = {
   type: 'object',
@@ -28,7 +21,7 @@ var postPasscode = {
   properties: {
     psaIdentifier: {
       required: true,
-      type: [payswarmId(), slug(), email()]
+      type: [schemas.url(), schemas.slug(), schemas.email()]
     }
   },
   additionalProperties: false
@@ -39,9 +32,9 @@ var postPassword = {
   description: 'Create a password.',
   type: 'object',
   properties: {
-    id: payswarmId(),
-    psaPassword: password(),
-    psaPasswordNew: password()
+    id: schemas.url(),
+    psaPassword: schemas.password(),
+    psaPasswordNew: schemas.password()
   },
   additionalProperties: false
 };
@@ -53,10 +46,10 @@ var postPasswordReset = {
   properties: {
     psaIdentifier: {
       required: true,
-      type: [payswarmId(), slug(), email()]
+      type: [schemas.url(), schemas.slug(), schemas.email()]
     },
-    psaPasscode: passcode(),
-    psaPasswordNew: password()
+    psaPasscode: schemas.passcode(),
+    psaPasswordNew: schemas.password()
   },
   additionalProperties: false
 };
@@ -68,9 +61,9 @@ var postEmailVerify = {
   properties: {
     psaIdentifier: {
       required: true,
-      type: [payswarmId(), slug(), email()]
+      type: [schemas.url(), schemas.slug(), schemas.email()]
     },
-    psaPasscode: passcode()
+    psaPasscode: schemas.passcode()
   },
   additionalProperties: false
 };
@@ -80,11 +73,11 @@ var postCreate = {
   description: 'Create a profile.',
   type: 'object',
   properties: {
-    '@context': jsonldContext(),
-    psaSlug: slug({required: false}),
-    email: email(),
-    psaPassword: password(),
-    label: label({required: false}),
+    '@context': schemas.jsonldContext(),
+    psaSlug: schemas.slug({required: false}),
+    email: schemas.email(),
+    psaPassword: schemas.password(),
+    label: schemas.label({required: false}),
     psaIdentity: {
       required: true,
       type: 'object',
@@ -94,11 +87,11 @@ var postCreate = {
           type: 'string',
           enum: ['PersonalIdentity', 'VendorIdentity']
         },
-        psaSlug: slug(),
-        label: label(),
+        psaSlug: schemas.slug(),
+        label: schemas.label(),
         psaPublic: {
           required: false,
-          type: visibility()
+          type: schemas.propertyVisibility()
         }
       }
     },
@@ -106,11 +99,11 @@ var postCreate = {
       required: true,
       type: 'object',
       properties: {
-        psaSlug: slug(),
-        label: label(),
+        psaSlug: schemas.slug(),
+        label: schemas.label(),
         psaPublic: {
           required: false,
-          type: visibility()
+          type: schemas.propertyVisibility()
         }
       }
     }
@@ -140,10 +133,10 @@ var postLogin = {
   properties: {
     profile: {
       required: true,
-      type: [slug(), email(), payswarmId()]
+      type: [schemas.slug(), schemas.email(), schemas.url()]
     },
-    password: password(),
-    ref: url({required: false})
+    password: schemas.password(),
+    ref: schemas.url({required: false})
   },
   additionalProperties: false
 };
@@ -153,8 +146,8 @@ var postProfile = {
   description: 'Update profile.',
   type: 'object',
   properties: {
-    label: label({required: false}),
-    email: email({required: false})
+    label: schemas.label({required: false}),
+    email: schemas.email({required: false})
   },
   additionalProperties: false
 };
@@ -164,8 +157,8 @@ var switchIdentity = {
   description: 'Switch identity.',
   type: 'object',
   properties: {
-    identity: payswarmId(),
-    redirect: url()
+    identity: schemas.url(),
+    redirect: schemas.url()
   },
   additionalProperties: false
 };

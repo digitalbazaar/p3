@@ -1,8 +1,7 @@
-var jsonldContext = require('./jsonldContext');
-var jsonldType = require('./jsonldType');
-var label = require('./label');
+var bedrock = require('bedrock');
+var schemas = bedrock.validation.schemas;
+
 var money = require('./money');
-var payswarmId = require('./payswarmId');
 var refreshInterval = require('./refreshInterval');
 var validityInterval = require('./validityInterval');
 
@@ -12,13 +11,13 @@ var postBudget = {
   type: [{
     type: 'object',
     properties: {
-      '@context': jsonldContext(),
-      id: payswarmId(),
-      type: jsonldType('Budget'),
-      label: label({required: false}),
-      source: payswarmId({required: false}),
+      '@context': schemas.jsonldContext(),
+      id: schemas.url(),
+      type: schemas.jsonldType('Budget'),
+      label: schemas.label({required: false}),
+      source: schemas.url({required: false}),
       amount: money.precisePositive({required: false}),
-      vendor: payswarmId({required: false}),
+      vendor: schemas.url({required: false}),
       psaMaxPerUse: money.precisePositive({required: false}),
       psaRefreshInterval: refreshInterval({required: false}),
       psaValidityInterval: validityInterval({required: false})
@@ -26,8 +25,8 @@ var postBudget = {
   }, {
     type: 'object',
     properties: {
-      '@context': jsonldContext(),
-      vendor: payswarmId()
+      '@context': schemas.jsonldContext(),
+      vendor: schemas.url()
     }
   }],
   additionalProperties: false
@@ -50,12 +49,12 @@ var postBudgets = {
   description: 'A budget that is being created for the first time.',
   type: 'object',
   properties: {
-    '@context': jsonldContext(),
-    type: jsonldType('Budget'),
-    label: label(),
-    source: payswarmId(),
+    '@context': schemas.jsonldContext(),
+    type: schemas.jsonldType('Budget'),
+    label: schemas.label(),
+    source: schemas.url(),
     amount: money.precisePositive(),
-    vendor: payswarmId({required: false}),
+    vendor: schemas.url({required: false}),
     psaMaxPerUse: money.precisePositive({required: false}),
     psaRefreshInterval: refreshInterval({required: false}),
     psaValidityInterval: validityInterval({required: false})
@@ -68,7 +67,7 @@ var delBudgetQuery = {
   properties: {
     vendor: {
       required: false,
-      type: payswarmId()
+      type: schemas.url()
     }
   },
   additionalProperties: true

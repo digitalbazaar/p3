@@ -1,4 +1,5 @@
-var payswarmId = require('./payswarmId');
+var bedrock = require('bedrock');
+var schemas = bedrock.validation.schemas;
 
 var postPromosQuery = {
   title: 'Post Promotions Query',
@@ -21,7 +22,7 @@ var redeemCode = {
       required: true,
       type: 'string'
     },
-    account: payswarmId()
+    account: schemas.url()
   },
   additionalProperties: false
 };

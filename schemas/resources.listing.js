@@ -1,14 +1,10 @@
-var tools = require(__libdir + '/payswarm-auth/tools');
+var bedrock = require('bedrock');
+var schemas = bedrock.validation.schemas;
+var tools = bedrock.tools;
 
-var jsonldContext = require('./jsonldContext');
-var jsonldType = require('./jsonldType');
 var payee = require('./payee');
 var payeeRule = require('./payeeRule');
-var payswarmId = require('./payswarmId');
-var graphSignature = require('./graphSignature');
-var url = require('./url');
 var vendor = require('./vendor');
-var w3cDateTime = require('./w3cDateTime');
 
 var schema = {
   required: true,
@@ -16,26 +12,26 @@ var schema = {
   description: 'A Listing.',
   type: 'object',
   properties: {
-    '@context': jsonldContext(),
-    id: payswarmId(),
+    '@context': schemas.jsonldContext(),
+    id: schemas.url(),
     // allow up to 4 additional custom types
-    type: jsonldType('Listing', 4),
+    type: schemas.jsonldType('Listing', 4),
     vendor: vendor(),
     payee: payee(),
     payeeRule: payeeRule({required: false}),
-    asset: url(),
+    asset: schemas.url(),
     assetHash: {
       required: true,
       type: 'string'
     },
-    license: url(),
+    license: schemas.url(),
     licenseHash: {
       required: true,
       type: 'string'
     },
-    validFrom: w3cDateTime(),
-    validUntil: w3cDateTime(),
-    signature: graphSignature()
+    validFrom: schemas.w3cDateTime(),
+    validUntil: schemas.w3cDateTime(),
+    signature: schemas.graphSignature()
   },
   additionalProperties: false
 };

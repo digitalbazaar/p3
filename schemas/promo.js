@@ -1,7 +1,8 @@
-var tools = require(__libdir + '/payswarm-auth/tools');
+var bedrock = require('bedrock');
+var schemas = bedrock.validation.schemas;
+var tools = bedrock.tools;
+
 var currency = require('./currency');
-var email = require('./email');
-var w3cDateTime = require('./w3cDateTime');
 var money = require('./money');
 
 var schema = {
@@ -22,7 +23,7 @@ var schema = {
         missing: 'Please enter a promo code.'
       }
     },
-    expires: w3cDateTime(),
+    expires: schemas.w3cDateTime(),
     redeemable: {
       title: 'Redeemable',
       description: 'The number of times the promotional code can be redeemed.',
@@ -49,7 +50,7 @@ var schema = {
         }
       }
     },
-    email: email({required: false}),
+    email: schemas.email({required: false}),
     description: {
       title: 'Promotion Description',
       description: 'A description of the Promotion',

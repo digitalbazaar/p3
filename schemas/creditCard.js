@@ -1,7 +1,7 @@
-var tools = require(__libdir + '/payswarm-auth/tools');
+var bedrock = require('bedrock');
+var schemas = bedrock.validation.schemas;
+var tools = bedrock.tools;
 
-var jsonldContext = require('./jsonldContext');
-var jsonldType = require('./jsonldType');
 var address = require('./address');
 
 var currentYear = new Date().getFullYear();
@@ -12,8 +12,8 @@ var schema = {
   description: 'A credit card.',
   type: 'object',
   properties: {
-    '@context': jsonldContext(),
-    type: jsonldType('CreditCard'),
+    '@context': schemas.jsonldContext(),
+    type: schemas.jsonldType('CreditCard'),
     cardBrand: {
       required: true,
       type: 'string',

@@ -1,14 +1,12 @@
-var jsonldContext = require('./jsonldContext');
-var label = require('./label');
-var payswarmId = require('./payswarmId');
-var publicKeyPem = require('./publicKeyPem');
+var bedrock = require('bedrock');
+var schemas = bedrock.validation.schemas;
 
 var postKey = {
   type: 'object',
   properties: {
-    '@context': jsonldContext(),
-    id: payswarmId(),
-    label: label({required: false}),
+    '@context': schemas.jsonldContext(),
+    id: schemas.url(),
+    label: schemas.label({required: false}),
     revoked: {
       required: false,
       type: 'string'
@@ -20,9 +18,9 @@ var postKey = {
 var postKeys = {
   type: 'object',
   properties: {
-    '@context': jsonldContext(),
-    label: label(),
-    publicKeyPem: publicKeyPem()
+    '@context': schemas.jsonldContext(),
+    label: schemas.label(),
+    publicKeyPem: schemas.publicKeyPem()
   },
   additionalProperties: false
 };

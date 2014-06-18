@@ -1,4 +1,5 @@
-var tools = require(__libdir + '/payswarm-auth/tools');
+var bedrock = require('bedrock');
+var tools = bedrock.tools;
 
 var schema = {
   required: true,

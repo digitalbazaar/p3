@@ -1,5 +1,7 @@
+var bedrock = require('bedrock');
+var schemas = bedrock.validation.schemas;
+
 var address = require('./address');
-var label = require('./label');
 var validatedAddress = require('./validatedAddress');
 
 var postAddressesQuery = {
@@ -27,7 +29,7 @@ var delAddressesQuery = {
   properties: {
     addressId: {
       required: true,
-      type: label()
+      type: schemas.label()
     }
   },
   additionalProperties: true

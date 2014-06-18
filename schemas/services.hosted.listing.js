@@ -1,12 +1,9 @@
-var jsonldContext = require('./jsonldContext');
-var jsonldType = require('./jsonldType');
+var bedrock = require('bedrock');
+var schemas = bedrock.validation.schemas;
+
 var payee = require('./payee');
 var payeeRule = require('./payeeRule');
-var payswarmId = require('./payswarmId');
-var receipt = require('./receipt');
-var url = require('./url');
 var vendor = require('./vendor');
-var w3cDateTime = require('./w3cDateTime');
 
 var getListingsQuery = {
   type: 'object',
@@ -27,7 +24,7 @@ var getListingsQuery = {
     },
     previous: {
       required: false,
-      type: payswarmId()
+      type: schemas.url()
     },
     limit: {
       required: false,
@@ -49,24 +46,24 @@ var postListings = {
   description: 'Contains all of the details required to create a new Listing.',
   type: 'object',
   properties: {
-    '@context': jsonldContext(),
+    '@context': schemas.jsonldContext(),
     // allow up to 4 additional custom types
-    type: jsonldType('Listing', 4),
+    type: schemas.jsonldType('Listing', 4),
     vendor: vendor(),
     payee: payee({required: false}),
     payeeRule: payeeRule({required: false}),
-    asset: url(),
+    asset: schemas.url(),
     assetHash: {
       required: false,
       type: 'string'
     },
-    license: url(),
+    license: schemas.url(),
     licenseHash: {
       required: true,
       type: 'string'
     },
     // FIXME: is psaPublished desirable?
-    psaPublished: w3cDateTime({required: false})
+    psaPublished: schemas.w3cDateTime({required: false})
   },
   additionalProperties: false
 };
@@ -76,23 +73,23 @@ var postListing = {
   description: 'Contains all of the details required to edit a Listing.',
   type: 'object',
   properties: {
-    '@context': jsonldContext(),
+    '@context': schemas.jsonldContext(),
     // allow up to 4 additional custom types
-    type: jsonldType('Listing', 4),
+    type: schemas.jsonldType('Listing', 4),
     vendor: vendor(),
     payee: payee({required: false}),
     payeeRule: payeeRule({required: false}),
-    asset: url(),
+    asset: schemas.url(),
     assetHash: {
       required: false,
       type: 'string'
     },
-    license: url(),
+    license: schemas.url(),
     licenseHash: {
       required: true,
       type: 'string'
     },
-    psaPublished: w3cDateTime({required: false})
+    psaPublished: schemas.w3cDateTime({required: false})
   },
   additionalProperties: false
 };

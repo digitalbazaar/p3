@@ -1,7 +1,7 @@
-var tools = require(__libdir + '/payswarm-auth/tools');
+var bedrock = require('bedrock');
+var schemas = bedrock.validation.schemas;
+var tools = bedrock.tools;
 
-var payswarmId = require('./payswarmId');
-var jsonldType = require('./jsonldType');
 var money = require('./money');
 
 var schema = {
@@ -12,8 +12,8 @@ var schema = {
   items: {
     type: 'object',
     properties: {
-      id: payswarmId({required: false}),
-      type: jsonldType('PayeeRule'),
+      id: schemas.url({required: false}),
+      type: schemas.jsonldType('PayeeRule'),
       payeeGroupPrefix: {
         required: false,
         type: 'array',

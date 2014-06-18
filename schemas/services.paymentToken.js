@@ -1,16 +1,16 @@
+var bedrock = require('bedrock');
+var schemas = bedrock.validation.schemas;
+
 var bankAccount = require('./bankAccount');
 var creditCard = require('./creditCard');
 var deposit = require('./deposit');
-var jsonldContext = require('./jsonldContext');
-var label = require('./label');
 var money = require('./money');
-var payswarmId = require('./payswarmId');
 
 var postPaymentTokens = {
   type: 'object',
   properties: {
-    '@context': jsonldContext(),
-    label: label(),
+    '@context': schemas.jsonldContext(),
+    label: schemas.label(),
     source: {
       required: true,
       type: [creditCard(), bankAccount()]
@@ -34,11 +34,11 @@ var getPaymentTokensQuery = {
 var postPaymentToken = {
   type: 'object',
   properties: {
-    '@context': jsonldContext(),
-    id: payswarmId(),
+    '@context': schemas.jsonldContext(),
+    id: schemas.url(),
     label: {
       required: true,
-      type: label()
+      type: schemas.label()
     }
   },
   additionalProperties: false
@@ -60,7 +60,7 @@ var postVerifyPrepare = {
   title: 'Verify PaymentToken Prepare',
   type: 'object',
   properties: {
-    '@context': jsonldContext(),
+    '@context': schemas.jsonldContext(),
     psaVerifyParameters: {
       title: 'Verify parameters',
       type: 'object',

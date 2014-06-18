@@ -1,8 +1,6 @@
-var tools = require(__libdir + '/payswarm-auth/tools');
-
-var jsonldContext = require('./jsonldContext');
-var jsonldType = require('./jsonldType');
-var payswarmId = require('./payswarmId');
+var bedrock = require('bedrock');
+var schemas = bedrock.validation.schemas;
+var tools = bedrock.tools;
 
 var schema = {
   required: true,
@@ -10,9 +8,9 @@ var schema = {
   description: 'A License.',
   type: 'object',
   properties: {
-    '@context': jsonldContext(),
-    id: payswarmId(),
-    type: jsonldType('License'),
+    '@context': schemas.jsonldContext(),
+    id: schemas.url(),
+    type: schemas.jsonldType('License'),
     licenseTemplate: {
       required: true,
       type: 'string'

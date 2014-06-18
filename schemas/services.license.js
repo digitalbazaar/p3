@@ -1,18 +1,17 @@
-var jsonldContext = require('./jsonldContext');
-var graphSignature = require('./graphSignature');
-var payswarmId = require('./payswarmId');
+var bedrock = require('bedrock');
+var schemas = bedrock.validation.schemas;
 
 var cacheLicense = {
   title: 'Cache License',
   type: 'object',
   properties: {
-    '@context': jsonldContext(),
-    license: payswarmId(),
+    '@context': schemas.jsonldContext(),
+    license: schemas.url(),
     licenseHash: {
       required: false,
       type: 'string'
     },
-    signature: graphSignature({required: false})
+    signature: schemas.graphSignature({required: false})
   },
   additionalProperties: false
 };

@@ -1,20 +1,12 @@
-var graphSignature = require('./graphSignature');
-var jsonldContext = require('./jsonldContext');
-var jsonldType = require('./jsonldType');
-var label = require('./label');
-var nonce = require('./nonce');
-var payswarmId = require('./payswarmId');
-var publicKeyPem = require('./publicKeyPem');
-var slug = require('./slug');
-var url = require('./url');
-var visibility = require('./propertyVisibility');
+var bedrock = require('bedrock');
+var schemas = bedrock.validation.schemas;
 
 var postIdentity = {
   title: 'Post Identity',
   type: 'object',
   properties: {
-    '@context': jsonldContext(),
-    label: label()
+    '@context': schemas.jsonldContext(),
+    label: schemas.label()
   },
   additionalProperties: false
 };
@@ -30,19 +22,19 @@ var getIdentitiesQuery = {
     },
     'public-key-label': {
       required: false,
-      type: label()
+      type: schemas.label()
     },
     'public-key': {
       required: false,
-      type: publicKeyPem()
+      type: schemas.publicKeyPem()
     },
     'registration-callback': {
       required: false,
-      type: url()
+      type: schemas.url()
     },
     'response-nonce': {
       required: false,
-      type: nonce()
+      type: schemas.nonce()
     }
   },
   additionalProperties: true
@@ -52,14 +44,14 @@ var postIdentities = {
   title: 'Post Identities',
   type: 'object',
   properties: {
-    '@context': jsonldContext(),
+    '@context': schemas.jsonldContext(),
     type: {
       required: true,
       type: 'string',
       enum: ['PersonalIdentity', 'VendorIdentity']
     },
-    psaSlug: slug(),
-    label: label(),
+    psaSlug: schemas.slug(),
+    label: schemas.label(),
     website: {
       required: false,
       type: 'string'
@@ -70,7 +62,7 @@ var postIdentities = {
     },
     psaPublic: {
       required: false,
-      type: visibility()
+      type: schemas.propertyVisibility()
     }
   },
   additionalProperties: false
@@ -80,10 +72,10 @@ var postPreferences = {
   title: 'Post Preferences',
   type: 'object',
   properties: {
-    '@context': jsonldContext(),
-    type: jsonldType('IdentityPreferences'),
-    destination: payswarmId({required: false}),
-    source: payswarmId({required: false}),
+    '@context': schemas.jsonldContext(),
+    type: schemas.jsonldType('IdentityPreferences'),
+    destination: schemas.url({required: false}),
+    source: schemas.url({required: false}),
     publicKey: {
       required: false,
       type: [{
@@ -93,8 +85,8 @@ var postPreferences = {
         // label+pem
         type: 'object',
         properties: {
-          label: label(),
-          publicKeyPem: publicKeyPem()
+          label: schemas.label(),
+          publicKeyPem: schemas.publicKeyPem()
         }
       }]
     }

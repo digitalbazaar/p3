@@ -1,6 +1,5 @@
-var email = require('./email');
-var payswarmId = require('./payswarmId');
-var slug = require('./slug');
+var bedrock = require('bedrock');
+var schemas = bedrock.validation.schemas;
 
 var postIdentifier = {
   type: [{
@@ -11,7 +10,7 @@ var postIdentifier = {
         type: 'string',
         enum: ['Profile', 'PersonalIdentity', 'VendorIdentity']
       },
-      psaSlug: slug()
+      psaSlug: schemas.slug()
     },
     additionalProperties: false
   }, {
@@ -24,9 +23,9 @@ var postIdentifier = {
       },
       owner: {
         required: true,
-        type: payswarmId()
+        type: schemas.url()
       },
-      psaSlug: slug()
+      psaSlug: schemas.slug()
     },
     additionalProperties: false
   }, {
@@ -37,7 +36,7 @@ var postIdentifier = {
         type: 'string',
         enum: ['email']
       },
-      email: email()
+      email: schemas.email()
     },
     additionalProperties: false
   }]

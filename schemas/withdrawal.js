@@ -1,15 +1,12 @@
-var tools = require(__libdir + '/payswarm-auth/tools');
+var bedrock = require('bedrock');
+var schemas = bedrock.validation.schemas;
+var tools = bedrock.tools;
 
 var currency = require('./currency');
-var graphSignature = require('./graphSignature');
 var ipv4Address = require('./ipv4Address');
-var jsonldContext = require('./jsonldContext');
-var jsonldType = require('./jsonldType');
 var payee = require('./payee');
 var paymentToken = require('./paymentToken');
-var payswarmId = require('./payswarmId');
 var transfer = require('./transfer');
-var w3cDateTime = require('./w3cDateTime');
 var withdrawalAmount = require('./withdrawalAmount');
 
 var unsignedWithdrawal = {
@@ -18,11 +15,11 @@ var unsignedWithdrawal = {
   description: 'A Withdrawal that has not been digitally-signed.',
   type: 'object',
   properties: {
-    '@context': jsonldContext(),
-    type: jsonldType(['Transaction', 'Withdrawal']),
+    '@context': schemas.jsonldContext(),
+    type: schemas.jsonldType(['Transaction', 'Withdrawal']),
     payee: payee(),
-    source: payswarmId(),
-    destination: payswarmId()
+    source: schemas.url(),
+    destination: schemas.url()
   },
   additionalProperties: false
 };
@@ -33,22 +30,22 @@ var signedWithdrawal = {
   description: 'A digitally-signed Withdrawal.',
   type: 'object',
   properties: {
-    '@context': jsonldContext(),
-    id: payswarmId(),
-    type: jsonldType(['Transaction', 'Withdrawal']),
+    '@context': schemas.jsonldContext(),
+    id: schemas.url(),
+    type: schemas.jsonldType(['Transaction', 'Withdrawal']),
     payee: payee(),
-    source: payswarmId(),
+    source: schemas.url(),
     destination: paymentToken(),
     transfer: {
       required: true,
       type: 'array',
       items: transfer()
     },
-    created: w3cDateTime(),
+    created: schemas.w3cDateTime(),
     currency: currency(),
     amount: withdrawalAmount(),
     ipv4Address: ipv4Address(),
-    signature: graphSignature()
+    signature: schemas.graphSignature()
   },
   additionalProperties: false
 };

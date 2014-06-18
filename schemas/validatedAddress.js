@@ -1,5 +1,7 @@
+var bedrock = require('bedrock');
+var tools = bedrock.tools;
+
 var address = require('./address');
-var tools = require(__libdir + '/payswarm-auth/tools');
 
 var schema = address({
   properties: {

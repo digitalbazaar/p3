@@ -1,20 +1,23 @@
 /*!
  * Identity Dashboard.
  *
+ * Copyright (c) 2012-2014 Digital Bazaar, Inc. All rights reserved.
+ *
  * @author Dave Longley
  * @author David I. Lehn
  */
-define(['angular', 'payswarm.api'], function(angular, payswarm) {
+define([], function() {
 
-var deps = ['$scope', 'svcAccount', 'svcPaymentToken', 'svcBudget',
-  'svcTransaction', 'svcIdentity', '$timeout'];
+var deps = [
+  '$scope', '$timeout', 'config',
+  'svcAccount', 'svcPaymentToken', 'svcBudget',
+  'svcTransaction', 'svcIdentity'];
 return {DashboardCtrl: deps.concat(factory)};
 
-function factory($scope, svcAccount, svcPaymentToken, svcBudget,
-  svcTransaction, svcIdentity, $timeout) {
+function factory(
+  $scope, $timeout, config, svcAccount, svcPaymentToken, svcBudget,
+  svcTransaction, svcIdentity) {
   var model = $scope.model = {};
-  var data = window.data || {};
-  $scope.profile = data.session.profile;
   $scope.identity = svcIdentity.identity;
   $scope.accounts = svcAccount.accounts;
   $scope.budgets = svcBudget.budgets;
@@ -61,7 +64,7 @@ function factory($scope, svcAccount, svcPaymentToken, svcBudget,
 
   $scope.setDefaultAccount = function(account) {
     var update = {
-      '@context': payswarm.CONTEXT_URL,
+      '@context': config.data.contextUrl,
       type: 'IdentityPreferences',
       source: account.id
     };

@@ -30,8 +30,8 @@ config.modules = [
   path.join(_libdir, 'payswarm-auth', 'identityPreferences'),
   path.join(_libdir, 'payswarm-auth', 'identityAuthority'),
   path.join(_libdir, 'payswarm-auth', 'resource'),
-  /*path.join(_libdir, 'payswarm-auth', 'financial'),
-  path.join(_libdir, 'payswarm-auth', 'promo'),*/
+  //path.join(_libdir, 'payswarm-auth', 'financial'),
+  //path.join(_libdir, 'payswarm-auth', 'promo'),
   //path.join(_libdir, 'payswarm-auth', 'hosted.asset'),
   //path.join(_libdir, 'payswarm-auth', 'hosted.listing'),
   //'website'

@@ -6,9 +6,9 @@ Machine:         {{machine}}
 Transaction ID:  {{withdrawal.id}}
 Date:            {{withdrawal.created}}
 Credit:          {{withdrawal.currency}} ${{amount}}
-Requestor ID:    {{profile.id}}
-Requestor Email: {{profile.email}}
-Requestor Label: {{profile.label}}
+Requestor ID:    {{identity.id}}
+Requestor Email: {{identity.email}}
+Requestor Label: {{identity.label}}
 
 {% if headers %}
 ============================== HTTP Headers ================================
@@ -17,8 +17,8 @@ Requestor Label: {{profile.label}}
 {% endfor -%}
 {% endif -%}
 =============================== Requestor ==================================
-{{profile|json_encode(2)}}
+{{toJson(identity)}}
 =============================== Withdrawal =================================
-{{withdrawal|json_encode(2)}}
+{{toJson(withdrawal)}}
 ================================= Error ====================================
-{{error|json_encode(2)}}
+{{toJson(error)}}

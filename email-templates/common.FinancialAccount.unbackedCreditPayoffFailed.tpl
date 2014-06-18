@@ -5,4 +5,3 @@ Subject: {{subjectPrefix}}{{serviceName}} FinancialAccount intervention required
 Machine:  {{machine}}
 Account ID: {{account.id}}
 Identity ID: {{identity.id}}
-Profile ID: {{profile.id}}

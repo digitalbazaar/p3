@@ -1,6 +1,6 @@
-To: {{profile.email}}
+To: {{identity.email}}
 From: "{{serviceName}} Customer Support" <support@{{supportDomain}}>
-Subject: {{profileSubjectPrefix}}A credit line payment failed for an account on {{serviceName}}
+Subject: {{identitySubjectPrefix}}A credit line payment failed for an account on {{serviceName}}
 
 {% if productionMode == false %}
 *******

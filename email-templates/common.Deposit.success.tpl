@@ -6,9 +6,9 @@ Machine:         {{machine}}
 Transaction ID:  {{deposit.id}}
 Date:            {{deposit.created}}
 Charge:          {{deposit.currency}} ${{deposit.amount}}
-Requestor:       {{profile.id}}
-Requestor Email: {{profile.email}}
-Requestor Label: {{profile.label}}
+Requestor:       {{identity.id}}
+Requestor Email: {{identity.email}}
+Requestor Label: {{identity.label}}
 
 {% if headers %}
 ============================== HTTP Headers ================================
@@ -17,6 +17,6 @@ Requestor Label: {{profile.label}}
 {% endfor -%}
 {% endif -%}
 =============================== Requestor ==================================
-{{profile|json_encode(2)}}
+{{toJson(identity)}}
 ================================ Deposit ===================================
-{{deposit|json_encode(2)}}
+{{toJson(deposit)}}

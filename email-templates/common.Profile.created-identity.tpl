@@ -1,6 +1,6 @@
-To: {{profile.email}}
+To: {{identity.email}}
 From: "{{serviceName}} Customer Support" <support@{{supportDomain}}>
-Subject: {{profileSubjectPrefix}}Welcome to {{serviceName}}!
+Subject: {{identitySubjectPrefix}}Welcome to {{serviceName}}!
 
 {% if productionMode == false %}
 *******
@@ -28,7 +28,7 @@ own website and receive payment directly from their fans and customers. This
 greatly eases the burden of setting up and getting paid for great content on 
 your website.
 
-You can manage your profile, financial accounts, credit cards, bank accounts, 
+You can manage your identity, financial accounts, credit cards, bank accounts, 
 and other settings by going here:
 
 {{identity.id}}/dashboard

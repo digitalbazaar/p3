@@ -1,6 +1,6 @@
-To: {{profile.email}}
+To: {{identity.email}}
 From: "{{serviceName}} Customer Support" <support@{{supportDomain}}>
-Subject: {{profileSubjectPrefix}}Bank account linking started on {{serviceName}}
+Subject: {{identitySubjectPrefix}}Bank account linking started on {{serviceName}}
 
 {% if productionMode == false %}
 *******

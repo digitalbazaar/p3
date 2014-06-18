@@ -15,7 +15,7 @@ Credit Card Brand:           {{deposit.source.cardBrand}}
 Credit Card Number:          {{deposit.source.cardNumber}}
 Credit Card Expiration:      {{deposit.source.cardExpMonth}}/{{deposit.source.cardExpYear}}
 Payment Gateway:             {{deposit.source.paymentGateway}}
-Authorization Approval Code: {{deposit.psaGatewayApprovalCode}}
+Authorization Approval Code: {{deposit.sysGatewayApprovalCode}}
 Transaction Type:            purchase
 Transaction Description:     {{serviceName}} deposit
 Return/Refund Policy:        {{baseUri}}/legal#tos

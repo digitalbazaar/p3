@@ -15,7 +15,7 @@ Owner:                       {{withdrawal.destination.owner}}
 Bank Routing Number:         {{withdrawal.destination.bankRoutingNumber}}
 Bank Account Number:         {{withdrawal.destination.bankAccount}}
 ACH Gateway:                 {{withdrawal.destination.paymentGateway}}
-Authorization Approval Code: {{withdrawal.psaGatewayApprovalCode}}
+Authorization Approval Code: {{withdrawal.sysGatewayApprovalCode}}
 Transaction Type:            credit
 Transaction Description:     {{serviceName}} withdrawal
 Return/Refund Policy:        {{baseUri}}/legal#tos

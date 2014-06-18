@@ -1,6 +1,6 @@
-To: {{profile.email}}
+To: {{identity.email}}
 From: "{{serviceName}} Customer Support" <support@{{supportDomain}}>
-Subject: {{profileSubjectPrefix}}{{serviceName}} deposit receipt
+Subject: {{identitySubjectPrefix}}{{serviceName}} deposit receipt
 
 {% if productionMode == false %}
 *** NOTE ***

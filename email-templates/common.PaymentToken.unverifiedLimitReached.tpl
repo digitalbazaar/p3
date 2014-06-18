@@ -6,4 +6,4 @@ Machine:     {{machine}}
 Token Limit: {{limit}}
 
 ================================ Error ===================================
-{{error|json_encode(2)}}
+{{toJson(error)}}

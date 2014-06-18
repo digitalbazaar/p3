@@ -15,7 +15,7 @@ Owner:                       {{deposit.source.owner}}
 Bank Routing Number:         {{deposit.source.bankRoutingNumber}}
 Bank Account Number:         {{deposit.source.bankAccount}}
 ACH Gateway:                 {{deposit.source.paymentGateway}}
-Authorization Approval Code: {{deposit.psaGatewayApprovalCode}}
+Authorization Approval Code: {{deposit.sysGatewayApprovalCode}}
 Transaction Type:            purchase
 Transaction Description:     {{serviceName}} deposit
 Return/Refund Policy:        {{baseUri}}/legal#tos

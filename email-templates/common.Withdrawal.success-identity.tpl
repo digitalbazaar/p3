@@ -1,6 +1,6 @@
-To: {{profile.email}}
+To: {{identity.email}}
 From: "{{serviceName}} Customer Support" <support@{{supportDomain}}>
-Subject: {{profileSubjectPrefix}}{{serviceName}} withdrawal receipt
+Subject: {{identitySubjectPrefix}}{{serviceName}} withdrawal receipt
 
 {% if productionMode == false %}
 *** NOTE ***

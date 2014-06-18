@@ -1,6 +1,6 @@
-To: {{profile.email}}
+To: {{identity.email}}
 From: "{{serviceName}} Customer Support" <support@{{supportDomain}}>
-Subject: {{profileSubjectPrefix}}Verify your bank account on {{serviceName}}
+Subject: {{identitySubjectPrefix}}Verify your bank account on {{serviceName}}
 
 {% if productionMode == false %}
 *******

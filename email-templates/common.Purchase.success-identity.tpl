@@ -1,6 +1,6 @@
-To: {{profile.email}}
+To: {{identity.email}}
 From: "{{serviceName}} Customer Support" <support@{{supportDomain}}>
-Subject: {{profileSubjectPrefix}}{{serviceName}} purchase notification
+Subject: {{identitySubjectPrefix}}{{serviceName}} purchase notification
 
 {% if productionMode == false %}
 *******

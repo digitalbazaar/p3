@@ -1,17 +1,14 @@
 <!DOCTYPE html>
 <html prefix="
-  xhv: http://www.w3.org/1999/xhtml/vocab#
   xsd: http://www.w3.org/2001/XMLSchema#
   rdfs: http://www.w3.org/2000/01/rdf-schema#
   dc: http://purl.org/dc/terms/
   bed: https://w3id.org/bedrock#
-  foaf: http://xmlns.com/foaf/0.1/
   com: https://w3id.org/commerce#
   gr: http://purl.org/goodrelations/v1#
   ps: https://w3id.org/payswarm#
   sec: https://w3id.org/security#
   vcard: http://www.w3.org/2006/vcard/ns#
-  v: http://rdf.data-vocabulary.org/#
   "{# debug="true" #}>
 
   <head>
@@ -36,11 +33,6 @@
     <!--[if IE]>
     <link href="/css/ie.css" rel="stylesheet" type="text/css" />
     <![endif]-->
-    {% if cssList && cssList.length > 0 %}
-    {% for cssFile in cssList %}
-    <link href="/{{cssFile}}.css" rel="stylesheet" type="text/css" />
-    {% endfor %}
-    {% endif %}
 
     <link rel="shortcut icon" href="/favicon.ico" />
 
@@ -92,6 +84,5 @@
         <span class="cc-font-shine"></span>
         <span class="bank-font"></span>
       </div>
-
       {% include "data.html" %}
       {% endif %}

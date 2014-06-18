@@ -44,8 +44,7 @@ function factory($scope, $timeout, svcPaymentToken) {
 
       if(paymentToken.paymentMethod === 'CreditCard') {
         $scope.creditCardFeedback.error = err;
-      }
-      else if(paymentToken.paymentMethod === 'BankAccount') {
+      } else if(paymentToken.paymentMethod === 'BankAccount') {
         $scope.bankAccountFeedback.error = err;
       }
     });

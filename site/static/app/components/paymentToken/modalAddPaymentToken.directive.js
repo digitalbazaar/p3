@@ -96,8 +96,7 @@ function factory(svcModal) {
           cardCvm: c.cardCvm,
           address: getAddress()
         };
-      }
-      else if($scope.paymentMethod === 'BankAccount') {
+      } else if($scope.paymentMethod === 'BankAccount') {
         var b = $scope.bankAccount;
 
         // copy required fields

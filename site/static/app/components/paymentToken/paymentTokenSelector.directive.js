@@ -64,12 +64,10 @@ function factory(svcPaymentToken, svcModel) {
       if(value === 'non') {
         scope.tokensFilteredByInstant = svcPaymentToken.nonInstant;
         scope.paymentMethods = svcPaymentToken.nonInstantPaymentMethods;
-      }
-      else if(value) {
+      } else if(value) {
         scope.tokensFilteredByInstant = svcPaymentToken.instant;
         scope.paymentMethods = svcPaymentToken.instantPaymentMethods;
-      }
-      else {
+      } else {
         scope.tokensFilteredByInstant = svcPaymentToken.paymentTokens;
         scope.paymentMethods = svcPaymentToken.paymentMethods;
       }

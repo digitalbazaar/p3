@@ -47,8 +47,7 @@ function factory(svcModal) {
           };
           callback();
         });
-      }
-      else {
+      } else {
         callback();
       }
     }

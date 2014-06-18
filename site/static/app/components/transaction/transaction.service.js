@@ -104,8 +104,7 @@ function factory($timeout, $rootScope, svcModel, svcIdentity) {
           }
         });
       }, options.delay || 0);
-    }
-    else {
+    } else {
       $timeout(function() {
         callback(null, service.recentTxns);
       });
@@ -116,17 +115,13 @@ function factory($timeout, $rootScope, svcModel, svcIdentity) {
   service.getType = function(txn) {
     if(txn.type.indexOf('Deposit') !== -1) {
       return 'deposit';
-    }
-    else if(txn.type.indexOf('Contract') !== -1) {
+    } else if(txn.type.indexOf('Contract') !== -1) {
       return 'contract';
-    }
-    else if(txn.type.indexOf('Transfer') !== -1) {
+    } else if(txn.type.indexOf('Transfer') !== -1) {
       return 'transfer';
-    }
-    else if(txn.type.indexOf('Withdrawal') !== -1) {
+    } else if(txn.type.indexOf('Withdrawal') !== -1) {
       return 'withdrawal';
-    }
-    else {
+    } else {
       return 'error';
     }
   };

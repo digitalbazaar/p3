@@ -52,8 +52,7 @@ function factory(
         $scope.state = 'selecting';
         if($scope.validatedAddress.psaValidated) {
           $scope.selection.address = $scope.validatedAddress;
-        }
-        else {
+        } else {
           $scope.selection.address = $scope.originalAddress;
         }
       });

@@ -64,8 +64,7 @@ function factory($scope, svcHostedAsset, svcHostedListing) {
       for(var i = 0; i < rows.length; ++i) {
         if(rows[i].type === 'asset' && rows[i].asset.id === asset.id) {
           start = i;
-        }
-        else if(i > start) {
+        } else if(i > start) {
           if(rows[i].type !== 'listing') {
             break;
           }

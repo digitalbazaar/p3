@@ -49,8 +49,7 @@ function factory($timeout, $rootScope, svcModel, svcIdentity) {
           }
         });
       }, options.delay || 0);
-    }
-    else {
+    } else {
       $timeout(function() {
         callback(null, service.budgets);
       });
@@ -208,8 +207,7 @@ function factory($timeout, $rootScope, svcModel, svcIdentity) {
           }
         });
       }, options.delay || 0);
-    }
-    else {
+    } else {
       $timeout(function() {
         callback(null, service.vendors[budgetId].vendors);
       });
@@ -280,8 +278,7 @@ function factory($timeout, $rootScope, svcModel, svcIdentity) {
     var interval = budget.psaValidityInterval.split('/');
     if(interval.length === 1) {
       return 'never';
-    }
-    else if(iso8601.Period.isValid(interval[1])) {
+    } else if(iso8601.Period.isValid(interval[1])) {
       var start = +new Date(interval[0]);
       var end = start + iso8601.Period.parseToTotalSeconds(interval[1]) * 1000;
       return new Date(end);

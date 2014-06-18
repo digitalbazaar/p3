@@ -61,8 +61,7 @@ function factory(svcAccount, svcIdentity, svcPaymentToken) {
       if(scope.selected) {
         if(scope.selected.psaCreditDisabled) {
           scope.model.remainingCredit = 0;
-        }
-        else {
+        } else {
           scope.model.remainingCredit = parseFloat(
             scope.selected.creditLimit || '0');
         }
@@ -89,8 +88,7 @@ function factory(svcAccount, svcIdentity, svcPaymentToken) {
             scope.selected.psaAllowInstantTransfer &&
             minInstantTransfer <= minBalance) {
             scope.instantTransferRequired = true;
-          }
-          else {
+          } else {
             scope.balanceTooLow = true;
             scope.invalid = true;
           }

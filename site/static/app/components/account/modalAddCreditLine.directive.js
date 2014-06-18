@@ -81,8 +81,7 @@ function factory(svcModal) {
         if(err) {
           model.feedback.modal.contactSupport = true;
           model.feedback.modal.error = err;
-        }
-        else {
+        } else {
           // show complete page
           model.state = 'complete';
         }

@@ -63,8 +63,7 @@ function factory($parse, $http) {
               var expires = new Date(data.expires);
               if(expires <= now || data.redeemable === 0) {
                 state.expired = true;
-              }
-              else {
+              } else {
                 state.promo = data;
               }
             })

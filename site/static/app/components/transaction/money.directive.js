@@ -69,14 +69,11 @@ function factory() {
         $scope.exactAmount = amount;
         if($scope.exact) {
           $scope.formattedAmount = amount;
-        }
-        else if($scope.roundMode === 'down') {
+        } else if($scope.roundMode === 'down') {
           $scope.formattedAmount = $filter('floor')(amount, precision);
-        }
-        else if($scope.roundMode === 'up') {
+        } else if($scope.roundMode === 'up') {
           $scope.formattedAmount = $filter('ceil')(amount, precision);
-        }
-        else {
+        } else {
           $scope.formattedAmount = amount;
         }
       }, true);

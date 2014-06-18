@@ -48,8 +48,7 @@ function factory($timeout, $rootScope, svcModel, svcIdentity) {
     angular.forEach(service.paymentTokens, function(token) {
       if(token.psaStatus === 'active') {
         active.push(token);
-      }
-      else if(!token.psaStatus || token.psaStatus === 'deleted') {
+      } else if(!token.psaStatus || token.psaStatus === 'deleted') {
         deleted.push(token);
       }
 
@@ -66,8 +65,7 @@ function factory($timeout, $rootScope, svcModel, svcIdentity) {
         // show warning a month early
         token.showExpirationWarning = (ttl > 0 && ttl <= month);
         token.showExpired = (ttl <= 0);
-      }
-      else if(token.paymentMethod === 'BankAccount') {
+      } else if(token.paymentMethod === 'BankAccount') {
         bankAccounts.push(token);
       }
 
@@ -118,8 +116,7 @@ function factory($timeout, $rootScope, svcModel, svcIdentity) {
           }
         });
       }, options.delay || 0);
-    }
-    else {
+    } else {
       $timeout(function() {
         callback(null, service.paymentTokens);
       });
@@ -205,8 +202,7 @@ function factory($timeout, $rootScope, svcModel, svcIdentity) {
       success: function(data) {
         if(!data) {
           svcModel.removeFromArray(paymentTokenId, service.paymentTokens);
-        }
-        else {
+        } else {
           svcModel.replaceInArray(service.paymentTokens, data);
         }
         _updateTokens();

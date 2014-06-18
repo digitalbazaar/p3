@@ -69,8 +69,7 @@ function factory($scope, $timeout, svcTransaction) {
       var txn = $scope.txns[$scope.txns.length - 1];
       options.createdStart = txn.created;
       options.previous = txn.id;
-    }
-    else {
+    } else {
       options.createdStart = $scope.startDate;
     }
     options.success = function(txns) {
@@ -129,8 +128,7 @@ function _addTxn($scope, txn) {
       if(src.owner === $scope.session.identity.id) {
         if(src.paymentMethod === 'CreditCard') {
           transfer.source += ' (Credit Card: ' + src.cardNumber + ')';
-        }
-        else if(src.paymentMethod === 'BankAccount') {
+        } else if(src.paymentMethod === 'BankAccount') {
           transfer.source += ' (Bank Account: ' + src.bankAccount + ')';
         }
       }

@@ -39,8 +39,7 @@ function factory($scope, $timeout, svcIdentity, svcAccount, svcAddress) {
       $scope.identities = $scope.identities.filter(function(v) {
         return v.type === 'VendorIdentity';
       });
-    }
-    else {
+    } else {
       $scope.identityTypes = ['PersonalIdentity', 'VendorIdentity'];
     }
 

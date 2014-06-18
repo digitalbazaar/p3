@@ -33,8 +33,7 @@ function factory($scope) {
         if(response.ref) {
           // redirect to referral URL
           window.location = response.ref;
-        }
-        else {
+        } else {
           // show multiple profiles
           $scope.multiple = true;
           $scope.email = response.email;
@@ -51,8 +50,7 @@ function factory($scope) {
         // FIXME: use directive to show feedback?
         if(err.type === 'payswarm.validation.ValidationError') {
           $scope.error = 'Please enter your email address and password.';
-        }
-        else {
+        } else {
           $scope.error = err.message;
         }
         $scope.loading = false;

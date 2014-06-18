@@ -101,8 +101,7 @@ function factory(
           }
         });
       }, options.delay || 0);
-    }
-    else {
+    } else {
       $timeout(function() {
         callback(null, service.recentAssets);
       });

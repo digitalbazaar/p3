@@ -55,11 +55,9 @@ function factory(svcModal) {
       if($scope.model.budgetRefreshDuration ===
         svcBudget.getRefreshDuration($scope.sourceBudget)) {
         b.psaRefreshInterval = undefined;
-      }
-      else if($scope.model.budgetRefreshDuration === 'never') {
+      } else if($scope.model.budgetRefreshDuration === 'never') {
         b.psaRefreshInterval = window.iso8601.w3cDate();
-      }
-      else {
+      } else {
         b.psaRefreshInterval =
           'R/' + window.iso8601.w3cDate() + '/' +
           $scope.model.budgetRefreshDuration;
@@ -68,8 +66,7 @@ function factory(svcModal) {
       // budget valid duration
       if($scope.model.budgetValidDuration === '') {
         b.psaValidityInterval = undefined;
-      }
-      else {
+      } else {
         // set validity start date to now
         b.psaValidityInterval = window.iso8601.w3cDate();
         if($scope.model.budgetValidDuration !== 'never') {

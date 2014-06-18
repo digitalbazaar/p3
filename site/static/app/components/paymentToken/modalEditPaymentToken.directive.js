@@ -93,8 +93,7 @@ function factory(svcModal) {
           // recurse
           _removeAsBackupSource(accountIds, i + 1, callback);
         });
-      }
-      else {
+      } else {
         callback();
       }
     }
@@ -131,8 +130,7 @@ function factory(svcModal) {
               // ignore tokenErr, but update UI based on update err
               if(!err) {
                 $scope.modal.close(null, paymentToken);
-              }
-              else {
+              } else {
                 // editor still open, update display
                 updateBackupSources();
               }

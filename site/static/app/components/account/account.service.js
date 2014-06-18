@@ -81,8 +81,7 @@ function factory($timeout, $rootScope, svcModel, svcIdentity,
           }
         });
       }, options.delay || 0);
-    }
-    else {
+    } else {
       $timeout(function() {
         callback(null, entry.accounts);
       });

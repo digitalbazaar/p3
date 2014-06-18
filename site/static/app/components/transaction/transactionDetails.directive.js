@@ -58,13 +58,11 @@ function factory(svcAccount) {
         }
         if(hasValue(value, 'type', 'Deposit')) {
           $scope.type = 'Deposit';
-        }
-        else if(hasValue(value, 'type', 'Withdrawal')) {
+        } else if(hasValue(value, 'type', 'Withdrawal')) {
           $scope.type = 'Withdrawal';
           // get source account info
           getAccount(value.transfer[0].source);
-        }
-        else {
+        } else {
           // FIXME: ?
           $scope.type = 'Transfer';
         }

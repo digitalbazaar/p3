@@ -62,8 +62,7 @@ function factory(svcPaymentToken) {
           // credit bar width
           if(model.balance >= 0) {
             model.creditBar.width = 100;
-          }
-          else {
+          } else {
             var p = model.remainingCredit / model.creditLimit * 100;
             model.creditBar.width = Math.max(0, Math.min(p, 100));
           }

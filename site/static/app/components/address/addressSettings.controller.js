@@ -26,8 +26,7 @@ function factory($scope, svcAddress, svcIdentity) {
     if(svcAddress.addresses.length === 1) {
       $scope.showLastAddressAlert = true;
       $scope.addressToDelete = address;
-    }
-    else {
+    } else {
       svcAddress.del(address, callback);
     }
   };

@@ -27,12 +27,10 @@ function factory() {
         if(/^4/.test(value)) {
           logo = 'visa';
           scope.brand = 'Visa';
-        }
-        else if(/^5[1-5]/.test(value)) {
+        } else if(/^5[1-5]/.test(value)) {
           logo = 'mastercard';
           scope.brand = 'MasterCard';
-        }
-        else if(/^3[47]/.test(value)) {
+        } else if(/^3[47]/.test(value)) {
           logo = 'amex';
           scope.brand = 'AmericanExpress';
         }
@@ -40,8 +38,7 @@ function factory() {
         else if(/^(6((011)|(22((1((2[6-9])|([3-9]{1}[0-9])))|([2-8])|(9(([0-1]{1}[0-9])|(2[0-5])))))|(4[4-9])|5))/.test(value)) {
           logo = 'discover';
           scope.brand = 'Discover';
-        }
-        else if(/^62/.test(value)) {
+        } else if(/^62/.test(value)) {
           logo = 'china-up';
           scope.brand = 'ChinaUnionPay';
         }
@@ -54,8 +51,7 @@ function factory() {
         // add new classes
         if(!scope.brand) {
           $('[name="left"]', element).addClass('cc-logo-all');
-        }
-        else {
+        } else {
           logo = 'cc-logo-' + logo;
           $('[name="left"]', element).addClass(logo + '-left');
           $('[name="center"]', element).addClass(logo + ' cc-logo-selected');

@@ -95,8 +95,7 @@ function factory($scope, svcAccount, svcBudget, svcAddress, svcIdentity) {
         $scope.source !== $scope.selection.account.id) {
         $scope.source = $scope.selection.account.id;
         updateQuote($scope.source);
-      }
-      else if(value === 'budget' && $scope.selection.budget &&
+      } else if(value === 'budget' && $scope.selection.budget &&
         $scope.source !== $scope.selection.budget.source) {
         $scope.source = $scope.selection.budget.source;
         updateQuote($scope.source);
@@ -269,8 +268,7 @@ function factory($scope, svcAccount, svcBudget, svcAddress, svcIdentity) {
             $scope.purchased = true;
             if(response.type === 'EncryptedMessage') {
               $scope.encryptedMessage = response;
-            }
-            else {
+            } else {
               $scope.receipt = response;
             }
 

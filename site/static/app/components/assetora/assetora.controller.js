@@ -102,8 +102,7 @@ function factory($scope, svcHostedAsset, svcHostedListing, $timeout) {
     }, function(err) {
       if(err) {
         state.error = err;
-      }
-      else {
+      } else {
         state.error = null;
       }
       callback();
@@ -114,8 +113,7 @@ function factory($scope, svcHostedAsset, svcHostedListing, $timeout) {
     }, function(err) {
       if(err) {
         state.error = err;
-      }
-      else {
+      } else {
         state.error = null;
       }
       callback();

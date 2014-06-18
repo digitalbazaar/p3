@@ -25,13 +25,13 @@ config.modules = [
   'scheduler',
   'mail',
   'permission',
-  'identity',
-  path.join(_libdir, 'payswarm', 'resource'),
+  //'identity',
+  /*path.join(_libdir, 'payswarm', 'resource'),
   path.join(_libdir, 'payswarm', 'financial'),
-  path.join(_libdir, 'payswarm', 'promo'),
+  path.join(_libdir, 'payswarm', 'promo'),*/
   //path.join(_libdir, 'payswarm', 'hosted.asset'),
   //path.join(_libdir, 'payswarm', 'hosted.listing'),
-  'website'
+  //'website'
 ];
 
 // website services to load

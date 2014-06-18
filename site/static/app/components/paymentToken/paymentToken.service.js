@@ -3,7 +3,7 @@
  *
  * @author Dave Longley
  */
-define(['angular', 'payswarm.api'], function(angular, payswarm) {
+define(['angular'], function(angular) {
 
 var deps = ['$timeout', '$rootScope', 'svcModel', 'svcIdentity'];
 return {svcPaymentToken: deps.concat(factory)};

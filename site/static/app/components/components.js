@@ -7,6 +7,9 @@
  */
 define([
   'angular',
+  './account/account',
+  './budget/budget',
+  './paymentToken/paymentToken',
   //'./settings/settings',
   'bedrock/app/components/dashboard/dashboard',
   'bedrock/app/components/duplicateChecker/duplicateChecker',
@@ -31,6 +34,8 @@ define([
 'use strict';
 
 angular.module('app.components', [
+  'app.account',
+  'app.budget',
   'app.dashboard',
   'app.duplicateChecker',
   'app.fade',
@@ -41,6 +46,7 @@ angular.module('app.components', [
   'app.modal',
   'app.navbar',
   'app.passcode',
+  'app.paymentToken',
   'app.placeholder',
   'app.popoverTemplate',
   'app.selector',

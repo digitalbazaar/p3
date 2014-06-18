@@ -3,14 +3,14 @@
  *
  * @author Dave Longley
  */
-define(['angular', 'jquery', 'payswarm.api'], function(angular, $, payswarm) {
+define(['angular'], function(angular) {
 
-var deps = ['$timeout', '$rootScope', 'svcModel', 'svcIdentity',
-  'svcPaymentToken'];
+var deps = [
+  '$timeout', '$rootScope', 'svcModel', 'svcIdentity', 'svcPaymentToken'];
 return {svcAccount: deps.concat(factory)};
 
-function factory($timeout, $rootScope, svcModel, svcIdentity,
-  svcPaymentToken) {
+function factory(
+  $timeout, $rootScope, svcModel, svcIdentity, svcPaymentToken) {
   var service = {};
 
   function _entry(identityId) {

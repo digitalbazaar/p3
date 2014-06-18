@@ -3,8 +3,7 @@
  *
  * @author Dave Longley
  */
-define(['angular', 'payswarm.api', 'iso8601'], function(
-  angular, payswarm, iso8601) {
+define(['angular'/*, 'iso8601'*/], function(angular/*, iso8601*/) {
 
 var deps = ['$timeout', '$rootScope', 'svcModel', 'svcIdentity'];
 return {svcBudget: deps.concat(factory)};

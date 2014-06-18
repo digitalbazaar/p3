@@ -26,7 +26,10 @@ config.modules = [
   'mail',
   'permission',
   //'identity',
-  /*path.join(_libdir, 'payswarm-auth', 'resource'),
+  /*path.join(_libdir, 'payswarm-auth', 'identityAddress'),
+  path.join(_libdir, 'payswarm-auth', 'identityPreferences'),
+  path.join(_libdir, 'payswarm-auth', 'identityAuthority'),
+  path.join(_libdir, 'payswarm-auth', 'resource'),
   path.join(_libdir, 'payswarm-auth', 'financial'),
   path.join(_libdir, 'payswarm-auth', 'promo'),*/
   //path.join(_libdir, 'payswarm-auth', 'hosted.asset'),

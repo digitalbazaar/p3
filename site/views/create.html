@@ -1,25 +1,25 @@
-{% set pageTitle = "Create a Profile" %}
-
+{% set pageTitle = "Create Identity" %}
+{% set clientData.pageTitle = "Create Identity" %}
 {% include "head.html" %}
 
 {% raw %}
-<div class="row ng-cloak" data-ng-controller="CreateProfileCtrl">
+<div class="row ng-cloak" data-ng-controller="CreateIdentityCtrl">
   <div class="span8 offset2">
-    <h2>Create a Profile</h2>
+    <h2>Create an Identity</h2>
 
     <p>
-    By creating a profile, you will be able to buy and sell digital goods
+    By creating an identity, you will be able to buy and sell digital goods
     online, raise money for projects, fund other projects, and enter a new
     world of collaboration on the web.
     </p>
 
-    <div data-ng-include="'/app/templates/demo-warning.html'"></div>
+    <div data-ng-include="'/app/components/util/demo-warning.html'"></div>
 
     <hr />
 
-    <form id="createProfileFeedbackTarget" class="form-horizontal" action="" data-ng-submit="submit()">
+    <form id="createIdentityFeedbackTarget" class="form-horizontal" action="" data-ng-submit="submit()">
       <fieldset>
-        <legend>Your Profile Details</legend>
+        <legend>Your Email and Password</legend>
 
         <div class="control-group" data-binding="email">
           <label class="control-label" for="email">Email</label>
@@ -27,7 +27,7 @@
             <div class="input-append">
               <input class="input-xlarge form-field-vspaced"
                 name="email" data-binding="email" type="text"
-                data-ng-model="profile.email"
+                data-ng-model="identity.email"
                 data-track-state="model.help.email"
                 data-ng-disabled="loading"
                 autocomplete="off" />
@@ -35,17 +35,17 @@
                 <i class="icon-question-sign"></i>
               </button>
             </div>
-            <div data-duplicate-checker="profile.email"
+            <div data-duplicate-checker="identity.email"
               data-duplicate-checker-type="email"
               data-duplicate-checker-available="This email address is available!"
               data-duplicate-checker-invalid="Email address is invalid."
-              data-duplicate-checker-taken="This email address is already in use. While you can create a new profile if you want to, you should probably log in and create a new identity instead."
+              data-duplicate-checker-taken="This email address is already in use. While you can create a new identity if you want to, you may want to log in as your existing identity instead."
               data-duplicate-checker-checking="Checking Availability..."
               data-duplicate-checker-result="model.emailAvailable">
             </div>
             <p data-fade-toggle="model.help.email.show" class="help-block">
-              A valid email address is required so that we can send you
-              receipts and reset your password if you get locked out.
+              A valid email address is required so that we can reset
+              your password if you get locked out.
             </p>
           </div>
         </div>
@@ -57,7 +57,7 @@
               <input class="input-xlarge"
                 name="password" data-binding="sysPassword"
                 maxlength="32" type="password"
-                data-ng-model="profile.sysPassword"
+                data-ng-model="identity.sysPassword"
                 data-track-state="model.help.password"
                 data-ng-disabled="loading" />
               <button class="btn" data-help-toggle="model.help.password">
@@ -65,8 +65,8 @@
               </button>
             </div>
             <p data-fade-toggle="model.help.password.show" class="help-block">
-              Please enter a secure password; the best passwords are
-              long, memorable phrases like: the<strong>lemurs</strong>ride<strong>on</strong>the<strong>fortnight</strong>
+              Please enter a secure password that is between 6 and 32 characters long. The best passwords are
+              lengthy, memorable phrases like: the<strong>lemurs</strong>ride<strong>on</strong>the<strong>fortnight</strong>
             </p>
           </div>
         </div>
@@ -93,8 +93,8 @@
             <div class="input-append">
               <input class="input-xlarge"
                 name="identity-label" type="text"
-                data-slug-out="profile.sysIdentity.sysSlug"
-                data-ng-model="profile.sysIdentity.label"
+                data-slug-out="identity.sysSlug"
+                data-ng-model="identity.label"
                 data-track-state="model.help.identityLabel"
                 data-ng-disabled="loading"
                 autocomplete="off" />
@@ -108,14 +108,14 @@
               name like 'janedoe'. You can also customize your identity vanity
               address below:
             </p>
-            <p><small>{{baseUrl}}/i/</small><input
-              data-binding="sysIdentity.sysSlug" class="slug"
+            <p><small>{{data.identityBaseUri}}/</small><input
+              data-binding="identity.sysSlug" class="slug"
               name="identity-slug" type="text" maxlength="32"
               placeholder="IDENTITY-NAME"
-              data-slug-in data-ng-model="profile.sysIdentity.sysSlug"
+              data-slug-in data-ng-model="identity.sysSlug"
               data-ng-disabled="loading" /></p>
-            <div data-duplicate-checker="profile.sysIdentity.sysSlug"
-              data-duplicate-checker-type="PersonalIdentity"
+            <div data-duplicate-checker="identity.sysSlug"
+              data-duplicate-checker-type="Identity"
               data-duplicate-checker-available="This identity name is available!"
               data-duplicate-checker-invalid="Identity name is invalid."
               data-duplicate-checker-taken="Identity name has already been taken."
@@ -130,7 +130,7 @@
         Advanced
       </button> -->
 
-      <div class="collapse">
+      <!-- <div class="collapse">
         <fieldset>
           <legend>Your Default Financial Account</legend>
 
@@ -171,7 +171,7 @@
           </div>
 
         </fieldset>
-      </div>
+      </div> -->
 
       <fieldset>
         <legend>Service Agreement</legend>
@@ -182,11 +182,11 @@
       </fieldset>
 
       <div class="form-actions">
-        <div class="modal-feedback"
-          data-feedback="feedback" data-target="feedbackTarget"></div>
-        <button data-ng-disabled="loading || !model.identitySlugAvailable || !model.emailAvailable || !agreementChecked"
+        <div data-feedback="feedback" data-target="feedbackTarget"></div>
+        <button id="create-button"
+          data-ng-disabled="loading || !model.identitySlugAvailable || !model.emailAvailable || !agreementChecked"
           class="btn btn-large btn-primary"
-          data-submit-form>Create Profile</button>
+          data-submit-form>Create Identity</button>
         <span data-spinner="loading"
           data-spinner-class="append-btn-spinner"></span>
       </div>

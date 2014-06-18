@@ -14,7 +14,7 @@
             {% raw %}
             <ul class="nav">
               <li data-ng-repeat="item in model.navbar.private" data-ng-class="{active: pageTitle == item.pageTitle}"><a href="{{item.url || (model.session.identity.id + '/' + item.slug)}}"><i class="{{item.icon}}"></i> {{item.label}}</a></li>
-              <!-- FIXME declare decalre tools in config file and use bedrock template -->
+              <!-- FIXME declare tools in config file and use bedrock template -->
               <li {% if inav == "dashboard" %}class="active"{% endif %}><a href="${session.identity.id}/dashboard"><i class="icon-dashboard"></i> Dashboard</a></li>
               <!-- <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">

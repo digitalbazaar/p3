@@ -34,7 +34,7 @@ config.modules = [
   path.join(_libdir, 'payswarm-auth', 'promo'),
   //path.join(_libdir, 'payswarm-auth', 'hosted.asset'),
   //path.join(_libdir, 'payswarm-auth', 'hosted.listing'),
-  //'website'
+  'website'
 ];
 
 // website services to load
@@ -45,7 +45,7 @@ config.website.services = [
   'key',
   'session',
   'well-known',
-  path.join(_libdir, 'payswarm-auth', 'services.account'),
+  /*path.join(_libdir, 'payswarm-auth', 'services.account'),
   path.join(_libdir, 'payswarm-auth', 'services.address'),
   path.join(_libdir, 'payswarm-auth', 'services.assetora'),
   path.join(_libdir, 'payswarm-auth', 'services.budget'),
@@ -57,7 +57,7 @@ config.website.services = [
   path.join(_libdir, 'payswarm-auth', 'services.system'),
   path.join(_libdir, 'payswarm-auth', 'services.test'),
   path.join(_libdir, 'payswarm-auth', 'services.tools'),
-  path.join(_libdir, 'payswarm-auth', 'services.transaction')
+  path.join(_libdir, 'payswarm-auth', 'services.transaction')*/
 ];
 
 // app info

@@ -5,7 +5,7 @@ var tools = bedrock.tools;
 var schema = {
   required: true,
   title: 'Address',
-  description: 'A vcard address.',
+  description: 'A postal address.',
   type: 'object',
   properties: {
     '@context': {

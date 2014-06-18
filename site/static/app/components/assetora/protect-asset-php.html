@@ -77,26 +77,26 @@ try {
   $asset = $contract->asset->id;
   $asset_content = $contract->asset->assetContent;
   $license = $contract->license;
-  
+
   // ensure url matches asset content
   if($requested_asset_content !== $asset_content) {
     throw new Exception('PaySwarm Purchase Exception: ' .
       'The Asset in the given Contract could not be found on this server.');
   }
-  
+
   // determine asset content filename
   $filename = dirname($_SERVER['SCRIPT_FILENAME']) . DIRECTORY_SEPARATOR .
     basename(parse_url($_SERVER['REQUEST_URI'])['path']);
 
-  // get file content-type  
+  // get file content-type
   $finfo = finfo_open(FILEINFO_MIME);
   $content_type = finfo_file($finfo, $filename);
   finfo_close($finfo);
-  
+
   // send headers
   header("Content-Type: $content_type");
   header('Content-Length: ' . filesize($filename));
-  
+
   // serve asset content
   ob_end_flush();
   flush();
@@ -141,8 +141,7 @@ function payswarm_get_receipt($msg) {
   if(JsonLdProcessor::hasValue($receipt, 'type', 'Error')) {
     throw new Exception('PaySwarm Purchase Exception: ' .
       $receipt->errorMessage);
-  }
-  else if(!JsonLdProcessor::hasValue($receipt, 'type', 'Receipt')) {
+  } else if(!JsonLdProcessor::hasValue($receipt, 'type', 'Receipt')) {
     throw new Exception('PaySwarm Purchase Exception: ' .
       'Invalid purchase response from PaySwarm Authority.');
   }
@@ -294,13 +293,13 @@ function payswarm_verify($obj) {
   }
   $key = json_decode($remote_doc->document);
   $pem = $key->publicKeyPem;
-  
+
   // ensure key has not been revoked
   if(property_exists($key, 'revoked')) {
     throw new Exception('PaySwarm Security Exception: ' .
       'The message was signed with a key that has been revoked.');
   }
-  
+
   // verify public key owner
   if($sprop->creator !== $key->id) {
     throw new Exception('PaySwarm Security Exception: ' .
@@ -343,13 +342,11 @@ function payswarm_verify($obj) {
   $rc = payswarm_raw_verify($data, $sig, $pem);
   if($rc === 1) {
     $rval = true;
-  }
-  else if($rc === -1) {
+  } else if($rc === -1) {
     // throw exception, error while trying to verify
     throw new Exception('PaySwarm Security Exception: ' .
       'Low-level API error: ' . openssl_error_string());
-  }
-  else {
+  } else {
     throw new Exception('PaySwarm Security Exception: ' .
       'The digital signature on the message is invalid.');
   }

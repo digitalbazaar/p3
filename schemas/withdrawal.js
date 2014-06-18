@@ -61,8 +61,7 @@ module.exports = function(type, extend) {
   var schema = withdrawal;
   if(type === 'unsigned') {
     schema = unsignedWithdrawal;
-  }
-  else if(type === 'signed') {
+  } else if(type === 'signed') {
     schema = signedWithdrawal;
   }
 

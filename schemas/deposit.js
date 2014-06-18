@@ -59,8 +59,7 @@ module.exports = function(type, extend) {
   var schema = deposit;
   if(type === 'unsigned') {
     schema = unsignedDeposit;
-  }
-  else if(type === 'signed') {
+  } else if(type === 'signed') {
     schema = signedDeposit;
   }
 

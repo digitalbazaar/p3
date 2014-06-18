@@ -63,12 +63,11 @@ function factory(svcModal) {
           // copy to avoid angular keys in POSTed data
           $scope._deposit = angular.copy(deposit);
           $scope.deposit = deposit;
-        }
-        // Synthesize validation error for UI
-        // FIXME: improve error display
-        else if(err.type === 'payswarm.website.VerifyPaymentTokenFailed' &&
+        } else if(err.type === 'payswarm.website.VerifyPaymentTokenFailed' &&
           err.cause &&
           err.cause.type === 'payswarm.financial.VerificationFailed') {
+          // synthesize validation error for UI
+          // FIXME: improve error display
           $scope.feedback.verifyError = true;
           err = {
             "message": "",
@@ -97,11 +96,10 @@ function factory(svcModal) {
             },
             "cause": null
           };
-        }
-        // Signal to contact support if needed.
-        else if(err.type === 'payswarm.website.VerifyPaymentTokenFailed' &&
+        } else if(err.type === 'payswarm.website.VerifyPaymentTokenFailed' &&
           err.cause &&
           err.cause.type === 'payswarm.financial.MaxVerifyAttemptsExceeded') {
+          // Signal to contact support if needed.
           $scope.feedback.contactSupport = true;
         }
         $scope.feedback.error = err;

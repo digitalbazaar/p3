@@ -89,15 +89,13 @@ function factory() {
         if(parseFloat(scope.selected.balance) < minBalance) {
           scope.invalid = true;
           scope.balanceTooLow = true;
-        }
-        // check max per use
-        else if(scope.selected.psaMaxPerUse < minBalance) {
+        } else if(scope.selected.psaMaxPerUse < minBalance) {
+          // max per use too low
           scope.invalid = true;
           scope.maxPerUseTooLow = true;
-        }
-        // check associated account balance is too low
-        else if(scope.account &&
+        } else if(scope.account &&
           parseFloat(scope.account.balance) < minBalance) {
+          // associated account balance is too low
           scope.invalid = true;
           scope.balanceTooLow = true;
         }

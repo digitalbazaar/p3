@@ -56,9 +56,8 @@ function factory($scope, $timeout, svcIdentity, svcAccount, svcAddress) {
       });
       if(hasCurrent) {
         $scope.selection.identity = svcIdentity.identity;
-      }
-      // else use first listed or none
-      else {
+      } else {
+        // use first listed or none
         $scope.selection.identity = $scope.identities[0] || null;
       }
     }

@@ -1,9 +1,8 @@
-${set([
-  pageTitle = "Content Portal"
-])}
-{{partial "head.html"}}
+{% set pageTitle = "Content Portal" %}
 
-{{verbatim}}
+{% include "head.html" %}
+
+{% raw %}
 <div class="container ng-cloak" data-ng-controller="ContentPortalCtrl">
 
   <div class="row">
@@ -35,8 +34,8 @@ ${set([
   </div>
 
 </div>
-{{/verbatim}}
+{% endraw %}
 
-{{partial "demo-warning.html"}}
+{% include "demo-warning.html" %}
 
-{{partial "foot.html"}}
+{% include "foot.html" %}

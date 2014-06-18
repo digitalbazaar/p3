@@ -1,11 +1,10 @@
-${set([
-  pageTitle = "Welcome"
-])}
-{{partial "head.html"}}
+{% set pageTitle = "Welcome" %}
+
+{% include "head.html" %}
 
 <div class="row">
   <div class="span10 offset1">
-    <h2 class="headline">Server Status</h2>
+    <h2 class="headline">Welcome</h2>
   </div>
 </div>
 
@@ -13,10 +12,8 @@ ${set([
 
 <div class="row">
 
-<p>
-Dave Lehn will insert stats here 'cause he loves them.
-</p>
+<p>[INTRODUCTION]</p>
 
 </div>
 
-{{partial "foot.html"}}
+{% include "foot.html" %}

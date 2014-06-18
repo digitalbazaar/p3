@@ -1,13 +1,12 @@
-${set(
-  pageTitle = "Budget Details"
-)}
-{{partial "head.html"}}
+{% set pageTitle = "Budget Details" %}
+
+{% include "head.html" %}
 
 <div class="row">
-  <h2 class="headline">${pageTitle}</h2>
+  <h2 class="headline">{{pageTitle}}</h2>
 </div>
 
-{{verbatim}}
+{% raw %}
 <div data-ng-controller="BudgetCtrl" class="ng-cloak">
 
 <table class="table table-condensed table-hover">
@@ -152,6 +151,6 @@ ${set(
 </div>
 
 </div>
-{{/verbatim}}
+{% endraw %}
 
-{{partial "foot.html"}}
+{% include "foot.html" %}

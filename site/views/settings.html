@@ -1,11 +1,9 @@
-${set([
-  pageTitle = "Identity Settings",
-  inav = "settings"
-])}
+{% set pageTitle = "Identity Settings" %}
+{% inav = "settings" %}
 
-{{partial "head.html"}}
+{% include "head.html" %}
 
-{{verbatim}}
+{% raw %}
 <div class="ng-cloak">
 
 <div class="container">
@@ -367,10 +365,8 @@ ${set([
     </div>
   </div>
 </div>
-{{/verbatim}}
+{% endraw %}
 
-{{partial "demo-warning.html"}}
+{% include "demo-warning.html" %}
 
-{{partial "foot.html"}}
-
-</div>
+{% include "foot.html" %}

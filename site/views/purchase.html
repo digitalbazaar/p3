@@ -1,10 +1,9 @@
-${set([
-  pageTitle = "Payment",
-  pageLayout = "minimal"
-])}
-{{partial "head.html"}}
+{% set pageTitle = "Payment" %}
+{% set pageLayout = "minimal" %}
 
-{{verbatim}}
+{% include "head.html" %}
+
+{% raw %}
 <div class="container" data-ng-controller="PurchaseCtrl" class="ng-cloak">
 
 <div data-ng-show="alertType">
@@ -293,5 +292,6 @@ ${set([
   data-modal-on-close="addAccountModalDone()"></div>
 
 </div> <!-- end container -->
-{{/verbatim}}
-{{partial "foot.html"}}
+{% endraw %}
+
+{% include "foot.html" %}

@@ -1,7 +1,8 @@
-${set(pageTitle = "Contact")}
-{{partial "head.html"}}
+{% set pageTitle = "Contact" %}
 
-<h2>${pageTitle}</h2>
+{% include "head.html" %}
+
+<h2>{{pageTitle}}</h2>
 
 <div>
   <p>
@@ -55,4 +56,4 @@ company that operates this PaySwarm developer sandbox.
   </ul>
 </div>
 
-{{partial "foot.html"}}
+{% include "foot.html" %}

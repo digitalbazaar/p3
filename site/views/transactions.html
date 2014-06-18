@@ -1,9 +1,8 @@
-${set([
-  pageTitle = "Transaction Activity"
-])}
-{{partial "head.html"}}
+{% set pageTitle = "Transaction Activity" %}
 
-{{verbatim}}
+{% include "head.html" %}
+
+{% raw %}
 <div data-ng-controller="ActivityCtrl" class="ng-cloak">
 
 <ul class="breadcrumb" data-ng-show="session.auth && session.identity.id == account.owner">
@@ -132,6 +131,6 @@ ${set([
 </div>
 
 </div>
-{{/verbatim}}
+{% endraw %}
 
-{{partial "foot.html"}}
+{% include "foot.html" %}

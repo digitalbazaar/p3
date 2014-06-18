@@ -1,48 +1,58 @@
-<div data-ng-controller="NavbarCtrl" class="navbar ng-cloak">
-  <div class="navbar-inner navbar-inner-banner">
-    <div class="container">
-      {{if session.loaded && session.identity.owner == session.profile.id}}
-        {{if pageLayout == "normal"}}
-          <a class="brand" href="/"><img src="${cacheRoot}${style.brand.src}" width="${style.brand.width}" height="${style.brand.height}" alt="${style.brand.alt}" /></a>
-          <ul class="nav">
-            <li {{if inav == "dashboard"}}class="active"{{/if}}><a href="${session.identity.id}/dashboard"><i class="icon-dashboard"></i> Dashboard</a></li>
-            <!-- <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <i class="icon-briefcase"></i> Tools
-                <b class="caret"></b>
-              </a>
-              <ul class="dropdown-menu">
-                <li {{if inav == "assetora"}}class="active"{{/if}}><a href="${session.identity.id}/assetora"><i class="icon-cloud"></i> Sell Digital Content</a></li>
-                <li {{if inav == "invoices"}}class="active"{{/if}}><a href="${session.identity.id}/invoices"><i class="icon-money"></i> Invoices</a></li>
-                <li {{if inav == "causes"}}class="active"{{/if}}><a href="${session.identity.id}/causes"><i class="icon-heart"></i> Causes</a></li>
-                <li {{if inav == "tickets"}}class="active"{{/if}}><a href="${session.identity.id}/tickets"><i class="icon-ticket"></i> Tickets</a></li>
-                <li class="divider"></li>
-                <li><a href="${session.identity.id}/tools"><i class="icon-list"></i> More</a></li>
-              </ul>
-            </li> -->
-            <li {{if inav == "settings"}}class="active"{{/if}}><a href="${session.identity.id}/settings"><i class="icon-wrench"></i> Settings</a></li>
-          </ul>
-        {{else}}
-          <img class="brand-minimal" src="${cacheRoot}${style.brand.src}" width="${style.brand.width}" height="${style.brand.height}" alt="${style.brand.alt}" />
-        {{/if}}
-        {{verbatim}}
-        <a class="btn btn-nav btn-small show pull-right{{showHovercard && ' active' || ''}}"
-          data-popover-template="/app/templates/navbar-hovercard.html"
-          data-popover-visible="showHovercard"
-          data-title="{{session.identity.label || session.profile.label}}"
-          data-placement="bottom">
-        {{/verbatim}}
-          <i class="icon-user"></i>
-        </a>
-        <a class="navbar-link pull-right" style="line-height:45px"
-          data-ng-click="showHovercard=!showHovercard">
-        {{if session.identity}}
-          ${display(session.identity.label, "-")}
-        {{else}}
-          ${display(session.profile.label, "-")}
-        {{/if}}
-        </a>
-      {{/if}}
+<div data-ng-controller="NavbarCtrl" class="ng-cloak">
+  <div class="navbar">
+    <div class="navbar-inner navbar-inner-banner">
+      <div class="container">
+        {% if session.loaded %}
+          {% if pageLayout == "normal" %}
+            <a class="brand" href="/">
+              {% if style.brand.src %}
+              <img src="{{style.brand.src}}" width="{{style.brand.width}}" height="{{style.brand.height}}" alt="{{style.brand.alt}}" />
+              {% else %}
+              {{siteTitle}}
+              {% endif %}
+            </a>
+            {% raw %}
+            <ul class="nav">
+              <li data-ng-repeat="item in model.navbar.private" data-ng-class="{active: pageTitle == item.pageTitle}"><a href="{{item.url || (model.session.identity.id + '/' + item.slug)}}"><i class="{{item.icon}}"></i> {{item.label}}</a></li>
+              <!-- FIXME declare decalre tools in config file and use bedrock template -->
+              <li {% if inav == "dashboard" %}class="active"{% endif %}><a href="${session.identity.id}/dashboard"><i class="icon-dashboard"></i> Dashboard</a></li>
+              <!-- <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  <i class="icon-briefcase"></i> Tools
+                  <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu">
+                  <li {% if inav == "assetora" %}class="active"{% endif %}><a href="${session.identity.id}/assetora"><i class="icon-cloud"></i> Sell Digital Content</a></li>
+                  <li {% if inav == "invoices" %}class="active"{% endif %}><a href="${session.identity.id}/invoices"><i class="icon-money"></i> Invoices</a></li>
+                  <li {% if inav == "causes" %}class="active"{% endif %}><a href="${session.identity.id}/causes"><i class="icon-heart"></i> Causes</a></li>
+                  <li {% if inav == "tickets" %}class="active"{% endif %}><a href="${session.identity.id}/tickets"><i class="icon-ticket"></i> Tickets</a></li>
+                  <li class="divider"></li>
+                  <li><a href="${session.identity.id}/tools"><i class="icon-list"></i> More</a></li>
+                </ul>
+              </li> -->
+              <li {% if inav == "settings" %}class="active"{% endif %}><a href="${session.identity.id}/settings"><i class="icon-wrench"></i> Settings</a></li>
+            </ul>
+            {% endraw %}
+          {% else %}
+            <img class="brand-minimal" src="{{style.brand.src}}" width="{{style.brand.width}}" height="{{style.brand.height}}" alt="{{style.brand.alt}}" />
+          {% endif %}
+          {% raw %}
+          <a class="btn btn-nav btn-small show pull-right{{model.showHovercard && ' active' || ''}}"
+            data-popover-template="/app/components/navbar/hovercard.html"
+            data-popover-visible="model.showHovercard"
+            data-title="{{model.session.identity.label}}"
+            data-placement="bottom">
+          <div data-modal-login="model.showLogin" data-modal-escape="model.allowLoginEscape"></div>
+            <i class="icon-user"></i>
+          </a>
+          <a class="navbar-link pull-right" style="line-height:45px"
+            data-ng-click="model.showHovercard=!model.showHovercard">
+            {{model.session.identity.label || '-'}}
+          </a>
+          {% endraw %}
+        {% endif %}
+      </div>
     </div>
   </div>
+  <div data-alerts data-filter-origin="page"></div>
 </div>

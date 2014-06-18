@@ -1,11 +1,9 @@
-${set([
-  pageTitle = "Access Key Registration",
-  pageLayout = "minimal"
-])}
+{% set pageTitle = "Access Key Registration" %}
+{% set pageLayout = "minimal" %}
 
-{{partial "head.html"}}
+{% include "head.html" %}
 
-{{verbatim}}
+{% raw %}
 <div data-ng-controller="RegisterCtrl" class="ng-cloak">
 
 <div class="row">
@@ -81,7 +79,7 @@ ${set([
           <div class="controls">
             <textarea id="public-key-pem" class="form-field-vspaced form-field-constrained small-text"
               data-ng-model="model.publicKey.publicKeyPem"
-              name="publicKeyPem" rows="7">{{/verbatim}}{{if publicKeyPem}}${publicKeyPem}{{/if}}{{verbatim}}</textarea>
+              name="publicKeyPem" rows="7">{% endraw %}{{if publicKeyPem}}{{publicKeyPem}}{{/if}}{% raw %}</textarea>
           </div>
         </div>
 
@@ -130,6 +128,6 @@ ${set([
 
 </div>
 
-{{/verbatim}}
+{% endraw %}
 
-{{partial "foot.html"}}
+{% include "foot.html" %}

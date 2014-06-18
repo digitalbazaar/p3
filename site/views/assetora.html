@@ -1,15 +1,14 @@
-${set([
-  pageTitle = "Assetora",
-  inav = "assetora"
-])}  
-{{partial "head.html"}}
+{% set pageTitle = "Assetora" %}
+{% set inav = "assetora" %}
 
-{{verbatim}}
+{% include "head.html" %}
+
+{% raw %}
 <div class="container ng-cloak">
   <div data-ng-view></div>
 </div>
-{{/verbatim}}
+{% endraw %}
 
-{{partial "demo-warning.html"}}
+{% include "demo-warning.html" %}
 
-{{partial "foot.html"}}
+{% include "foot.html" %}

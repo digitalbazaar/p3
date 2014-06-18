@@ -1,9 +1,7 @@
-${set([
-  pageTitle = "Hosted Assets"
-])}
-{{partial "head.html"}}
+{% set pageTitle = "Hosted Assets" %}
+{% include "head.html" %}
 
-{{verbatim}}
+{% raw %}
 <div data-ng-controller="HostedAssetsCtrl" class="ng-cloak">
 
 <div data-ng-show="model.query.assetContent">
@@ -63,8 +61,8 @@ ${set([
 FIXME: Not implemented
 </div>
 
-{{/verbatim}}
+{% endraw %}
 
-{{partial "demo-warning.html"}}
+{% include "demo-warning.html" %}
 
-{{partial "foot.html"}}
+{% include "foot.html" %}

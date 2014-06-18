@@ -157,7 +157,7 @@ ${set([
               </thead>
               <tbody>
                 <tr data-ng-repeat="bankAccount in bankAccounts | orderBy:'label'"
-                  data-ng-class="{info: bankAccount.psaStatus == 'active' && !bankAccount.psaVerified && bankAccount.psaVerifyReady}">
+                  data-ng-class="{info: bankAccount.sysStatus == 'active' && !bankAccount.sysVerified && bankAccount.sysVerifyReady}">
                   <!-- Name -->
                   <td>
                     <span>{{bankAccount.label}}</span>
@@ -171,21 +171,21 @@ ${set([
                     <span>{{bankAccount.bankRoutingNumber}}</span>
                   </td>
                   <!-- Status -->
-                  <td data-ng-show="bankAccount.psaStatus == 'active' || bankAccount.psaStatus == 'disabled'">
-                    <button data-ng-show="bankAccount.psaStatus == 'active' && !bankAccount.psaVerified && bankAccount.psaVerifyReady"
+                  <td data-ng-show="bankAccount.sysStatus == 'active' || bankAccount.sysStatus == 'disabled'">
+                    <button data-ng-show="bankAccount.sysStatus == 'active' && !bankAccount.sysVerified && bankAccount.sysVerifyReady"
                       data-ng-click="modals.paymentToken=bankAccount; modals.showVerifyBankAccountModal=true"
                       class="btn btn-primary" title="Verify">Verify</button>
-                    <span data-ng-show="bankAccount.psaStatus == 'disabled'"
+                    <span data-ng-show="bankAccount.sysStatus == 'disabled'"
                       data-tooltip-title="This payment method was likely disabled because your bank account information could not be verified. Please delete this payment method and try to add it again with corrected information."
                       data-placement="bottom" data-trigger="hover" class="label label-important">Disabled</span>
-                    <span data-ng-show="bankAccount.psaStatus != 'active' && bankAccount.psaStatus != 'disabled' && bankAccount.psaStatus != 'deleted' && !bankAccount.psaVerified" class="label label-warning">Unverified</span>
-                    <span data-ng-show="bankAccount.psaStatus == 'active' && !bankAccount.psaVerified && !bankAccount.psaVerifyReady" class="label label-info">Pending</span>
-                    <span data-ng-show="bankAccount.psaVerified" class="label label-success">Verified</span>
+                    <span data-ng-show="bankAccount.sysStatus != 'active' && bankAccount.sysStatus != 'disabled' && bankAccount.sysStatus != 'deleted' && !bankAccount.sysVerified" class="label label-warning">Unverified</span>
+                    <span data-ng-show="bankAccount.sysStatus == 'active' && !bankAccount.sysVerified && !bankAccount.sysVerifyReady" class="label label-info">Pending</span>
+                    <span data-ng-show="bankAccount.sysVerified" class="label label-success">Verified</span>
                   </td>
-                  <td data-ng-show="bankAccount.psaStatus == 'deleted'">
+                  <td data-ng-show="bankAccount.sysStatus == 'deleted'">
                     <span
                       data-tooltip-title="Because verifying a bank account is a costly process, we do not delete bank accounts immediately. You may restore the bank account before the expiration date passes if you wish."
-                      data-placement="bottom" data-trigger="hover" class="label label-warning">Expires {{bankAccount.psaExpires | date:'MMM d'}}</span>
+                      data-placement="bottom" data-trigger="hover" class="label label-warning">Expires {{bankAccount.sysExpires | date:'MMM d'}}</span>
                   </td>
                   <!-- Action -->
                   <td class="action">
@@ -314,15 +314,15 @@ ${set([
                 </tr>
               </thead>
               <tbody>
-                <tr data-ng-repeat="key in keys | orderBy:'label' | orderBy:'psaStatus':reverse">
+                <tr data-ng-repeat="key in keys | orderBy:'label' | orderBy:'sysStatus':reverse">
                   <!-- Name -->
                   <td>
                     <a href="{{key.id}}">{{key.label}}</a>
                   </td>
                   <!-- Status -->
                   <td>
-                    <span data-ng-show="key.psaStatus == 'disabled'">Revoked</span>
-                    <span data-ng-show="key.psaStatus == 'active'">Active</span>
+                    <span data-ng-show="key.sysStatus == 'disabled'">Revoked</span>
+                    <span data-ng-show="key.sysStatus == 'active'">Active</span>
                   </td>
                   <!-- Edit -->
                   <td class="action">
@@ -330,7 +330,7 @@ ${set([
                   </td>
                   <!-- Revoke -->
                   <td class="action">
-                    <button class="btn btn-danger" title="Revoke" data-ng-hide="key.psaStatus == 'disabled'" data-ng-click="revokeKey(key)"><i class="icon-remove icon-white"></i></button>
+                    <button class="btn btn-danger" title="Revoke" data-ng-hide="key.sysStatus == 'disabled'" data-ng-click="revokeKey(key)"><i class="icon-remove icon-white"></i></button>
                   </td>
                 </tr>
               </tbody>

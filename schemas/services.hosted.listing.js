@@ -62,8 +62,8 @@ var postListings = {
       required: true,
       type: 'string'
     },
-    // FIXME: is psaPublished desirable?
-    psaPublished: schemas.w3cDateTime({required: false})
+    // FIXME: is sysPublished desirable?
+    sysPublished: schemas.w3cDateTime({required: false})
   },
   additionalProperties: false
 };
@@ -89,7 +89,7 @@ var postListing = {
       required: true,
       type: 'string'
     },
-    psaPublished: schemas.w3cDateTime({required: false})
+    sysPublished: schemas.w3cDateTime({required: false})
   },
   additionalProperties: false
 };

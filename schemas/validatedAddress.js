@@ -5,11 +5,11 @@ var address = require('./address');
 
 var schema = address({
   properties: {
-    psaValidated: {
+    sysValidated: {
       required: false,
       type: 'boolean'
     },
-    psaAddressHash: {
+    sysAddressHash: {
       required: false,
       type: 'string'
     }

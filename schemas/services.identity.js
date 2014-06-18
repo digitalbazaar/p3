@@ -50,7 +50,7 @@ var postIdentities = {
       type: 'string',
       enum: ['PersonalIdentity', 'VendorIdentity']
     },
-    psaSlug: schemas.slug(),
+    sysSlug: schemas.slug(),
     label: schemas.label(),
     website: {
       required: false,
@@ -60,7 +60,7 @@ var postIdentities = {
       required: false,
       type: 'string'
     },
-    psaPublic: {
+    sysPublic: {
       required: false,
       type: schemas.propertyVisibility()
     }

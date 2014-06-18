@@ -25,8 +25,8 @@ config.financial.defaults.account = {
   // demo with $10
   balance: '10.0000000',
   currency: 'USD',
-  psaPublic: [],
-  psaStatus: 'active'
+  sysPublic: [],
+  sysStatus: 'active'
 };
 config.financial.createDefaultPaymentTokens = true;
 config.financial.defaults.paymentTokens.push({
@@ -47,9 +47,9 @@ config.financial.defaults.paymentTokens.push({
     postalCode: '12345',
     countryName: 'US'
   },
-  psaStatus: 'active',
-  psaVerified: true,
-  psaVerifyReady: true
+  sysStatus: 'active',
+  sysVerified: true,
+  sysVerifyReady: true
 });
 // dev authority payment token for granting funds to new accounts
 config.financial.devPaymentToken = 'urn:authority-bank-account';
@@ -66,9 +66,9 @@ config.financial.paymentTokens.push({
     type: 'PaymentToken',
     label: 'Authority External Bank Account',
     owner: authorityId,
-    psaStatus: 'active',
-    psaVerified: true,
-    psaVerifyReady: true
+    sysStatus: 'active',
+    sysVerified: true,
+    sysVerifyReady: true
   }
 });
 // promo authority payment token for granting funds for claimed promo codes
@@ -189,16 +189,16 @@ config.financial.accounts.push({
   id: authorityId + '/accounts/fees',
   type: 'FinancialAccount',
   owner: authorityId,
-  psaSlug: 'fees',
+  sysSlug: 'fees',
   label: config.authority.name + ' Fees Account',
-  psaPublic: ['label', 'owner'],
+  sysPublic: ['label', 'owner'],
   currency: 'USD'
 });
 config.financial.accounts.push({
   id: authorityId + '/accounts/main',
   type: 'FinancialAccount',
   owner: authorityId,
-  psaSlug: 'main',
+  sysSlug: 'main',
   label: config.authority.name + ' Main Account',
   currency: 'USD'
 });
@@ -206,7 +206,7 @@ config.financial.accounts.push({
   id: authorityId + '/accounts/verify',
   type: 'FinancialAccount',
   owner: authorityId,
-  psaSlug: 'verify',
+  sysSlug: 'verify',
   label: config.authority.name + ' Verify Source Account',
   currency: 'USD'
 });
@@ -214,7 +214,7 @@ config.financial.accounts.push({
   id: baseIdPath + '/dev/accounts/primary',
   type: 'FinancialAccount',
   owner: baseIdPath + '/dev',
-  psaSlug: 'primary',
+  sysSlug: 'primary',
   label: 'Primary Account',
   currency: 'USD'
 });
@@ -222,7 +222,7 @@ config.financial.accounts.push({
   id: baseIdPath + '/customer/accounts/primary',
   type: 'FinancialAccount',
   owner: baseIdPath + '/customer',
-  psaSlug: 'primary',
+  sysSlug: 'primary',
   label: 'Primary Account',
   currency: 'USD'
 });
@@ -230,9 +230,9 @@ config.financial.accounts.push({
   id: baseIdPath + '/vendor/accounts/primary',
   type: 'FinancialAccount',
   owner: baseIdPath + '/vendor',
-  psaSlug: 'primary',
+  sysSlug: 'primary',
   label: 'Primary Account',
-  psaPublic: ['label', 'owner'],
+  sysPublic: ['label', 'owner'],
   currency: 'USD'
 });
 
@@ -257,10 +257,10 @@ var defaultPayeeScheme = {
     maximumAmount: '10.00',
     comment: config.authority.name + ' Processing'
   }],
-  psaMinimumAmounts: {}
+  sysMinimumAmounts: {}
 };
 // minimum amounts for default payee scheme
-defaultPayeeScheme.psaMinimumAmounts[
+defaultPayeeScheme.sysMinimumAmounts[
   authorityId + '/accounts/main'] = '0.000002';
 config.financial.payeeSchemes[defaultPayeeSchemeId] = defaultPayeeScheme;
 

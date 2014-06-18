@@ -7,11 +7,11 @@ var postProfileCreate = {
   type: 'object',
   properties: {
     '@context': schemas.jsonldContext(),
-    psaSlug: schemas.slug({required: false}),
+    sysSlug: schemas.slug({required: false}),
     email: schemas.email(),
-    psaPassword: schemas.password(),
+    sysPassword: schemas.password(),
     label: schemas.label({required: false}),
-    psaPublicKey: {
+    sysPublicKey: {
       required: false,
       type: 'object',
       properties: {
@@ -19,7 +19,7 @@ var postProfileCreate = {
         publicKeyPem: schemas.publicKeyPem()
       }
     },
-    psaIdentity: {
+    sysIdentity: {
       required: true,
       type: 'object',
       properties: {
@@ -28,7 +28,7 @@ var postProfileCreate = {
           type: 'string',
           enum: ['PersonalIdentity', 'VendorIdentity']
         },
-        psaSlug: schemas.slug(),
+        sysSlug: schemas.slug(),
         label: schemas.label()
       }
     },
@@ -36,7 +36,7 @@ var postProfileCreate = {
       required: true,
       type: 'object',
       properties: {
-        psaSlug: schemas.slug(),
+        sysSlug: schemas.slug(),
         label: schemas.label()
       }
     }

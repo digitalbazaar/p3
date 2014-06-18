@@ -465,7 +465,7 @@ config.identity = {};
 config.identity.defaults = {
   personal: {
     type: 'PersonalIdentity',
-    psaPublic: [],
+    sysPublic: [],
     address: [],
     preferences: {
       type: 'IdentityPreferences'
@@ -473,7 +473,7 @@ config.identity.defaults = {
   },
   vendor: {
     type: 'VendorIdentity',
-    psaPublic: ['label', 'website', 'description'],
+    sysPublic: ['label', 'website', 'description'],
     address: [],
     preferences: {
       type: 'IdentityPreferences'

@@ -26,7 +26,7 @@ ${set([
       <!-- Date -->
       <td data-ng-switch="row.type">
         <span data-ng-switch-when="asset" class="date">{{row.asset.created | date:'medium'}}</span>
-        <span data-ng-switch-when="listing" class="date">{{row.listing.psaPublished | date:'medium'}}</span>
+        <span data-ng-switch-when="listing" class="date">{{row.listing.sysPublished | date:'medium'}}</span>
       </td>
       <!-- Title -->
       <td data-ng-switch="row.type">

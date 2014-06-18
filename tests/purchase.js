@@ -327,18 +327,18 @@ function _createVendorProfile(self, vendorProfiles, callback) {
       var profileTemplate = {
         '@context': 'https://w3id.org/payswarm/v1',
         email: email,
-        psaPassword: 'password',
-        psaPublicKey: {
+        sysPassword: 'password',
+        sysPublicKey: {
           publicKeyPem: pair.publicKey,
           label: 'key-' + id
         },
-        psaIdentity: {
+        sysIdentity: {
           type: 'VendorIdentity',
-          psaSlug: 'vendor-' + id,
+          sysSlug: 'vendor-' + id,
           label: 'PaySwarm Vendor Test Identity'
         },
         account: {
-          psaSlug: 'vending',
+          sysSlug: 'vending',
           label: 'Primary Vending Account'
         }
       };
@@ -359,11 +359,11 @@ function _createVendorProfile(self, vendorProfiles, callback) {
           }
 
           var profile = body;
-          profile.psaPublicKey.privateKeyPem = pair.privateKey;
+          profile.sysPublicKey.privateKeyPem = pair.privateKey;
           logger.verbose('Vendor profile: ' + JSON.stringify(profile, null, 2));
           vendorProfiles.push(profile);
           self.stats.counts.vendors++;
-          statsLogger.info(profileTemplate.psaIdentity.psaSlug, {
+          statsLogger.info(profileTemplate.sysIdentity.sysSlug, {
             type: 'createdVendorProfile',
             begin: begin,
             end: +new Date()
@@ -399,18 +399,18 @@ function _createBuyerProfile(self, buyerProfiles, callback) {
       var profileTemplate = {
         '@context': 'https://w3id.org/payswarm/v1',
         email: email,
-        psaPassword: 'password',
-        psaPublicKey: {
+        sysPassword: 'password',
+        sysPublicKey: {
           publicKeyPem: pair.publicKey,
           label: 'key-' + id
         },
-        psaIdentity: {
+        sysIdentity: {
           type: 'PersonalIdentity',
-          psaSlug: 'buyer-' + id,
+          sysSlug: 'buyer-' + id,
           label: 'PaySwarm Buyer Test Identity'
         },
         account: {
-          psaSlug: 'buying',
+          sysSlug: 'buying',
           label: 'Primary Buying Account'
         }
       };
@@ -430,11 +430,11 @@ function _createBuyerProfile(self, buyerProfiles, callback) {
         }
 
         var profile = body;
-        profile.psaPublicKey.privateKeyPem = pair.privateKey;
+        profile.sysPublicKey.privateKeyPem = pair.privateKey;
         logger.verbose('Buyer profile: ' + JSON.stringify(profile, null, 2));
         buyerProfiles.push(profile);
         self.stats.counts.buyers++;
-        statsLogger.info(profileTemplate.psaIdentity.psaSlug, {
+        statsLogger.info(profileTemplate.sysIdentity.sysSlug, {
           type: 'createdBuyerProfile',
           begin: begin,
           end: +new Date()
@@ -467,8 +467,8 @@ function _createListing(self, vendorProfiles, listings, callback) {
     vendorProfiles[Math.floor(Math.random() * vendorProfiles.length)];
 
   // set the options to use when signing the asset and the listing
-  signingOptions.publicKeyId = vendor.psaPublicKey.id;
-  signingOptions.privateKeyPem = vendor.psaPublicKey.privateKeyPem;
+  signingOptions.publicKeyId = vendor.sysPublicKey.id;
+  signingOptions.privateKeyPem = vendor.sysPublicKey.privateKeyPem;
 
   // sign the asset, the listing, and upload both to the Web
   async.waterfall([
@@ -625,8 +625,8 @@ function _purchaseAsset(self, buyers, listings, callback) {
   };
 
   payswarm.sign(purchaseRequest, {
-    publicKeyId: buyer.psaPublicKey.id,
-    privateKeyPem: buyer.psaPublicKey.privateKeyPem
+    publicKeyId: buyer.sysPublicKey.id,
+    privateKeyPem: buyer.sysPublicKey.privateKeyPem
   }, function(err, signedRequest) {
     if(err) {
       return callback(err);

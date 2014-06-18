@@ -19,7 +19,7 @@ var postPasscode = {
   description: 'Create a passcode.',
   type: 'object',
   properties: {
-    psaIdentifier: {
+    sysIdentifier: {
       required: true,
       type: [schemas.url(), schemas.slug(), schemas.email()]
     }
@@ -33,8 +33,8 @@ var postPassword = {
   type: 'object',
   properties: {
     id: schemas.url(),
-    psaPassword: schemas.password(),
-    psaPasswordNew: schemas.password()
+    sysPassword: schemas.password(),
+    sysPasswordNew: schemas.password()
   },
   additionalProperties: false
 };
@@ -44,12 +44,12 @@ var postPasswordReset = {
   description: 'Reset a password.',
   type: 'object',
   properties: {
-    psaIdentifier: {
+    sysIdentifier: {
       required: true,
       type: [schemas.url(), schemas.slug(), schemas.email()]
     },
-    psaPasscode: schemas.passcode(),
-    psaPasswordNew: schemas.password()
+    sysPasscode: schemas.passcode(),
+    sysPasswordNew: schemas.password()
   },
   additionalProperties: false
 };
@@ -59,11 +59,11 @@ var postEmailVerify = {
   description: 'Verify an email address.',
   type: 'object',
   properties: {
-    psaIdentifier: {
+    sysIdentifier: {
       required: true,
       type: [schemas.url(), schemas.slug(), schemas.email()]
     },
-    psaPasscode: schemas.passcode()
+    sysPasscode: schemas.passcode()
   },
   additionalProperties: false
 };
@@ -74,11 +74,11 @@ var postCreate = {
   type: 'object',
   properties: {
     '@context': schemas.jsonldContext(),
-    psaSlug: schemas.slug({required: false}),
+    sysSlug: schemas.slug({required: false}),
     email: schemas.email(),
-    psaPassword: schemas.password(),
+    sysPassword: schemas.password(),
     label: schemas.label({required: false}),
-    psaIdentity: {
+    sysIdentity: {
       required: true,
       type: 'object',
       properties: {
@@ -87,9 +87,9 @@ var postCreate = {
           type: 'string',
           enum: ['PersonalIdentity', 'VendorIdentity']
         },
-        psaSlug: schemas.slug(),
+        sysSlug: schemas.slug(),
         label: schemas.label(),
-        psaPublic: {
+        sysPublic: {
           required: false,
           type: schemas.propertyVisibility()
         }
@@ -99,9 +99,9 @@ var postCreate = {
       required: true,
       type: 'object',
       properties: {
-        psaSlug: schemas.slug(),
+        sysSlug: schemas.slug(),
         label: schemas.label(),
-        psaPublic: {
+        sysPublic: {
           required: false,
           type: schemas.propertyVisibility()
         }

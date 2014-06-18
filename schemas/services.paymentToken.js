@@ -61,7 +61,7 @@ var postVerifyPrepare = {
   type: 'object',
   properties: {
     '@context': schemas.jsonldContext(),
-    psaVerifyParameters: {
+    sysVerifyParameters: {
       title: 'Verify parameters',
       type: 'object',
       properties: {

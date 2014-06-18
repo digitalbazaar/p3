@@ -18,9 +18,9 @@ var postBudget = {
       source: schemas.url({required: false}),
       amount: money.precisePositive({required: false}),
       vendor: schemas.url({required: false}),
-      psaMaxPerUse: money.precisePositive({required: false}),
-      psaRefreshInterval: refreshInterval({required: false}),
-      psaValidityInterval: validityInterval({required: false})
+      sysMaxPerUse: money.precisePositive({required: false}),
+      sysRefreshInterval: refreshInterval({required: false}),
+      sysValidityInterval: validityInterval({required: false})
     }
   }, {
     type: 'object',
@@ -55,9 +55,9 @@ var postBudgets = {
     source: schemas.url(),
     amount: money.precisePositive(),
     vendor: schemas.url({required: false}),
-    psaMaxPerUse: money.precisePositive({required: false}),
-    psaRefreshInterval: refreshInterval({required: false}),
-    psaValidityInterval: validityInterval({required: false})
+    sysMaxPerUse: money.precisePositive({required: false}),
+    sysRefreshInterval: refreshInterval({required: false}),
+    sysValidityInterval: validityInterval({required: false})
   },
   additionalProperties: false
 };

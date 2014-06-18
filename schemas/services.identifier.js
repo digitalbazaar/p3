@@ -10,7 +10,7 @@ var postIdentifier = {
         type: 'string',
         enum: ['Profile', 'PersonalIdentity', 'VendorIdentity']
       },
-      psaSlug: schemas.slug()
+      sysSlug: schemas.slug()
     },
     additionalProperties: false
   }, {
@@ -25,7 +25,7 @@ var postIdentifier = {
         required: true,
         type: schemas.url()
       },
-      psaSlug: schemas.slug()
+      sysSlug: schemas.slug()
     },
     additionalProperties: false
   }, {

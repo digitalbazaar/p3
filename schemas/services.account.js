@@ -20,12 +20,12 @@ var postAccounts = {
   type: 'object',
   properties: {
     '@context': schemas.jsonldContext(),
-    psaSlug: schemas.slug(),
+    sysSlug: schemas.slug(),
     label: {
       required: true,
       type: schemas.label()
     },
-    psaPublic: {
+    sysPublic: {
       required: false,
       type: schemas.propertyVisibility()
     },
@@ -55,7 +55,7 @@ var postAccount = {
       required: true,
       type: schemas.label()
     },
-    psaPublic: {
+    sysPublic: {
       required: false,
       type: schemas.propertyVisibility()
     },
@@ -67,11 +67,11 @@ var postAccount = {
         type: schemas.url()
       }
     },
-    psaAllowInstantTransfer: {
+    sysAllowInstantTransfer: {
       required: false,
       type: 'boolean'
     },
-    psaMinInstantTransfer: money.preciseNonNegative({required: false})
+    sysMinInstantTransfer: money.preciseNonNegative({required: false})
   },
   additionalProperties: false
 };

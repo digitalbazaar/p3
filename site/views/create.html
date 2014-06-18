@@ -51,14 +51,14 @@ ${set([
           </div>
         </div>
 
-        <div class="control-group" data-binding="psaPassword">
+        <div class="control-group" data-binding="sysPassword">
           <label class="control-label" for="password">Password</label>
           <div class="controls">
             <div class="input-append">
               <input class="input-xlarge"
-                name="password" data-binding="psaPassword"
+                name="password" data-binding="sysPassword"
                 maxlength="32" type="password"
-                data-ng-model="profile.psaPassword"
+                data-ng-model="profile.sysPassword"
                 data-track-state="model.help.password"
                 data-ng-disabled="loading" />
               <button class="btn" data-help-toggle="model.help.password">
@@ -88,14 +88,14 @@ ${set([
           </p>
         </div>
 
-        <div class="control-group" data-binding="psaIdentity.label">
+        <div class="control-group" data-binding="sysIdentity.label">
           <label class="control-label" for="identity">Identity Name</label>
           <div class="controls">
             <div class="input-append">
               <input class="input-xlarge"
                 name="identity-label" type="text"
-                data-slug-out="profile.psaIdentity.psaSlug"
-                data-ng-model="profile.psaIdentity.label"
+                data-slug-out="profile.sysIdentity.sysSlug"
+                data-ng-model="profile.sysIdentity.label"
                 data-track-state="model.help.identityLabel"
                 data-ng-disabled="loading"
                 autocomplete="off" />
@@ -110,12 +110,12 @@ ${set([
               address below:
             </p>
             <p><small>{{baseUrl}}/i/</small><input
-              data-binding="psaIdentity.psaSlug" class="slug"
+              data-binding="sysIdentity.sysSlug" class="slug"
               name="identity-slug" type="text" maxlength="32"
               placeholder="IDENTITY-NAME"
-              data-slug-in data-ng-model="profile.psaIdentity.psaSlug"
+              data-slug-in data-ng-model="profile.sysIdentity.sysSlug"
               data-ng-disabled="loading" /></p>
-            <div data-duplicate-checker="profile.psaIdentity.psaSlug"
+            <div data-duplicate-checker="profile.sysIdentity.sysSlug"
               data-duplicate-checker-type="PersonalIdentity"
               data-duplicate-checker-available="This identity name is available!"
               data-duplicate-checker-invalid="Identity name is invalid."
@@ -150,7 +150,7 @@ ${set([
                 <input class="input-xlarge"
                   name="account-label" value="Primary Account" type="text"
                   data-ng-model="profile.account.label"
-                  data-slug-out="profile.account.psaSlug"
+                  data-slug-out="profile.account.sysSlug"
                   data-track-state="model.help.accountLabel"
                   data-ng-disabled="loading" />
                 <button class="btn" data-help-toggle="model.help.accountLabel">
@@ -163,10 +163,10 @@ ${set([
                 'Primary Account' for the name of this account. You can change
                 your account's vanity address below:
               </p>
-              <p><small>{{baseUrl}}/i/{{psaIdentity.psaSlug || 'IDENTITY-NAME'}}/accounts/</small><input
-                data-binding="account.psaSlug" class="slug" name="account-slug"
+              <p><small>{{baseUrl}}/i/{{sysIdentity.sysSlug || 'IDENTITY-NAME'}}/accounts/</small><input
+                data-binding="account.sysSlug" class="slug" name="account-slug"
                 type="text" placeholder="ACCOUNT-NAME"
-                data-slug-in data-ng-model="profile.account.psaSlug"
+                data-slug-in data-ng-model="profile.account.sysSlug"
                 data-ng-disabled="loading" /></p>
             </div>
           </div>

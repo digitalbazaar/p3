@@ -460,25 +460,21 @@ require('./roles');
 
 // FIXME: port below to bedrock
 // identity config
-config.identity.defaults = {
-  personal: {
-    type: 'PersonalIdentity',
-    sysPublic: [],
-    address: [],
-    preferences: {
-      type: 'IdentityPreferences'
-    }
+config.identity.defaults.vendor = {
+  // FIXME: "VendorIdentity"
+  type: 'Identity',
+  address: [],
+  preferences: {
+    type: 'IdentityPreferences'
   },
-  vendor: {
-    type: 'VendorIdentity',
-    sysPublic: ['label', 'website', 'description'],
-    address: [],
-    preferences: {
-      type: 'IdentityPreferences'
-    }
-  }
+  sysPublic: ['label', 'website', 'description'],
+  sysResourceRole: [{
+    sysRole: 'identity.registered',
+    generateResource: 'id'
+  }],
+  sysStatus: 'active'
 };
-config.identity.defaults.identity = config.identity.defaults.personal;
+
 config.identity.identities = [];
 config.identity.keys = [];
 // FIXME: port above to bedrock

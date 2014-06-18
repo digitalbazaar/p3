@@ -7,6 +7,18 @@ var config = require('bedrock').config;
 
 var permissions = config.permission.permissions;
 
+// address validator
+permissions.ADDRESS_VALIDATOR_ADMIN = {
+  id: 'ADDRESS_VALIDATOR_ADMIN',
+  label: 'Address Validator Administration',
+  comment: 'Required to administer Address Validation.'
+};
+permissions.ADDRESS_VALIDATOR_ACCESS = {
+  id: 'ADDRESS_VALIDATOR_ACCESS',
+  label: 'Access Address Validator',
+  comment: 'Required to access an Address Validator.'
+};
+
 // budget
 permissions.BUDGET_ADMIN = {
   id: 'BUDGET_ADMIN',

@@ -17,7 +17,7 @@ constants.CONTEXT_V1_URL = 'https://w3id.org/payswarm/v1';
  */
 constants.CONTEXTS[constants.CONTEXT_V1_URL] = JSON.parse(
   fs.readFileSync(
-    path.join(__dirname, '..', 'site/static/contexts/openbadges-v1.jsonld'),
+    path.join(__dirname, '..', 'site/static/contexts/payswarm-v1.jsonld'),
     {encoding: 'utf8'}));
 
 /**

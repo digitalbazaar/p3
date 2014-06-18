@@ -50,7 +50,7 @@ function factory(
           fullName: $scope.originalAddress.fullName
         });
         $scope.state = 'selecting';
-        if($scope.validatedAddress.psaValidated) {
+        if($scope.validatedAddress.sysValidated) {
           $scope.selection.address = $scope.validatedAddress;
         } else {
           $scope.selection.address = $scope.originalAddress;

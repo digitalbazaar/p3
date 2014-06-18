@@ -971,7 +971,7 @@ payswarm.paymentTokens.restore = function(options) {
  * payswarm.paymentTokens.verify({
  *   @context: payswarm.CONTEXT_URL,
  *   paymentToken: paymentTokenId,
- *   data: {psaVerifyParameters [, amount] [, destination]},
+ *   data: {sysVerifyParameters [, amount] [, destination]},
  *   success: function(paymentToken) {},
  *   error: function(err) {}
  * });
@@ -1814,7 +1814,7 @@ payswarm.profiles.login = function(options) {
  * Usage:
  *
  * payswarm.profiles.passcode({
- *   profile: {psaIdentifier: "foo@example.com"},
+ *   profile: {sysIdentifier: "foo@example.com"},
  *   [usage]: 'reset'/'verify',
  *   success: function() {},
  *   error: function(err) {}
@@ -1856,9 +1856,9 @@ payswarm.profiles.passcode = function(options) {
  *
  * payswarm.profiles.password({
  *   profile: {
- *     "psaIdentifier": "foo@example.com",
- *     "psaPasscode": "fhj32hfg8",
- *     "psaPasswordNew": "password12345",
+ *     "sysIdentifier": "foo@example.com",
+ *     "sysPasscode": "fhj32hfg8",
+ *     "sysPasswordNew": "password12345",
  *   },
  *   success: function() {},
  *   error: function(err) {}
@@ -1892,8 +1892,8 @@ payswarm.profiles.password = function(options) {
  *
  * payswarm.profiles.verifyEmail({
  *   profile: {
- *     "psaIdentifier": "foo@example.com",
- *     "psaPasscode": "fhj32hfg8"
+ *     "sysIdentifier": "foo@example.com",
+ *     "sysPasscode": "fhj32hfg8"
  *   },
  *   success: function() {},
  *   error: function(err) {}

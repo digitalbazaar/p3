@@ -15,7 +15,7 @@ function factory(svcModal) {
     var model = $scope.model = {};
     model.loading = false;
     model.profile = data.session.profile;
-    model.psaPasscode = '';
+    model.sysPasscode = '';
     model.passcodeFeedbackTarget = $('#passcodeFeedbackTarget');
     model.verifyEmailFeedbackTarget = $('#verifyEmailFeedbackTarget');
     model.feedback = {};
@@ -28,7 +28,7 @@ function factory(svcModal) {
       // request a passcode
       $scope.resetFeedback();
       payswarm.profiles.passcode({
-        profile: {psaIdentifier: model.profile.id},
+        profile: {sysIdentifier: model.profile.id},
         usage: 'verify',
         success: function() {
           model.feedback.passcode.success = {
@@ -55,11 +55,11 @@ function factory(svcModal) {
       $scope.resetFeedback();
       payswarm.profiles.verifyEmail({
         profile: {
-          psaIdentifier: model.profile.id,
-          psaPasscode: model.psaPasscode
+          sysIdentifier: model.profile.id,
+          sysPasscode: model.sysPasscode
         },
         success: function() {
-          model.profile.psaEmailVerified = true;
+          model.profile.sysEmailVerified = true;
           model.feedback.email.success = {
             message: 'Your email address has been verified successfully.'
           };

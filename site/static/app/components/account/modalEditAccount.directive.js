@@ -20,10 +20,10 @@ function factory(svcModal) {
     $scope.account = angular.copy($scope.sourceAccount);
 
     // ensure defaults
-    $scope.account.psaAllowInstantTransfer =
-      !!$scope.account.psaAllowInstantTransfer;
-    $scope.account.psaMinInstantTransfer =
-      $scope.account.psaMinInstantTransfer || '';
+    $scope.account.sysAllowInstantTransfer =
+      !!$scope.account.sysAllowInstantTransfer;
+    $scope.account.sysMinInstantTransfer =
+      $scope.account.sysMinInstantTransfer || '';
     $scope.account.creditLimit = $scope.account.creditLimit || '0.0000000000';
     $scope.account.creditBackedAmount =
       $scope.account.creditBackedAmount || '0.0000000000';
@@ -31,9 +31,9 @@ function factory(svcModal) {
     var creditLimit = parseFloat($scope.account.creditLimit);
     var backedAmount = parseFloat($scope.account.creditBackedAmount);
     model.fullyBackedCredit = (creditLimit - backedAmount) <= 0;
-    model.creditDisabled = !!$scope.account.psaDisabled;
+    model.creditDisabled = !!$scope.account.sysDisabled;
 
-    model.accountVisibility = ($scope.account.psaPublic.length === 0) ?
+    model.accountVisibility = ($scope.account.sysPublic.length === 0) ?
       'hidden' : 'public';
 
     // storage for backupSource object
@@ -69,13 +69,13 @@ function factory(svcModal) {
         '@context': payswarm.CONTEXT_URL,
         id: $scope.account.id,
         label: $scope.account.label,
-        psaPublic: [],
-        psaAllowInstantTransfer: $scope.account.psaAllowInstantTransfer,
-        psaMinInstantTransfer: $scope.account.psaMinInstantTransfer || '0'
+        sysPublic: [],
+        sysAllowInstantTransfer: $scope.account.sysAllowInstantTransfer,
+        sysMinInstantTransfer: $scope.account.sysMinInstantTransfer || '0'
       };
       if(model.accountVisibility === 'public') {
-        account.psaPublic.push('label');
-        account.psaPublic.push('owner');
+        account.sysPublic.push('label');
+        account.sysPublic.push('owner');
       }
       // use list of backupSource ids vs objects
       // use empty list if backupSources disabled

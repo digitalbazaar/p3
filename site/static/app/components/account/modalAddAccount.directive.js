@@ -18,15 +18,15 @@ function factory(svcModal, svcIdentity, svcAccount) {
     $scope.account = {
       '@context': payswarm.CONTEXT_URL,
       currency: 'USD',
-      psaPublic: []
+      sysPublic: []
     };
     $scope.model.accountVisibility = 'hidden';
 
     $scope.addAccount = function() {
-      $scope.account.psaPublic = [];
+      $scope.account.sysPublic = [];
       if($scope.model.accountVisibility === 'public') {
-        $scope.account.psaPublic.push('label');
-        $scope.account.psaPublic.push('owner');
+        $scope.account.sysPublic.push('label');
+        $scope.account.sysPublic.push('owner');
       }
 
       $scope.loading = true;

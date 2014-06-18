@@ -32,7 +32,7 @@ function factory(svcModal, svcHostedAsset, svcHostedListing) {
       //assetContent: null,
       invoiceItem: [],
       // FIXME: figure out whether published flag is desirable
-      psaPublished: null,
+      sysPublished: null,
       created: null
     };
     $scope.model.destination = null;
@@ -42,7 +42,7 @@ function factory(svcModal, svcHostedAsset, svcHostedListing) {
       // FIXME: where should angular $$xxx property removal go?
       asset = JSON.parse(angular.toJson(asset));
       asset.created = window.iso8601.w3cDate();
-      asset.psaPublished = asset.created;
+      asset.sysPublished = asset.created;
 
       console.log('invoice asset', asset);
       svcHostedAsset.add(asset, function(err, asset) {

@@ -35,7 +35,7 @@ function factory(svcModal) {
     function reloadAccount(callback) {
       callback = callback || angular.noop;
       // load latest account info if showing unpaid balance
-      if(!$scope.account.psaAllowStoredValue) {
+      if(!$scope.account.sysAllowStoredValue) {
         $scope.loading = true;
         svcAccount.getOne($scope.account.id, function(err) {
           $scope.loading = false;

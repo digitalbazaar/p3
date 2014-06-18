@@ -59,7 +59,7 @@ function factory(svcAccount, svcIdentity, svcPaymentToken) {
       // update remaining credit
       scope.model.remainingCredit = 0;
       if(scope.selected) {
-        if(scope.selected.psaCreditDisabled) {
+        if(scope.selected.sysCreditDisabled) {
           scope.model.remainingCredit = 0;
         } else {
           scope.model.remainingCredit = parseFloat(
@@ -83,9 +83,9 @@ function factory(svcAccount, svcIdentity, svcPaymentToken) {
         if(max < minBalance) {
           // show instant transfer required warning
           var minInstantTransfer = parseFloat(
-            scope.selected.psaMinInstantTransfer || 0);
+            scope.selected.sysMinInstantTransfer || 0);
           if(scope.allowInstantTransfer === 'true' &&
-            scope.selected.psaAllowInstantTransfer &&
+            scope.selected.sysAllowInstantTransfer &&
             minInstantTransfer <= minBalance) {
             scope.instantTransferRequired = true;
           } else {

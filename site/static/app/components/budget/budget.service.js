@@ -239,7 +239,7 @@ function factory($timeout, $rootScope, svcModel, svcIdentity) {
     if(!budget) {
       return null;
     }
-    var interval = budget.psaRefreshInterval.split('/');
+    var interval = budget.sysRefreshInterval.split('/');
     if(interval.length === 3) {
       return new Date(interval[1]);
     }
@@ -251,7 +251,7 @@ function factory($timeout, $rootScope, svcModel, svcIdentity) {
     if(!budget) {
       return null;
     }
-    var interval = budget.psaRefreshInterval.split('/');
+    var interval = budget.sysRefreshInterval.split('/');
     if(interval.length === 3) {
       return interval[2];
     }
@@ -263,7 +263,7 @@ function factory($timeout, $rootScope, svcModel, svcIdentity) {
     if(!budget) {
       return null;
     }
-    var interval = budget.psaValidityInterval.split('/');
+    var interval = budget.sysValidityInterval.split('/');
     if(interval.length === 1) {
       return 'never';
     }
@@ -275,7 +275,7 @@ function factory($timeout, $rootScope, svcModel, svcIdentity) {
     if(!budget) {
       return null;
     }
-    var interval = budget.psaValidityInterval.split('/');
+    var interval = budget.sysValidityInterval.split('/');
     if(interval.length === 1) {
       return 'never';
     } else if(iso8601.Period.isValid(interval[1])) {

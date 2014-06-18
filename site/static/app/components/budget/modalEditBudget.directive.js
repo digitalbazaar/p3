@@ -54,24 +54,24 @@ function factory(svcModal) {
       // budget refresh duration
       if($scope.model.budgetRefreshDuration ===
         svcBudget.getRefreshDuration($scope.sourceBudget)) {
-        b.psaRefreshInterval = undefined;
+        b.sysRefreshInterval = undefined;
       } else if($scope.model.budgetRefreshDuration === 'never') {
-        b.psaRefreshInterval = window.iso8601.w3cDate();
+        b.sysRefreshInterval = window.iso8601.w3cDate();
       } else {
-        b.psaRefreshInterval =
+        b.sysRefreshInterval =
           'R/' + window.iso8601.w3cDate() + '/' +
           $scope.model.budgetRefreshDuration;
       }
 
       // budget valid duration
       if($scope.model.budgetValidDuration === '') {
-        b.psaValidityInterval = undefined;
+        b.sysValidityInterval = undefined;
       } else {
         // set validity start date to now
-        b.psaValidityInterval = window.iso8601.w3cDate();
+        b.sysValidityInterval = window.iso8601.w3cDate();
         if($scope.model.budgetValidDuration !== 'never') {
           // add duration
-          b.psaValidityInterval += '/' + $scope.model.budgetValidDuration;
+          b.sysValidityInterval += '/' + $scope.model.budgetValidDuration;
         }
       }
 
@@ -84,9 +84,9 @@ function factory(svcModal) {
         amount: b.amount,
         // vendors not updated here
         //vendor: b.vendor,
-        psaMaxPerUse: b.psaMaxPerUse,
-        psaRefreshInterval: b.psaRefreshInterval,
-        psaValidityInterval: b.psaValidityInterval
+        sysMaxPerUse: b.sysMaxPerUse,
+        sysRefreshInterval: b.sysRefreshInterval,
+        sysValidityInterval: b.sysValidityInterval
       };
       // remove fields not being updated
       angular.forEach(budget, function(value, key) {

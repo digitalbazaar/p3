@@ -28,7 +28,7 @@ function factory(svcModal) {
       listingRestrictions: {vendor: $scope.identity.id},
       assetContent: 'http://wordpress.payswarm.dev/asset-content/test.html',
       // FIXME: figure out whether published flag is desirable
-      psaPublished: window.iso8601.w3cDate()
+      sysPublished: window.iso8601.w3cDate()
     };
 
     $scope.addAsset = function() {

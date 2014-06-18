@@ -53,7 +53,7 @@ function factory(svcModal) {
       listing.licenseHash = 'urn:sha256:' +
         'd9dcfb7b3ba057df52b99f777747e8fe0fc598a3bb364e3d3eb529f90d58e1b9';
       // FIXME: figure out whether published flag is desirable
-      listing.psaPublished = window.iso8601.w3cDate();
+      listing.sysPublished = window.iso8601.w3cDate();
 
       async.waterfall([
         function(callback) {

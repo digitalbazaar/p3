@@ -30,16 +30,16 @@
     </table>
   </div>
   <div data-ng-switch-when="BankAccount" class="bank-box"
-    data-ng-class="{'bank-disabled-box': !selected.psaVerified || selected.psaStatus == 'disabled' || selected.psaStatus == 'deleted', 'bank-selecting': selecting}">
-    <div data-ng-show="!selected.psaVerified && selected.psaStatus != 'disabled' && selected.psaStatus != 'deleted'"
+    data-ng-class="{'bank-disabled-box': !selected.sysVerified || selected.sysStatus == 'disabled' || selected.sysStatus == 'deleted', 'bank-selecting': selecting}">
+    <div data-ng-show="!selected.sysVerified && selected.sysStatus != 'disabled' && selected.sysStatus != 'deleted'"
       class="bank-disabled-overlay">Unverified</div>
-    <div data-ng-show="selected.psaStatus == 'disabled'"
+    <div data-ng-show="selected.sysStatus == 'disabled'"
       class="bank-disabled-overlay">Disabled</div>
-    <div data-ng-show="selected.psaStatus == 'deleted'"
+    <div data-ng-show="selected.sysStatus == 'deleted'"
       class="bank-disabled-overlay">Deleted</div>
     <table class="bank-table"
-      data-ng-class="{'bank-disabled-table': !selected.psaVerified || selected.psaStatus == 'disabled' || selected.psaStatus == 'deleted', 'item-hover': selected.psaVerified && selecting}"
-      data-ng-click="selected.psaStatus == 'active' && selected.psaVerified && selecting && select(selected)">
+      data-ng-class="{'bank-disabled-table': !selected.sysVerified || selected.sysStatus == 'disabled' || selected.sysStatus == 'deleted', 'item-hover': selected.sysVerified && selecting}"
+      data-ng-click="selected.sysStatus == 'active' && selected.sysVerified && selecting && select(selected)">
       <tbody>
         <tr>
           <td class="bank-layer">

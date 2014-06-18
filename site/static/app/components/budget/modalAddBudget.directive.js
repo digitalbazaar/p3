@@ -44,16 +44,16 @@ function factory(svcModal) {
     $scope.addBudget = function() {
       // budget refresh duration
       if($scope.model.budgetRefreshDuration !== 'never') {
-        $scope.budget.psaRefreshInterval =
+        $scope.budget.sysRefreshInterval =
           'R/' + window.iso8601.w3cDate() + '/' +
           $scope.model.budgetRefreshDuration;
       }
 
       // set budget validity start date to now
-      $scope.budget.psaValidityInterval = window.iso8601.w3cDate();
+      $scope.budget.sysValidityInterval = window.iso8601.w3cDate();
       if($scope.model.budgetValidDuration !== 'never') {
         // add duration
-        $scope.budget.psaValidityInterval +=
+        $scope.budget.sysValidityInterval +=
           '/' + $scope.model.budgetValidDuration;
       }
 

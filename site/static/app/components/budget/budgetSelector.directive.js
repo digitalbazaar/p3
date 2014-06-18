@@ -56,7 +56,7 @@ function factory() {
       }
     });
 
-    scope.$watch('selected.psaMaxPerUse', function(value) {
+    scope.$watch('selected.sysMaxPerUse', function(value) {
       scope.invalid = false;
       scope.maxPerUseTooLow = false;
       if(value && scope.minBalance !== undefined) {
@@ -89,7 +89,7 @@ function factory() {
         if(parseFloat(scope.selected.balance) < minBalance) {
           scope.invalid = true;
           scope.balanceTooLow = true;
-        } else if(scope.selected.psaMaxPerUse < minBalance) {
+        } else if(scope.selected.sysMaxPerUse < minBalance) {
           // max per use too low
           scope.invalid = true;
           scope.maxPerUseTooLow = true;

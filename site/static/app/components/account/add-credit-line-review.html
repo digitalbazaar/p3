@@ -5,7 +5,7 @@ FIXME: INSTRUCTIONS ABOUT HOW CREDIT LINES WORK HERE. See our
 <p>Please select a payment method below that will be used to automatically
 pay back any credit you use on a periodic basis.</p>
 
-<div data-ng-hide="model.profile.psaEmailVerified" class="section">
+<div data-ng-hide="model.profile.sysEmailVerified" class="section">
   <h4 class="headline">Verify Your Email Address</h4>
   <p>Before opening a free credit line, you must first verify your email
     address. First, click to send yourself an email verification code. Then,
@@ -14,7 +14,7 @@ pay back any credit you use on a periodic basis.</p>
   </p>
   <form id="passcodeFeedbackTarget" class="form-horizontal" action="" data-ng-submit="sendPasscode()">
     <fieldset>
-      <div class="control-group" data-binding="psaIdentifier">
+      <div class="control-group" data-binding="sysIdentifier">
         <label class="control-label" for="email">Email</label>
         <div class="controls">
           <div class="input-append">
@@ -47,12 +47,12 @@ pay back any credit you use on a periodic basis.</p>
 
     <input name="input" type="hidden" data-ng-model="model.profile.email" />
 
-    <div class="control-group" data-binding="psaPasscode">
+    <div class="control-group" data-binding="sysPasscode">
       <label class="control-label" for="passcode">Passcode</label>
       <div class="controls">
         <div class="input-append">
-          <input name="psaPasscode" type="text" maxlength="8"
-            data-ng-model="model.psaPasscode"
+          <input name="sysPasscode" type="text" maxlength="8"
+            data-ng-model="model.sysPasscode"
             data-track-state="model.help.passcode"
             data-ng-disabled="model.loading" />
           <button class="btn" data-help-toggle="model.help.passcode">
@@ -78,7 +78,7 @@ pay back any credit you use on a periodic basis.</p>
 
 </div>
 
-<div data-ng-show="model.profile.psaEmailVerified" class="section">
+<div data-ng-show="model.profile.sysEmailVerified" class="section">
   <h4 class="headline">Email Verified</h4>
   <div><span class="alert-success">{{model.profile.email}}</span></div>
 </div>

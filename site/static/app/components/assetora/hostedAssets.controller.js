@@ -106,7 +106,7 @@ function factory($scope, svcHostedAsset, svcHostedListing) {
               // build purchase url for listing
               var purchaseUrl = data.purchaseUrl +
                 '&listing=' + encodeURIComponent(listing.id) +
-                '&listing-hash=' + encodeURIComponent(listing.psaListingHash) +
+                '&listing-hash=' + encodeURIComponent(listing.sysListingHash) +
                 '&callback=' +
                   encodeURIComponent(data.identityId) + '/receipts';
               rows.push({

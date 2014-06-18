@@ -21,18 +21,18 @@ function factory($scope, $http) {
   $scope.profile = {
     '@context': 'https://w3id.org/payswarm/v1',
     email: '',
-    psaPassword: '',
-    psaIdentity: {
+    sysPassword: '',
+    sysIdentity: {
       // FIXME: add option for type in ui?
       type: 'PersonalIdentity',
       label: '',
-      psaSlug: '',
-      psaPublic: []
+      sysSlug: '',
+      sysPublic: []
     },
     account: {
       label: 'Primary',
-      psaSlug: 'primary',
-      psaPublic: []
+      sysSlug: 'primary',
+      sysPublic: []
     }
   };
   $scope.agreementChecked = false;

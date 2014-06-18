@@ -22,7 +22,7 @@ program
     'token with funds to hold. The "--amount" parameter must also be ' +
     'specified.')
   .option('--capture <filename>', 'A JSON-LD file containing a transaction ' +
-    'with psaGatewayRefId set to the ID of a payflow transaction with held ' +
+    'with sysGatewayRefId set to the ID of a payflow transaction with held ' +
     'funds to be captured. The "--amount" parameter may be optionally ' +
     'specified.')
   .option('--amount <amount>', 'A dollar amount to charge (eg: "1.00").')

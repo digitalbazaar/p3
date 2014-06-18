@@ -21,7 +21,7 @@ function factory(svcModal) {
     $scope.loading = false;
     $scope.depositTransfer = null;
     $scope.depositDestination = null;
-    $scope.psaVerifyParameters = {
+    $scope.sysVerifyParameters = {
       amount: [
         null,
         null
@@ -43,10 +43,10 @@ function factory(svcModal) {
     $scope.review = function() {
       var verifyRequest = {
         '@context': payswarm.CONTEXT_URL,
-        psaVerifyParameters: {
+        sysVerifyParameters: {
           amount: [
-            $scope.psaVerifyParameters.amount[0],
-            $scope.psaVerifyParameters.amount[1]
+            $scope.sysVerifyParameters.amount[0],
+            $scope.sysVerifyParameters.amount[1]
           ]
         }
       };
@@ -78,7 +78,7 @@ function factory(svcModal) {
                   "name": "payswarm.validation.ValidationError",
                   "message": "verification amount is incorrect",
                   "details": {
-                    "path": "psaVerifyParameters.amount[0]",
+                    "path": "sysVerifyParameters.amount[0]",
                     "public": true
                   },
                   "cause": null
@@ -87,7 +87,7 @@ function factory(svcModal) {
                   "name": "payswarm.validation.ValidationError",
                   "message": "verification amount is incorrect",
                   "details": {
-                    "path": "psaVerifyParameters.amount[1]",
+                    "path": "sysVerifyParameters.amount[1]",
                     "public": true
                   },
                   "cause": null

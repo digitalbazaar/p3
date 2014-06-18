@@ -15,7 +15,7 @@ like to deposit.</p>
     3-7 business days to be processed before the money appears in your account.
   </div>
   <div data-payment-token-selector data-selected="input.source"
-    data-invalid="selection.invalidSource" data-instant="instant || !account.psaAllowStoredValue"></div>
+    data-invalid="selection.invalidSource" data-instant="instant || !account.sysAllowStoredValue"></div>
 </div>
 
 <div class="section">
@@ -31,7 +31,7 @@ like to deposit.</p>
       <label class="control-label" for="amount">Amount</label>
       <div class="control-group" data-binding="payee[0].payeeRate">
         <div class="controls">
-          <label class="radio" data-ng-hide="account.psaAllowStoredValue">
+          <label class="radio" data-ng-hide="account.sysAllowStoredValue">
             <input
               type="radio" name="amount"
               data-ng-model="input.mode"
@@ -46,7 +46,7 @@ like to deposit.</p>
               type="radio" name="amount"
               data-ng-model="input.mode"
               value="custom"
-              data-ng-hide="account.psaAllowStoredValue" />
+              data-ng-hide="account.sysAllowStoredValue" />
             <div class="input-prepend input-append">
               <span class="add-on"><i class="icon-money"></i></span><input
                 type="text" name="amount" placeholder="Enter deposit amount..."

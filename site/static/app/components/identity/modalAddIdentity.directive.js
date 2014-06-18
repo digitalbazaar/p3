@@ -35,16 +35,16 @@ function factory(svcModal, svcIdentity, svcAccount) {
     $scope.account = {
       '@context': payswarm.CONTEXT_URL,
       label: 'Primary Account',
-      psaSlug: 'primary',
+      sysSlug: 'primary',
       currency: 'USD',
-      psaPublic: []
+      sysPublic: []
     };
     $scope.accountVisibility = 'hidden';
 
     $scope.addIdentity = function() {
       var identity = $scope.identity[$scope.identityType];
       identity.label = $scope.identityLabel;
-      identity.psaSlug = $scope.identitySlug;
+      identity.sysSlug = $scope.identitySlug;
       $scope.loading = true;
       svcIdentity.add(identity, function(err, identity) {
         if(!err) {
@@ -53,7 +53,7 @@ function factory(svcModal, svcIdentity, svcAccount) {
 
         // if identity is a duplicate, add account to it
         if(err.type === 'payswarm.website.DuplicateIdentity') {
-          identity.id = $scope.baseUrl + '/i/' + identity.psaSlug;
+          identity.id = $scope.baseUrl + '/i/' + identity.sysSlug;
           return addAccount(identity);
         }
 
@@ -63,10 +63,10 @@ function factory(svcModal, svcIdentity, svcAccount) {
     };
 
     function addAccount(identity) {
-      $scope.account.psaPublic = [];
+      $scope.account.sysPublic = [];
       if($scope.accountVisibility === 'public') {
-        $scope.account.psaPublic.push('label');
-        $scope.account.psaPublic.push('owner');
+        $scope.account.sysPublic.push('label');
+        $scope.account.sysPublic.push('owner');
       }
 
       // add account

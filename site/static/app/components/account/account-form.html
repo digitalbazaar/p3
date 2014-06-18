@@ -7,7 +7,7 @@
           <span class="add-on"><i class="icon-tag"></i></span><input
             type="text" name="label"
             data-ng-model="account.label"
-            data-slug-out="account.psaSlug"
+            data-slug-out="account.sysSlug"
             data-track-state="model.help.label"
             autocomplete="off" />
           <button class="btn" data-help-toggle="model.help.label">
@@ -24,10 +24,10 @@
             data-ng-hide="identityId"
             class="slug">{{identitySlug || 'IDENTITY-NAME'}}</span>/accounts/</small><input
             type="text" maxlength="32"
-            data-binding="psaSlug" class="slug" name="slug"
+            data-binding="sysSlug" class="slug" name="slug"
             placeholder="ACCOUNT-NAME"
-            data-slug-in data-ng-model="account.psaSlug" /></p>
-          <div data-duplicate-checker="account.psaSlug"
+            data-slug-in data-ng-model="account.sysSlug" /></p>
+          <div data-duplicate-checker="account.sysSlug"
             data-duplicate-checker-type="FinancialAccount"
             data-duplicate-checker-owner="{{identityId || (baseUrl+'/i/'+identitySlug)}}"
             data-duplicate-checker-available="This account name is available!"
@@ -139,24 +139,24 @@
       </div>
     </div>
     <div data-ng-hide="!editing" class="control-group">
-      <label class="control-label" for="psaAllowInstantTransfer">
+      <label class="control-label" for="sysAllowInstantTransfer">
         Instant Transfer
-        <a data-help-toggle="model.help.psaAllowInstantTransfer">
+        <a data-help-toggle="model.help.sysAllowInstantTransfer">
           <i class="icon-question-sign"></i>
         </a>
       </label>
       <div class="controls">
         <label class="radio inline">
           <input type="radio" name="enable-instant-transfer"
-            data-ng-value="true" data-ng-model="account.psaAllowInstantTransfer" />
+            data-ng-value="true" data-ng-model="account.sysAllowInstantTransfer" />
           Enable
         </label>
         <label class="radio inline">
           <input type="radio" name="enable-instant-transfer"
-            data-ng-value="false" data-ng-model="account.psaAllowInstantTransfer" />
+            data-ng-value="false" data-ng-model="account.sysAllowInstantTransfer" />
           Disable
         </label>
-        <div data-fade-toggle="model.help.psaAllowInstantTransfer.show" style="margin-top: 10px">
+        <div data-fade-toggle="model.help.sysAllowInstantTransfer.show" style="margin-top: 10px">
           <p class="help-block">
             Enabling instant transfer will cause purchases that exceed your
             credit limit to be performed using the payment method of your
@@ -165,19 +165,19 @@
         </div>
       </div>
     </div>
-    <div data-ng-hide="!editing" class="control-group" data-binding="psaMinInstantTransfer">
-      <label class="control-label" for="psaMinInstantTransfer">Minimum Amount</label>
+    <div data-ng-hide="!editing" class="control-group" data-binding="sysMinInstantTransfer">
+      <label class="control-label" for="sysMinInstantTransfer">Minimum Amount</label>
       <div class="controls">
         <div class="input-prepend input-append">
           <span class="add-on"><i class="icon-money"></i></span><input
-            type="text" name="psaMinInstantTransfer"
-            data-ng-model="account.psaMinInstantTransfer"
-            data-track-state="model.help.psaMinInstantTransfer" />
-          <button class="btn" data-help-toggle="model.help.psaMinInstantTransfer">
+            type="text" name="sysMinInstantTransfer"
+            data-ng-model="account.sysMinInstantTransfer"
+            data-track-state="model.help.sysMinInstantTransfer" />
+          <button class="btn" data-help-toggle="model.help.sysMinInstantTransfer">
             <i class="icon-question-sign"></i>
           </button>
         </div>
-        <p data-fade-toggle="model.help.psaMinInstantTransfer.show" class="help-block">
+        <p data-fade-toggle="model.help.sysMinInstantTransfer.show" class="help-block">
           Please enter the minimum purchase amount required in order to trigger an
           instant transfer.
           <br/><br/>

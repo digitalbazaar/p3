@@ -46,9 +46,9 @@ function factory($timeout, $rootScope, svcModel, svcIdentity) {
     var instant = [];
     var nonInstant = [];
     angular.forEach(service.paymentTokens, function(token) {
-      if(token.psaStatus === 'active') {
+      if(token.sysStatus === 'active') {
         active.push(token);
-      } else if(!token.psaStatus || token.psaStatus === 'deleted') {
+      } else if(!token.sysStatus || token.sysStatus === 'deleted') {
         deleted.push(token);
       }
 
@@ -69,7 +69,7 @@ function factory($timeout, $rootScope, svcModel, svcIdentity) {
         bankAccounts.push(token);
       }
 
-      if(token.psaStatus === 'active') {
+      if(token.sysStatus === 'active') {
         if(service.instantPaymentMethods.indexOf(token.paymentMethod) !== -1) {
           instant.push(token);
         }

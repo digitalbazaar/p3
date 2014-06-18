@@ -107,8 +107,7 @@ function processInput(input) {
             // extract JSON-LD from RDFa
             RDFa.attach(window.document);
             jsonld.fromRDF(window.document.data, {format: 'rdfa-api'}, callback);
-          }
-          catch(ex) {
+          } catch(ex) {
             return callback(ex);
           }
         }
@@ -201,11 +200,9 @@ function processType(data, type, callback) {
             (program.compact ? 'compact|' : ''));
         if(program.normalized) {
           console.log(data);
-        }
-        else if(program.compact) {
+        } else if(program.compact) {
           console.log(JSON.stringify(data));
-        }
-        else {
+        } else {
           console.log(JSON.stringify(data, null, 2));
         }
       }

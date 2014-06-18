@@ -121,8 +121,7 @@ async.waterfall([
         debug: config.debug
       });
       callback();
-    }
-    catch(ex) {
+    } catch(ex) {
       callback(ex);
     }
   },
@@ -154,8 +153,7 @@ async.waterfall([
         }
         return callback(null, client.createCaptureRequest(data, options));
       }
-    }
-    catch(ex) {
+    } catch(ex) {
       return callback(ex);
     }
   },

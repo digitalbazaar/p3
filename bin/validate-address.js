@@ -47,8 +47,7 @@ async.waterfall([
       // FIXME: validate input
       var input = JSON.parse(fs.readFileSync(filename, 'utf8'));
       return callback(null, input);
-    }
-    catch(ex) {
+    } catch(ex) {
       return callback(ex);
     }
   },

@@ -120,8 +120,7 @@ async.waterfall([
         debug: config.debug
       });
       callback();
-    }
-    catch(ex) {
+    } catch(ex) {
       callback(ex);
     }
   },
@@ -138,8 +137,7 @@ async.waterfall([
         // FIXME: validate program.amount
       }
       return callback(null, input);
-    }
-    catch(ex) {
+    } catch(ex) {
       return callback(ex);
     }
   },
@@ -160,16 +158,13 @@ async.waterfall([
     var prompt = 'Do you want to ';
     if(program.tokenize) {
       prompt += 'tokenize this bank account? ';
-    }
-    else if(program.get) {
+    } else if(program.get) {
       if(input.type === 'PaymentToken') {
         prompt += 'get the bank account associated with this payment token? ';
-      }
-      else {
+      } else {
         prompt += 'get the status associated with this transaction? ';
       }
-    }
-    else {
+    } else {
       prompt += program.charge ? 'charge' : 'credit';
       prompt += ' this payment token? ';
     }
@@ -186,16 +181,13 @@ async.waterfall([
     console.log('\nSending request...');
     if(program.tokenize) {
       client.tokenize(input, callback);
-    }
-    else if(program.get) {
+    } else if(program.get) {
       if(input.type === 'PaymentToken') {
         client.getBankAccount(input, callback);
-      }
-      else {
+      } else {
         client.inquire(input, callback);
       }
-    }
-    else {
+    } else {
       var method = program.charge ? client.charge : client.credit;
       method.call(client, input, program.amount, callback);
     }

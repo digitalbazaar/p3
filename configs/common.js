@@ -460,8 +460,6 @@ require('./roles');
 
 // FIXME: port below to bedrock
 // identity config
-config.identity = {};
-// identity config
 config.identity.defaults = {
   personal: {
     type: 'PersonalIdentity',

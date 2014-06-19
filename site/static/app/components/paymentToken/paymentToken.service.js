@@ -13,7 +13,7 @@ function factory(
   $http, $rootScope, svcIdentity, svcModel, svcResource) {
   var service = {};
 
-  // create main account collection
+  // create main payment token collection
   var identity = svcIdentity.identity;
   service.collection = new svcResource.Collection({
     url: identity.id + '/payment-tokens',

@@ -5,110 +5,73 @@
  */
 define(['angular'], function(angular) {
 
-var deps = ['$timeout', '$rootScope', 'svcModel', 'svcIdentity'];
+var deps = ['$rootScope', 'svcModel', 'svcResource'];
 return {svcTransaction: deps.concat(factory)};
 
-function factory($timeout, $rootScope, svcModel, svcIdentity) {
+function factory($rootScope, svcModel, svcResource) {
   var service = {};
 
-  var identity = svcIdentity.identity;
-  var expires = 0;
-  var maxAge = 1000*60*2;
-  service.recentTxns = [];
+  // create main transaction collection
+  service.collection = new svcResource.Collection({
+    url: '/transactions'
+  });
   service.accounts = {};
+  service.recentCollection = new svcResource.Collection({
+    url: '/transactions?limit=10',
+    finishLoading: _updateRecent
+  });
+  service.recentTxns = service.recentCollection.storage;
   service.state = {
-    loading: false
+    transactions: service.collection.state,
+    recent: service.recentCollection.state
   };
 
   /**
    * Gets the transactions for an identity.
    *
+   * Gets transactions before a certain creation date. Results will be
+   * returned in pages. To get the next page, the last transaction from
+   * the previous page and its creation date must be passed. A limit
+   * can be passed for the number of transactions to return, otherwise,
+   * the server maximum-permitted will be used.   *
+   *
    * @param options the options to use:
-   *          [delay] a timeout to wait before fetching transactions.
-   *          [createdStart] the creation start date.
-   *          [account] the account.
-   *          [previous] the previous transaction (for pagination).
-   *          [limit] the maximum number of transactions to get.
+   *   [createdStart]: new Date('2012-03-01'),
+   *   [account]: 'https://example.com/i/foo/accounts/bar',
+   *   [previous]: 'https://example.com/transactions/1.1.a',
+   *   [limit]: 20,
    */
-  service.get = function(options, callback) {
-    if(typeof options === 'function') {
-      callback = options;
-      options = {};
+  service.query = function(options) {
+    // TODO: eliminate this call and just use .getAll()?
+    var query = {};
+    if(options.createdStart) {
+      if(query.createdStart instanceof Date) {
+        query.createdStart = (+options.createdStart / 1000);
+      }
+      else {
+        query.createdStart = options.createdStart;
+      }
     }
-    options = options || {};
-    callback = callback || angular.noop;
-
-    service.state.loading = true;
-    $timeout(function() {
-      payswarm.transactions.get({
-        identity: identity.id,
-        createdStart: options.createdStart || undefined,
-        account: options.account || undefined,
-        previous: options.previous || undefined,
-        limit: options.limit || undefined,
-        success: function(txns) {
-          var account = options.account || null;
-          if(!(account in service.accounts)) {
-            service.accounts[account] = [];
-          }
-          svcModel.replaceArray(service.accounts[account], txns);
-          expires = +new Date() + maxAge;
-          service.state.loading = false;
-          callback(null, txns);
-          $rootScope.$apply();
-        },
-        error: function(err) {
-          service.state.loading = false;
-          callback(err);
-          $rootScope.$apply();
-        }
-      });
-    }, options.delay || 0);
+    if(options.account) {
+      query.account = options.account;
+    }
+    if(options.previous) {
+      query.previous = options.previous;
+    }
+    if(options.limit) {
+      query.limit = options.limit;
+    }
+    return service.collection.getAll({params: query}).then(function() {
+      if(options.account) {
+        _updateAccount(options.account, service.collection.storage);
+        $rootScope.$apply();
+      }
+    });
   };
 
   // get all recent transactions for an identity
-  service.getRecent = function(options, callback) {
-    if(typeof options === 'function') {
-      callback = options;
-      options = {};
-    }
-    options = options || {};
-    callback = callback || angular.noop;
-
-    if(options.force || +new Date() >= expires) {
-      service.state.loading = true;
-      $timeout(function() {
-        payswarm.transactions.get({
-          // FIXME: make date ordering explicit
-          identity: identity.id,
-          limit: 10,
-          success: function(txns) {
-            var recent = [];
-            angular.forEach(txns, function(txn) {
-              // skip txns w/insufficent funds
-              if(!(txn.voided &&
-                txn.voidReason === 'payswarm.financial.InsufficientFunds')) {
-                recent.push(txn);
-              }
-            });
-            svcModel.replaceArray(service.recentTxns, recent);
-            expires = +new Date() + maxAge;
-            service.state.loading = false;
-            callback(null, service.recentTxns);
-            $rootScope.$apply();
-          },
-          error: function(err) {
-            service.state.loading = false;
-            callback(err);
-            $rootScope.$apply();
-          }
-        });
-      }, options.delay || 0);
-    } else {
-      $timeout(function() {
-        callback(null, service.recentTxns);
-      });
-    }
+  service.getRecent = function(options) {
+    return service.recentCollection.getAll(options);
   };
 
   // get string for type of transaction
@@ -125,6 +88,29 @@ function factory($timeout, $rootScope, svcModel, svcIdentity) {
       return 'error';
     }
   };
+
+  function _updateAccount(account, txns) {
+    if(!(account in service.accounts)) {
+      service.accounts[account] = [];
+    }
+    svcModel.replaceArray(service.accounts[account], txns);
+  }
+
+  function _updateRecent() {
+    var recent = [];
+    var txns = service.recentTxns;
+    angular.forEach(txns, function(txn) {
+      // skip txns w/insufficent funds
+      if(!(txn.voided &&
+        txn.voidReason === 'payswarm.financial.InsufficientFunds')) {
+        recent.push(txn);
+      }
+    });
+    svcModel.replaceArray(service.recentTxns, recent);
+  }
+
+  // expose service to scope
+  $rootScope.app.services.transaction = service;
 
   return service;
 }

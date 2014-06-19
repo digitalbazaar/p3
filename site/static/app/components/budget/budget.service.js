@@ -11,7 +11,7 @@ return {svcBudget: deps.concat(factory)};
 function factory($http, $rootScope, config, svcIdentity, svcResource) {
   var service = {};
 
-  // create main account collection
+  // create main budget collection
   var identity = svcIdentity.identity;
   service.collection = new svcResource.Collection({
     url: identity.id + '/budgets'

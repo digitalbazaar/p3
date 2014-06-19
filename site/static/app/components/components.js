@@ -8,8 +8,11 @@
 define([
   'angular',
   './account/account',
+  './address/address',
   './budget/budget',
   './paymentToken/paymentToken',
+  './promo/promo',
+  './transaction/transaction',
   //'./settings/settings',
   'bedrock/app/components/dashboard/dashboard',
   'bedrock/app/components/duplicateChecker/duplicateChecker',
@@ -35,6 +38,7 @@ define([
 
 angular.module('app.components', [
   'app.account',
+  'app.address',
   'app.budget',
   'app.dashboard',
   'app.duplicateChecker',
@@ -49,12 +53,14 @@ angular.module('app.components', [
   'app.paymentToken',
   'app.placeholder',
   'app.popoverTemplate',
+  'app.promo',
   'app.selector',
   //'app.settings',
   'app.slug',
   'app.spinner',
   'app.submitForm',
   'app.tabs',
+  'app.transaction',
   'app.util'
 ]);
 

@@ -81,7 +81,7 @@ function factory(
     if(!(account.owner in service.identities)) {
       storage = service.identities[account.owner] = [];
     } else {
-      service.identities[account.owner];
+      storage = service.identities[account.owner];
     }
     svcModel.replaceInArray(storage, account);
   }

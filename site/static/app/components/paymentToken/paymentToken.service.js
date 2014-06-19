@@ -5,20 +5,26 @@
  */
 define(['angular'], function(angular) {
 
-var deps = ['$timeout', '$rootScope', 'svcModel', 'svcIdentity'];
+var deps = [
+  '$http', '$rootScope', 'svcIdentity', 'svcModel', 'svcResource'];
 return {svcPaymentToken: deps.concat(factory)};
 
-function factory($timeout, $rootScope, svcModel, svcIdentity) {
+function factory(
+  $http, $rootScope, svcIdentity, svcModel, svcResource) {
   var service = {};
 
+  // create main account collection
   var identity = svcIdentity.identity;
-  var expires = 0;
-  var maxAge = 1000*60*2;
+  service.collection = new svcResource.Collection({
+    url: identity.id + '/accounts',
+    finishLoading: _updateTokens
+  });
   service.state = {
-    loading: false
+    accounts: service.collection.state
   };
+
   // all tokens
-  service.paymentTokens = [];
+  service.paymentTokens = service.collection.storage;
   // active tokens
   service.active = [];
   // deleted tokens
@@ -36,6 +42,50 @@ function factory($timeout, $rootScope, svcModel, svcIdentity) {
   service.paymentMethods = ['CreditCard', 'BankAccount'];
   service.nonInstantPaymentMethods = ['BankAccount'];
   service.instantPaymentMethods = ['CreditCard'];
+
+  // restores a deleted but unexpired paymentToken
+  service.restore = function(tokenId) {
+    service.state.loading = true;
+    return Promise.resolve($http.post(tokenId, {
+      action: 'restore'
+    })).then(function() {
+      // get payment token
+      return service.collection.get(tokenId);
+    }).catch(function(err) {
+      service.state.loading = false;
+      $rootScope.$apply();
+      throw err;
+    });
+  };
+
+  // verify a token
+  service.verify = function(tokenId, verifyRequest) {
+    service.state.loading = true;
+    return Promise.resolve($http.post(tokenId, verifyRequest, {
+      action: 'verify'
+    })).then(function() {
+      // get payment token
+      return service.collection.get(tokenId);
+    }).catch(function(err) {
+      service.state.loading = false;
+      $rootScope.$apply();
+      throw err;
+    });
+  };
+
+  // find a currently loaded token by id
+  // returns null if not found
+  service.find = function(paymentTokenId) {
+    var result = null;
+    for(var i = 0; i < service.paymentTokens.length; ++i) {
+      var token = service.paymentTokens[i];
+      if(token.id === paymentTokenId) {
+        result = token;
+        break;
+      }
+    }
+    return result;
+  };
 
   function _updateTokens() {
     // filter types of tokens
@@ -87,196 +137,8 @@ function factory($timeout, $rootScope, svcModel, svcIdentity) {
     svcModel.replaceArray(service.nonInstant, nonInstant);
   }
 
-  // get all paymentTokens for an identity
-  service.get = function(options, callback) {
-    if(typeof options === 'function') {
-      callback = options;
-      options = {};
-    }
-    options = options || {};
-    callback = callback || angular.noop;
-
-    if(options.force || +new Date() >= expires) {
-      service.state.loading = true;
-      $timeout(function() {
-        payswarm.paymentTokens.get({
-          identity: identity.id,
-          success: function(paymentTokens) {
-            svcModel.replaceArray(service.paymentTokens, paymentTokens);
-            _updateTokens();
-            expires = +new Date() + maxAge;
-            service.state.loading = false;
-            callback(null, service.paymentTokens);
-            $rootScope.$apply();
-          },
-          error: function(err) {
-            service.state.loading = false;
-            callback(err);
-            $rootScope.$apply();
-          }
-        });
-      }, options.delay || 0);
-    } else {
-      $timeout(function() {
-        callback(null, service.paymentTokens);
-      });
-    }
-  };
-
-  // get a single paymentToken
-  service.getOne = function(paymentTokenId, options, callback) {
-    if(typeof options === 'function') {
-      callback = options;
-      options = {};
-    }
-    options = options || {};
-    callback = callback || angular.noop;
-
-    service.state.loading = true;
-    $timeout(function() {
-      payswarm.paymentTokens.getOne({
-        paymentToken: paymentTokenId,
-        success: function(paymentToken) {
-          svcModel.replaceInArray(service.paymentTokens, paymentToken);
-          _updateTokens();
-          service.state.loading = false;
-          callback(null, paymentToken);
-          $rootScope.$apply();
-        },
-        error: function(err) {
-          service.state.loading = false;
-          callback(err);
-          $rootScope.$apply();
-        }
-      });
-    }, options.delay || 0);
-  };
-
-  // add a new paymentToken
-  service.add = function(paymentToken, callback) {
-    callback = callback || angular.noop;
-    service.state.loading = true;
-    payswarm.paymentTokens.add({
-      identity: identity.id,
-      data: paymentToken,
-      success: function(paymentToken) {
-        svcModel.replaceInArray(service.paymentTokens, paymentToken);
-        _updateTokens();
-        service.state.loading = false;
-        callback(null, paymentToken);
-        $rootScope.$apply();
-      },
-      error: function(err) {
-        service.state.loading = false;
-        callback(err);
-        $rootScope.$apply();
-      }
-    });
-  };
-
-  // update a paymentToken
-  service.update = function(paymentToken, callback) {
-    callback = callback || angular.noop;
-    service.state.loading = true;
-    payswarm.paymentTokens.update({
-      identity: identity.id,
-      paymentToken: paymentToken,
-      success: function() {
-        // get paymentToken
-        service.getOne(paymentToken.id, callback);
-      },
-      error: function(err) {
-        service.state.loading = false;
-        callback(err);
-        $rootScope.$apply();
-      }
-    });
-  };
-
-  // deletes a paymentToken
-  service.del = function(paymentTokenId, callback) {
-    callback = callback || angular.noop;
-    service.state.loading = true;
-    payswarm.paymentTokens.del({
-      paymentToken: paymentTokenId,
-      success: function(data) {
-        if(!data) {
-          svcModel.removeFromArray(paymentTokenId, service.paymentTokens);
-        } else {
-          svcModel.replaceInArray(service.paymentTokens, data);
-        }
-        _updateTokens();
-        service.state.loading = false;
-        callback();
-        $rootScope.$apply();
-      },
-      error: function(err) {
-        service.state.loading = false;
-        callback(err);
-        $rootScope.$apply();
-      }
-    });
-  };
-
-  // restores a deleted but unexpired paymentToken
-  service.restore = function(paymentTokenId, callback) {
-    callback = callback || angular.noop;
-    service.state.loading = true;
-    payswarm.paymentTokens.restore({
-      paymentToken: paymentTokenId,
-      success: function(paymentToken) {
-        svcModel.replaceInArray(service.paymentTokens, paymentToken);
-        _updateTokens();
-        service.state.loading = false;
-        callback();
-        $rootScope.$apply();
-      },
-      error: function(err) {
-        service.state.loading = false;
-        callback(err);
-        $rootScope.$apply();
-      }
-    });
-  };
-
-  // verify a token
-  service.verify = function(paymentTokenId, verifyRequest, callback) {
-    callback = callback || angular.noop;
-    service.state.loading = true;
-    payswarm.paymentTokens.verify({
-      paymentToken: paymentTokenId,
-      data: verifyRequest,
-      success: function(paymentToken) {
-        svcModel.replaceInArray(service.paymentTokens, paymentToken);
-        _updateTokens();
-        service.state.loading = false;
-        callback(null, paymentToken);
-        $rootScope.$apply();
-      },
-      error: function(err) {
-        service.state.loading = false;
-        callback(err);
-        $rootScope.$apply();
-      }
-    });
-  };
-
-  // find a currently loaded token by id
-  // result returned from function and/or callback
-  // returns null if not found
-  service.find = function(paymentTokenId, callback) {
-    callback = callback || angular.noop;
-    var result = null;
-    for(var i = 0; i < service.paymentTokens.length; ++i) {
-      var token = service.paymentTokens[i];
-      if(token.id === paymentTokenId) {
-        result = token;
-        break;
-      }
-    }
-    callback(null, result);
-    return result;
-  };
+  // expose service to scope
+  $rootScope.app.services.paymentToken = service;
 
   return service;
 }

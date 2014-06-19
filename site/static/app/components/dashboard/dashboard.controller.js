@@ -89,7 +89,7 @@ function factory(
   function refresh(force) {
     var opts = {force: !!force};
     svcAccount.collection.get(opts);
-    svcPaymentToken.get(opts);
+    svcPaymentToken.collection.get(opts);
     svcBudget.get(opts);
     svcTransaction.getRecent(opts);
   }

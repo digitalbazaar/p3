@@ -88,9 +88,9 @@ function factory(
 
   function refresh(force) {
     var opts = {force: !!force};
-    svcAccount.collection.get(opts);
-    svcPaymentToken.collection.get(opts);
-    svcBudget.get(opts);
+    svcAccount.collection.getAll(opts);
+    svcPaymentToken.collection.getAll(opts);
+    svcBudget.collection.getAll(opts);
     svcTransaction.getRecent(opts);
   }
   $scope.$on('refreshData', function() {

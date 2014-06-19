@@ -16,7 +16,7 @@ function factory(
   // create main account collection
   var identity = svcIdentity.identity;
   service.collection = new svcResource.Collection({
-    url: identity.id + '/accounts',
+    url: identity.id + '/payment-tokens',
     finishLoading: _updateTokens
   });
   service.state = {

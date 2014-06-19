@@ -20,9 +20,7 @@ function factory(
     url: identity.id + '/accounts',
     finishLoading: service.updateAccounts
   });
-  service.state = {
-    accounts: service.collection.state
-  };
+  service.state = service.collection.state;
 
   // account storage mapped by identity
   service.identities = {};

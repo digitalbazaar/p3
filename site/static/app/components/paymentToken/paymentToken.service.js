@@ -19,9 +19,7 @@ function factory(
     url: identity.id + '/payment-tokens',
     finishLoading: _updateTokens
   });
-  service.state = {
-    accounts: service.collection.state
-  };
+  service.state = service.collection.state;
 
   // all tokens
   service.paymentTokens = service.collection.storage;

@@ -10,9 +10,10 @@ define([], function() {
 require.config({
   paths: {
     Blob: 'polyfill/Blob',
-    deflate: 'zip/deflate',
     FileSaver: 'filesaver/FileSaver',
     TypedArray: 'polyfill/typedarray',
+    deflate: 'zip/deflate',
+    iso8601: 'iso8601/iso8601',
     zip: 'zip/zip',
     // FIXME: remove
     'payswarm.api': 'legacy/payswarm.api'

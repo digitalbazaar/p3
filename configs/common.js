@@ -23,6 +23,11 @@ config.website.views.routes.push('/help/wordpress');
 // add static paths for website
 var node_modules = path.join(__dirname, '..', 'node_modules');
 config.server.static.push({
+  route: '/filesaver/FileSaver.js',
+  path: path.join(node_modules, 'filesaver.js', 'FileSaver.js'),
+  file: true
+});
+config.server.static.push({
   route: '/cubism/cubism.v1.js',
   path: path.join(node_modules, 'cubism', 'cubism.v1.js'),
   file: true
@@ -33,8 +38,8 @@ config.server.static.push({
   file: true
 });
 config.server.static.push({
-  route: '/filesaver/FileSaver.js',
-  path: path.join(node_modules, 'filesaver.js', 'FileSaver.js'),
+  route: '/iso8601/iso8601.js',
+  path: path.join(__dirname, '..', 'lib', 'iso8601', 'iso8601.js'),
   file: true
 });
 

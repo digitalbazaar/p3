@@ -3,7 +3,7 @@
  *
  * @author Dave Longley
  */
-define(['angular'/*, 'iso8601'*/], function(angular/*, iso8601*/) {
+define(['angular', 'iso8601'], function(angular, iso8601) {
 
 var deps = ['$timeout', '$rootScope', 'svcModel', 'svcIdentity'];
 return {svcBudget: deps.concat(factory)};

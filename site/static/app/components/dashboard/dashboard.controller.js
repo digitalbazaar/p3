@@ -15,8 +15,8 @@ var deps = [
 return {DashboardCtrl: deps.concat(factory)};
 
 function factory(
-  $scope, $timeout, config, svcAccount, svcPaymentToken, svcBudget,
-  svcTransaction, svcIdentity) {
+  $scope, $timeout, config,
+  svcAccount, svcPaymentToken, svcBudget, svcTransaction, svcIdentity) {
   var model = $scope.model = {};
   $scope.identity = svcIdentity.identity;
   $scope.accounts = svcAccount.accounts;
@@ -88,7 +88,7 @@ function factory(
 
   function refresh(force) {
     var opts = {force: !!force};
-    svcAccount.get(opts);
+    svcAccount.collection.get(opts);
     svcPaymentToken.get(opts);
     svcBudget.get(opts);
     svcTransaction.getRecent(opts);

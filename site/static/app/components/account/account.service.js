@@ -6,222 +6,108 @@
 define(['angular'], function(angular) {
 
 var deps = [
-  '$timeout', '$rootScope', 'svcModel', 'svcIdentity', 'svcPaymentToken'];
+  '$http', '$rootScope', 'config',
+  'svcIdentity', 'svcModel', 'svcPaymentToken', 'svcResource'];
 return {svcAccount: deps.concat(factory)};
 
 function factory(
-  $timeout, $rootScope, svcModel, svcIdentity, svcPaymentToken) {
+  $http, $rootScope, config, svcIdentity, svcModel, svcPaymentToken, svcResource) {
   var service = {};
 
-  function _entry(identityId) {
-    if(!(identityId in service.identities)) {
-      service.identities[identityId] = {
-        accounts: [],
-        expires: 0
-      };
-    }
-    return service.identities[identityId];
-  }
-
+  // create main account collection
   var identity = svcIdentity.identity;
-  var maxAge = 1000*60*2;
-  service.identities = {};
-  service.accounts = _entry(identity.id).accounts;
+  service.collection = new svcResource.Collection({
+    url: identity.id + '/accounts',
+    finishLoading: service.updateAccounts
+  });
   service.state = {
-    loading: false
+    accounts: service.collection.state
   };
 
-  service.updateAccounts = function() {
-    angular.forEach(service.identities, function(identity) {
-      angular.forEach(identity.accounts, function(account) {
-        account.showExpirationWarning = false;
-        account.showExpired = false;
-        angular.forEach(account.backupSource, function(sourceId) {
-          svcPaymentToken.find(sourceId, function(err, token) {
-            if(!err && token) {
-              account.showExpirationWarning =
-                account.showExpirationWarning || token.showExpirationWarning;
-              account.showExpired =
-                account.showExpired || token.showExpired;
-            }
-          });
-        });
-      });
-    });
-  };
+  // account storage mapped by identity
+  service.identities = {};
+  service.accounts = service.identities[identity.id] = [];
 
-  // get all accounts for an identity
-  service.get = function(options, callback) {
-    if(typeof options === 'function') {
-      callback = options;
-      options = {};
-    }
-    options = options || {};
-    callback = callback || angular.noop;
-    var identityId = options.identity || identity.id;
-
-    var entry = _entry(identityId);
-    if(options.force || +new Date() >= entry.expires) {
-      service.state.loading = true;
-      $timeout(function() {
-        payswarm.accounts.get({
-          identity: identityId,
-          success: function(accounts) {
-            svcModel.replaceArray(entry.accounts, accounts);
-            service.updateAccounts();
-            entry.expires = +new Date() + maxAge;
-            service.state.loading = false;
-            callback(null, entry.accounts);
-            $rootScope.$apply();
-          },
-          error: function(err) {
-            service.state.loading = false;
-            callback(err);
-            $rootScope.$apply();
-          }
-        });
-      }, options.delay || 0);
-    } else {
-      $timeout(function() {
-        callback(null, entry.accounts);
-      });
-    }
-  };
-
-  // get a single account
-  service.getOne = function(accountId, options, callback) {
-    if(typeof options === 'function') {
-      callback = options;
-      options = {};
-    }
-    options = options || {};
-    callback = callback || angular.noop;
-
-    service.state.loading = true;
-    $timeout(function() {
-      payswarm.accounts.getOne({
-        account: accountId,
-        success: function(account) {
-          var entry = _entry(account.owner);
-          svcModel.replaceInArray(entry.accounts, account);
-          service.updateAccounts();
-          service.state.loading = false;
-          callback(null, account);
-          $rootScope.$apply();
-        },
-        error: function(err) {
-          service.state.loading = false;
-          callback(err);
-          $rootScope.$apply();
-        }
-      });
-    }, options.delay || 0);
-  };
-
-  // add a new account
-  service.add = function(account, identityId, callback) {
-    if(typeof identityId === 'function') {
-      callback = identityId;
-      identityId = identity.id;
-    }
-    callback = callback || angular.noop;
-    service.state.loading = true;
-    payswarm.accounts.add({
-      identity: identityId,
-      account: account,
-      success: function(account) {
-        var entry = _entry(identityId);
-        entry.accounts.push(account);
-        service.state.loading = false;
-        callback(null, account);
-        $rootScope.$apply();
-        // update account to get latest balance
-        // FIXME: in future, use real-time events
-        service.getOne(account.id, {delay: 500});
-      },
-      error: function(err) {
-        service.state.loading = false;
-        callback(err);
-        $rootScope.$apply();
-      }
-    });
-  };
-
-  // update an account
-  service.update = function(account, callback) {
-    callback = callback || angular.noop;
-    service.state.loading = true;
-    payswarm.accounts.update({
-      identity: identity.id,
-      account: account,
-      success: function() {
-        // get account
-        service.getOne(account.id, callback);
-      },
-      error: function(err) {
-        service.state.loading = false;
-        callback(err);
-        $rootScope.$apply();
-      }
-    });
-  };
+  // expose account update function
+  service.updateAccounts = _updateAccounts;
 
   // add a credit line to an account
-  service.addCreditLine = function(accountId, backupSourceId, callback) {
-    callback = callback || angular.noop;
+  service.addCreditLine = function(accountId, backupSourceId) {
     service.state.loading = true;
-    payswarm.accounts.addCreditLine({
-      account: accountId,
-      backupSource: backupSourceId,
-      success: function() {
-        // get account
-        service.getOne(accountId, callback);
-      },
-      error: function(err) {
-        service.state.loading = false;
-        callback(err);
-        $rootScope.$apply();
-      }
+    return Promise.resolve($http.post(accountId + '/credit-line', {
+      '@context': config.data.contextUrl,
+      backupSource: backupSourceId
+    })).then(function() {
+      // get account
+      service.collection.get(accountId);
+    }).catch(function(err) {
+      service.state.loading = false;
+      $rootScope.$apply();
+      throw err;
     });
   };
 
   // add a backup source to an account
-  service.addBackupSource = function(accountId, backupSourceId, callback) {
-    callback = callback || angular.noop;
+  service.addBackupSource = function(accountId, backupSourceId) {
     service.state.loading = true;
-    payswarm.accounts.addBackupSource({
-      account: accountId,
-      backupSource: backupSourceId,
-      success: function() {
-        // get account
-        service.getOne(accountId, callback);
-      },
-      error: function(err) {
-        service.state.loading = false;
-        callback(err);
-        $rootScope.$apply();
-      }
+    return Promise.resolve($http.post(accountId + '/backup-source', {
+      '@context': config.data.contextUrl,
+      backupSource: backupSourceId
+    })).then(function() {
+      // get account
+      service.collection.get(accountId);
+    }).catch(function(err) {
+      service.state.loading = false;
+      $rootScope.$apply();
+      throw err;
     });
   };
 
   // delete a backup source from an account
-  service.delBackupSource = function(accountId, backupSourceId, callback) {
-    callback = callback || angular.noop;
+  service.delBackupSource = function(accountId, backupSourceId) {
     service.state.loading = true;
-    payswarm.accounts.delBackupSource({
-      account: accountId,
-      backupSource: backupSourceId,
-      success: function() {
-        // get account
-        service.getOne(accountId, callback);
-      },
-      error: function(err) {
-        service.state.loading = false;
-        callback(err);
-        $rootScope.$apply();
-      }
+    return Promise.resolve($http.delete(accountId, {
+      backupSource: backupSourceId
+    })).then(function() {
+      // get account
+      service.collection.get(accountId);
+    }).catch(function(err) {
+      service.state.loading = false;
+      $rootScope.$apply();
+      throw err;
     });
   };
+
+  function _storeAccount(account) {
+    var storage;
+    if(!(account.owner in service.identities)) {
+      storage = service.identities[account.owner] = [];
+    } else {
+      service.identities[account.owner];
+    }
+    svcModel.replaceInArray(storage, account);
+  }
+
+  function _updateAccounts() {
+    angular.forEach(service.collection.storage, function(account) {
+      _storeAccount(account);
+      account.showExpirationWarning = false;
+      account.showExpired = false;
+      angular.forEach(account.backupSource, function(sourceId) {
+        svcPaymentToken.find(sourceId, function(err, token) {
+          if(!err && token) {
+            account.showExpirationWarning =
+              account.showExpirationWarning || token.showExpirationWarning;
+            account.showExpired =
+              account.showExpired || token.showExpired;
+          }
+        });
+      });
+    });
+  }
+
+  // expose service to scope
+  $rootScope.app.services.account = service;
 
   return service;
 }

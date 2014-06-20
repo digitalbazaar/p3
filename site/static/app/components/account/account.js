@@ -7,13 +7,15 @@
  */
 define([
   'angular',
-  './account.service'
-], function(angular, accountService) {
+  './account.service',
+  './activity.controller'
+], function(angular, accountService, activityController) {
 
 'use strict';
 
 var module = angular.module('app.account', []);
 
 module.service(accountService);
+module.controller(activityController);
 
 });

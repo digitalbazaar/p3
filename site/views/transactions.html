@@ -7,12 +7,12 @@
 {% raw %}
 <div data-ng-controller="ActivityCtrl as model" class="ng-cloak">
 
-<ul class="breadcrumb" data-ng-show="model.session.auth && model.session.identity.id == model.account.owner">
+<ul class="breadcrumb" data-ng-show="model.identity.id == model.account.owner">
   <li>
-    <a href="{{model.session.identity.id}}/dashboard">Dashboard ({{session.identity.label}}) </a> <span class="divider">/</span>
+    <a href="{{model.identity.id}}/dashboard">Dashboard ({{model.identity.label}}) </a> <span class="divider">/</span>
   </li>
   <li>
-    Accounts <span class="divider" ng-show="account">/</span>
+    Accounts <span class="divider" ng-show="model.account">/</span>
   </li>
   <li class="active">
     {{model.account.label}}
@@ -24,7 +24,7 @@
     <a href="{{model.account.owner}}">Account Owner</a> <span class="divider">/</span>
   </li>
   <li>
-    Accounts <span class="divider" ng-show="account">/</span>
+    Accounts <span class="divider" ng-show="model.account">/</span>
   </li>
   <li>{{model.account.label}}</li>
 </ul>
@@ -116,8 +116,10 @@
     <tr>
       <td colspan="3" style="text-align: center">
         <span class="center">
-          <button data-ng-hide="loading" class="btn" data-ng-click="model.getMore()"><i class="icon-list"></i> More <i class="icon-chevron-right"></i></button>
-          <span data-spinner="loading" data-spinner-class="table-spinner"></span>
+          <button data-ng-hide="model.txns.state.loading" class="btn"
+            data-ng-click="model.getMore()"><i class="icon-list"></i> More <i class="icon-chevron-right"></i></button>
+          <span data-spinner="model.txns.state.loading"
+            data-spinner-class="table-spinner"></span>
         </span>
       </td>
     </tr>

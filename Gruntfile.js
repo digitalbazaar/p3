@@ -92,6 +92,7 @@ module.exports = function(grunt) {
           'almond': '../../node_modules/almond/almond',
           'bedrock': '.',
           'forge': '<%= dirs.bedrock %>/node_modules/node-forge/js',
+          'iso8601': '<%= dirs.bedrock %>/lib/iso8601/iso8601',
           'jsonld': '<%= dirs.bedrock %>/node_modules/jsonld/js/jsonld',
           'promise': '<%= dirs.bedrock %>/node_modules/es6-promise/dist/promise-1.0.0',
           'payswarm': '../../../../site/static',

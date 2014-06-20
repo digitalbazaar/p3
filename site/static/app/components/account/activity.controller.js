@@ -6,12 +6,12 @@
 define(['angular'], function(angular) {
 
 var deps = [
-  '$scope', '$timeout', 'config',
+  '$timeout', 'config',
   'svcAlert', 'svcIdentity', 'svcResource', 'svcTransaction'];
 return {ActivityCtrl: deps.concat(factory)};
 
 function factory(
-  $scope, $timeout, config,
+  $timeout, config,
   svcAlert, svcIdentity, svcResource, svcTransaction) {
   var model = this;
   model.identity = svcIdentity.identity;

@@ -1,16 +1,17 @@
-${set([
-  category = "Budgets",
-  freeLimit = ["by-user"],
-  authentication = ["signature"],
-  validator = "services.budget.postBudgets",
-  shortDescription = "Creates a new budget for restricting certain types of spending."
-])}
-{{partial "head.html"}}
+{% extends '../layout.html' %}
+
+{% set category = "Budgets" %}
+{% set freeLimit = ["by-user"] %}
+{% set authentication = ["signature"] %}
+{% set validator = "services.budget.postBudgets" %}
+{% set shortDescription = "Creates a new budget for restricting certain types of spending." %}
+
+{% block content %}
 
 <h1 class="row">
   <div class="span12 rest-summary">
-    <span class="rest-verb ${docs.method}">${docs.method}</span>
-    <span class="rest-path">${docs.path}</span>
+    <span class="rest-verb {{docs.method}}">{{docs.method}}</span>
+    <span class="rest-path">{{docs.path}}</span>
   </div>
 </h1>
 
@@ -54,8 +55,8 @@ will be deleted.
   <div class="span4">
     <table class="rest-details">
       <tr><th colspan="2">Security Parameters</th></tr>
-      <tr><td class="rest-parameter">Rate Limit</td><td>${freeLimit[0]}</td></tr>
-      <tr><td class="rest-parameter">Authentication</td><td>${authentication[0]}</td></tr>
+      <tr><td class="rest-parameter">Rate Limit</td><td>{{freeLimit[0]}}</td></tr>
+      <tr><td class="rest-parameter">Authentication</td><td>{{authentication[0]}}</td></tr>
     </table>
   </div>
 </div>
@@ -78,7 +79,7 @@ The example below creates a new budget labeled "Music" and assigns $10.00 to
 the budget. The budget refreshes monthly and expires in 2,629,800 seconds
 (roughly one month). The budget will refill every month. The financial 
 account that funds will be pulled from when the budget is used to make a
-purchase is <em>https://${host}/i/jane/accounts/primary</em>.
+purchase is <em>https://{{host}}/i/jane/accounts/primary</em>.
     </p>
     <table>
       <tr><td>Request</td><td><pre>{
@@ -87,13 +88,13 @@ purchase is <em>https://${host}/i/jane/accounts/primary</em>.
   "amount": "10.00",
   "sysRefresh": "sys:Monthly",
   "sysExpires": "2629800",
-  "source": "https://${host}/i/jane/accounts/primary"
+  "source": "https://{{host}}/i/jane/accounts/primary"
 }</pre></td></tr>
       <tr><td>Response</td><td><pre class="span11">{
-  "owner": "https://${host}/i/jane",
-  "id": "https://${host}/i/jane/budgets/1.2.dc.1",
+  "owner": "https://{{host}}/i/jane",
+  "id": "https://{{host}}/i/jane/budgets/1.2.dc.1",
   "label": "Music",
-  "source": "https://${host}/i/jane/accounts/primary",
+  "source": "https://{{host}}/i/jane/accounts/primary",
   "amount": "10.00",
   "sysRefresh": "sys:Monthly",
   "sysExpires": 1346200213,
@@ -112,8 +113,8 @@ purchase is <em>https://${host}/i/jane/accounts/primary</em>.
 <div class="row">
   <div class="span12">
     <h2>Validation</h2>
-    {{html docs.validatorHtml}}
+    {{docs.validatorHtml}}
   </div>
 </div>
 
-{{partial "foot.html"}}
+{% endblock %}

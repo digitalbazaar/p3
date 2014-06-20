@@ -1,6 +1,8 @@
+{% extends 'layout.html' %}
+
 {% set pageTitle = "Transaction Info" %}
 
-{% include "head.html" %}
+{% block content %}
 
 <h2>{{transactionType}} Summary</h2>
 
@@ -90,4 +92,4 @@
 {% endfor %}
 </table>
 
-{% include "foot.html" %}
+{% endblock %}

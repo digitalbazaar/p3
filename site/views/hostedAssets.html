@@ -1,5 +1,8 @@
+{% extends 'layout.html' %}
+
 {% set pageTitle = "Hosted Assets" %}
-{% include "head.html" %}
+
+{% block content %}
 
 {% raw %}
 <div data-ng-controller="HostedAssetsCtrl" class="ng-cloak">
@@ -65,4 +68,4 @@ FIXME: Not implemented
 
 {% include "demo-warning.html" %}
 
-{% include "foot.html" %}
+{% endblock %}

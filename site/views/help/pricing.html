@@ -1,9 +1,10 @@
-${set([
-  pageTitle = "Pricing"
-])}
-{{partial "head.html"}}
+{% extends '../layout.html' %}
 
-<h2>${pageTitle}</h2>
+{% set pageTitle = "Pricing" %}
+
+{% block content %}
+
+<h2>{{pageTitle}}</h2>
 
 <p>The PaySwarm pricing system is very flexible. Each PaySwarm Authority can
 both set their own pricing models and policies on a site-wide basis, and adjust
@@ -83,4 +84,4 @@ used above are defined below:</p>
   <dd>Amounts are included in the base amount. For instance, an authority with a 2% inclusive rate on a <span class="money">$1</span> purchase would debit the buyer <span class="money">$1</span>, credit the authority <span class="money">$0.02</span>, and credit the seller <span class="money">$0.98</span>.</dd>
 </dl>
 
-{{partial "foot.html"}}
+{% endblock %}

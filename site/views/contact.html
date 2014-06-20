@@ -1,6 +1,8 @@
+{% extends 'layout.html' %}
+
 {% set pageTitle = "Contact" %}
 
-{% include "head.html" %}
+{% block content %}
 
 <h2>{{pageTitle}}</h2>
 
@@ -56,4 +58,4 @@ company that operates this PaySwarm developer sandbox.
   </ul>
 </div>
 
-{% include "foot.html" %}
+{% endblock %}

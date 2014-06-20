@@ -1,17 +1,18 @@
-${set([
-  pageTitle = "Help"
-])}
-{{partial "head.html"}}
+{% extends '../layout.html' %}
+
+{% set pageTitle = "Help" %}
+
+{% block content %}
 
 <div class="row">
   <div class="span12">
-    <h1>${pageTitle}</h1>
+    <h1>{{pageTitle}}</h1>
   </div>
 </div>
 
 <div class="row">
   <div class="section span12">
-    <h2 class="headline">${siteTitle}</h2>
+    <h2 class="headline">{{siteTitle}}</h2>
   </div>
 </div>
 
@@ -61,4 +62,4 @@ ${set([
   </div>
 </div>
 
-{{partial "foot.html"}}
+{% endblock %}

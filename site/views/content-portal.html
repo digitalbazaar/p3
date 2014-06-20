@@ -1,6 +1,8 @@
+{% extends 'layout.html' %}
+
 {% set pageTitle = "Content Portal" %}
 
-{% include "head.html" %}
+{% block content %}
 
 {% raw %}
 <div class="container ng-cloak" data-ng-controller="ContentPortalCtrl">
@@ -38,4 +40,4 @@
 
 {% include "demo-warning.html" %}
 
-{% include "foot.html" %}
+{% endblock %}

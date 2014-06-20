@@ -1,13 +1,13 @@
-${set([
-  pageTitle = "System Dashboard",
-  cssList.push("css/system-dashboard"),
-  jsList.push("d3/d3.v3"),
-  jsList.push("cubism/cubism.v1"),
-  jsList.push("modules/system.dashboard"),
-  inav = "system-dashboard"
-])}  
+{% extends '../layout.html' %}
 
-{{partial "head.html"}}
+{% set pageTitle = "System Dashboard" %}
+{% set cssList.push("css/system-dashboard") %}
+{% set jsList.push("d3/d3.v3") %}
+{% set jsList.push("cubism/cubism.v1") %}
+{% set jsList.push("modules/system.dashboard") %}
+{% set inav = "system-dashboard" %}
+
+{% block content %}
 
 <div class="container">
   <div class="row">
@@ -24,6 +24,6 @@ ${set([
   </div>
 </div>
 
-{{partial "demo-warning.html"}}
+{% include "../demo-warning.html" %}
 
-{{partial "foot.html"}}
+{% endblock %}

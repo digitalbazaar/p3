@@ -1,11 +1,12 @@
-${set([
-  pageTitle = "PaySwarm WordPress Plugin"
-])}
-{{partial "head.html"}}
+{% extends '../layout.html' %}
+
+{% set pageTitle = "PaySwarm WordPress Plugin" %}
+
+{% block content %}
 
 <div class="row">
   <div class="section span12">
-    <h1>${pageTitle}</h1>
+    <h1>{{pageTitle}}</h1>
     <p>This page will help you setup the PaySwarm plugin for WordPress. It 
     contains step-by-step instructions and is intended to be easy to follow 
     for anyone that has previously installed a WordPress plugin.</p>
@@ -31,7 +32,7 @@ ${set([
     <h2 class="headline">Setup</h2>
 
     <p>To configure your PaySwarm plugin for WordPress, you must first 
-    <a href="/profile/create">join ${siteTitle}.</a>
+    <a href="/profile/create">join {{siteTitle}}.</a>
     
     <h3>Install the Software</h3>
     <ol>
@@ -40,12 +41,12 @@ ${set([
       <li>Login as the administrator and click <strong>Plugins</strong> and <strong>Activate</strong> the PaySwarm plugin.</li>
     </ol>
     
-    <h3>Registering your Blog with ${siteTitle}</h3>
+    <h3>Registering your Blog with {{siteTitle}}</h3>
     
     <ol>
       <li>Login as administrator on your WordPress website.</li>
       <li>Go to the PaySwarm plugin page (select <strong>Plugins</strong> -&gt; <strong>PaySwarm</strong>).</li>
-      <li>Enter <em>${serviceHost}</em> for your <strong>PaySwarm Authority</strong> and click the <strong>Register this site</strong> button.</li>
+      <li>Enter <em>{{serviceHost}}</em> for your <strong>PaySwarm Authority</strong> and click the <strong>Register this site</strong> button.</li>
       <li>Click the <strong>Add Identity</strong> button.
         <ol>
           <li>Enter the <strong>Name</strong> of your WordPress website (e.g. "Good Food").</li>
@@ -129,7 +130,7 @@ PAYSWARM_ACCESS_BUTTON Donate</pre>
     donation amounts for articles.</p>
 
     <p>When payment is made, it immediately appears in your financial account
-    on ${siteTitle} and can then be withdrawn to a bank account.</p>
+    on {{siteTitle}} and can then be withdrawn to a bank account.</p>
   </div>
 </div>
 
@@ -143,4 +144,4 @@ PAYSWARM_ACCESS_BUTTON Donate</pre>
   </div>
 </div>
 
-{{partial "foot.html"}}
+{% endblock %}

@@ -1,7 +1,9 @@
+{% extends 'layout.html' %}
+
 {% set pageTitle = "Identity Settings" %}
 {% inav = "settings" %}
 
-{% include "head.html" %}
+{% block content %}
 
 <!-- FIXME: remove, replace with angular.js settings module template
 
@@ -371,4 +373,4 @@
 
 {% include "demo-warning.html" %}
 
-{% include "foot.html" %}
+{% endblock %}

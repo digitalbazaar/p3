@@ -1,0 +1,33 @@
+{% extends 'layout-base.html' %}
+
+{% block prefixes %}
+  {% parent %}
+  com: https://w3id.org/commerce#
+  gr: http://purl.org/goodrelations/v1#
+  ps: https://w3id.org/payswarm#
+{% endblock %}
+
+{% block headAttrs %}
+  {% parent %}
+  {# debug="true" #}
+{% endblock %}
+
+{% block css %}
+  {% parent %}
+  <link href="/css/cc-logos.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block forcedFonts %}
+  {% parent %}
+  <!-- Force load fonts -->
+  <div>
+    <span class="cc-font-front"></span>
+    <span class="cc-font-back"></span>
+    <span class="cc-font-shine"></span>
+    <span class="bank-font"></span>
+  </div>
+{% endblock %}
+
+{% block faqLink %}<li><a href="http://payswarm.com/wiki/faq">FAQ</a></li>{% endblock %}
+
+{% block copyrightDate %}2013-2014{% endblock %}

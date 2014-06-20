@@ -1,7 +1,8 @@
-${set([
-  pageTitle = "Documentation"
-])}
-{{partial "head.html"}}
+{% extends '../layout.html' %}
+
+{% set pageTitle = "Documentation" %}
+
+{% block content %}
 
 <div class="row">
   <div class="span10 offset1">
@@ -30,7 +31,7 @@ fashion.
   </div>
 </div>
 
-<!-- 
+<!-- {#
 {{each(category, endpoints) docIndex}}
 <div class="row">
   <div class="span10 offset1">
@@ -48,6 +49,6 @@ fashion.
     
   {{/each}}
 {{/each}}
--->
+#} -->
 
-{{partial "foot.html"}}
+{% endblock %}

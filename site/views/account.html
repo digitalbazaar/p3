@@ -1,6 +1,8 @@
+{% extends 'layout.html' %}
+
 {% set pageTitle = "Financial Account Details" %}
 
-{% include "head.html" %}
+{% block content %}
 
 <div class="row">
   <h2 class="headline">{{pageTitle}}</h2>
@@ -35,4 +37,4 @@
 </div>
 {% endraw %}
 
-{% include "foot.html" %}
+{% endblock %}

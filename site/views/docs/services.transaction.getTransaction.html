@@ -1,15 +1,16 @@
-${set([
-  category = "Transactions",
-  freeLimit = ["by-user"],
-  authentication = ["cookie", "signature"],
-  shortDescription = "Retrieves a single existing Transaction."
-])}
-{{partial "head.html"}}
+{% extends '../layout.html' %}
+
+{% set category = "Transactions" %}
+{% set freeLimit = ["by-user"] %}
+{% set authentication = ["cookie", "signature"] %}
+{% set shortDescription = "Retrieves a single existing Transaction." %}
+
+{% block content %}
 
 <h1 class="row">
   <div class="span12 rest-summary">
-    <span class="rest-verb ${docs.method}">${docs.method}</span>
-    <span class="rest-path">${docs.path}</span>
+    <span class="rest-verb {{docs.method}}">{{docs.method}}</span>
+    <span class="rest-path">{{docs.path}}</span>
   </div>
 </h1>
 
@@ -43,8 +44,8 @@ performed on the transaction URL.
   <div class="span4">
     <table class="rest-details">
       <tr><th colspan="2">Security Parameters</th></tr>
-      <tr><td class="rest-parameter">Rate Limit</td><td>${freeLimit}</td></tr>
-      <tr><td class="rest-parameter">Authentication</td><td>${authentication}</td></tr>
+      <tr><td class="rest-parameter">Rate Limit</td><td>{{freeLimit}}</td></tr>
+      <tr><td class="rest-parameter">Authentication</td><td>{{authentication}}</td></tr>
     </table>
   </div>
 </div>
@@ -69,7 +70,7 @@ performed on the transaction URL.
     <h2>Example</h2>
     <p>
 To retrieve the document below, a digitally signed HTTP GET is performed on 
-the following URL: <a href="https://${host}/transactions/3.523.2.3">https://${host}/transactions/3.523.2.3</a>
+the following URL: <a href="https://{{host}}/transactions/3.523.2.3">https://{{host}}/transactions/3.523.2.3</a>
     </p>
     <table>
       <tr><td>Response</td><td><pre class="span11">{
@@ -80,4 +81,4 @@ the following URL: <a href="https://${host}/transactions/3.523.2.3">https://${ho
   </div>
 </div>
 
-{{partial "foot.html"}}
+{% endblock %}

@@ -1,7 +1,9 @@
+{% extends 'layout.html' %}
+
 {% set pageTitle = "Access Key Registration" %}
 {% set pageLayout = "minimal" %}
 
-{% include "head.html" %}
+{% block content %}
 
 {% raw %}
 <div data-ng-controller="RegisterCtrl" class="ng-cloak">
@@ -130,4 +132,4 @@
 
 {% endraw %}
 
-{% include "foot.html" %}
+{% endblock %}

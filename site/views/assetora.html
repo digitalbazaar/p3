@@ -1,7 +1,9 @@
+{% extends 'layout.html' %}
+
 {% set pageTitle = "Assetora" %}
 {% set inav = "assetora" %}
 
-{% include "head.html" %}
+{% block content %}
 
 {% raw %}
 <div class="container ng-cloak">
@@ -11,4 +13,4 @@
 
 {% include "demo-warning.html" %}
 
-{% include "foot.html" %}
+{% endblock %}

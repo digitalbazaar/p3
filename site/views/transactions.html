@@ -1,6 +1,8 @@
+{% extends 'layout.html' %}
+
 {% set pageTitle = "Transaction Activity" %}
 
-{% include "head.html" %}
+{% block content %}
 
 {% raw %}
 <div data-ng-controller="ActivityCtrl" class="ng-cloak">
@@ -133,4 +135,4 @@
 </div>
 {% endraw %}
 
-{% include "foot.html" %}
+{% endblock %}

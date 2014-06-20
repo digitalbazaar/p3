@@ -1,6 +1,9 @@
+{% extends 'layout.html' %}
+
 {% set pageTitle = "Welcome" %}
 {% set clientData.pageTitle = "Welcome" %}
-{% include "head.html" %}
+
+{% block content %}
 
 <div class="row">
   <div class="span10 offset1">
@@ -16,4 +19,4 @@
 
 </div>
 
-{% include "foot.html" %}
+{% endblock %}

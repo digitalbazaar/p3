@@ -1,7 +1,9 @@
+{% extends 'layout.html' %}
+
 {% set pageTitle = "Payment" %}
 {% set pageLayout = "minimal" %}
 
-{% include "head.html" %}
+{% block content %}
 
 {% raw %}
 <div class="container" data-ng-controller="PurchaseCtrl" class="ng-cloak">
@@ -294,4 +296,4 @@
 </div> <!-- end container -->
 {% endraw %}
 
-{% include "foot.html" %}
+{% endblock %}

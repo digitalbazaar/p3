@@ -15,7 +15,7 @@ define([
   './transaction/transaction',
   //'./settings/settings',
   'bedrock/app/components/dashboard/dashboard',
-  'bedrock/app/components/duplicateChecker/duplicateChecker',
+  'bedrock/app/components/duplicate-checker/duplicate-checker',
   'bedrock/app/components/fade/fade',
   'bedrock/app/components/feedback/feedback',
   'bedrock/app/components/identity/identity',
@@ -25,11 +25,11 @@ define([
   'bedrock/app/components/navbar/navbar',
   'bedrock/app/components/passcode/passcode',
   'bedrock/app/components/placeholder/placeholder',
-  'bedrock/app/components/popoverTemplate/popoverTemplate',
+  'bedrock/app/components/popover-template/popover-template',
   'bedrock/app/components/selector/selector',
   'bedrock/app/components/slug/slug',
   'bedrock/app/components/spinner/spinner',
-  'bedrock/app/components/submitForm/submitForm',
+  'bedrock/app/components/submit-form/submit-form',
   'bedrock/app/components/tabs/tabs',
   'bedrock/app/components/util/util'
 ], function(angular) {

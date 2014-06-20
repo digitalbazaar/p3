@@ -3,20 +3,25 @@
  *
  * @author Dave Longley
  */
-define(['angular', 'payswarm.api'], function(angular, payswarm) {
+define(['angular'], function(angular) {
 
-var deps = ['$scope', '$timeout', 'svcTransaction'];
+var deps = [
+  '$scope', '$timeout', 'config',
+  'svcIdentity', 'svcResource', 'svcTransaction'];
 return {ActivityCtrl: deps.concat(factory)};
 
-function factory($scope, $timeout, svcTransaction) {
-  $scope.model = {};
-  var data = window.data || {};
+function factory(
+  $scope, $timeout, config, svcIdentity, svcResource, svcTransaction) {
+  var model = $scope.model = {};
+  var identity = svcIdentity.identity;
   $scope.session = data.session || null;
   $scope.account = data.account || null;
-  $scope.txns = [];
-  $scope.table = [];
+  $scope.txns = new svcResource.Collection({
+    url: '/transactions',
+    finishLoading: _updateTable
+  });
+  _updateTable();
   $scope.error = null;
-  $scope.loading = false;
   $scope.datePickerOpen = false;
 
   // set start date to last ms of today
@@ -34,8 +39,10 @@ function factory($scope, $timeout, svcTransaction) {
         $scope.datePickerDate.getFullYear(),
         $scope.datePickerDate.getMonth(),
         $scope.datePickerDate.getDate(), 23, 59, 59, 999);
-      $scope.txns = [];
-      $scope.table = [];
+      $scope.txns = new svcResource.Collection({
+        url: '/transactions',
+        finishLoading: _updateTable
+      });
       $scope.getMore();
     }
   };
@@ -60,21 +67,24 @@ function factory($scope, $timeout, svcTransaction) {
     $scope.loading = true;
 
     // build options for fetching txns
-    var options = {};
+    var params = {};
     if($scope.account) {
-      options.account = $scope.account.id;
+      params.account = $scope.account.id;
     }
     // previous txns exist, get next page
-    if($scope.txns.length > 0) {
-      var txn = $scope.txns[$scope.txns.length - 1];
-      options.createdStart = txn.created;
-      options.previous = txn.id;
+    if($scope.txns.storage.length > 0) {
+      var txn = $scope.txns.storage[$scope.txns.storage.length - 1];
+      params.createdStart = txn.created;
+      params.previous = txn.id;
     } else {
-      options.createdStart = $scope.startDate;
+      params.createdStart = $scope.startDate;
+    }
+    if(params.createdStart instanceof Date) {
+      params.createdStart = (+params.createdStart / 1000);
     }
     options.success = function(txns) {
       $scope.error = null;
-      txns.forEach(function(txn) {
+      txns.storage.forEach(function(txn) {
         _addTxn($scope, txn);
       });
       $scope.loading = false;
@@ -89,7 +99,7 @@ function factory($scope, $timeout, svcTransaction) {
     };
 
     // fetch txns
-    payswarm.transactions.get(options);
+    txn.getAll({params: params});
   };
 
   // show/hide transaction details
@@ -106,46 +116,48 @@ function factory($scope, $timeout, svcTransaction) {
 
   // populate table with first set of txns
   $scope.getMore();
-}
 
-// adds a txn to the model
-function _addTxn($scope, txn) {
-  // skip txns w/insufficent funds
-  if(txn.voided && txn.voidReason === 'payswarm.financial.InsufficientFunds') {
-    return;
+  function _updateTable() {
+    $scope.table = [];
+    angular.forEach($scope.txns.storage, function(txn) {
+      // skip txns w/insufficent funds
+      if(txn.voided &&
+        txn.voidReason === 'payswarm.financial.InsufficientFunds') {
+        return;
+      }
+
+      $scope.table.push(txn);
+      angular.forEach(txn.transfer, function(transfer) {
+        transfer.txn = txn;
+        transfer.sourceLink = true;
+        transfer.destinationLink = true;
+        if(txn.source && txn.source.id === transfer.source) {
+          var src = txn.source;
+          transfer.sourceLink = false;
+          transfer.source = src.label;
+          if(src.owner === $scope.session.identity.id) {
+            if(src.paymentMethod === 'CreditCard') {
+              transfer.source += ' (Credit Card: ' + src.cardNumber + ')';
+            } else if(src.paymentMethod === 'BankAccount') {
+              transfer.source += ' (Bank Account: ' + src.bankAccount + ')';
+            }
+          }
+        }
+        if(txn.destination && txn.destination.id === transfer.destination) {
+          var dst = txn.destination;
+          transfer.destinationLink = false;
+          transfer.destination = dst.label;
+          if(dst.owner === $scope.session.identity.id &&
+            dst.paymentMethod === 'BankAccount') {
+            transfer.destination +=
+              ' (Bank Account: ' + dst.bankAccount + ')';
+          }
+        }
+        transfer.hidden = true;
+        $scope.table.push(transfer);
+      });
+    });
   }
-
-  $scope.txns.push(txn);
-  $scope.table.push(txn);
-  angular.forEach(txn.transfer, function(transfer) {
-    transfer.txn = txn;
-    transfer.sourceLink = true;
-    transfer.destinationLink = true;
-    if(txn.source && txn.source.id === transfer.source) {
-      var src = txn.source;
-      transfer.sourceLink = false;
-      transfer.source = src.label;
-      if(src.owner === $scope.session.identity.id) {
-        if(src.paymentMethod === 'CreditCard') {
-          transfer.source += ' (Credit Card: ' + src.cardNumber + ')';
-        } else if(src.paymentMethod === 'BankAccount') {
-          transfer.source += ' (Bank Account: ' + src.bankAccount + ')';
-        }
-      }
-    }
-    if(txn.destination && txn.destination.id === transfer.destination) {
-      var dst = txn.destination;
-      transfer.destinationLink = false;
-      transfer.destination = dst.label;
-      if(dst.owner === $scope.session.identity.id) {
-        if(dst.paymentMethod === 'BankAccount') {
-          transfer.destination += ' (Bank Account: ' + dst.bankAccount + ')';
-        }
-      }
-    }
-    transfer.hidden = true;
-    $scope.table.push(transfer);
-  });
 }
 
 });

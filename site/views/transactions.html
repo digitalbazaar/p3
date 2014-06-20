@@ -5,49 +5,49 @@
 {% block content %}
 
 {% raw %}
-<div data-ng-controller="ActivityCtrl" class="ng-cloak">
+<div data-ng-controller="ActivityCtrl as model" class="ng-cloak">
 
-<ul class="breadcrumb" data-ng-show="session.auth && session.identity.id == account.owner">
+<ul class="breadcrumb" data-ng-show="model.session.auth && model.session.identity.id == model.account.owner">
   <li>
-    <a href="{{session.identity.id}}/dashboard">Dashboard ({{session.identity.label}}) </a> <span class="divider">/</span>
+    <a href="{{model.session.identity.id}}/dashboard">Dashboard ({{session.identity.label}}) </a> <span class="divider">/</span>
   </li>
   <li>
     Accounts <span class="divider" ng-show="account">/</span>
   </li>
   <li class="active">
-    {{account.label}}
+    {{model.account.label}}
   </li>
 </ul>
 
-<ul class="breadcrumb" data-ng-show="!session.auth && account.label">
+<ul class="breadcrumb" data-ng-show="!model.session.auth && model.account.label">
   <li>
-    <a href="{{account.owner}}">Account Owner</a> <span class="divider">/</span>
+    <a href="{{model.account.owner}}">Account Owner</a> <span class="divider">/</span>
   </li>
   <li>
     Accounts <span class="divider" ng-show="account">/</span>
   </li>
-  <li>{{account.label}}</li>
+  <li>{{model.account.label}}</li>
 </ul>
 
-<h2 class="headline">Account Activity at or before {{startDate | date:'medium'}}</h2>
+<h2 class="headline">Account Activity at or before {{model.startDate | date:'medium'}}</h2>
 
 <table class="table table-condensed">
   <tbody>
-    <tr data-ng-show="account">
+    <tr data-ng-show="model.account">
       <td class="compact">Balance</td>
       <td>
-        <div data-account-balance-summary="account" data-expand="model.expandAccountBalance"></div>
+        <div data-account-balance-summary="model.account" data-expand="model.expandAccountBalance"></div>
       </td>
     </tr>
     <tr>
       <td colspan="2" style="border: none; padding-top: 0; padding-bottom: {{(model.expandAccountBalance && '5px') || '0'}}">
-        <div data-account-balance-details="account" data-expand="model.expandAccountBalance"></div>
+        <div data-account-balance-details="model.account" data-expand="model.expandAccountBalance"></div>
       </td>
     </tr>
     <tr>
       <td colspan="2">
-        <span>Showing {{txns.length}}
-          <span data-ng-pluralize="" data-count="txns.length"
+        <span>Showing {{model.txns.length}}
+          <span data-ng-pluralize="" data-count="model.txns.length"
             data-when="{'1': 'transaction', 'other': 'transactions'}"></span>
         </span>
       </td>
@@ -62,11 +62,11 @@
         <label class="control-label" for="dateField">Start Date</label>
         <div class="controls">
           <input name="dateField" type="text"
-            data-ng-model="datePickerDate"
-            data-datepicker-popup="yyyy/MM/dd" data-ng-change="dateChanged()"
-            data-is-open="datePickerOpen"
-            data-ui-keyup="{'enter esc': 'dateQuitKeyPressed($event)'}" />
-          <button class="btn" ng-click="openDatePicker()"><i class="icon-calendar"></i></button>
+            data-ng-model="model.datePickerDate"
+            data-datepicker-popup="yyyy/MM/dd" data-ng-change="model.dateChanged()"
+            data-is-open="model.datePickerOpen"
+            data-ui-keyup="{'enter esc': 'model.dateQuitKeyPressed($event)'}" />
+          <button class="btn" ng-click="model.openDatePicker()"><i class="icon-calendar"></i></button>
         </div>
       </div>
     </fieldset>
@@ -74,7 +74,7 @@
 </div>
 
 <table class="table table-hover table-condensed"
-  data-ng-show="loading || txns.length > 0">
+  data-ng-show="model.txns.state.loading || model.txns.storage.length > 0">
   <thead>
     <tr>
       <th class="date">Date</th>
@@ -83,19 +83,19 @@
     </tr>
   </thead>
   <tbody>
-    <tr data-ng-repeat="row in table"
-      data-ng-class="(getRowType(row) != 'transfer' && !row.settled && !row.voided && 'info') || (getRowType(row) == 'transfer' && !row.txn.settled && !row.txn.voided && 'info') || (row.voided && 'error')"
+    <tr data-ng-repeat="row in model.table"
+      data-ng-class="(model.getRowType(row) != 'transfer' && !row.settled && !row.voided && 'info') || (model.getRowType(row) == 'transfer' && !row.txn.settled && !row.txn.voided && 'info') || (row.voided && 'error')"
       data-ng-hide="row.hidden"
-      data-ng-click="toggleDetails(row)">
+      data-ng-click="model.toggleDetails(row)">
       <!-- Date -->
-      <td data-ng-switch="getRowType(row)" style="max-width: 150px;">
+      <td data-ng-switch="model.getRowType(row)" style="max-width: 150px;">
         <span data-ng-switch-when="deposit" class="date">{{row.created | date:'medium'}}</span>
         <span data-ng-switch-when="contract" class="date">{{row.created | date:'medium'}}</span>
         <span data-ng-switch-when="withdrawal" class="date">{{row.created | date:'medium'}}</span>
         <span data-ng-switch-when="transfer">&nbsp;</span>
       </td>
       <!-- Item -->
-      <td data-ng-switch="getRowType(row)">
+      <td data-ng-switch="model.getRowType(row)">
         <span data-ng-switch-when="deposit" class="name"><i class="icon-plus"></i> Deposit <span data-ng-show="!(row.settled || row.voided)" class="label label-info">Pending</span><span data-ng-show="row.voided" class="label label-important">Voided</span><div data-ng-show="row.detailsVisible"><a href="{{row.id}}"><i class="icon-list-alt"></i> View detailed deposit...</a></div></span>
         <span data-ng-switch-when="contract" class="name"><i class="icon-shopping-cart"></i> {{row.asset.title}} <span data-ng-show="!(row.settled || row.voided)" class="label label-info">Pending</span><span data-ng-show="row.voided" class="label label-important">Voided</span><div data-ng-show="row.detailsVisible"><a href="{{row.id}}"><i class="icon-list-alt"></i> View detailed receipt...</a></div></span>
         <span data-ng-switch-when="withdrawal" class="name"><i class="icon-minus"></i> Withdrawal <span data-ng-show="!(row.settled || row.voided)" class="label label-info">Pending</span><span data-ng-show="row.voided" class="label label-important">Voided</span><div data-ng-show="row.detailsVisible"><a href="{{row.id}}"><i class="icon-list-alt"></i> View detailed withdrawal...</a></div></span>
@@ -116,7 +116,7 @@
     <tr>
       <td colspan="3" style="text-align: center">
         <span class="center">
-          <button data-ng-hide="loading" class="btn" data-ng-click="getMore()"><i class="icon-list"></i> More <i class="icon-chevron-right"></i></button>
+          <button data-ng-hide="loading" class="btn" data-ng-click="model.getMore()"><i class="icon-list"></i> More <i class="icon-chevron-right"></i></button>
           <span data-spinner="loading" data-spinner-class="table-spinner"></span>
         </span>
       </td>
@@ -127,7 +127,7 @@
   </tfoot>
 </table>
 
-<div data-ng-show="!loading && txns.length == 0">
+<div data-ng-show="!model.txns.state.loading && txns.storage.length == 0">
   <h2 class="center">No Transactions</h2>
   <p class="center">There are no transactions recorded for this account before the given date.</p>
 </div>

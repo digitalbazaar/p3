@@ -7,7 +7,7 @@
  */
 define([
   'angular',
-  './transaction.service'
+  './transaction-service'
 ], function(angular, transactionService) {
 
 'use strict';

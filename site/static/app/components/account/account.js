@@ -7,8 +7,8 @@
  */
 define([
   'angular',
-  './account.service',
-  './activity.controller'
+  './account-service',
+  './activity-controller'
 ], function(angular, accountService, activityController) {
 
 'use strict';

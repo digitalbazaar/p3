@@ -7,7 +7,7 @@
  */
 define([
   'angular',
-  './purchase.controller'
+  './purchase-controller'
 ], function(angular, purchaseController) {
 
 'use strict';

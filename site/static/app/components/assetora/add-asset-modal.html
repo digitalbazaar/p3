@@ -1,20 +1,20 @@
 <div class="modal">
   <div class="modal-header">
     <a class="close btn-close">&times;</a>
-    <h3>New Invoice Item</h3>
+    <h3>New Asset</h3>
   </div>
   <div class="modal-body">
     <div data-ng-include="'/app/components/util/demo-warning.html'"></div>
-    <div data-ng-include="'/app/components/assetora/invoice-item-form.html'"></div>
+    <div data-ng-include="'/app/components/assetora/asset-form.html'"></div>
   </div>
   <div class="modal-footer">
     <div class="modal-feedback"
       data-feedback="feedback" data-target="feedbackTarget"></div>
-    <span data-spinner="loading"
+    <span data-spinner="model.loading"
       data-spinner-class="prepend-btn-spinner"></span>
     <button class="btn btn-primary"
-      data-ng-disabled="loading || !model.item.title || !model.item.amount"
-      data-ng-click="addInvoiceItem()"><i class="icon-ok icon-white"></i> Add</button>
-    <button class="btn btn-close" data-ng-disabled="loading">Cancel</button>
+      data-ng-disabled="model.loading"
+      data-ng-click="addAsset()"><i class="icon-ok icon-white"></i> Add</button>
+    <button class="btn btn-close" data-ng-disabled="model.loading">Cancel</button>
   </div>
 </div>

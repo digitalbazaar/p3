@@ -7,7 +7,7 @@
  */
 define([
   'angular',
-  './budget.service'
+  './budget-service'
 ], function(angular, budgetService) {
 
 'use strict';

@@ -1,0 +1,28 @@
+<div class="modal">
+  <div class="modal-header" data-ng-switch="model.state">
+    <a class="close btn-close">&times;</a>
+    <h3>Select a Payment Method</h3>
+  </div>
+  <div class="modal-body" data-ng-switch="model.state">
+    <div data-ng-include="'/app/components/util/demo-warning.html'"></div>
+    <p>Please select a payment method to add to your account.</p>
+
+    <div class="section">
+      <h4 class="headline">Payment Method</h4>
+      <div data-payment-token-selector data-selected="model.backupSource"
+        data-omit="omit" data-instant="instant"></div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="modal-feedback"
+      data-feedback="feedback" data-target="feedbackTarget"></div>
+
+    <span data-spinner="model.loading"
+      data-spinner-class="prepend-btn-spinner"></span>
+    <button class="btn btn-primary"
+      data-ng-disabled="model.loading || !model.backupSource"
+      data-ng-click="confirm()"><i class="icon-ok icon-white"></i> Confirm</button>
+    <button data-ng-disabled="loading" class="btn btn-close">Cancel</button>
+    </span>
+  </div>
+</div>

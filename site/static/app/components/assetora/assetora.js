@@ -7,7 +7,7 @@
  */
 define([
   'angular',
-  //'./assetora.controller'
+  //'./assetora-controller'
 ], function(angular, assetora) {
 
 'use strict';

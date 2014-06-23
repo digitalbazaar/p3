@@ -1,0 +1,45 @@
+<div class="modal">
+  <div class="modal-header" data-ng-switch="state">
+    <a class="close btn-close">&times;</a>
+    <h3 data-ng-switch-when="preparing">Prepare Withdrawal</h3>
+    <h3 data-ng-switch-when="reviewing">Review Withdrawal</h3>
+    <h3 data-ng-switch-when="complete">Withdrawal Complete</h3>
+  </div>
+  <div class="modal-body" data-ng-switch="state">
+    <div data-ng-include="'/app/components/util/demo-warning.html'"></div>
+    <div data-ng-switch-when="preparing">
+      <div data-ng-include="'/app/components/account/withdraw-prepare.html'"></div>
+    </div>
+    <div data-ng-switch-when="reviewing">
+      <div data-ng-include="'/app/components/account/withdraw-review.html'"></div>
+    </div>
+    <div data-ng-switch-when="complete">
+      <div data-ng-include="'/app/components/account/withdraw-complete.html'"></div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="modal-feedback"
+      data-feedback="feedback" data-target="feedbackTarget"></div>
+    <div class="modal-feedback alert alert-error" data-ng-show="state == 'preparing' && !checkAmount()">Withdrawal amount must be greater than zero and less than or equal to the account balance.</div>
+
+    <span data-spinner="loading"
+      data-spinner-class="prepend-btn-spinner"></span>
+    <span data-ng-show="state == 'preparing'">
+      <button class="btn btn-primary"
+        data-ng-disabled="loading || !checkAmount() || !input.destination"
+        data-ng-click="review()">Review</button>
+      <button data-ng-disabled="loading" class="btn btn-close">Cancel</button>
+    </span>
+    <span data-ng-show="state == 'reviewing'">
+      <button class="btn btn-primary"
+        data-ng-disabled="loading || !enableConfirm"
+        data-ng-click="confirm()"><i class="icon-ok icon-white"></i> Withdraw</button>
+      <button class="btn"
+        data-ng-disabled="loading"
+        data-ng-click="prepare()">Back</button>
+    </span>
+    <span data-ng-show="state == 'complete'">
+      <button class="btn btn-close">Done</button>
+    </span>
+  </div>
+</div>

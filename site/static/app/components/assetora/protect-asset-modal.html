@@ -1,0 +1,58 @@
+<div class="modal">
+  <div class="modal-header">
+    <a class="close btn-close">&times;</a>
+    <h3>Protect Asset Content</h3>
+  </div>
+  <div class="modal-body">
+    <div data-ng-include="'/app/components/util/demo-warning.html'"></div>
+    <div data-ng-hide="model.success">
+      <p>
+        This tool allows you to generate a bundle of files to host on your
+        web server to provide a basic paywall for your asset content.
+      </p>
+      <div>
+        Title: {{asset.title}}
+      </div>
+      <div>
+        URL: {{asset.assetContent}}
+      </div>
+      <div>
+        Stuff about how other assets in the same dir will be affected, maybe
+        even show which ones, but that might be asking too much.
+      </div>
+      <button data-ng-hide="model.loading"
+        class="btn btn-primary"
+        data-ng-click="generateBundle()">Generate Bundle</button>
+      <span data-ng-show="model.loading">[{{model.bundleStep}}] </span>
+      <span data-ng-show="model.loading"> This may take a while...</span>
+      <span data-spinner="model.loading"
+        data-spinner-class="append-btn-spinner"></span>
+    </div>
+    <div data-ng-show="model.success">
+      <p class="alert alert-success">
+        Bundle generated. Your content will not be protected until you
+        save the bundle and unzip it in the FIXME directory on your
+        web server.
+      </p>
+      <div data-ng-hide="model.saveAsSupported">
+        <div data-ng-include="'/app/components/assetora/protect-asset-php.html'"></div>
+      </div>
+      <div data-ng-show="model.saveAsSupported">
+        <button data-ng-hide="model.bundleSaved" class="btn btn-primary"
+          data-ng-click="savePhpBundle()">Save PHP Bundle</button>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="modal-feedback" data-feedback="feedback"
+      data-target="feedbackTarget"></div>
+    <span data-spinner="model.state.assets.loading"
+      data-spinner-class="prepend-btn-spinner"></span>
+    <span data-ng-hide="model.success">
+      <button class="btn btn-close">Cancel</button>
+    </span>
+    <span data-ng-show="model.success">
+      <button class="btn btn-primary btn-close">Done</button>
+    </span>
+  </div>
+</div>

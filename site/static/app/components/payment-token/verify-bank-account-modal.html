@@ -1,0 +1,48 @@
+<div class="modal">
+  <div class="modal-header" data-ng-switch="state">
+    <a class="close btn-close">&times;</a>
+    <h3 data-ng-switch-when="preparing">Verify Bank Account</h3>
+    <h3 data-ng-switch-when="reviewing">Review Verification<span data-ng-show="input.amount"> and Deposit</span></h3>
+    <h3 data-ng-switch-when="complete">Verification<span data-ng-show="input.amount"> and Deposit</span> Complete</h3>
+  </div>
+  <div class="modal-body" data-ng-switch="state">
+    <div data-ng-include="'/app/components/util/demo-warning.html'"></div>
+    <div data-ng-switch-when="preparing">
+      <div data-ng-include="'/app/components/payment-token/verify-bank-account-prepare.html'"></div>
+    </div>
+    <div data-ng-switch-when="reviewing">
+      <div data-ng-include="'/app/components/payment-token/verify-bank-account-review.html'"></div>
+    </div>
+    <div data-ng-switch-when="complete">
+      <div data-ng-include="'/app/components/payment-token/verify-bank-account-complete.html'"></div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="modal-feedback"
+      data-feedback="feedback" data-target="feedbackTarget">
+    </div>
+    <div data-ng-show="feedback.verifyError"
+      class="modal-feedback alert alert-error">The verification amounts you entered do not match what is on record for your bank account.</div>
+    <span data-spinner="loading"
+      data-spinner-class="prepend-btn-spinner"></span>
+
+    <span data-ng-show="state == 'preparing'">
+      <button class="btn btn-primary"
+        data-ng-disabled="loading"
+        data-ng-click="review()">Review</button>
+      <button class="btn btn-close" data-ng-disabled="loading">Cancel</button>
+    </span>
+    <span data-ng-show="state == 'reviewing'">
+      <button class="btn btn-primary"
+        data-ng-disabled="loading"
+        data-ng-click="confirm()"><i class="icon-ok icon-white"></i> Verify<span data-ng-show="input.amount"> and Deposit</span></button>
+      <button class="btn"
+        data-ng-disabled="loading"
+        data-ng-click="prepare()">Back</button>
+      <button class="btn btn-close" data-ng-disabled="loading">Cancel</button>
+    </span>
+    <span data-ng-show="state == 'complete'">
+      <button class="btn btn-close" data-ng-disabled="loading">Done</button>
+    </span>
+  </div>
+</div>

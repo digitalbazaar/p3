@@ -7,7 +7,7 @@
  */
 define([
   'angular',
-  './address.service'
+  './address-service'
 ], function(angular, addressService) {
 
 'use strict';

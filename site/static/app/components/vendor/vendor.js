@@ -7,7 +7,7 @@
  */
 define([
   'angular',
-  './register.controller'
+  './register-controller'
 ], function(angular, register) {
 
 'use strict';

@@ -7,7 +7,7 @@
  */
 define([
   'angular',
-  './promo.service'
+  './promo-service'
 ], function(angular, promoService) {
 
 'use strict';

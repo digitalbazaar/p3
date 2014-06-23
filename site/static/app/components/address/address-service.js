@@ -5,10 +5,10 @@
  */
 define(['angular'], function(angular) {
 
-var deps = ['$timeout', '$rootScope', 'svcModel', 'svcIdentity'];
+var deps = ['$timeout', '$rootScope', 'IdentityService', 'ModelService'];
 return {svcAddress: deps.concat(factory)};
 
-function factory($timeout, $rootScope, svcModel, svcIdentity) {
+function factory($timeout, $rootScope, IdentityService, ModelService) {
   var service = {};
 
   function _entry(identityId) {
@@ -21,7 +21,7 @@ function factory($timeout, $rootScope, svcModel, svcIdentity) {
     return service.identities[identityId];
   }
 
-  var identity = svcIdentity.identity;
+  var identity = IdentityService.identity;
   var maxAge = 1000*60*2;
   service.identities = {};
   service.addresses = _entry(identity.id).addresses;
@@ -46,7 +46,7 @@ function factory($timeout, $rootScope, svcModel, svcIdentity) {
         payswarm.addresses.get({
           identity: identityId,
           success: function(addresses) {
-            svcModel.replaceArray(entry.addresses, addresses, 'label');
+            ModelService.replaceArray(entry.addresses, addresses, 'label');
             entry.expires = +new Date() + maxAge;
             service.state.loading = false;
             callback(null, entry.addresses);
@@ -125,8 +125,8 @@ function factory($timeout, $rootScope, svcModel, svcIdentity) {
       identity: identity.id,
       addressId: address.label,
       success: function() {
-        svcModel.removeFromArray(address.label, service.addresses, 'label');
-        svcModel.removeFromArray(address.label, identity.address, 'label');
+        ModelService.removeFromArray(address.label, service.addresses, 'label');
+        ModelService.removeFromArray(address.label, identity.address, 'label');
         service.state.loading = false;
         callback();
         $rootScope.$apply();

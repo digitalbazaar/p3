@@ -6,17 +6,19 @@
 define(['angular'], function(angular) {
 
 var deps = [
-  '$http', '$rootScope', 'config',
-  'svcIdentity', 'svcModel', 'svcPaymentToken', 'svcResource'];
+  '$http', '$rootScope',
+  'IdentityService', 'ModelService', 'svcPaymentToken', 'ResourceService',
+  'config'];
 return {svcAccount: deps.concat(factory)};
 
 function factory(
-  $http, $rootScope, config, svcIdentity, svcModel, svcPaymentToken, svcResource) {
+  $http, $rootScope,
+  IdentityService, ModelService, svcPaymentToken, ResourceService, config) {
   var service = {};
 
   // create main account collection
-  var identity = svcIdentity.identity;
-  service.collection = new svcResource.Collection({
+  var identity = IdentityService.identity;
+  service.collection = new ResourceService.Collection({
     url: identity.id + '/accounts',
     finishLoading: service.updateAccounts
   });
@@ -83,7 +85,7 @@ function factory(
     } else {
       storage = service.identities[account.owner];
     }
-    svcModel.replaceInArray(storage, account);
+    ModelService.replaceInArray(storage, account);
   }
 
   function _updateAccounts() {

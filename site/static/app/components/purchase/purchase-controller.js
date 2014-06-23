@@ -8,13 +8,14 @@
 define(['angular', 'async', 'payswarm.api'], function(
   angular, async, payswarm) {
 
-var deps = ['$scope', 'svcAccount', 'svcBudget', 'svcAddress', 'svcIdentity'];
+var deps = [
+  '$scope', 'svcAccount', 'svcAddress', 'svcBudget', 'IdentityService'];
 return {PurchaseCtrl: deps.concat(factory)};
 
-function factory($scope, svcAccount, svcBudget, svcAddress, svcIdentity) {
+function factory($scope, svcAccount, svcAddress, svcBudget, IdentityService) {
   $scope.model = {};
   var data = window.data;
-  $scope.identity = svcIdentity.identity;
+  $scope.identity = IdentityService.identity;
   $scope.budgets = svcBudget.budgets;
   $scope.accounts = svcAccount.accounts;
   $scope.contract = null;
@@ -42,8 +43,9 @@ function factory($scope, svcAccount, svcBudget, svcAddress, svcIdentity) {
   $scope.purchaseDisabled = false;
 
   // load and use default account if possible
-  if(svcIdentity.identity.preferences.source) {
-    svcAccount.getOne(svcIdentity.identity.preferences.source, function(err, account) {
+  if(IdentityService.identity.preferences.source) {
+    svcAccount.getOne(
+      IdentityService.identity.preferences.source, function(err, account) {
       if(err) {
         $scope.error = err;
         return;

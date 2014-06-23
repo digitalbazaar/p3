@@ -5,15 +5,16 @@
  */
 define(['iso8601'], function(iso8601) {
 
-var deps = ['$http', '$rootScope', 'config', 'svcIdentity', 'svcResource'];
+var deps = [
+  '$http', '$rootScope', 'IdentityService', 'ResourceService', 'config'];
 return {svcBudget: deps.concat(factory)};
 
-function factory($http, $rootScope, config, svcIdentity, svcResource) {
+function factory($http, $rootScope, IdentityService, ResourceService, config) {
   var service = {};
 
   // create main budget collection
-  var identity = svcIdentity.identity;
-  service.collection = new svcResource.Collection({
+  var identity = IdentityService.identity;
+  service.collection = new ResourceService.Collection({
     url: identity.id + '/budgets'
   });
   service.state = service.collection.state;
@@ -55,7 +56,7 @@ function factory($http, $rootScope, config, svcIdentity, svcResource) {
   service.getVendors = function(budgetId, options) {
     var collection;
     if(!(budgetId in service.vendors)) {
-      collection = service.vendors[budgetId] = new svcResource.Collection({
+      collection = service.vendors[budgetId] = new ResourceService.Collection({
         url: budgetId + '?view=vendors'
       });
     } else {

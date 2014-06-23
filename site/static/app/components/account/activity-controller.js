@@ -6,18 +6,18 @@
 define(['angular'], function(angular) {
 
 var deps = [
-  '$timeout', 'config',
-  'svcAlert', 'svcIdentity', 'svcResource', 'svcTransaction'];
+  '$timeout',
+  'AlertService', 'IdentityService', 'ResourceService', 'svcTransaction', 'config'];
 return {ActivityCtrl: deps.concat(factory)};
 
 function factory(
-  $timeout, config,
-  svcAlert, svcIdentity, svcResource, svcTransaction) {
+  $timeout, AlertService, IdentityService, ResourceService, svcTransaction,
+  config) {
   var self = this;
-  self.identity = svcIdentity.identity;
+  self.identity = IdentityService.identity;
   self.session = config.data.session || null;
   self.account = config.data.account || null;
-  self.txns = new svcResource.Collection({
+  self.txns = new ResourceService.Collection({
     url: '/transactions',
     finishLoading: _updateTable
   });
@@ -39,7 +39,7 @@ function factory(
         self.datePickerDate.getFullYear(),
         self.datePickerDate.getMonth(),
         self.datePickerDate.getDate(), 23, 59, 59, 999);
-      self.txns = new svcResource.Collection({
+      self.txns = new ResourceService.Collection({
         url: '/transactions',
         finishLoading: _updateTable
       });
@@ -82,7 +82,7 @@ function factory(
 
     // fetch txns
     self.txns.getAll({params: params}).catch(function(err) {
-      svcAlert.addError(err);
+      AlertService.addError(err);
     });
   };
 

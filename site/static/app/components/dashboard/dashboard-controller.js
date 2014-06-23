@@ -9,16 +9,15 @@
 define([], function() {
 
 var deps = [
-  '$scope', '$timeout', 'config',
-  'svcAccount', 'svcPaymentToken', 'svcBudget',
-  'svcTransaction', 'svcIdentity'];
+  '$scope', '$timeout', 'svcAccount', 'svcBudget', 'IdentityService',
+  'svcPaymentToken', 'svcTransaction', 'config'];
 return {DashboardCtrl: deps.concat(factory)};
 
 function factory(
-  $scope, $timeout, config,
-  svcAccount, svcPaymentToken, svcBudget, svcTransaction, svcIdentity) {
+  $scope, $timeout, svcAccount, svcBudget, IdentityService,
+  svcPaymentToken, svcTransaction, config) {
   var model = $scope.model = {};
-  $scope.identity = svcIdentity.identity;
+  $scope.identity = IdentityService.identity;
   $scope.accounts = svcAccount.accounts;
   $scope.budgets = svcBudget.budgets;
   $scope.txns = svcTransaction.recentTxns;
@@ -69,7 +68,7 @@ function factory(
       source: account.id
     };
 
-    svcIdentity.updatePreferences(
+    IdentityService.updatePreferences(
       $scope.identity.id, update,
       function(err) {
         // FIXME: show error feedback

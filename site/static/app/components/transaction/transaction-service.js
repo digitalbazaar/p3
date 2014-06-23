@@ -5,18 +5,18 @@
  */
 define(['angular'], function(angular) {
 
-var deps = ['$rootScope', 'svcModel', 'svcResource'];
+var deps = ['$rootScope', 'ModelService', 'ResourceService'];
 return {svcTransaction: deps.concat(factory)};
 
-function factory($rootScope, svcModel, svcResource) {
+function factory($rootScope, ModelService, ResourceService) {
   var service = {};
 
   // create main transaction collection
-  service.collection = new svcResource.Collection({
+  service.collection = new ResourceService.Collection({
     url: '/transactions'
   });
   service.accounts = {};
-  service.recentCollection = new svcResource.Collection({
+  service.recentCollection = new ResourceService.Collection({
     url: '/transactions?limit=10',
     finishLoading: _updateRecent
   });
@@ -93,7 +93,7 @@ function factory($rootScope, svcModel, svcResource) {
     if(!(account in service.accounts)) {
       service.accounts[account] = [];
     }
-    svcModel.replaceArray(service.accounts[account], txns);
+    ModelService.replaceArray(service.accounts[account], txns);
   }
 
   function _updateRecent() {
@@ -106,7 +106,7 @@ function factory($rootScope, svcModel, svcResource) {
         recent.push(txn);
       }
     });
-    svcModel.replaceArray(service.recentTxns, recent);
+    ModelService.replaceArray(service.recentTxns, recent);
   }
 
   // expose service to scope

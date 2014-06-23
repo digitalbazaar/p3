@@ -6,16 +6,16 @@
 define(['angular'], function(angular) {
 
 var deps = [
-  '$http', '$rootScope', 'svcIdentity', 'svcModel', 'svcResource'];
+  '$http', '$rootScope', 'IdentityService', 'ModelService', 'ResourceService'];
 return {svcPaymentToken: deps.concat(factory)};
 
 function factory(
-  $http, $rootScope, svcIdentity, svcModel, svcResource) {
+  $http, $rootScope, IdentityService, ModelService, ResourceService) {
   var service = {};
 
   // create main payment token collection
-  var identity = svcIdentity.identity;
-  service.collection = new svcResource.Collection({
+  var identity = IdentityService.identity;
+  service.collection = new ResourceService.Collection({
     url: identity.id + '/payment-tokens',
     finishLoading: _updateTokens
   });
@@ -127,12 +127,12 @@ function factory(
         }
       }
     });
-    svcModel.replaceArray(service.active, active);
-    svcModel.replaceArray(service.deleted, deleted);
-    svcModel.replaceArray(service.creditCards, creditCards);
-    svcModel.replaceArray(service.bankAccounts, bankAccounts);
-    svcModel.replaceArray(service.instant, instant);
-    svcModel.replaceArray(service.nonInstant, nonInstant);
+    ModelService.replaceArray(service.active, active);
+    ModelService.replaceArray(service.deleted, deleted);
+    ModelService.replaceArray(service.creditCards, creditCards);
+    ModelService.replaceArray(service.bankAccounts, bankAccounts);
+    ModelService.replaceArray(service.instant, instant);
+    ModelService.replaceArray(service.nonInstant, nonInstant);
   }
 
   // expose service to scope

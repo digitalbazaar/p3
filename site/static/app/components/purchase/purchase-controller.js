@@ -9,10 +9,11 @@ define(['angular', 'async', 'payswarm.api'], function(
   angular, async, payswarm) {
 
 var deps = [
-  '$scope', 'svcAccount', 'svcAddress', 'svcBudget', 'IdentityService'];
+  '$scope', '$sce', 'svcAccount', 'svcAddress', 'svcBudget', 'IdentityService'];
 return {PurchaseCtrl: deps.concat(factory)};
 
-function factory($scope, svcAccount, svcAddress, svcBudget, IdentityService) {
+function factory(
+  $scope, $sce, svcAccount, svcAddress, svcBudget, IdentityService) {
   $scope.model = {};
   var data = window.data;
   $scope.identity = IdentityService.identity;
@@ -20,6 +21,9 @@ function factory($scope, svcAccount, svcAddress, svcBudget, IdentityService) {
   $scope.accounts = svcAccount.accounts;
   $scope.contract = null;
   $scope.callback = data.callback || null;
+  if($scope.callback) {
+    $scope.callback = $sce.trustAsResourceUrl($scope.callback);
+  }
   $scope.listing = data.listing;
   $scope.listingHash = data.listingHash;
   $scope.referenceId = data.referenceId || null;
@@ -145,7 +149,7 @@ function factory($scope, svcAccount, svcAddress, svcBudget, IdentityService) {
         svcAddress.get({force: true}, callback);
       },
       getAccounts: function(callback) {
-        svcAccount.get({force: true}, callback);
+        svcAccount.collection.getAll({force: true}, callback);
       },
       // check pre-conditions serially so only one modal is shown at a time
       checkAddresses: ['getAddresses',

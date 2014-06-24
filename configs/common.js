@@ -59,7 +59,7 @@ config.website.views.vars.style.brand = {
   height: '24',
   width: '182'
 };
-config.website.views.vars.clientData.payswarmDefaults = {
+config.website.views.vars.clientData.paymentDefaults = {
   allowDuplicatePurchases: true
 };
 // key generation config

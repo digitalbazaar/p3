@@ -154,6 +154,7 @@ config.admin.name = 'Admin';
 
 // authority config
 config.authority = {};
+config.authority.baseUri = baseUri;
 config.authority.id = config.authority.baseUri + '/i/authority';
 config.authority.name = 'PaySwarm Authority';
 

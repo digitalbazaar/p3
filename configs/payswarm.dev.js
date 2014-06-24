@@ -57,7 +57,8 @@ config.website.services = [
   //path.join(_libdir, 'payswarm-auth', 'services.system'),
   //path.join(_libdir, 'payswarm-auth', 'services.test'),
   //path.join(_libdir, 'payswarm-auth', 'services.tools'),
-  path.join(_libdir, 'payswarm-auth', 'services.transaction')
+  path.join(_libdir, 'payswarm-auth', 'services.transaction'),
+  path.join(_libdir, 'payswarm-auth', 'services.well-known')
 ];
 
 // app info
@@ -136,6 +137,7 @@ config.admin.id = adminId;
 config.admin.name = 'Admin';
 
 // authority config
+config.authority.baseUri = baseUri;
 config.authority.id = baseUri + '/i/authority';
 config.authority.name = 'PaySwarm Dev Authority';
 

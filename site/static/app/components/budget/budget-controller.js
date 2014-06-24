@@ -6,35 +6,34 @@
  */
 define([], function() {
 
-var deps = ['$scope', '$routeParams', '$timeout', 'svcAccount', 'svcBudget'];
-return {BudgetCtrl: deps.concat(factory)};
+var deps = ['$timeout', 'svcAccount', 'svcBudget', 'config'];
+return {BudgetController: deps.concat(factory)};
 
-function factory($scope, $routeParams, $timeout, svcAccount, svcBudget) {
-  $scope.model = {};
-  var data = window.data || {};
+function factory($timeout, svcAccount, svcBudget, config) {
+  var self = this;
 
-  $scope.state = svcBudget.state;
-  $scope.budget = null;
-  $scope.account = null;
-  $scope.vendors = svcBudget.vendors;
+  self.state = svcBudget.state;
+  self.budget = null;
+  self.account = null;
+  self.vendors = svcBudget.vendors;
 
-  $scope.getLastRefresh = svcBudget.getLastRefresh;
-  $scope.getRefreshDuration = svcBudget.getRefreshDuration;
-  $scope.getExpiration = svcBudget.getExpiration;
+  self.getLastRefresh = svcBudget.getLastRefresh;
+  self.getRefreshDuration = svcBudget.getRefreshDuration;
+  self.getExpiration = svcBudget.getExpiration;
 
-  $scope.deleteVendor = function(vendor) {
-    $scope.showDeleteVendorAlert = true;
-    $scope.vendorToDelete = vendor;
+  self.deleteVendor = function(vendor) {
+    self.showDeleteVendorAlert = true;
+    self.vendorToDelete = vendor;
   };
-  $scope.confirmDeleteVendor = function(err, result) {
+  self.confirmDeleteVendor = function(err, result) {
     // FIXME: handle errors
     if(!err && result === 'ok') {
-      var vendor = $scope.vendorToDelete;
+      var vendor = self.vendorToDelete;
       vendor.deleted = true;
 
       // wait to delete so modal can transition
       $timeout(function() {
-        svcBudget.delVendor(data.budgetId, vendor.id, function(err) {
+        svcBudget.delVendor(config.data.budgetId, vendor.id, function(err) {
           if(err) {
             vendor.deleted = false;
           }
@@ -43,20 +42,16 @@ function factory($scope, $routeParams, $timeout, svcAccount, svcBudget) {
     }
   };
 
-  svcBudget.getOne(data.budgetId, function(err, budget) {
-    if(!err) {
-      $scope.budget = budget;
+  svcBudget.get(config.data.budgetId).then(function(budget) {
+    self.budget = budget;
 
-      // fetch vendors for budget
-      svcBudget.getVendors(budget.id);
+    // fetch vendors for budget
+    svcBudget.getVendors(budget.id);
 
-      // get budget account
-      svcAccount.getOne(budget.source, function(err, account) {
-        if(!err) {
-          $scope.account = account;
-        }
-      });
-    }
+    // get budget account
+    svcAccount.get(budget.source).then(function(account) {
+      self.account = account;
+    });
   });
 }
 

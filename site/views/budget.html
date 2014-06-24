@@ -9,23 +9,23 @@
 </div>
 
 {% raw %}
-<div data-ng-controller="BudgetCtrl" class="ng-cloak">
+<div data-ng-controller="BudgetController as model" class="ng-cloak">
 
 <table class="table table-condensed table-hover">
 <tr>
   <td>Id</td>
-  <td>{{budget.id}}</td>
+  <td>{{model.budget.id}}</td>
 </tr>
 <tr>
   <td>Label</td>
-  <td>{{budget.label}}</td>
+  <td>{{model.budget.label}}</td>
 </tr>
 <tr>
   <td>Total Amount</td>
   <td class="money">
     <span class="currency">USD</span>
-    <span class="money right" title="USD ${{budget.amount}}">
-      {{budget.amount | floor | currency:'$'}}
+    <span class="money right" title="USD ${{model.budget.amount}}">
+      {{model.budget.amount | floor | currency:'$'}}
     </span>
   </td>
 </tr>
@@ -33,8 +33,8 @@
   <td>Current Balance</td>
   <td class="money">
     <span class="currency">USD</span>
-    <span class="money right" title="USD ${{budget.balance}}">
-      {{budget.balance | floor | currency:'$'}}
+    <span class="money right" title="USD ${{model.budget.balance}}">
+      {{model.budget.balance | floor | currency:'$'}}
     </span>
   </td>
 </tr>
@@ -42,14 +42,14 @@
   <td>Max Per Use</td>
   <td class="money">
     <span class="currency">USD</span>
-    <span class="money right" title="USD ${{budget.sysMaxPerUse}}">
-      {{budget.sysMaxPerUse | floor | currency:'$'}}
+    <span class="money right" title="USD ${{model.budget.sysMaxPerUse}}">
+      {{model.budget.sysMaxPerUse | floor | currency:'$'}}
     </span>
   </td>
 </tr>
 <tr>
   <td>Refill</td>
-  <td data-ng-switch="getRefreshDuration(budget)">
+  <td data-ng-switch="model.getRefreshDuration(model.budget)">
     <span data-ng-switch-when="never">Never</span>
     <span data-ng-switch-when="PT1H">Hourly</span>
     <span data-ng-switch-when="P1D">Daily</span>
@@ -60,26 +60,26 @@
 </tr>
 <tr>
   <td>Last Refreshed</td>
-  <td>{{getLastRefresh(budget) | date:'medium'}}</td>
+  <td>{{getLastRefresh(model.budget) | date:'medium'}}</td>
 </tr>
 <tr>
   <td>Expires</td>
-  <td data-ng-switch="getExpiration(budget)">
+  <td data-ng-switch="model.getExpiration(model.budget)">
     <span data-ng-switch-when="never">Never</span>
-    <span data-ng-switch-default>{{getExpiration(budget) | date:'medium'}}</span>
+    <span data-ng-switch-default>{{model.getExpiration(model.budget) | date:'medium'}}</span>
   </td>
 </tr>
 <tr>
   <td>Source</td>
   <td>
-    <div data-account-selector data-selected="account"
-      data-invalid="invalidAccount" data-fixed="true"
+    <div data-account-selector data-selected="model.account"
+      data-invalid="model.invalidAccount" data-fixed="true"
       data-instant-transfer-deposit="ignore"></div>
   </td>
 </tr>
 <tr>
   <td>Vendors</td>
-  <td data-ng-show="state.loading || budget.vendor.length > 0">
+  <td data-ng-show="model.state.loading || model.budget.vendor.length > 0">
     <table class="table table-condensed">
       <thead>
         <tr>
@@ -89,44 +89,44 @@
         </tr>
       </thead>
       <tbody>
-        <tr data-ng-repeat="vendor in vendors[budget.id].vendors | orderBy:'label'"
+        <tr data-ng-repeat="vendor in model.vendors[model.budget.id].vendors | orderBy:'label'"
           class="vendor" data-fadeout="vendor.deleted">
           <!-- Label -->
           <td class="name">
             <a href="{{vendor.id}}">{{vendor.label || vendor.id}}</a>
           </td>
           <td class="name">
-            <a data-ng-show="vendor.website" href="{{vendor.website}}">{{vendor.website}}</a>
-            <span data-ng-hide="vendor.website">&nbsp;</span>
+            <a data-ng-show="vendor.url" href="{{vendor.url}}">{{vendor.url}}</a>
+            <span data-ng-hide="vendor.url">&nbsp;</span>
           </td>
           <!-- Delete -->
           <td class="action">
-            <button class="btn btn-danger" title="Delete" data-ng-click="deleteVendor(vendor)"><i class="icon-remove icon-white"></i></button>
+            <button class="btn btn-danger" title="Delete" data-ng-click="model.deleteVendor(vendor)"><i class="icon-remove icon-white"></i></button>
           </td>
         </tr>
       </tbody>
-      <tfoot data-ng-show="state.loading">
+      <tfoot data-ng-show="model.state.loading">
         <tr>
           <td colspan="5" style="text-align: center">
             <span class="center">
-              <span data-spinner="state.loading" data-spinner-class="table-spinner"></span>
+              <span data-spinner="model.state.loading" data-spinner-class="table-spinner"></span>
             </span>
           </td>
         </tr>
       </tfoot>
     </table>
   </td>
-  <td data-ng-show="!state.loading && budget.vendor.length == 0">
+  <td data-ng-show="!model.state.loading && model.budget.vendor.length == 0">
     You have no vendors configured for this budget.
   </td>
 </table>
 
 <!-- Delete vendor alert -->
-<div data-modal-alert="showDeleteVendorAlert"
+<div data-alert-modal="model.showDeleteVendorAlert"
   data-modal-header="Warning"
   data-modal-ok="Delete"
   data-modal-cancel="Cancel"
-  data-modal-on-close="confirmDeleteVendor(err, result)">
+  data-modal-on-close="model.confirmDeleteVendor(err, result)">
   <div>
     <p>Are you sure that you want to remove this vendor from the budget?</p>
     <table class="table table-condensed">
@@ -140,11 +140,11 @@
         <tr class="vendor">
           <!-- Label -->
           <td class="name">
-            <a href="{{vendorToDelete.id}}">{{vendorToDelete.label || vendorToDelete.id}}</a>
+            <a href="{{model.vendorToDelete.id}}">{{model.vendorToDelete.label || model.vendorToDelete.id}}</a>
           </td>
           <td class="name">
-            <a data-ng-show="vendorToDelete.website" href="{{vendorToDelete.website}}">{{vendorToDelete.website}}</a>
-            <span data-ng-hide="vendorToDelete.website">&nbsp;</span>
+            <a data-ng-show="model.vendorToDelete.url" href="{{model.vendorToDelete.url}}">{{model.vendorToDelete.url}}</a>
+            <span data-ng-hide="model.vendorToDelete.url">&nbsp;</span>
           </td>
         </tr>
       </tbody>

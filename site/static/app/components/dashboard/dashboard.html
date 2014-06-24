@@ -110,16 +110,16 @@
           class="btn btn-success btn-add-account pull-right"
           data-ng-click="modals.showAddAccount=true"><i class="icon-plus icon-white"></i> Add Account</button>
       </div>
-      <div data-modal-deposit="modals.showDeposit"
+      <div data-deposit-modal="modals.showDeposit"
         data-account="modals.account" data-instant="false"></div>
-      <div data-modal-withdraw="modals.showWithdraw"
+      <div data-withdraw-modal="modals.showWithdraw"
         data-account="modals.account"></div>
-      <div data-modal-edit-account="modals.showEditAccount"
+      <div data-edit-account-modal="modals.showEditAccount"
         data-account="modals.account"></div>
-      <div data-modal-add-account="modals.showAddAccount"></div>
-      <div data-modal-add-credit-line="modals.showAddCreditLine"
+      <div data-add-account-modal="modals.showAddAccount"></div>
+      <div data-add-credit-line-modal="modals.showAddCreditLine"
         data-account="modals.account"></div>
-      <div data-modal-redeem-promo-code="modals.showRedeemPromoCode"
+      <div data-redeem-promo-code-modal="modals.showRedeemPromoCode"
         data-account="modals.account"></div>
     </div>
 
@@ -195,7 +195,7 @@
         </tbody>
       </table>
       <!-- Delete budget alert -->
-      <div data-modal-alert="showDeleteBudgetAlert"
+      <div data-alert-modal="showDeleteBudgetAlert"
         data-modal-header="Warning"
         data-modal-ok="Delete"
         data-modal-cancel="Cancel"
@@ -213,9 +213,9 @@
           class="btn btn-success btn-add-budget pull-right"
           data-ng-click="modals.showAddBudget=true"><i class="icon-plus icon-white"></i> Add Budget</button>
       </div>
-      <div data-modal-edit-budget="modals.showEditBudget"
+      <div data-edit-budget-modal="modals.showEditBudget"
         data-budget="modals.budget"></div>
-      <div data-modal-add-budget="modals.showAddBudget"></div>
+      <div data-add-budget-modal="modals.showAddBudget"></div>
     </div>
   </div>
 

@@ -5,10 +5,12 @@
  */
 define(['angular'], function(angular) {
 
-var deps = ['$rootScope', 'ModelService', 'RefreshService', 'ResourceService'];
+var deps = [
+  '$http', '$rootScope', 'ModelService', 'RefreshService', 'ResourceService'];
 return {TransactionService: deps.concat(factory)};
 
-function factory($rootScope, ModelService, RefreshService, ResourceService) {
+function factory(
+  $http, $rootScope, ModelService, RefreshService, ResourceService) {
   var service = {};
 
   // create main transaction collection
@@ -72,6 +74,69 @@ function factory($rootScope, ModelService, RefreshService, ResourceService) {
   service.getRecent = function(options) {
     return service.recentCollection.getAll(options);
   };
+
+  // requests that a deposit be signed
+  service.signDeposit = function(deposit) {
+    return _postTransaction(deposit);
+  };
+
+  // confirms a signed deposit, submitting it for processing
+  service.confirmDeposit = function(deposit) {
+    return _postTransaction(deposit);
+  };
+
+  // requests that a withdrawal be signed
+  service.signWithdrawal = function(withdrawal) {
+    return _postTransaction(withdrawal);
+  };
+
+  // confirms a signed withdrawal, submitting it for processing
+  service.confirmWithdrawal = function(withdrawal) {
+    return _postTransaction(withdrawal);
+  };
+
+  /**
+   * Gets a quote (a Contract) for a purchase.
+   *
+   * Usage:
+   *
+   * TransactionService.getQuote({
+   *   listing: 'https://merchant.com/listing-url',
+   *   listingHash: 'ab34e87a8d8f5fde3f23f23',
+   *   source 'https://example.com/i/myid/accounts/primary',
+   *   referenceId: '12345' (optional),
+   *   nonce: '12345' (optional)
+   * });
+   */
+  service.getQuote = function(purchaseRequest) {
+    return Promise.resolve($http.post('/transactions', purchaseRequest, {
+      params: {quote: 'true'}
+    }).then(function(response) {
+      return response.data;
+    }));
+  };
+
+  /**
+   * Performs a purchase.
+   *
+   * Usage:
+   *
+   * TransactionService.purchase({
+   *   type: 'PurchaseRequest',
+   *   transactionId: 'https://example.com/transactions/1.1.a',
+   *   nonce: '12345' (optional)
+   * });
+   */
+  service.purchase = function(purchaseRequest) {
+    return _postTransaction(purchaseRequest);
+  };
+
+  function _postTransaction(txn) {
+    return Promise.resolve($http.post('/transactions', txn)
+      .then(function(response) {
+        return response.data;
+      }));
+  }
 
   // get string for type of transaction
   service.getType = function(txn) {

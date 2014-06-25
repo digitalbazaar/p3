@@ -6,9 +6,9 @@
 define([], function() {
 
 var deps = ['svcModal'];
-return {modalPaymentTokenListSelector: deps.concat(factory)};
+return {paymentTokenListSelectorModal: deps.concat(factory)};
 
-function factory(svcModal) {
+function factory(ModalService) {
   function Ctrl($scope) {
     $scope.data = window.data || {};
     $scope.feedback = {};
@@ -23,8 +23,8 @@ function factory(svcModal) {
     };
   }
 
-  return svcModal.directive({
-    name: 'PaymentTokenListSelector',
+  return ModalService.directive({
+    name: 'paymentTokenListSelector',
     scope: {
       instant: '=',
       omit: '='

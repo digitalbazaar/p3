@@ -5,14 +5,14 @@
  */
 define([], function() {
 
-var deps = ['svcModal', 'svcHostedAsset', 'svcHostedListing'];
-return {modalAddInvoice: deps.concat(factory)};
+var deps = ['ModalService', 'svcHostedAsset', 'svcHostedListing', 'config'];
+return {addInvoiceModal: deps.concat(factory)};
 
-function factory(svcModal, svcHostedAsset, svcHostedListing) {
+function factory(ModalService, svcHostedAsset, svcHostedListing, config) {
   function Ctrl($scope) {
     // FIXME: use root/global data, move over to model
-    $scope.data = window.data || {};
-    $scope.identity = data.identity || {};
+    $scope.data = config.data || {};
+    $scope.identity = config.data.identity || {};
     $scope.feedback = {};
 
     $scope.model = {};
@@ -56,8 +56,8 @@ function factory(svcModal, svcHostedAsset, svcHostedListing) {
     };
   }
 
-  return svcModal.directive({
-    name: 'AddInvoice',
+  return ModalService.directive({
+    name: 'addInvoice',
     templateUrl: '/app/components/assetora/add-invoice-modal.html',
     controller: ['$scope', Ctrl],
     link: function(scope, element, attrs) {

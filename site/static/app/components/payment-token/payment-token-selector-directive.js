@@ -5,10 +5,10 @@
  */
 define(['angular'], function(angular) {
 
-var deps = ['svcPaymentToken', 'svcModel'];
+var deps = ['ModelService', 'svcPaymentToken'];
 return {paymentTokenSelector: deps.concat(factory)};
 
-function factory(svcPaymentToken, svcModel) {
+function factory(ModelService, svcPaymentToken) {
   function Ctrl($scope) {
     $scope.model = {};
     $scope.services = {
@@ -52,7 +52,7 @@ function factory(svcPaymentToken, svcModel) {
         tokens.push(token);
       }
     }
-    svcModel.replaceArray(scope.paymentTokens, tokens);
+    ModelService.replaceArray(scope.paymentTokens, tokens);
   }
 
   function Link(scope, element, attrs) {

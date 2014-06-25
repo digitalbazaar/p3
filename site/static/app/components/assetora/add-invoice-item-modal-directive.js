@@ -5,14 +5,14 @@
  */
 define([], function() {
 
-var deps = ['svcModal'];
-return {modalAddInvoiceItem: deps.concat(factory)};
+var deps = ['ModalService', 'config'];
+return {addInvoiceItemModal: deps.concat(factory)};
 
-function factory(svcModal) {
+function factory(ModalService, config) {
   function Ctrl($scope) {
     // FIXME: use root/global data, move over to model
-    $scope.data = window.data || {};
-    $scope.identity = data.identity || {};
+    $scope.data = config.data || {};
+    $scope.identity = config.data.identity || {};
     $scope.feedback = {};
 
     console.log('modal-add-invoice-item $scope.asset', $scope.asset);
@@ -41,8 +41,8 @@ function factory(svcModal) {
     };
   }
 
-  return svcModal.directive({
-    name: 'AddInvoiceItem',
+  return ModalService.directive({
+    name: 'addInvoiceItem',
     scope: {
       asset: '=',
       destination: '='

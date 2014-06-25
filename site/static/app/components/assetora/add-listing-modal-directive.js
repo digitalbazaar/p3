@@ -5,14 +5,14 @@
  */
 define(['async'], function(async) {
 
-var deps = ['svcModal'];
-return {modalAddListing: deps.concat(factory)};
+var deps = ['svcHostedListing', 'ModalService', 'config'];
+return {addListingModal: deps.concat(factory)};
 
-function factory(svcModal) {
-  function Ctrl($scope, svcHostedAsset, svcHostedListing) {
+function factory(svcHostedListing, ModalService, config) {
+  function Ctrl($scope) {
     // FIXME: use root/global data, move over to model
-    $scope.data = window.data || {};
-    $scope.identity = $scope.data.identity || {};
+    $scope.data = config.data || {};
+    $scope.identity = config.data.identity || {};
     $scope.feedback = {};
 
     $scope.model = {};
@@ -71,13 +71,13 @@ function factory(svcModal) {
     };
   }
 
-  return svcModal.directive({
-    name: 'AddListing',
+  return ModalService.directive({
+    name: 'addListing',
     scope: {
       asset: '='
     },
     templateUrl: '/app/components/assetora/add-listing-modal.html',
-    controller: ['$scope', 'svcHostedAsset', 'svcHostedListing', Ctrl],
+    controller: ['$scope', Ctrl],
     link: function(scope, element, attrs) {
       scope.feedbackTarget = element;
     }

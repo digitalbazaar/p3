@@ -5,15 +5,15 @@
  */
 define(['angular', 'payswarm.api'], function(angular, payswarm) {
 
-var deps = ['svcModal'];
-return {modalEditPaymentToken: deps.concat(factory)};
+var deps = ['ModalService'];
+return {editPaymentTokenModal: deps.concat(factory)};
 
-function factory(svcModal) {
-  function Ctrl($scope, svcPaymentToken, svcConstant, svcAccount) {
+function factory(svcAccount, ModalService, svcPaymentToken, config) {
+  function Ctrl($scope) {
     $scope.model = {};
     $scope.data = window.data || {};
-    $scope.monthLabels = svcConstant.monthLabels;
-    $scope.years = svcConstant.years;
+    $scope.monthLabels = config.constants.monthLabels;
+    $scope.years = config.constants.years;
     $scope.feedback = {contactSupport: true};
     $scope.loading = false;
     $scope.identity = $scope.data.identity || {};
@@ -141,8 +141,8 @@ function factory(svcModal) {
     };
   }
 
-  return svcModal.directive({
-    name: 'EditPaymentToken',
+  return ModalService.directive({
+    name: 'editPaymentToken',
     scope: {
       paymentMethods: '=',
       sourcePaymentToken: '=paymentToken'

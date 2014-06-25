@@ -7,14 +7,14 @@ define([
   'angular', 'async', 'forge/pki', 'FileSaver',
   'zip', 'TypedArray', 'Blob'], function(angular, async, pki, saveAs, zip) {
 
-var deps = ['svcModal'];
-return {modalProtectAsset: deps.concat(factory)};
+var deps = ['svcHostedAsset', 'ModalService', 'config'];
+return {protectAssetModal: deps.concat(factory)};
 
-function factory(svcModal) {
-  function Ctrl($scope, svcHostedAsset) {
+function factory(svcHostedAsset, ModalService, config) {
+  function Ctrl($scope) {
     // FIXME: use root/global data, move over to model
-    var data = window.data || {};
-    $scope.identity = data.identity || {};
+    var data = config.data || {};
+    $scope.identity = config.data.identity || {};
     $scope.feedback = {};
 
     $scope.model = {};
@@ -178,11 +178,11 @@ function factory(svcModal) {
     }
   }
 
-  return svcModal.directive({
-    name: 'ProtectAsset',
+  return ModalService.directive({
+    name: 'protectAsset',
     scope: {asset: '='},
     templateUrl: '/app/components/assetora/protect-asset-modal.html',
-    controller: ['$scope', 'svcHostedAsset', Ctrl],
+    controller: ['$scope', Ctrl],
     link: function(scope, element, attrs) {
       scope.feedbackTarget = element;
     }

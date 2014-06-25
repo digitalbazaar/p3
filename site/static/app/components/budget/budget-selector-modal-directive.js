@@ -5,11 +5,11 @@
  */
 define([], function() {
 
-var deps = [];
+var deps = ['svcAccount', 'svcBudget'];
 return {budgetSelector: deps.concat(factory)};
 
-function factory() {
-  function Ctrl($scope, svcBudget, svcAccount) {
+function factory(svcAccount, svcBudget) {
+  function Ctrl($scope) {
     $scope.model = {};
     $scope.services = {
       account: svcAccount.state,
@@ -110,7 +110,7 @@ function factory() {
       minBalance: '@',
       fixed: '@'
     },
-    controller: ['$scope', 'svcBudget', 'svcAccount', Ctrl],
+    controller: ['$scope', Ctrl],
     templateUrl: '/app/components/budget/budget-selector-modal.html',
     link: Link
   };

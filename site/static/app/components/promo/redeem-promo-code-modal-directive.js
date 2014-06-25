@@ -5,10 +5,10 @@
  */
 define([], function() {
 
-var deps = ['svcModal', 'svcPromo'];
-return {modalRedeemPromoCode: deps.concat(factory)};
+var deps = ['ModalService', 'svcPromo'];
+return {redeemPromoCodeModal: deps.concat(factory)};
 
-function factory(svcModal, svcPromo) {
+function factory(ModalService, svcPromo) {
   function Ctrl($scope) {
     $scope.model = {};
     $scope.data = window.data || {};
@@ -32,8 +32,8 @@ function factory(svcModal, svcPromo) {
     scope.feedbackTarget = element;
   }
 
-  return svcModal.directive({
-    name: 'RedeemPromoCode',
+  return ModalService.directive({
+    name: 'redeemPromoCode',
     scope: {
       account: '='
     },

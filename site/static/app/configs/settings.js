@@ -17,6 +17,9 @@ return {
       },
       {
         templateUrl: '/app/components/settings/keys.html'
+      },
+      {
+        templateUrl: '/app/components/address/address-settings.html'
       }
     ]
   }

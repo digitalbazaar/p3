@@ -6,10 +6,12 @@
  */
 define(['async', 'payswarm.api'], function(async, payswarm) {
 
-var deps = ['$scope', '$timeout', 'svcIdentity', 'svcAccount', 'svcAddress'];
+var deps = [
+  '$scope', '$timeout', 'svcIdentity', 'svcAccount', 'AddressService'
+];
 return {RegisterCtrl: deps.concat(factory)};
 
-function factory($scope, $timeout, svcIdentity, svcAccount, svcAddress) {
+function factory($scope, $timeout, svcIdentity, svcAccount, AddressService) {
   $scope.model = {};
   var data = window.data;
   $scope.feedback = {};
@@ -73,7 +75,7 @@ function factory($scope, $timeout, svcIdentity, svcAccount, svcAddress) {
     $scope.loading = true;
     async.auto({
       getAddresses: function(callback) {
-        svcAddress.get({
+        AddressService.get({
           force: true,
           identity: $scope.selection.identity.id
         }, function(err, addresses) {

@@ -9,19 +9,19 @@ var deps = [];
 return {addressSelector: deps.concat(factory)};
 
 function factory() {
-  function Ctrl($scope, svcIdentity, svcAddress) {
+  function Ctrl($scope, svcIdentity, AddressService) {
     $scope.model = {};
     $scope.services = {
-      address: svcAddress.state
+      address: AddressService.state
     };
     $scope.identity = svcIdentity.identity;
-    $scope.addresses = svcAddress.addresses;
+    $scope.addresses = AddressService.addresses;
     $scope.$watch('addresses', function(addresses) {
       if(!$scope.selected || $.inArray($scope.selected, addresses) === -1) {
         $scope.selected = addresses[0] || null;
       }
     }, true);
-    svcAddress.get();
+    AddressService.get();
   }
 
   function Link(scope, element, attrs) {
@@ -36,7 +36,7 @@ function factory() {
       invalid: '=',
       fixed: '@'
     },
-    controller: ['$scope', 'svcIdentity', 'svcAddress', Ctrl],
+    controller: ['$scope', 'svcIdentity', 'AddressService', Ctrl],
     templateUrl: '/app/components/address/address-selector-modal.html',
     link: Link
   };

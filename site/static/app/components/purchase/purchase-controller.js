@@ -9,11 +9,12 @@ define(['angular', 'async', 'payswarm.api'], function(
   angular, async, payswarm) {
 
 var deps = [
-  '$scope', '$sce', 'svcAccount', 'svcAddress', 'svcBudget', 'IdentityService'];
+  '$scope', '$sce', 'svcAccount', 'AddressService', 'svcBudget',
+  'IdentityService'];
 return {PurchaseCtrl: deps.concat(factory)};
 
 function factory(
-  $scope, $sce, svcAccount, svcAddress, svcBudget, IdentityService) {
+  $scope, $sce, svcAccount, AddressService, svcBudget, IdentityService) {
   $scope.model = {};
   var data = window.data;
   $scope.identity = IdentityService.identity;
@@ -146,7 +147,7 @@ function factory(
     async.auto({
       // load data in parallel
       getAddresses: function(callback) {
-        svcAddress.get({force: true}, callback);
+        AddressService.get({force: true}, callback);
       },
       getAccounts: function(callback) {
         svcAccount.collection.getAll({force: true}, callback);

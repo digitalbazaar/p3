@@ -6,7 +6,7 @@
 define(['angular'], function(angular) {
 
 var deps = ['$timeout', '$rootScope', 'IdentityService', 'ModelService'];
-return {svcAddress: deps.concat(factory)};
+return {AddressService: deps.concat(factory)};
 
 function factory($timeout, $rootScope, IdentityService, ModelService) {
   var service = {};
@@ -104,7 +104,7 @@ function factory($timeout, $rootScope, IdentityService, ModelService) {
           identity.address.push(address);
         }
         // FIXME: create and/or push to
-        //   svcIdentity.identityMap[identityId].address?
+        //   IdentityService.identityMap[identityId].address?
         service.state.loading = false;
         callback(null, address);
         $rootScope.$apply();

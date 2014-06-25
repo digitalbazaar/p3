@@ -101,9 +101,11 @@ function factory(
           promises.push(AccountService.get(dst).then(function(account) {
             info.loading = false;
             info.label = account.label;
+            scope.$apply();
           }).catch(function(err) {
             info.loading = false;
             info.label = 'Private Account';
+            scope.$apply();
           }));
         });
         Promise.all(promises).catch(function(err) {

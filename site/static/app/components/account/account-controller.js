@@ -7,13 +7,12 @@
  */
 define([], function() {
 
-var deps = ['$scope'];
+var deps = ['$scope', 'config'];
 return {AccountCtrl: deps.concat(factory)};
 
-function factory($scope) {
+function factory($scope, config) {
   $scope.model = {};
-  var data = window.data || {};
-  $scope.account = data.account;
+  $scope.account = config.data.account;
 }
 
 });

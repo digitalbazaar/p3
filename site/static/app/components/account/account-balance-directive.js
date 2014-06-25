@@ -5,10 +5,10 @@
  */
 define([], function() {
 
-var deps = ['PaymentTokenService'];
+var deps = ['AlertService', 'PaymentTokenService'];
 return {accountBalance: deps.concat(factory)};
 
-function factory(PaymentTokenService) {
+function factory(AlertService, PaymentTokenService) {
   return {
     scope: {
       account: '=accountBalance'
@@ -54,9 +54,14 @@ function factory(PaymentTokenService) {
           // get backup source token
           model.backupSource = null;
           if(account.backupSource && account.backupSource.length) {
-            PaymentTokenService.getOne(account.backupSource[0], function(err, token) {
-              model.backupSource = token;
-            });
+            PaymentTokenService.get(account.backupSource[0])
+              .then(function(token) {
+                model.backupSource = token;
+                scope.$apply();
+              }).catch(function(err) {
+                AlertService.add('error', err);
+                scope.$apply();
+              });
           }
 
           // credit bar width

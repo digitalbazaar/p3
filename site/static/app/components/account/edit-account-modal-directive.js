@@ -3,38 +3,44 @@
  *
  * @author Dave Longley
  */
-define(['angular', 'payswarm.api'], function(angular, payswarm) {
+define(['angular'], function(angular) {
 
-var deps = ['AccountService', 'ModalService', 'PaymentTokenService', 'config'];
-return {editAccount: deps.concat(factory)};
+var deps = [
+  'AccountService', 'AlertService', 'IdentityService',
+  'ModalService', 'PaymentTokenService', 'config'];
+return {editAccountModal: deps.concat(factory)};
 
-function factory(AccountService, ModalService, PaymentTokenService, config) {
-  function Ctrl($scope) {
-    var model = $scope.model = {};
-    $scope.data = config.data || {};
-    $scope.feedback = {};
-    $scope.loading = false;
-    $scope.identity = $scope.data.identity || {};
+function factory(
+  AccountService, AlertService, IdentityService,
+  ModalService, PaymentTokenService, config) {
+  return ModalService.directive({
+    name: 'editAccount',
+    scope: {sourceAccount: '=account'},
+    templateUrl: '/app/components/account/edit-account-modal.html',
+    link: Link
+  });
+
+  function Link(scope, element, attrs) {
+    var model = scope.model = {};
+    model.identity = IdentityService.identity;
+    var state = model.state = {loading: false};
 
     // copy account for editing
-    $scope.account = angular.copy($scope.sourceAccount);
+    var account = scope.account = angular.copy(scope.sourceAccount);
 
     // ensure defaults
-    $scope.account.sysAllowInstantTransfer =
-      !!$scope.account.sysAllowInstantTransfer;
-    $scope.account.sysMinInstantTransfer =
-      $scope.account.sysMinInstantTransfer || '';
-    $scope.account.creditLimit = $scope.account.creditLimit || '0.0000000000';
-    $scope.account.creditBackedAmount =
-      $scope.account.creditBackedAmount || '0.0000000000';
+    account.sysAllowInstantTransfer = !!account.sysAllowInstantTransfer;
+    account.sysMinInstantTransfer = account.sysMinInstantTransfer || '';
+    account.creditLimit = account.creditLimit || '0.0000000000';
+    account.creditBackedAmount = account.creditBackedAmount || '0.0000000000';
 
-    var creditLimit = parseFloat($scope.account.creditLimit);
-    var backedAmount = parseFloat($scope.account.creditBackedAmount);
+    var creditLimit = parseFloat(account.creditLimit);
+    var backedAmount = parseFloat(account.creditBackedAmount);
     model.fullyBackedCredit = (creditLimit - backedAmount) <= 0;
-    model.creditDisabled = !!$scope.account.sysDisabled;
+    model.creditDisabled = !!account.sysDisabled;
 
-    model.accountVisibility = ($scope.account.sysPublic.length === 0) ?
-      'hidden' : 'public';
+    model.accountVisibility = (account.sysPublic.length === 0
+      ? 'hidden' : 'public');
 
     // storage for backupSource object
     // backend needs just a list of ids
@@ -42,70 +48,59 @@ function factory(AccountService, ModalService, PaymentTokenService, config) {
     // use sourceAccount object vs copy to use angular ids
     model.backupSource = null;
     model.backupSourceEnabled = false;
-    if($scope.sourceAccount.backupSource &&
-      $scope.sourceAccount.backupSource[0]) {
-      // FIXME: handle errors below or let it use defaults?
-      $scope.loading = true;
+    if(scope.sourceAccount.backupSource &&
+      scope.sourceAccount.backupSource[0]) {
+      state.loading = true;
       model.backupSourceEnabled = true;
-      PaymentTokenService.get(function(err) {
-        $scope.loading = false;
-        if(err) {
-          return;
-        }
-        PaymentTokenService.find(
-          $scope.sourceAccount.backupSource[0], function(err, token) {
-          if(!err) {
-            model.backupSource = token;
-          }
-        });
+      PaymentTokenService.getAll().then(function() {
+        state.loading = false;
+        model.backupSource = PaymentTokenService.find(
+          scope.sourceAccount.backupSource[0]);
+        scope.$apply();
+      }).catch(function(err) {
+        AlertService.add('error', err);
+        state.loading = false;
+        scope.$apply();
       });
     }
-    $scope.showExpirationWarning = false;
-    $scope.showExpired = false;
-    $scope.editing = true;
+    model.showExpirationWarning = false;
+    model.showExpired = false;
+    model.editing = true;
 
-    $scope.editAccount = function() {
-      var account = {
-        '@context': payswarm.CONTEXT_URL,
-        id: $scope.account.id,
-        label: $scope.account.label,
+    model.editAccount = function() {
+      AlertService.clearModalFeedback(scope);
+      var accountUpdate = {
+        '@context': config.data.contextUrl,
+        id: account.id,
+        label: account.label,
         sysPublic: [],
-        sysAllowInstantTransfer: $scope.account.sysAllowInstantTransfer,
-        sysMinInstantTransfer: $scope.account.sysMinInstantTransfer || '0'
+        sysAllowInstantTransfer: account.sysAllowInstantTransfer,
+        sysMinInstantTransfer: account.sysMinInstantTransfer || '0'
       };
       if(model.accountVisibility === 'public') {
-        account.sysPublic.push('label');
-        account.sysPublic.push('owner');
+        accountUpdate.sysPublic.push('label');
+        accountUpdate.sysPublic.push('owner');
       }
       // use list of backupSource ids vs objects
       // use empty list if backupSources disabled
-      var newBackupSource =
-        model.backupSourceEnabled ? [model.backupSource.id] : [];
+      var newBackupSource = (model.backupSourceEnabled ?
+        [model.backupSource.id] : []);
       // let server handle add/del operations
-      if(!angular.equals($scope.sourceAccount.backupSource, newBackupSource)) {
-        account.backupSource = newBackupSource;
+      if(!angular.equals(scope.sourceAccount.backupSource, newBackupSource)) {
+        accountUpdate.backupSource = newBackupSource;
       }
 
-      $scope.loading = true;
-      AccountService.update(account, function(err, account) {
-        $scope.loading = false;
-        if(!err) {
-          $scope.modal.close(null, account);
-        }
-        $scope.feedback.error = err;
+      state.loading = true;
+      AccountService.update(accountUpdate).then(function(account) {
+        state.loading = false;
+        scope.modal.close(null, account);
+      }).catch(function(err) {
+        AlertService.add('error', err);
+        state.loading = false;
+        scope.$apply();
       });
     };
   }
-
-  return ModalService.directive({
-    name: 'editAccount',
-    scope: {sourceAccount: '=account'},
-    templateUrl: '/app/components/account/edit-account-modal.html',
-    controller: ['$scope', Ctrl],
-    link: function(scope, element, attrs) {
-      scope.feedbackTarget = element;
-    }
-  });
 }
 
 });

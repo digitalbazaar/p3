@@ -13,14 +13,12 @@
 
     <div data-ng-include="'/app/components/account/account-form.html'"></div>
   </div>
-  <div class="modal-footer">
-    <div class="modal-feedback"
-      data-feedback="feedback" data-target="feedbackTarget"></div>
-    <span data-spinner="loading"
+  <data-modal-footer>
+    <span data-spinner="model.state.loading"
       data-spinner-class="prepend-btn-spinner"></span>
     <button class="btn btn-primary"
-      data-ng-disabled="loading || !model.accountSlugAvailable"
-      data-ng-click="addAccount()"><i class="icon-ok icon-white"></i> Add</button>
-    <button class="btn btn-close" data-ng-disabled="loading">Cancel</button>
+      data-ng-disabled="model.state.loading || !model.accountSlugAvailable"
+      data-ng-click="model.addAccount()"><i class="icon-ok icon-white"></i> Add</button>
+    <button class="btn btn-close" data-ng-disabled="model.state.loading">Cancel</button>
   </div>
 </div>

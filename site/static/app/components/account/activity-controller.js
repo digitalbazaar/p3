@@ -16,6 +16,7 @@ function factory(
   TransactionService, config) {
   var self = this;
   self.identity = IdentityService.identity;
+  // FIXME: use information from a service instead of from config.data?
   self.session = config.data.session || null;
   self.account = config.data.account || null;
   self.txns = new ResourceService.Collection({

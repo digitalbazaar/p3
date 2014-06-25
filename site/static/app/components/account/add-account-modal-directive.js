@@ -3,64 +3,49 @@
  *
  * @author Dave Longley
  */
-define(['payswarm.api'], function(payswarm) {
+define([], function() {
 
-var deps = ['AccountService', 'IdentityService', 'ModalService'];
+var deps = [
+  'AccountService', 'AlertService', 'IdentityService', 'ModalService',
+  'config'];
 return {modalAddAccount: deps.concat(factory)};
 
-function factory(AccountService, IdentityService, ModalService, config) {
-  function Ctrl($scope) {
-    $scope.model = {};
-    $scope.data = config.data || {};
-    $scope.feedback = {};
-    $scope.loading = false;
-    $scope.identityId = $scope.identityId || IdentityService.identity.id;
-    $scope.account = {
-      '@context': payswarm.CONTEXT_URL,
+function factory(
+  AccountService, AlertService, IdentityService, ModalService, config) {
+  return ModalService.directive({
+    name: 'addAccount',
+    scope: {showAlert: '@addAccountAlertModal'},
+    templateUrl: '/app/components/account/add-account-modal.html',
+    link: Link
+  });
+
+  function Link(scope, element, attrs) {
+    var model = scope.model = {};
+    model.identity = IdentityService.identity;
+    model.state = AccountService.collection.state;
+    var account = model.account = {
+      '@context': config.data.contextUrl,
       currency: 'USD',
       sysPublic: []
     };
-    $scope.model.accountVisibility = 'hidden';
+    model.accountVisibility = 'hidden';
 
-    $scope.addAccount = function() {
-      $scope.account.sysPublic = [];
-      if($scope.model.accountVisibility === 'public') {
-        $scope.account.sysPublic.push('label');
-        $scope.account.sysPublic.push('owner');
+    model.addAccount = function() {
+      AlertService.clearModalFeedback(scope);
+      account.sysPublic = [];
+      if(model.accountVisibility === 'public') {
+        account.sysPublic.push('label');
+        account.sysPublic.push('owner');
       }
 
-      $scope.loading = true;
-      AccountService.add(
-        $scope.account, $scope.identityId, function(err, account) {
-        $scope.loading = false;
-        if(!err) {
-          $scope.modal.close(null, account);
-        }
-        $scope.feedback.error = err;
+      AccountService.add(account).then(function(account) {
+        scope.modal.close(null, account);
+      }).catch(function(err) {
+        AlertService.add('error', err);
+        scope.$apply();
       });
     };
   }
-
-  function Link(scope, element, attrs) {
-    scope.feedbackTarget = element;
-    attrs.$observe('identity', function(value) {
-      value = scope.$eval(value);
-      if(value) {
-        scope.identityId = value;
-      }
-    });
-  }
-
-  return ModalService.directive({
-    name: 'addAccount',
-    scope: {
-      showAlert: '@modalAddAccountAlert',
-      identityId: '@'
-    },
-    templateUrl: '/app/components/account/add-account-modal.html',
-    controller: ['$scope', Ctrl],
-    link: Link
-  });
 }
 
 });

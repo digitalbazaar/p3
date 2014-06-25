@@ -9,35 +9,27 @@ var deps = ['AccountService', 'IdentityService', 'PaymentTokenService'];
 return {accountSelector: deps.concat(factory)};
 
 function factory(AccountService, IdentityService, PaymentTokenService) {
-  function Ctrl($scope) {
-    $scope.model = {
+  function Link(scope, element, attrs) {
+    // FIXME: be consistent with use of 'model'
+    scope.model = {
       remainingCredit: 0,
       paymentMethodIsCollapsed: true,
       showEditAccount: false
     };
-    $scope.services = {
+    scope.services = {
       account: AccountService.state
     };
-    $scope.identityId = IdentityService.identity.id;
-    updateAccounts($scope);
-    $scope.$watch('accounts', function(accounts) {
+    scope.identityId = IdentityService.identity.id;
+    scope.accounts = AccountService.collection.storage;
+    scope.$watch('accounts', function(accounts) {
       if(!accounts) {
         return;
       }
-      if(!$scope.selected || $.inArray($scope.selected, accounts) === -1) {
-        $scope.selected = accounts[0] || null;
+      if(!scope.selected || $.inArray(scope.selected, accounts) === -1) {
+        scope.selected = accounts[0] || null;
       }
     }, true);
-  }
 
-  function updateAccounts($scope) {
-    var identityId = $scope.identityId;
-    AccountService.get({identity: identityId}, function(err, accounts) {
-      $scope.accounts = accounts;
-    });
-  }
-
-  function Link(scope, element, attrs) {
     attrs.$observe('fixed', function(value) {
       scope.fixed = value;
     });
@@ -47,13 +39,6 @@ function factory(AccountService, IdentityService, PaymentTokenService) {
     scope.$watch('selected.backupSource', update);
     scope.$watch('minBalance', update);
     scope.$watch('instantTransferDeposit', update, true);
-
-    scope.$watch('identity', function(value) {
-      if(value) {
-        scope.identityId = value;
-        updateAccounts(scope);
-      }
-    });
 
     function update() {
       // update remaining credit
@@ -114,13 +99,10 @@ function factory(AccountService, IdentityService, PaymentTokenService) {
       fixed: '@',
       minBalance: '@',
       showDepositButton: '@',
-      identity: '@',
       instant: '=',
       allowInstantTransfer: '@',
-      // FIXME: use optional '=' once angularJS upgraded
-      instantTransferDeposit: '='
+      instantTransferDeposit: '=?'
     },
-    controller: ['$scope', Ctrl],
     templateUrl: '/app/components/account/account-selector.html',
     link: Link
   };

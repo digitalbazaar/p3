@@ -6,13 +6,14 @@
 define(['angular', 'async', 'payswarm.api'], function(
   angular, async, payswarm) {
 
-var deps = ['svcModal'];
-return {modalDeposit: deps.concat(factory)};
+var deps = ['svcAccount', 'ModalService', 'svcPaymentToken', 'svcTransaction'];
+return {depositModal: deps.concat(factory)};
 
-function factory(svcModal) {
-  function Ctrl($scope, svcPaymentToken, svcAccount, svcTransaction) {
+function factory(
+  svcAccount, ModalService, svcPaymentToken, svcTransaction, config) {
+  function Ctrl($scope) {
     $scope.model = {};
-    $scope.data = window.data || {};
+    $scope.data = config.data || {};
     $scope.feedback = {};
     $scope.loading = false;
     $scope.enableConfirm = false;
@@ -167,16 +168,14 @@ function factory(svcModal) {
     //}
   }
 
-  return svcModal.directive({
-    name: 'Deposit',
+  return ModalService.directive({
+    name: 'deposit',
     scope: {
       account: '=',
       instant: '='
     },
     templateUrl: '/app/components/account/deposit-modal.html',
-    controller: [
-      '$scope', 'svcPaymentToken', 'svcAccount', 'svcTransaction',
-      Ctrl],
+    controller: ['$scope', Ctrl],
     link: function(scope, element, attrs) {
       scope.feedbackTarget = element;
     }

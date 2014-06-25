@@ -111,7 +111,7 @@ function factory(svcAccount, svcBudget) {
       fixed: '@'
     },
     controller: ['$scope', Ctrl],
-    templateUrl: '/app/components/budget/budget-selector-modal.html',
+    templateUrl: '/app/components/budget/budget-selector.html',
     link: Link
   };
 }

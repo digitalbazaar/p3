@@ -5,16 +5,16 @@
  */
 define(['payswarm.api'], function(payswarm) {
 
-var deps = ['svcModal', 'svcIdentity', 'svcAccount'];
+var deps = ['svcAccount', 'IdentityService', 'ModalService'];
 return {modalAddAccount: deps.concat(factory)};
 
-function factory(svcModal, svcIdentity, svcAccount) {
+function factory(svcAccount, IdentityService, ModalService, config) {
   function Ctrl($scope) {
     $scope.model = {};
-    $scope.data = window.data || {};
+    $scope.data = config.data || {};
     $scope.feedback = {};
     $scope.loading = false;
-    $scope.identityId = $scope.identityId || svcIdentity.identity.id;
+    $scope.identityId = $scope.identityId || IdentityService.identity.id;
     $scope.account = {
       '@context': payswarm.CONTEXT_URL,
       currency: 'USD',
@@ -51,8 +51,8 @@ function factory(svcModal, svcIdentity, svcAccount) {
     });
   }
 
-  return svcModal.directive({
-    name: 'AddAccount',
+  return ModalService.directive({
+    name: 'addAccount',
     scope: {
       showAlert: '@modalAddAccountAlert',
       identityId: '@'

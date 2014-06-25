@@ -120,7 +120,7 @@ function factory(svcAccount, svcIdentity, svcPaymentToken) {
       instantTransferDeposit: '='
     },
     controller: ['$scope', Ctrl],
-    templateUrl: '/app/components/account/account-selector-modal.html',
+    templateUrl: '/app/components/account/account-selector.html',
     link: Link
   };
 }

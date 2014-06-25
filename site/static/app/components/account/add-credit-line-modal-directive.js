@@ -5,12 +5,12 @@
  */
 define(['jquery', 'payswarm.api'], function($, payswarm) {
 
-var deps = ['svcModal'];
-return {modalAddCreditLine: deps.concat(factory)};
+var deps = ['svcAccount', 'ModalService', 'config'];
+return {addCreditLineModal: deps.concat(factory)};
 
-function factory(svcModal) {
-  function Ctrl($scope, svcAccount) {
-    var data = $scope.data = window.data || {};
+function factory(svcAccount, ModalService, config) {
+  function Ctrl($scope) {
+    var data = $scope.data = config.data || {};
 
     var model = $scope.model = {};
     model.loading = false;
@@ -90,13 +90,13 @@ function factory(svcModal) {
     };
   }
 
-  return svcModal.directive({
-    name: 'AddCreditLine',
+  return ModalService.directive({
+    name: 'addCreditLine',
     scope: {
       account: '='
     },
     templateUrl: '/app/components/account/add-credit-line-modal.html',
-    controller: ['$scope', 'svcAccount', Ctrl],
+    controller: ['$scope', Ctrl],
     link: function(scope, element) {
       scope.feedbackTarget = element;
     }

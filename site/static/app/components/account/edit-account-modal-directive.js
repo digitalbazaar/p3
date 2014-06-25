@@ -5,13 +5,13 @@
  */
 define(['angular', 'payswarm.api'], function(angular, payswarm) {
 
-var deps = ['svcModal'];
-return {modalEditAccount: deps.concat(factory)};
+var deps = ['svcAccount', 'ModalService', 'svcPaymentToken', 'config'];
+return {editAccount: deps.concat(factory)};
 
-function factory(svcModal) {
-  function Ctrl($scope, svcAccount, svcPaymentToken) {
+function factory(svcAccount, ModalService, svcPaymentToken, config) {
+  function Ctrl($scope) {
     var model = $scope.model = {};
-    $scope.data = window.data || {};
+    $scope.data = config.data || {};
     $scope.feedback = {};
     $scope.loading = false;
     $scope.identity = $scope.data.identity || {};
@@ -97,11 +97,11 @@ function factory(svcModal) {
     };
   }
 
-  return svcModal.directive({
-    name: 'EditAccount',
+  return ModalService.directive({
+    name: 'editAccount',
     scope: {sourceAccount: '=account'},
     templateUrl: '/app/components/account/edit-account-modal.html',
-    controller: ['$scope', 'svcAccount', 'svcPaymentToken', Ctrl],
+    controller: ['$scope', Ctrl],
     link: function(scope, element, attrs) {
       scope.feedbackTarget = element;
     }

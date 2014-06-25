@@ -9,6 +9,7 @@ define([
   'angular',
   'app/configs/settings',
   'app/configs/site',
+  'bedrock/app/configs/constants',
   'bedrock/app/configs/data'
 ], function(angular) {
 

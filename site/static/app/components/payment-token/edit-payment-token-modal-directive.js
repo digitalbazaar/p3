@@ -5,13 +5,13 @@
  */
 define(['angular', 'payswarm.api'], function(angular, payswarm) {
 
-var deps = ['ModalService'];
+var deps = ['AccountService', 'ModalService', 'PaymentTokenService', 'config'];
 return {editPaymentTokenModal: deps.concat(factory)};
 
-function factory(svcAccount, ModalService, svcPaymentToken, config) {
+function factory(AccountService, ModalService, PaymentTokenService, config) {
   function Ctrl($scope) {
     $scope.model = {};
-    $scope.data = window.data || {};
+    $scope.data = config.data || {};
     $scope.monthLabels = config.constants.monthLabels;
     $scope.years = config.constants.years;
     $scope.feedback = {contactSupport: true};
@@ -71,7 +71,7 @@ function factory(svcAccount, ModalService, svcPaymentToken, config) {
           exists: exists,
           loading: true
         };
-        svcAccount.getOne(accountId, function(err, account) {
+        AccountService.getOne(accountId, function(err, account) {
           $scope.backupSourceFor[accountId].loading = false;
           if(!err) {
             $scope.backupSourceFor[accountId].account = account;
@@ -84,7 +84,7 @@ function factory(svcAccount, ModalService, svcPaymentToken, config) {
     function _removeAsBackupSource(accountIds, i, callback) {
       var id = $scope.paymentToken.id;
       if(i < accountIds.length) {
-        svcAccount.delBackupSource(accountIds[i], id, function(err) {
+        AccountService.delBackupSource(accountIds[i], id, function(err) {
           if(err) {
             return callback(err);
           }
@@ -118,7 +118,7 @@ function factory(svcAccount, ModalService, svcPaymentToken, config) {
 
       // do general update then remove backup sources
       $scope.loading = true;
-      svcPaymentToken.update(paymentToken, function(err, paymentToken) {
+      PaymentTokenService.update(paymentToken, function(err, paymentToken) {
         $scope.loading = false;
         $scope.feedback.error = err;
         if(!err) {
@@ -126,7 +126,7 @@ function factory(svcAccount, ModalService, svcPaymentToken, config) {
           removeAsBackupSource(function(err) {
             $scope.feedback.error = err;
             // reload to update UI
-            svcPaymentToken.getOne(paymentToken.id, function(tokenErr, token) {
+            PaymentTokenService.getOne(paymentToken.id, function(tokenErr, token) {
               // ignore tokenErr, but update UI based on update err
               if(!err) {
                 $scope.modal.close(null, paymentToken);
@@ -148,9 +148,7 @@ function factory(svcAccount, ModalService, svcPaymentToken, config) {
       sourcePaymentToken: '=paymentToken'
     },
     templateUrl: '/app/components/payment-token/edit-payment-token-modal.html',
-    controller: [
-      '$scope', 'svcPaymentToken', 'svcConstant', 'svcAccount', Ctrl
-    ],
+    controller: ['$scope', Ctrl],
     link: function(scope, element, attrs) {
       scope.feedbackTarget = element;
     }

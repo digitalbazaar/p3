@@ -9,17 +9,18 @@ define(['angular', 'async', 'payswarm.api'], function(
   angular, async, payswarm) {
 
 var deps = [
-  '$scope', '$sce', 'svcAccount', 'AddressService', 'svcBudget',
+  '$scope', '$sce', 'AccountService', 'AddressService', 'BudgetService',
   'IdentityService'];
 return {PurchaseCtrl: deps.concat(factory)};
 
 function factory(
-  $scope, $sce, svcAccount, AddressService, svcBudget, IdentityService) {
+  $scope, $sce, AccountService, AddressService,
+  BudgetService, IdentityService) {
   $scope.model = {};
   var data = window.data;
   $scope.identity = IdentityService.identity;
-  $scope.budgets = svcBudget.budgets;
-  $scope.accounts = svcAccount.accounts;
+  $scope.budgets = BudgetService.budgets;
+  $scope.accounts = AccountService.accounts;
   $scope.contract = null;
   $scope.callback = data.callback || null;
   if($scope.callback) {
@@ -49,7 +50,7 @@ function factory(
 
   // load and use default account if possible
   if(IdentityService.identity.preferences.source) {
-    svcAccount.getOne(
+    AccountService.getOne(
       IdentityService.identity.preferences.source, function(err, account) {
       if(err) {
         $scope.error = err;
@@ -150,7 +151,7 @@ function factory(
         AddressService.get({force: true}, callback);
       },
       getAccounts: function(callback) {
-        svcAccount.collection.getAll({force: true}, callback);
+        AccountService.collection.getAll({force: true}, callback);
       },
       // check pre-conditions serially so only one modal is shown at a time
       checkAddresses: ['getAddresses',
@@ -180,7 +181,7 @@ function factory(
       // identity is setup at this point, continue and get a quote
       // this can still fail if data is changed between the checks and quote
       getBudgets: ['checkAddresses', 'checkAccounts', function(callback) {
-        svcBudget.get({force: true}, callback);
+        BudgetService.get({force: true}, callback);
       }],
       getQuote: ['getBudgets',
         function(callback) {
@@ -281,7 +282,7 @@ function factory(
 
             // auto-purchased, update budget
             if($scope.budget) {
-              return svcBudget.getOne(
+              return BudgetService.getOne(
                 $scope.budget.id, {force: true}, function(err, budget) {
                   if(!err) {
                     $scope.budget = budget;
@@ -356,7 +357,7 @@ function factory(
           $scope.selection.account = null;
           var accountId = (budget ? budget.source : null);
           if(accountId) {
-            svcAccount.getOne(accountId, function(err, account) {
+            AccountService.getOne(accountId, function(err, account) {
               if(err) {
                 $scope.error = err;
                 return;

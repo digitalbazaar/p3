@@ -3,9 +3,9 @@
  *
  * @author Digital Bazaar, Inc.
  */
-define(['angular'], function(angular) {
+define([], function() {
 
-var deps = ['$scope', 'svcHostedAsset', 'svcHostedListing', '$timeout'];
+var deps = ['$scope', 'AlertService', 'HostedAssetService'];
 return {
   controller: {InvoicesCtrl: deps.concat(factory)},
   routes: [{
@@ -17,13 +17,13 @@ return {
   }]
 };
 
-function factory($scope, svcHostedAsset, svcHostedListing, $timeout) {
+function factory($scope, AlertService, HostedAssetService) {
   $scope.model = {};
   // FIXME: globalize window.data access
   var data = window.data || {};
   $scope.identity = data.identity;
   $scope.state = {
-    assets: svcHostedAsset.state
+    assets: HostedAssetService.state
   };
   $scope.model.search = {
     input: '',
@@ -48,14 +48,12 @@ function factory($scope, svcHostedAsset, svcHostedListing, $timeout) {
       invoice.deleted = true;
 
       // wait to delete so modal can transition
-      $timeout(function() {
-        svcAsset.del(asset.id, function(err) {
-          if(err) {
-            asset.deleted = false;
-          }
-        });
+      var asset = $scope.model.modals.asset;
+      HostedAssetService.del(asset.id, {delay: 400}).catch(function(err) {
+        AlertService.add('error', err);
+        asset.deleted = false;
         // FIXME: delete related listing
-      }, 400);
+      });
     }
     $scope.assetToDelete = null;
   };
@@ -74,25 +72,19 @@ function factory($scope, svcHostedAsset, svcHostedListing, $timeout) {
     // together?
 
     // search listings for input as keywords
-    svcHostedAsset.get({
+    HostedAssetService.query({
       storage: $scope.model.search.assets,
       keywords: $scope.model.search.input
-    }, function(err) {
-      if(err) {
-        state.error = err;
-      } else {
-        state.error = null;
-      }
-      callback();
+    }).catch(function(err) {
+      AlertService.add('error', err);
     });
   };
 
-  svcHostedAsset.get({
+  HostedAssetService.query({
     // FIXME
     limit: 10,
     type: 'Invoice',
     storage: $scope.model.search.assets
-    //force: true
   });
 }
 

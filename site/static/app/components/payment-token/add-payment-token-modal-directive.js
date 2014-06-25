@@ -5,10 +5,10 @@
  */
 define(['payswarm.api'], function(payswarm) {
 
-var deps = ['ModalService', 'svcPaymentToken', 'config'];
+var deps = ['ModalService', 'PaymentTokenService', 'config'];
 return {addPaymentTokenModal: deps.concat(factory)};
 
-function factory(ModalService, svcPaymentToken, config) {
+function factory(ModalService, PaymentTokenService, config) {
   function Ctrl($scope) {
     $scope.selection = {
       address: null
@@ -112,7 +112,7 @@ function factory(ModalService, svcPaymentToken, config) {
 
       // add payment token
       $scope.loading = true;
-      svcPaymentToken.add(token, function(err, addedToken) {
+      PaymentTokenService.add(token, function(err, addedToken) {
         $scope.loading = false;
         if(!err) {
           $scope.modal.close(null, addedToken);

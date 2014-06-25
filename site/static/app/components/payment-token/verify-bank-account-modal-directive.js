@@ -6,11 +6,11 @@
 define(['angular', 'async', 'payswarm.api'], function(
   angular, async, payswarm) {
 
-var deps = ['svcModal'];
-return {modalVerifyBankAccount: deps.concat(factory)};
+var deps = ['AccountService', 'ModalService', 'PaymentTokenService'];
+return {verifyBankAccountModal: deps.concat(factory)};
 
-function factory(svcModal) {
-  function Ctrl($scope, svcPaymentToken, svcAccount) {
+function factory(AccountService, ModalService, PaymentTokenService) {
+  function Ctrl($scope) {
     $scope.selection = {
       destination: null
     };
@@ -56,7 +56,7 @@ function factory(svcModal) {
         verifyRequest.amount = $scope.input.amount;
       }
       $scope.loading = true;
-      svcPaymentToken.verify(
+      PaymentTokenService.verify(
         $scope.paymentToken.id, verifyRequest, function(err, deposit) {
         $scope.feedback.verifyError = false;
         if(!err) {
@@ -127,7 +127,7 @@ function factory(svcModal) {
             loading: true,
             label: ''
           };
-          svcAccount.getOne(destinationId, function(err, account) {
+          AccountService.getOne(destinationId, function(err, account) {
             var info = $scope.accounts[destinationId];
             info.loading = false;
             info.label = err ? 'Private Account' : account.label;
@@ -152,7 +152,7 @@ function factory(svcModal) {
 
     $scope.confirm = function() {
       $scope.loading = true;
-      svcPaymentToken.verify(
+      PaymentTokenService.verify(
         $scope.paymentToken.id, $scope._deposit, function(err, deposit) {
         $scope.loading = false;
         if(!err) {
@@ -162,11 +162,11 @@ function factory(svcModal) {
           $scope.$apply();
 
           // get updated token
-          svcPaymentToken.getOne($scope.paymentToken.id);
+          PaymentTokenService.getOne($scope.paymentToken.id);
 
           // get updated balance after a delay
           if($scope.selection.destination) {
-            svcAccount.getOne($scope.selection.destination.id, {delay: 500});
+            AccountService.getOne($scope.selection.destination.id, {delay: 500});
           }
 
           // go to top of page
@@ -182,13 +182,13 @@ function factory(svcModal) {
     //}
   }
 
-  return svcModal.directive({
-    name: 'VerifyBankAccount',
+  return ModalService.directive({
+    name: 'verifyBankAccount',
     scope: {
       paymentToken: '='
     },
     templateUrl: '/app/components/payment-token/verify-bank-account-modal.html',
-    controller: ['$scope', 'svcPaymentToken', 'svcAccount', Ctrl],
+    controller: ['$scope', Ctrl],
     link: function(scope, element, attrs) {
       scope.feedbackTarget = element;
     }

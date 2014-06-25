@@ -3,12 +3,12 @@
  *
  * @author Digital Bazaar
  */
-define(['async'], function(async) {
+define(['angular', 'async'], function(angular, async) {
 
-var deps = ['svcAccount'];
+var deps = ['AccountService'];
 return {transactionDetails: deps.concat(factory)};
 
-function factory(svcAccount) {
+function factory(AccountService) {
   return {
     scope: {
       transaction: '=transactionDetails',
@@ -34,7 +34,7 @@ function factory(svcAccount) {
           loading: true,
           label: ''
         };
-        svcAccount.getOne(accountId, function(err, account) {
+        AccountService.getOne(accountId, function(err, account) {
           info.loading = false;
           info.label = err ? 'Private Account' : account.label;
           callback();

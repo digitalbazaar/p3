@@ -7,7 +7,7 @@ define(['iso8601'], function(iso8601) {
 
 var deps = [
   '$http', '$rootScope', 'IdentityService', 'ResourceService', 'config'];
-return {svcBudget: deps.concat(factory)};
+return {BudgetService: deps.concat(factory)};
 
 function factory($http, $rootScope, IdentityService, ResourceService, config) {
   var service = {};

@@ -5,10 +5,10 @@
  */
 define(['angular', 'async'], function(angular, async) {
 
-var deps = ['$scope', 'svcHostedAsset', 'svcHostedListing'];
+var deps = ['$scope', 'HostedAssetService', 'HostedListingService'];
 return {HostedAssetsCtrl: deps.concat(factory)};
 
-function factory($scope, svcHostedAsset, svcHostedListing) {
+function factory($scope, HostedAssetService, HostedListingService) {
   $scope.model = {};
   // FIXME: globalize window.data access
   var data = window.data || {};
@@ -25,7 +25,7 @@ function factory($scope, svcHostedAsset, svcHostedListing) {
     storage: $scope.model.assets
   });
   $scope.model.loading = true;
-  svcHostedAsset.get(options, function(err) {
+  HostedAssetService.get(options, function(err) {
     $scope.model.error = err;
     $scope.model.loading = false;
 
@@ -91,7 +91,7 @@ function factory($scope, svcHostedAsset, svcHostedListing) {
           listings: storage,
           rows: rows
         };
-        svcHostedListing.get({
+        HostedListingService.get({
           identity: data.identityId,
           storage: storage,
           includeAsset: false

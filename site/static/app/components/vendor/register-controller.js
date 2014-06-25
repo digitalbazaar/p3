@@ -7,11 +7,11 @@
 define(['async', 'payswarm.api'], function(async, payswarm) {
 
 var deps = [
-  '$scope', '$timeout', 'svcIdentity', 'svcAccount', 'AddressService'
-];
+  '$scope', '$timeout', 'AccountService', 'AddressService', 'IdentityService'];
 return {RegisterCtrl: deps.concat(factory)};
 
-function factory($scope, $timeout, svcIdentity, svcAccount, AddressService) {
+function factory(
+  $scope, $timeout, AccountService, AddressService, IdentityService) {
   $scope.model = {};
   var data = window.data;
   $scope.feedback = {};
@@ -34,7 +34,7 @@ function factory($scope, $timeout, svcIdentity, svcAccount, AddressService) {
     account: null
   };
   $scope.filterIdentities = function() {
-    $scope.identities = svcIdentity.identities;
+    $scope.identities = IdentityService.identities;
     if($scope.registrationType === 'vendor') {
       // allow only vendor identities to be selected
       $scope.identityTypes = ['VendorIdentity'];
@@ -54,10 +54,10 @@ function factory($scope, $timeout, svcIdentity, svcAccount, AddressService) {
     if(!hasSelection) {
       // else use current identity if possible
       var hasCurrent = $scope.identities.some(function(v) {
-        return v.id === svcIdentity.identity.id;
+        return v.id === IdentityService.identity.id;
       });
       if(hasCurrent) {
-        $scope.selection.identity = svcIdentity.identity;
+        $scope.selection.identity = IdentityService.identity;
       } else {
         // use first listed or none
         $scope.selection.identity = $scope.identities[0] || null;
@@ -65,7 +65,7 @@ function factory($scope, $timeout, svcIdentity, svcAccount, AddressService) {
     }
   };
 
-  $scope.allIdentities = svcIdentity.identities;
+  $scope.allIdentities = IdentityService.identities;
   $scope.$watch('allIdentities', function(value) {
     $scope.filterIdentities();
   }, true);

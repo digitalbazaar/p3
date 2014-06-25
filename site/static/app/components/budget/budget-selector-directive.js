@@ -5,25 +5,25 @@
  */
 define([], function() {
 
-var deps = ['svcAccount', 'svcBudget'];
+var deps = ['AccountService', 'BudgetService'];
 return {budgetSelector: deps.concat(factory)};
 
-function factory(svcAccount, svcBudget) {
+function factory(AccountService, BudgetService) {
   function Ctrl($scope) {
     $scope.model = {};
     $scope.services = {
-      account: svcAccount.state,
-      budget: svcBudget.state
+      account: AccountService.state,
+      budget: BudgetService.state
     };
-    $scope.budgets = svcBudget.budgets;
+    $scope.budgets = BudgetService.budgets;
     $scope.account = null;
-    $scope.accounts = svcAccount.accounts;
+    $scope.accounts = AccountService.accounts;
     $scope.$watch('budgets', function(budgets) {
       if(!$scope.selected || $.inArray($scope.selected, budgets) === -1) {
         $scope.selected = budgets[0] || null;
       }
     }, true);
-    svcBudget.get();
+    BudgetService.collection.getAll();
   }
 
   function Link(scope, element, attrs) {

@@ -7,12 +7,13 @@ define(['angular'], function(angular) {
 
 var deps = [
   '$timeout',
-  'AlertService', 'IdentityService', 'ResourceService', 'svcTransaction', 'config'];
+  'AlertService', 'IdentityService', 'ResourceService',
+  'ServiceTransaction', 'config'];
 return {ActivityCtrl: deps.concat(factory)};
 
 function factory(
-  $timeout, AlertService, IdentityService, ResourceService, svcTransaction,
-  config) {
+  $timeout, AlertService, IdentityService, ResourceService,
+  ServiceTransaction, config) {
   var self = this;
   self.identity = IdentityService.identity;
   self.session = config.data.session || null;
@@ -60,7 +61,7 @@ function factory(
     });
   };
 
-  self.getRowType = svcTransaction.getType;
+  self.getRowType = TransactionService.getType;
 
   self.getMore = function() {
     // build options for fetching txns

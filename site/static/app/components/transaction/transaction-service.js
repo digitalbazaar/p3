@@ -6,7 +6,7 @@
 define(['angular'], function(angular) {
 
 var deps = ['$rootScope', 'ModelService', 'ResourceService'];
-return {svcTransaction: deps.concat(factory)};
+return {TransactionService: deps.concat(factory)};
 
 function factory($rootScope, ModelService, ResourceService) {
   var service = {};
@@ -33,7 +33,7 @@ function factory($rootScope, ModelService, ResourceService) {
    * returned in pages. To get the next page, the last transaction from
    * the previous page and its creation date must be passed. A limit
    * can be passed for the number of transactions to return, otherwise,
-   * the server maximum-permitted will be used.   *
+   * the server maximum-permitted will be used.
    *
    * @param options the options to use:
    *   [createdStart]: new Date('2012-03-01'),
@@ -64,7 +64,6 @@ function factory($rootScope, ModelService, ResourceService) {
     return service.collection.getAll({params: query}).then(function() {
       if(options.account) {
         _updateAccount(options.account, service.collection.storage);
-        $rootScope.$apply();
       }
     });
   };

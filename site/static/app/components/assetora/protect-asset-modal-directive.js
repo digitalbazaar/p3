@@ -7,10 +7,10 @@ define([
   'angular', 'async', 'forge/pki', 'FileSaver',
   'zip', 'TypedArray', 'Blob'], function(angular, async, pki, saveAs, zip) {
 
-var deps = ['svcHostedAsset', 'ModalService', 'config'];
+var deps = ['HostedAsset', 'ModalService', 'config'];
 return {protectAssetModal: deps.concat(factory)};
 
-function factory(svcHostedAsset, ModalService, config) {
+function factory(HostedAssetService, ModalService, config) {
   function Ctrl($scope) {
     // FIXME: use root/global data, move over to model
     var data = config.data || {};
@@ -22,7 +22,7 @@ function factory(svcHostedAsset, ModalService, config) {
     $scope.model.identity = $scope.identity;
     $scope.model.loading = false;
     $scope.model.state = {
-      assets: svcHostedAsset.state
+      assets: HostedAssetService.state
     };
     // FIXME: figure out how to detect this and when it isn't available,
     // hide the save button and show the files to be downloaded on
@@ -82,7 +82,7 @@ function factory(svcHostedAsset, ModalService, config) {
           };
 
           // set asset's public key
-          svcHostedAsset.setKey($scope.asset.id, {
+          HostedAssetService.setKey($scope.asset.id, {
             '@context': 'https://w3id.org/payswarm/v1',
             publicKeyPem: $scope.model.keypair.publicKey
           }, callback);

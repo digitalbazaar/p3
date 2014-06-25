@@ -5,10 +5,10 @@
  */
 define(['payswarm.api'], function(payswarm) {
 
-var deps = ['svcAccount'];
+var deps = ['AccountService'];
 return {updateAccountButton: deps.concat(factory)};
 
-function factory(svcAccount) {
+function factory(AccountService) {
   function Ctrl($scope) {
     $scope.data = window.data || {};
     $scope.feedback = {};
@@ -28,7 +28,7 @@ function factory(svcAccount) {
       });
 
       model.loading = true;
-      svcAccount.update(account, function(err, account) {
+      AccountService.update(account, function(err, account) {
         model.loading = false;
         $scope.feedback.error = err;
         $scope.callback(err, account);

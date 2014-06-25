@@ -6,20 +6,20 @@
  */
 define([], function() {
 
-var deps = ['$timeout', 'svcAccount', 'svcBudget', 'config'];
+var deps = ['$timeout', 'AccountService', 'BudgetService', 'config'];
 return {BudgetController: deps.concat(factory)};
 
-function factory($timeout, svcAccount, svcBudget, config) {
+function factory($timeout, AccountService, BudgetService, config) {
   var self = this;
 
-  self.state = svcBudget.state;
+  self.state = BudgetService.state;
   self.budget = null;
   self.account = null;
-  self.vendors = svcBudget.vendors;
+  self.vendors = BudgetService.vendors;
 
-  self.getLastRefresh = svcBudget.getLastRefresh;
-  self.getRefreshDuration = svcBudget.getRefreshDuration;
-  self.getExpiration = svcBudget.getExpiration;
+  self.getLastRefresh = BudgetService.getLastRefresh;
+  self.getRefreshDuration = BudgetService.getRefreshDuration;
+  self.getExpiration = BudgetService.getExpiration;
 
   self.deleteVendor = function(vendor) {
     self.showDeleteVendorAlert = true;
@@ -33,7 +33,7 @@ function factory($timeout, svcAccount, svcBudget, config) {
 
       // wait to delete so modal can transition
       $timeout(function() {
-        svcBudget.delVendor(config.data.budgetId, vendor.id, function(err) {
+        BudgetService.delVendor(config.data.budgetId, vendor.id, function(err) {
           if(err) {
             vendor.deleted = false;
           }
@@ -42,14 +42,14 @@ function factory($timeout, svcAccount, svcBudget, config) {
     }
   };
 
-  svcBudget.get(config.data.budgetId).then(function(budget) {
+  BudgetService.get(config.data.budgetId).then(function(budget) {
     self.budget = budget;
 
     // fetch vendors for budget
-    svcBudget.getVendors(budget.id);
+    BudgetService.getVendors(budget.id);
 
     // get budget account
-    svcAccount.get(budget.source).then(function(account) {
+    AccountService.get(budget.source).then(function(account) {
       self.account = account;
     });
   });

@@ -5,10 +5,10 @@
  */
 define([], function() {
 
-var deps = ['svcPaymentToken'];
+var deps = ['PaymentTokenService'];
 return {accountBalance: deps.concat(factory)};
 
-function factory(svcPaymentToken) {
+function factory(PaymentTokenService) {
   return {
     scope: {
       account: '=accountBalance'
@@ -54,7 +54,7 @@ function factory(svcPaymentToken) {
           // get backup source token
           model.backupSource = null;
           if(account.backupSource && account.backupSource.length) {
-            svcPaymentToken.getOne(account.backupSource[0], function(err, token) {
+            PaymentTokenService.getOne(account.backupSource[0], function(err, token) {
               model.backupSource = token;
             });
           }

@@ -3,9 +3,9 @@
  *
  * @author Digital Bazaar, Inc.
  */
-define(['angular'], function(angular) {
+define([], function() {
 
-var deps = ['$scope', 'svcHostedAsset', 'svcHostedListing', '$timeout'];
+var deps = ['$scope', 'config'];
 return {
   controller: {TicketsCtrl: deps.concat(factory)},
   routes: [{
@@ -17,11 +17,9 @@ return {
   }]
 };
 
-function factory($scope, svcHostedAsset, svcHostedListing, $timeout) {
+function factory($scope, config) {
   $scope.model = {};
-  // FIXME: globalize window.data access
-  var data = window.data || {};
-  $scope.identity = data.identity;
+  $scope.identity = config.data.identity;
 }
 
 });

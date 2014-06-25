@@ -9,23 +9,24 @@
 define([], function() {
 
 var deps = [
-  '$scope', '$timeout', 'svcAccount', 'svcBudget', 'IdentityService',
-  'svcPaymentToken', 'svcTransaction', 'config'];
+  '$scope', 'AccountService', 'AlertService',
+  'BudgetService', 'IdentityService',
+  'PaymentTokenService', 'TransactionService', 'config'];
 return {DashboardCtrl: deps.concat(factory)};
 
 function factory(
-  $scope, $timeout, svcAccount, svcBudget, IdentityService,
-  svcPaymentToken, svcTransaction, config) {
+  $scope, AccountService, AlertService, BudgetService, IdentityService,
+  PaymentTokenService, TransactionService, config) {
   var model = $scope.model = {};
   $scope.identity = IdentityService.identity;
-  $scope.accounts = svcAccount.accounts;
-  $scope.budgets = svcBudget.budgets;
-  $scope.txns = svcTransaction.recentTxns;
-  $scope.tokens = svcPaymentToken.paymentTokens;
+  $scope.accounts = AccountService.accounts;
+  $scope.budgets = BudgetService.budgets;
+  $scope.txns = TransactionService.recentTxns;
+  $scope.tokens = PaymentTokenService.paymentTokens;
   $scope.state = {
-    accounts: svcAccount.state,
-    budgets: svcBudget.state,
-    txns: svcTransaction.state
+    accounts: AccountService.state,
+    budgets: BudgetService.state,
+    txns: TransactionService.state
   };
   $scope.modals = {
     showDeposit: false,
@@ -38,7 +39,7 @@ function factory(
     budget: null
   };
   model.expandAccountBalance = {};
-  $scope.getBudgetRefreshDuration = svcBudget.getRefreshDuration;
+  $scope.getBudgetRefreshDuration = BudgetService.getRefreshDuration;
   $scope.deleteBudget = function(budget) {
     $scope.showDeleteBudgetAlert = true;
     $scope.budgetToDelete = budget;
@@ -50,13 +51,10 @@ function factory(
       budget.deleted = true;
 
       // wait to delete so modal can transition
-      $timeout(function() {
-        svcBudget.del(budget.id, function(err) {
-          if(err) {
-            budget.deleted = false;
-          }
-        });
-      }, 400);
+      BudgetService.del(budget.id, {delay: 400}).catch(function(err) {
+        AlertService.add('error', err);
+        budget.deleted = false;
+      });
     }
     $scope.budgetToDelete = null;
   };
@@ -78,19 +76,19 @@ function factory(
       });
   };
 
-  $scope.getTxnType = svcTransaction.getType;
+  $scope.getTxnType = TransactionService.getType;
 
   // FIXME: token watch/update should be in the account service
   $scope.$watch('tokens', function(value) {
-    svcAccount.updateAccounts();
+    AccountService.updateAccounts();
   }, true);
 
   function refresh(force) {
     var opts = {force: !!force};
-    svcAccount.collection.getAll(opts);
-    svcPaymentToken.collection.getAll(opts);
-    svcBudget.collection.getAll(opts);
-    svcTransaction.getRecent(opts);
+    AccountService.collection.getAll(opts);
+    PaymentTokenService.collection.getAll(opts);
+    BudgetService.collection.getAll(opts);
+    TransactionService.getRecent(opts);
   }
   $scope.$on('refreshData', function() {
     refresh(true);

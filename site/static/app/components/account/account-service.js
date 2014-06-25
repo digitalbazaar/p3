@@ -7,13 +7,13 @@ define(['angular'], function(angular) {
 
 var deps = [
   '$http', '$rootScope',
-  'IdentityService', 'ModelService', 'svcPaymentToken', 'ResourceService',
+  'IdentityService', 'ModelService', 'PaymentTokenService', 'ResourceService',
   'config'];
-return {svcAccount: deps.concat(factory)};
+return {AccountService: deps.concat(factory)};
 
 function factory(
   $http, $rootScope,
-  IdentityService, ModelService, svcPaymentToken, ResourceService, config) {
+  IdentityService, ModelService, PaymentTokenService, ResourceService, config) {
   var service = {};
 
   // create main account collection
@@ -94,7 +94,7 @@ function factory(
       account.showExpirationWarning = false;
       account.showExpired = false;
       angular.forEach(account.backupSource, function(sourceId) {
-        svcPaymentToken.find(sourceId, function(err, token) {
+        PaymentTokenService.find(sourceId, function(err, token) {
           if(!err && token) {
             account.showExpirationWarning =
               account.showExpirationWarning || token.showExpirationWarning;

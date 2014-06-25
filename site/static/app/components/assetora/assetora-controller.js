@@ -3,9 +3,10 @@
  *
  * @author Dave Longley
  */
-define(['angular'], function(angular) {
+define([], function() {
 
-var deps = ['$scope', 'svcHostedAsset', 'svcHostedListing', '$timeout'];
+var deps = [
+  '$scope', 'AlertService', 'HostedAssetService', 'HostedListingService'];
 return {
   controller: {AssetoraCtrl: deps.concat(factory)},
   routes: [{
@@ -17,16 +18,15 @@ return {
   }]
 };
 
-function factory($scope, svcHostedAsset, svcHostedListing, $timeout) {
+function factory(
+  $scope, AlertService, HostedAssetService, HostedListingService, config) {
   $scope.model = {};
-  // FIXME: globalize window.data access
-  var data = window.data || {};
-  $scope.identity = data.identity;
-  $scope.model.recentAssets = svcHostedAsset.recentAssets;
-  $scope.model.recentListings = svcHostedListing.recentListings;
+  $scope.identity = config.data.identity;
+  $scope.model.recentAssets = HostedAssetService.recentAssets;
+  $scope.model.recentListings = HostedListingService.recentListings;
   $scope.state = {
-    assets: svcHostedAsset.state,
-    listings: svcHostedListing.state
+    assets: HostedAssetService.state,
+    listings: HostedListingService.state
   };
   $scope.model.search = {input: '', assets: [], listings: []};
   $scope.model.modals = {
@@ -48,13 +48,11 @@ function factory($scope, svcHostedAsset, svcHostedListing, $timeout) {
       asset.deleted = true;
 
       // wait to delete so modal can transition
-      $timeout(function() {
-        svcHostedAsset.del(asset.id, function(err) {
-          if(err) {
-            asset.deleted = false;
-          }
+      HostedAssetService.collection.del(asset.id, {delay: 400})
+        .catch(function(err) {
+          AlertService.add('error', err);
+          asset.deleted = false;
         });
-      }, 400);
     }
     $scope.assetToDelete = null;
   };
@@ -69,17 +67,15 @@ function factory($scope, svcHostedAsset, svcHostedListing, $timeout) {
       listing.deleted = true;
 
       // wait to delete so modal can transition
-      $timeout(function() {
-        svcHostedListing.del(listing.id, function(err) {
-          if(err) {
-            listing.deleted = false;
-          }
+      HostedListingService.del(listing.id, {delay: 400})
+        .catch(function(err) {
+          AlertService.add('error', err);
+          listing.deleted = false;
         });
-      }, 400);
     }
     $scope.listingToDelete = null;
   };
-  $scope.search = function(input, state, callback) {
+  $scope.search = function(input, state) {
     if(input.length === 0) {
       $scope.model.search.assets.splice(
         0, $scope.model.search.assets.length);
@@ -96,32 +92,24 @@ function factory($scope, svcHostedAsset, svcHostedListing, $timeout) {
     // together?
 
     // search listings for input as keywords
-    svcHostedAsset.get({
-      storage: $scope.model.search.assets,
-      keywords: $scope.model.search.input
-    }, function(err) {
-      if(err) {
-        state.error = err;
-      } else {
-        state.error = null;
-      }
-      callback();
-    });
-    svcHostedListing.get({
-      storage: $scope.model.search.listings,
-      keywords: $scope.model.search.input
-    }, function(err) {
-      if(err) {
-        state.error = err;
-      } else {
-        state.error = null;
-      }
-      callback();
-    });
+    return Promise.all([
+      HostedAssetService.get({
+        storage: $scope.model.search.assets,
+        keywords: $scope.model.search.input
+      }).catch(function(err) {
+        AlertService.add('error', err);
+      }),
+      HostedListingService.get({
+        storage: $scope.model.search.listings,
+        keywords: $scope.model.search.input
+      }).catch(function(err) {
+        AlertService.add('error', err);
+      })
+    ]);
   };
 
-  svcHostedAsset.getRecent({force: true});
-  svcHostedListing.getRecent({force: true});
+  HostedAssetService.query();
+  HostedListingService.query();
 }
 
 });

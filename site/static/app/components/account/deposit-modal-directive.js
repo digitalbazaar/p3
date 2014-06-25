@@ -6,11 +6,14 @@
 define(['angular', 'async', 'payswarm.api'], function(
   angular, async, payswarm) {
 
-var deps = ['svcAccount', 'ModalService', 'svcPaymentToken', 'svcTransaction'];
+var deps = [
+  'AccountService', 'ModalService', 'PaymentTokenService',
+  'TransactionService'];
 return {depositModal: deps.concat(factory)};
 
 function factory(
-  svcAccount, ModalService, svcPaymentToken, svcTransaction, config) {
+  AccountService, ModalService, PaymentTokenService,
+  TransactionService, config) {
   function Ctrl($scope) {
     $scope.model = {};
     $scope.data = config.data || {};
@@ -38,7 +41,7 @@ function factory(
       // load latest account info if showing unpaid balance
       if(!$scope.account.sysAllowStoredValue) {
         $scope.loading = true;
-        svcAccount.getOne($scope.account.id, function(err) {
+        AccountService.getOne($scope.account.id, function(err) {
           $scope.loading = false;
           // FIXME: handle errors or just use old info?
           $scope.input.max = {
@@ -95,7 +98,7 @@ function factory(
               loading: true,
               label: ''
             };
-            svcAccount.getOne(destinationId, function(err, account) {
+            AccountService.getOne(destinationId, function(err, account) {
               info.loading = false;
               info.label = err ? 'Private Account' : account.label;
               callback();
@@ -144,10 +147,10 @@ function factory(
           $scope.$apply();
 
           // get updated balance after a delay
-          svcAccount.getOne($scope.account.id, {delay: 500});
+          AccountService.getOne($scope.account.id, {delay: 500});
 
           // update recent transactions
-          svcTransaction.getRecent({force: true});
+          TransactionService.getRecent({force: true});
 
           // go to top of page
           //var target = options.target;

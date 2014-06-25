@@ -5,18 +5,18 @@
  */
 define([], function() {
 
-var deps = ['ModalService', 'svcPromo'];
+var deps = ['ModalService', 'PromoService'];
 return {redeemPromoCodeModal: deps.concat(factory)};
 
-function factory(ModalService, svcPromo) {
+function factory(ModalService, PromoService) {
   function Ctrl($scope) {
     $scope.model = {};
     $scope.data = window.data || {};
     $scope.feedback = {};
-    $scope.services = {promo: svcPromo};
+    $scope.services = {promo: PromoService};
 
     $scope.redeemPromoCode = function() {
-      svcPromo.redeemCode(
+      PromoService.redeemCode(
         $scope.model.promoCode, $scope.account.id, function(err, promo) {
         $scope.feedback.error = err;
         if(err) {

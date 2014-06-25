@@ -5,10 +5,10 @@
  */
 define([], function() {
 
-var deps = ['svcAccount', 'svcIdentity', 'svcPaymentToken'];
+var deps = ['AccountService', 'IdentityService', 'PaymentTokenService'];
 return {accountSelector: deps.concat(factory)};
 
-function factory(svcAccount, svcIdentity, svcPaymentToken) {
+function factory(AccountService, IdentityService, PaymentTokenService) {
   function Ctrl($scope) {
     $scope.model = {
       remainingCredit: 0,
@@ -16,9 +16,9 @@ function factory(svcAccount, svcIdentity, svcPaymentToken) {
       showEditAccount: false
     };
     $scope.services = {
-      account: svcAccount.state
+      account: AccountService.state
     };
-    $scope.identityId = svcIdentity.identity.id;
+    $scope.identityId = IdentityService.identity.id;
     updateAccounts($scope);
     $scope.$watch('accounts', function(accounts) {
       if(!accounts) {
@@ -32,7 +32,7 @@ function factory(svcAccount, svcIdentity, svcPaymentToken) {
 
   function updateAccounts($scope) {
     var identityId = $scope.identityId;
-    svcAccount.get({identity: identityId}, function(err, accounts) {
+    AccountService.get({identity: identityId}, function(err, accounts) {
       $scope.accounts = accounts;
     });
   }
@@ -100,7 +100,8 @@ function factory(svcAccount, svcIdentity, svcPaymentToken) {
       if(scope.selected) {
         var account = scope.selected;
         if(account.backupSource && account.backupSource.length) {
-          scope.model.backupSource = svcPaymentToken.find(account.backupSource[0]);
+          scope.model.backupSource = PaymentTokenService.find(
+            account.backupSource[0]);
         }
       }
     }

@@ -3,212 +3,84 @@
  *
  * @author Dave Longley
  */
-define(['angular', 'payswarm.api'], function(angular, payswarm) {
+define([], function() {
 
 var deps = [
-  '$timeout', '$rootScope', 'svcModel', 'svcIdentity', 'svcHostedListing'];
-return {svcHostedAsset: deps.concat(factory)};
+  '$http', '$rootScope','IdentityService', 'ResourceService'];
+return {HostedAssetService: deps.concat(factory)};
 
-function factory(
-  $timeout, $rootScope, svcModel, svcIdentity, svcHostedListing) {
+function factory($http, $rootScope, IdentityService, ResourceService) {
   var service = {};
 
-  var identity = svcIdentity.identity;
-  var expires = 0;
-  var maxAge = 1000*60*2;
-  service.recentAssets = [];
-  service.state = {
-    loading: false
-  };
+  var identity = IdentityService.identity;
+  service.collection = new ResourceService.Collection({
+    url: identity.id + '/assets'
+  });
+  service.state = service.collection.state;
 
   /**
    * Gets the hosted assets for an identity.
    *
+   * Gets hosted assets before a certain creation date. Results will be
+   * returned in pages. To get the next page, the last asset from
+   * the previous page and its creation date must be passed. A limit
+   * can be passed for the number of assets to return, otherwise,
+   * the server maximum-permitted will be used.
+   *
    * @param options the options to use:
    *          [identity] the identity to get the hosted assets for.
-   *          [storage] an array to update w/the assets.
-   *          [delay] a timeout to wait before fetching assets.
    *          [type] the asset type to get.
    *          [createdStart] the creation start date.
    *          [keywords] any keywords to do the look up by.
    *          [previous] the previous asset (for pagination).
    *          [limit] the maximum number of assets to get.
    *          [assetContent] the asset content URL for the assets to get.
+   *
+   * @return a Promise.
    */
-  service.get = function(options, callback) {
-    if(typeof options === 'function') {
-      callback = options;
-      options = {};
+  service.query = function(options) {
+    var query = {};
+    if(options.type) {
+      query.type = options.type;
     }
-    options = options || {};
-    callback = callback || angular.noop;
-
-    service.state.loading = true;
-    $timeout(function() {
-      payswarm.hosted.assets.get({
-        identity: options.identity || identity.id,
-        type: options.type || undefined,
-        createdStart: options.createdStart || undefined,
-        keywords: options.keywords || undefined,
-        previous: options.previous || undefined,
-        limit: options.limit || undefined,
-        assetContent: options.assetContent || undefined,
-        success: function(assets) {
-          if(options.storage) {
-            svcModel.replaceArray(options.storage, assets);
-          }
-          expires = +new Date() + maxAge;
-          service.state.loading = false;
-          callback(null, options.storage || assets);
-          $rootScope.$apply();
-        },
-        error: function(err) {
-          service.state.loading = false;
-          callback(err);
-          $rootScope.$apply();
-        }
-      });
-    }, options.delay || 0);
-  };
-
-  // get all recent hosted assets for an identity
-  service.getRecent = function(options, callback) {
-    if(typeof options === 'function') {
-      callback = options;
-      options = {};
-    }
-    options = options || {};
-    callback = callback || angular.noop;
-
-    if(options.force || +new Date() >= expires) {
-      service.state.loading = true;
-      $timeout(function() {
-        payswarm.hosted.assets.get({
-          // FIXME: make date ordering explicit
-          identity: identity.id,
-          limit: 10,
-          success: function(assets) {
-            svcModel.replaceArray(service.recentAssets, assets);
-            expires = +new Date() + maxAge;
-            service.state.loading = false;
-            callback(null, service.recentAssets);
-            $rootScope.$apply();
-          },
-          error: function(err) {
-            service.state.loading = false;
-            callback(err);
-            $rootScope.$apply();
-          }
-        });
-      }, options.delay || 0);
-    } else {
-      $timeout(function() {
-        callback(null, service.recentAssets);
-      });
-    }
-  };
-
-  // get a single asset
-  service.getOne = function(assetId, options, callback) {
-    if(typeof options === 'function') {
-      callback = options;
-      options = {};
-    }
-    options = options || {};
-    callback = callback || angular.noop;
-
-    service.state.loading = true;
-    $timeout(function() {
-      payswarm.hosted.assets.getOne({
-        asset: assetId,
-        success: function(asset) {
-          if(options.storage) {
-            svcModel.replaceInArray(options.storage, asset);
-          }
-          service.state.loading = false;
-          callback(null, asset);
-          $rootScope.$apply();
-        },
-        error: function(err) {
-          service.state.loading = false;
-          callback(err);
-          $rootScope.$apply();
-        }
-      });
-    }, options.delay || 0);
-  };
-
-  // add a new asset
-  service.add = function(asset, options, callback) {
-    if(typeof options === 'function') {
-      callback = options;
-      options = {};
-    }
-    options = options || {};
-    callback = callback || angular.noop;
-
-    service.state.loading = true;
-    payswarm.hosted.assets.add({
-      identity: identity.id,
-      asset: asset,
-      success: function(asset) {
-        if(options.storage) {
-          options.storage.push(asset);
-        }
-        service.getRecent({force: true}, function() {
-          callback(null, asset);
-          $rootScope.$apply();
-        });
-      },
-      error: function(err) {
-        service.state.loading = false;
-        callback(err);
-        $rootScope.$apply();
+    if(options.createdStart) {
+      if(query.createdStart instanceof Date) {
+        query.createdStart = (+options.createdStart / 1000);
       }
-    });
-  };
-
-  // update an asset
-  service.update = function(asset, callback) {
-    service.state.loading = true;
-    payswarm.hosted.assets.update({
-      identity: identity.id,
-      asset: asset,
-      success: function() {
-        service.getRecent({force: true}, function() {
-          svcHostedListing.getRecent({force: true}, function() {
-            // get asset
-            service.getOne(asset.id, callback);
-          });
-        });
-      },
-      error: function(err) {
-        service.state.loading = false;
-        callback(err);
-        $rootScope.$apply();
+      else {
+        query.createdStart = options.createdStart;
       }
-    });
+    }
+    if(options.previous) {
+      query.previous = options.previous;
+    }
+    if(options.limit) {
+      query.limit = options.limit;
+    }
+    if(options.keywords) {
+      query.keywords = options.keywords;
+    }
+    if(options.assetContent) {
+      query.assetContent = options.assetContent;
+    }
+    return service.collection.getAll({params: query});
   };
 
   // set an asset's public key
-  service.setKey = function(assetId, publicKey, callback) {
+  service.setKey = function(assetId, publicKey) {
     service.state.loading = true;
-    payswarm.hosted.assets.setKey({
-      assetId: assetId,
-      publicKey: publicKey,
-      success: function() {
+    return Promise.resolve($http.post(assetId + '/key', publicKey))
+      .then(function() {
         // FIXME: track which assets have a public key set?
         service.state.loading = false;
-        callback();
-        $rootScope.$apply();
-      },
-      error: function(err) {
+      }).catch(function(err) {
         service.state.loading = false;
-        callback(err);
-        $rootScope.$apply();
-      }
-    });
+        throw err;
+      });
   };
+
+  // expose service to scope
+  $rootScope.app.services.hostedAsset = service;
 
   return service;
 }

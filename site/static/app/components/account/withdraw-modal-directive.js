@@ -7,12 +7,13 @@ define(['angular', 'async', 'payswarm.api'], function(
   angular, async, payswarm) {
 
 var deps = [
-  '$filter', 'svcAccount', 'ModalService', 'svcPaymentToken', 'svcTransaction',
-  'config'];
+  '$filter', 'AccountService', 'ModalService', 'PaymentTokenService',
+  'TransactionService', 'config'];
 return {withdrawModal: deps.concat(factory)};
 
 function factory(
-  $filter, svcAccount, ModalService, svcPaymentToken, svcTransaction, config) {
+  $filter, AccountService, ModalService, PaymentTokenService,
+  TransactionService, config) {
   function Ctrl($scope) {
     $scope.model = {};
     $scope.data = config.data || {};
@@ -102,7 +103,7 @@ function factory(
               info.loading = false;
               return callback();
             }
-            svcAccount.getOne(destinationId, function(err, account) {
+            AccountService.get(destinationId, function(err, account) {
               info.loading = false;
               info.label = err ? 'Private Account' : account.label;
               callback();
@@ -150,10 +151,10 @@ function factory(
           $scope.$apply();
 
           // get updated balance after a delay
-          svcAccount.getOne($scope.account.id, {delay: 500});
+          AccountService.getOne($scope.account.id, {delay: 500});
 
           // update recent transactions
-          svcTransaction.getRecent({force: true});
+          TransactionService.getRecent({force: true});
 
           // go to top of page
           //var target = options.target;

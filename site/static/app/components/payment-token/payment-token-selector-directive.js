@@ -5,14 +5,14 @@
  */
 define(['angular'], function(angular) {
 
-var deps = ['ModelService', 'svcPaymentToken'];
+var deps = ['ModelService', 'PaymentTokenService'];
 return {paymentTokenSelector: deps.concat(factory)};
 
-function factory(ModelService, svcPaymentToken) {
+function factory(ModelService, PaymentTokenService) {
   function Ctrl($scope) {
     $scope.model = {};
     $scope.services = {
-      token: svcPaymentToken.state
+      token: PaymentTokenService.state
     };
     $scope.paymentTokens = [];
     $scope.tokensFilteredByInstant = [];
@@ -22,7 +22,7 @@ function factory(ModelService, svcPaymentToken) {
         $scope.selected = tokens[0] || null;
       }
     }, true);
-    svcPaymentToken.get(function(err, tokens) {
+    PaymentTokenService.getAll(function(err, tokens) {
       if(!err) {
         filterTokens($scope);
       }
@@ -62,14 +62,14 @@ function factory(ModelService, svcPaymentToken) {
 
     scope.$watch('instant', function(value) {
       if(value === 'non') {
-        scope.tokensFilteredByInstant = svcPaymentToken.nonInstant;
-        scope.paymentMethods = svcPaymentToken.nonInstantPaymentMethods;
+        scope.tokensFilteredByInstant = PaymentTokenService.nonInstant;
+        scope.paymentMethods = PaymentTokenService.nonInstantPaymentMethods;
       } else if(value) {
-        scope.tokensFilteredByInstant = svcPaymentToken.instant;
-        scope.paymentMethods = svcPaymentToken.instantPaymentMethods;
+        scope.tokensFilteredByInstant = PaymentTokenService.instant;
+        scope.paymentMethods = PaymentTokenService.instantPaymentMethods;
       } else {
-        scope.tokensFilteredByInstant = svcPaymentToken.paymentTokens;
-        scope.paymentMethods = svcPaymentToken.paymentMethods;
+        scope.tokensFilteredByInstant = PaymentTokenService.paymentTokens;
+        scope.paymentMethods = PaymentTokenService.paymentMethods;
       }
     });
 

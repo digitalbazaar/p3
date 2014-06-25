@@ -3,19 +3,21 @@
  *
  * @author Dave Longley
  */
-define(['angular', 'payswarm.api'], function(angular, payswarm) {
+define(['angular'], function(angular) {
 
-var deps = ['ModalService'];
+var deps = [
+  'AccountService', 'AlertService', 'BudgetService', 'ModalService', 'config'];
 return {editBudgetModal: deps.concat(factory)};
 
-function factory(ModalService, svcAccount, svcBudget) {
+function factory(
+  AccountService, AlertService, BudgetService, ModalService, config) {
   function Ctrl($scope) {
     $scope.selection = {
       account: null
     };
 
     $scope.model = {};
-    $scope.data = window.data || {};
+    $scope.data = config.data || {};
     $scope.feedback = {};
     $scope.identity = $scope.data.identity || {};
     $scope.refreshChoices = [
@@ -38,22 +40,27 @@ function factory(ModalService, svcAccount, svcBudget) {
     $scope.budget = {};
     angular.extend($scope.budget, $scope.sourceBudget);
     // default to current value
-    $scope.model.budgetRefreshDuration = svcBudget.getRefreshDuration(
+    $scope.model.budgetRefreshDuration = BudgetService.getRefreshDuration(
       $scope.budget);
     $scope.model.budgetValidDuration = '';
-    svcAccount.getOne($scope.budget.source, function(err, account) {
-      // FIXME: handle error
-      $scope.selection.account = account || null;
+    AccountService.get($scope.budget.source).then(function(account) {
+      $scope.selection.account = account;
       $scope.loading = false;
+      $scope.$apply();
+    }).catch(function(err) {
+      $scope.loading = false;
+      AlertService.addError('error', err);
     });
 
     $scope.editBudget = function() {
+      AlertService.clearModalFeedback($scope);
+
       // set all fields from UI
       var b = $scope.budget;
 
       // budget refresh duration
       if($scope.model.budgetRefreshDuration ===
-        svcBudget.getRefreshDuration($scope.sourceBudget)) {
+        BudgetService.getRefreshDuration($scope.sourceBudget)) {
         b.sysRefreshInterval = undefined;
       } else if($scope.model.budgetRefreshDuration === 'never') {
         b.sysRefreshInterval = window.iso8601.w3cDate();
@@ -76,7 +83,7 @@ function factory(ModalService, svcAccount, svcBudget) {
       }
 
       var budget = {
-        '@context': payswarm.CONTEXT_URL,
+        '@context': config.data.contextUrl,
         id: b.id,
         type: 'Budget',
         label: b.label,
@@ -96,12 +103,12 @@ function factory(ModalService, svcAccount, svcBudget) {
       });
 
       $scope.loading = true;
-      svcBudget.update(budget, function(err, budget) {
+      BudgetService.update(budget).then(function(budget) {
         $scope.loading = false;
-        if(!err) {
-          $scope.modal.close(null, budget);
-        }
-        $scope.feedback.error = err;
+        $scope.modal.close(null, budget);
+      }).catch(function(err) {
+        $scope.loading = false;
+        AlertService.add('error', err);
       });
     };
   }

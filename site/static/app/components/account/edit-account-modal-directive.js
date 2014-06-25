@@ -5,10 +5,10 @@
  */
 define(['angular', 'payswarm.api'], function(angular, payswarm) {
 
-var deps = ['svcAccount', 'ModalService', 'svcPaymentToken', 'config'];
+var deps = ['AccountService', 'ModalService', 'PaymentTokenService', 'config'];
 return {editAccount: deps.concat(factory)};
 
-function factory(svcAccount, ModalService, svcPaymentToken, config) {
+function factory(AccountService, ModalService, PaymentTokenService, config) {
   function Ctrl($scope) {
     var model = $scope.model = {};
     $scope.data = config.data || {};
@@ -47,12 +47,12 @@ function factory(svcAccount, ModalService, svcPaymentToken, config) {
       // FIXME: handle errors below or let it use defaults?
       $scope.loading = true;
       model.backupSourceEnabled = true;
-      svcPaymentToken.get(function(err) {
+      PaymentTokenService.get(function(err) {
         $scope.loading = false;
         if(err) {
           return;
         }
-        svcPaymentToken.find(
+        PaymentTokenService.find(
           $scope.sourceAccount.backupSource[0], function(err, token) {
           if(!err) {
             model.backupSource = token;
@@ -87,7 +87,7 @@ function factory(svcAccount, ModalService, svcPaymentToken, config) {
       }
 
       $scope.loading = true;
-      svcAccount.update(account, function(err, account) {
+      AccountService.update(account, function(err, account) {
         $scope.loading = false;
         if(!err) {
           $scope.modal.close(null, account);

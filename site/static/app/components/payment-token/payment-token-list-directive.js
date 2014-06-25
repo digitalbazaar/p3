@@ -3,21 +3,21 @@
  *
  * @author Digital Bazaar
  */
-define([], function() {
+define(['angular'], function(angular) {
 
-var deps = ['svcModel', 'svcPaymentToken'];
+var deps = ['ModelService', 'PaymentTokenService'];
 return {paymentTokenList: deps.concat(factory)};
 
-function factory(svcModel, svcPaymentToken) {
-  function Ctrl($scope, svcAccount) {
+function factory(ModelService, PaymentTokenService) {
+  function Ctrl($scope) {
     $scope.model = {};
     $scope.feedback = {};
     $scope.tokenList = [];
-    $scope.paymentTokens = svcPaymentToken.paymentTokens;
+    $scope.paymentTokens = PaymentTokenService.paymentTokens;
     $scope.$watch('paymentTokens', function(tokens) {
       loadList($scope);
     }, true);
-    svcPaymentToken.get();
+    PaymentTokenService.getAll();
 
     $scope.addToken = function(err, token) {
       if(err) {
@@ -70,7 +70,7 @@ function factory(svcModel, svcPaymentToken) {
         });
       }
     });
-    svcModel.replaceArray($scope.tokenList, tokenList);
+    ModelService.replaceArray($scope.tokenList, tokenList);
   }
 
   function Link(scope, element, attrs) {
@@ -86,7 +86,7 @@ function factory(svcModel, svcPaymentToken) {
       idList: '=',
       instant: '='
     },
-    controller: ['$scope', 'svcAccount', Ctrl],
+    controller: ['$scope', Ctrl],
     templateUrl: '/app/components/payment-token/payment-token-list.html',
     link: Link
   };

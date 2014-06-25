@@ -5,11 +5,11 @@
  */
 define([], function() {
 
-var deps = ['$scope', '$timeout', 'svcPaymentToken'];
+var deps = ['$scope', '$timeout', 'PaymentTokenService'];
 return {ExternalAccountsCtrl: deps.concat(factory)};
 
-function factory($scope, $timeout, svcPaymentToken) {
-  $scope.state = svcPaymentToken.state;
+function factory($scope, $timeout, PaymentTokenService) {
+  $scope.state = PaymentTokenService.state;
 
   // types for UI directives
   $scope.allMethods = ['CreditCard', 'BankAccount'];
@@ -17,8 +17,8 @@ function factory($scope, $timeout, svcPaymentToken) {
   $scope.bankAccountMethods = ['BankAccount'];
 
   // service data
-  $scope.creditCards = svcPaymentToken.creditCards;
-  $scope.bankAccounts = svcPaymentToken.bankAccounts;
+  $scope.creditCards = PaymentTokenService.creditCards;
+  $scope.bankAccounts = PaymentTokenService.bankAccounts;
 
   // feedback
   $scope.creditCardFeedback = {};
@@ -31,7 +31,7 @@ function factory($scope, $timeout, svcPaymentToken) {
   };
 
   $scope.deletePaymentToken = function(paymentToken) {
-    svcPaymentToken.del(paymentToken.id, function(err) {
+    PaymentTokenService.del(paymentToken.id, function(err) {
       if(err) {
         $timeout(function() {
           paymentToken.deleted = false;
@@ -50,7 +50,7 @@ function factory($scope, $timeout, svcPaymentToken) {
     });
   };
   $scope.restorePaymentToken = function(paymentToken) {
-    svcPaymentToken.restore(paymentToken.id);
+    PaymentTokenService.restore(paymentToken.id);
   };
   $scope.clearDeletedError = function(paymentToken) {
     delete paymentToken.showDeletedError;
@@ -58,7 +58,7 @@ function factory($scope, $timeout, svcPaymentToken) {
 
   function refresh(force) {
     var opts = {force: !!force};
-    svcPaymentToken.get(opts);
+    PaymentTokenService.get(opts);
   }
   $scope.$on('refreshData', function() {
     refresh(true);

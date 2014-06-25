@@ -5,13 +5,13 @@
  */
 define([], function() {
 
-var deps = ['svcHostedAsset', 'ModalService'];
+var deps = ['AlertService', 'HostedAssetService', 'ModalService', 'config'];
 return {addAssetModal: deps.concat(factory)};
 
-function factory(svcHostedAsset, ModalService) {
+function factory(AlertService, HostedAssetService, ModalService, config) {
   function Ctrl($scope) {
     // FIXME: use root/global data, move over to model
-    $scope.data = window.data || {};
+    $scope.data = config.data || {};
     $scope.identity = $scope.data.identity || {};
     $scope.feedback = {};
 
@@ -36,12 +36,12 @@ function factory(svcHostedAsset, ModalService) {
       asset.created = window.iso8601.w3cDate();
 
       console.log('asset', asset);
-      svcHostedAsset.add(asset, function(err, asset) {
+      HostedAssetService.add(asset).then(function(asset) {
         $scope.loading = false;
-        if(!err) {
-          $scope.modal.close(null, asset);
-        }
-        $scope.feedback.error = err;
+        $scope.modal.close(null, asset);
+      }).catch(function(err) {
+        AlertService.add('error', err);
+        $scope.loading = false;
       });
     };
   }

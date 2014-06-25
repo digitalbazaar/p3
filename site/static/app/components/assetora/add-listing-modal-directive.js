@@ -3,12 +3,12 @@
  *
  * @author Dave Longley
  */
-define(['async'], function(async) {
+define([], function() {
 
-var deps = ['svcHostedListing', 'ModalService', 'config'];
+var deps = ['AlertService', 'HostedListingService', 'ModalService', 'config'];
 return {addListingModal: deps.concat(factory)};
 
-function factory(svcHostedListing, ModalService, config) {
+function factory(AlertService, HostedListingService, ModalService, config) {
   function Ctrl($scope) {
     // FIXME: use root/global data, move over to model
     $scope.data = config.data || {};
@@ -55,18 +55,14 @@ function factory(svcHostedListing, ModalService, config) {
       // FIXME: figure out whether published flag is desirable
       listing.sysPublished = window.iso8601.w3cDate();
 
-      async.waterfall([
-        function(callback) {
-          console.log('listing', listing);
-          listing.asset = $scope.asset.id;
-          svcHostedListing.add(listing, callback);
-        }
-      ], function(err, listing) {
+      console.log('listing', listing);
+      listing.asset = $scope.asset.id;
+      HostedListingService.add(listing).then(function(listing) {
         $scope.loading = false;
-        if(!err) {
-          $scope.modal.close(null, listing);
-        }
-        $scope.feedback.error = err;
+        $scope.modal.close(null, listing);
+      }).catch(function(err) {
+        AlertService.add('error', err);
+        $scope.loading = false;
       });
     };
   }

@@ -5,10 +5,10 @@
  */
 define(['payswarm.api'], function(payswarm) {
 
-var deps = ['svcBudget', 'ModalService'];
+var deps = ['AlertService', 'BudgetService', 'ModalService', 'config'];
 return {addBudgetModal: deps.concat(factory)};
 
-function factory(svcBudget, ModalService, config) {
+function factory(AlertService, BudgetService, ModalService, config) {
   function Ctrl($scope) {
     $scope.selection = {
       account: null
@@ -42,6 +42,8 @@ function factory(svcBudget, ModalService, config) {
     $scope.model.budgetValidDuration = 'never';
 
     $scope.addBudget = function() {
+      AlertService.clearModalFeedback($scope);
+
       // budget refresh duration
       if($scope.model.budgetRefreshDuration !== 'never') {
         $scope.budget.sysRefreshInterval =
@@ -59,12 +61,11 @@ function factory(svcBudget, ModalService, config) {
 
       $scope.budget.source = $scope.selection.account.id;
       $scope.loading = true;
-      svcBudget.add($scope.budget, function(err, budget) {
+      BudgetService.add($scope.budget).then(function(budget) {
         $scope.loading = false;
-        if(!err) {
-          $scope.modal.close(null, budget);
-        }
-        $scope.feedback.error = err;
+        $scope.modal.close(null, budget);
+      }).catch(function(err) {
+        AlertService.add('error', err);
       });
     };
   }
@@ -72,7 +73,7 @@ function factory(svcBudget, ModalService, config) {
   return ModalService.directive({
     name: 'addBudget',
     templateUrl: '/app/components/budget/add-budget-modal.html',
-    controller: ['$scope', 'svcBudget', Ctrl],
+    controller: ['$scope', Ctrl],
     link: function(scope, element, attrs) {
       scope.feedbackTarget = element;
     }

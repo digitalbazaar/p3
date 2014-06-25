@@ -7,7 +7,7 @@ define(['angular'], function(angular) {
 
 var deps = [
   '$http', '$rootScope', 'IdentityService', 'ModelService', 'ResourceService'];
-return {svcPaymentToken: deps.concat(factory)};
+return {PaymentTokenService: deps.concat(factory)};
 
 function factory(
   $http, $rootScope, IdentityService, ModelService, ResourceService) {

@@ -5,10 +5,10 @@
  */
 define(['payswarm.api'], function(payswarm) {
 
-var deps = ['svcAccount', 'IdentityService', 'ModalService'];
+var deps = ['AccountService', 'IdentityService', 'ModalService'];
 return {modalAddAccount: deps.concat(factory)};
 
-function factory(svcAccount, IdentityService, ModalService, config) {
+function factory(AccountService, IdentityService, ModalService, config) {
   function Ctrl($scope) {
     $scope.model = {};
     $scope.data = config.data || {};
@@ -30,7 +30,7 @@ function factory(svcAccount, IdentityService, ModalService, config) {
       }
 
       $scope.loading = true;
-      svcAccount.add(
+      AccountService.add(
         $scope.account, $scope.identityId, function(err, account) {
         $scope.loading = false;
         if(!err) {

@@ -3,12 +3,12 @@
  *
  * @author David I. Lehn
  */
-define([], function() {
+define(['angular'], function(angular) {
 
-var deps = ['ModalService', 'svcHostedAsset', 'svcHostedListing', 'config'];
+var deps = ['ModalService', 'HostedAssetService', 'config'];
 return {addInvoiceModal: deps.concat(factory)};
 
-function factory(ModalService, svcHostedAsset, svcHostedListing, config) {
+function factory(ModalService, HostedAssetService, config) {
   function Ctrl($scope) {
     // FIXME: use root/global data, move over to model
     $scope.data = config.data || {};
@@ -45,7 +45,7 @@ function factory(ModalService, svcHostedAsset, svcHostedListing, config) {
       asset.sysPublished = asset.created;
 
       console.log('invoice asset', asset);
-      svcHostedAsset.add(asset, function(err, asset) {
+      HostedAssetService.add(asset, function(err, asset) {
         $scope.loading = false;
         if(!err) {
           $scope.modal.close(null, asset);

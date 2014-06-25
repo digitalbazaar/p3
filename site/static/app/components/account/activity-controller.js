@@ -8,12 +8,12 @@ define(['angular'], function(angular) {
 var deps = [
   '$timeout',
   'AlertService', 'IdentityService', 'ResourceService',
-  'ServiceTransaction', 'config'];
+  'TransactionService', 'config'];
 return {ActivityCtrl: deps.concat(factory)};
 
 function factory(
   $timeout, AlertService, IdentityService, ResourceService,
-  ServiceTransaction, config) {
+  TransactionService, config) {
   var self = this;
   self.identity = IdentityService.identity;
   self.session = config.data.session || null;

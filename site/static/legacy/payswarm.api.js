@@ -285,6 +285,7 @@ payswarm.withdrawal.confirm = function(options) {
 };
 
 // preferences API
+payswarm.identities = {};
 payswarm.identities.preferences = {};
 
 /**

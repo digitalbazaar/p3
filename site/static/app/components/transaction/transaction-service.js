@@ -5,10 +5,10 @@
  */
 define(['angular'], function(angular) {
 
-var deps = ['$rootScope', 'ModelService', 'ResourceService'];
+var deps = ['$rootScope', 'ModelService', 'RefreshService', 'ResourceService'];
 return {TransactionService: deps.concat(factory)};
 
-function factory($rootScope, ModelService, ResourceService) {
+function factory($rootScope, ModelService, RefreshService, ResourceService) {
   var service = {};
 
   // create main transaction collection
@@ -107,6 +107,9 @@ function factory($rootScope, ModelService, ResourceService) {
     });
     ModelService.replaceArray(service.recentTxns, recent);
   }
+
+  // register for system-wide refreshes
+  RefreshService.register(service.recentCollection);
 
   // expose service to scope
   $rootScope.app.services.transaction = service;

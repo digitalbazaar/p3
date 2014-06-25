@@ -6,11 +6,13 @@
 define(['angular'], function(angular) {
 
 var deps = [
-  '$http', '$rootScope', 'IdentityService', 'ModelService', 'ResourceService'];
+  '$http', '$rootScope', 'IdentityService', 'ModelService',
+  'RefreshService', 'ResourceService'];
 return {PaymentTokenService: deps.concat(factory)};
 
 function factory(
-  $http, $rootScope, IdentityService, ModelService, ResourceService) {
+  $http, $rootScope, IdentityService, ModelService,
+  RefreshService, ResourceService) {
   var service = {};
 
   // create main payment token collection
@@ -134,6 +136,9 @@ function factory(
     ModelService.replaceArray(service.instant, instant);
     ModelService.replaceArray(service.nonInstant, nonInstant);
   }
+
+  // register for system-wide refreshes
+  RefreshService.register(service.collection);
 
   // expose service to scope
   $rootScope.app.services.paymentToken = service;

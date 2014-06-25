@@ -5,10 +5,14 @@
  */
 define(['angular'], function(angular) {
 
-var deps = ['$timeout', '$rootScope', 'IdentityService', 'ModelService'];
+var deps = [
+  '$timeout', '$rootScope',
+  'IdentityService', 'ModelService', 'RefreshService'];
 return {AddressService: deps.concat(factory)};
 
-function factory($timeout, $rootScope, IdentityService, ModelService) {
+function factory(
+  $timeout, $rootScope,
+  IdentityService, ModelService, RefreshService) {
   var service = {};
 
   function _entry(identityId) {
@@ -138,6 +142,13 @@ function factory($timeout, $rootScope, IdentityService, ModelService) {
       }
     });
   };
+
+  // FIXME:
+  // register for system-wide refreshes
+  //RefreshService.register(...);
+
+  // expose service to scope
+  $rootScope.app.services.address = service;
 
   return service;
 }

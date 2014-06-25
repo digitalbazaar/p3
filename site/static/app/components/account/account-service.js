@@ -7,13 +7,14 @@ define(['angular'], function(angular) {
 
 var deps = [
   '$http', '$rootScope',
-  'IdentityService', 'ModelService', 'PaymentTokenService', 'ResourceService',
-  'config'];
+  'IdentityService', 'ModelService', 'PaymentTokenService',
+  'RefreshService', 'ResourceService', 'config'];
 return {AccountService: deps.concat(factory)};
 
 function factory(
   $http, $rootScope,
-  IdentityService, ModelService, PaymentTokenService, ResourceService, config) {
+  IdentityService, ModelService, PaymentTokenService,
+  RefreshService, ResourceService, config) {
   var service = {};
 
   // create main account collection
@@ -105,6 +106,9 @@ function factory(
       });
     });
   }
+
+  // register for system-wide refreshes
+  RefreshService.register(service.collection);
 
   // expose service to scope
   $rootScope.app.services.account = service;

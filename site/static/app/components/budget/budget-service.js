@@ -6,10 +6,13 @@
 define(['iso8601'], function(iso8601) {
 
 var deps = [
-  '$http', '$rootScope', 'IdentityService', 'ResourceService', 'config'];
+  '$http', '$rootScope', 'IdentityService', 'RefreshService',
+  'ResourceService', 'config'];
 return {BudgetService: deps.concat(factory)};
 
-function factory($http, $rootScope, IdentityService, ResourceService, config) {
+function factory(
+  $http, $rootScope, IdentityService, RefreshService,
+  ResourceService, config) {
   var service = {};
 
   // create main budget collection
@@ -122,6 +125,9 @@ function factory($http, $rootScope, IdentityService, ResourceService, config) {
     }
     return new Date(interval[1]);
   };
+
+  // register for system-wide refreshes
+  RefreshService.register(service.collection);
 
   // expose service to scope
   $rootScope.app.services.budget = service;

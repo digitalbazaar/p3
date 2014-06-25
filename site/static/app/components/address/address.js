@@ -8,7 +8,7 @@
 define([
   'angular',
   './add-address-modal-directive',
-  './address-selector-modal-directive',
+  './address-selector-directive',
   './address-service',
   './addresses-controller',
   './addresses-directive',

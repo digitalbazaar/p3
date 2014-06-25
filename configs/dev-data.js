@@ -120,6 +120,8 @@ config.identity.identities.push({
   sysResourceRole: [{
     sysRole: 'identity.registered',
     generateResource: 'id'
+  }, {
+    sysRole: 'address.manager'
   }]
 });
 
@@ -134,6 +136,8 @@ config.identity.identities.push({
   sysResourceRole: [{
     sysRole: 'identity.registered',
     generateResource: 'id'
+  }, {
+    sysRole: 'address.manager'
   }]
 });
 
@@ -149,6 +153,8 @@ config.identity.identities.push({
   sysResourceRole: [{
     sysRole: 'identity.registered',
     generateResource: 'id'
+  }, {
+    sysRole: 'address.manager'
   }],
   url: 'http://wordpress.payswarm.dev',
   description: 'The default PaySwarm Vendor',

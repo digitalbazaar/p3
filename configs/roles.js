@@ -124,8 +124,6 @@ roles['identity.registered'] = {
   sysPermission: [].concat(
     roles['identity.manager'].sysPermission,
     [
-      // address validation access
-      permissions.ADDRESS_VALIDATOR_ACCESS.id,
       // budget permissions
       permissions.BUDGET_ACCESS.id,
       permissions.BUDGET_CREATE.id,
@@ -157,6 +155,18 @@ roles['identity.registered'] = {
       // transaction permissions
       permissions.TRANSACTION_ACCESS.id,
       permissions.TRANSACTION_CREATE.id
+    ]
+  )
+};
+
+roles['address.manager'] = {
+  id: 'address.manager',
+  label: 'Address Manager',
+  comment: 'Role for managing addresses.',
+  sysPermission: [].concat(
+    [
+      // address validation access
+      permissions.ADDRESS_VALIDATOR_ACCESS.id,
     ]
   )
 };

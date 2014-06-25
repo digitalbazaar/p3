@@ -464,6 +464,14 @@ require('bedrock/configs/common-data');
 // payswarm roles
 require('./roles');
 
+// identity config
+config.identity.defaults.identity.sysResourceRole = [{
+  sysRole: 'identity.registered',
+  generateResource: 'id'
+}, {
+  sysRole: 'address.manager'
+}];
+
 // FIXME: port below to bedrock
 // identity config
 config.identity.defaults.vendor = {
@@ -477,6 +485,8 @@ config.identity.defaults.vendor = {
   sysResourceRole: [{
     sysRole: 'identity.registered',
     generateResource: 'id'
+  }, {
+    sysRole: 'address.manager'
   }],
   sysStatus: 'active'
 };

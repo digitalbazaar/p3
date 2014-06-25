@@ -3,7 +3,7 @@
   <div class="row">
     <div class="title-section span12">
       <h1 class="headline">Assetora</h1>
-      
+
       <p>Assetora is a service that makes it easier for you to sell the
       creations you host on your website. Using Assetora, you can set what
       your customers will see when they try to purchase items from your
@@ -18,7 +18,7 @@
       you can start selling.</p>
     </div>
   </div>
-  
+
   <div class="row">
     <div class="section span12">
       <h3 class="headline">Search</h3>
@@ -37,11 +37,11 @@
       </form>
     </div>
   </div>
-  
+
   <div class="row">
     <div class="section section-asset-search span6">
       <h3 class="headline">Asset Search Results</h3>
-      
+
       <table class="table table-condensed"
         data-ng-show="!state.assets.loading && model.search.assets.length > 0">
         <thead>
@@ -114,10 +114,10 @@
         <p class="center">No matches.</p>
       </div>
     </div>
-  
+
     <div class="section section-listing-search span6">
       <h3 class="headline">Listing Search Results</h3>
-      
+
       <table class="table table-condensed"
         data-ng-show="!state.listings.loading && model.search.listings.length > 0">
         <thead>
@@ -180,12 +180,12 @@
         <p class="center">No matches.</p>
       </div>
     </div>
-  </div>  
-  
+  </div>
+
   <div class="row">
     <div class="section section-recent-assets span6">
       <h3 class="headline">Recent Assets</h3>
-      
+
       <table class="table table-condensed" data-ng-show="state.assets.loading || model.recentAssets.length > 0">
         <thead>
           <tr>
@@ -257,10 +257,10 @@
         <p class="center">You have no recent assets for this identity.</p>
       </div>
     </div>
-  
+
     <div class="section section-recent-listings span6">
       <h3 class="headline">Recent Listings</h3>
-      
+
       <table class="table table-condensed" data-ng-show="state.listings.loading || model.recentListings.length > 0">
         <thead>
           <tr>
@@ -302,9 +302,9 @@
       </div>
     </div>
   </div>
-  
+
   <!-- Delete asset alert -->
-  <div data-modal-alert="showDeleteAssetAlert"
+  <div data-alert-modal="showDeleteAssetAlert"
     data-modal-header="Warning"
     data-modal-ok="Delete"
     data-modal-cancel="Cancel"
@@ -314,9 +314,9 @@
       <div>FIXME: display asset</div>
     </div>
   </div>
-  
+
   <!-- Delete listing alert -->
-  <div data-modal-alert="showDeleteListingAlert"
+  <div data-alert-alert="showDeleteListingAlert"
     data-modal-header="Warning"
     data-modal-ok="Delete"
     data-modal-cancel="Cancel"
@@ -328,10 +328,10 @@
   </div>
 
   <!-- Modals -->
-  <div data-modal-add-asset="model.modals.showAddAsset"></div>
-  <div data-modal-protect-asset="model.modals.showProtectAsset"
+  <div data-add-asset-modal="model.modals.showAddAsset"></div>
+  <div data-protect-asset-modal="model.modals.showProtectAsset"
     data-asset="model.modals.asset"></div>
-  <div data-modal-add-listing="model.modals.showAddListing"
+  <div data-add-listing-modal="model.modals.showAddListing"
     data-asset="model.modals.asset"></div>
 
 </div>

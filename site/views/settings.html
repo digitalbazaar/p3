@@ -118,8 +118,8 @@
               <p class="center">You have no credit cards associated with this identity.</p>
             </div>
             <div data-feedback="creditCardFeedback"></div>
-            <div data-modal-add-payment-token="modals.showAddCreditCard" data-payment-methods="creditCardMethods"></div>
-            <div data-modal-edit-payment-token="modals.showEditPaymentToken"
+            <div data-add-payment-token-modal="modals.showAddCreditCard" data-payment-methods="creditCardMethods"></div>
+            <div data-edit-payment-token-modal="modals.showEditPaymentToken"
                data-payment-token="modals.paymentToken"></div>
           </div>
         </div>
@@ -207,8 +207,8 @@
               <p class="center">You have no bank accounts associated with this identity.</p>
             </div>
             <div data-feedback="bankAccountFeedback"></div>
-            <div data-modal-add-payment-token="modals.showAddBankAccount" data-payment-methods="bankAccountMethods"></div>
-            <div data-modal-verify-bank-account="modals.showVerifyBankAccountModal"
+            <div data-add-payment-token-modal="modals.showAddBankAccount" data-payment-methods="bankAccountMethods"></div>
+            <div data-verify-bank-account-modal="modals.showVerifyBankAccountModal"
                data-payment-token="modals.paymentToken"></div>
           </div>
         </div>
@@ -276,11 +276,11 @@
                 class="btn btn-success pull-right"
                 data-ng-click="modals.showAddAddress=true"><i class="icon-plus icon-white"></i> Add Address</button>
             </div>
-            <div data-modal-add-address="modals.showAddAddress" data-identity="identity"></div>
+            <div data-add-address-modal="modals.showAddAddress" data-identity="identity"></div>
           </div>
         </div>
         <!-- Removing last address alert -->
-        <div data-modal-alert="showLastAddressAlert"
+        <div data-alert-modal="showLastAddressAlert"
           data-modal-header="Warning"
           data-modal-ok="Remove"
           data-modal-cancel="Cancel"
@@ -345,7 +345,7 @@
           </div>
         </div>
         <!-- Revoking key alert -->
-        <div data-modal-alert="modals.showRevokeKeyAlert"
+        <div data-alert-modal="modals.showRevokeKeyAlert"
           data-modal-header="Warning"
           data-modal-ok="Revoke"
           data-modal-cancel="Cancel"
@@ -360,7 +360,7 @@
           registering a new key.</p>
           <p>Are you sure that you want to revoke this key?</p>
         </div>
-        <div data-modal-edit-key="modals.showEditKey"
+        <div data-edit-key-modal="modals.showEditKey"
           data-key="modals.key"></div>
         </div>
       </div>

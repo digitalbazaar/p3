@@ -5,7 +5,7 @@
  */
 define([], function() {
 
-var deps = ['svcModal'];
+var deps = ['ModalService'];
 return {paymentTokenListSelectorModal: deps.concat(factory)};
 
 function factory(ModalService) {

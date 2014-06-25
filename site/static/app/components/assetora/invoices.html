@@ -3,13 +3,13 @@
   <div class="row">
     <div class="title-section span12">
       <h1 class="headline">Invoices</h1>
-      
+
       <!--
       <p>Create and pay invoices.</p>
       -->
     </div>
   </div>
-  
+
   <div class="row">
     <div class="section span12">
       <h3 class="headline">Invoices</h3>
@@ -36,7 +36,7 @@
       </form>
 
       <span class="clearfix"></span>
-      
+
       <table class="table table-condensed"
         data-ng-show="!state.assets.loading && model.search.assets.length > 0">
         <thead>
@@ -115,9 +115,9 @@
       </div>
     </div>
   </div>
-  
+
   <!-- delete alert -->
-  <div data-modal-alert="showDeleteInvoiceAlert"
+  <div data-alert-modal="showDeleteInvoiceAlert"
     data-modal-header="Warning"
     data-modal-ok="Delete"
     data-modal-cancel="Cancel"
@@ -127,9 +127,9 @@
       <div>FIXME: display invoice</div>
     </div>
   </div>
-  
+
   <!-- Modals -->
-  <div data-modal-add-invoice="model.modals.showAddInvoice"></div>
-  <!--<div data-modal-edit-invoice="model.modals.showEditInvoice"></div>-->
+  <div data-add-invoice-modal="model.modals.showAddInvoice"></div>
+  <!--<div data-edit-invoice-modal="model.modals.showEditInvoice"></div>-->
 
 </div>

@@ -5,17 +5,17 @@
  */
 define(['payswarm.api'], function(payswarm) {
 
-var deps = ['svcModal'];
-return {modalAddBudget: deps.concat(factory)};
+var deps = ['svcBudget', 'ModalService'];
+return {addBudgetModal: deps.concat(factory)};
 
-function factory(svcModal) {
-  function Ctrl($scope, svcBudget) {
+function factory(svcBudget, ModalService, config) {
+  function Ctrl($scope) {
     $scope.selection = {
       account: null
     };
 
     $scope.model = {};
-    $scope.data = window.data || {};
+    $scope.data = config.data || {};
     $scope.feedback = {};
     $scope.loading = false;
     $scope.identity = $scope.data.identity || {};
@@ -69,8 +69,8 @@ function factory(svcModal) {
     };
   }
 
-  return svcModal.directive({
-    name: 'AddBudget',
+  return ModalService.directive({
+    name: 'addBudget',
     templateUrl: '/app/components/budget/add-budget-modal.html',
     controller: ['$scope', 'svcBudget', Ctrl],
     link: function(scope, element, attrs) {

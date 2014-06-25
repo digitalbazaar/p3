@@ -37,7 +37,7 @@ function factory(AddressService, IdentityService) {
       fixed: '@'
     },
     controller: ['$scope', Ctrl],
-    templateUrl: '/app/components/address/address-selector-modal.html',
+    templateUrl: '/app/components/address/address-selector.html',
     link: Link
   };
 }

@@ -40,7 +40,7 @@
       <div data-ng-show="showDepositButton">
         <button class="btn btn-success"
           data-ng-click="showDepositModal=true"><i class="icon-plus icon-white"></i> Deposit</button><br/>
-        <div data-modal-deposit="showDepositModal"
+        <div data-deposit-modal="showDepositModal"
           data-account="selected" data-instant="instant"></div>
       </div>
       <div data-ng-show="balanceTooLow">
@@ -74,8 +74,8 @@
       </div>
     </div>
   </div>
-  <div data-modal-add-account="showAddAccountModal"
+  <div data-add-account-modal="showAddAccountModal"
     data-identity-id="{{identityId}}"
     data-modal-on-close="!err && (selected=result)"></div>
-  <div data-modal-edit-account="model.showEditAccount" data-account="selected"></div>
+  <div data-edit-account-modal="model.showEditAccount" data-account="selected"></div>
 </div>

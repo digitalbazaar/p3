@@ -61,8 +61,6 @@ function factory(
         }
       }).catch(function(err) {
         AlertService.add('error', err);
-        // FIXME: remove me
-        console.log('validation failed', err);
       }).then(function() {
         scope.$apply();
       });

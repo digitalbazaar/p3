@@ -50,6 +50,7 @@ function factory(
       scope.budget);
     scope.model.budgetValidDuration = '';
 
+    scope.loading = true;
     AccountService.get(scope.budget.source).then(function(account) {
       scope.selection.account = account;
       scope.loading = false;

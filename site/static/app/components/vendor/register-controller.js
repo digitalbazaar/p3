@@ -4,7 +4,7 @@
  * @author Manu Sporny
  * @author Dave Longley
  */
-define(['async', 'payswarm.api'], function(async, payswarm) {
+define([], function() {
 
 var deps = [
   '$scope', '$timeout', 'AddressService', 'AlertService',

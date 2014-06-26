@@ -9,24 +9,32 @@ var deps = ['AccountService', 'BudgetService'];
 return {budgetSelector: deps.concat(factory)};
 
 function factory(AccountService, BudgetService) {
-  function Ctrl($scope) {
-    $scope.model = {};
-    $scope.services = {
+  return {
+    scope: {
+      selected: '=',
+      invalid: '=',
+      minBalance: '@',
+      fixed: '@'
+    },
+    templateUrl: '/app/components/budget/budget-selector.html',
+    link: Link
+  };
+
+  function Link(scope, element, attrs) {
+    scope.model = {};
+    scope.services = {
       account: AccountService.state,
       budget: BudgetService.state
     };
-    $scope.budgets = BudgetService.budgets;
-    $scope.account = null;
-    $scope.accounts = AccountService.accounts;
-    $scope.$watch('budgets', function(budgets) {
-      if(!$scope.selected || $.inArray($scope.selected, budgets) === -1) {
-        $scope.selected = budgets[0] || null;
+    scope.budgets = BudgetService.budgets;
+    scope.account = null;
+    scope.accounts = AccountService.accounts;
+    scope.$watch('budgets', function(budgets) {
+      if(!scope.selected || $.inArray(scope.selected, budgets) === -1) {
+        scope.selected = budgets[0] || null;
       }
     }, true);
-    BudgetService.collection.getAll();
-  }
 
-  function Link(scope, element, attrs) {
     attrs.$observe('fixed', function(value) {
       scope.fixed = value;
     });
@@ -101,19 +109,9 @@ function factory(AccountService, BudgetService) {
         }
       }
     });
-  }
 
-  return {
-    scope: {
-      selected: '=',
-      invalid: '=',
-      minBalance: '@',
-      fixed: '@'
-    },
-    controller: ['$scope', Ctrl],
-    templateUrl: '/app/components/budget/budget-selector.html',
-    link: Link
-  };
+    BudgetService.collection.getAll();
+  }
 }
 
 });

@@ -10,17 +10,14 @@ return {budgetBar: deps.concat(factory)};
 
 function factory() {
   return {
-    scope: {
-      budget: '=budgetBar'
-    },
+    scope: {budget: '=budgetBar'},
     replace: true,
     templateUrl: '/app/components/budget/budget-bar.html',
-    controller: ['$scope', function($scope) {
-      var model = $scope.model = {};
+    link: function(scope) {
+      var model = scope.model = {};
       model.barPercentage = 0;
       model.textPercentage = 0;
-    }],
-    link: function(scope, element, attrs) {
+
       // update progress bar when balance or amount changes
       scope.$watch('budget', function(budget) {
         var model = scope.model;

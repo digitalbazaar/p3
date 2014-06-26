@@ -51,7 +51,7 @@ function factory(
     scope.model.budgetValidDuration = '';
 
     scope.loading = true;
-    AccountService.get(scope.budget.source).then(function(account) {
+    AccountService.collection.get(scope.budget.source).then(function(account) {
       scope.selection.account = account;
       scope.loading = false;
       scope.$apply();
@@ -112,7 +112,7 @@ function factory(
       });
 
       scope.loading = true;
-      BudgetService.update(budget).then(function(budget) {
+      BudgetService.collection.update(budget).then(function(budget) {
         scope.loading = false;
         scope.modal.close(null, budget);
       }).catch(function(err) {

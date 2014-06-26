@@ -34,4 +34,6 @@ module.controller(addressesController);
 module.directive(addressesDirective);
 module.directive(vcardAddressDirective);
 
+return module.name;
+
 });

@@ -16,4 +16,6 @@ var module = angular.module('app.assetora', []);
 
 module.controller(assetora);
 
+return module.name;
+
 });

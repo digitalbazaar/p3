@@ -16,4 +16,6 @@ var module = angular.module('app.promo', []);
 
 module.service(promoService);
 
+return module.name;
+
 });

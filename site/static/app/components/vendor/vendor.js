@@ -16,4 +16,6 @@ var module = angular.module('app.vendor', []);
 
 module.controller(register);
 
+return module.name;
+
 });

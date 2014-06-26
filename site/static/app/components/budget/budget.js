@@ -31,4 +31,6 @@ module.directive(budgetSelectorDirective);
 module.service(budgetService);
 module.directive(editBudgetModalDirective);
 
+return module.name;
+
 });

@@ -16,4 +16,6 @@ var module = angular.module('app.system', []);
 
 module.controller(dashboard);
 
+return module.name;
+
 });

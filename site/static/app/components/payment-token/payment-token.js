@@ -16,4 +16,6 @@ var module = angular.module('app.paymentToken', []);
 
 module.service(paymentTokenService);
 
+return module.name;
+
 });

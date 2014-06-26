@@ -18,4 +18,6 @@ var module = angular.module('app.account', []);
 module.service(accountService);
 module.controller(activityController);
 
+return module.name;
+
 });

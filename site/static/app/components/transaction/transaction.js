@@ -16,4 +16,6 @@ var module = angular.module('app.transaction', []);
 
 module.service(transactionService);
 
+return module.name;
+
 });

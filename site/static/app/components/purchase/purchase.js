@@ -16,4 +16,6 @@ var module = angular.module('app.purchase', []);
 
 module.controller(purchaseController);
 
+return module.name;
+
 });

@@ -5,17 +5,16 @@
  * @author Dave Longley
  * @author Manu Sporny
  */
-define(['angular', 'async', 'payswarm.api'], function(
-  angular, async, payswarm) {
+define(['angular', 'async'], function(angular, async) {
 
 var deps = [
-  '$scope', '$sce', 'AccountService', 'AddressService', 'BudgetService',
-  'IdentityService'];
+  '$scope', '$sce', 'AccountService', 'AddressService', 'AlertService',
+  'BudgetService', 'IdentityService', 'TransactionService', 'config'];
 return {PurchaseCtrl: deps.concat(factory)};
 
 function factory(
-  $scope, $sce, AccountService, AddressService,
-  BudgetService, IdentityService) {
+  $scope, $sce, AccountService, AddressService, AlertService,
+  BudgetService, IdentityService, TransactionService, config) {
   $scope.model = {};
   var data = window.data;
   $scope.identity = IdentityService.identity;
@@ -118,18 +117,17 @@ function factory(
     if($scope.sourceType === 'budget') {
       // first add vendor to budget
       var budget = $scope.selection.budget;
-      return payswarm.budgets.addVendor({
-        budget: budget.id,
-        vendor: $scope.contract.vendor.id,
-        success: function() {
+      return BudgetService.addVendor(budget.id, $scope.contract.vendor.id)
+        .then(function() {
+          // FIXME: use promise, not purchaseCallback
           // do budget-based purchase
           purchase(budget.source, purchaseCallback);
-        },
-        error: function(err) {
-          $scope.error = err;
+        })
+        .catch(function(err) {
+          AlertService.add('error', err);
+        }).then(function() {
           $scope.$apply();
-        }
-      });
+        });
     }
 
     // do account-based purchase
@@ -188,7 +186,12 @@ function factory(
         $scope.selection.account =
           $scope.selection.account || $scope.accounts[0];
         $scope.source = $scope.selection.account.id;
-        updateQuote($scope.source, callback);
+        // FIXME: use promises
+        updateQuote($scope.source).then(function() {
+          callback();
+        }).catch(function(err) {
+          callback(err);
+        });
       }],
       main: ['getQuote', function(callback) {
         // attempt to auto-purchase using a current budget
@@ -211,38 +214,32 @@ function factory(
    * selector or the budget selector).
    *
    * @param source the source account or budget to use to generate the quote.
-   * @param callback(err) called once the operation completes.
+   *
+   * @return a Promise.
    */
-  function updateQuote(source, callback) {
-    callback = callback || angular.noop;
+  function updateQuote(source) {
     $scope.loading = true;
-    payswarm.transactions.getQuote({
-      purchaseRequest: (function() {
-        var rval = {
-          '@context': 'https://w3id.org/payswarm/v1',
-          listing: $scope.listing,
-          listingHash: $scope.listingHash,
-          source: source
-        };
-        if($scope.referenceId !== null) {
-          rval.referenceId = $scope.referenceId;
-        }
-        if($scope.nonce !== null) {
-          rval.nonce = $scope.nonce;
-        }
-        return rval;
-      })(),
-      success: function(contract) {
-        $scope.contract = contract;
-        $scope.loading = false;
-        $scope.$apply();
-        callback();
-      },
-      error: function(err) {
-        $scope.loading = false;
-        $scope.$apply();
-        callback(err);
+    return TransactionService.getQuote((function() {
+      var rval = {
+        '@context': config.data.contextUrl,
+        listing: $scope.listing,
+        listingHash: $scope.listingHash,
+        source: source
+      };
+      if($scope.referenceId !== null) {
+        rval.referenceId = $scope.referenceId;
       }
+      if($scope.nonce !== null) {
+        rval.nonce = $scope.nonce;
+      }
+      return rval;
+    })()).then(function(contract) {
+      $scope.contract = contract;
+    }).catch(function(err) {
+      AlertService.add('error', err);
+    }).then(function() {
+      $scope.loading = false;
+      $scope.$apply();
     });
   }
 
@@ -254,46 +251,49 @@ function factory(
         // ensure account matches quote
         var src = $scope.contract.transfer[0].source;
         if(src !== source) {
-          return updateQuote(source, callback);
+          // FIXME: use promises
+          return updateQuote(source).then(function() {
+            callback();
+          }).catch(function(err) {
+            callback(err);
+          });
         }
         callback();
       },
       function(callback) {
-        payswarm.transactions.purchase({
-          purchaseRequest: (function() {
-            var rval = {
-              '@context': 'https://w3id.org/payswarm/v1',
-              type: 'PurchaseRequest',
-              transactionId: $scope.contract.id
-            };
-            if($scope.nonce !== null) {
-              rval.nonce = $scope.nonce;
-            }
-            return rval;
-          })(),
-          success: function(response) {
-            $scope.alertType = 'purchased';
-            $scope.purchased = true;
-            if(response.type === 'EncryptedMessage') {
-              $scope.encryptedMessage = response;
-            } else {
-              $scope.receipt = response;
-            }
+        TransactionService.purchase((function() {
+          var rval = {
+            '@context': 'https://w3id.org/payswarm/v1',
+            type: 'PurchaseRequest',
+            transactionId: $scope.contract.id
+          };
+          if($scope.nonce !== null) {
+            rval.nonce = $scope.nonce;
+          }
+          return rval;
+        })()).then(function(response) {
+          $scope.alertType = 'purchased';
+          $scope.purchased = true;
+          if(response.type === 'EncryptedMessage') {
+            $scope.encryptedMessage = response;
+          } else {
+            $scope.receipt = response;
+          }
 
-            // auto-purchased, update budget
-            if($scope.budget) {
-              return BudgetService.getOne(
-                $scope.budget.id, {force: true}, function(err, budget) {
-                  if(!err) {
-                    $scope.budget = budget;
-                  }
-                  callback();
-                });
-            }
-
-            callback();
-          },
-          error: callback
+          // auto-purchased, update budget
+          if($scope.budget) {
+            return BudgetService.get($scope.budget.id, {force: true})
+              .then(function(budget) {
+                $scope.budget = budget;
+              });
+          }
+        }).then(function() {
+          // FIXME: use promises
+          callback();
+        }).catch(function(err) {
+          AlertService.add('error', err);
+          // FIXME: use promises
+          callback(err);
         });
       }
     ], function(err) {

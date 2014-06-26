@@ -3,15 +3,15 @@
  *
  * @author Dave Longley
  */
-define(['angular', 'async', 'payswarm.api'], function(
-  angular, async, payswarm) {
+define(['angular'], function(angular) {
 
 var deps = [
-  'AccountService', 'AlertService', 'ModalService', 'PaymentTokenService'];
+  'AccountService', 'AlertService', 'ModalService', 'PaymentTokenService',
+  'config'];
 return {verifyBankAccountModal: deps.concat(factory)};
 
 function factory(
-  AccountService, AlertService, ModalService, PaymentTokenService) {
+  AccountService, AlertService, ModalService, PaymentTokenService, config) {
   return ModalService.directive({
     name: 'verifyBankAccount',
     scope: {paymentToken: '='},
@@ -49,7 +49,7 @@ function factory(
 
     scope.review = function() {
       var verifyRequest = {
-        '@context': payswarm.CONTEXT_URL,
+        '@context': config.data.contextUrl,
         sysVerifyParameters: {
           amount: [
             scope.sysVerifyParameters.amount[0],

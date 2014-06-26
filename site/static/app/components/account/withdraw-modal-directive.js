@@ -90,26 +90,23 @@ function factory(
           if(dst in scope.accounts || dst === scope.input.destination.id) {
             return;
           }
-          var info = scope.accounts[dst] = {
-            loading: true,
-            label: ''
-          };
+          var info = scope.accounts[dst] = {loading: true, label: ''};
           if(dst.indexOf('urn') === 0) {
             info.label = scope.input.destination.label;
             info.loading = false;
             return;
           }
           promises.push(AccountService.get(dst).then(function(account) {
-            info.loading = false;
             info.label = account.label;
-            scope.$apply();
           }).catch(function(err) {
-            info.loading = false;
             info.label = 'Private Account';
+          }).then(function() {
+            info.loading = false;
             scope.$apply();
           }));
         });
-        Promise.all(promises).catch(function(err) {
+        scope.$apply();
+        return Promise.all(promises).catch(function(err) {
           AlertService.add('error', err);
           //
           // go to top of page?
@@ -117,16 +114,14 @@ function factory(
           //var target = options.target;
           //$(target).animate({scrollTop: 0}, 0);
 
-          scope.loading = false;
-
           // copy to avoid angular keys in POSTed data
           scope._withdrawal = angular.copy(withdrawal);
           scope.withdrawal = withdrawal;
           scope.state = 'reviewing';
-          scope.$apply();
         });
       }).catch(function(err) {
         AlertService.add('error', err);
+      }).then(function() {
         scope.loading = false;
         scope.$apply();
       });
@@ -139,12 +134,9 @@ function factory(
       AlertService.clearModalFeedback();
       TransactionService.confirmWithdrawal(scope._withdrawal)
         .then(function(withdrawal) {
-          scope.loading = false;
-
           // show complete page
           scope.withdrawal = withdrawal;
           scope.state = 'complete';
-          scope.$apply();
 
           // get updated balance after a delay
           AccountService.get(scope.account.id, {delay: 500});
@@ -158,6 +150,8 @@ function factory(
         })
         .catch(function(err) {
           AlertService.add('error', err);
+        })
+        .then(function() {
           scope.loading = false;
           scope.$apply();
         });

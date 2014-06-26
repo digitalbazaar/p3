@@ -40,21 +40,19 @@ function factory(
 
     function reloadAccount() {
       if(scope.account.sysAllowStoredValue) {
-        return;
+        return Promise.resolve();
       }
       // showing unpaid balance, so load latest account info
       scope.loading = true;
-      AccountService.get(scope.account.id).then(function() {
+      return AccountService.get(scope.account.id).then(function() {
         scope.loading = false;
         scope.input.max = {
           currency: scope.account.currency,
           // FIXME: fix rounding
           amount: -parseFloat(scope.account.balance)
         };
-        scope.$apply();
       }).catch(function(err) {
         AlertService.add('error', err);
-        scope.$apply();
       });
     }
 
@@ -62,7 +60,9 @@ function factory(
       scope.state = 'preparing';
       scope.enableConfirm = true;
       AlertService.clearModalFeedback(scope);
-      reloadAccount();
+      reloadAccount().then(function() {
+        scope.$apply();
+      });
     };
 
     scope.prepare();
@@ -94,21 +94,17 @@ function factory(
           if(dst in scope.accounts) {
             return;
           }
-          var info = scope.accounts[dst] = {
-            loading: true,
-            label: ''
-          };
+          var info = scope.accounts[dst] = {loading: true, label: ''};
           promises.push(AccountService.get(dst).then(function(account) {
-            info.loading = false;
             info.label = account.label;
-            scope.$apply();
           }).catch(function(err) {
-            info.loading = false;
             info.label = 'Private Account';
+          }).then(function() {
+            info.loading = false;
             scope.$apply();
           }));
         });
-        Promise.all(promises).catch(function(err) {
+        return Promise.all(promises).catch(function(err) {
           AlertService.add('error', err);
           //
           // go to top of page?
@@ -116,18 +112,18 @@ function factory(
           //var target = options.target;
           //$(target).animate({scrollTop: 0}, 0);
 
-          scope.loading = false;
-
           // copy to avoid angular keys in POSTed data
           scope._deposit = angular.copy(deposit);
           scope.deposit = deposit;
           scope.state = 'reviewing';
+        }).then(function() {
           scope.$apply();
         });
       }).catch(function(err) {
         AlertService.add('error', err);
-        scope.loading = false;
         reloadAccount();
+      }).then(function() {
+        scope.loading = false;
         scope.$apply();
       });
     };
@@ -137,30 +133,26 @@ function factory(
       // only allow a single confirm attempt
       scope.enableConfirm = false;
       AlertService.clearModalFeedback(scope);
-      TransactionService.confirmDeposit(scope._deposit)
-        .then(function(deposit) {
-          scope.loading = false;
+      TransactionService.confirmDeposit(scope._deposit).then(function(deposit) {
+        // show complete page
+        scope.deposit = deposit;
+        scope.state = 'complete';
 
-          // show complete page
-          scope.deposit = deposit;
-          scope.state = 'complete';
-          scope.$apply();
+        // get updated balance after a delay
+        AccountService.get(scope.account.id, {delay: 500});
 
-          // get updated balance after a delay
-          AccountService.get(scope.account.id, {delay: 500});
+        // update recent transactions
+        TransactionService.getRecent({force: true});
 
-          // update recent transactions
-          TransactionService.getRecent({force: true});
-
-          // go to top of page?
-          //var target = options.target;
-          //$(target).animate({scrollTop: 0}, 0);
-        })
-        .catch(function(err) {
-          AlertService.add('error', err);
-          scope.loading = false;
-          scope.$apply();
-        });
+        // go to top of page?
+        //var target = options.target;
+        //$(target).animate({scrollTop: 0}, 0);
+      }).catch(function(err) {
+        AlertService.add('error', err);
+      }).then(function() {
+        scope.loading = false;
+        scope.$apply();
+      });
     };
   }
 }

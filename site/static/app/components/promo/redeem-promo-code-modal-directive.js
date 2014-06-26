@@ -5,42 +5,35 @@
  */
 define([], function() {
 
-var deps = ['ModalService', 'PromoService'];
+var deps = ['AlertService', 'ModalService', 'PromoService'];
 return {redeemPromoCodeModal: deps.concat(factory)};
 
-function factory(ModalService, PromoService) {
-  function Ctrl($scope) {
-    $scope.model = {};
-    $scope.data = window.data || {};
-    $scope.feedback = {};
-    $scope.services = {promo: PromoService};
-
-    $scope.redeemPromoCode = function() {
-      PromoService.redeemCode(
-        $scope.model.promoCode, $scope.account.id, function(err, promo) {
-        $scope.feedback.error = err;
-        if(err) {
-          return;
-        }
-        $scope.model.success = true;
-        $scope.model.promo = promo;
-      });
-    };
-  }
-
-  function Link(scope, element, attrs) {
-    scope.feedbackTarget = element;
-  }
-
+function factory(AlertService, ModalService, PromoService) {
   return ModalService.directive({
     name: 'redeemPromoCode',
-    scope: {
-      account: '='
-    },
+    scope: {account: '='},
     templateUrl: '/app/components/promo/redeem-promo-code-modal.html',
-    controller: ['$scope', Ctrl],
     link: Link
   });
+
+  function Link(scope) {
+    scope.model = {};
+    scope.services = {promo: PromoService};
+
+    scope.redeemPromoCode = function() {
+      PromoService.redeemCode(scope.model.promoCode, scope.account.id)
+        .then(function(promo) {
+          scope.model.success = true;
+          scope.model.promo = promo;
+        })
+        .catch(function(err) {
+          AlertService.add('error', err);
+        })
+        .then(function() {
+          scope.$apply();
+        });
+    };
+  }
 }
 
 });

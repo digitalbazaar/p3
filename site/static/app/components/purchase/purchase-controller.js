@@ -146,7 +146,7 @@ function factory(
     async.auto({
       // load data in parallel
       getAddresses: function(callback) {
-        AddressService.get({force: true}, callback);
+        AddressService.getAll({force: true}, callback);
       },
       getAccounts: function(callback) {
         AccountService.collection.getAll({force: true}, callback);

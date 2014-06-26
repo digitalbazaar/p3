@@ -42,14 +42,14 @@ function factory($timeout, AccountService, BudgetService, config) {
     }
   };
 
-  BudgetService.get(config.data.budgetId).then(function(budget) {
+  BudgetService.collection.get(config.data.budgetId).then(function(budget) {
     self.budget = budget;
 
     // fetch vendors for budget
     BudgetService.getVendors(budget.id);
 
     // get budget account
-    AccountService.get(budget.source).then(function(account) {
+    AccountService.collection.get(budget.source).then(function(account) {
       self.account = account;
     });
   });

@@ -67,7 +67,7 @@ function factory(
       }
 
       scope.budget.source = scope.selection.account.id;
-      BudgetService.add(scope.budget).then(function(budget) {
+      BudgetService.collection.add(scope.budget).then(function(budget) {
         scope.modal.close(null, budget);
       }).catch(function(err) {
         AlertService.add('error', err);

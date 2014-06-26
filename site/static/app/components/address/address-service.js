@@ -29,7 +29,7 @@ function factory(
     if(options.force || Date.now() >= service.expires) {
       service.state.loading = true;
       return Promise.resolve($timeout(function() {
-        Promise.resolve($http.get(identity.id + '/addresses'))
+        return Promise.resolve($http.get(identity.id + '/addresses'))
           .catch(function(err) {
             // if 404, assume no addresses
             if(err.status === 404) {

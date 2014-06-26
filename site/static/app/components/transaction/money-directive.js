@@ -18,10 +18,10 @@ var CURRENCY_INFO = {
   }
 };
 
-var deps = [];
+var deps = ['$filter'];
 return {money: deps.concat(factory)};
 
-function factory() {
+function factory($filter) {
   return {
     scope: {
       money: '=',
@@ -50,35 +50,37 @@ function factory() {
         attrs.roundMode = 'up';
       }
     },
-    controller: ['$scope', '$filter', function($scope, $filter) {
-      $scope.$watch('money', function(money) {
-        if(!money) {
-          return;
-        }
-        // FIXME: fix defaulting in compile function
-        $scope.valueField = $scope.valueField || 'amount';
-        $scope.roundMode = $scope.roundMode || 'up';
-
-        var amount = '';
-        if($scope.valueField in money) {
-          amount = money[$scope.valueField];
-        }
-        var currency = money.currency || 'DEFAULT';
-        $scope.symbol = CURRENCY_INFO[currency].symbol;
-        var precision = CURRENCY_INFO[currency].precision;
-        $scope.exactAmount = amount;
-        if($scope.exact) {
-          $scope.formattedAmount = amount;
-        } else if($scope.roundMode === 'down') {
-          $scope.formattedAmount = $filter('floor')(amount, precision);
-        } else if($scope.roundMode === 'up') {
-          $scope.formattedAmount = $filter('ceil')(amount, precision);
-        } else {
-          $scope.formattedAmount = amount;
-        }
-      }, true);
-    }]
+    link: Link
   };
+
+  function Link(scope) {
+    scope.$watch('money', function(money) {
+      if(!money) {
+        return;
+      }
+      // FIXME: fix defaulting in compile function
+      scope.valueField = scope.valueField || 'amount';
+      scope.roundMode = scope.roundMode || 'up';
+
+      var amount = '';
+      if(scope.valueField in money) {
+        amount = money[scope.valueField];
+      }
+      var currency = money.currency || 'DEFAULT';
+      scope.symbol = CURRENCY_INFO[currency].symbol;
+      var precision = CURRENCY_INFO[currency].precision;
+      scope.exactAmount = amount;
+      if(scope.exact) {
+        scope.formattedAmount = amount;
+      } else if(scope.roundMode === 'down') {
+        scope.formattedAmount = $filter('floor')(amount, precision);
+      } else if(scope.roundMode === 'up') {
+        scope.formattedAmount = $filter('ceil')(amount, precision);
+      } else {
+        scope.formattedAmount = amount;
+      }
+    }, true);
+  }
 }
 
 });

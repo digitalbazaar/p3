@@ -9,7 +9,6 @@ define([], function() {
 
 require.config({
   paths: {
-    async: 'async/async',
     Blob: 'polyfill/Blob',
     FileSaver: 'filesaver/FileSaver',
     TypedArray: 'polyfill/typedarray',

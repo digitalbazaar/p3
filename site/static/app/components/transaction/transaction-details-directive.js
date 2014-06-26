@@ -3,7 +3,7 @@
  *
  * @author Digital Bazaar
  */
-define(['angular', 'async'], function(angular, async) {
+define(['angular'], function(angular) {
 
 var deps = ['AccountService'];
 return {transactionDetails: deps.concat(factory)};

@@ -126,80 +126,59 @@ function factory(
   // may be re-entrant if modals were opened
   tryPurchase();
 
-  function tryPurchase() {
-    async.auto({
-      // load data in parallel
-      getAddresses: function(callback) {
-        AddressService.getAll({force: true}, callback);
-      },
-      getAccounts: function(callback) {
-        AccountService.collection.getAll({force: true}, callback);
-      },
-      // check pre-conditions serially so only one modal is shown at a time
-      checkAddresses: ['getAddresses',
-        function(callback, results) {
-        if(results.getAddresses.length === 0) {
-          $scope.showAddAddressModal = true;
-          callback({
-            type: 'payswarm.identity.IdentityIncomplete',
-            message: 'Address required to make a purchase.'
-          });
-          return;
-        }
-        callback();
-      }],
-      checkAccounts: ['getAccounts', 'checkAddresses',
-        function(callback, results) {
-        if(results.getAccounts.length === 0) {
-          $scope.showAddAccountModal = true;
-          callback({
-            type: 'payswarm.identity.IdentityIncomplete',
-            message: 'Account required to make a purchase.'
-          });
-          return;
-        }
-        callback();
-      }],
-      // identity is setup at this point, continue and get a quote
-      // this can still fail if data is changed between the checks and quote
-      getBudgets: ['checkAddresses', 'checkAccounts', function(callback) {
-        BudgetService.get({force: true}, callback);
-      }],
-      getQuote: ['getBudgets',
-        function(callback) {
-        $scope.selection.account =
-          $scope.selection.account || $scope.accounts[0];
-        $scope.source = $scope.selection.account.id;
-        // FIXME: use promises
-        updateQuote($scope.source).then(function() {
-          callback();
-        }).catch(function(err) {
-          callback(err);
-        });
-      }],
-      main: ['getQuote', function(callback) {
-        // attempt to auto-purchase using a current budget
-        autoPurchase(callback);
-      }]
-    }, function(err) {
-      // page now ready
-      $scope.ready = true;
-      if(err) {
-        handlePurchaseError(err);
-      }
-    });
-  }
-
   function updatePurchaseDisabled() {
     $scope.purchaseDisabled = true;
     switch($scope.sourceType) {
-      case 'account':
-        $scope.purchaseDisabled = $scope.selection.invalidAccount;
-        break;
-      case 'budget':
-        $scope.purchaseDisabled = $scope.selection.invalidBudget;
-        break;
+    case 'account':
+      $scope.purchaseDisabled = $scope.selection.invalidAccount;
+      break;
+    case 'budget':
+      $scope.purchaseDisabled = $scope.selection.invalidBudget;
+      break;
     }
+  }
+
+  function tryPurchase() {
+    // load data in parallel
+    Promise.all([
+      AddressService.getAll({force: true}),
+      AccountService.collection.getAll({force: true})
+    ]).then(function(results) {
+      // check pre-conditions serially so only one modal is shown at a time
+      var addresses = results[0];
+      if(addresses.length === 0) {
+        $scope.showAddAddressModal = true;
+        throw {
+          type: 'payswarm.identity.IdentityIncomplete',
+          message: 'Address required to make a purchase.'
+        };
+      }
+      var accounts = results[1];
+      if(accounts.length === 0) {
+        $scope.showAddAccountModal = true;
+        throw {
+          type: 'payswarm.identity.IdentityIncomplete',
+          message: 'Account required to make a purchase.'
+        };
+      }
+
+      // ensure budgets are up-to-date
+      return BudgetService.getAll({force: true});
+    }).then(function() {
+      // get a quote now; this can still fail if data is changed between the
+      // checks and quote
+      $scope.selection.account = (
+        $scope.selection.account || $scope.accounts[0]);
+      $scope.source = $scope.selection.account.id;
+      return updateQuote($scope.source);
+    }).then(function() {
+      // attempt to auto-purchase using a current budget
+      autoPurchase().catch(handlePurchaseError);
+    }).then(function() {
+      // page now ready
+      $scope.ready = true;
+      $scope.$apply();
+    });
   }
 
   /**

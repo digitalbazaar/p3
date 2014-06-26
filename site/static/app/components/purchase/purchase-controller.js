@@ -230,30 +230,33 @@ function factory(
       }
       return rval;
     })()).then(function(contract) {
-      $scope.contract = contract;
-    }).catch(function(err) {
-      AlertService.add('error', err);
-    }).then(function() {
       $scope.loading = false;
+      $scope.contract = contract;
       $scope.$apply();
+    }).catch(function(err) {
+      $scope.loading = false;
+      AlertService.add('error', err);
+      $scope.$apply();
+      throw err;
     });
   }
 
   // do purchase
   function purchase(source) {
-    return new Promise(function(resolve, reject) {
-      // ensure account matches quote
-      var src = $scope.contract.transfer[0].source;
-      if(src !== source) {
-        return updateQuote(source).then(resolve, reject);
-      }
-      resolve();
-    }).then(function() {
+    var promise;
+    // ensure account matches quote
+    var src = $scope.contract.transfer[0].source;
+    if(src !== source) {
+      promise = updateQuote(source);
+    } else {
+      promise = Promise.resolve();
+    }
+    promise.then(function() {
       var request = {
         '@context': config.data.contextUrl,
         type: 'PurchaseRequest',
         transactionId: $scope.contract.id
-      }
+      };
       if($scope.nonce !== null) {
         request.nonce = $scope.nonce;
       }
@@ -267,22 +270,17 @@ function factory(
         $scope.receipt = response;
       }
 
-      // auto-purchased, update budget
-      if($scope.budget) {
-        return BudgetService.get($scope.budget.id, {force: true})
-          .then(function(budget) {
-            $scope.budget = budget;
-          })
-          .catch(function(err) {
-            AlertService.add('error', err);
-          });
+      if(!$scope.budget) {
+        return;
       }
-    }).catch(function(err) {
-      AlertService.add('error', err);
-      // clear any auto-purchase budget
-      $scope.budget = null;
-    }).then(function() {
-      $scope.$apply();
+      // auto-purchased, update budget
+      return BudgetService.get($scope.budget.id, {force: true})
+        .then(function(budget) {
+          $scope.budget = budget;
+        })
+        .catch(function(err) {
+          AlertService.add('error', err);
+        });
     });
   }
 
@@ -326,6 +324,8 @@ function factory(
   // handle results of a purchase attempt
   function handlePurchaseError(err) {
     AlertService.add('error', err);
+    // clear any auto-purchase budget
+    $scope.budget = null;
     switch(err.type) {
     case 'payswarm.financial.BudgetExceeded':
       // can't do purchase

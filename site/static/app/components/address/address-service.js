@@ -28,30 +28,28 @@ function factory(
     options = options || {};
     if(options.force || Date.now() >= service.expires) {
       service.state.loading = true;
-      return new Promise(function(resolve, reject) {
-        $timeout(function() {
-          Promise.resolve($http.get(identity.id + '/addresses'))
-            .catch(function(err) {
-              // if 404, assume no addresses
-              if(err.status === 404) {
-                err.data = [];
-                return err;
-              }
-              reject(err);
-            })
-            .then(function(response) {
-              var addresses = response.data;
-              ModelService.replaceArray(service.addresses, addresses, 'label');
-              service.expires = Date.now() + maxAge;
-              service.state.loading = false;
-              resolve(addresses);
-            })
-            .catch(function(err) {
-              service.state.loading = false;
-              reject(err);
-            });
-        }, options.delay || 0);
-      });
+      return Promise.resolve($timeout(function() {
+        Promise.resolve($http.get(identity.id + '/addresses'))
+          .catch(function(err) {
+            // if 404, assume no addresses
+            if(err.status === 404) {
+              err.data = [];
+              return err;
+            }
+            throw err;
+          })
+          .then(function(response) {
+            var addresses = response.data;
+            ModelService.replaceArray(service.addresses, addresses, 'label');
+            service.expires = Date.now() + maxAge;
+            service.state.loading = false;
+            return addresses;
+          })
+          .catch(function(err) {
+            service.state.loading = false;
+            throw err;
+          });
+      }, options.delay || 0));
     }
     return Promise.resolve(service.addresses);
   };

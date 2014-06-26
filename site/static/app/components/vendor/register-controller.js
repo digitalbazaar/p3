@@ -7,32 +7,36 @@
 define(['async', 'payswarm.api'], function(async, payswarm) {
 
 var deps = [
-  '$scope', '$timeout', 'AccountService', 'AddressService', 'IdentityService'];
+  '$scope', '$timeout', 'AddressService', 'AlertService',
+  'IdentityService', 'config'];
 return {RegisterCtrl: deps.concat(factory)};
 
 function factory(
-  $scope, $timeout, AccountService, AddressService, IdentityService) {
+  $scope, $timeout, AddressService, AlertService, IdentityService, config) {
+  // FIXME: only 1 identity now (no profile) ... no "multiple" identities for
+  // a particular session ... will need to add a "switch identities" modal
+  // thing? or option to login as another user?
   $scope.model = {};
-  var data = window.data;
-  $scope.feedback = {};
   $scope.loading = false;
   $scope.registered = false;
   $scope.identities = [];
-  $scope.session = data.session;
+  $scope.session = config.data.session;
   $scope.model = {};
   $scope.model.publicKey = {
-    label: data.publicKey.label,
-    // FIXME: hack until PEM can be in window.data
+    label: config.data.publicKey.label,
+    // FIXME: hack until PEM can be in config.data
     publicKeyPem: $('#public-key-pem').val()
   };
   $scope.authorityBase = window.location.protocol + '//' + window.location.host;
-  $scope.registrationType = data.registrationType || 'vendor';
-  $scope.registrationCallback = data.registrationCallback || null;
-  $scope.responseNonce = data.responseNonce || null;
+  $scope.registrationType = config.data.registrationType || 'vendor';
+  $scope.registrationCallback = config.data.registrationCallback || null;
+  $scope.responseNonce = config.data.responseNonce || null;
   $scope.selection = {
     identity: null,
     account: null
   };
+
+  // FIXME: only need to check 1 identity, current one (no profile anymore)
   $scope.filterIdentities = function() {
     $scope.identities = IdentityService.identities;
     if($scope.registrationType === 'vendor') {
@@ -65,66 +69,57 @@ function factory(
     }
   };
 
+  // FIXME: remove, N/A
+  /*
   $scope.allIdentities = IdentityService.identities;
   $scope.$watch('allIdentities', function(value) {
     $scope.filterIdentities();
-  }, true);
+  }, true);*/
 
   $scope.register = function() {
     // update the preferences associated with the vendor identity
     $scope.loading = true;
-    async.auto({
-      getAddresses: function(callback) {
-        AddressService.get({
-          force: true,
-          identity: $scope.selection.identity.id
-        }, function(err, addresses) {
-          $scope.loading = false;
-          if(!err && addresses.length === 0) {
-            $scope.showAddAddressModal = true;
-            err = {
-              type: 'payswarm.website.AddressNotFound'
-            };
-          }
-          callback(err);
-        });
-      },
-      main: ['getAddresses', function(callback) {
-        var identity = $scope.selection.identity.id;
-        payswarm.identities.preferences.update({
-          identity: identity,
+    AddressService.getAll($scope.selection.identity.id, {force: true})
+      .then(function(addresses) {
+        $scope.loading = false;
+        if(addresses.length === 0) {
+          $scope.showAddAddressModal = true;
+          throw {type: 'payswarm.website.AddressNotFound'};
+        }
+        return addresses;
+      })
+      .then(function() {
+        return IdentityPreferencesService.update({
+          identity: $scope.selection.identity.id,
           preferences: {
-            '@context': 'https://w3id.org/payswarm/v1',
+            '@context': config.data.contextUrl,
             destination: $scope.selection.account.id,
             publicKey: $scope.model.publicKey
-          },
-          success: function() {
-            // get identity preferences and post to callback
-            payswarm.identities.preferences.get({
-              identity: identity,
-              responseNonce: $scope.responseNonce,
-              success: function(preferences) {
-                postPreferencesToCallback(preferences, callback);
-              },
-              error: callback
-            });
-          },
-          error: callback
+          }
         });
-      }]
-    }, function(err, results) {
-      if(err && err.type === 'payswarm.website.AddressNotFound') {
-        // address modal will re-call register()
-        $scope.feedback = {};
-        return;
-      }
-      if(!err) {
+      })
+      .then(function() {
+        // get identity preferences
+        return IdentityPreferencesService.get({
+          identity: $scope.selection.identity.id,
+          responseNonce: $scope.responseNonce
+        });
+      })
+      .then(postPreferencesToCallback)
+      .then(function() {
         $scope.registered = true;
-      }
-      $scope.loading = false;
-      $scope.feedback.error = err;
-      $scope.$apply();
-    });
+      })
+      .catch(function(err) {
+        if(err && err.type === 'payswarm.website.AddressNotFound') {
+          // address modal will re-call register()
+          return;
+        }
+        AlertService.add('error', err);
+      })
+      .then(function() {
+        $scope.loading = false;
+        $scope.$apply();
+      });
   };
 
   /**
@@ -134,14 +129,13 @@ function factory(
    * on-screen for a manual submit.
    *
    * @param preferences the identity's preferences in an encrypted message.
-   * @param callback the function to call when done.
    */
-  function postPreferencesToCallback(preferences, callback) {
+  function postPreferencesToCallback(preferences) {
     $scope.encryptedMessage = JSON.stringify(preferences);
 
     // done if no callback
     if(!$scope.registrationCallback) {
-      return callback();
+      return Promise.resolve();
     }
 
     // attempt to auto-submit the form back to the registering site
@@ -150,7 +144,7 @@ function factory(
 
     // show the manual registration completion button after a timeout period
     var registrationDelay = ($scope.registrationType === 'vendor') ? 5000 : 0;
-    $timeout(callback, registrationDelay);
+    return Promise.resolve($timeout(function(){}, registrationDelay));
   }
 }
 

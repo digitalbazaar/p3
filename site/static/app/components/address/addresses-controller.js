@@ -23,6 +23,8 @@ function factory(AddressService, AlertService, IdentityService) {
   };
 
   self.deleteAddress = function(address) {
+    // FIXME: always show a confirm modal ... but only show a warning in
+    // the confirm modal for last address when applicable
     if(AddressService.addresses.length === 1) {
       self.showLastAddressAlert = true;
       self.addressToDelete = address;

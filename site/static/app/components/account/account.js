@@ -7,6 +7,7 @@
  */
 define([
   'angular',
+  './account-balance-details-directive',
   './account-balance-directive',
   './account-balance-summary-directive',
   './account-controller',
@@ -21,6 +22,7 @@ define([
   './withdraw-modal-directive'
 ], function(
   angular,
+  accountBalanceDetailsDirective,
   accountBalanceDirective,
   accountBalanceSummaryDirective,
   accountController,
@@ -42,6 +44,7 @@ var module = angular.module('app.account', []);
 module.service(accountService);
 module.controller(activityController);
 
+module.directive(accountBalanceDetailsDirective);
 module.directive(accountBalanceDirective);
 module.directive(accountBalanceSummaryDirective);
 module.controller(accountController);

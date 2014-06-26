@@ -5,7 +5,7 @@
  * @author Dave Longley
  * @author Manu Sporny
  */
-define(['angular', 'async'], function(angular, async) {
+define([], function() {
 
 var deps = [
   '$scope', '$sce', 'AccountService', 'AddressService', 'AlertService',
@@ -16,7 +16,7 @@ function factory(
   $scope, $sce, AccountService, AddressService, AlertService,
   BudgetService, IdentityService, TransactionService, config) {
   $scope.model = {};
-  var data = window.data;
+  var data = config.data;
   $scope.identity = IdentityService.identity;
   $scope.budgets = BudgetService.budgets;
   $scope.accounts = AccountService.accounts;
@@ -101,20 +101,17 @@ function factory(
 
   // purchase clicked
   $scope.purchase = function() {
-    var promise;
     if($scope.sourceType === 'budget') {
       // do budget-based purchase
       // first add vendor to budget
       var budget = $scope.selection.budget;
-      promise = BudgetService.addVendor(
+      return BudgetService.addVendor(
         budget.id, $scope.contract.vendor.id).then(function() {
           return purchase(budget.source);
         });
-    } else {
-      // do account-based purchase
-      promise = purchase($scope.selection.account.id);
     }
-    promise.catch(handlePurchaseError);
+    // do account-based purchase
+    return purchase($scope.selection.account.id);
   };
 
   // retry purchase after modals are done
@@ -173,7 +170,7 @@ function factory(
       return updateQuote($scope.source);
     }).then(function() {
       // attempt to auto-purchase using a current budget
-      autoPurchase().catch(handlePurchaseError);
+      autoPurchase();
     }).then(function() {
       // page now ready
       $scope.ready = true;
@@ -239,27 +236,62 @@ function factory(
       if($scope.nonce !== null) {
         request.nonce = $scope.nonce;
       }
-      return TransactionService.purchase(request);
-    }).then(function(response) {
-      $scope.alertType = 'purchased';
-      $scope.purchased = true;
-      if(response.type === 'EncryptedMessage') {
-        $scope.encryptedMessage = response;
-      } else {
-        $scope.receipt = response;
-      }
+      return TransactionService.purchase(request).then(function(response) {
+        $scope.alertType = 'purchased';
+        $scope.purchased = true;
+        if(response.type === 'EncryptedMessage') {
+          $scope.encryptedMessage = response;
+        } else {
+          $scope.receipt = response;
+        }
 
-      if(!$scope.budget) {
-        return;
-      }
-      // auto-purchased, update budget
-      return BudgetService.get($scope.budget.id, {force: true})
-        .then(function(budget) {
-          $scope.budget = budget;
-        })
-        .catch(function(err) {
-          AlertService.add('error', err);
-        });
+        if(!$scope.budget) {
+          return;
+        }
+        // auto-purchased, update budget
+        return BudgetService.get($scope.budget.id, {force: true})
+          .then(function(budget) {
+            $scope.budget = budget;
+          })
+          .catch(function(err) {
+            // log error but don't throw it, purchase was completed
+            AlertService.add('error', err);
+          });
+      }).catch(function(err) {
+        AlertService.add('error', err);
+        // clear any auto-purchase budget
+        $scope.budget = null;
+        switch(err.type) {
+        case 'payswarm.financial.BudgetExceeded':
+          // can't do purchase
+          // show alert markup and show budget's account
+          $scope.alertType = 'budgetExceeded';
+          $scope.sourceType = 'account';
+          var budget = budgetForContract();
+          $scope.selection.budget = budget;
+          $scope.selection.account = null;
+          var accountId = (budget ? budget.source : null);
+          if(accountId) {
+            AccountService.get(accountId).then(function(account) {
+              $scope.selection.account = account;
+            }).catch(function(err) {
+              AlertService.add('error', err);
+            }).then(function() {
+              $scope.$apply();
+            });
+          }
+          break;
+        case 'payswarm.website.DuplicatePurchase':
+          // set duplicate contract
+          $scope.alertType = 'duplicatePurchase';
+          $scope.purchased = true;
+          $scope.contract = err.details.contract;
+          $scope.encryptedMessage = err.details.encryptedMessage;
+          break;
+        }
+      }).then(function() {
+        $scope.$apply();
+      });
     });
   }
 
@@ -280,12 +312,12 @@ function factory(
   }
 
   // auto-purchase w/existing budget
-  function autoPurchase(callback) {
+  function autoPurchase() {
     // ensure referring webpage is from vendor's website
     var referer = $scope.referer;
     var website = $scope.contract.vendor.website;
     if(!referer || referer.indexOf(website) !== 0) {
-      return callback();
+      return;
     }
 
     // FIXME: should do another call to check for id+vendor budget instead?
@@ -295,45 +327,8 @@ function factory(
     if(budget) {
       // budget found, try auto-purchase
       $scope.budget = budget;
-      return purchase(budget.source, callback);
+      return purchase(budget.source);
     }
-    callback();
-  }
-
-  // handle results of a purchase attempt
-  function handlePurchaseError(err) {
-    AlertService.add('error', err);
-    // clear any auto-purchase budget
-    $scope.budget = null;
-    switch(err.type) {
-    case 'payswarm.financial.BudgetExceeded':
-      // can't do purchase
-      // show alert markup and show budget's account
-      $scope.alertType = 'budgetExceeded';
-      $scope.sourceType = 'account';
-      var budget = budgetForContract();
-      $scope.selection.budget = budget;
-      $scope.selection.account = null;
-      var accountId = (budget ? budget.source : null);
-      if(accountId) {
-        AccountService.get(accountId).then(function(account) {
-          $scope.selection.account = account;
-        }).catch(function(err) {
-          AlertService.add('error', err);
-        }).then(function() {
-          $scope.$apply();
-        });
-      }
-      break;
-    case 'payswarm.website.DuplicatePurchase':
-      // set duplicate contract
-      $scope.alertType = 'duplicatePurchase';
-      $scope.purchased = true;
-      $scope.contract = err.details.contract;
-      $scope.encryptedMessage = err.details.encryptedMessage;
-      break;
-    }
-    $scope.$apply();
   }
 }
 

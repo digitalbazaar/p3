@@ -49,33 +49,21 @@ function factory(
 
   // load and use default account if possible
   if(IdentityService.identity.preferences.source) {
-    AccountService.getOne(
-      IdentityService.identity.preferences.source, function(err, account) {
-      if(err) {
-        $scope.error = err;
-        return;
-      }
-      $scope.selection.account = account;
-    });
+    AccountService.get(IdentityService.identity.preferences.source)
+      .then(function(account) {
+        $scope.selection.account = account;
+      })
+      .catch(function(err) {
+        AlertService.add('error', err);
+      })
+      .then(function() {
+        $scope.$apply();
+      });
   }
 
-  function updatePurchaseDisabled() {
-    $scope.purchaseDisabled = true;
-    switch($scope.sourceType) {
-      case 'account':
-        $scope.purchaseDisabled = $scope.selection.invalidAccount;
-        break;
-      case 'budget':
-        $scope.purchaseDisabled = $scope.selection.invalidBudget;
-        break;
-    }
-  }
-  $scope.$watch('selection.invalidAccount', function(value) {
-    updatePurchaseDisabled();
-  });
-  $scope.$watch('selection.invalidBudget', function(value) {
-    updatePurchaseDisabled();
-  });
+  $scope.$watch('selection.invalidAccount', updatePurchaseDisabled);
+  $scope.$watch('selection.invalidBudget', updatePurchaseDisabled);
+
   $scope.$watch('selection.account', function(value) {
     if($scope.sourceType === 'account') {
       if($scope.source !== value) {
@@ -142,6 +130,7 @@ function factory(
   // main checks and calls to do purchase
   // may be re-entrant if modals were opened
   tryPurchase();
+
   function tryPurchase() {
     async.auto({
       // load data in parallel
@@ -204,6 +193,18 @@ function factory(
       // handle errors and successes
       purchaseCallback(err, results ? results.main : null);
     });
+  }
+
+  function updatePurchaseDisabled() {
+    $scope.purchaseDisabled = true;
+    switch($scope.sourceType) {
+      case 'account':
+        $scope.purchaseDisabled = $scope.selection.invalidAccount;
+        break;
+      case 'budget':
+        $scope.purchaseDisabled = $scope.selection.invalidBudget;
+        break;
+    }
   }
 
   /**

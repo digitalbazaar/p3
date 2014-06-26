@@ -37,11 +37,6 @@ config.server.static.push({
   path: path.join(node_modules, 'd3', 'd3.js'),
   file: true
 });
-config.server.static.push({
-  route: '/async/async.js',
-  path: path.join(node_modules, 'async', 'lib', 'async.js'),
-  file: true
-});
 
 // the supported non-english languages for the site
 config.website.locales = ['es', 'zh', 'ru', 'ja', 'de', 'fr'];

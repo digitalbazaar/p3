@@ -105,9 +105,7 @@ module.exports = function(grunt) {
         shim: {
           // export app/bootstrap globals
           'FileSaver': {exports: 'saveAs'},
-          'zip': {exports: 'zip'},
-          // FIXME: remove
-          'payswarm.api': {deps: ['async', 'jquery'], exports: 'payswarm'}
+          'zip': {exports: 'zip'}
         },
         mainConfigFile: '<%= dirs.bedrock %>/site/static/app/main.js',
         name: 'almond',

@@ -3,95 +3,88 @@
  *
  * @author Dave Longley
  */
-define(['angular', 'payswarm.api'], function(angular, payswarm) {
+define(['angular'], function(angular) {
 
-var deps = ['ModalService', 'IdentityService', 'AddressService', 'config'];
+var deps = [
+  'AddressService', 'AlertService', 'IdentityService', 'ModalService',
+  'config'];
 return {addAddressModal: deps.concat(factory)};
 
 function factory(
-  ModalService, IdentityService, AddressService, config) {
-  function Ctrl($scope) {
-    $scope.model = {};
-    $scope.data = window.data || {};
-    $scope.countries = config.constants.countries || {};
-    $scope.feedback = {};
-    $scope.loading = false;
-    $scope.identity = $scope.identity || IdentityService.identity;
-    $scope.originalAddress = {
+  AddressService, AlertService, IdentityService, ModalService, config) {
+  return ModalService.directive({
+    name: 'addAddress',
+    scope: {showAlert: '@addAddressAlertModal'},
+    templateUrl: '/app/components/address/add-address-modal.html',
+    link: Link
+  });
+
+  function Link(scope) {
+    // FIXME: use 'model'
+    var model = scope.model = {};
+    scope.identity = IdentityService.identity;
+    scope.countries = config.constants.countries || {};
+    scope.originalAddress = {
       '@context': config.data.contextUrl,
       type: 'Address',
       // default to US
       countryName: 'US'
     };
-    $scope.selection = {
+    scope.selection = {
       address: null
     };
-    $scope.validatedAddress = null;
+    scope.validatedAddress = null;
+
+    scope.$watch('app.services.address.state', function(value) {
+      scope.loading = !!value;
+    });
 
     // state in ('editing', 'selecting')
-    $scope.state = 'editing';
+    scope.state = 'editing';
 
-    $scope.validate = function() {
-      $scope.loading = true;
-      AddressService.validate($scope.originalAddress, function(err, validated) {
-        $scope.loading = false;
-        $scope.feedback.error = err;
-        if(err) {
-          // FIXME: handle error
-          console.log('validation failed', err);
-          return;
-        }
+    scope.validate = function() {
+      AlertService.clearModalFeedback();
+      AddressService.validate(scope.originalAddress).then(function(validated) {
         // FIXME: should backend handle this?
         // copy over non-validation fields
-        $scope.validatedAddress = angular.extend(validated, {
+        scope.validatedAddress = angular.extend(validated, {
           '@context': config.data.contextUrl,
           type: 'Address',
-          label: $scope.originalAddress.label,
-          fullName: $scope.originalAddress.fullName
+          label: scope.originalAddress.label,
+          fullName: scope.originalAddress.fullName
         });
-        $scope.state = 'selecting';
-        if($scope.validatedAddress.sysValidated) {
-          $scope.selection.address = $scope.validatedAddress;
+        scope.state = 'selecting';
+        if(scope.validatedAddress.sysValidated) {
+          scope.selection.address = scope.validatedAddress;
         } else {
-          $scope.selection.address = $scope.originalAddress;
+          scope.selection.address = scope.originalAddress;
         }
+      }).catch(function(err) {
+        AlertService.add('error', err);
+        // FIXME: remove me
+        console.log('validation failed', err);
+      }).then(function() {
+        scope.$apply();
       });
     };
 
-    $scope.add = function(clickedAddress) {
-      var addressToAdd = clickedAddress || $scope.selection.address;
-      $scope.loading = true;
-      AddressService.add(addressToAdd, $scope.identity.id,
-        function(err, addedAddress) {
-        $scope.loading = false;
-        if(!err) {
-          $scope.modal.close(null, addedAddress);
-        }
-        $scope.feedback.error = err;
+    scope.add = function(clickedAddress) {
+      var addressToAdd = clickedAddress || scope.selection.address;
+      AlertService.clearModalFeedback();
+      AddressService.add(addressToAdd).then(function(addedAddress) {
+        scope.modal.close(null, addedAddress);
+      }).catch(function(err) {
+        AlertService.add('error', err);
+        scope.$apply();
       });
     };
 
-    $scope.edit = function() {
-      $scope.feedback = {};
-      $scope.state = 'editing';
-      $scope.selection.address = null;
+    scope.edit = function() {
+      AlertService.clearModalFeedback();
+      scope.state = 'editing';
+      scope.selection.address = null;
     };
   }
-
-  function Link(scope, element, attrs) {
-    scope.feedbackTarget = element;
-  }
-
-  return ModalService.directive({
-    name: 'addAddress',
-    scope: {
-      identity: '=',
-      showAlert: '@addAddressAlertModal'
-    },
-    templateUrl: '/app/components/address/add-address-modal.html',
-    controller: ['$scope', Ctrl],
-    link: Link
-  });
 }
 
 });

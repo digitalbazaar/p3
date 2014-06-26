@@ -8,10 +8,10 @@
  */
 define([], function() {
 
-var deps = ['$scope', 'AddressService', 'IdentityService'];
+var deps = ['AddressService', 'AlertService', 'IdentityService'];
 return {AddressesController: deps.concat(factory)};
 
-function factory($scope, AddressService, IdentityService) {
+function factory(AddressService, AlertService, IdentityService) {
   var self = this;
   self.identity = IdentityService.identity;
   self.state = AddressService.state;
@@ -22,37 +22,26 @@ function factory($scope, AddressService, IdentityService) {
     showLastAddressAlert: false
   };
 
-  function callback(err) {
-    // FIXME: show errors
-    //$scope.feedback.error = err;
-  }
-
   self.deleteAddress = function(address) {
     if(AddressService.addresses.length === 1) {
       self.showLastAddressAlert = true;
       self.addressToDelete = address;
     } else {
-      AddressService.del(address, callback);
+      AddressService.del(address).catch(function(err) {
+        AlertService.add('error', err);
+      });
     }
   };
   self.confirmDeleteAddress = function(err, result) {
-    // FIXME: handle errors
     if(!err && result === 'ok') {
-      AddressService.del(self.addressToDelete, function(err) {
-        callback(err);
+      AddressService.del(self.addressToDelete).catch(function(err) {
+        AlertService.add('error', err);
       });
     }
     self.addressToDelete = null;
   };
 
-  function refresh(force) {
-    var opts = {force: !!force};
-    AddressService.get(opts);
-  }
-  $scope.$on('refreshData', function() {
-    refresh(true);
-  });
-  refresh();
+  AddressService.getAll();
 }
 
 });

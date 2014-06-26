@@ -56,14 +56,7 @@ function factory($scope, $timeout, PaymentTokenService) {
     delete paymentToken.showDeletedError;
   };
 
-  function refresh(force) {
-    var opts = {force: !!force};
-    PaymentTokenService.get(opts);
-  }
-  $scope.$on('refreshData', function() {
-    refresh(true);
-  });
-  refresh();
+  PaymentTokenService.getAll();
 }
 
 });

@@ -13,10 +13,7 @@
       <div data-ng-include="'/app/components/account/add-credit-line-complete.html'"></div>
     </div>
   </div>
-  <div class="modal-footer">
-    <div class="modal-feedback"
-      data-feedback="model.feedback.modal" data-target="feedbackTarget"></div>
-
+  <data-modal-footer>
     <span data-spinner="model.loading"
       data-spinner-class="prepend-btn-spinner"></span>
     <span data-ng-show="model.state == 'reviewing'">

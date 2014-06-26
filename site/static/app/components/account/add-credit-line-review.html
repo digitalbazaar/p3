@@ -5,21 +5,21 @@ FIXME: INSTRUCTIONS ABOUT HOW CREDIT LINES WORK HERE. See our
 <p>Please select a payment method below that will be used to automatically
 pay back any credit you use on a periodic basis.</p>
 
-<div data-ng-hide="model.profile.sysEmailVerified" class="section">
+<div data-ng-hide="model.identity.sysEmailVerified" class="section">
   <h4 class="headline">Verify Your Email Address</h4>
   <p>Before opening a free credit line, you must first verify your email
     address. First, click to send yourself an email verification code. Then,
     once you have received an email with the verification code, enter it
     below and click "Verify Email".
   </p>
-  <form id="passcodeFeedbackTarget" class="form-horizontal" action="" data-ng-submit="sendPasscode()">
+  <form class="form-horizontal" action="" data-ng-submit="sendPasscode()">
     <fieldset>
       <div class="control-group" data-binding="sysIdentifier">
         <label class="control-label" for="email">Email</label>
         <div class="controls">
           <div class="input-append">
-            <input name="profile" type="text" maxlength="320"
-              data-ng-model="model.profile.email"
+            <input name="identity" type="text" maxlength="320"
+              data-ng-model="model.identity.email"
               data-track-state="model.help.email"
               disabled="disabled" />
             <button class="btn" data-help-toggle="model.help.email">
@@ -39,13 +39,12 @@ pay back any credit you use on a periodic basis.</p>
         data-spinner-class="append-btn-spinner"></span>
     </div>
     </fieldset>
-    <div data-feedback="model.feedback.passcode" data-target="model.passcodeFeedbackTarget"></div>
   </form>
 
-  <form id="verifyEmailFeedbackTarget" class="form-horizontal" action="" data-ng-submit="verifyEmail()">
+  <form class="form-horizontal" action="" data-ng-submit="verifyEmail()">
     <fieldset>
 
-    <input name="input" type="hidden" data-ng-model="model.profile.email" />
+    <input name="input" type="hidden" data-ng-model="model.identity.email" />
 
     <div class="control-group" data-binding="sysPasscode">
       <label class="control-label" for="passcode">Passcode</label>
@@ -73,14 +72,13 @@ pay back any credit you use on a periodic basis.</p>
          data-spinner-class="append-btn-spinner"></span>
     </div>
     </fieldset>
-    <div data-feedback="model.feedback.email" data-target="model.verifyEmailFeedbackTarget"></div>
   </form>
 
 </div>
 
-<div data-ng-show="model.profile.sysEmailVerified" class="section">
+<div data-ng-show="model.identity.sysEmailVerified" class="section">
   <h4 class="headline">Email Verified</h4>
-  <div><span class="alert-success">{{model.profile.email}}</span></div>
+  <div><span class="alert-success">{{model.identity.email}}</span></div>
 </div>
 
 <div class="section">

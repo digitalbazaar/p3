@@ -48,6 +48,53 @@ function factory($rootScope) {
     // FIXME: return Promise
   */};
 
+/*
+payswarm.identities.preferences.update = function(options) {
+  $.ajax({
+    async: true,
+    type: 'POST',
+    url: options.identity + '/preferences',
+    dataType: 'json',
+    contentType: 'application/json',
+    data: JSON.stringify(options.preferences),
+    success: function(response, statusText) {
+      if(options.success) {
+        options.success(response);
+      }
+    },
+    error: function(xhr, textStatus, errorThrown) {
+      if(options.error) {
+        options.error(normalizeError(xhr, textStatus));
+      }
+    }
+  });
+};
+
+payswarm.identities.preferences.get = function(options) {
+  var prefUrl = options.identity + '/preferences';
+
+  if(options.responseNonce) {
+    prefUrl += '?response-nonce=' + encodeURIComponent(options.responseNonce);
+  }
+
+  $.ajax({
+    async: true,
+    type: 'GET',
+    url: prefUrl,
+    dataType: 'json',
+    success: function(response, statusText) {
+      if(options.success) {
+        options.success(response);
+      }
+    },
+    error: function(xhr, textStatus, errorThrown) {
+      if(options.error) {
+        options.error(normalizeError(xhr, textStatus));
+      }
+    }
+  });
+};*/
+
   // FIXME: expose service to scope
 
   return service;

@@ -14,16 +14,12 @@ require.config({
     FileSaver: 'filesaver/FileSaver',
     TypedArray: 'polyfill/typedarray',
     deflate: 'zip/deflate',
-    zip: 'zip/zip',
-    // FIXME: remove
-    'payswarm.api': 'legacy/payswarm.api'
+    zip: 'zip/zip'
   },
   shim: {
     // export globals for non-requireJS libs
     'FileSaver': {exports: 'saveAs'},
-    'zip': {exports: 'zip'},
-    // FIXME: remove
-    'payswarm.api': {deps: ['async', 'jquery'], exports: 'payswarm'}
+    'zip': {exports: 'zip'}
   }
 });
 

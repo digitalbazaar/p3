@@ -160,17 +160,17 @@ function factory(
       }
 
       // ensure budgets are up-to-date
-      return BudgetService.getAll({force: true});
+      return BudgetService.collection.getAll({force: true});
     }).then(function() {
       // get a quote now; this can still fail if data is changed between the
       // checks and quote
       $scope.selection.account = (
         $scope.selection.account || $scope.accounts[0]);
       $scope.source = $scope.selection.account.id;
-      return updateQuote($scope.source);
-    }).then(function() {
-      // attempt to auto-purchase using a current budget
-      autoPurchase();
+      return updateQuote($scope.source).then(function() {
+        // attempt to auto-purchase using a current budget
+        autoPurchase();
+      }).catch(function(){});
     }).then(function() {
       // page now ready
       $scope.ready = true;
@@ -219,7 +219,7 @@ function factory(
   function purchase(source) {
     var promise;
     // ensure account matches quote
-    var src = $scope.contract.transfer[0].source;
+    var src = $scope.contract ? $scope.contract.transfer[0].source : null;
     if(src !== source) {
       promise = updateQuote(source);
     } else {

@@ -9,6 +9,21 @@ var deps = ['AccountService', 'IdentityService', 'PaymentTokenService'];
 return {accountSelector: deps.concat(factory)};
 
 function factory(AccountService, IdentityService, PaymentTokenService) {
+  return {
+    scope: {
+      selected: '=',
+      invalid: '=',
+      fixed: '@',
+      minBalance: '@',
+      showDepositButton: '@',
+      instant: '=',
+      allowInstantTransfer: '@',
+      instantTransferDeposit: '=?'
+    },
+    templateUrl: '/app/components/account/account-selector.html',
+    link: Link
+  };
+
   function Link(scope, element, attrs) {
     // FIXME: be consistent with use of 'model'
     scope.model = {
@@ -91,21 +106,6 @@ function factory(AccountService, IdentityService, PaymentTokenService) {
       }
     }
   }
-
-  return {
-    scope: {
-      selected: '=',
-      invalid: '=',
-      fixed: '@',
-      minBalance: '@',
-      showDepositButton: '@',
-      instant: '=',
-      allowInstantTransfer: '@',
-      instantTransferDeposit: '=?'
-    },
-    templateUrl: '/app/components/account/account-selector.html',
-    link: Link
-  };
 }
 
 });

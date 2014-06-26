@@ -19,7 +19,7 @@ function factory(
     link: Link
   });
 
-  function Link(scope, element, attrs) {
+  function Link(scope) {
     var model = scope.model = {};
     model.identity = IdentityService.identity;
     model.state = AccountService.collection.state;

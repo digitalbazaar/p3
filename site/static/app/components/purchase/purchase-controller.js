@@ -191,27 +191,25 @@ function factory(
    */
   function updateQuote(source) {
     $scope.loading = true;
-    return TransactionService.getQuote((function() {
-      var rval = {
-        '@context': config.data.contextUrl,
-        listing: $scope.listing,
-        listingHash: $scope.listingHash,
-        source: source
-      };
-      if($scope.referenceId !== null) {
-        rval.referenceId = $scope.referenceId;
-      }
-      if($scope.nonce !== null) {
-        rval.nonce = $scope.nonce;
-      }
-      return rval;
-    })()).then(function(contract) {
+    var request = {
+      '@context': config.data.contextUrl,
+      listing: $scope.listing,
+      listingHash: $scope.listingHash,
+      source: source
+    };
+    if($scope.referenceId !== null) {
+      request.referenceId = $scope.referenceId;
+    }
+    if($scope.nonce !== null) {
+      request.nonce = $scope.nonce;
+    }
+    return TransactionService.getQuote(request).then(function(contract) {
       $scope.loading = false;
       $scope.contract = contract;
       $scope.$apply();
     }).catch(function(err) {
-      $scope.loading = false;
       AlertService.add('error', err);
+      $scope.loading = false;
       $scope.$apply();
       throw err;
     });

@@ -3,66 +3,74 @@
  *
  * @author Dave Longley
  */
-define(['payswarm.api'], function(payswarm) {
+define([], function() {
 
-var deps = ['ModalService', 'PaymentTokenService', 'config'];
+var deps = [
+  'AlertService', 'IdentityService', 'ModalService', 'PaymentTokenService',
+  'config'];
 return {addPaymentTokenModal: deps.concat(factory)};
 
-function factory(ModalService, PaymentTokenService, config) {
-  function Ctrl($scope) {
-    $scope.selection = {
+function factory(
+  AlertService, IdentityService, ModalService, PaymentTokenService, config) {
+  return ModalService.directive({
+    name: 'addPaymentToken',
+    scope: {paymentMethods: '='},
+    templateUrl: '/app/components/payment-token/add-payment-token-modal.html',
+    link: Link
+  });
+
+  function Link(scope) {
+    scope.model = {};
+    scope.selection = {
       address: null
     };
-
-    $scope.model = {};
-    $scope.data = window.data || {};
-    $scope.monthLabels = config.constants.monthLabels;
-    $scope.years = config.constants.years;
-    $scope.feedback = {contactSupport: true};
-    $scope.loading = false;
-    $scope.identity = $scope.data.identity || {};
-    $scope.editing = false;
+    scope.monthLabels = config.constants.monthLabels;
+    scope.years = config.constants.years;
+    scope.feedback = {contactSupport: true};
+    scope.loading = false;
+    scope.identity = IdentityService.identity;
+    scope.editing = false;
 
     // common fields to all types
-    $scope.paymentToken = {
+    scope.paymentToken = {
       label: ''
     };
-    $scope.paymentMethods =
-      $scope.paymentMethods || ['CreditCard', 'BankAccount'];
+    scope.paymentMethods =
+      scope.paymentMethods || ['CreditCard', 'BankAccount'];
     // default to first payment method
-    $scope.paymentMethod = $scope.paymentMethods[0];
-    $scope.card = {
-      '@context': payswarm.CONTEXT_URL,
+    scope.paymentMethod = scope.paymentMethods[0];
+    scope.card = {
+      '@context': config.data.contextUrl,
       type: 'CreditCard'
     };
-    $scope.bankAccountTypes = [
+    scope.bankAccountTypes = [
       {id: 'Checking', label: 'Checking'},
       {id: 'Savings', label: 'Savings'}
     ];
-    $scope.bankAccount = {
-      '@context': payswarm.CONTEXT_URL,
+    scope.bankAccount = {
+      '@context': config.data.contextUrl,
       type: 'BankAccount',
       bankAccountType: 'Checking'
     };
-    $scope.multiEnabled = ($scope.paymentMethods.length > 1);
-    $scope.creditCardEnabled =
-      ($scope.paymentMethods.indexOf('CreditCard') !== -1);
-    $scope.bankAccountEnabled =
-      ($scope.paymentMethods.indexOf('BankAccount') !== -1);
+    scope.multiEnabled = (scope.paymentMethods.length > 1);
+    scope.creditCardEnabled =
+      (scope.paymentMethods.indexOf('CreditCard') !== -1);
+    scope.bankAccountEnabled =
+      (scope.paymentMethods.indexOf('BankAccount') !== -1);
 
-    $scope.model.agreementChecked = false;
-    $scope.model.billingAddressRequired = true;
+    scope.model.agreementChecked = false;
+    scope.model.billingAddressRequired = true;
     // billing address UI depends on payment method
-    $scope.$watch('scope.paymentMethod', function() {
-      var isCreditCard = ($scope.paymentMethod === 'CreditCard');
-      var isBankAccount = ($scope.paymentMethod === 'BankAccount');
-      $scope.model.billingAddressRequired = isCreditCard || isBankAccount;
-      $scope.model.agreementChecked = false;
+    scope.$watch('scope.paymentMethod', function() {
+      var isCreditCard = (scope.paymentMethod === 'CreditCard');
+      var isBankAccount = (scope.paymentMethod === 'BankAccount');
+      scope.model.billingAddressRequired = isCreditCard || isBankAccount;
+      scope.model.agreementChecked = false;
     });
 
-    $scope.add = function() {
+    scope.add = function() {
       function getAddress() {
-        var a = $scope.selection.address;
+        var a = scope.selection.address;
         return {
           type: a.type,
           label: a.label,
@@ -77,13 +85,13 @@ function factory(ModalService, PaymentTokenService, config) {
 
       // create post data
       var token = {
-        '@context': payswarm.CONTEXT_URL,
-        label: $scope.paymentToken.label
+        '@context': config.data.contextUrl,
+        label: scope.paymentToken.label
       };
 
       // handle payment method specifics
-      if($scope.paymentMethod === 'CreditCard') {
-        var c = $scope.card;
+      if(scope.paymentMethod === 'CreditCard') {
+        var c = scope.card;
 
         // copy required fields
         token.source = {
@@ -96,8 +104,8 @@ function factory(ModalService, PaymentTokenService, config) {
           cardCvm: c.cardCvm,
           address: getAddress()
         };
-      } else if($scope.paymentMethod === 'BankAccount') {
-        var b = $scope.bankAccount;
+      } else if(scope.paymentMethod === 'BankAccount') {
+        var b = scope.bankAccount;
 
         // copy required fields
         token.source = {
@@ -111,28 +119,17 @@ function factory(ModalService, PaymentTokenService, config) {
       }
 
       // add payment token
-      $scope.loading = true;
-      PaymentTokenService.add(token, function(err, addedToken) {
-        $scope.loading = false;
-        if(!err) {
-          $scope.modal.close(null, addedToken);
-        }
-        $scope.feedback.error = err;
+      scope.loading = true;
+      PaymentTokenService.add(token).then(function(addedToken) {
+        scope.loading = false;
+        scope.modal.close(null, addedToken);
+      }).catch(function(err) {
+        AlertService.add('error', err);
+        scope.loading = false;
+        scope.$apply();
       });
     };
   }
-
-  return ModalService.directive({
-    name: 'addPaymentToken',
-    scope: {
-      paymentMethods: '='
-    },
-    templateUrl: '/app/components/payment-token/add-payment-token-modal.html',
-    controller: ['$scope', Ctrl],
-    link: function(scope, element, attrs) {
-      scope.feedbackTarget = element;
-    }
-  });
 }
 
 });

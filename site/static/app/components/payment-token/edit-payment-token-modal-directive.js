@@ -3,57 +3,104 @@
  *
  * @author Digital Bazaar
  */
-define(['angular', 'payswarm.api'], function(angular, payswarm) {
+define(['angular'], function(angular) {
 
-var deps = ['AccountService', 'ModalService', 'PaymentTokenService', 'config'];
+var deps = [
+  'AccountService', 'AlertService', 'IdentityService', 'ModalService',
+  'PaymentTokenService', 'config'];
 return {editPaymentTokenModal: deps.concat(factory)};
 
-function factory(AccountService, ModalService, PaymentTokenService, config) {
-  function Ctrl($scope) {
-    $scope.model = {};
-    $scope.data = config.data || {};
-    $scope.monthLabels = config.constants.monthLabels;
-    $scope.years = config.constants.years;
-    $scope.feedback = {contactSupport: true};
-    $scope.loading = false;
-    $scope.identity = $scope.data.identity || {};
-    $scope.editing = true;
+function factory(
+  AccountService, AlertService, IdentityService, ModalService,
+  PaymentTokenService, config) {
+  return ModalService.directive({
+    name: 'editPaymentToken',
+    scope: {
+      paymentMethods: '=',
+      sourcePaymentToken: '=paymentToken'
+    },
+    templateUrl: '/app/components/payment-token/edit-payment-token-modal.html',
+    link: Link
+  });
+
+  function Link(scope) {
+    scope.model = {};
+    scope.monthLabels = config.constants.monthLabels;
+    scope.years = config.constants.years;
+    scope.identity = IdentityService.identity;
+    scope.loading = false;
+    scope.editing = true;
 
     // copy for editing
-    $scope.paymentToken = angular.copy($scope.sourcePaymentToken);
+    scope.paymentToken = angular.copy(scope.sourcePaymentToken);
     // aliases
-    $scope.card = $scope.paymentToken;
-    $scope.bankAccount = $scope.paymentToken;
+    scope.card = scope.paymentToken;
+    scope.bankAccount = scope.paymentToken;
 
     // setup environment based on token being edited
-    $scope.multiEnabled = false;
+    scope.multiEnabled = false;
 
-    if($scope.paymentToken.paymentMethod === 'CreditCard') {
-      $scope.creditCardEnabled = true;
-      $scope.paymentMethod = 'CreditCard';
+    if(scope.paymentToken.paymentMethod === 'CreditCard') {
+      scope.creditCardEnabled = true;
+      scope.paymentMethod = 'CreditCard';
     }
-    if($scope.paymentToken.paymentMethod === 'BankAccount') {
-      $scope.bankAccountEnabled = true;
-      $scope.paymentMethod = 'BankAccount';
+    if(scope.paymentToken.paymentMethod === 'BankAccount') {
+      scope.bankAccountEnabled = true;
+      scope.paymentMethod = 'BankAccount';
     }
 
     // must have been agreed to before
-    $scope.agreementChecked = true;
-    $scope.billingAddressRequired = true;
+    scope.agreementChecked = true;
+    scope.billingAddressRequired = true;
     // billing address UI depends on payment method
-    $scope.$watch('scope.paymentMethod', function() {
-      var isCreditCard = ($scope.paymentMethod === 'CreditCard');
-      var isBankAccount = ($scope.paymentMethod === 'BankAccount');
-      $scope.billingAddressRequired = isCreditCard || isBankAccount;
+    scope.$watch('scope.paymentMethod', function() {
+      var isCreditCard = (scope.paymentMethod === 'CreditCard');
+      var isBankAccount = (scope.paymentMethod === 'BankAccount');
+      scope.billingAddressRequired = isCreditCard || isBankAccount;
     });
+
+    scope.editPaymentToken = function() {
+      var paymentToken = {
+        '@context': config.data.contextUrl,
+        id: scope.paymentToken.id,
+        label: scope.paymentToken.label
+      };
+
+      // do general update then remove backup sources
+      scope.loading = true;
+      AlertService.clearModalFeedback(scope);
+      PaymentTokenService.update(paymentToken).then(function(paymentToken) {
+        // remove backup source from every related account
+        var promises = [];
+        angular.forEach(scope.backupSourceFor, function(info) {
+          if(!info.active) {
+            promises.push(AccountService.delBackupSource(
+              info.account.id, scope.paymentToken.id).then(function() {
+                // mark as gone
+                scope.backupSourceFor[info.account.id].exists = false;
+              }));
+          }
+        });
+        return Promises.all(promises).then(function() {
+          PaymentTokenService.get(paymentToken.id).then(function() {
+            scope.modal.close(null, paymentToken);
+          });
+        });
+      }).catch(function(err) {
+        // editor still open, update display
+        AlertService.add('error', err);
+        updateBackupSources();
+      });
+    };
+
+    updateBackupSources();
 
     // load linked account info into editable map by id
     function updateBackupSources() {
       // FIXME: preserve old states
-      var oldState = $scope.backupSourceFor || {};
-      $scope.backupSourceFor = {};
-      angular.forEach($scope.paymentToken.backupSourceFor,
-        function(accountId, key) {
+      var oldState = scope.backupSourceFor || {};
+      scope.backupSourceFor = {};
+      angular.forEach(scope.paymentToken.backupSourceFor, function(accountId) {
         // preserve any previous edit state on updates
         var active = true;
         var exists = true;
@@ -62,7 +109,7 @@ function factory(AccountService, ModalService, PaymentTokenService, config) {
           active = info.active;
           exists = info.exists;
         }
-        $scope.backupSourceFor[accountId] = {
+        scope.backupSourceFor[accountId] = {
           account: {
             id: accountId,
             label: accountId
@@ -71,88 +118,17 @@ function factory(AccountService, ModalService, PaymentTokenService, config) {
           exists: exists,
           loading: true
         };
-        AccountService.getOne(accountId, function(err, account) {
-          $scope.backupSourceFor[accountId].loading = false;
-          if(!err) {
-            $scope.backupSourceFor[accountId].account = account;
-          }
+        AccountService.get(accountId).then(function(account) {
+          scope.backupSourceFor[accountId].account = account;
+        }).catch(function(err) {
+          AlertService.add('error', err);
+        }).then(function() {
+          scope.backupSourceFor[accountId].loading = false;
+          scope.$apply();
         });
       });
-    };
-    updateBackupSources();
-
-    function _removeAsBackupSource(accountIds, i, callback) {
-      var id = $scope.paymentToken.id;
-      if(i < accountIds.length) {
-        AccountService.delBackupSource(accountIds[i], id, function(err) {
-          if(err) {
-            return callback(err);
-          }
-          // mark as gone
-          $scope.backupSourceFor[accountIds[i]].exists = false;
-          // recurse
-          _removeAsBackupSource(accountIds, i + 1, callback);
-        });
-      } else {
-        callback();
-      }
     }
-    function removeAsBackupSource(callback) {
-      // get account ids for removal
-      var accountIds = [];
-      angular.forEach($scope.backupSourceFor, function(info) {
-        if(!info.active) {
-          accountIds.push(info.account.id);
-        }
-      });
-      // recursive removal
-      _removeAsBackupSource(accountIds, 0, callback);
-    }
-
-    $scope.editPaymentToken = function() {
-      var paymentToken = {
-        '@context': payswarm.CONTEXT_URL,
-        id: $scope.paymentToken.id,
-        label: $scope.paymentToken.label
-      };
-
-      // do general update then remove backup sources
-      $scope.loading = true;
-      PaymentTokenService.update(paymentToken, function(err, paymentToken) {
-        $scope.loading = false;
-        $scope.feedback.error = err;
-        if(!err) {
-          $scope.loading = true;
-          removeAsBackupSource(function(err) {
-            $scope.feedback.error = err;
-            // reload to update UI
-            PaymentTokenService.getOne(paymentToken.id, function(tokenErr, token) {
-              // ignore tokenErr, but update UI based on update err
-              if(!err) {
-                $scope.modal.close(null, paymentToken);
-              } else {
-                // editor still open, update display
-                updateBackupSources();
-              }
-            });
-          });
-        }
-      });
-    };
   }
-
-  return ModalService.directive({
-    name: 'editPaymentToken',
-    scope: {
-      paymentMethods: '=',
-      sourcePaymentToken: '=paymentToken'
-    },
-    templateUrl: '/app/components/payment-token/edit-payment-token-modal.html',
-    controller: ['$scope', Ctrl],
-    link: function(scope, element, attrs) {
-      scope.feedbackTarget = element;
-    }
-  });
 }
 
 });

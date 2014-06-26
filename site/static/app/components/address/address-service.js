@@ -59,7 +59,7 @@ function factory(
   // validate an address
   service.validate = function(address) {
     service.state.loading = true;
-    Promise.resolve($http.post(identity.id + '/addresses', address, {
+    return Promise.resolve($http.post(identity.id + '/addresses', address, {
       params: {action: 'validate'}
     })).then(function(response) {
       service.state.loading = false;
@@ -73,7 +73,7 @@ function factory(
   // add a new address
   service.add = function(address) {
     service.state.loading = true;
-    Promise.resolve($http.post(identity.id + '/addresses', address))
+    return Promise.resolve($http.post(identity.id + '/addresses', address))
       .then(function(response) {
         service.addresses.push(response.data);
         service.state.loading = false;
@@ -90,7 +90,7 @@ function factory(
       address = {label: address};
     }
     service.state.loading = true;
-    Promise.resolve($http.delete(identity.id + '/addresses', {
+    return Promise.resolve($http.delete(identity.id + '/addresses', {
       params: {addressId: address.label}
     })).then(function() {
       service.state.loading = false;

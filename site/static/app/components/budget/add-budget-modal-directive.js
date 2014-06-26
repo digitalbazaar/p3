@@ -3,13 +3,16 @@
  *
  * @author Dave Longley
  */
-define(['iso8601'], function(iso8601) {
+define([], function() {
 
-var deps = ['AlertService', 'BudgetService', 'ModalService', 'config'];
+var deps = [
+  'AlertService', 'BudgetService', 'IdentityService', 'ModalService', 'config',
+  'util'
+];
 return {addBudgetModal: deps.concat(factory)};
 
 function factory(
-  AlertService, BudgetService, IdentityService, ModalService, config) {
+  AlertService, BudgetService, IdentityService, ModalService, config, util) {
   return ModalService.directive({
     name: 'addBudget',
     templateUrl: '/app/components/budget/add-budget-modal.html',
@@ -51,12 +54,12 @@ function factory(
       // budget refresh duration
       if(scope.model.budgetRefreshDuration !== 'never') {
         scope.budget.sysRefreshInterval =
-          'R/' + iso8601.w3cDate() + '/' +
+          'R/' + util.w3cDate() + '/' +
           scope.model.budgetRefreshDuration;
       }
 
       // set budget validity start date to now
-      scope.budget.sysValidityInterval = iso8601.w3cDate();
+      scope.budget.sysValidityInterval = util.w3cDate();
       if(scope.model.budgetValidDuration !== 'never') {
         // add duration
         scope.budget.sysValidityInterval +=

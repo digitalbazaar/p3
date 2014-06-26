@@ -3,16 +3,16 @@
  *
  * @author Dave Longley
  */
-define(['angular', 'iso8601'], function(angular, iso8601) {
+define(['angular'], function(angular) {
 
 var deps = [
   'AccountService', 'AlertService', 'BudgetService', 'IdentityService',
-  'ModalService', 'config'];
+  'ModalService', 'config', 'util'];
 return {editBudgetModal: deps.concat(factory)};
 
 function factory(
   AccountService, AlertService, BudgetService, IdentityService,
-  ModalService, config) {
+  ModalService, config, util) {
   return ModalService.directive({
     name: 'editBudget',
     scope: {sourceBudget: '=budget'},
@@ -72,10 +72,10 @@ function factory(
         BudgetService.getRefreshDuration(scope.sourceBudget)) {
         b.sysRefreshInterval = undefined;
       } else if(scope.model.budgetRefreshDuration === 'never') {
-        b.sysRefreshInterval = iso8601.w3cDate();
+        b.sysRefreshInterval = util.w3cDate();
       } else {
         b.sysRefreshInterval =
-          'R/' + iso8601.w3cDate() + '/' +
+          'R/' + util.w3cDate() + '/' +
           scope.model.budgetRefreshDuration;
       }
 
@@ -84,7 +84,7 @@ function factory(
         b.sysValidityInterval = undefined;
       } else {
         // set validity start date to now
-        b.sysValidityInterval = iso8601.w3cDate();
+        b.sysValidityInterval = util.w3cDate();
         if(scope.model.budgetValidDuration !== 'never') {
           // add duration
           b.sysValidityInterval += '/' + scope.model.budgetValidDuration;

@@ -7,14 +7,28 @@
  */
 define([
   'angular',
+  './add-budget-modal-directive',
+  './budget-controller',
+  './budget-selector-directive',
   './budget-service',
-  './budget-controller'
-], function(angular, budgetService) {
+  './edit-budget-modal-directive'
+], function(
+  angular,
+  addBudgetModalDirective,
+  budgetController,
+  budgetSelectorDirective,
+  budgetService,
+  editBudgetModalDirective
+) {
 
 'use strict';
 
 var module = angular.module('app.budget', []);
 
+module.directive(addBudgetModalDirective);
+module.controller(budgetController);
+module.directive(budgetSelectorDirective);
 module.service(budgetService);
+module.directive(editBudgetModalDirective);
 
 });

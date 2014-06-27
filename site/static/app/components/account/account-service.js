@@ -43,7 +43,6 @@ function factory(
       return service.collection.get(accountId);
     }).catch(function(err) {
       service.state.loading = false;
-      $rootScope.$apply();
       throw err;
     });
   };
@@ -59,7 +58,6 @@ function factory(
       return service.collection.get(accountId);
     }).catch(function(err) {
       service.state.loading = false;
-      $rootScope.$apply();
       throw err;
     });
   };
@@ -74,7 +72,6 @@ function factory(
       return service.collection.get(accountId);
     }).catch(function(err) {
       service.state.loading = false;
-      $rootScope.$apply();
       throw err;
     });
   };

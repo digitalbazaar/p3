@@ -6,10 +6,12 @@
 define([], function() {
 
 var deps = [
-  'AccountService', 'AlertService', 'IdentityService', 'ModalService'];
+  '$rootScope', 'AccountService', 'AlertService', 'IdentityService',
+  'ModalService'];
 return {addCreditLineModal: deps.concat(factory)};
 
-function factory(AccountService, AlertService, IdentityService, ModalService) {
+function factory(
+  $rootScope, AccountService, AlertService, IdentityService, ModalService) {
   return ModalService.directive({
     name: 'addCreditLine',
     scope: {account: '='},
@@ -50,15 +52,13 @@ function factory(AccountService, AlertService, IdentityService, ModalService) {
     scope.verifyEmail = function() {
       model.loading = true;
       AlertService.clearModalFeedback(scope);
-      IdentityService.verifyEmail({
-        sysIdentifier: model.identity.id,
-        sysPasscode: model.sysPasscode
-      }).then(function() {
+      IdentityService.verifyEmail(model.sysPasscode).then(function() {
         model.identity.sysEmailVerified = true;
         AlertService.add('success', {
           message: 'Your email address has been verified successfully.'
         });
       }).catch(function(err) {
+        $rootScope.$emit('showLoginModal');
         AlertService.add('error', err);
       }).then(function() {
         model.loading = false;

@@ -55,7 +55,7 @@ function factory(AlertService, PaymentTokenService) {
         // get backup source token
         model.backupSource = null;
         if(account.backupSource && account.backupSource.length) {
-          PaymentTokenService.get(account.backupSource[0])
+          PaymentTokenService.collection.get(account.backupSource[0])
             .then(function(token) {
               model.backupSource = token;
               scope.$apply();

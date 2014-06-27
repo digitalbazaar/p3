@@ -40,7 +40,7 @@ function factory(
       backupSource: backupSourceId
     })).then(function() {
       // get account
-      return service.collection.get(accountId);
+      return service.collection.get(accountId, {force: true});
     }).catch(function(err) {
       service.state.loading = false;
       throw err;
@@ -55,7 +55,7 @@ function factory(
       backupSource: backupSourceId
     })).then(function() {
       // get account
-      return service.collection.get(accountId);
+      return service.collection.get(accountId, {force: true});
     }).catch(function(err) {
       service.state.loading = false;
       throw err;
@@ -69,7 +69,7 @@ function factory(
       backupSource: backupSourceId
     })).then(function() {
       // get account
-      return service.collection.get(accountId);
+      return service.collection.get(accountId, {force: true});
     }).catch(function(err) {
       service.state.loading = false;
       throw err;

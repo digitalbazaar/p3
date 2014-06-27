@@ -58,7 +58,9 @@ function factory(
           message: 'Your email address has been verified successfully.'
         });
       }).catch(function(err) {
-        $rootScope.$emit('showLoginModal');
+        if(err.type === 'bedrock.website.PermissionDenied') {
+          $rootScope.$emit('showLoginModal');
+        }
         AlertService.add('error', err);
       }).then(function() {
         model.loading = false;

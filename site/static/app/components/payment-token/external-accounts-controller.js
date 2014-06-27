@@ -6,7 +6,7 @@
 define([], function() {
 
 var deps = ['$scope', '$timeout', 'PaymentTokenService'];
-return {ExternalAccountsCtrl: deps.concat(factory)};
+return {ExternalAccountsController: deps.concat(factory)};
 
 function factory($scope, $timeout, PaymentTokenService) {
   $scope.state = PaymentTokenService.state;
@@ -56,7 +56,7 @@ function factory($scope, $timeout, PaymentTokenService) {
     delete paymentToken.showDeletedError;
   };
 
-  PaymentTokenService.getAll();
+  PaymentTokenService.collection.getAll();
 }
 
 });

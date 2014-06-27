@@ -120,7 +120,7 @@ function factory(
 
       // add payment token
       scope.loading = true;
-      PaymentTokenService.add(token).then(function(addedToken) {
+      PaymentTokenService.collection.add(token).then(function(addedToken) {
         scope.loading = false;
         scope.modal.close(null, addedToken);
       }).catch(function(err) {

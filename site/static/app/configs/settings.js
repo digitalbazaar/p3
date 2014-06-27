@@ -20,6 +20,9 @@ return {
       },
       {
         templateUrl: '/app/components/address/address-settings.html'
+      },
+      {
+        templateUrl: '/app/components/payment-token/external-account-settings.html'
       }
     ]
   }

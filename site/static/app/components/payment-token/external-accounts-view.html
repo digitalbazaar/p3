@@ -1,0 +1,175 @@
+<div class="section section-external-accounts" data-ng-controller="ExternalAccountsController as model">
+  <div class="section section-credit-cards">
+    <h3 class="headline">
+      Credit Cards
+      <span data-ng-hide="state.loading" class="btn-group pull-right">
+        <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
+          <i class="icon-reorder"></i>
+        </a>
+        <ul class="dropdown-menu pull-right">
+          <li>
+          <a data-ng-click="modals.showAddCreditCard=true"><i class="icon-plus icon-white"></i> Add Credit Card</a>
+          </li>
+        </ul>
+      </span>
+      <span data-ng-show="state.loading" class="pull-right">
+        <span data-spinner="state.loading" data-spinner-class="h3-spinner"></span>
+      </span>
+    </h3>
+    <table class="table table-condensed" data-ng-show="state.loading || creditCards.length > 0">
+      <thead>
+        <tr>
+          <th class="name">Name</th>
+          <th class="name">Brand</th>
+          <th class="name">Number</th>
+          <th>Expiration</th>
+          <th class="compact">
+            <span
+              data-tooltip-title="Links from accounts to this payment method. A payment method cannot be deleted while linked."
+              data-placement="bottom" data-trigger="hover"><i class="icon icon-link"></i></span>
+          </th>
+          <th class="action">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+      <tr data-ng-repeat="card in creditCards | orderBy:'label'"
+        data-fadeout="card.deleted"
+        data-fadeout-callback="deletePaymentToken(card)"
+        data-fadein="card.showDeletedError"
+        data-fadein-callback="card.animateDeletedError=true"
+        data-animate="card.animateDeletedError"
+        data-animate-options="[{properties: {opacity: 0}, duration: 500},{properties: {opacity: 1}, duration: 500}]"
+        data-animate-callback="card.animateDeletedError=false;card.showDeletedError=false"
+        data-ng-class="{warning: card.showExpirationWarning, error: card.showExpired}">
+        <!-- Name -->
+        <td>
+          <span>{{card.label}}</span>
+        </td>
+        <!-- Brand -->
+        <td>
+          <span><i class="{{card.cardBrand|cardBrand:true}}"></i></span>
+        </td>
+        <!-- Number -->
+        <td>
+          <span>{{card.cardNumber}}</span>
+        </td>
+        <!-- Expiration -->
+        <td>
+          <!-- FIXME: add warning for near or already expired cards -->
+          <span>{{card.cardExpMonth}} / {{card.cardExpYear}}</span>
+          <span data-ng-show="card.showExpirationWarning"
+            data-tooltip-title="This payment method will expire in less than a month. Please update or replace the credit card information."
+            data-placement="bottom" data-trigger="hover"><i class="icon icon-warning-sign"></i></span>
+          <span data-ng-show="card.showExpired"
+            data-tooltip-title="This payment method has expired. Please update or replace the credit card information."
+            data-placement="bottom" data-trigger="hover"><i class="icon icon-warning-sign"></i></span>
+        </td>
+        <!-- Links -->
+        <td class="compact">
+          <span class="badge">{{card.backupSourceFor.length || ''}}</span>
+        </td>
+        <!-- Action -->
+        <td class="action">
+          <div class="btn-group">
+            <a class="btn"
+              data-popover-template="/app/components/payment-token/credit-card-action-menu.html"
+              data-popover-visible="showCreditCardActionMenu"
+              data-placement="bottom">
+              <i class="icon-chevron-down"></i>
+            </a>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <div data-ng-show="!state.loading && creditCards.length == 0">
+      <p class="center">You have no credit cards associated with this identity.</p>
+    </div>
+    <div data-feedback="creditCardFeedback"></div>
+    <div data-add-payment-token-modal="modals.showAddCreditCard" data-payment-methods="creditCardMethods"></div>
+    <div data-edit-payment-token-modal="modals.showEditPaymentToken"
+      data-payment-token="modals.paymentToken"></div>
+  </div>
+
+  <div class="section section-bank-accounts">
+    <h3 class="headline">
+      Bank Accounts
+      <span data-ng-hide="state.loading" class="btn-group pull-right">
+        <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
+          <i class="icon-reorder"></i>
+        </a>
+        <ul class="dropdown-menu pull-right">
+          <li>
+          <a data-ng-click="modals.showAddBankAccount=true"><i class="icon-plus icon-white"></i> Add Bank Account</a>
+          </li>
+        </ul>
+      </span>
+      <span data-ng-show="state.loading" class="pull-right">
+        <span data-spinner="state.loading" data-spinner-class="h3-spinner"></span>
+      </span>
+    </h3>
+    <table class="table table-condensed" data-ng-show="state.loading || bankAccounts.length > 0">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Number</th>
+          <th>Routing</th>
+          <th>Status</th>
+          <th class="action">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+      <tr data-ng-repeat="bankAccount in bankAccounts | orderBy:'label'"
+        data-ng-class="{info: bankAccount.sysStatus == 'active' && !bankAccount.sysVerified && bankAccount.sysVerifyReady}">
+        <!-- Name -->
+        <td>
+          <span>{{bankAccount.label}}</span>
+        </td>
+        <!-- Number -->
+        <td>
+          <span>{{bankAccount.bankAccount}}</span>
+        </td>
+        <!-- Routing -->
+        <td>
+          <span>{{bankAccount.bankRoutingNumber}}</span>
+        </td>
+        <!-- Status -->
+        <td data-ng-show="bankAccount.sysStatus == 'active' || bankAccount.sysStatus == 'disabled'">
+          <button data-ng-show="bankAccount.sysStatus == 'active' && !bankAccount.sysVerified && bankAccount.sysVerifyReady"
+            data-ng-click="modals.paymentToken=bankAccount; modals.showVerifyBankAccountModal=true"
+            class="btn btn-primary" title="Verify">Verify</button>
+          <span data-ng-show="bankAccount.sysStatus == 'disabled'"
+            data-tooltip-title="This payment method was likely disabled because your bank account information could not be verified. Please delete this payment method and try to add it again with corrected information."
+            data-placement="bottom" data-trigger="hover" class="label label-important">Disabled</span>
+          <span data-ng-show="bankAccount.sysStatus != 'active' && bankAccount.sysStatus != 'disabled' && bankAccount.sysStatus != 'deleted' && !bankAccount.sysVerified" class="label label-warning">Unverified</span>
+          <span data-ng-show="bankAccount.sysStatus == 'active' && !bankAccount.sysVerified && !bankAccount.sysVerifyReady" class="label label-info">Pending</span>
+          <span data-ng-show="bankAccount.sysVerified" class="label label-success">Verified</span>
+        </td>
+        <td data-ng-show="bankAccount.sysStatus == 'deleted'">
+          <span
+            data-tooltip-title="Because verifying a bank account is a costly process, we do not delete bank accounts immediately. You may restore the bank account before the expiration date passes if you wish."
+            data-placement="bottom" data-trigger="hover" class="label label-warning">Expires {{bankAccount.sysExpires | date:'MMM d'}}</span>
+        </td>
+        <!-- Action -->
+        <td class="action">
+          <div class="btn-group">
+            <a class="btn"
+              data-popover-template="/app/components/payment-token/bank-account-action-menu.html"
+              data-popover-visible="showBankAccountActionMenu"
+              data-placement="bottom">
+              <i class="icon-chevron-down"></i>
+            </a>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <div data-ng-show="!state.loading && bankAccounts.length == 0">
+      <p class="center">You have no bank accounts associated with this identity.</p>
+    </div>
+    <div data-feedback="bankAccountFeedback"></div>
+    <div data-add-payment-token-modal="modals.showAddBankAccount" data-payment-methods="bankAccountMethods"></div>
+    <div data-verify-bank-account-modal="modals.showVerifyBankAccountModal"
+      data-payment-token="modals.paymentToken"></div>
+  </div>
+</div>

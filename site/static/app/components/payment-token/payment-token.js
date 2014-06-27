@@ -12,6 +12,8 @@ define([
   './cc-number-filter',
   './credit-card-selector-directive',
   './edit-payment-token-modal-directive',
+  './external-accounts-controller',
+  './external-accounts-directive',
   './kredit-directive',
   './payment-token-list-directive',
   './payment-token-list-selector-modal-directive',
@@ -25,6 +27,8 @@ define([
   ccNumberFilter,
   creditCardSelectorDirective,
   editPaymentTokenModalDirective,
+  externalAccountsController,
+  externalAccountsDirective,
   kreditDirective,
   paymentTokenListDirective,
   paymentTokenListSelectorModalDirective,
@@ -42,6 +46,8 @@ module.filter(ccNumberFilter);
 module.directive(creditCardSelectorDirective);
 module.directive(kreditDirective);
 module.directive(editPaymentTokenModalDirective);
+module.controller(externalAccountsController);
+module.directive(externalAccountsDirective);
 module.directive(paymentTokenListDirective);
 module.directive(paymentTokenListSelectorModalDirective);
 module.directive(paymentTokenSelectorDirective);

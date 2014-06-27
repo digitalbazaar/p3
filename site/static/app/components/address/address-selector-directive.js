@@ -5,7 +5,9 @@
  */
 define([], function() {
 
-var deps = [];
+var deps = [
+  'AddressService', 'IdentityService'
+];
 return {addressSelector: deps.concat(factory)};
 
 function factory(AddressService, IdentityService) {
@@ -21,7 +23,7 @@ function factory(AddressService, IdentityService) {
         $scope.selected = addresses[0] || null;
       }
     }, true);
-    AddressService.get();
+    AddressService.getAll();
   }
 
   function Link(scope, element, attrs) {

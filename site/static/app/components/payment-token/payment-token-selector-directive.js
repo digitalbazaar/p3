@@ -18,7 +18,7 @@ function factory(AlertService, ModelService, PaymentTokenService) {
       omit: '='
     },
     templateUrl:
-      '/app/components/payment-token/payment-token-selector-directive.html',
+      '/app/components/payment-token/payment-token-selector.html',
     link: Link
   };
 
@@ -60,10 +60,11 @@ function factory(AlertService, ModelService, PaymentTokenService) {
     scope.$watch('omit', filterTokens);
     // FIXME: listen for changes to payment token service collection?
 
-    PaymentTokenService.getAll().then(filterTokens).catch(function(err) {
-      AlertService.add('error', err);
-      scope.$apply();
-    });
+    PaymentTokenService.collection.getAll().then(filterTokens)
+      .catch(function(err) {
+        AlertService.add('error', err);
+        scope.$apply();
+      });
 
     function filterTokens() {
       // omit tokens if needed

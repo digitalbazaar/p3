@@ -13,7 +13,8 @@ function factory(AccountService, AlertService, IdentityService, ModalService) {
   return ModalService.directive({
     name: 'addCreditLine',
     scope: {account: '='},
-    templateUrl: '/app/components/account/add-credit-line-modal.html'
+    templateUrl: '/app/components/account/add-credit-line-modal.html',
+    link: Link
   });
 
   function Link(scope) {

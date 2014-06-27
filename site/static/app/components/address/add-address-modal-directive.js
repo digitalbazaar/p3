@@ -7,7 +7,8 @@ define(['angular'], function(angular) {
 
 var deps = [
   'AddressService', 'AlertService', 'IdentityService', 'ModalService',
-  'config'];
+  'config'
+];
 return {addAddressModal: deps.concat(factory)};
 
 function factory(

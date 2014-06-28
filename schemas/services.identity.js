@@ -25,6 +25,7 @@ var postIdentity = {
     url: schemas.url({required: false}),
     sysImageType: sysImageType,
     sysGravatarType: sysGravatarType,
+    sysPublic: schemas.propertyVisibility({required: false}),
     sysSigningKey: schemas.identifier({required: false})
   },
   additionalProperties: false
@@ -79,10 +80,7 @@ var postIdentities = {
     description: schemas.description({required: false}),
     sysImageType: sysImageType,
     sysGravatarType: sysGravatarType,
-    sysPublic: {
-      required: false,
-      type: schemas.propertyVisibility()
-    }
+    sysPublic: schemas.propertyVisibility({required: false})
   },
   additionalProperties: false
 };

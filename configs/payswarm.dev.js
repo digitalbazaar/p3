@@ -52,6 +52,7 @@ config.website.services = [
   path.join(_libdir, 'payswarm-auth', 'services.budget'),
   //path.join(_libdir, 'payswarm-auth', 'services.hosted.asset'),
   //path.join(_libdir, 'payswarm-auth', 'services.hosted.listing'),
+  path.join(_libdir, 'payswarm-auth', 'services.identityPreferences'),
   path.join(_libdir, 'payswarm-auth', 'services.license'),
   path.join(_libdir, 'payswarm-auth', 'services.paymentToken'),
   path.join(_libdir, 'payswarm-auth', 'services.promo'),

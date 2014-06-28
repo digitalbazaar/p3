@@ -1,12 +1,31 @@
 var bedrock = require('bedrock');
 var schemas = bedrock.validation.schemas;
 
+var sysImageType = {
+  required: false,
+  type: 'string',
+  enum: ['url', 'gravatar']
+};
+var sysGravatarType = {
+  required: false,
+  type: 'string',
+  enum: ['gravatar', 'mm', 'identicon', 'monsterid', 'wavatar', 'retro']
+};
+
 var postIdentity = {
   title: 'Post Identity',
   type: 'object',
   properties: {
     '@context': schemas.jsonldContext(),
-    label: schemas.label()
+    id: schemas.identifier(),
+    description: schemas.description({required: false}),
+    //email: schemas.email({required: false}),
+    image: schemas.url({required: false}),
+    label: schemas.label({required: false}),
+    url: schemas.url({required: false}),
+    sysImageType: sysImageType,
+    sysGravatarType: sysGravatarType,
+    sysSigningKey: schemas.identifier({required: false})
   },
   additionalProperties: false
 };
@@ -42,6 +61,7 @@ var getIdentitiesQuery = {
 
 var postIdentities = {
   title: 'Post Identities',
+  description: 'Identity credentials query or Identity creation',
   type: 'object',
   properties: {
     '@context': schemas.jsonldContext(),
@@ -52,43 +72,16 @@ var postIdentities = {
     },
     sysSlug: schemas.slug(),
     label: schemas.label(),
-    website: {
-      required: false,
-      type: 'string'
-    },
-    description: {
-      required: false,
-      type: 'string'
-    },
+    image: schemas.url({required: false}),
+    email: schemas.email(),
+    sysPassword: schemas.password(),
+    url: schemas.url({required: false}),
+    description: schemas.description({required: false}),
+    sysImageType: sysImageType,
+    sysGravatarType: sysGravatarType,
     sysPublic: {
       required: false,
       type: schemas.propertyVisibility()
-    }
-  },
-  additionalProperties: false
-};
-
-var postPreferences = {
-  title: 'Post Preferences',
-  type: 'object',
-  properties: {
-    '@context': schemas.jsonldContext(),
-    type: schemas.jsonldType('IdentityPreferences'),
-    destination: schemas.url({required: false}),
-    source: schemas.url({required: false}),
-    publicKey: {
-      required: false,
-      type: [{
-        // IRI only
-        type: 'string'
-      }, {
-        // label+pem
-        type: 'object',
-        properties: {
-          label: schemas.label(),
-          publicKeyPem: schemas.publicKeyPem()
-        }
-      }]
     }
   },
   additionalProperties: false
@@ -102,7 +95,4 @@ module.exports.getIdentitiesQuery = function() {
 };
 module.exports.postIdentities = function() {
   return postIdentities;
-};
-module.exports.postPreferences = function() {
-  return postPreferences;
 };

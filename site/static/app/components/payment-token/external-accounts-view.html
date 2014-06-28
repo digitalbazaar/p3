@@ -2,7 +2,7 @@
   <div class="section section-credit-cards">
     <h3 class="headline">
       Credit Cards
-      <span data-ng-hide="state.loading" class="btn-group pull-right">
+      <span data-ng-hide="model.state.loading" class="btn-group pull-right">
         <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
           <i class="icon-reorder"></i>
         </a>
@@ -12,11 +12,11 @@
           </li>
         </ul>
       </span>
-      <span data-ng-show="state.loading" class="pull-right">
-        <span data-spinner="state.loading" data-spinner-class="h3-spinner"></span>
+      <span data-ng-show="model.state.loading" class="pull-right">
+        <span data-spinner="model.state.loading" data-spinner-class="h3-spinner"></span>
       </span>
     </h3>
-    <table class="table table-condensed" data-ng-show="state.loading || creditCards.length > 0">
+    <table class="table table-condensed" data-ng-show="model.state.loading || model.creditCards.length > 0">
       <thead>
         <tr>
           <th class="name">Name</th>
@@ -32,7 +32,7 @@
         </tr>
       </thead>
       <tbody>
-      <tr data-ng-repeat="card in creditCards | orderBy:'label'"
+      <tr data-ng-repeat="card in model.creditCards | orderBy:'label'"
         data-fadeout="card.deleted"
         data-fadeout-callback="deletePaymentToken(card)"
         data-fadein="card.showDeletedError"
@@ -82,33 +82,33 @@
       </tr>
       </tbody>
     </table>
-    <div data-ng-show="!state.loading && creditCards.length == 0">
+    <div data-ng-show="!model.state.loading && model.creditCards.length == 0">
       <p class="center">You have no credit cards associated with this identity.</p>
     </div>
-    <div data-feedback="creditCardFeedback"></div>
-    <div data-add-payment-token-modal="modals.showAddCreditCard" data-payment-methods="creditCardMethods"></div>
-    <div data-edit-payment-token-modal="modals.showEditPaymentToken"
-      data-payment-token="modals.paymentToken"></div>
+    <div data-feedback="model.creditCardFeedback"></div>
+    <div data-add-payment-token-modal="model.modals.showAddCreditCard" data-payment-methods="model.creditCardMethods"></div>
+    <div data-edit-payment-token-modal="model.modals.showEditPaymentToken"
+      data-payment-token="model.modals.paymentToken"></div>
   </div>
 
   <div class="section section-bank-accounts">
     <h3 class="headline">
       Bank Accounts
-      <span data-ng-hide="state.loading" class="btn-group pull-right">
+      <span data-ng-hide="model.state.loading" class="btn-group pull-right">
         <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
           <i class="icon-reorder"></i>
         </a>
         <ul class="dropdown-menu pull-right">
           <li>
-          <a data-ng-click="modals.showAddBankAccount=true"><i class="icon-plus icon-white"></i> Add Bank Account</a>
+          <a data-ng-click="model.modals.showAddBankAccount=true"><i class="icon-plus icon-white"></i> Add Bank Account</a>
           </li>
         </ul>
       </span>
-      <span data-ng-show="state.loading" class="pull-right">
-        <span data-spinner="state.loading" data-spinner-class="h3-spinner"></span>
+      <span data-ng-show="model.state.loading" class="pull-right">
+        <span data-spinner="model.state.loading" data-spinner-class="h3-spinner"></span>
       </span>
     </h3>
-    <table class="table table-condensed" data-ng-show="state.loading || bankAccounts.length > 0">
+    <table class="table table-condensed" data-ng-show="model.state.loading || model.bankAccounts.length > 0">
       <thead>
         <tr>
           <th>Name</th>
@@ -119,7 +119,7 @@
         </tr>
       </thead>
       <tbody>
-      <tr data-ng-repeat="bankAccount in bankAccounts | orderBy:'label'"
+      <tr data-ng-repeat="bankAccount in model.bankAccounts | orderBy:'label'"
         data-ng-class="{info: bankAccount.sysStatus == 'active' && !bankAccount.sysVerified && bankAccount.sysVerifyReady}">
         <!-- Name -->
         <td>
@@ -136,7 +136,7 @@
         <!-- Status -->
         <td data-ng-show="bankAccount.sysStatus == 'active' || bankAccount.sysStatus == 'disabled'">
           <button data-ng-show="bankAccount.sysStatus == 'active' && !bankAccount.sysVerified && bankAccount.sysVerifyReady"
-            data-ng-click="modals.paymentToken=bankAccount; modals.showVerifyBankAccountModal=true"
+            data-ng-click="model.modals.paymentToken=bankAccount; model.modals.showVerifyBankAccountModal=true"
             class="btn btn-primary" title="Verify">Verify</button>
           <span data-ng-show="bankAccount.sysStatus == 'disabled'"
             data-tooltip-title="This payment method was likely disabled because your bank account information could not be verified. Please delete this payment method and try to add it again with corrected information."
@@ -164,12 +164,12 @@
       </tr>
       </tbody>
     </table>
-    <div data-ng-show="!state.loading && bankAccounts.length == 0">
+    <div data-ng-show="!model.state.loading && model.bankAccounts.length == 0">
       <p class="center">You have no bank accounts associated with this identity.</p>
     </div>
-    <div data-feedback="bankAccountFeedback"></div>
-    <div data-add-payment-token-modal="modals.showAddBankAccount" data-payment-methods="bankAccountMethods"></div>
-    <div data-verify-bank-account-modal="modals.showVerifyBankAccountModal"
-      data-payment-token="modals.paymentToken"></div>
+    <div data-feedback="model.bankAccountFeedback"></div>
+    <div data-add-payment-token-modal="model.modals.showAddBankAccount" data-payment-methods="bankAccountMethods"></div>
+    <div data-verify-bank-account-modal="model.modals.showVerifyBankAccountModal"
+      data-payment-token="model.modals.paymentToken"></div>
   </div>
 </div>

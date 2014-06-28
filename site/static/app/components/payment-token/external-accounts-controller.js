@@ -5,32 +5,34 @@
  */
 define([], function() {
 
-var deps = ['$scope', '$timeout', 'PaymentTokenService'];
+var deps = ['$timeout', 'PaymentTokenService'];
 return {ExternalAccountsController: deps.concat(factory)};
 
-function factory($scope, $timeout, PaymentTokenService) {
-  $scope.state = PaymentTokenService.state;
+function factory($timeout, PaymentTokenService) {
+  var self = this;
+
+  self.state = PaymentTokenService.state;
 
   // types for UI directives
-  $scope.allMethods = ['CreditCard', 'BankAccount'];
-  $scope.creditCardMethods = ['CreditCard'];
-  $scope.bankAccountMethods = ['BankAccount'];
+  self.allMethods = ['CreditCard', 'BankAccount'];
+  self.creditCardMethods = ['CreditCard'];
+  self.bankAccountMethods = ['BankAccount'];
 
   // service data
-  $scope.creditCards = PaymentTokenService.creditCards;
-  $scope.bankAccounts = PaymentTokenService.bankAccounts;
+  self.creditCards = PaymentTokenService.creditCards;
+  self.bankAccounts = PaymentTokenService.bankAccounts;
 
   // feedback
-  $scope.creditCardFeedback = {};
-  $scope.bankAccountFeedback = {};
+  self.creditCardFeedback = {};
+  self.bankAccountFeedback = {};
 
   // modals
-  $scope.modals = {
+  self.modals = {
     showAddCreditCard: false,
     showAddBankAccount: false
   };
 
-  $scope.deletePaymentToken = function(paymentToken) {
+  self.deletePaymentToken = function(paymentToken) {
     PaymentTokenService.del(paymentToken.id, function(err) {
       if(err) {
         $timeout(function() {
@@ -39,20 +41,20 @@ function factory($scope, $timeout, PaymentTokenService) {
         }, 500);
       }
       // reset feedback and update based on type
-      $scope.creditCardFeedback.error = null;
-      $scope.bankAccountFeedback.error = null;
+      self.creditCardFeedback.error = null;
+      self.bankAccountFeedback.error = null;
 
       if(paymentToken.paymentMethod === 'CreditCard') {
-        $scope.creditCardFeedback.error = err;
+        self.creditCardFeedback.error = err;
       } else if(paymentToken.paymentMethod === 'BankAccount') {
-        $scope.bankAccountFeedback.error = err;
+        self.bankAccountFeedback.error = err;
       }
     });
   };
-  $scope.restorePaymentToken = function(paymentToken) {
+  self.restorePaymentToken = function(paymentToken) {
     PaymentTokenService.restore(paymentToken.id);
   };
-  $scope.clearDeletedError = function(paymentToken) {
+  self.clearDeletedError = function(paymentToken) {
     delete paymentToken.showDeletedError;
   };
 

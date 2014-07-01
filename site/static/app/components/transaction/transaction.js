@@ -7,14 +7,23 @@
  */
 define([
   'angular',
-  './transaction-service'
-], function(angular, transactionService) {
+  './money-directive',
+  './transaction-service',
+  './transactions-directive'
+], function(
+  angular,
+  moneyDirective,
+  transactionService,
+  transactionsDirective
+) {
 
 'use strict';
 
 var module = angular.module('app.transaction', []);
 
+module.directive(moneyDirective);
 module.service(transactionService);
+module.directive(transactionsDirective);
 
 return module.name;
 

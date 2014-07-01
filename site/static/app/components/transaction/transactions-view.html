@@ -1,0 +1,49 @@
+<div class="section section-recent-transactions">
+  <h3 class="headline">
+    Recent Transactions
+    <span data-ng-show="model.state.txns.loading" class="pull-right">
+      <span data-spinner="model.state.txns.loading" data-spinner-class="h3-spinner"></span>
+    </span>
+  </h3>
+  <table class="table table-condensed" data-ng-show="!model.state.txns.loading && model.txns.length > 0">
+    <thead>
+      <tr>
+        <th class="date">Date</th>
+        <th class="name">Item</th>
+        <th class="money">Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr data-ng-repeat="txn in model.txns" class="txn"
+        data-ng-class="(!txn.settled && !txn.voided && 'info') || (txn.voided && 'error')"
+        data-fadein="txn.added">
+        <!-- Date -->
+        <td data-ng-switch="model.getTxnType(txn)">
+          <span data-ng-switch-when="deposit" class="date">{{txn.created | date:'medium'}}</span>
+          <span data-ng-switch-when="contract" class="date">{{txn.created | date:'medium'}}</span>
+          <span data-ng-switch-when="withdrawal" class="date">{{txn.created | date:'medium'}}</span>
+        </td>
+        <!-- Item -->
+        <td data-ng-switch="model.getTxnType(txn)">
+          <span data-ng-switch-when="deposit" class="name"><a href="{{txn.id}}"><i class="icon-plus"></i> Deposit</a> <span data-ng-show="!(txn.settled || txn.voided)" class="label label-info">Pending</span><span data-ng-show="txn.voided" class="label label-important">Voided</span></span>
+          <span data-ng-switch-when="contract" class="name"><a href="{{txn.id}}"><i class="icon-shopping-cart"></i> {{txn.asset.title}}</a> <span data-ng-show="!(txn.settled || txn.voided)" class="label label-info">Pending</span><span data-ng-show="txn.voided" class="label label-important">Voided</span></span>
+          <span data-ng-switch-when="withdrawal" class="name"><a href="{{txn.id}}"><i class="icon-minus"></i> Withdrawal</a> <span data-ng-show="!(txn.settled || txn.voided)" class="label label-info">Pending</span><span data-ng-show="txn.voided" class="label label-important">Voided</span></span>
+        </td>
+        <!-- Amount -->
+        <td class="money">
+          <span data-money="txn"></span>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr data-ng-hide="model.state.txns.loading">
+        <td colspan="5">
+          <a href="accounts?view=activity" class="btn pull-right"><i class="icon-list"></i> More <i class="icon-chevron-right"></i></a>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+  <div data-ng-show="!model.state.txns.loading && model.txns.length == 0">
+    <p class="center">You have no recent transactions for this identity.</p>
+  </div>
+</div>

@@ -13,6 +13,7 @@ define([
   './account-controller',
   './account-selector-directive',
   './account-service',
+  './accounts-directive',
   './activity-controller',
   './add-account-modal-directive',
   './add-credit-line-modal-directive',
@@ -28,6 +29,7 @@ define([
   accountController,
   accountSelectorDirective,
   accountService,
+  accountsDirective,
   activityController,
   addAccountModalDirective,
   addCreditLineModalDirective,
@@ -50,6 +52,7 @@ module.directive(accountBalanceSummaryDirective);
 module.controller(accountController);
 module.directive(accountSelectorDirective);
 module.service(accountService);
+module.directive(accountsDirective);
 module.controller(activityController);
 module.directive(addAccountModalDirective);
 module.directive(addCreditLineModalDirective);

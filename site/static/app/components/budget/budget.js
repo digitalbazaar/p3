@@ -11,6 +11,7 @@ define([
   './budget-controller',
   './budget-selector-directive',
   './budget-service',
+  './budgets-directive',
   './edit-budget-modal-directive'
 ], function(
   angular,
@@ -18,6 +19,7 @@ define([
   budgetController,
   budgetSelectorDirective,
   budgetService,
+  budgetsDirective,
   editBudgetModalDirective
 ) {
 
@@ -29,6 +31,7 @@ module.directive(addBudgetModalDirective);
 module.controller(budgetController);
 module.directive(budgetSelectorDirective);
 module.service(budgetService);
+module.directive(budgetsDirective);
 module.directive(editBudgetModalDirective);
 
 return module.name;

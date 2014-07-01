@@ -91,7 +91,7 @@ function factory(
       }
 
       state.loading = true;
-      AccountService.update(accountUpdate).then(function(account) {
+      AccountService.collection.update(accountUpdate).then(function(account) {
         state.loading = false;
         scope.modal.close(null, account);
       }).catch(function(err) {

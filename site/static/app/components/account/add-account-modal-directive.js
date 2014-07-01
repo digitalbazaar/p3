@@ -8,7 +8,7 @@ define([], function() {
 var deps = [
   'AccountService', 'AlertService', 'IdentityService', 'ModalService',
   'config'];
-return {modalAddAccount: deps.concat(factory)};
+return {addAccountModal: deps.concat(factory)};
 
 function factory(
   AccountService, AlertService, IdentityService, ModalService, config) {
@@ -22,7 +22,7 @@ function factory(
   function Link(scope) {
     var model = scope.model = {};
     model.identity = IdentityService.identity;
-    model.state = AccountService.collection.state;
+    model.state = AccountService.state;
     var account = model.account = {
       '@context': config.data.contextUrl,
       currency: 'USD',
@@ -38,7 +38,7 @@ function factory(
         account.sysPublic.push('owner');
       }
 
-      AccountService.add(account).then(function(account) {
+      AccountService.collection.add(account).then(function(account) {
         scope.modal.close(null, account);
       }).catch(function(err) {
         AlertService.add('error', err);

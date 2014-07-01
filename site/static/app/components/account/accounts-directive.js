@@ -56,7 +56,7 @@ function factory(
   }
 
   return {
-    accounts: {},
+    scope: {},
     controller: ['$scope', Ctrl],
     templateUrl: '/app/components/account/accounts-view.html'
   };

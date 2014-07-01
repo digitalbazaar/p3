@@ -21,7 +21,7 @@ function factory(
   var identity = IdentityService.identity;
   service.collection = new ResourceService.Collection({
     url: identity.id + '/accounts',
-    finishLoading: service.updateAccounts
+    finishLoading: _updateAccounts
   });
   service.state = service.collection.state;
 

@@ -9,12 +9,12 @@
 define([], function() {
 
 var deps = ['AccountService', 'AlertService', 'IdentityService',
-  'PaymentTokenService', 'TransactionService', 'config'];
+  'PaymentTokenService', 'config'];
 return {accounts: deps.concat(factory)};
 
 function factory(
   AccountService, AlertService, IdentityService,
-  PaymentTokenService, TransactionService, config) {
+  PaymentTokenService, config) {
   function Ctrl($scope) {
     var model = $scope.model = {};
     model.identity = IdentityService.identity;
@@ -53,6 +53,9 @@ function factory(
     $scope.$watch('tokens', function(value) {
       AccountService.updateAccounts();
     }, true);
+
+    AccountService.collection.getAll();
+    PaymentTokenService.collection.getAll();
   }
 
   return {

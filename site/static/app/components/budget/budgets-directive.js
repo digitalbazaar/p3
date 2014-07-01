@@ -44,6 +44,8 @@ function factory(AlertService, BudgetService, IdentityService) {
       }
       model.budgetToDelete = null;
     };
+
+    BudgetService.collection.getAll();
   }
 
   return {

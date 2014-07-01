@@ -1,21 +1,21 @@
 <div class="section section-accounts">
   <h3 class="headline">
     Accounts
-    <span data-ng-hide="state.accounts.loading" class="btn-group pull-right">
+    <span data-ng-hide="model.state.accounts.loading" class="btn-group pull-right">
       <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
         <i class="icon-reorder"></i>
       </a>
       <ul class="dropdown-menu pull-right">
         <li>
-          <a data-ng-click="modals.showAddAccount=true"><i class="icon-plus icon-white"></i> Add Account</a>
+          <a data-ng-click="model.modals.showAddAccount=true"><i class="icon-plus icon-white"></i> Add Account</a>
         </li>
       </ul>
     </span>
-    <span data-ng-show="state.accounts.loading" class="pull-right">
-      <span data-spinner="state.accounts.loading" data-spinner-class="h3-spinner"></span>
+    <span data-ng-show="model.state.accounts.loading" class="pull-right">
+      <span data-spinner="model.state.accounts.loading" data-spinner-class="h3-spinner"></span>
     </span>
   </h3>
-  <table class="table table-condensed" data-ng-show="state.accounts.loading || accounts.length > 0">
+  <table class="table table-condensed" data-ng-show="!model.state.accounts.loading && model.accounts.length > 0">
     <thead>
       <tr>
         <th class="name">Account</th>
@@ -24,7 +24,7 @@
       </tr>
     </thead>
     <!-- FIXME: use ng-repeat-start/ng-repeat-end on tr once using AngularJS 1.2 -->
-    <tbody data-ng-repeat="account in accounts | orderBy:'label'" class="account" style="border: none">
+    <tbody data-ng-repeat="account in model.accounts | orderBy:'label'" class="account" style="border: none">
       <tr>
         <!-- Label -->
         <td class="name">
@@ -54,33 +54,33 @@
               <i class="icon-chevron-down"></i>
             </a>
             <ul class="dropdown-menu pull-right">
-              <li data-ng-show="identity.preferences.source != account.id">
-                <a data-ng-click="setDefaultAccount(account)">
+              <li data-ng-show="model.identity.preferences.source != account.id">
+                <a data-ng-click="model.setDefaultAccount(account)">
                   <i class="icon-star"></i> Set as Default
                 </a>
               </li>
               <li>
-                <a data-ng-click="modals.account=account; modals.showDeposit=true">
+                <a data-ng-click="model.modals.account=account; model.modals.showDeposit=true">
                   <i class="icon-plus"></i> Deposit
                 </a>
               </li>
               <li>
-                <a data-ng-click="modals.account=account; modals.showWithdraw=true">
+                <a data-ng-click="model.modals.account=account; model.modals.showWithdraw=true">
                   <i class="icon-minus"></i> Withdraw
                 </a>
               </li>
               <li>
-                <a data-ng-click="modals.account=account; modals.showEditAccount=true">
+                <a data-ng-click="model.modals.account=account; model.modals.showEditAccount=true">
                   <i class="icon-pencil"></i> Edit
                 </a>
               </li>
-              <li data-ng-show="identity.sysUnbackedCreditEmailAvailable && (!account.creditLimit || account.creditLimit == 0)">
-                <a data-ng-click="modals.account=account; modals.showAddCreditLine=true">
+              <li data-ng-show="model.identity.sysUnbackedCreditEmailAvailable && (!account.creditLimit || account.creditLimit == 0)">
+                <a data-ng-click="model.modals.account=account; model.modals.showAddCreditLine=true">
                   <i class="icon-credit-card"></i> Open Credit Line
                 </a>
               </li>
               <li>
-                <a data-ng-click="modals.account=account; modals.showRedeemPromoCode=true">
+                <a data-ng-click="model.modals.account=account; model.modals.showRedeemPromoCode=true">
                   <i class="icon-money"></i> Redeem Promo Code
                 </a>
               </li>
@@ -95,18 +95,19 @@
       </tr>
     </tbody>
   </table>
-  <div data-ng-show="!state.accounts.loading && accounts.length == 0">
+  <div data-ng-show="!model.state.accounts.loading && model.accounts.length == 0">
     <p class="center">You have no accounts for this identity.</p>
   </div>
-  <div data-deposit-modal="modals.showDeposit"
-    data-account="modals.account" data-instant="false"></div>
-  <div data-withdraw-modal="modals.showWithdraw"
-    data-account="modals.account"></div>
-  <div data-edit-account-modal="modals.showEditAccount"
-    data-account="modals.account"></div>
-  <div data-add-account-modal="modals.showAddAccount"></div>
-  <div data-add-credit-line-modal="modals.showAddCreditLine"
-    data-account="modals.account"></div>
-  <div data-redeem-promo-code-modal="modals.showRedeemPromoCode"
-    data-account="modals.account"></div>
+  <div data-deposit-modal="model.modals.showDeposit"
+    data-account="model.modals.account" data-instant="false"></div>
+  <div data-withdraw-modal="model.modals.showWithdraw"
+    data-account="model.modals.account"></div>
+  <div data-edit-account-modal="model.modals.showEditAccount"
+    data-account="model.modals.account"></div>
+  <div data-add-account-modal="model.modals.showAddAccount"></div>
+  <div data-add-credit-line-modal="model.modals.showAddCreditLine"
+    data-account="model.modals.account"></div>
+  <div data-redeem-promo-code-modal="model.modals.showRedeemPromoCode"
+    data-account="model.modals.account"></div>
+  <pre>{{model|json}}</pre>
 </div>

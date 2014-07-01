@@ -23,6 +23,8 @@ function factory(TransactionService) {
     model.modals = {};
 
     model.getTxnType = TransactionService.getType;
+
+    TransactionService.getRecent();
   }
 
   return {

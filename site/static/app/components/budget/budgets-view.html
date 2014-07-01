@@ -15,7 +15,7 @@
       <span data-spinner="model.state.budgets.loading" data-spinner-class="h3-spinner"></span>
     </span>
   </h3>
-  <table class="table table-condensed" data-ng-show="model.state.budgets.loading || model.budgets.length > 0">
+  <table class="table table-condensed" data-ng-show="!model.state.budgets.loading && model.budgets.length > 0">
     <thead>
       <tr>
         <th class="name">Budget</th>

@@ -8,13 +8,12 @@
  */
 define([], function() {
 
-var deps = ['AccountService', 'AlertService', 'IdentityService',
+var deps = ['AccountService', 'IdentityService',
   'PaymentTokenService', 'config'];
 return {accounts: deps.concat(factory)};
 
 function factory(
-  AccountService, AlertService, IdentityService,
-  PaymentTokenService, config) {
+  AccountService, IdentityService, PaymentTokenService, config) {
   function Ctrl($scope) {
     var model = $scope.model = {};
     model.identity = IdentityService.identity;
@@ -50,7 +49,7 @@ function factory(
     };
 
     // FIXME: token watch/update should be in the account service
-    $scope.$watch('tokens', function(value) {
+    $scope.$watch('model.tokens', function(value) {
       AccountService.updateAccounts();
     }, true);
 

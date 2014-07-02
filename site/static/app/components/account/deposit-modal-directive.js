@@ -44,7 +44,7 @@ function factory(
       }
       // showing unpaid balance, so load latest account info
       scope.loading = true;
-      return AccountService.get(scope.account.id).then(function() {
+      return AccountService.collection.get(scope.account.id).then(function() {
         scope.loading = false;
         scope.input.max = {
           currency: scope.account.currency,
@@ -95,7 +95,8 @@ function factory(
             return;
           }
           var info = scope.accounts[dst] = {loading: true, label: ''};
-          promises.push(AccountService.get(dst).then(function(account) {
+          promises.push(AccountService.collection.get(dst).then(
+            function(account) {
             info.label = account.label;
           }).catch(function(err) {
             info.label = 'Private Account';
@@ -139,7 +140,7 @@ function factory(
         scope.state = 'complete';
 
         // get updated balance after a delay
-        AccountService.get(scope.account.id, {delay: 500});
+        AccountService.collection.get(scope.account.id, {delay: 500});
 
         // update recent transactions
         TransactionService.getRecent({force: true});

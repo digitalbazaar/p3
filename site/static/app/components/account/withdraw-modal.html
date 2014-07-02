@@ -17,9 +17,7 @@
       <div data-ng-include="'/app/components/account/withdraw-complete.html'"></div>
     </div>
   </div>
-  <div class="modal-footer">
-    <div class="modal-feedback"
-      data-feedback="feedback" data-target="feedbackTarget"></div>
+  <div data-modal-footer>
     <div class="modal-feedback alert alert-error" data-ng-show="state == 'preparing' && !checkAmount()">Withdrawal amount must be greater than zero and less than or equal to the account balance.</div>
 
     <span data-spinner="loading"

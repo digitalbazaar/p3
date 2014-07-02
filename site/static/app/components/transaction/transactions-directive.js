@@ -14,8 +14,14 @@ var deps = ['TransactionService'];
 return {transactions: deps.concat(factory)};
 
 function factory(TransactionService) {
-  function Ctrl($scope) {
-    var model = $scope.model = {};
+  return {
+    scope: {},
+    templateUrl: '/app/components/transaction/transactions-view.html',
+    link: Link
+  };
+
+  function Link(scope) {
+    var model = scope.model = {};
     model.txns = TransactionService.recentTxns;
     model.state = {
       txns: TransactionService.state.recent
@@ -26,12 +32,6 @@ function factory(TransactionService) {
 
     TransactionService.getRecent();
   }
-
-  return {
-    scope: {},
-    controller: ['$scope', Ctrl],
-    templateUrl: '/app/components/transaction/transactions-view.html'
-  };
 }
 
 });

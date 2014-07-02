@@ -14,8 +14,14 @@ return {accounts: deps.concat(factory)};
 
 function factory(
   AccountService, IdentityService, PaymentTokenService, config) {
-  function Ctrl($scope) {
-    var model = $scope.model = {};
+  return {
+    scope: {},
+    templateUrl: '/app/components/account/accounts-view.html',
+    link: Link
+  };
+
+  function Link(scope) {
+    var model = scope.model = {};
     model.identity = IdentityService.identity;
     model.accounts = AccountService.accounts;
     model.tokens = PaymentTokenService.paymentTokens;
@@ -49,19 +55,13 @@ function factory(
     };
 
     // FIXME: token watch/update should be in the account service
-    $scope.$watch('model.tokens', function(value) {
+    scope.$watch('model.tokens', function(value) {
       AccountService.updateAccounts();
     }, true);
 
     AccountService.collection.getAll();
     PaymentTokenService.collection.getAll();
   }
-
-  return {
-    scope: {},
-    controller: ['$scope', Ctrl],
-    templateUrl: '/app/components/account/accounts-view.html'
-  };
 }
 
 });

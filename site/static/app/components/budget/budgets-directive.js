@@ -10,12 +10,18 @@ define([], function() {
 
 'use strict';
 
-var deps = ['AlertService', 'BudgetService', 'IdentityService'];
+var deps = ['AlertService', 'BudgetService'];
 return {budgets: deps.concat(factory)};
 
-function factory(AlertService, BudgetService, IdentityService) {
-  function Ctrl($scope) {
-    var model = $scope.model = {};
+function factory(AlertService, BudgetService) {
+  return {
+    scope: {},
+    templateUrl: '/app/components/budget/budgets-view.html',
+    link: Link
+  };
+
+  function Link(scope) {
+    var model = scope.model = {};
     model.budgets = BudgetService.budgets;
     model.state = {
       budgets: BudgetService.state
@@ -47,12 +53,6 @@ function factory(AlertService, BudgetService, IdentityService) {
 
     BudgetService.collection.getAll();
   }
-
-  return {
-    scope: {},
-    controller: ['$scope', Ctrl],
-    templateUrl: '/app/components/budget/budgets-view.html'
-  };
 }
 
 });

@@ -26,7 +26,7 @@ function factory(
     var state = model.state = {loading: false};
 
     // copy account for editing
-    var account = scope.account = angular.copy(scope.sourceAccount);
+    var account = model.account = angular.copy(scope.sourceAccount);
 
     // ensure defaults
     account.sysAllowInstantTransfer = !!account.sysAllowInstantTransfer;
@@ -52,7 +52,7 @@ function factory(
       scope.sourceAccount.backupSource[0]) {
       state.loading = true;
       model.backupSourceEnabled = true;
-      PaymentTokenService.getAll().then(function() {
+      PaymentTokenService.collection.getAll().then(function() {
         state.loading = false;
         model.backupSource = PaymentTokenService.find(
           scope.sourceAccount.backupSource[0]);

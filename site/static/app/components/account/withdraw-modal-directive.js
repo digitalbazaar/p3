@@ -99,16 +99,14 @@ function factory(
           promises.push(AccountService.collection.get(dst).then(
             function(account) {
             info.label = account.label;
-          }).catch(function(err) {
+          }).catch(function() {
             info.label = 'Private Account';
           }).then(function() {
             info.loading = false;
             scope.$apply();
           }));
         });
-        scope.$apply();
-        return Promise.all(promises).catch(function(err) {
-          AlertService.add('error', err);
+        return Promise.all(promises).then(function() {
           //
           // go to top of page?
           // FIXME: use directive to do this

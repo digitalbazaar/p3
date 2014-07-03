@@ -22,7 +22,7 @@ function factory(
     link: Link
   });
 
-  function Link(scope, element, attrs) {
+  function Link(scope) {
     // FIXME: be consistent with use of 'model'
     scope.model = {};
     scope.loading = false;
@@ -105,8 +105,7 @@ function factory(
             scope.$apply();
           }));
         });
-        return Promise.all(promises).catch(function(err) {
-          AlertService.add('error', err);
+        return Promise.all(promises).then(function() {
           //
           // go to top of page?
           // FIXME: use directive to do this
@@ -117,8 +116,6 @@ function factory(
           scope._deposit = angular.copy(deposit);
           scope.deposit = deposit;
           scope.state = 'reviewing';
-        }).then(function() {
-          scope.$apply();
         });
       }).catch(function(err) {
         AlertService.add('error', err);

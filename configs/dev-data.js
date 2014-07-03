@@ -198,7 +198,8 @@ config.financial.accounts.push({
   sysSlug: 'fees',
   label: config.authority.name + ' Fees Account',
   sysPublic: ['label', 'owner'],
-  currency: 'USD'
+  currency: 'USD',
+  sysAllowStoredValue: true
 });
 config.financial.accounts.push({
   id: authorityId + '/accounts/main',
@@ -206,7 +207,8 @@ config.financial.accounts.push({
   owner: authorityId,
   sysSlug: 'main',
   label: config.authority.name + ' Main Account',
-  currency: 'USD'
+  currency: 'USD',
+  sysAllowStoredValue: true
 });
 config.financial.accounts.push({
   id: authorityId + '/accounts/verify',
@@ -214,7 +216,8 @@ config.financial.accounts.push({
   owner: authorityId,
   sysSlug: 'verify',
   label: config.authority.name + ' Verify Source Account',
-  currency: 'USD'
+  currency: 'USD',
+  sysAllowStoredValue: true
 });
 config.financial.accounts.push({
   id: baseIdPath + '/dev/accounts/primary',

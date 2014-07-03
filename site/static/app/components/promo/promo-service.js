@@ -27,7 +27,7 @@ function factory(
     })).then(function() {
       service.state.loading = false;
       // refresh related account
-      AccountService.get(accountId).then(function(account) {
+      AccountService.collection.get(accountId).then(function(account) {
         // refresh latest transactions
         TransactionService.getRecent({force: true});
       })

@@ -7,14 +7,23 @@
  */
 define([
   'angular',
-  './promo-service'
-], function(angular, promoService) {
+  './promo-code-checker',
+  './promo-service',
+  './redeem-promo-code-modal-directive'
+], function(
+  angular,
+  promoCodeChcker,
+  promoService,
+  redeemPromoCodeModalDirective
+) {
 
 'use strict';
 
 var module = angular.module('app.promo', []);
 
+module.controller(promoCodeChcker);
 module.service(promoService);
+module.directive(redeemPromoCodeModalDirective);
 
 return module.name;
 

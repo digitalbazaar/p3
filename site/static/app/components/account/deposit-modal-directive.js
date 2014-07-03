@@ -98,7 +98,7 @@ function factory(
           promises.push(AccountService.collection.get(dst).then(
             function(account) {
             info.label = account.label;
-          }).catch(function(err) {
+          }).catch(function() {
             info.label = 'Private Account';
           }).then(function() {
             info.loading = false;

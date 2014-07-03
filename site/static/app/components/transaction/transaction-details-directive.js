@@ -55,7 +55,7 @@ function factory(AccountService) {
         promises.push(getAccount(xfer.destination).then(function() {
           scope.$apply();
         }));
-        Promises.all(promises);
+        Promise.all(promises);
       });
     });
 
@@ -68,7 +68,7 @@ function factory(AccountService) {
         loading: true,
         label: ''
       };
-      return AccountService.get(accountId).then(function(account) {
+      return AccountService.collection.get(accountId).then(function(account) {
         info.label = account.label;
       }).catch(function() {
         info.label = 'Private Account';

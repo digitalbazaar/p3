@@ -5,10 +5,10 @@
  */
 define([], function() {
 
-var deps = ['$timeout', 'PaymentTokenService'];
+var deps = ['$timeout', 'AlertService', 'PaymentTokenService'];
 return {ExternalAccountsController: deps.concat(factory)};
 
-function factory($timeout, PaymentTokenService) {
+function factory($timeout, AlertService, PaymentTokenService) {
   var self = this;
 
   self.state = PaymentTokenService.state;
@@ -22,10 +22,6 @@ function factory($timeout, PaymentTokenService) {
   self.creditCards = PaymentTokenService.creditCards;
   self.bankAccounts = PaymentTokenService.bankAccounts;
 
-  // feedback
-  self.creditCardFeedback = {};
-  self.bankAccountFeedback = {};
-
   // modals
   self.modals = {
     showAddCreditCard: false,
@@ -33,29 +29,16 @@ function factory($timeout, PaymentTokenService) {
   };
 
   self.deletePaymentToken = function(paymentToken) {
-    PaymentTokenService.del(paymentToken.id, function(err) {
-      if(err) {
-        $timeout(function() {
-          paymentToken.deleted = false;
-          paymentToken.showDeletedError = true;
-        }, 500);
-      }
-      // reset feedback and update based on type
-      self.creditCardFeedback.error = null;
-      self.bankAccountFeedback.error = null;
-
-      if(paymentToken.paymentMethod === 'CreditCard') {
-        self.creditCardFeedback.error = err;
-      } else if(paymentToken.paymentMethod === 'BankAccount') {
-        self.bankAccountFeedback.error = err;
-      }
+    PaymentTokenService.collection.del(paymentToken.id).catch(function(err) {
+      AlertService.add('error', err);
+      $timeout(function() {
+        paymentToken.deleted = false;
+        paymentToken.showDeletedError = true;
+      }, 500);
     });
   };
   self.restorePaymentToken = function(paymentToken) {
     PaymentTokenService.restore(paymentToken.id);
-  };
-  self.clearDeletedError = function(paymentToken) {
-    delete paymentToken.showDeletedError;
   };
 
   PaymentTokenService.collection.getAll();

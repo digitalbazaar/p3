@@ -166,7 +166,7 @@
     <div data-ng-show="!model.state.loading && model.bankAccounts.length == 0">
       <p class="center">You have no bank accounts associated with this identity.</p>
     </div>
-    <div data-add-payment-token-modal="model.modals.showAddBankAccount" data-payment-methods="bankAccountMethods"></div>
+    <div data-add-payment-token-modal="model.modals.showAddBankAccount" data-payment-methods="model.bankAccountMethods"></div>
     <div data-verify-bank-account-modal="model.modals.showVerifyBankAccountModal"
       data-payment-token="model.modals.paymentToken"></div>
   </div>

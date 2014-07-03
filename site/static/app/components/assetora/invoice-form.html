@@ -30,7 +30,7 @@
 
   <button data-ng-show="!(model.search.state.loading || state.assets.loading || state.listings.loading)"
     class="btn btn-success btn-add"
-    data-ng-click="model.modals.showAddInvoiceItem=true"><i class="icon-plus icon-white"></i> Add Item</button>
+    data-ng-click="model.modals.showAddInvoiceItem=true"><i class="icon-plus"></i> Add Item</button>
 
   <table class="table table-condensed"
     data-ng-show="!state.assets.loading && model.asset.invoiceItem.length > 0">
@@ -80,7 +80,7 @@
               <li class="divider"></li>
               <li class="btn-danger">
                 <a data-ng-click="deleteInvoiceItem(item)">
-                  <i class="icon-remove icon-white"></i> Delete
+                  <i class="icon-remove"></i> Delete
                 </a>
               </li>
             </ul>

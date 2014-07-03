@@ -45,7 +45,7 @@
               <li class="divider"></li>
               <li class="btn-danger">
                 <a data-ng-click="deleteIndex($index)">
-                  <i class="icon-remove icon-white"></i> Delete
+                  <i class="icon-remove"></i> Delete
                 </a>
               </li>
             </ul>
@@ -59,7 +59,7 @@
         <td colspan="5">
           <button
             class="btn btn-success pull-right"
-            data-ng-click="modals.showPaymentTokenListSelector=true"><i class="icon-plus icon-white"></i> Use Payment Method</button>
+            data-ng-click="modals.showPaymentTokenListSelector=true"><i class="icon-plus"></i> Use Payment Method</button>
         </td>
       </tr>
       <tr data-ng-show="state.loading">
@@ -73,7 +73,7 @@
   </table>
   <div data-ng-show="idList.length == 0">
     <p class="center">None.</p>
-    <button class="btn btn-success pull-right" data-ng-click="modals.showPaymentTokenListSelector=true"><i class="icon-plus icon-white"></i> Select Payment Method</button>
+    <button class="btn btn-success pull-right" data-ng-click="modals.showPaymentTokenListSelector=true"><i class="icon-plus"></i> Select Payment Method</button>
   </div>
   <div data-modal-payment-token-list-selector="modals.showPaymentTokenListSelector" data-instant="instant" data-omit="idList" data-modal-on-close="addToken(err, result)"></div>
 </div>

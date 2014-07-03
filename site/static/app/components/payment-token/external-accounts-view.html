@@ -34,7 +34,7 @@
       <tbody>
       <tr data-ng-repeat="card in model.creditCards | orderBy:'label'"
         data-fadeout="card.deleted"
-        data-fadeout-callback="deletePaymentToken(card)"
+        data-fadeout-callback="model.deletePaymentToken(card)"
         data-fadein="card.showDeletedError"
         data-fadein-callback="card.animateDeletedError=true"
         data-animate="card.animateDeletedError"

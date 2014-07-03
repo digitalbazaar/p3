@@ -1,20 +1,20 @@
 <ul class="dropdown-menu pull-right">
   <li>
-    <a data-ng-click="modals.paymentToken=bankAccount; modals.showEditPaymentToken=true">
+    <a data-ng-click="model.modals.paymentToken=bankAccount; model.modals.showEditPaymentToken=true">
       <i class="icon-pencil"></i> Edit
     </a>
   </li>
   <li class="divider"></li>
   <li class="btn-danger"
-    data-ng-show="bankAccount.sysStatus == 'active' || bankAccount.sysStatus == 'disabled'"
-    data-ng-disabled="!bankAccount.sysVerified && bankAccount.sysStatus != 'disabled'">
-    <a data-ng-click="deletePaymentToken(bankAccount)">
+    data-ng-show="model.bankAccount.sysStatus == 'active' || model.bankAccount.sysStatus == 'disabled'"
+    data-ng-disabled="!model.bankAccount.sysVerified && model.bankAccount.sysStatus != 'disabled'">
+    <a data-ng-click="model.deletePaymentToken(bankAccount)">
       <i class="icon-trash"></i> Delete
     </a>
   </li>
   <li class="btn-success"
-    data-ng-show="!bankAccount.sysStatus || bankAccount.sysStatus == 'deleted'">
-    <a data-ng-click="restorePaymentToken(bankAccount)">
+    data-ng-show="!model.bankAccount.sysStatus || model.bankAccount.sysStatus == 'deleted'">
+    <a data-ng-click="model.restorePaymentToken(bankAccount)">
       <i class="icon-undo"></i> Restore
     </a>
   </li>

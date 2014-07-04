@@ -26,30 +26,16 @@ function factory($filter) {
     scope: {
       money: '=',
       // hint to highlight the value
-      important: '@',
+      important: '@?',
       // field name to get value from (default: 'amount')
-      valueField: '@',
+      valueField: '@?',
       // display exact value and no tooltip
-      exact: '@',
+      exact: '@?',
       // round mode: 'up' or 'down', default: 'up'
-      roundMode: '@'
+      roundMode: '@?'
     },
     replace: true,
     templateUrl: '/app/components/transaction/money.html',
-    compile: function(element, attrs) {
-      if(!attrs.important) {
-        attrs.important = false;
-      }
-      if(!attrs.exact) {
-        attrs.exact = false;
-      }
-      if(!attrs.valueField) {
-        attrs.valueField = 'amount';
-      }
-      if(!attrs.roundMode) {
-        attrs.roundMode = 'up';
-      }
-    },
     link: Link
   };
 
@@ -58,7 +44,9 @@ function factory($filter) {
       if(!money) {
         return;
       }
-      // FIXME: fix defaulting in compile function
+      // set defaults
+      scope.important = !!scope.important;
+      scope.exact = !!scope.exact;
       scope.valueField = scope.valueField || 'amount';
       scope.roundMode = scope.roundMode || 'up';
 

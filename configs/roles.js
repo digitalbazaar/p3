@@ -149,9 +149,6 @@ roles['identity.registered'] = {
       permissions.PAYMENT_TOKEN_CREATE.id,
       permissions.PAYMENT_TOKEN_EDIT.id,
       permissions.PAYMENT_TOKEN_REMOVE.id,
-      // promo permissions
-      permissions.PROMO_ACCESS.id,
-      permissions.PROMO_REDEEM_CODE.id,
       // transaction permissions
       permissions.TRANSACTION_ACCESS.id,
       permissions.TRANSACTION_CREATE.id
@@ -167,6 +164,19 @@ roles['address.manager'] = {
     [
       // address validation access
       permissions.ADDRESS_VALIDATOR_ACCESS.id,
+    ]
+  )
+};
+
+roles['promo.redeemer'] = {
+  id: 'promo.redeemer',
+  label: 'Promotion Redeemer',
+  comment: 'Role for redeeming promotions.',
+  sysPermission: [].concat(
+    [
+      // promo permissions
+      permissions.PROMO_ACCESS.id,
+      permissions.PROMO_REDEEM_CODE.id,
     ]
   )
 };

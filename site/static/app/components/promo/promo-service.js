@@ -21,7 +21,6 @@ function factory(
   service.redeemCode = function(code, accountId) {
     service.state.loading = true;
     return Promise.resolve($http.post('/promos?action=redeem', {
-      '@context': config.data.contextUrl,
       promoCode: code,
       account: accountId
     })).then(function() {

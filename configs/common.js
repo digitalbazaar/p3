@@ -465,6 +465,8 @@ config.identity.defaults.identity.sysResourceRole = [{
   generateResource: 'id'
 }, {
   sysRole: 'address.manager'
+}, {
+  sysRole: 'promo.redeemer'
 }];
 
 // FIXME: port below to bedrock
@@ -482,6 +484,8 @@ config.identity.defaults.vendor = {
     generateResource: 'id'
   }, {
     sysRole: 'address.manager'
+  }, {
+    sysRole: 'promo.redeemer'
   }],
   sysStatus: 'active'
 };

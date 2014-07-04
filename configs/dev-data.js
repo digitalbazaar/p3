@@ -102,8 +102,12 @@ config.identity.identities.push({
   sysPassword: 'password',
   sysPublic: ['label', 'url', 'description'],
   sysResourceRole: [{
-    sysRole: 'payswarm.admin',
+    sysRole: 'identity.registered',
     generateResource: 'id'
+  }, {
+    sysRole: 'address.manager'
+  }, {
+    sysRole: 'promo.redeemer'
   }],
   url: config.server.baseUri,
   description: 'Authority'
@@ -122,6 +126,8 @@ config.identity.identities.push({
     generateResource: 'id'
   }, {
     sysRole: 'address.manager'
+  }, {
+    sysRole: 'promo.redeemer'
   }]
 });
 
@@ -138,6 +144,8 @@ config.identity.identities.push({
     generateResource: 'id'
   }, {
     sysRole: 'address.manager'
+  }, {
+    sysRole: 'promo.redeemer'
   }]
 });
 
@@ -155,6 +163,8 @@ config.identity.identities.push({
     generateResource: 'id'
   }, {
     sysRole: 'address.manager'
+  }, {
+    sysRole: 'promo.redeemer'
   }],
   url: 'http://wordpress.payswarm.dev',
   description: 'The default PaySwarm Vendor',

@@ -43,10 +43,11 @@ function factory(AlertService, BudgetService) {
         budget.deleted = true;
 
         // wait to delete so modal can transition
-        BudgetService.del(budget.id, {delay: 400}).catch(function(err) {
-          AlertService.add('error', err);
-          budget.deleted = false;
-        });
+        BudgetService.collection.del(budget.id, {delay: 400})
+          .catch(function(err) {
+            AlertService.add('error', err);
+            budget.deleted = false;
+          });
       }
       model.budgetToDelete = null;
     };

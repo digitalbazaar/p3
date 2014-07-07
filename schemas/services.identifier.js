@@ -8,7 +8,7 @@ var postIdentifier = {
       type: {
         required: true,
         type: 'string',
-        enum: ['Profile', 'PersonalIdentity', 'VendorIdentity']
+        enum: ['Identity']
       },
       sysSlug: schemas.slug()
     },

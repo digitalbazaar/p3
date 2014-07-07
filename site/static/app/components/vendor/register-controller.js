@@ -39,7 +39,9 @@ function factory(
   // FIXME: only need to check 1 identity, current one (no profile anymore)
   $scope.filterIdentities = function() {
     $scope.identities = IdentityService.identities;
-    if($scope.registrationType === 'vendor') {
+    // FIXME: deal w/VendorIdentity
+    $scope.identityTypes = ['Identity'];
+    /*if($scope.registrationType === 'vendor') {
       // allow only vendor identities to be selected
       $scope.identityTypes = ['VendorIdentity'];
       $scope.identities = $scope.identities.filter(function(v) {
@@ -47,7 +49,7 @@ function factory(
       });
     } else {
       $scope.identityTypes = ['PersonalIdentity', 'VendorIdentity'];
-    }
+    }*/
 
     // keep old selection if possible
     var hasSelection =

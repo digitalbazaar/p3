@@ -1,11 +1,12 @@
 /*
  * Copyright (c) 2012 Digital Bazaar, Inc. All rights reserved.
  */
+// FIXME: update to use bedrock test infrastructure
 var path = require('path');
-__libdir = process.env.PAYSWARM_AUTH_COV ?
-  path.resolve(__dirname, 'lib-cov') :
-  path.resolve(__dirname, 'lib');
-var pa = require(__libdir + '/payswarm-auth');
+GLOBAL.__libdir = process.env.PAYSWARM_AUTH_COV ?
+  path.resolve(GLOBAL.__dirname, 'lib-cov') :
+  path.resolve(GLOBAL.__dirname, 'lib');
+var pa = require(GLOBAL.__libdir + '/payswarm-auth');
 var program = require('commander');
 
 program

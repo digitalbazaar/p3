@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2012-2013 Digital Bazaar, Inc. All rights reserved.
  */
-__libdir = require('path').resolve(__dirname, '../lib');
+GLOBAL.__libdir = require('path').resolve(__dirname, '../lib');
 var _ = require('underscore');
 var async = require('async');
 var audit = require('../lib/payswarm-auth/audit');

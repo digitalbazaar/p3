@@ -4,7 +4,7 @@
 var path = require('path');
 GLOBAL.__libdir = path.resolve(path.join(
   __dirname, 'node_modules', 'bedrock', 'lib'));
-var br = require(path.join(__libdir, 'bedrock'));
+var br = require(path.join(GLOBAL.__libdir, 'bedrock'));
 // load PaySwarm config
 require('./configs/payswarm.dev');
 

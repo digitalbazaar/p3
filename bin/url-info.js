@@ -1,4 +1,4 @@
-__libdir = require('path').resolve(__dirname, '../lib');
+GLOBAL.__libdir = require('path').resolve(__dirname, '../lib');
 var async = require('async');
 var bedrock = require('bedrock');
 var program = require('commander');

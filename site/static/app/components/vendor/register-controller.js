@@ -16,100 +16,57 @@ function factory(
   // FIXME: only 1 identity now (no profile) ... no "multiple" identities for
   // a particular session ... will need to add a "switch identities" modal
   // thing? or option to login as another user?
-  $scope.model = {};
-  $scope.loading = false;
-  $scope.registered = false;
-  $scope.identities = [];
-  $scope.session = config.data.session;
-  $scope.model = {};
-  $scope.model.publicKey = {
+  var self = this;
+  self.identity = IdentityService.identity;
+  self.loading = false;
+  self.registered = false;
+  self.publicKey = {
     label: config.data.publicKey.label,
     // FIXME: hack until PEM can be in config.data
     publicKeyPem: $('#public-key-pem').val()
   };
-  $scope.authorityBase = window.location.protocol + '//' + window.location.host;
-  $scope.registrationType = config.data.registrationType || 'vendor';
-  $scope.registrationCallback = config.data.registrationCallback || null;
-  $scope.responseNonce = config.data.responseNonce || null;
-  $scope.selection = {
-    identity: null,
+  self.authorityBase = window.location.protocol + '//' + window.location.host;
+  self.registrationType = config.data.registrationType || 'vendor';
+  self.registrationCallback = config.data.registrationCallback || null;
+  self.responseNonce = config.data.responseNonce || null;
+  self.selection = {
     account: null
   };
 
-  // FIXME: only need to check 1 identity, current one (no profile anymore)
-  $scope.filterIdentities = function() {
-    $scope.identities = IdentityService.identities;
-    // FIXME: deal w/VendorIdentity
-    $scope.identityTypes = ['Identity'];
-    /*if($scope.registrationType === 'vendor') {
-      // allow only vendor identities to be selected
-      $scope.identityTypes = ['VendorIdentity'];
-      $scope.identities = $scope.identities.filter(function(v) {
-        return v.type === 'VendorIdentity';
-      });
-    } else {
-      $scope.identityTypes = ['PersonalIdentity', 'VendorIdentity'];
-    }*/
-
-    // keep old selection if possible
-    var hasSelection =
-      $scope.selection.identity &&
-      $scope.identities.some(function(v) {
-        return v.id === $scope.selection.identity.id;
-      });
-    if(!hasSelection) {
-      // else use current identity if possible
-      var hasCurrent = $scope.identities.some(function(v) {
-        return v.id === IdentityService.identity.id;
-      });
-      if(hasCurrent) {
-        $scope.selection.identity = IdentityService.identity;
-      } else {
-        // use first listed or none
-        $scope.selection.identity = $scope.identities[0] || null;
-      }
-    }
-  };
-
-  // FIXME: remove, N/A
-  /*
-  $scope.allIdentities = IdentityService.identities;
-  $scope.$watch('allIdentities', function(value) {
-    $scope.filterIdentities();
-  }, true);*/
-
-  $scope.register = function() {
+  self.register = function() {
     // update the preferences associated with the vendor identity
-    $scope.loading = true;
-    AddressService.getAll($scope.selection.identity.id, {force: true})
+    self.loading = true;
+    AddressService.collection.getAll({force: true})
       .then(function(addresses) {
-        $scope.loading = false;
+        self.loading = false;
         if(addresses.length === 0) {
-          $scope.showAddAddressModal = true;
-          throw {type: 'payswarm.website.AddressNotFound'};
+          self.showAddAddressModal = true;
+          var err = new Error('Address not found.');
+          err.type = 'payswarm.website.AddressNotFound';
+          throw err;
         }
         return addresses;
       })
       .then(function() {
         return IdentityPreferencesService.update({
-          identity: $scope.selection.identity.id,
+          identity: self.identity.id,
           preferences: {
             '@context': config.data.contextUrl,
-            destination: $scope.selection.account.id,
-            publicKey: $scope.model.publicKey
+            destination: self.selection.account.id,
+            publicKey: self.publicKey
           }
         });
       })
       .then(function() {
         // get identity preferences
         return IdentityPreferencesService.get({
-          identity: $scope.selection.identity.id,
-          responseNonce: $scope.responseNonce
+          identity: self.identity.id,
+          responseNonce: self.responseNonce
         });
       })
       .then(postPreferencesToCallback)
       .then(function() {
-        $scope.registered = true;
+        self.registered = true;
       })
       .catch(function(err) {
         if(err && err.type === 'payswarm.website.AddressNotFound') {
@@ -119,7 +76,7 @@ function factory(
         AlertService.add('error', err);
       })
       .then(function() {
-        $scope.loading = false;
+        self.loading = false;
         $scope.$apply();
       });
   };
@@ -133,10 +90,10 @@ function factory(
    * @param preferences the identity's preferences in an encrypted message.
    */
   function postPreferencesToCallback(preferences) {
-    $scope.encryptedMessage = JSON.stringify(preferences);
+    self.encryptedMessage = JSON.stringify(preferences);
 
     // done if no callback
-    if(!$scope.registrationCallback) {
+    if(!self.registrationCallback) {
       return Promise.resolve();
     }
 
@@ -145,7 +102,7 @@ function factory(
     $('#vendor-form').submit();
 
     // show the manual registration completion button after a timeout period
-    var registrationDelay = ($scope.registrationType === 'vendor') ? 5000 : 0;
+    var registrationDelay = (self.registrationType === 'vendor') ? 5000 : 0;
     return Promise.resolve($timeout(function(){}, registrationDelay));
   }
 }

@@ -6,7 +6,7 @@
 {% block content %}
 
 {% raw %}
-<div data-ng-controller="RegisterCtrl" class="ng-cloak">
+<div data-ng-controller="RegisterController as model" class="ng-cloak">
 
 <div class="row">
   <h1 class="headline">Access Key Registration</h1>
@@ -25,44 +25,32 @@
 
 <div class="row">
   <div class="span6 offset3">
-    <form data-ng-hide="registered" class="form-horizontal" action="">
+    <form data-ng-hide="model.registered" class="form-horizontal" action="">
       <fieldset>
         <div class="control-group">
           <label class="control-label">Purpose</label>
           <div class="controls">
           <label class="radio">
             <input type="radio" name="registration-type"
-              value="vendor" data-ng-model="registrationType"
-              data-ng-change="filterIdentities()" />
+              value="vendor" data-ng-model="model.registrationType" />
             Only for listing things for sale (Vendor only)
           </label>
           <label class="radio">
             <input type="radio" name="registration-type"
-              value="buyer" data-ng-model="registrationType"
-              data-ng-change="filterIdentities()" />
+              value="buyer" data-ng-model="model.registrationType" />
             Buying things and listings things for sale (Vendor/Buyer)
           </label>
           </div>
         </div>
 
-        <div class="control-group">
-          <label class="control-label" for="identity-selector">Identity</label>
-          <div class="controls">
-            <div id="identity-selector" data-identity-selector
-              data-identity-types="identityTypes"
-              data-identities="identities"
-              data-selected="selection.identity"
-              data-invalid="selection.invalidIdentity"></div>
-          </div>
-        </div>
+        <!-- FIXME: add switch identity modal button -->
 
         <div class="control-group">
           <label class="control-label" for="account-selector">Financial Account</label>
           <div class="controls">
             <div id="account-selector" data-account-selector
-              data-selected="selection.account"
-              data-invalid="selection.invalidAccount"
-              data-identity="{{selection.identity.id}}"
+              data-selected="model.selection.account"
+              data-invalid="model.selection.invalidAccount"
               data-instant-transfer-deposit="ignore"></div>
           </div>
         </div>
@@ -86,27 +74,24 @@
         </div>
 
         <div class="form-actions">
-          <div data-add-address-modal="showAddAddressModal"
-            data-identity="selection.identity"
+          <div data-add-address-modal="model.showAddAddressModal"
+            data-identity="model.identity"
             data-add-address-alert-modal="Before you complete your registration, please enter your business's name and address information."
-            data-modal-on-close="register()"></div>
-          <div class="modal-feedback"
-            data-feedback="feedback" data-target="feedbackTarget"></div>
+            data-modal-on-close="model.register()"></div>
           <button class="btn btn-large btn-primary"
-            data-ng-disabled="loading || !selection.identity || !selection.account"
-            data-ng-click="register()">Register</button>
-          <span data-spinner="loading"
-            class="append-btn-spinner"></span>
+            data-ng-disabled="model.loading || !model.identity || !model.selection.account"
+            data-ng-click="model.register()">Register</button>
+          <span data-spinner="model.loading" class="append-btn-spinner"></span>
         </div>
       </fieldset>
     </form>
 
-    <div data-ng-show="registered">
+    <div data-ng-show="model.registered">
       <p>The access key has been registered.</p>
 
-      <form data-ng-show="registrationCallback" id="vendor-form"
-        class="form-vertical" method="post" action="{{registrationCallback}}">
-        <input name="encrypted-message" value="{{encryptedMessage}}"
+      <form data-ng-show="model.registrationCallback" id="vendor-form"
+        class="form-vertical" method="post" action="{{model.registrationCallback}}">
+        <input name="encrypted-message" value="{{model.encryptedMessage}}"
           type="hidden" />
         <p>
         Redirecting to your ecommerce website to complete registration. If
@@ -117,12 +102,12 @@
           type="submit">Complete Vendor Registration</button>
       </form>
 
-      <div data-ng-hide="registrationCallback">
+      <div data-ng-hide="model.registrationCallback">
         <p>
         Cut and paste the following data into your software to finish
         the registration process:
         </p>
-        <textarea class="span6" rows="20" readonly="readonly">{{encryptedMessage}}</textarea>
+        <textarea class="span6" rows="20" readonly="readonly">{{model.encryptedMessage}}</textarea>
       </div>
     </div>
   </div>

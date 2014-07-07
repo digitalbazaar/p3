@@ -8,10 +8,10 @@
  */
 define([], function() {
 
-var deps = ['AddressService', 'AlertService', 'IdentityService'];
+var deps = ['$scope', 'AddressService', 'AlertService', 'IdentityService'];
 return {AddressesController: deps.concat(factory)};
 
-function factory(AddressService, AlertService, IdentityService) {
+function factory($scope, AddressService, AlertService, IdentityService) {
   var self = this;
   self.identity = IdentityService.identity;
   self.state = AddressService.state;
@@ -19,25 +19,18 @@ function factory(AddressService, AlertService, IdentityService) {
   self.addressToDelete = null;
   self.modals = {
     showAddAddress: false,
-    showLastAddressAlert: false
+    showDeleteAddressAlert: false
   };
 
   self.deleteAddress = function(address) {
-    // FIXME: always show a confirm modal ... but only show a warning in
-    // the confirm modal for last address when applicable
-    if(AddressService.addresses.length === 1) {
-      self.showLastAddressAlert = true;
-      self.addressToDelete = address;
-    } else {
-      AddressService.del(address).catch(function(err) {
-        AlertService.add('error', err);
-      });
-    }
+    self.modals.showDeleteAddressAlert = true;
+    self.addressToDelete = address;
   };
   self.confirmDeleteAddress = function(err, result) {
     if(!err && result === 'ok') {
       AddressService.del(self.addressToDelete).catch(function(err) {
         AlertService.add('error', err);
+        $scope.$apply();
       });
     }
     self.addressToDelete = null;

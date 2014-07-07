@@ -7,11 +7,11 @@
   "cardExpYear": 2016,
   "cardCvm": "000",
   "address": {
-    "fullName": "Full Name",
+    "name": "Full Name",
     "streetAddress": "123 Elm St.",
-    "locality": "Blacksburg",
-    "region": "VA",
+    "addressLocality": "Blacksburg",
+    "addressRegion": "VA",
     "postalCode": "24060",
-    "countryName": "US"
+    "addressCountry": "US"
   }
 }

@@ -74,12 +74,12 @@ function factory(
         return {
           type: a.type,
           label: a.label,
-          fullName: a.fullName,
+          name: a.name,
           streetAddress: a.streetAddress,
-          locality: a.locality,
-          region: a.region,
+          addressLocality: a.addressLocality,
+          addressRegion: a.addressRegion,
           postalCode: a.postalCode,
-          countryName: a.countryName
+          addressCountry: a.addressCountry
         };
       }
 

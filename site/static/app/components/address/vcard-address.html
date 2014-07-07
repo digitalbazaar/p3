@@ -2,8 +2,8 @@
   <span data-ng-show="!noLabel">
     <strong>{{address.label}}</strong><span class="meta" data-ng-show="address.sysValidated"> (Validated)</span><br/>
   </span>
-  {{address.fullName}}<br/>
+  {{address.name}}<br/>
   {{address.streetAddress}}<br/>
-  {{address.locality}}, {{address.region}} {{address.postalCode}}<br/>
-  {{address.countryName}}<br/>
+  {{address.addressLocality}}, {{address.addressRegion}} {{address.postalCode}}<br/>
+  {{address.addressCountry}}<br/>
 </div>

@@ -1,10 +1,10 @@
 {
   "@context": "https://w3id.org/payswarm/v1",
   "type": "Address",
-  "fullName": "First Last",
+  "name": "First Last",
   "streetAddress": "1700 Kraft Drive, Suite 2408",
-  "locality": "Blacksburg",
-  "region": "VA",
+  "addressLocality": "Blacksburg",
+  "addressRegion": "VA",
   "postalCode": "24060",
-  "countryName": "US"
+  "addressCountry": "US"
 }

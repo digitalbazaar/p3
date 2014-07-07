@@ -1,10 +1,10 @@
 {
   "@context": "https://w3id.org/payswarm/v1",
   "type": "Address",
-  "fullName": "British Prime Minister",
+  "name": "British Prime Minister",
   "streetAddress": "10 Downing Street",
-  "locality": "London",
-  "region": "",
+  "addressLocality": "London",
+  "addressRegion": "",
   "postalCode": "",
-  "countryName": "UK"
+  "addressCountry": "UK"
 }

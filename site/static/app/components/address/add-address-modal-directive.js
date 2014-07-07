@@ -29,7 +29,7 @@ function factory(
       '@context': config.data.contextUrl,
       type: 'Address',
       // default to US
-      countryName: 'US'
+      addressCountry: 'US'
     };
     scope.selection = {
       address: null
@@ -52,7 +52,7 @@ function factory(
           '@context': config.data.contextUrl,
           type: 'Address',
           label: scope.originalAddress.label,
-          fullName: scope.originalAddress.fullName
+          name: scope.originalAddress.name
         });
         scope.state = 'selecting';
         if(scope.validatedAddress.sysValidated) {

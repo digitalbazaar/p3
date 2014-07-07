@@ -408,35 +408,38 @@ function payswarm_create_default_jsonld_context() {
     'ccard' => 'https://w3id.org/commerce/creditcard#',
     'com' => 'https://w3id.org/commerce#',
     'dc' => 'http://purl.org/dc/terms/',
-    'foaf' => 'http://xmlns.com/foaf/0.1/',
     'gr' => 'http://purl.org/goodrelations/v1#',
+    'identity' => 'https://w3id.org/identity#',
     'pto' => 'http://www.productontology.org/id/',
     'ps' => 'https://w3id.org/payswarm#',
     'rdf' => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
     'rdfs' => 'http://www.w3.org/2000/01/rdf-schema#',
     'sec' => 'https://w3id.org/security#',
-    'vcard' => 'http://www.w3.org/2006/vcard/ns#',
+    'schema' => 'http://schema.org/',
     'xsd' => 'http://www.w3.org/2001/XMLSchema#',
 
     // general
-    'address' => (object)array('@id' => 'vcard:adr', '@type' => '@id'),
+    'about' => (object)array('@id' => 'schema:about', '@type' => '@id'),
+    'address' => (object)array('@id' => 'schema:address', '@type' => '@id'),
+    'addressCountry' => 'schema:addressCountry',
+    'addressLocality' => 'schema:addressLocality',
+    'addressRegion' => 'schema:addressRegion',
     'comment' => 'rdfs:comment',
-    'countryName' => 'vcard:country-name',
     'created' => (object)array(
       '@id' => 'dc:created', '@type' => 'xsd:dateTime'),
     'creator' => (object)array('@id' => 'dc:creator', '@type' => '@id'),
-    'depiction' => (object)array('@id' => 'foaf:depiction', '@type' => '@id'),
-    'description' => 'dc:description',
-    'email' => 'foaf:mbox',
-    'fullName' => 'vcard:fn',
+    'description' => 'schema:description',
+    'email' => 'schema:email',
+    'familyName' => 'schema:familyName',
+    'givenName' => 'schema:givenName',
+    'image' => (object)array('@id' => 'schema:image', '@type' => '@id'),
     'label' => 'rdfs:label',
-    'locality' => 'vcard:locality',
-    'postalCode' => 'vcard:postal-code',
-    'region' => 'vcard:region',
-    'streetAddress' => 'vcard:street-address',
+    'name' => 'schema:name',
+    'postalCode' => 'schema:postalCode',
+    'streetAddress' => 'schema:streetAddress',
     'title' => 'dc:title',
-    'website' => (object)array('@id' => 'foaf:homepage', '@type' => '@id'),
-    'Address' => 'vcard:Address',
+    'url' => (object)array('@id' => 'schema:url', '@type' => '@id'),
+    'PostalAddress' => 'schema:PostalAddress',
 
     // bank
     'bankAccount' => 'bank:account',
@@ -468,12 +471,20 @@ function payswarm_create_default_jsonld_context() {
     'authorized' => (object)array(
       '@id' => 'com:authorized', '@type' => 'xsd:dateTime'),
     'balance' => 'com:balance',
+    'backupSource' => (object)array(
+      '@id' => 'com:backupSource', '@container' => '@list'),
+    'backupSourceFor' => 'com:backupSourceFor',
+    'creditBackedAmount' => 'com:creditBackedAmount",
+    'creditLimit' => 'com:creditLimit",
+    'creditPaymentDue' => (object)array(
+      '@id' => 'com:creditPaymentDue', '@type' => 'xsd:dateTime'),
     'currency' => (object)array('@id' => 'com:currency', '@type' => '@vocab'),
     'destination' => (object)array(
       '@id' => 'com:destination', '@type' => '@id'),
     'maximumAmount' => 'com:maximumAmount',
     'maximumPayeeRate' => 'com:maximumPayeeRate',
     'minimumAmount' => 'com:minimumAmount',
+    'minimumPayeeRate' => 'com:minimumPayeeRate',
     'payee' => (object)array(
       '@id' => 'com:payee', '@type' => '@id', '@container' => '@set'),
     'payeeApplyAfter' => (object)array(
@@ -564,21 +575,28 @@ function payswarm_create_default_jsonld_context() {
     'Contract' => 'ps:Contract',
     'License' => 'ps:License',
     'Listing' => 'ps:Listing',
-    'PersonalIdentity' => 'ps:PersonalIdentity',
     'IdentityPreferences' => 'ps:IdentityPreferences',
-    'Profile' => 'ps:Profile',
     'PurchaseRequest' => 'ps:PurchaseRequest',
     'PreAuthorization' => 'ps:PreAuthorization',
     'Receipt' => 'ps:Receipt',
-    'VendorIdentity' => 'ps:VendorIdentity',
+    'Vendor' => 'ps:Vendor',
+
+    'Promotion' => 'ps:Promotion',
+
+    'Identity' => 'identity:Identity',
+    'identityService' => (object)array(
+      '@id' => 'identity:identityService', '@type' => '@id'),
 
     // security
+    'credential' => (object)array('@id' => 'sec:credential', '@type' => '@id'),
     'cipherAlgorithm' => 'sec:cipherAlgorithm',
     'cipherData' => 'sec:cipherData',
     'cipherKey' => 'sec:cipherKey',
+    'claim' => (object)array('@id' => 'sec:claim', '@type' => '@id'),
     'digestAlgorithm' => 'sec:digestAlgorithm',
     'digestValue' => 'sec:digestValue',
-    'expiration' => (object)array(
+    'domain' => 'sec:domain',
+    'expires' => (object)array(
       '@id' => 'sec:expiration', '@type' => 'xsd:dateTime'),
     'initializationVector' => 'sec:initializationVector',
     'nonce' => 'sec:nonce',

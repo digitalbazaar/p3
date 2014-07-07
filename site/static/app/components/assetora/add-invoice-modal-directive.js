@@ -26,7 +26,7 @@ function factory(ModalService, HostedAssetService, config) {
       // FIXME: add more asset details
       // FIXME: remove test data
       title: '',
-      creator: {fullName: $scope.identity.label},
+      creator: {name: $scope.identity.label},
       assetProvider: $scope.identity.id,
       listingRestrictions: {vendor: $scope.identity.id},
       //assetContent: null,

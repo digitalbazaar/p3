@@ -23,7 +23,7 @@ function factory(AlertService, HostedAssetService, ModalService, config) {
       // FIXME: add more asset details
       // FIXME: remove test data
       title: 'TITLE',
-      creator: {fullName: 'My Full Name'},
+      creator: {name: 'My Full Name'},
       assetProvider: $scope.identity.id,
       listingRestrictions: {vendor: $scope.identity.id},
       assetContent: 'http://wordpress.payswarm.dev/asset-content/test.html',

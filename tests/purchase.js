@@ -479,7 +479,7 @@ function _createListing(self, vendorProfiles, listings, callback) {
         id: assetId,
         type: ['Asset', 'pto:WebPage'],
         creator: {
-          fullName: 'PaySwarm Test Software'
+          name: 'PaySwarm Test Software'
         },
         title: 'Test Asset ' + id,
         assetContent: assetId,

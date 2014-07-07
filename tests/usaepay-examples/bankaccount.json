@@ -4,11 +4,11 @@
   "bankAccount": "00001234",
   "bankAccountType": "Checking",
   "address": {
-    "fullName": "Baron Von Test",
+    "name": "Baron Von Test",
     "streetAddress": "1700 Kraft Dr. Ste. 2408",
-    "locality": "Blacksburg",
-    "region": "VA",
+    "addressLocality": "Blacksburg",
+    "addressRegion": "VA",
     "postalCode": "24060",
-    "countryName": "US"
+    "addressCountry": "US"
   }
 }

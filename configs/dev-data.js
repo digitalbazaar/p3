@@ -11,12 +11,12 @@ var authorityId = config.authority.id;
 config.addressValidator.test = {};
 config.addressValidator.test.key = 'testhashkey';
 config.addressValidator.test.address = {
-  fullName: 'Full Name',
+  name: 'Full Name',
   streetAddress: '100 Street Apt 1',
-  locality: 'City',
-  region: 'State',
+  addressLocality: 'City',
+  addressRegion: 'State',
   postalCode: '10000',
-  countryName: 'US'
+  addressCountry: 'US'
 };
 
 // financial defaults
@@ -40,12 +40,12 @@ config.financial.defaults.paymentTokens.push({
   cardExpYear: 2016,
   cardCvm: '111',
   address: {
-    fullName: 'Billing Name',
+    name: 'Billing Name',
     streetAddress: '1 Billing Lane',
-    locality: 'Locality',
-    region: 'Region',
+    addressLocality: 'Locality',
+    addressRegion: 'Region',
     postalCode: '12345',
-    countryName: 'US'
+    addressCountry: 'US'
   },
   sysStatus: 'active',
   sysVerified: true,
@@ -173,10 +173,10 @@ config.identity.identities.push({
     type: 'Address',
     name: 'Shop Owner',
     streetAddress: '100 Vendor St',
-    locality: 'City',
-    region: 'State',
+    addressLocality: 'City',
+    addressRegion: 'State',
     postalCode: '10000',
-    countryName: 'US',
+    addressCountry: 'US',
     sysValidated: true
   }]
 });

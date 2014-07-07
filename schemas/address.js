@@ -14,7 +14,7 @@ var schema = {
     },
     type: schemas.jsonldType('Address'),
     label: schemas.label(),
-    fullName: schemas.personName(),
+    name: schemas.personName(),
     streetAddress: {
       required: true,
       type: 'string',
@@ -27,7 +27,7 @@ var schema = {
         mask: true
       }
     },
-    locality: {
+    addressLocality: {
       required: true,
       type: 'string',
       pattern: '^\\S$|^\\S.*\\S$',
@@ -49,7 +49,7 @@ var schema = {
         missing: 'Please enter a zip/postal code.'
       }
     },
-    region: {
+    addressRegion: {
       required: true,
       type: 'string',
       pattern: '^\\S$|^\\S.*\\S$',
@@ -60,7 +60,7 @@ var schema = {
         missing: 'Please enter a state/region.'
       }
     },
-    countryName: {
+    addressCountry: {
       required: true,
       type: 'string',
       enum: [

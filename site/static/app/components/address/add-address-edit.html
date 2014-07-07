@@ -20,12 +20,12 @@
         </p>
       </div>
     </div>
-    <div class="control-group" data-binding="fullName">
+    <div class="control-group" data-binding="name">
       <label class="control-label" for="name">Name</label>
       <div class="controls">
         <div class="input-append">
           <input type="text" name="name"
-            data-ng-model="originalAddress.fullName"
+            data-ng-model="originalAddress.name"
             data-track-state="model.help.name" />
           <button class="btn" data-help-toggle="model.help.name">
             <i class="icon-question-sign"></i>
@@ -37,50 +37,50 @@
       </div>
     </div>
     <div class="control-group" data-binding="streetAddress">
-      <label class="control-label" for="street">Street Address</label>
+      <label class="control-label" for="street-address">Street Address</label>
       <div class="controls">
         <div class="input-append">
-          <input type="text" name="street"
+          <input type="text" name="street-address"
             data-ng-model="originalAddress.streetAddress"
-            data-track-state="model.help.street" />
-          <button class="btn" data-help-toggle="model.help.street">
+            data-track-state="model.help.streetAddress" />
+          <button class="btn" data-help-toggle="model.help.streetAddress">
             <i class="icon-question-sign"></i>
           </button>
         </div>
-        <p data-fade-toggle="model.help.street.show" class="help-block">
+        <p data-fade-toggle="model.help.streetAddress.show" class="help-block">
           Please enter your full street address, including street number,
-          street, and any apartment number, etc.        
+          street, and any apartment number, etc.
         </p>
       </div>
     </div>
-    <div class="control-group" data-binding="locality">
-      <label class="control-label" for="locality">City</label>
+    <div class="control-group" data-binding="addressLocality">
+      <label class="control-label" for="address-locality">City</label>
       <div class="controls">
         <div class="input-append">
-          <input type="text" name="locality"
-            data-ng-model="originalAddress.locality"
-            data-track-state="model.help.locality" />
-          <button class="btn" data-help-toggle="model.help.locality">
+          <input type="text" name="address-locality"
+            data-ng-model="originalAddress.addressLocality"
+            data-track-state="model.help.addressLocality" />
+          <button class="btn" data-help-toggle="model.help.addressLocality">
             <i class="icon-question-sign"></i>
           </button>
         </div>
-        <p data-fade-toggle="model.help.locality.show" class="help-block">
+        <p data-fade-toggle="model.help.addressLocality.show" class="help-block">
           Please enter your city or locality.
         </p>
       </div>
     </div>
-    <div class="control-group" data-binding="region">
-      <label class="control-label" for="region">State / Region</label>
+    <div class="control-group" data-binding="addressRegion">
+      <label class="control-label" for="address-region">State / Region</label>
       <div class="controls">
         <div class="input-append">
-          <input type="text" name="region"
-            data-ng-model="originalAddress.region"
-            data-track-state="model.help.region" />
-          <button class="btn" data-help-toggle="model.help.region">
+          <input type="text" name="address-region"
+            data-ng-model="originalAddress.addressRegion"
+            data-track-state="model.help.addressRegion" />
+          <button class="btn" data-help-toggle="model.help.addressRegion">
             <i class="icon-question-sign"></i>
           </button>
         </div>
-        <p data-fade-toggle="model.help.region.show" class="help-block">
+        <p data-fade-toggle="model.help.addressRegion.show" class="help-block">
           Please enter your state or region.
         </p>
       </div>
@@ -101,13 +101,13 @@
         </p>
       </div>
     </div>
-    <div class="control-group" data-binding="countryName">
-      <label class="control-label" for="country">Country</label>
+    <div class="control-group" data-binding="addressCountry">
+      <label class="control-label" for="address-country">Country</label>
       <div class="controls">
-        <select name="country" data-ng-model="originalAddress.countryName">
+        <select name="country" data-ng-model="originalAddress.addressCountry">
             <option data-ng-repeat="country in countries"
               value="{{country.code}}"
-              data-ng-selected="originalAddress.countryName == country.code">{{country.name}}</option>
+              data-ng-selected="originalAddress.addressCountry == country.code">{{country.name}}</option>
         </select>
       </div>
     </div>

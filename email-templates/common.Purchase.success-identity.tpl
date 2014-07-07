@@ -11,7 +11,7 @@ More info is available at http://payswarm.com/wiki/Demo_Warning.
 {% endif -%}
 A purchase has just been made using your {{serviceName}} account.
 
-Asset: "{{contract.asset.title}}" by {{contract.asset.creator.fullName}}
+Asset: "{{contract.asset.title}}" by {{contract.asset.creator.name}}
 Asset Provider{% if contract.assetProvider.id == contract.vendor.id %} and Vendor{% endif %}: {{contract.assetProvider.label}} ({{contract.assetProvider.website}})
 {% if contract.assetProvider.id != contract.vendor.id -%}
 Vendor: {{contract.vendor.label}} ({{contract.vendor.website}})

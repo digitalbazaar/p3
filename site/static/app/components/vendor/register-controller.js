@@ -9,7 +9,7 @@ define([], function() {
 var deps = [
   '$scope', '$timeout', 'AddressService', 'AlertService',
   'IdentityService', 'config'];
-return {RegisterCtrl: deps.concat(factory)};
+return {RegisterController: deps.concat(factory)};
 
 function factory(
   $scope, $timeout, AddressService, AlertService, IdentityService, config) {

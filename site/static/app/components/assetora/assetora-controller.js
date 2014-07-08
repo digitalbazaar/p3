@@ -8,12 +8,12 @@ define([], function() {
 var deps = [
   '$scope', 'AlertService', 'HostedAssetService', 'HostedListingService'];
 return {
-  controller: {AssetoraCtrl: deps.concat(factory)},
+  controller: {AssetoraController: deps.concat(factory)},
   routes: [{
     path: '/i/:identity/assetora',
     options: {
       templateUrl: '/app/components/assetora.html',
-      controller: 'AssetoraCtrl'
+      controller: 'AssetoraController'
     }
   }]
 };

@@ -9,7 +9,7 @@
 define([], function() {
 
 var deps = [];
-return {DashboardCtrl: deps.concat(factory)};
+return {DashboardController: deps.concat(factory)};
 
 function factory() {}
 

@@ -8,7 +8,7 @@
 define([], function() {
 
 var deps = ['$scope'];
-return {KeyCtrl: deps.concat(factory)};
+return {KeyController: deps.concat(factory)};
 
 function factory($scope) {
   $scope.model = {};

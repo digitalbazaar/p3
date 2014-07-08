@@ -6,7 +6,7 @@
 define([], function() {
 
 var deps = ['$scope'];
-return {ContentPortalCtrl: deps.concat(factory)};
+return {ContentPortalController: deps.concat(factory)};
 
 function factory($scope) {
   $scope.model = {};

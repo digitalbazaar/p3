@@ -6,7 +6,7 @@
 define([], function() {
 
 var deps = ['$scope', 'svcKey'];
-return {KeySettingsCtrl: deps.concat(factory)};
+return {KeySettingsController: deps.concat(factory)};
 
 function factory($scope, svcKey) {
   $scope.state = svcKey.state;

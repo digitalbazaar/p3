@@ -7,7 +7,7 @@
 define([], function() {
 
 var deps = ['$scope', '$http'];
-return {CreateProfileCtrl: deps.concat(factory)};
+return {CreateProfileController: deps.concat(factory)};
 
 function factory($scope, $http) {
   $scope.model = {};

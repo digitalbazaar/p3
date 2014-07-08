@@ -8,7 +8,7 @@
 define([], function() {
 
 var deps = ['$scope', 'config'];
-return {AccountCtrl: deps.concat(factory)};
+return {AccountController: deps.concat(factory)};
 
 function factory($scope, config) {
   $scope.model = {};

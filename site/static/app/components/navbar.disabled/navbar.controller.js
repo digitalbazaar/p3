@@ -6,7 +6,7 @@
 define(['jquery'], function($) {
 
 var deps = ['$scope', '$rootScope'];
-return {NavbarCtrl: deps.concat(factory)};
+return {NavbarController: deps.concat(factory)};
 
 function factory($scope, $rootScope) {
   $scope.model = {};

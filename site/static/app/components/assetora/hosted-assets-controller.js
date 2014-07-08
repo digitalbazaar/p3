@@ -6,7 +6,7 @@
 define(['angular', 'async'], function(angular, async) {
 
 var deps = ['$scope', 'HostedAssetService', 'HostedListingService'];
-return {HostedAssetsCtrl: deps.concat(factory)};
+return {HostedAssetsController: deps.concat(factory)};
 
 function factory($scope, HostedAssetService, HostedListingService) {
   $scope.model = {};

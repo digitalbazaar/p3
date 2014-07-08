@@ -9,7 +9,7 @@ var deps = [
   '$timeout',
   'AlertService', 'IdentityService', 'ResourceService',
   'TransactionService', 'config'];
-return {ActivityCtrl: deps.concat(factory)};
+return {ActivityController: deps.concat(factory)};
 
 function factory(
   $timeout, AlertService, IdentityService, ResourceService,

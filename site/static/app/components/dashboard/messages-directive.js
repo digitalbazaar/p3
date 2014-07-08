@@ -11,7 +11,7 @@ define([], function() {
 'use strict';
 
 var deps = ['IdentityService'];
-return {budgets: deps.concat(factory)};
+return {messages: deps.concat(factory)};
 
 function factory(IdentityService) {
   function Ctrl($scope) {

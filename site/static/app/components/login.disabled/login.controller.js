@@ -6,7 +6,7 @@
 define(['angular', 'payswarm.api'], function(angular, payswarm) {
 
 var deps = ['$scope'];
-return {LoginCtrl: deps.concat(factory)};
+return {LoginController: deps.concat(factory)};
 
 function factory($scope) {
   $scope.model = {};

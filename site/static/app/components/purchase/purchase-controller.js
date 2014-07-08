@@ -10,7 +10,7 @@ define([], function() {
 var deps = [
   '$scope', '$sce', 'AccountService', 'AddressService', 'AlertService',
   'BudgetService', 'IdentityService', 'TransactionService', 'config'];
-return {PurchaseCtrl: deps.concat(factory)};
+return {PurchaseController: deps.concat(factory)};
 
 function factory(
   $scope, $sce, AccountService, AddressService, AlertService,

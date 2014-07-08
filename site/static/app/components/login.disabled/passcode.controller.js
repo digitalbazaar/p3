@@ -7,7 +7,7 @@
 define(['payswarm.api'], function(payswarm) {
 
 var deps = ['$scope'];
-return {PasscodeCtrl: deps.concat(factory)};
+return {PasscodeController: deps.concat(factory)};
 
 function factory($scope) {
   $scope.model = {};

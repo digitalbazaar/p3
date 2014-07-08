@@ -7,12 +7,12 @@ define([], function() {
 
 var deps = ['$scope', 'config'];
 return {
-  controller: {TicketsCtrl: deps.concat(factory)},
+  controller: {TicketsController: deps.concat(factory)},
   routes: [{
     path: '/i/:identity/tickets',
     options: {
       templateUrl: '/app/component/assetora/tickets.html',
-      controller: 'TicketsCtrl'
+      controller: 'TicketsController'
     }
   }]
 };

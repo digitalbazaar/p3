@@ -15,43 +15,44 @@ return {PurchaseController: deps.concat(factory)};
 function factory(
   $scope, $sce, AccountService, AddressService, AlertService,
   BudgetService, IdentityService, TransactionService, config) {
-  $scope.model = {};
+  var self = this;
   var data = config.data;
-  $scope.identity = IdentityService.identity;
-  $scope.budgets = BudgetService.budgets;
-  $scope.accounts = AccountService.accounts;
-  $scope.contract = null;
-  $scope.callback = data.callback || null;
-  if($scope.callback) {
-    $scope.callback = $sce.trustAsResourceUrl($scope.callback);
+  self.identity = IdentityService.identity;
+  self.budgets = BudgetService.budgets;
+  self.accounts = AccountService.accounts;
+  self.contract = null;
+  self.callback = data.callback || null;
+  if(self.callback) {
+    self.callback = $sce.trustAsResourceUrl(self.callback);
   }
-  $scope.listing = data.listing;
-  $scope.listingHash = data.listingHash;
-  $scope.referenceId = data.referenceId || null;
-  $scope.nonce = data.nonce || null;
-  $scope.referer = data.referer || null;
+  self.listing = data.listing;
+  self.listingHash = data.listingHash;
+  self.referenceId = data.referenceId || null;
+  self.nonce = data.nonce || null;
+  self.referer = data.referer || null;
   if(data.allowDuplicatePurchases) {
-    $scope.referenceId = String(+new Date());
+    self.referenceId = String(+new Date());
   }
-  $scope.loading = true;
-  $scope.ready = false;
-  $scope.purchased = false;
-  $scope.duplicate = false;
-  $scope.selection = {
+  self.loading = true;
+  self.ready = false;
+  self.purchased = false;
+  self.duplicate = false;
+  self.selection = {
     account: null,
     budget: null
   };
   // default to one-time purchase
-  $scope.sourceType = 'account';
-  $scope.source = null;
-  $scope.alertType = null;
-  $scope.purchaseDisabled = false;
+  self.sourceType = 'account';
+  self.source = null;
+  self.alertType = null;
+  self.purchaseDisabled = false;
+  self.showDetails = false;
 
   // load and use default account if possible
   if(IdentityService.identity.preferences.source) {
     AccountService.collection.get(IdentityService.identity.preferences.source)
       .then(function(account) {
-        $scope.selection.account = account;
+        self.selection.account = account;
       })
       .catch(function(err) {
         AlertService.add('error', err);
@@ -62,60 +63,70 @@ function factory(
   }
 
   // watches
-  $scope.$watch('selection.invalidAccount', updatePurchaseDisabled);
-  $scope.$watch('selection.invalidBudget', updatePurchaseDisabled);
-  $scope.$watch('selection.account', function(value) {
-    if($scope.sourceType === 'account') {
-      if($scope.source !== value) {
-        $scope.source = $scope.selection.account.id;
-        if($scope.ready) {
-          updateQuote($scope.source);
+  $scope.$watch(function() {
+    return self.selection.invalidAccount;
+  }, updatePurchaseDisabled);
+  $scope.$watch(function() {
+    return self.selection.invalidBudget;
+  }, updatePurchaseDisabled);
+  $scope.$watch(function() {
+    return self.selection.account;
+  }, function(value) {
+    if(self.sourceType === 'account') {
+      if(self.source !== value) {
+        self.source = self.selection.account.id;
+        if(self.ready) {
+          updateQuote(self.source);
         }
       }
     }
   });
-  $scope.$watch('selection.budget', function(value) {
-    if($scope.sourceType === 'budget') {
-      if($scope.source !== value) {
-        $scope.source = $scope.selection.budget.source;
-        if($scope.ready) {
-          updateQuote($scope.source);
+  $scope.$watch(function() {
+    return self.selection.budget;
+  }, function(value) {
+    if(self.sourceType === 'budget') {
+      if(self.source !== value) {
+        self.source = self.selection.budget.source;
+        if(self.ready) {
+          updateQuote(self.source);
         }
       }
     }
   });
-  $scope.$watch('sourceType', function(value) {
-    if($scope.ready) {
-      if(value === 'account' && $scope.selection.account &&
-        $scope.source !== $scope.selection.account.id) {
-        $scope.source = $scope.selection.account.id;
-        updateQuote($scope.source);
-      } else if(value === 'budget' && $scope.selection.budget &&
-        $scope.source !== $scope.selection.budget.source) {
-        $scope.source = $scope.selection.budget.source;
-        updateQuote($scope.source);
+  $scope.$watch(function() {
+    return self.sourceType;
+  }, function(value) {
+    if(self.ready) {
+      if(value === 'account' && self.selection.account &&
+        self.source !== self.selection.account.id) {
+        self.source = self.selection.account.id;
+        updateQuote(self.source);
+      } else if(value === 'budget' && self.selection.budget &&
+        self.source !== self.selection.budget.source) {
+        self.source = self.selection.budget.source;
+        updateQuote(self.source);
       }
     }
     updatePurchaseDisabled();
   });
 
   // purchase clicked
-  $scope.purchase = function() {
-    if($scope.sourceType === 'budget') {
+  self.purchase = function() {
+    if(self.sourceType === 'budget') {
       // do budget-based purchase
       // first add vendor to budget
-      var budget = $scope.selection.budget;
+      var budget = self.selection.budget;
       return BudgetService.addVendor(
-        budget.id, $scope.contract.vendor.id).then(function() {
+        budget.id, self.contract.vendor.id).then(function() {
           return purchase(budget.source);
         });
     }
     // do account-based purchase
-    return purchase($scope.selection.account.id);
+    return purchase(self.selection.account.id);
   };
 
   // retry purchase after modals are done
-  $scope.addAddressModalDone = $scope.addAccountModalDone = function() {
+  self.addAddressModalDone = self.addAccountModalDone = function() {
     tryPurchase();
   };
 
@@ -124,13 +135,13 @@ function factory(
   tryPurchase();
 
   function updatePurchaseDisabled() {
-    $scope.purchaseDisabled = true;
-    switch($scope.sourceType) {
+    self.purchaseDisabled = true;
+    switch(self.sourceType) {
     case 'account':
-      $scope.purchaseDisabled = $scope.selection.invalidAccount;
+      self.purchaseDisabled = self.selection.invalidAccount;
       break;
     case 'budget':
-      $scope.purchaseDisabled = $scope.selection.invalidBudget;
+      self.purchaseDisabled = self.selection.invalidBudget;
       break;
     }
   }
@@ -144,7 +155,7 @@ function factory(
       // check pre-conditions serially so only one modal is shown at a time
       var addresses = results[0];
       if(addresses.length === 0) {
-        $scope.showAddAddressModal = true;
+        self.showAddAddressModal = true;
         throw {
           type: 'payswarm.identity.IdentityIncomplete',
           message: 'Address required to make a purchase.'
@@ -152,7 +163,7 @@ function factory(
       }
       var accounts = results[1];
       if(accounts.length === 0) {
-        $scope.showAddAccountModal = true;
+        self.showAddAccountModal = true;
         throw {
           type: 'payswarm.identity.IdentityIncomplete',
           message: 'Account required to make a purchase.'
@@ -164,16 +175,16 @@ function factory(
     }).then(function() {
       // get a quote now; this can still fail if data is changed between the
       // checks and quote
-      $scope.selection.account = (
-        $scope.selection.account || $scope.accounts[0]);
-      $scope.source = $scope.selection.account.id;
-      return updateQuote($scope.source).then(function() {
+      self.selection.account = (
+        self.selection.account || self.accounts[0]);
+      self.source = self.selection.account.id;
+      return updateQuote(self.source).then(function() {
         // attempt to auto-purchase using a current budget
         autoPurchase();
       }).catch(function(){});
     }).then(function() {
       // page now ready
-      $scope.ready = true;
+      self.ready = true;
       $scope.$apply();
     });
   }
@@ -190,26 +201,26 @@ function factory(
    * @return a Promise.
    */
   function updateQuote(source) {
-    $scope.loading = true;
+    self.loading = true;
     var request = {
       '@context': config.data.contextUrl,
-      listing: $scope.listing,
-      listingHash: $scope.listingHash,
+      listing: self.listing,
+      listingHash: self.listingHash,
       source: source
     };
-    if($scope.referenceId !== null) {
-      request.referenceId = $scope.referenceId;
+    if(self.referenceId !== null) {
+      request.referenceId = self.referenceId;
     }
-    if($scope.nonce !== null) {
-      request.nonce = $scope.nonce;
+    if(self.nonce !== null) {
+      request.nonce = self.nonce;
     }
     return TransactionService.getQuote(request).then(function(contract) {
-      $scope.loading = false;
-      $scope.contract = contract;
+      self.loading = false;
+      self.contract = contract;
       $scope.$apply();
     }).catch(function(err) {
       AlertService.add('error', err);
-      $scope.loading = false;
+      self.loading = false;
       $scope.$apply();
       throw err;
     });
@@ -219,7 +230,7 @@ function factory(
   function purchase(source) {
     var promise;
     // ensure account matches quote
-    var src = $scope.contract ? $scope.contract.transfer[0].source : null;
+    var src = self.contract ? self.contract.transfer[0].source : null;
     if(src !== source) {
       promise = updateQuote(source);
     } else {
@@ -229,27 +240,27 @@ function factory(
       var request = {
         '@context': config.data.contextUrl,
         type: 'PurchaseRequest',
-        transactionId: $scope.contract.id
+        transactionId: self.contract.id
       };
-      if($scope.nonce !== null) {
-        request.nonce = $scope.nonce;
+      if(self.nonce !== null) {
+        request.nonce = self.nonce;
       }
       return TransactionService.purchase(request).then(function(response) {
-        $scope.alertType = 'purchased';
-        $scope.purchased = true;
+        self.alertType = 'purchased';
+        self.purchased = true;
         if(response.type === 'EncryptedMessage') {
-          $scope.encryptedMessage = response;
+          self.encryptedMessage = response;
         } else {
-          $scope.receipt = response;
+          self.receipt = response;
         }
 
-        if(!$scope.budget) {
+        if(!self.budget) {
           return;
         }
         // auto-purchased, update budget
-        return BudgetService.collection.get($scope.budget.id, {force: true})
+        return BudgetService.collection.get(self.budget.id, {force: true})
           .then(function(budget) {
-            $scope.budget = budget;
+            self.budget = budget;
           })
           .catch(function(err) {
             // log error but don't throw it, purchase was completed
@@ -258,20 +269,20 @@ function factory(
       }).catch(function(err) {
         AlertService.add('error', err);
         // clear any auto-purchase budget
-        $scope.budget = null;
+        self.budget = null;
         switch(err.type) {
         case 'payswarm.financial.BudgetExceeded':
           // can't do purchase
           // show alert markup and show budget's account
-          $scope.alertType = 'budgetExceeded';
-          $scope.sourceType = 'account';
+          self.alertType = 'budgetExceeded';
+          self.sourceType = 'account';
           var budget = budgetForContract();
-          $scope.selection.budget = budget;
-          $scope.selection.account = null;
+          self.selection.budget = budget;
+          self.selection.account = null;
           var accountId = (budget ? budget.source : null);
           if(accountId) {
             AccountService.collection.get(accountId).then(function(account) {
-              $scope.selection.account = account;
+              self.selection.account = account;
             }).catch(function(err) {
               AlertService.add('error', err);
             }).then(function() {
@@ -281,10 +292,10 @@ function factory(
           break;
         case 'payswarm.website.DuplicatePurchase':
           // set duplicate contract
-          $scope.alertType = 'duplicatePurchase';
-          $scope.purchased = true;
-          $scope.contract = err.details.contract;
-          $scope.encryptedMessage = err.details.encryptedMessage;
+          self.alertType = 'duplicatePurchase';
+          self.purchased = true;
+          self.contract = err.details.contract;
+          self.encryptedMessage = err.details.encryptedMessage;
           break;
         }
       }).then(function() {
@@ -295,8 +306,8 @@ function factory(
 
   // try to find budget for a contract
   function budgetForContract() {
-    var budgets = $scope.budgets;
-    var vendor = $scope.contract.vendor.id;
+    var budgets = self.budgets;
+    var vendor = self.contract.vendor.id;
     for(var bi = 0; bi < budgets.length; ++bi) {
       var budget = budgets[bi];
       for(var vi = 0; vi < budget.vendor.length; ++vi) {
@@ -312,8 +323,8 @@ function factory(
   // auto-purchase w/existing budget
   function autoPurchase() {
     // ensure referring webpage is from vendor's website
-    var referer = $scope.referer;
-    var website = $scope.contract.vendor.website;
+    var referer = self.referer;
+    var website = self.contract.vendor.website;
     if(!referer || referer.indexOf(website) !== 0) {
       return;
     }
@@ -324,7 +335,7 @@ function factory(
     var budget = budgetForContract();
     if(budget) {
       // budget found, try auto-purchase
-      $scope.budget = budget;
+      self.budget = budget;
       return purchase(budget.source);
     }
   }

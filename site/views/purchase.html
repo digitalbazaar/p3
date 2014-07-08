@@ -6,31 +6,31 @@
 {% block content %}
 
 {% raw %}
-<div class="container" data-ng-controller="PurchaseController" class="ng-cloak">
+<div class="container" data-ng-controller="PurchaseController as model" class="ng-cloak">
 
 <div data-ng-show="alertType">
   <div class="row">
     <div class="span6 offset3">
-      <div data-ng-show="alertType == 'purchased'" class="alert alert-block alert-success">
+      <div data-ng-show="model.alertType == 'purchased'" class="alert alert-block alert-success">
         <button type="button" class="close" data-dismiss="alert">×</button>
         <h4>Congratulations!</h4>
         <br/>
         <p>Your purchase is complete.
-        <span data-ng-show="budget">
-        The purchase was made using your budget "<strong>{{budget.label}}</strong>",
+        <span data-ng-show="model.budget">
+        The purchase was made using your budget "<strong>{{model.budget.label}}</strong>",
         which has a remaining balance of <span class="money"
-          data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact amount of this transaction is USD {{budget.balance}}."
+          data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact amount of this transaction is USD {{model.budget.balance}}."
           data-placement="bottom" data-trigger="hover"><span
-          class="currency">USD</span> {{budget.balance | floor | currency:'$'}}</span>.
+          class="currency">USD</span> {{model.budget.balance | floor | currency:'$'}}</span>.
         </span>
         </p>
       </div>
-      <div data-ng-show="alertType == 'budgetExceeded'" class="alert alert-block alert-error">
+      <div data-ng-show="model.alertType == 'budgetExceeded'" class="alert alert-block alert-error">
         <button type="button" class="close" data-dismiss="alert">×</button>
 
         <h4>Budget Exceeded</h4>
         <p>Your purchase request exceeded the limitations of budget
-        "<a href="{{selection.budget.id}}" target="_blank">{{selection.budget.label}}</a>"
+        "<a href="{{model.selection.budget.id}}" target="_blank">{{model.selection.budget.label}}</a>"
         associated with this vendor. You may attempt the purchase again.</p>
         <ul>
           <li>Use a one-time payment from the budget's associated account if it has enough funds.</li>
@@ -39,7 +39,7 @@
           <li>Associate this this vendor with another budget or a new budget.</p>
         </ul>
       </div>
-      <div data-ng-show="alertType == 'duplicatePurchase'" class="alert alert-block alert-success">
+      <div data-ng-show="model.alertType == 'duplicatePurchase'" class="alert alert-block alert-success">
         <button type="button" class="close" data-dismiss="alert">×</button>
         <h4>Duplicate Purchase</h4>
         <p>Our records indicate that you have already bought the item below.
@@ -51,16 +51,16 @@
 
 <div data-ng-hide="error">
 
-  <div data-ng-show="loading || !ready" class="row">
+  <div data-ng-show="model.loading || !model.ready" class="row">
     <div class="span6 offset3">
       <div class="alert alert-info">Loading purchase details...
-        <div data-spinner="loading || !ready"
+        <div data-spinner="model.loading || !model.ready"
           data-spinner-class="alert-spinner"></div>
       </div>
     </div>
   </div>
 
-  <div data-ng-hide="loading || !ready || purchased">
+  <div data-ng-hide="model.loading || !model.ready || model.purchased">
     <div class="row">
       <div class="span6 offset3">
         <h3>Do you want to make this purchase?</h3>
@@ -68,7 +68,7 @@
     </div>
   </div>
 
-  <div data-ng-hide="loading || !ready">
+  <div data-ng-hide="model.loading || !model.ready">
     <div class="row">
       <div class="section span6 offset3">
         <h4 class="headline">Purchase Details</h4>
@@ -82,19 +82,19 @@
           </thead>
           <tbody>
             <tr>
-              <td><a href="{{contract.asset.assetContent}}" target="_blank">{{contract.asset.title}}</a></td>
+              <td><a href="{{model.contract.asset.assetContent}}" target="_blank">{{model.contract.asset.title}}</a></td>
               <td class="money"><span class="money"
-                data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact amount of this transaction is USD {{contract.amount}}."
+                data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact amount of this transaction is USD {{model.contract.amount}}."
                 data-placement="bottom" data-trigger="hover"><span
-                class="currency">USD</span> {{contract.amount | ceil | currency:'$'}}</span></td>
-              <td class="action"><button class="btn" data-ng-click="showDetails=!showDetails"><i class="icon-list-alt" title="Details"></i></button></td>
+                class="currency">USD</span> {{model.contract.amount | ceil | currency:'$'}}</span></td>
+              <td class="action"><button class="btn" data-ng-click="model.showDetails=!model.showDetails"><i class="icon-list-alt" title="Details"></i></button></td>
             </tr>
-            <tr data-ng-show="showDetails">
+            <tr data-ng-show="model.showDetails">
               <th>Cost breakdown</th>
               <th></th>
               <th></th>
             </tr>
-            <tr data-ng-show="showDetails" data-ng-repeat="transfer in contract.transfer">
+            <tr data-ng-show="model.showDetails" data-ng-repeat="transfer in model.contract.transfer">
               <td>{{transfer.comment}}</td>
               <td class="money"><span class="money right"
                 data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact amount of this transfer is USD {{transfer.amount}}."
@@ -102,13 +102,13 @@
                 class="currency">USD</span> {{transfer.amount | ceil | currency:'$'}}</span></td>
               <td><a href="{{transfer.destination}}" target="_blank">Destination</a></td>
             </tr>
-            <tr data-ng-show="showDetails">
+            <tr data-ng-show="model.showDetails">
               <th>License Agreement</th>
               <th></th>
               <th></th>
             </tr>
-            <tr body data-ng-show="showDetails">
-              <td colspan="3"><pre class="license">{{contract.license.licenseTemplate}}</pre></td>
+            <tr body data-ng-show="model.showDetails">
+              <td colspan="3"><pre class="license">{{model.contract.license.licenseTemplate}}</pre></td>
             </tr>
           </tbody>
         </table>
@@ -117,7 +117,7 @@
 
     <div class="row">
       <div class="section span6 offset3">
-        <h4 class="headline">{{(contract.vendor.id == contract.assetProvider.id && 'Vendor and Asset Provider') || 'Vendor'}}</h4>
+        <h4 class="headline">{{(model.contract.vendor.id == model.contract.assetProvider.id && 'Vendor and Asset Provider') || 'Vendor'}}</h4>
         <table class="table">
           <thead>
             <tr>
@@ -128,16 +128,16 @@
           </thead>
           <tbody>
             <tr>
-              <td><a href="{{contract.vendor.id}}" target="_blank">{{contract.vendor.label}}</a></td>
-              <td>{{contract.vendor.description}}</td>
-              <td><a href="{{contract.vendor.website}}" target="_blank"><i class="icon-globe" title="Details"></i> {{contract.vendor.website}}</a></td>
+              <td><a href="{{model.contract.vendor.id}}" target="_blank">{{model.contract.vendor.label}}</a></td>
+              <td>{{model.contract.vendor.description}}</td>
+              <td><a href="{{model.contract.vendor.website}}" target="_blank"><i class="icon-globe" title="Details"></i> {{model.contract.vendor.website}}</a></td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <div class="row" data-ng-show="{{contract.vendor.id != contract.assetProvider.id}}">
+    <div class="row" data-ng-show="{{model.contract.vendor.id != model.contract.assetProvider.id}}">
       <div class="section span6 offset3">
         <h4 class="headline">Asset Provider</h4>
         <table class="table">
@@ -150,16 +150,16 @@
           </thead>
           <tbody>
             <tr>
-              <td><a href="{{contract.assetProvider.id}}" target="_blank">{{contract.assetProvider.label}}</a></td>
-              <td>{{contract.assetProvider.description}}</td>
-              <td><a href="{{contract.assetProvider.website}}" target="_blank"><i class="icon-globe" title="Details"></i> {{contract.assetProvider.website}}</a></td>
+              <td><a href="{{model.contract.assetProvider.id}}" target="_blank">{{model.contract.assetProvider.label}}</a></td>
+              <td>{{model.contract.assetProvider.description}}</td>
+              <td><a href="{{model.contract.assetProvider.website}}" target="_blank"><i class="icon-globe" title="Details"></i> {{model.contract.assetProvider.website}}</a></td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <div data-ng-hide="purchased" class="row">
+    <div data-ng-hide="model.purchased" class="row">
       <div class="section span6 offset3">
         <h4 class="headline">Payment</h4>
         <form action="">
@@ -168,7 +168,7 @@
               <div class="controls payment-radio-group">
                 <label class="radio">
                   <input type="radio" name="source-type"
-                    data-ng-model="sourceType" value="account" />
+                    data-ng-model="model.sourceType" value="account" />
                   Make one-time payment.
                   <span class="help-block">
                     Make a payment from an account. Funds can be deposited
@@ -176,17 +176,17 @@
                   </span>
                 </label>
                 <!-- FIXME
-                <label data-ng-show="contract.vendor.type == 'VendorIdentity'"
+                <label data-ng-show="model.contract.vendor.type == 'VendorIdentity'"
                   class="radio" -->
                 <label class="radio">
                   <input type="radio" name="source-type"
-                    data-ng-model="sourceType" value="budget" />
+                    data-ng-model="model.sourceType" value="budget" />
                   Set up a budget for this vendor.
                   <div class="help-block">
                     Assigning a budget will cause future purchases with this
                     vendor to happen <strong>automatically</strong> if the
                     purchase amount is within the budget spending limitations.
-                    <div data-ng-show="sourceType == 'budget'"
+                    <div data-ng-show="model.sourceType == 'budget'"
                       class="alert alert-warning">
                       <strong>Warning:</strong>
                       Only choose this option if you trust the vendor you are
@@ -204,58 +204,58 @@
       </div>
     </div>
 
-    <div data-ng-hide="purchased" class="row">
+    <div data-ng-hide="model.purchased" class="row">
       <div class="section span6 offset3">
-        <div data-ng-show="sourceType == 'account'">
+        <div data-ng-show="model.sourceType == 'account'">
           <h4 class="headline">Account</h4>
           <div data-account-selector
-            data-selected="selection.account"
-            data-invalid="selection.invalidAccount"
+            data-selected="model.selection.account"
+            data-invalid="model.selection.invalidAccount"
             data-show-deposit-button="true"
             data-instant="true"
-            data-min-balance="{{contract.amount}}"
+            data-min-balance="{{model.contract.amount}}"
             data-allow-instant-transfer="true"
-            data-instant-transfer-deposit="contract.triggered"></div>
+            data-instant-transfer-deposit="model.contract.triggered"></div>
         </div>
-        <div data-ng-show="sourceType == 'budget'">
+        <div data-ng-show="model.sourceType == 'budget'">
           <h4 class="headline">Budget</h4>
           <div data-budget-selector
-            data-selected="selection.budget"
-            data-invalid="selection.invalidBudget"
-            data-min-balance="{{contract.amount}}"></div>
+            data-selected="model.selection.budget"
+            data-invalid="model.selection.invalidBudget"
+            data-min-balance="{{model.contract.amount}}"></div>
         </div>
       </div>
     </div>
 
-    <div data-ng-hide="purchased" class="row">
+    <div data-ng-hide="model.purchased" class="row">
       <div class="span6 offset3">
         <hr />
         <div class="well center">
-          <button class="btn btn-primary" data-ng-click="purchase()"
-            data-ng-disabled="purchaseDisabled">Purchase</button>
+          <button class="btn btn-primary" data-ng-click="model.purchase()"
+            data-ng-disabled="model.purchaseDisabled">Purchase</button>
           <!-- button class="btn">Cancel</button -->
         </div>
       </div>
     </div>
 
-    <div data-ng-show="purchased" class="row">
-      <div data-ng-show="callback" class="span6 offset3">
+    <div data-ng-show="model.purchased" class="row">
+      <div data-ng-show="model.callback" class="span6 offset3">
         <div class="alert alert-success">
           Click the button below to return to the vendor's website and view
           the item you purchased.
         </div>
-        <form data-ng-show="receipt" method="post" action="{{callback}}">
+        <form data-ng-show="model.receipt" method="post" action="{{model.callback}}">
           <fieldset>
-            <input name="receipt" value="{{receipt | json}}" type="hidden" />
+            <input name="receipt" value="{{model.receipt | json}}" type="hidden" />
           </fieldset>
           <div class="well center">
             <button class="btn btn-primary">Return to Vendor's Website</button>
           </div>
         </form>
-        <form data-ng-show="encryptedMessage" method="post" action="{{callback}}">
-          <fieldset data-ng-show="encryptedMessage">
+        <form data-ng-show="model.encryptedMessage" method="post" action="{{model.callback}}">
+          <fieldset data-ng-show="model.encryptedMessage">
             <input
-              name="encrypted-message" value="{{encryptedMessage | json}}"
+              name="encrypted-message" value="{{model.encryptedMessage | json}}"
               type="hidden" />
           </fieldset>
           <div class="well center">
@@ -263,7 +263,7 @@
           </div>
         </form>
       </div>
-      <div data-ng-hide="callback" class="span6 offset3">
+      <div data-ng-hide="model.callback" class="span6 offset3">
         <div class="alert alert-success">
           Return to the vendor's website to view the item you purchased.
         </div>
@@ -274,25 +274,26 @@
 
 </div> <!-- end non-error -->
 
-<div data-ng-show="error" class="alert alert-error">
+<!-- FIXME: unused, remove -->
+<div data-ng-show="model.error" class="alert alert-error">
   <em>Error</em>
   <br/>
-  {{error.message}}
-  <div data-ng-show="error.details" class="container">
+  {{model.error.message}}
+  <div data-ng-show="model.error.details" class="container">
     <br/>
-    <em data-ng-show="error.details.length > 0">Error Details</em>
+    <em data-ng-show="model.error.details.length > 0">Error Details</em>
     <div class="row" data-ng-repeat="(key, detail) in error.details">
       <span class="span12"><strong>{{key}}</strong>: {{detail}}</span>
     </div>
   </div>
 </div> <!-- end error -->
 
-<div data-add-address-modal="showAddAddressModal"
-  data-add-address-alert-modal="Before you complete your purchase, please enter your {{(identity.type == 'VendorIdentity' && 'business\'s ') || ''}}name and address information."
-  data-modal-on-close="addAddressModalDone()"></div>
-<div data-add-account-modal="showAddAccountModal"
-  data-add-account-alert-modal="purchase"
-  data-modal-on-close="addAccountModalDone()"></div>
+<div data-add-address-modal="model.showAddAddressModal"
+  data-add-address-alert-modal="Before you complete your purchase, please enter your {{(model.identity.type == 'VendorIdentity' && 'business\'s ') || ''}}name and address information."
+  data-modal-on-close="model.addAddressModalDone()"></div>
+<div data-add-account-modal="model.showAddAccountModal"
+  data-add-account-alert-modal="model.purchase"
+  data-modal-on-close="model.addAccountModalDone()"></div>
 
 </div> <!-- end container -->
 {% endraw %}

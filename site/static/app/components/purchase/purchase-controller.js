@@ -49,7 +49,7 @@ function factory(
 
   // load and use default account if possible
   if(IdentityService.identity.preferences.source) {
-    AccountService.get(IdentityService.identity.preferences.source)
+    AccountService.collection.get(IdentityService.identity.preferences.source)
       .then(function(account) {
         $scope.selection.account = account;
       })
@@ -247,7 +247,7 @@ function factory(
           return;
         }
         // auto-purchased, update budget
-        return BudgetService.get($scope.budget.id, {force: true})
+        return BudgetService.collection.get($scope.budget.id, {force: true})
           .then(function(budget) {
             $scope.budget = budget;
           })
@@ -270,7 +270,7 @@ function factory(
           $scope.selection.account = null;
           var accountId = (budget ? budget.source : null);
           if(accountId) {
-            AccountService.get(accountId).then(function(account) {
+            AccountService.collection.get(accountId).then(function(account) {
               $scope.selection.account = account;
             }).catch(function(err) {
               AlertService.add('error', err);

@@ -8,12 +8,13 @@
  */
 define([], function() {
 
-var deps = ['AccountService', 'IdentityService',
-  'PaymentTokenService', 'config'];
+var deps = ['$rootScope', 'AccountService', 'AlertService', 'IdentityService',
+  'IdentityPreferencesService', 'PaymentTokenService', 'config'];
 return {accounts: deps.concat(factory)};
 
 function factory(
-  AccountService, IdentityService, PaymentTokenService, config) {
+  $rootScope, AccountService, AlertService, IdentityService,
+  IdentityPreferencesService, PaymentTokenService, config) {
   return {
     scope: {},
     templateUrl: '/app/components/account/accounts-view.html',
@@ -44,13 +45,12 @@ function factory(
         source: account.id
       };
 
-      IdentityService.updatePreferences(
-        model.identity.id, update,
-        function(err) {
-          // FIXME: show error feedback
-          if(err) {
-            console.error('setDefaultAccount error:', err);
-          }
+      AlertService.clear();
+      IdentityPreferencesService.update(update)
+        .catch(function(err) {
+          AlertService.add('error', err);
+          console.error('setDefaultAccount error:', err);
+          $rootScope.$apply();
         });
     };
 

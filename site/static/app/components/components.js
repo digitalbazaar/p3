@@ -10,6 +10,7 @@ define([
   './account/account',
   './address/address',
   './budget/budget',
+  './identity-preferences/identity-preferences',
   './payment-token/payment-token',
   './promo/promo',
   './purchase/purchase',

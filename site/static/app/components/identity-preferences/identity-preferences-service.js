@@ -35,7 +35,7 @@ function factory($http, $rootScope, IdentityService) {
         throw err;
       });
   };
- 
+
   // update identity preferences
   service.update = function(preferences, nonce) {
     service.state.loading = true;
@@ -48,13 +48,13 @@ function factory($http, $rootScope, IdentityService) {
         if(nonce) {
           options.responseNonce = nonce;
         }
-        return service.get(options)
-          .then(function(preferences) {
-            service.state.loading = false;
-            // update preferences
-            IdentityService.identity.preferences = preferences;
-            return preferences;
-          });
+        return service.get(options);
+      })
+      .then(function(preferences) {
+        service.state.loading = false;
+        // update preferences
+        IdentityService.identity.preferences = preferences;
+        return preferences;
       })
       .catch(function(err) {
         service.state.loading = false;

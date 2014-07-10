@@ -7,12 +7,13 @@
 define([], function() {
 
 var deps = [
-  '$scope', '$timeout', 'AddressService', 'AlertService',
-  'IdentityService', 'config'];
+  '$scope', '$timeout', '$sce', 'AddressService', 'AlertService',
+  'IdentityService', 'IdentityPreferencesService', 'config'];
 return {RegisterController: deps.concat(factory)};
 
 function factory(
-  $scope, $timeout, AddressService, AlertService, IdentityService, config) {
+  $scope, $timeout, $sce, AddressService, AlertService, IdentityService,
+  IdentityPreferencesService, config) {
   // FIXME: only 1 identity now (no profile) ... no "multiple" identities for
   // a particular session ... will need to add a "switch identities" modal
   // thing? or option to login as another user?
@@ -27,7 +28,8 @@ function factory(
   };
   self.authorityBase = window.location.protocol + '//' + window.location.host;
   self.registrationType = config.data.registrationType || 'vendor';
-  self.registrationCallback = config.data.registrationCallback || null;
+  self.registrationCallback = $sce.trustAsResourceUrl(
+    config.data.registrationCallback) || null;
   self.responseNonce = config.data.responseNonce || null;
   self.selection = {
     account: null
@@ -36,31 +38,23 @@ function factory(
   self.register = function() {
     // update the preferences associated with the vendor identity
     self.loading = true;
-    AddressService.collection.getAll({force: true})
+    AddressService.getAll({force: true})
       .then(function(addresses) {
-        self.loading = false;
         if(addresses.length === 0) {
           self.showAddAddressModal = true;
           var err = new Error('Address not found.');
           err.type = 'payswarm.website.AddressNotFound';
           throw err;
         }
-        return addresses;
       })
       .then(function() {
+        // update and get identity preferences with nonce
         return IdentityPreferencesService.update({
-          identity: self.identity.id,
-          preferences: {
-            '@context': config.data.contextUrl,
-            destination: self.selection.account.id,
-            publicKey: self.publicKey
-          }
-        });
-      })
-      .then(function() {
-        // get identity preferences
-        return IdentityPreferencesService.get({
-          identity: self.identity.id,
+          '@context': config.data.contextUrl,
+          type: 'IdentityPreferences',
+          destination: self.selection.account.id,
+          publicKey: self.publicKey
+        }, {
           responseNonce: self.responseNonce
         });
       })

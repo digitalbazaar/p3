@@ -60,6 +60,7 @@ config.website.services = [
   //path.join(_libdir, 'payswarm-auth', 'services.test'),
   //path.join(_libdir, 'payswarm-auth', 'services.tools'),
   path.join(_libdir, 'payswarm-auth', 'services.transaction'),
+  path.join(_libdir, 'payswarm-auth', 'services.vendor'),
   path.join(_libdir, 'payswarm-auth', 'services.well-known')
 ];
 

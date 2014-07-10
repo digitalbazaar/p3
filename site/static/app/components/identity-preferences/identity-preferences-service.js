@@ -37,18 +37,14 @@ function factory($http, $rootScope, IdentityService) {
   };
 
   // update identity preferences
-  service.update = function(preferences, nonce) {
+  service.update = function(preferences, options) {
     service.state.loading = true;
     var url = IdentityService.identity.id + '/preferences';
 
     service.state.loading = false;
     return Promise.resolve($http.post(url, preferences))
       .then(function() {
-        var options = {};
-        if(nonce) {
-          options.responseNonce = nonce;
-        }
-        return service.get(options);
+        return service.get(options || {});
       })
       .then(function(preferences) {
         service.state.loading = false;

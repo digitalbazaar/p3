@@ -8,6 +8,7 @@
 define([
   'angular',
   './add-budget-modal-directive',
+  './budget-bar-directive',
   './budget-controller',
   './budget-selector-directive',
   './budget-service',
@@ -16,6 +17,7 @@ define([
 ], function(
   angular,
   addBudgetModalDirective,
+  budgetBarDirective,
   budgetController,
   budgetSelectorDirective,
   budgetService,
@@ -28,6 +30,7 @@ define([
 var module = angular.module('app.budget', []);
 
 module.directive(addBudgetModalDirective);
+module.directive(budgetBarDirective);
 module.controller(budgetController);
 module.directive(budgetSelectorDirective);
 module.service(budgetService);

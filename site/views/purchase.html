@@ -8,7 +8,7 @@
 {% raw %}
 <div class="container" data-ng-controller="PurchaseController as model" class="ng-cloak">
 
-<div data-ng-show="alertType">
+<div data-ng-show="model.alertType">
   <div class="row">
     <div class="span6 offset3">
       <div data-ng-show="model.alertType == 'purchased'" class="alert alert-block alert-success">

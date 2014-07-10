@@ -10,17 +10,17 @@ define([
   './add-address-modal-directive',
   './address-selector-directive',
   './address-service',
+  './address-view-directive',
   './addresses-controller',
-  './addresses-directive',
-  './vcard-address-directive',
+  './addresses-directive'
 ], function(
   angular,
   addAddressModalDirective,
   addressSelectorModalDirective,
   addressService,
+  addressViewDirective,
   addressesController,
-  addressesDirective,
-  vcardAddressDirective
+  addressesDirective
 ) {
 
 'use strict';
@@ -30,9 +30,9 @@ var module = angular.module('app.address', []);
 module.directive(addAddressModalDirective);
 module.directive(addressSelectorModalDirective);
 module.service(addressService);
+module.directive(addressViewDirective);
 module.controller(addressesController);
 module.directive(addressesDirective);
-module.directive(vcardAddressDirective);
 
 return module.name;
 

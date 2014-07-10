@@ -35,7 +35,7 @@ function factory(AccountService, IdentityService, PaymentTokenService) {
       account: AccountService.state
     };
     scope.identityId = IdentityService.identity.id;
-    scope.accounts = AccountService.collection.storage;
+    scope.accounts = AccountService.accounts;
     scope.$watch('accounts', function(accounts) {
       if(!accounts) {
         return;
@@ -105,6 +105,8 @@ function factory(AccountService, IdentityService, PaymentTokenService) {
         }
       }
     }
+
+    AccountService.collection.getAll();
   }
 }
 

@@ -196,7 +196,7 @@ config.mail.events.push({
 config.mail.events.push({
   type: 'common.Deposit.success',
   // user email
-  template: 'common.Deposit.success-profile'
+  template: 'common.Deposit.success-identity'
 });
 // TODO: 'common.FinancialAccount.created'
 config.mail.events.push({
@@ -207,8 +207,9 @@ config.mail.events.push({
 config.mail.events.push({
   type: 'common.FinancialAccount.unbackedCreditPayoffFailed',
   // user email
-  template: 'common.FinancialAccount.unbackedCreditPayoffFailed-profile'
+  template: 'common.FinancialAccount.unbackedCreditPayoffFailed-identity'
 });
+// FIXME: change to Identity
 config.mail.events.push({
   type: 'common.Profile.created',
   // auth email
@@ -222,13 +223,15 @@ config.mail.events.push({
 config.mail.events.push({
   type: 'common.Purchase.success',
   // user email
-  template: 'common.Purchase.success-profile'
+  template: 'common.Purchase.success-identity'
 });
+// FIXME: change to Identity
 config.mail.events.push({
   type: 'common.Profile.created',
   // user email
   template: 'common.Profile.created-profile'
 });
+// FIXME: remove, in bedrock
 config.mail.events.push({
   type: 'common.Profile.passcodeSent',
   // user email
@@ -242,7 +245,7 @@ config.mail.events.push({
 config.mail.events.push({
   type: 'common.PaymentToken.bankAccountCreated',
   // user email
-  template: 'common.PaymentToken.bankAccountCreated-profile'
+  template: 'common.PaymentToken.bankAccountCreated-identity'
 });
 config.mail.events.push({
   type: 'common.PaymentToken.unverified',
@@ -252,7 +255,7 @@ config.mail.events.push({
 config.mail.events.push({
   type: 'common.PaymentToken.unverified',
   // user email
-  template: 'common.PaymentToken.unverified-profile'
+  template: 'common.PaymentToken.unverified-identity'
 });
 config.mail.events.push({
   type: 'common.PaymentToken.unverifiedLimitReached',
@@ -313,12 +316,12 @@ config.mail.events.push({
 config.mail.events.push({
   type: 'common.Withdrawal.success',
   // user email
-  template: 'common.Withdrawal.success-profile'
+  template: 'common.Withdrawal.success-identity'
 });
 config.mail.events.push({
   type: 'hosted.Listing.assetExpired',
   // user email
-  template: 'hosted.Listing.assetExpired-profile'
+  template: 'hosted.Listing.assetExpired-identity'
 });
 
 // address validator

@@ -151,32 +151,12 @@ roles['identity.registered'] = {
       permissions.PAYMENT_TOKEN_REMOVE.id,
       // transaction permissions
       permissions.TRANSACTION_ACCESS.id,
-      permissions.TRANSACTION_CREATE.id
-    ]
-  )
-};
-
-roles['address.manager'] = {
-  id: 'address.manager',
-  label: 'Address Manager',
-  comment: 'Role for managing addresses.',
-  sysPermission: [].concat(
-    [
+      permissions.TRANSACTION_CREATE.id,
       // address validation access
       permissions.ADDRESS_VALIDATOR_ACCESS.id,
-    ]
-  )
-};
-
-roles['promo.redeemer'] = {
-  id: 'promo.redeemer',
-  label: 'Promotion Redeemer',
-  comment: 'Role for redeeming promotions.',
-  sysPermission: [].concat(
-    [
       // promo permissions
       permissions.PROMO_ACCESS.id,
-      permissions.PROMO_REDEEM_CODE.id,
+      permissions.PROMO_REDEEM_CODE.id
     ]
   )
 };

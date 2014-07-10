@@ -463,10 +463,6 @@ require('./roles');
 config.identity.defaults.identity.sysResourceRole = [{
   sysRole: 'identity.registered',
   generateResource: 'id'
-}, {
-  sysRole: 'address.manager'
-}, {
-  sysRole: 'promo.redeemer'
 }];
 
 // FIXME: port below to bedrock
@@ -482,10 +478,6 @@ config.identity.defaults.vendor = {
   sysResourceRole: [{
     sysRole: 'identity.registered',
     generateResource: 'id'
-  }, {
-    sysRole: 'address.manager'
-  }, {
-    sysRole: 'promo.redeemer'
   }],
   sysStatus: 'active'
 };

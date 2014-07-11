@@ -66,7 +66,7 @@
       {{transaction.source.label}}
       {% if transaction.source.paymentMethod === "CreditCard" %}
         (Credit Card: {{transaction.source.cardNumber}})
-      {{else transaction.source.paymentMethod === "BankAccount"}}
+      {% elif transaction.source.paymentMethod === "BankAccount" %}
         (Bank Account: {{transaction.source.bankAccount}})
       {% endif %}
       <br/>
@@ -81,7 +81,7 @@
       {{transaction.destination.label}}
       {% if transaction.destination.paymentMethod === "CreditCard" %}
         (Credit Card: {{transaction.destination.cardNumber}})
-      {{else transaction.destination.paymentMethod === "BankAccount"}}
+      {% elif transaction.destination.paymentMethod === "BankAccount" %}
         (Bank Account: {{transaction.destination.bankAccount}})
       {% endif %}
       <br/>

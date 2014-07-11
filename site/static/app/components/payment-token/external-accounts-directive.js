@@ -10,9 +10,7 @@ define([], function() {
 
 'use strict';
 
-var deps = [];
-return {appExternalAccounts: deps.concat(factory)};
-
+/* @ngInject */
 function factory() {
   return {
     restrict: 'E',
@@ -20,5 +18,7 @@ function factory() {
     templateUrl: '/app/components/payment-token/external-accounts-view.html'
   };
 }
+
+return {appExternalAccounts: factory};
 
 });

@@ -5,11 +5,7 @@
  */
 define([], function() {
 
-var deps = [
-  'AlertService', 'IdentityService', 'ModalService', 'PaymentTokenService',
-  'config'];
-return {addPaymentTokenModal: deps.concat(factory)};
-
+/* @ngInject */
 function factory(
   AlertService, IdentityService, ModalService, PaymentTokenService, config) {
   return ModalService.directive({
@@ -131,5 +127,7 @@ function factory(
     };
   }
 }
+
+return {addPaymentTokenModal: factory};
 
 });

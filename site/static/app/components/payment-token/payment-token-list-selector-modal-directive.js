@@ -5,9 +5,7 @@
  */
 define([], function() {
 
-var deps = ['ModalService'];
-return {paymentTokenListSelectorModal: deps.concat(factory)};
-
+/* @ngInject */
 function factory(ModalService) {
   return ModalService.directive({
     name: 'paymentTokenListSelector',
@@ -31,5 +29,7 @@ function factory(ModalService) {
     };
   }
 }
+
+return {paymentTokenListSelectorModal: factory};
 
 });

@@ -5,11 +5,7 @@
  */
 define(['angular'], function(angular) {
 
-var deps = [
-  '$http', '$rootScope', 'IdentityService', 'ModelService',
-  'RefreshService', 'ResourceService'];
-return {PaymentTokenService: deps.concat(factory)};
-
+/* @ngInject */
 function factory(
   $http, $rootScope, IdentityService, ModelService,
   RefreshService, ResourceService) {
@@ -145,5 +141,7 @@ function factory(
 
   return service;
 }
+
+return {PaymentTokenService: factory};
 
 });

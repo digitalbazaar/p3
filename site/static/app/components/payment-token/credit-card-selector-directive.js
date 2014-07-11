@@ -5,9 +5,7 @@
  */
 define([], function() {
 
-var deps = [];
-return {creditCardSelector: deps.concat(factory)};
-
+/* @ngInject */
 function factory() {
   return {
     scope: {
@@ -63,5 +61,7 @@ function factory() {
     });
   }
 }
+
+return {creditCardSelector: factory};
 
 });

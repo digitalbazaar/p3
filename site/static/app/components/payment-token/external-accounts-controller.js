@@ -5,9 +5,7 @@
  */
 define([], function() {
 
-var deps = ['$timeout', 'AlertService', 'PaymentTokenService'];
-return {ExternalAccountsController: deps.concat(factory)};
-
+/* @ngInject */
 function factory($timeout, AlertService, PaymentTokenService) {
   var self = this;
 
@@ -43,5 +41,7 @@ function factory($timeout, AlertService, PaymentTokenService) {
 
   PaymentTokenService.collection.getAll();
 }
+
+return {ExternalAccountsController: factory};
 
 });

@@ -5,9 +5,7 @@
  */
 define(['jquery'], function($) {
 
-var deps = [];
-return {kredit: deps.concat(factory)};
-
+/* @ngInject */
 function factory() {
   // FIXME: remove once webkit non-windows font difference is fixed
   return function(scope, element, attrs) {
@@ -20,5 +18,7 @@ function factory() {
     }
   };
 }
+
+return {kredit: factory};
 
 });

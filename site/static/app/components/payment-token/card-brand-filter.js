@@ -5,9 +5,7 @@
  */
 define([], function() {
 
-var deps = [];
-return {cardBrand: deps.concat(factory)};
-
+/* @ngInject */
 function factory() {
   return function(input, logo) {
     if(input === 'Visa') {
@@ -27,5 +25,7 @@ function factory() {
     }
   };
 }
+
+return {cardBrand: factory};
 
 });

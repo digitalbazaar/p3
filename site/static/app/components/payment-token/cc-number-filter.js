@@ -5,14 +5,14 @@
  */
 define([], function() {
 
-var deps = [];
-return {ccNumber: deps.concat(factory)};
-
+/* @ngInject */
 function factory() {
   return function(value) {
     value = (value === undefined || value === null) ? '****' : value.toString();
     return '**** **** **** ' + value.substr(1);
   };
 }
+
+return {ccNumber: factory};
 
 });

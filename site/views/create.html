@@ -20,7 +20,7 @@
 
     <hr />
 
-    <form id="createIdentityFeedbackTarget" class="form-horizontal" action="" data-ng-submit="submit()">
+    <form class="form-horizontal" action="" data-ng-submit="submit()">
       <fieldset>
         <legend>Your Email and Password</legend>
 
@@ -185,7 +185,6 @@
       </fieldset>
 
       <div class="form-actions">
-        <div data-feedback="feedback" data-target="feedbackTarget"></div>
         <button id="create-button"
           data-ng-disabled="loading || !model.identitySlugAvailable || !model.emailAvailable || !agreementChecked"
           class="btn btn-large btn-primary"
@@ -193,8 +192,6 @@
         <span data-spinner="loading"
           data-spinner-class="append-btn-spinner"></span>
       </div>
-
-      <div name="create-feedback" class="feedback"></div>
     </form>
   </div>
 </div>

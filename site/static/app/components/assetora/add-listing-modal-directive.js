@@ -5,39 +5,43 @@
  */
 define([], function() {
 
-var deps = ['AlertService', 'HostedListingService', 'ModalService', 'config'];
-return {addListingModal: deps.concat(factory)};
-
+/* @ngInject */
 function factory(AlertService, HostedListingService, ModalService, config) {
-  function Ctrl($scope) {
-    // FIXME: use root/global data, move over to model
-    $scope.data = config.data || {};
-    $scope.identity = config.data.identity || {};
-    $scope.feedback = {};
+  return ModalService.directive({
+    name: 'addListing',
+    scope: {asset: '='},
+    templateUrl: '/app/components/assetora/add-listing-modal.html',
+    link: Link
+  });
 
-    $scope.model = {};
-    $scope.model.loading = false;
-    $scope.model.asset = $scope.asset;
-    $scope.model.listing = {
+  function Link(scope) {
+    // FIXME: use root/global data, move over to model
+    scope.data = config.data || {};
+    scope.identity = config.data.identity || {};
+
+    scope.model = {};
+    scope.model.loading = false;
+    scope.model.asset = scope.asset;
+    scope.model.listing = {
       '@context': 'https://w3id.org/payswarm/v1'
     };
-    $scope.model.destination = null;
+    scope.model.destination = null;
 
-    $scope.addListing = function() {
+    scope.addListing = function() {
       // FIXME: add more listing details
       // FIXME: remove test data
-      var listing = $scope.model.listing;
+      var listing = scope.model.listing;
       listing.type = ['Listing', 'gr:Offering'];
-      listing.vendor = $scope.identity.id;
+      listing.vendor = scope.identity.id;
       listing.payee = [{
         type: 'Payee',
-        destination: $scope.model.destination.id,
+        destination: scope.model.destination.id,
         currency: 'USD',
         payeeGroup: ['vendor'],
-        payeeRate: '0.05', //$scope.model.total,
+        payeeRate: '0.05', //scope.model.total,
         payeeRateType: 'FlatAmount',
         payeeApplyType: 'ApplyExclusively',
-        comment: 'Price for ' + $scope.asset.title
+        comment: 'Price for ' + scope.asset.title
       }];
       listing.payeeRule = [{
         type: 'PayeeRule',
@@ -56,28 +60,18 @@ function factory(AlertService, HostedListingService, ModalService, config) {
       listing.sysPublished = window.iso8601.w3cDate();
 
       console.log('listing', listing);
-      listing.asset = $scope.asset.id;
+      listing.asset = scope.asset.id;
       HostedListingService.add(listing).then(function(listing) {
-        $scope.loading = false;
-        $scope.modal.close(null, listing);
+        scope.loading = false;
+        scope.modal.close(null, listing);
       }).catch(function(err) {
         AlertService.add('error', err);
-        $scope.loading = false;
+        scope.loading = false;
       });
     };
   }
-
-  return ModalService.directive({
-    name: 'addListing',
-    scope: {
-      asset: '='
-    },
-    templateUrl: '/app/components/assetora/add-listing-modal.html',
-    controller: ['$scope', Ctrl],
-    link: function(scope, element, attrs) {
-      scope.feedbackTarget = element;
-    }
-  });
 }
+
+return {addListingModal: factory};
 
 });

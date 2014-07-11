@@ -5,9 +5,7 @@
  */
 define([], function() {
 
-var deps = ['$rootScope', 'IdentityService', 'ResourceService'];
-return {HostedListingService: deps.concat(factory)};
-
+/* @ngInject */
 function factory($rootScope, IdentityService, ResourceService) {
   var service = {};
 
@@ -75,5 +73,7 @@ function factory($rootScope, IdentityService, ResourceService) {
 
   return service;
 }
+
+return {HostedListingService: factory};
 
 });

@@ -5,18 +5,7 @@
  */
 define([], function() {
 
-var deps = ['$scope', 'AlertService', 'HostedAssetService'];
-return {
-  controller: {InvoicesController: deps.concat(factory)},
-  routes: [{
-    path: '/i/:identity/invoices',
-    options: {
-      templateUrl: '/app/components/assetora/invoices.html',
-      controller: 'InvoicesController'
-    }
-  }]
-};
-
+/* @ngInject */
 function factory($scope, AlertService, HostedAssetService) {
   $scope.model = {};
   // FIXME: globalize window.data access
@@ -87,5 +76,7 @@ function factory($scope, AlertService, HostedAssetService) {
     storage: $scope.model.search.assets
   });
 }
+
+return {InvoicesController: factory};
 
 });

@@ -5,19 +5,7 @@
  */
 define([], function() {
 
-var deps = [
-  '$scope', 'AlertService', 'HostedAssetService', 'HostedListingService'];
-return {
-  controller: {AssetoraController: deps.concat(factory)},
-  routes: [{
-    path: '/i/:identity/assetora',
-    options: {
-      templateUrl: '/app/components/assetora.html',
-      controller: 'AssetoraController'
-    }
-  }]
-};
-
+/* @ngInject */
 function factory(
   $scope, AlertService, HostedAssetService, HostedListingService, config) {
   $scope.model = {};
@@ -111,5 +99,7 @@ function factory(
   HostedAssetService.query();
   HostedListingService.query();
 }
+
+return {AssetoraController: factory};
 
 });

@@ -5,7 +5,6 @@
  */
 define([], function() {
 
-var deps = [];
 return {
   routes: [{
     path: '/i/:identity/tools',

@@ -5,17 +5,14 @@
  */
 define([], function() {
 
-var deps = ['$scope'];
-return {ContentPortalController: deps.concat(factory)};
-
-function factory($scope) {
-  $scope.model = {};
-  // FIXME: globalize window.data access
-  var data = window.data || {};
+/* @ngInject */
+function factory($scope, config) {
   $scope.model = {
-    asset: data.asset,
-    encryptedReceipt: data.encryptedReceipt
+    asset: config.data.asset,
+    encryptedReceipt: config.data.encryptedReceipt
   };
 }
+
+return {ContentPortalController: factory};
 
 });

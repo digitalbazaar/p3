@@ -5,9 +5,7 @@
  */
 define(['angular', 'async'], function(angular, async) {
 
-var deps = ['$scope', 'HostedAssetService', 'HostedListingService'];
-return {HostedAssetsController: deps.concat(factory)};
-
+/* @ngInject */
 function factory($scope, HostedAssetService, HostedListingService) {
   $scope.model = {};
   // FIXME: globalize window.data access
@@ -146,5 +144,7 @@ function factory($scope, HostedAssetService, HostedListingService) {
     });
   };
 }
+
+return {HostedAssetsController: factory};
 
 });

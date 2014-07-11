@@ -4,33 +4,38 @@
  * @author Dave Longley
  */
 define([
-  'angular', 'async', 'forge/pki', 'FileSaver',
-  'zip', 'TypedArray', 'Blob'], function(angular, async, pki, saveAs, zip) {
+  'angular', 'async', 'forge/pki', 'FileSaver', 'zip', 'TypedArray', 'Blob'
+], function(angular, async, pki, saveAs, zip) {
 
-var deps = ['HostedAsset', 'ModalService', 'config'];
-return {protectAssetModal: deps.concat(factory)};
+/* @ngInject */
+function factory(AlertService, HostedAssetService, ModalService, config) {
+  return ModalService.directive({
+    name: 'protectAsset',
+    scope: {asset: '='},
+    templateUrl: '/app/components/assetora/protect-asset-modal.html',
+    link: Link
+  });
 
-function factory(HostedAssetService, ModalService, config) {
-  function Ctrl($scope) {
-    // FIXME: use root/global data, move over to model
+  function Link(scope, element, attrs) {
+    // FIXME: move over to model
     var data = config.data || {};
-    $scope.identity = config.data.identity || {};
-    $scope.feedback = {};
+    scope.identity = config.data.identity || {};
+    scope.feedback = {};
 
-    $scope.model = {};
-    $scope.model.authority = data.authority;
-    $scope.model.identity = $scope.identity;
-    $scope.model.loading = false;
-    $scope.model.state = {
+    scope.model = {};
+    scope.model.authority = data.authority;
+    scope.model.identity = scope.identity;
+    scope.model.loading = false;
+    scope.model.state = {
       assets: HostedAssetService.state
     };
     // FIXME: figure out how to detect this and when it isn't available,
     // hide the save button and show the files to be downloaded on
     // the page individually for cut and paste (for IE9 essentially)
-    $scope.model.saveAsSupported = true;
-    $scope.model.bundleSaved = false;
-    $scope.model.keypair = null;
-    $scope.model.bundleStep = '';
+    scope.model.saveAsSupported = true;
+    scope.model.bundleSaved = false;
+    scope.model.keypair = null;
+    scope.model.bundleStep = '';
 
     // configure zip
     zip.useWebWorkers = (typeof Worker !== 'undefined');
@@ -42,9 +47,9 @@ function factory(HostedAssetService, ModalService, config) {
     // private state
     var state = {};
 
-    $scope.generateBundle = function() {
-      $scope.model.loading = true;
-      $scope.model.bundleStep = 'Generating security keys';
+    scope.generateBundle = function() {
+      scope.model.loading = true;
+      scope.model.bundleStep = 'Generating security keys';
       console.log('Generating bundle...');
       async.auto({
         getJsonLdProcessor: function(callback) {
@@ -72,48 +77,46 @@ function factory(HostedAssetService, ModalService, config) {
           }, callback);
         },
         sendPublicKey: ['generateKeyPair', function(callback, results) {
-          $scope.model.bundleStep = 'Registering generated keys';
-          $scope.$apply();
+          scope.model.bundleStep = 'Registering generated keys';
+          scope.$apply();
 
           var keypair = results.generateKeyPair;
-          $scope.model.keypair = {
+          scope.model.keypair = {
             privateKey: forge.pki.privateKeyToPem(keypair.privateKey),
             publicKey: forge.pki.publicKeyToPem(keypair.publicKey)
           };
 
           // set asset's public key
-          HostedAssetService.setKey($scope.asset.id, {
+          HostedAssetService.setKey(scope.asset.id, {
             '@context': 'https://w3id.org/payswarm/v1',
-            publicKeyPem: $scope.model.keypair.publicKey
+            publicKeyPem: scope.model.keypair.publicKey
           }, callback);
         }],
         generatePhpBundle: ['getJsonLdProcessor', 'sendPublicKey',
           function(callback, results) {
-            $scope.model.bundleStep = 'Compressing bundle';
-            $scope.$apply();
+            scope.model.bundleStep = 'Compressing bundle';
+            scope.$apply();
             writePhpBundle({
               jsonld: results.getJsonLdProcessor,
               keypair: results.generateKeyPair
             }, callback);
         }]
       }, function(err, results) {
-        $scope.feedback.error = err;
-        $scope.model.success = !err;
-        $scope.model.loading = false;
+        scope.model.success = !err;
+        scope.model.loading = false;
 
         if(err) {
-          // FIXME: handle error
-          console.log('error', err);
-          $scope.$apply();
+          AlertService.add('error', err);
+          scope.$apply();
           return;
         }
 
         state.zippedBlob = results.generatePhpBundle;
-        $scope.$apply();
+        scope.$apply();
       });
     };
 
-    $scope.savePhpBundle = function() {
+    scope.savePhpBundle = function() {
       // FIXME: remove console.logs
       console.log('Saving bundle...');
 
@@ -128,11 +131,11 @@ function factory(HostedAssetService, ModalService, config) {
       };
       saver.onwriteend = function(event) {
         console.log('saver done', event);
-        $scope.model.bundleSaved = true;
-        $scope.apply();
+        scope.model.bundleSaved = true;
+        scope.apply();
       };*/
 
-      $scope.model.bundleSaved = true;
+      scope.model.bundleSaved = true;
     };
 
     function writePhpBundle(options, callback) {
@@ -177,16 +180,8 @@ function factory(HostedAssetService, ModalService, config) {
       }
     }
   }
-
-  return ModalService.directive({
-    name: 'protectAsset',
-    scope: {asset: '='},
-    templateUrl: '/app/components/assetora/protect-asset-modal.html',
-    controller: ['$scope', Ctrl],
-    link: function(scope, element, attrs) {
-      scope.feedbackTarget = element;
-    }
-  });
 }
+
+return {protectAssetModal: factory};
 
 });

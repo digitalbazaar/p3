@@ -5,9 +5,7 @@
  */
 define(['angular'], function(angular) {
 
-var deps = ['AccountService'];
-return {transactionDetails: deps.concat(factory)};
-
+/* @ngInject */
 function factory(AccountService) {
   return {
     scope: {
@@ -89,5 +87,7 @@ function factory(AccountService) {
     }
   }
 }
+
+return {transactionDetails: factory};
 
 });

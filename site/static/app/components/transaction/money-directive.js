@@ -18,9 +18,7 @@ var CURRENCY_INFO = {
   }
 };
 
-var deps = ['$filter'];
-return {money: deps.concat(factory)};
-
+/* @ngInject */
 function factory($filter) {
   return {
     scope: {
@@ -70,5 +68,7 @@ function factory($filter) {
     }, true);
   }
 }
+
+return {money: factory};
 
 });

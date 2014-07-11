@@ -10,9 +10,7 @@ define([], function() {
 
 'use strict';
 
-var deps = ['TransactionService'];
-return {transactions: deps.concat(factory)};
-
+/* @ngInject */
 function factory(TransactionService) {
   return {
     scope: {},
@@ -33,5 +31,7 @@ function factory(TransactionService) {
     TransactionService.getRecent();
   }
 }
+
+return {transactions: factory};
 
 });

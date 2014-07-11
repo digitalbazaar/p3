@@ -6,10 +6,15 @@
  */
 define([], function() {
 
-var deps = ['$timeout', 'AccountService', 'BudgetService', 'config'];
+var deps = [
+  '$scope', '$timeout', 'AccountService', 'AlertService', 'BudgetService',
+  'RefreshService', 'config'
+];
 return {BudgetController: deps.concat(factory)};
 
-function factory($timeout, AccountService, BudgetService, config) {
+function factory(
+  $scope, $timeout, AccountService, AlertService, BudgetService,
+  RefreshService, config) {
   var self = this;
 
   self.state = BudgetService.state;
@@ -42,17 +47,38 @@ function factory($timeout, AccountService, BudgetService, config) {
     }
   };
 
-  BudgetService.collection.get(config.data.budgetId).then(function(budget) {
-    self.budget = budget;
+  $scope.$watch(function() { return self.budget; }, function(budget) {
+    if(!budget) {
+      return;
+    }
 
     // fetch vendors for budget
-    BudgetService.getVendors(budget.id);
+    var vendorsPromise = BudgetService.getVendors(budget.id);
 
     // get budget account
-    AccountService.collection.get(budget.source).then(function(account) {
-      self.account = account;
+    var accountPromise = AccountService.collection.get(budget.source)
+      .then(function(account) {
+        self.account = account;
+      });
+
+    Promise.all([vendorsPromise, accountPromise]).then(function() {
+      $scope.$apply();
     });
   });
+
+  RefreshService.register($scope, function(force) {
+    var opts = {force: !!force};
+    AlertService.clear();
+    BudgetService.collection.getCurrent(opts)
+      .then(function(budget) {
+        self.budget = budget;
+        $scope.$apply();
+      })
+      .catch(function(err) {
+        AlertService.add('error', err);
+        $scope.$apply();
+      });
+  })();
 }
 
 });

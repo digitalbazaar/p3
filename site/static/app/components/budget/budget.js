@@ -10,6 +10,7 @@ define([
   './add-budget-modal-directive',
   './budget-bar-directive',
   './budget-controller',
+  './budget-routes',
   './budget-selector-directive',
   './budget-service',
   './budgets-directive',
@@ -19,6 +20,7 @@ define([
   addBudgetModalDirective,
   budgetBarDirective,
   budgetController,
+  budgetRoutes,
   budgetSelectorDirective,
   budgetService,
   budgetsDirective,
@@ -36,6 +38,14 @@ module.directive(budgetSelectorDirective);
 module.service(budgetService);
 module.directive(budgetsDirective);
 module.directive(editBudgetModalDirective);
+
+module.config(['$routeProvider',
+  function($routeProvider) {
+    angular.forEach(budgetRoutes, function(route) {
+      $routeProvider.when(route.path, route.options);
+    });
+  }
+]);
 
 return module.name;
 

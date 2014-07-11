@@ -1,15 +1,4 @@
-{% extends 'layout.html' %}
-
-{% set pageTitle = "Budget Details" %}
-
-{% block content %}
-
-<div class="row">
-  <h2 class="headline">{{pageTitle}}</h2>
-</div>
-
-{% raw %}
-<div data-ng-controller="BudgetController as model" class="ng-cloak">
+<div class="container ng-cloak" data-ng-controller="BudgetController as model">
 
 <table class="table table-condensed table-hover">
 <tr>
@@ -153,6 +142,3 @@
 </div>
 
 </div>
-{% endraw %}
-
-{% endblock %}

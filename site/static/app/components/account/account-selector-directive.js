@@ -25,18 +25,18 @@ function factory(AccountService, IdentityService, PaymentTokenService) {
   };
 
   function Link(scope, element, attrs) {
-    // FIXME: be consistent with use of 'model'
-    scope.model = {
-      remainingCredit: 0,
-      paymentMethodIsCollapsed: true,
-      showEditAccount: false
-    };
-    scope.services = {
-      account: AccountService.state
-    };
-    scope.identityId = IdentityService.identity.id;
-    scope.accounts = AccountService.accounts;
-    scope.$watch('accounts', function(accounts) {
+    var model = scope.model = {};
+    model.remainingCredit = 0;
+    model.paymentMethodIsCollapsed = true;
+    model.showAddAccount = false;
+    model.showDepostModal = false;
+    model.showEditAccount = false;
+    model.state = AccountService.state;
+    model.accounts = AccountService.accounts;
+
+    scope.$watch(function() {
+      return model.accounts;
+    }, function(accounts) {
       if(!accounts) {
         return;
       }
@@ -57,24 +57,23 @@ function factory(AccountService, IdentityService, PaymentTokenService) {
 
     function update() {
       // update remaining credit
-      scope.model.remainingCredit = 0;
+      model.remainingCredit = 0;
       if(scope.selected) {
         if(scope.selected.sysCreditDisabled) {
-          scope.model.remainingCredit = 0;
+          model.remainingCredit = 0;
         } else {
-          scope.model.remainingCredit = parseFloat(
-            scope.selected.creditLimit || '0');
+          model.remainingCredit = parseFloat(scope.selected.creditLimit || '0');
         }
         var balance = parseFloat(scope.selected.balance);
         if(balance < 0) {
-          scope.model.remainingCredit += balance;
+          model.remainingCredit += balance;
         }
       }
 
       // update minimum balance display
       scope.invalid = false;
-      scope.balanceTooLow = false;
-      scope.instantTransferRequired = false;
+      model.balanceTooLow = false;
+      model.instantTransferRequired = false;
       if(scope.selected && scope.minBalance !== undefined) {
         var max =
           parseFloat(scope.selected.creditLimit || '0') +
@@ -87,20 +86,20 @@ function factory(AccountService, IdentityService, PaymentTokenService) {
           if(scope.allowInstantTransfer === 'true' &&
             scope.selected.sysAllowInstantTransfer &&
             minInstantTransfer <= minBalance) {
-            scope.instantTransferRequired = true;
+            model.instantTransferRequired = true;
           } else {
-            scope.balanceTooLow = true;
+            model.balanceTooLow = true;
             scope.invalid = true;
           }
         }
       }
 
       // get backup source token
-      scope.model.backupSource = null;
+      model.backupSource = null;
       if(scope.selected) {
         var account = scope.selected;
         if(account.backupSource && account.backupSource.length) {
-          scope.model.backupSource = PaymentTokenService.find(
+          model.backupSource = PaymentTokenService.find(
             account.backupSource[0]);
         }
       }

@@ -1,12 +1,12 @@
 <div>
   <div data-selector data-item-type="Account"
-    data-items="accounts" data-selected="selected"
+    data-items="model.accounts" data-selected="selected"
     data-invalid="invalid"
-    data-add-item="showAddAccountModal=true"
+    data-add-item="model.showAddAccountModal=true"
     data-fixed="{{fixed}}">
-    <div data-spinner="services.account.loading"
+    <div data-spinner="model.state.loading"
       data-spinner-class="selector-spinner"></div>
-    <div data-ng-hide="services.account.loading" class="account">
+    <div data-ng-hide="model.state.loading" class="account">
       <table class="table table-condensed">
         <thead>
           <tr>
@@ -36,16 +36,16 @@
       </table>
       <div data-ng-show="showDepositButton">
         <button class="btn btn-success"
-          data-ng-click="showDepositModal=true"><i class="icon-plus"></i> Deposit</button><br/>
-        <div data-deposit-modal="showDepositModal"
+          data-ng-click="model.showDepositModal=true"><i class="icon-plus"></i> Deposit</button><br/>
+        <div data-deposit-modal="model.showDepositModal"
           data-account="selected" data-instant="instant"></div>
       </div>
-      <div data-ng-show="balanceTooLow">
+      <div data-ng-show="model.balanceTooLow">
         <hr />
         <div class="alert alert-error">You must select an account with a balance or remaining credit of at least <span
         class="currency">{{selected.currency}}</span> {{minBalance | ceil | currency:'$'}}.</div>
       </div>
-      <div data-ng-show="allowInstantTransfer && instantTransferRequired">
+      <div data-ng-show="allowInstantTransfer && model.instantTransferRequired">
         <hr />
         <div class="alert alert-warning">
           The selected account does not have sufficient funds. An instant transfer of <span data-money="instantTransferDeposit" data-important="true"></span> from your "<strong>{{model.backupSource.label}}</strong>" payment method will be performed to complete this purchase.
@@ -71,8 +71,7 @@
       </div>
     </div>
   </div>
-  <div data-add-account-modal="showAddAccountModal"
-    data-identity-id="{{identityId}}"
+  <div data-add-account-modal="model.showAddAccountModal"
     data-modal-on-close="!err && (selected=result)"></div>
   <div data-edit-account-modal="model.showEditAccount" data-account="selected"></div>
 </div>

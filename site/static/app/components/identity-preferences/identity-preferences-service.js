@@ -5,9 +5,7 @@
  */
 define([], function() {
 
-var deps = ['$http', '$rootScope', 'IdentityService'];
-return {IdentityPreferencesService: deps.concat(factory)};
-
+/* @ngInject */
 function factory($http, $rootScope, IdentityService) {
   var service = {};
   service.state = {
@@ -63,5 +61,7 @@ function factory($http, $rootScope, IdentityService) {
 
   return service;
 }
+
+return {IdentityPreferencesService: factory};
 
 });

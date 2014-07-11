@@ -5,9 +5,7 @@
  */
 define([], function() {
 
-var deps = ['$parse', '$http'];
-return {promoCodeChecker: deps.concat(factory)};
-
+/* @ngInject */
 function factory($parse, $http) {
   return {
     restrict: 'A',
@@ -76,5 +74,7 @@ function factory($parse, $http) {
     }
   };
 }
+
+return {promoCodeChecker: factory};
 
 });

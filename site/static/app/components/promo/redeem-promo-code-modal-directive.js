@@ -5,9 +5,7 @@
  */
 define([], function() {
 
-var deps = ['AlertService', 'ModalService', 'PromoService'];
-return {redeemPromoCodeModal: deps.concat(factory)};
-
+/* @ngInject */
 function factory(AlertService, ModalService, PromoService) {
   return ModalService.directive({
     name: 'redeemPromoCode',
@@ -35,5 +33,7 @@ function factory(AlertService, ModalService, PromoService) {
     };
   }
 }
+
+return {redeemPromoCodeModal: factory};
 
 });

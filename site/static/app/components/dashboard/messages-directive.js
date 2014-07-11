@@ -10,22 +10,22 @@ define([], function() {
 
 'use strict';
 
-var deps = ['IdentityService'];
-return {messages: deps.concat(factory)};
-
+/* @ngInject */
 function factory(IdentityService) {
-  function Ctrl($scope) {
-    var model = $scope.model = {};
+  return {
+    templateUrl: '/app/components/dashboard/messages-view.html',
+    link: Link
+  };
+
+  function Link(scope) {
+    var model = scope.model = {};
     model.state = {
       identity: IdentityService.state
     };
     model.messages = [];
   }
-
-  return {
-    controller: ['$scope', Ctrl],
-    templateUrl: '/app/components/dashboard/messages-view.html'
-  };
 }
+
+return {messages: factory};
 
 });

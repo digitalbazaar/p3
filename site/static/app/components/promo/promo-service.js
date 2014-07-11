@@ -5,10 +5,7 @@
  */
 define([], function() {
 
-var deps = [
-  '$http', '$rootScope', 'AccountService', 'TransactionService', 'config'];
-return {PromoService: deps.concat(factory)};
-
+/* @ngInject */
 function factory(
   $http, $rootScope, AccountService, TransactionService, config) {
   var service = {};
@@ -41,5 +38,7 @@ function factory(
 
   return service;
 }
+
+return {PromoService: factory};
 
 });

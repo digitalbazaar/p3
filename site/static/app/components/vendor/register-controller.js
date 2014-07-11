@@ -6,11 +6,7 @@
  */
 define([], function() {
 
-var deps = [
-  '$scope', '$timeout', '$sce', 'AddressService', 'AlertService',
-  'IdentityService', 'IdentityPreferencesService', 'config'];
-return {RegisterController: deps.concat(factory)};
-
+/* @ngInject */
 function factory(
   $scope, $timeout, $sce, AddressService, AlertService, IdentityService,
   IdentityPreferencesService, config) {
@@ -100,5 +96,7 @@ function factory(
     return Promise.resolve($timeout(function(){}, registrationDelay));
   }
 }
+
+return {RegisterController: factory};
 
 });

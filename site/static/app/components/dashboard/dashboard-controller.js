@@ -8,9 +8,9 @@
  */
 define([], function() {
 
-var deps = [];
-return {DashboardController: deps.concat(factory)};
-
+/* @ngInject */
 function factory() {}
+
+return {DashboardController: factory};
 
 });

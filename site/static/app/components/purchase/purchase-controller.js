@@ -7,11 +7,7 @@
  */
 define([], function() {
 
-var deps = [
-  '$scope', '$sce', 'AccountService', 'AddressService', 'AlertService',
-  'BudgetService', 'IdentityService', 'TransactionService', 'config'];
-return {PurchaseController: deps.concat(factory)};
-
+/* @ngInject */
 function factory(
   $scope, $sce, AccountService, AddressService, AlertService,
   BudgetService, IdentityService, TransactionService, config) {
@@ -340,5 +336,7 @@ function factory(
     }
   }
 }
+
+return {PurchaseController: factory};
 
 });

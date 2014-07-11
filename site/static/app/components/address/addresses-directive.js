@@ -10,9 +10,7 @@ define([], function() {
 
 'use strict';
 
-var deps = [];
-return {appAddresses: deps.concat(factory)};
-
+/* @ngInject */
 function factory() {
   return {
     restrict: 'E',
@@ -20,5 +18,7 @@ function factory() {
     templateUrl: '/app/components/address/addresses-view.html'
   };
 }
+
+return {appAddresses: factory};
 
 });

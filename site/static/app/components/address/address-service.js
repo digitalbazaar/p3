@@ -5,11 +5,7 @@
  */
 define([], function() {
 
-var deps = [
-  '$http', '$rootScope', '$timeout',
-  'IdentityService', 'ModelService', 'RefreshService'];
-return {AddressService: deps.concat(factory)};
-
+/* @ngInject */
 function factory(
   $http, $rootScope, $timeout,
   IdentityService, ModelService, RefreshService) {
@@ -110,5 +106,7 @@ function factory(
 
   return service;
 }
+
+return {AddressService: factory};
 
 });

@@ -8,9 +8,7 @@
  */
 define([], function() {
 
-var deps = ['$scope', 'AddressService', 'AlertService', 'IdentityService'];
-return {AddressesController: deps.concat(factory)};
-
+/* @ngInject */
 function factory($scope, AddressService, AlertService, IdentityService) {
   var self = this;
   self.identity = IdentityService.identity;
@@ -38,5 +36,7 @@ function factory($scope, AddressService, AlertService, IdentityService) {
 
   AddressService.getAll();
 }
+
+return {AddressesController: factory};
 
 });

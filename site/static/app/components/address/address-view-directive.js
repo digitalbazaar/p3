@@ -5,9 +5,7 @@
  */
 define([], function() {
 
-var deps = [];
-return {addressView: deps.concat(factory)};
-
+/* @ngInject */
 function factory() {
   return {
     scope: {
@@ -17,5 +15,7 @@ function factory() {
     templateUrl: '/app/components/address/address-view.html'
   };
 }
+
+return {addressView: factory};
 
 });

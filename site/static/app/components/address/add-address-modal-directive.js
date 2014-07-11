@@ -5,12 +5,7 @@
  */
 define(['angular'], function(angular) {
 
-var deps = [
-  'AddressService', 'AlertService', 'IdentityService', 'ModalService',
-  'config'
-];
-return {addAddressModal: deps.concat(factory)};
-
+/* @ngInject */
 function factory(
   AddressService, AlertService, IdentityService, ModalService, config) {
   return ModalService.directive({
@@ -85,5 +80,7 @@ function factory(
     };
   }
 }
+
+return {addAddressModal: factory};
 
 });

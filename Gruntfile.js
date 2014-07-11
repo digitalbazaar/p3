@@ -94,6 +94,7 @@ module.exports = function(grunt) {
           'forge': '<%= dirs.bedrock %>/node_modules/node-forge/js',
           'iso8601': '<%= dirs.bedrock %>/lib/iso8601/iso8601',
           'jsonld': '<%= dirs.bedrock %>/node_modules/jsonld/js/jsonld',
+          'opencred-verifier': '<%= dirs.bedrock %>/node_modules/opencred-verifier/lib/credentialVerifier',
           'promise': '<%= dirs.bedrock %>/node_modules/es6-promise/dist/promise-1.0.0',
           'payswarm': '../../../../site/static',
           'underscore': '<%= dirs.bedrock %>/node_modules/underscore/underscore',

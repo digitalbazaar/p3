@@ -16,36 +16,21 @@
   <dt>Total Amount</dt>
   <dd>
     <ul class="unstyled">
-      <li class="money">
-        <span class="currency">USD</span>
-        <span class="money right" title="USD ${{model.budget.amount}}">
-          {{model.budget.amount | floor | currency:'$'}}
-        </span>
-      </li>
+      <li><span data-money="model.budget" data-round-mode="down"></span></li>
     </ul>
   </dd>
 
   <dt>Current Balance</dt>
   <dd>
     <ul class="unstyled">
-      <li class="money">
-        <span class="currency">USD</span>
-        <span class="money right" title="USD ${{model.budget.balance}}">
-          {{model.budget.balance | floor | currency:'$'}}
-        </span>
-      </li>
+      <li><span data-money="model.budget" data-round-mode="down" data-value-field="balance"></span></li>
     </ul>
   </dd>
 
   <dt>Max Per Use</dt>
   <dd>
     <ul class="unstyled">
-      <li class="money">
-        <span class="currency">USD</span>
-        <span class="money right" title="USD ${{model.budget.sysMaxPerUse}}">
-          {{model.budget.sysMaxPerUse | floor | currency:'$'}}
-        </span>
-      </li>
+      <li><span data-money="model.budget" data-round-mode="down" data-value-field="sysMaxPerUse"></span></li>
     </ul>
   </dd>
 

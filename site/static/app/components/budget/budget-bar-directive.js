@@ -5,9 +5,7 @@
  */
 define([], function() {
 
-var deps = [];
-return {budgetBar: deps.concat(factory)};
-
+/* @ngInject */
 function factory() {
   return {
     scope: {budget: '=budgetBar'},
@@ -30,5 +28,7 @@ function factory() {
     }
   };
 }
+
+return {budgetBar: factory};
 
 });

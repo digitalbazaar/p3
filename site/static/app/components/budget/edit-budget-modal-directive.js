@@ -5,11 +5,7 @@
  */
 define(['angular'], function(angular) {
 
-var deps = [
-  'AccountService', 'AlertService', 'BudgetService', 'IdentityService',
-  'ModalService', 'config', 'util'];
-return {editBudgetModal: deps.concat(factory)};
-
+/* @ngInject */
 function factory(
   AccountService, AlertService, BudgetService, IdentityService,
   ModalService, config, util) {
@@ -123,5 +119,7 @@ function factory(
     };
   }
 }
+
+return {editBudgetModal: factory};
 
 });

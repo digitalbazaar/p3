@@ -5,11 +5,7 @@
  */
 define(['iso8601'], function(iso8601) {
 
-var deps = [
-  '$http', '$rootScope', 'IdentityService', 'RefreshService',
-  'ResourceService', 'config'];
-return {BudgetService: deps.concat(factory)};
-
+/* @ngInject */
 function factory(
   $http, $rootScope, IdentityService, RefreshService,
   ResourceService, config) {
@@ -134,5 +130,7 @@ function factory(
 
   return service;
 }
+
+return {BudgetService: factory};
 
 });

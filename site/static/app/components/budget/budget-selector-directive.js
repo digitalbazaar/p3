@@ -5,9 +5,7 @@
  */
 define([], function() {
 
-var deps = ['AccountService', 'BudgetService'];
-return {budgetSelector: deps.concat(factory)};
-
+/* @ngInject */
 function factory(AccountService, BudgetService) {
   return {
     scope: {
@@ -113,5 +111,7 @@ function factory(AccountService, BudgetService) {
     BudgetService.collection.getAll();
   }
 }
+
+return {budgetSelector: factory};
 
 });

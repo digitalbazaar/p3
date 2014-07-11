@@ -6,12 +6,7 @@
  */
 define([], function() {
 
-var deps = [
-  '$scope', '$timeout', 'AccountService', 'AlertService', 'BudgetService',
-  'RefreshService', 'config'
-];
-return {BudgetController: deps.concat(factory)};
-
+/* @ngInject */
 function factory(
   $scope, $timeout, AccountService, AlertService, BudgetService,
   RefreshService, config) {
@@ -84,5 +79,7 @@ function factory(
       });
   })();
 }
+
+return {BudgetController: factory};
 
 });

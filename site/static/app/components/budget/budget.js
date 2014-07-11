@@ -39,13 +39,12 @@ module.service(budgetService);
 module.directive(budgetsDirective);
 module.directive(editBudgetModalDirective);
 
-module.config(['$routeProvider',
-  function($routeProvider) {
-    angular.forEach(budgetRoutes, function(route) {
-      $routeProvider.when(route.path, route.options);
-    });
-  }
-]);
+/* @ngInject */
+module.config(function($routeProvider) {
+  angular.forEach(budgetRoutes, function(route) {
+    $routeProvider.when(route.path, route.options);
+  });
+});
 
 return module.name;
 

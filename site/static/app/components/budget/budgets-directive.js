@@ -10,9 +10,7 @@ define([], function() {
 
 'use strict';
 
-var deps = ['AlertService', 'BudgetService'];
-return {budgets: deps.concat(factory)};
-
+/* @ngInject */
 function factory(AlertService, BudgetService) {
   return {
     scope: {},
@@ -55,5 +53,7 @@ function factory(AlertService, BudgetService) {
     BudgetService.collection.getAll();
   }
 }
+
+return {budgets: factory};
 
 });

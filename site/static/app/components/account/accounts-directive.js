@@ -8,10 +8,7 @@
  */
 define([], function() {
 
-var deps = ['$rootScope', 'AccountService', 'AlertService', 'IdentityService',
-  'IdentityPreferencesService', 'PaymentTokenService', 'config'];
-return {accounts: deps.concat(factory)};
-
+/* @ngInject */
 function factory(
   $rootScope, AccountService, AlertService, IdentityService,
   IdentityPreferencesService, PaymentTokenService, config) {
@@ -63,5 +60,7 @@ function factory(
     PaymentTokenService.collection.getAll();
   }
 }
+
+return {accounts: factory};
 
 });

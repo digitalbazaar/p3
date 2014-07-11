@@ -5,11 +5,7 @@
  */
 define([], function() {
 
-var deps = [
-  '$rootScope', 'AccountService', 'AlertService', 'IdentityService',
-  'ModalService'];
-return {addCreditLineModal: deps.concat(factory)};
-
+/* @ngInject */
 function factory(
   $rootScope, AccountService, AlertService, IdentityService, ModalService) {
   return ModalService.directive({
@@ -84,5 +80,7 @@ function factory(
     };
   }
 }
+
+return {addCreditLineModal: factory};
 
 });

@@ -5,11 +5,7 @@
  */
 define(['angular'], function(angular) {
 
-var deps = [
-  'AccountService', 'AlertService', 'ModalService',
-  'TransactionService', 'config'];
-return {depositModal: deps.concat(factory)};
-
+/* @ngInject */
 function factory(
   AccountService, AlertService, ModalService, TransactionService, config) {
   return ModalService.directive({
@@ -154,5 +150,7 @@ function factory(
     };
   }
 }
+
+return {depositModal: factory};
 
 });

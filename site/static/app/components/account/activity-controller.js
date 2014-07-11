@@ -5,12 +5,7 @@
  */
 define(['angular'], function(angular) {
 
-var deps = [
-  '$timeout',
-  'AlertService', 'IdentityService', 'ResourceService',
-  'TransactionService', 'config'];
-return {ActivityController: deps.concat(factory)};
-
+/* @ngInject */
 function factory(
   $timeout, AlertService, IdentityService, ResourceService,
   TransactionService, config) {
@@ -145,5 +140,7 @@ function factory(
     });
   }
 }
+
+return {ActivityController: factory};
 
 });

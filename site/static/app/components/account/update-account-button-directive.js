@@ -5,9 +5,7 @@
  */
 define([], function() {
 
-var deps = ['AccountService', 'AlertService', 'IdentityService', 'config'];
-return {updateAccountButton: deps.concat(factory)};
-
+/* @ngInject */
 function factory(AccountService, AlertService, IdentityService, config) {
   return {
     scope: {account: '=', callback: '&'},
@@ -38,5 +36,7 @@ function factory(AccountService, AlertService, IdentityService, config) {
     };
   }
 }
+
+return {updateAccountButton: factory};
 
 });

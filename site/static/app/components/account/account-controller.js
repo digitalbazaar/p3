@@ -7,12 +7,12 @@
  */
 define([], function() {
 
-var deps = ['$scope', 'config'];
-return {AccountController: deps.concat(factory)};
-
+/* @ngInject */
 function factory($scope, config) {
   $scope.model = {};
   $scope.account = config.data.account;
 }
+
+return {AccountController: factory};
 
 });

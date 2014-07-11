@@ -5,9 +5,7 @@
  */
 define([], function() {
 
-var deps = [];
-return {accountBalanceSummary: deps.concat(factory)};
-
+/* @ngInject */
 function factory() {
   return {
     scope: {
@@ -19,7 +17,7 @@ function factory() {
     link: Link
   };
 
-  function Link(scope, element, attrs) {
+  function Link(scope) {
     var model = scope.model = {};
     scope.$watch('account', function(account) {
       // get balance and credit limit
@@ -40,5 +38,7 @@ function factory() {
     }, true);
   }
 }
+
+return {accountBalanceSummary: factory};
 
 });

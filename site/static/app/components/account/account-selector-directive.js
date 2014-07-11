@@ -5,10 +5,8 @@
  */
 define([], function() {
 
-var deps = ['AccountService', 'IdentityService', 'PaymentTokenService'];
-return {accountSelector: deps.concat(factory)};
-
-function factory(AccountService, IdentityService, PaymentTokenService) {
+/* @ngInject */
+function factory(AccountService, PaymentTokenService) {
   return {
     scope: {
       selected: '=',
@@ -108,5 +106,7 @@ function factory(AccountService, IdentityService, PaymentTokenService) {
     AccountService.collection.getAll();
   }
 }
+
+return {accountSelector: factory};
 
 });

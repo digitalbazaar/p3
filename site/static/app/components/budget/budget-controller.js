@@ -17,7 +17,11 @@ function factory(
   RefreshService, config) {
   var self = this;
 
-  self.state = BudgetService.state;
+  self.modals = {};
+  self.state = {
+    accounts: AccountService.state,
+    budgets: BudgetService.state
+  };
   self.budget = null;
   self.account = null;
   self.vendors = BudgetService.vendors;

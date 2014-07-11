@@ -1,0 +1,139 @@
+<dl class="dl-horizontal">
+  <dt>Id</dt>
+  <dd>
+    <ul class="unstyled">
+      <li>{{model.budget.id}}</li>
+    </ul>
+  </dd>
+
+  <dt>Label</dt>
+  <dd>
+    <ul class="unstyled">
+      <li>{{model.budget.label}}</li>
+    </ul>
+  </dd>
+
+  <dt>Total Amount</dt>
+  <dd>
+    <ul class="unstyled">
+      <li class="money">
+        <span class="currency">USD</span>
+        <span class="money right" title="USD ${{model.budget.amount}}">
+          {{model.budget.amount | floor | currency:'$'}}
+        </span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>Current Balance</dt>
+  <dd>
+    <ul class="unstyled">
+      <li class="money">
+        <span class="currency">USD</span>
+        <span class="money right" title="USD ${{model.budget.balance}}">
+          {{model.budget.balance | floor | currency:'$'}}
+        </span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>Max Per Use</dt>
+  <dd>
+    <ul class="unstyled">
+      <li class="money">
+        <span class="currency">USD</span>
+        <span class="money right" title="USD ${{model.budget.sysMaxPerUse}}">
+          {{model.budget.sysMaxPerUse | floor | currency:'$'}}
+        </span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>Refill</dt>
+  <dd>
+    <ul class="unstyled">
+      <li data-ng-switch="model.getRefreshDuration(model.budget)">
+        <span data-ng-switch-when="never">Never</span>
+        <span data-ng-switch-when="PT1H">Hourly</span>
+        <span data-ng-switch-when="P1D">Daily</span>
+        <span data-ng-switch-when="P1W">Weekly</span>
+        <span data-ng-switch-when="P1M">Monthly</span>
+        <span data-ng-switch-when="P1Y">Yearly</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>Last Refreshed</dt>
+  <dd>
+    <ul class="unstyled">
+      <li>{{model.getLastRefresh(model.budget) | date:'medium'}}</li>
+    </ul>
+  </dd>
+
+  <dt>Expires</dt>
+  <dd>
+    <ul class="unstyled">
+      <li data-ng-switch="model.getExpiration(model.budget)">
+        <span data-ng-switch-when="never">Never</span>
+        <span data-ng-switch-default>{{model.getExpiration(model.budget) | date:'medium'}}</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>Source</dt>
+  <dd>
+    <ul class="unstyled">
+      <li>
+        <div data-account-selector data-selected="model.account"
+          data-invalid="model.invalidAccount" data-fixed="true"
+          data-instant-transfer-deposit="ignore"></div>
+      </li>
+    </ul>
+  </dd>
+
+  <dt>Vendors</dt>
+  <dd>
+    <ul class="unstyled">
+      <li data-ng-show="model.state.budgets.loading || model.budget.vendor.length > 0">
+      <table class="table table-condensed">
+        <thead>
+          <tr>
+            <th class="name">Vendor</th>
+            <th class="name">Website</th>
+            <th class="action">Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr data-ng-repeat="vendor in model.vendors[model.budget.id].vendors | orderBy:'label'"
+          class="vendor" data-fadeout="vendor.deleted">
+          <!-- Label -->
+          <td class="name">
+            <a href="{{vendor.id}}">{{vendor.label || vendor.id}}</a>
+          </td>
+          <td class="name">
+            <a data-ng-show="vendor.url" href="{{vendor.url}}">{{vendor.url}}</a>
+            <span data-ng-hide="vendor.url">&nbsp;</span>
+          </td>
+          <!-- Delete -->
+          <td class="action">
+            <button class="btn btn-danger" title="Delete" data-ng-click="model.deleteVendor(vendor)"><i class="icon-remove"></i></button>
+          </td>
+        </tr>
+        </tbody>
+        <tfoot data-ng-show="model.state.budgets.loading">
+          <tr>
+            <td colspan="5" style="text-align: center">
+              <span class="center">
+                <span data-spinner="model.state.budgets.loading" data-spinner-class="table-spinner"></span>
+              </span>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+      </li>
+      <li data-ng-show="!model.state.budgets.loading && model.budget.vendor.length == 0">
+      You have no vendors configured for this budget.
+      </li>
+    </ul>
+  </dd>
+</dl>

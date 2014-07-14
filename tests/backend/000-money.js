@@ -1,12 +1,15 @@
 /*
- * Copyright (c) 2012-2013 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2012-2014 Digital Bazaar, Inc. All rights reserved.
  */
+
+'use strict';
+
+// FIXME: libdir crazy
 var _ = require('underscore');
 var payswarm = {
-  money: require(GLOBAL.__libdir + '/payswarm-auth/money', true),
-  tools: require(GLOBAL.__libdir + '/payswarm-auth/tools', true)
+  money: require(GLOBAL.__libdir + '/../../payswarm-auth/lib/payswarm-auth/money', true),
+  tools: require(GLOBAL.__libdir + '/../../payswarm-auth/lib/payswarm-auth/tools', true)
 };
-var should = require('should');
 var Money = payswarm.money.Money;
 
 // convert money string into a normalized string for use in assert calls

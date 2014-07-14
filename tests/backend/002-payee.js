@@ -1,15 +1,20 @@
 /*
- * Copyright (c) 2012-2013 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2012-2014 Digital Bazaar, Inc. All rights reserved.
  */
+
+'use strict';
+
+// FIXME: libdir crazy
+
 // use locally-configured jsonld
-var jsonld = require(GLOBAL.__libdir + '/payswarm-auth/jsonld', true);
+var jsonld = require(GLOBAL.__libdir + '/../../payswarm-auth/lib/payswarm-auth/jsonld', true);
 var payswarm = {
-  money: require(GLOBAL.__libdir + '/payswarm-auth/money', true),
-  tools: require(GLOBAL.__libdir + '/payswarm-auth/tools', true)
+  money: require(GLOBAL.__libdir + '/../../payswarm-auth/lib/payswarm-auth/money', true),
+  tools: require(GLOBAL.__libdir + '/../../payswarm-auth/lib/payswarm-auth/tools', true)
 };
 var _ = require('underscore');
 var Money = payswarm.money.Money;
-var should = require('should');
+var should = GLOBAL.should;
 
 // convert money string into a normalized string for use in assert calls
 function _m(ms) {

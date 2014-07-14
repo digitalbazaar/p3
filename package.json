@@ -48,6 +48,7 @@
   },
   "devDependencies": {
     "grunt-contrib-jshint": "^0.10.0",
+    "json-schema": "git://github.com/digitalbazaar/json-schema.git",
     "payswarm": "~0.10.6",
     "visionmedia-jscoverage": "~1.0.0"
   },

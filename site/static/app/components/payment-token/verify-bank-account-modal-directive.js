@@ -115,7 +115,7 @@ function factory(
           AlertService.add('error', {
             message: 'The verification amounts you entered do not match ' +
               'what is on record for your bank account.'
-          })
+          });
           // FIXME: ugly
           // synthesize validation error for UI
           err = {

@@ -37,8 +37,8 @@ function factory(
     model.fullyBackedCredit = (creditLimit - backedAmount) <= 0;
     model.creditDisabled = !!account.sysDisabled;
 
-    model.accountVisibility = (account.sysPublic.length === 0
-      ? 'hidden' : 'public');
+    model.accountVisibility = (
+      account.sysPublic.length === 0 ? 'hidden' : 'public');
 
     // storage for backupSource object
     // backend needs just a list of ids

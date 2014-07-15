@@ -1,49 +1,111 @@
 <div class="section section-recent-transactions">
   <h3 class="headline">
-    Recent Transactions
+    <span data-ng-show="model.recent">Recent Transactions</span>
+    <span data-ng-hide="model.recent">Transactions</span>
+
+    <span data-ng-hide="model.recent || !model.controls || model.state.txns.loading" class="btn-group pull-right">
+      <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
+        <i class="icon-reorder"></i>
+      </a>
+      <ul class="dropdown-menu pull-right">
+        <li>
+          <a data-ng-click="model.showControls=!model.showControls"><i class="icon-wrench"></i> Query Controls</a>
+        </li>
+      </ul>
+    </span>
+
     <span data-ng-show="model.state.txns.loading" class="pull-right">
       <span data-spinner="model.state.txns.loading" data-spinner-class="h3-spinner"></span>
     </span>
   </h3>
-  <table class="table table-condensed" data-ng-show="!model.state.txns.loading && model.txns.length > 0">
+
+  <div data-ng-show="model.controls && model.showControls" class="well account-activity-well">
+    <button type="button" class="close" data-ng-click="model.showControls=false">&times;</button>
+    <form class="form-horizontal account-activity-form" action="">
+      <fieldset>
+        <div class="control-group">
+          <label class="control-label" for="dateField">Start Date</label>
+          <div class="controls">
+            <input name="dateField" type="text"
+            data-ng-model="model.datePickerDate"
+            data-datepicker-popup="yyyy/MM/dd" data-ng-change="model.dateChanged()"
+            data-is-open="model.datePickerOpen"
+            data-ui-keyup="{'enter esc': 'model.dateQuitKeyPressed($event)'}" />
+            <button class="btn" ng-click="model.openDatePicker()"><i class="icon-calendar"></i></button>
+          </div>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+
+  <span data-ng-hide="model.recent">Account activity on or before {{model.startDate | date:'medium'}}.</span>
+
+  <table class="table table-condensed" data-ng-class="{'table-hover': model.details}" data-ng-show="!model.state.txns.loading && model.table.length > 0">
     <thead>
       <tr>
-        <th class="date">Date</th>
+        <th class="compact" data-ng-show="model.details"></th>
+        <th class="date compact nowrap">Date</th>
         <th class="name">Item</th>
         <th class="money">Amount</th>
       </tr>
     </thead>
     <tbody>
-      <tr data-ng-repeat="txn in model.txns" class="txn"
-        data-ng-class="(!txn.settled && !txn.voided && 'info') || (txn.voided && 'error')"
-        data-fadein="txn.added">
+      <tr data-ng-repeat="row in model.table"
+        data-ng-class="{
+          info: (model.getRowType(row) != 'transfer' && !row.settled && !row.voided) || (model.getRowType(row) == 'transfer' && !row.txn.settled && !row.txn.voided),
+          error: row.voided
+        }"
+        data-ng-hide="row.hidden"
+        data-ng-click="model.toggleDetails(row)">
+        <!-- icon -->
+        <td class="compact" data-ng-show="model.details" data-ng-switch="model.getRowType(row)">
+          <span data-ng-switch-when="transfer">&nbsp;</span>
+          <i data-ng-switch-default data-ng-show="!row.detailsVisible" class="icon-expand"></i>
+          <i data-ng-switch-default data-ng-show="row.detailsVisible" class="icon-collapse"></i>
+        </td>
         <!-- Date -->
-        <td data-ng-switch="model.getTxnType(txn)">
-          <span data-ng-switch-when="deposit" class="date">{{txn.created | date:'medium'}}</span>
-          <span data-ng-switch-when="contract" class="date">{{txn.created | date:'medium'}}</span>
-          <span data-ng-switch-when="withdrawal" class="date">{{txn.created | date:'medium'}}</span>
+        <td class="compact nowrap" data-ng-switch="model.getRowType(row)">
+          <span data-ng-switch-when="deposit" class="date">{{row.created | date:'medium'}}</span>
+          <span data-ng-switch-when="contract" class="date">{{row.created | date:'medium'}}</span>
+          <span data-ng-switch-when="withdrawal" class="date">{{row.created | date:'medium'}}</span>
+          <span data-ng-switch-when="transfer">&nbsp;</span>
         </td>
         <!-- Item -->
-        <td data-ng-switch="model.getTxnType(txn)">
-          <span data-ng-switch-when="deposit" class="name"><a href="{{txn.id}}"><i class="icon-plus"></i> Deposit</a> <span data-ng-show="!(txn.settled || txn.voided)" class="label label-info">Pending</span><span data-ng-show="txn.voided" class="label label-important">Voided</span></span>
-          <span data-ng-switch-when="contract" class="name"><a href="{{txn.id}}"><i class="icon-shopping-cart"></i> {{txn.asset.title}}</a> <span data-ng-show="!(txn.settled || txn.voided)" class="label label-info">Pending</span><span data-ng-show="txn.voided" class="label label-important">Voided</span></span>
-          <span data-ng-switch-when="withdrawal" class="name"><a href="{{txn.id}}"><i class="icon-minus"></i> Withdrawal</a> <span data-ng-show="!(txn.settled || txn.voided)" class="label label-info">Pending</span><span data-ng-show="txn.voided" class="label label-important">Voided</span></span>
+        <td data-ng-switch="model.getRowType(row)">
+          <span data-ng-switch-when="deposit" class="name"><a href="{{row.id}}"><i class="icon-plus"></i> Deposit</a>
+            <span data-ng-show="!(row.settled || row.voided)" class="label label-info">Pending</span>
+            <span data-ng-show="row.voided" class="label label-important">Voided</span>
+          </span>
+          <span data-ng-switch-when="contract" class="name"><a href="{{row.id}}"><i class="icon-shopping-cart"></i> {{row.asset.title}}</a>
+            <span data-ng-show="!(row.settled || row.voided)" class="label label-info">Pending</span>
+            <span data-ng-show="row.voided" class="label label-important">Voided</span>
+          </span>
+          <span data-ng-switch-when="withdrawal" class="name"><a href="{{row.id}}"><i class="icon-minus"></i> Withdrawal</a>
+            <span data-ng-show="!(row.settled || row.voided)" class="label label-info">Pending</span>
+            <span data-ng-show="row.voided" class="label label-important">Voided</span>
+          </span>
+          <span data-ng-switch-when="transfer">
+            <i class="icon-info-sign" title="Details"></i> {{row.comment}}<br/>
+            <i class="icon-minus" title="Source Account"></i> <a data-ng-show="row.sourceLink" href="{{row.source}}">{{row.source}}</a><span data-ng-hide="row.sourceLink">{{row.source}}</span> <br/>
+            <i class="icon-plus" title="Destination Account"></i> <a data-ng-show="row.destinationLink" href="{{row.destination}}">{{row.destination}}</a><span data-ng-hide="row.destinationLink">{{row.destination}}</span>
+          </span>
         </td>
         <!-- Amount -->
         <td class="money">
-          <span data-money="txn"></span>
+          <span data-money="row"></span>
         </td>
       </tr>
     </tbody>
     <tfoot>
       <tr data-ng-hide="model.state.txns.loading">
-        <td colspan="5">
-          <a href="accounts?view=activity" class="btn pull-right"><i class="icon-list"></i> More <i class="icon-chevron-right"></i></a>
+        <td colspan="{{model.details ? '4' : '3'}}">
+          <a data-ng-show="model.moreMode == 'link'" href="accounts" class="btn pull-right"><i class="icon-list"></i> More <i class="icon-chevron-right"></i></a>
+          <button data-ng-show="model.moreMode == 'load' && !model.txns.state.loading" data-ng-click="model.getMore()" class="btn pull-right"><i class="icon-list"></i> More <i class="icon-chevron-right"></i></a>
         </td>
       </tr>
     </tfoot>
   </table>
-  <div data-ng-show="!model.state.txns.loading && model.txns.length == 0">
+  <div data-ng-show="!model.state.txns.loading && model.table.length == 0">
     <p class="center">You have no recent transactions for this identity.</p>
   </div>
 </div>

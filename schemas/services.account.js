@@ -4,18 +4,6 @@ var schemas = bedrock.validation.schemas;
 var currency = require('./currency');
 var money = require('./money');
 
-var getAccountsQuery = {
-  type: 'object',
-  properties: {
-    view: {
-      required: false,
-      type: 'string',
-      enum: ['activity']
-    }
-  },
-  additionalProperties: true
-};
-
 var postAccounts = {
   type: 'object',
   properties: {
@@ -32,18 +20,6 @@ var postAccounts = {
     currency: currency()
   },
   additionalProperties: false
-};
-
-var getAccountQuery = {
-  type: 'object',
-  properties: {
-    view: {
-      required: false,
-      type: 'string',
-      enum: ['activity']
-    }
-  },
-  additionalProperties: true
 };
 
 var postAccount = {
@@ -108,14 +84,8 @@ var postAccountBackupSource = {
   additionalProperties: false
 };
 
-module.exports.getAccountsQuery = function() {
-  return getAccountsQuery;
-};
 module.exports.postAccounts = function() {
   return postAccounts;
-};
-module.exports.getAccountQuery = function() {
-  return getAccountQuery;
 };
 module.exports.postAccount = function() {
   return postAccount;

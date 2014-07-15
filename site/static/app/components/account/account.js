@@ -11,6 +11,7 @@ define([
   './account-balance-directive',
   './account-balance-summary-directive',
   './account-controller',
+  './account-routes',
   './account-selector-directive',
   './account-service',
   './accounts-directive',
@@ -27,6 +28,7 @@ define([
   accountBalanceDirective,
   accountBalanceSummaryDirective,
   accountController,
+  accountRoutes,
   accountSelectorDirective,
   accountService,
   accountsDirective,
@@ -60,6 +62,14 @@ module.directive(depositModalDirective);
 module.directive(editAccountModalDirective);
 module.directive(updateAccountButtonDirective);
 module.directive(withdrawModalDirective);
+
+module.config(['$routeProvider',
+  function($routeProvider) {
+    angular.forEach(accountRoutes, function(route) {
+      $routeProvider.when(route.path, route.options);
+    });
+  }
+]);
 
 return module.name;
 

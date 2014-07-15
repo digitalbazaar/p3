@@ -1,0 +1,58 @@
+<div class="container ng-cloak" data-ng-controller="AccountController as model">
+
+  <div class="row">
+    <div class="section span12">
+      <h3 class="headline">
+        Financial Account
+        <span data-ng-hide="!model.account || model.state.accounts.loading" class="btn-group pull-right">
+          <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
+            <i class="icon-reorder"></i>
+          </a>
+          <ul class="dropdown-menu pull-right">
+            <li>
+              <a data-ng-click="model.modals.account=model.account; model.modals.showEditAccountModal=true">
+                <i class="icon-pencil"></i> Edit
+              </a>
+            </li>
+            <li>
+              <a data-ng-click="model.modals.account=model.account; model.modals.showDeleteAccountAlert=true"
+                class="btn-danger">
+                <i class="icon-remove"></i> Delete
+              </a>
+            </li>
+          </ul>
+        </span>
+        <span data-ng-show="model.state.accounts.loading" class="pull-right">
+          <span data-spinner="model.state.accounts.loading" data-spinner-class="h3-spinner"></span>
+        </span>
+      </h3>
+      <div class="alert alert-error" data-ng-hide="model.account || model.state.accounts.loading">
+        <strong>Error!</strong> Account not found or access not allowed.
+      </div>
+    </div>
+  </div>
+
+  <div class="row" data-ng-show="model.account">
+    <div class="title-section span12">
+      <h1 class="headline" data-ng-bind="model.account.label"></h1>
+      <hr/>
+    </div>
+  </div>
+
+  <div class="row" data-ng-show="model.account">
+    <div data-ng-show="!model.state.accounts.loading" class="section span12">
+      <div data-ng-include="'/app/components/account/account-view.html'"></div>
+    </div>
+  </div>
+
+  <div class="row" data-ng-show="model.account">
+    <div class="span12">
+      <div data-transactions data-account="model.account" data-details="true" data-more-mode="'load'" data-controls="true"></div>
+    </div>
+  </div>
+
+  <!-- modals -->
+  <div data-edit-account-modal="model.modals.showEditAccountModal"
+    data-account="model.modals.account"></div>
+
+</div>

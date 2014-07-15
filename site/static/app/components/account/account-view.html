@@ -1,0 +1,39 @@
+<dl class="dl-horizontal">
+  <dt>Id</dt>
+  <dd>
+    <ul class="unstyled">
+      <li>{{model.account.id}}</li>
+    </ul>
+  </dd>
+
+  <dt>Label</dt>
+  <dd>
+    <ul class="unstyled">
+      <li>{{model.account.label}}</li>
+    </ul>
+  </dd>
+
+  <dt data-ng-show="model.account.sysStatus">Status</dt>
+  <dd data-ng-show="model.account.sysStatus">
+    <ul class="unstyled">
+      <li>{{model.account.sysStatus}}</li>
+    </ul>
+  </dd>
+
+  <dt data-ng-show="model.account.balance">Balance</dt>
+  <dd data-ng-show="model.account.balance">
+    <ul class="unstyled">
+      <li>
+        <div data-account-balance-summary="model.account" data-expand="model.expandAccountBalance"></div>
+        <div data-account-balance-details="model.account" data-expand="model.expandAccountBalance"></div>
+      </li>
+    </ul>
+  </dd>
+
+  <dt data-ng-show="model.account.owner">Owner</dt>
+  <dd data-ng-show="model.account.owner">
+    <ul class="unstyled">
+      <li><a href="{{model.account.owner}}">{{model.account.owner}}</a></li>
+    </ul>
+  </dd>
+</dl>

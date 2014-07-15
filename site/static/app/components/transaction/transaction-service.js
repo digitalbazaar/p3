@@ -10,13 +10,21 @@ function factory(
   $http, $rootScope, ModelService, RefreshService, ResourceService) {
   var service = {};
 
+  service.createTxnsCollection = function(options) {
+    options = options || {};
+    options.url = options.url || '/transactions';
+    return new ResourceService.Collection(options);
+  };
+
   // create main transaction collection
-  service.collection = new ResourceService.Collection({
-    url: '/transactions'
-  });
+  service.collection = service.createTxnsCollection();
+
+  // create recent transactions collection
   service.accounts = {};
-  service.recentCollection = new ResourceService.Collection({
-    url: '/transactions?limit=10',
+  service.recentCollection = service.createTxnsCollection({
+    query: {
+      limit: 10
+    },
     finishLoading: _updateRecent
   });
   service.recentTxns = service.recentCollection.storage;
@@ -35,6 +43,7 @@ function factory(
    * the server maximum-permitted will be used.
    *
    * @param options the options to use:
+   *   [collection]: collection object (default: main collection)
    *   [createdStart]: new Date('2012-03-01'),
    *   [account]: 'https://example.com/i/foo/accounts/bar',
    *   [previous]: 'https://example.com/transactions/1.1.a',
@@ -60,8 +69,10 @@ function factory(
     if(options.limit) {
       query.limit = options.limit;
     }
-    return service.collection.getAll({params: query}).then(function() {
-      if(options.account) {
+    var collection = options.collection || service.collection;
+    return collection.getAll({params: query}).then(function() {
+      // update account info if account specified and using main collection
+      if(options.account && options.collection === service.collection) {
         _updateAccount(options.account, service.collection.storage);
       }
     });

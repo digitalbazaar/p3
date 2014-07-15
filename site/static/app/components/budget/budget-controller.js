@@ -37,7 +37,7 @@ function factory(
 
       // wait to delete so modal can transition
       $timeout(function() {
-        BudgetService.delVendor(config.data.budgetId, vendor.id, function(err) {
+        BudgetService.delVendor(self.budget.id, vendor.id, function(err) {
           if(err) {
             vendor.deleted = false;
           }

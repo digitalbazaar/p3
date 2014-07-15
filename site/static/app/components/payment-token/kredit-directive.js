@@ -5,6 +5,8 @@
  */
 define(['jquery'], function($) {
 
+'use strict'; 
+
 /* @ngInject */
 function factory() {
   // FIXME: remove once webkit non-windows font difference is fixed

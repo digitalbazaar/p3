@@ -5,6 +5,8 @@
  */
 define(['angular', 'async'], function(angular, async) {
 
+'use strict'; 
+
 /* @ngInject */
 function factory($scope, HostedAssetService, HostedListingService) {
   $scope.model = {};

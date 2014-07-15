@@ -5,6 +5,8 @@
  */
 define(['iso8601'], function(iso8601) {
 
+'use strict'; 
+
 /* @ngInject */
 function factory(
   $http, $rootScope, IdentityService, RefreshService,

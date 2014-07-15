@@ -5,6 +5,8 @@
  */
 define([], function() {
 
+'use strict'; 
+
 /* @ngInject */
 function factory(AlertService, PaymentTokenService) {
   return {

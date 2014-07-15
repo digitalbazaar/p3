@@ -5,6 +5,8 @@
  */
 define(['angular'], function(angular) {
 
+'use strict'; 
+
 /* @ngInject */
 function factory(
   AddressService, AlertService, IdentityService, ModalService, config) {

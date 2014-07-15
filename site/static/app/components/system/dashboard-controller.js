@@ -5,6 +5,8 @@
  */
 (function($) {
 
+'use strict'; 
+
 var data;
 
 // Used here:

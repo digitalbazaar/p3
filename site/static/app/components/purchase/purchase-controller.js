@@ -7,6 +7,8 @@
  */
 define([], function() {
 
+'use strict'; 
+
 /* @ngInject */
 function factory(
   $scope, $sce, AccountService, AddressService, AlertService,

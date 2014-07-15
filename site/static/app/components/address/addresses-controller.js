@@ -8,6 +8,8 @@
  */
 define([], function() {
 
+'use strict'; 
+
 /* @ngInject */
 function factory($scope, AddressService, AlertService, IdentityService) {
   var self = this;

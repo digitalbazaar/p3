@@ -5,6 +5,8 @@
  */
 define([], function() {
 
+'use strict'; 
+
 return {
   routes: [{
     path: '/i/:identity/tools',

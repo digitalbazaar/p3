@@ -5,6 +5,8 @@
  */
 define([], function() {
 
+'use strict'; 
+
 /* @ngInject */
 function factory(AlertService, HostedAssetService, ModalService, config) {
   return ModalService.directive({

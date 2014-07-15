@@ -5,6 +5,8 @@
  */
 define([], function() {
 
+'use strict'; 
+
 /* @ngInject */
 function factory(AccountService, AlertService, IdentityService, config) {
   return {

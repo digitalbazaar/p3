@@ -5,6 +5,8 @@
  */
 define([], function() {
 
+'use strict'; 
+
 /* @ngInject */
 function factory($http, $rootScope, IdentityService, ResourceService) {
   var service = {};

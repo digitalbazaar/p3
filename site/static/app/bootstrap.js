@@ -7,6 +7,8 @@
  */
 define([], function() {
 
+'use strict'; 
+
 require.config({
   paths: {
     Blob: 'polyfill/Blob',

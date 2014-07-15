@@ -33,7 +33,6 @@ function factory(
         $scope.$apply();
       });
   })();
->>>>>>> Account and Transaction updates.
 }
 
 return {AccountController: factory};

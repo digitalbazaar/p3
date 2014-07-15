@@ -12,14 +12,14 @@ define(['angular', 'jsonld'], function(angular, jsonld) {
 
 /* @ngInject */
 function factory(
-  $timeout, IdentityService, ModelService, RefreshService,
-  TransactionService) {
+  $timeout, IdentityService, RefreshService, TransactionService) {
   return {
     scope: {
       account: '=',
       controls: '=',
       details: '=',
       moreMode: '=',
+      // recent for all accounts
       recent: '='
     },
     templateUrl: '/app/components/transaction/transactions-view.html',
@@ -29,19 +29,13 @@ function factory(
   function Link(scope) {
     var model = scope.model = {};
     // FIXME update on changes
+    model.account = scope.account || null;
+    model.recent = scope.recent || false;
     model.controls = scope.controls || false;
     model.details = scope.details || false;
     model.moreMode = scope.moreMode || 'load';
-    model.recent = scope.recent || false;
     model.limit = 10;
 
-    var query = {};
-    if(model.recent) {
-      query.limit = 10;
-    }
-    if(scope.account) {
-      query.account = scope.account.id;
-    }
     // setup default transaction collection
     model.txns = TransactionService.createTxnsCollection({
       finishLoading: _updateTable
@@ -51,12 +45,10 @@ function factory(
     };
 
     scope.$watch('account', function(account, oldAccount) {
-      if(account !== oldAccount) {
-        model.txns.clear();
-      }
-      if(typeof account === 'undefined') {
+      if(!account || model.recent) {
         return;
       }
+      model.account = account;
       model.getMore();
     });
 
@@ -105,8 +97,8 @@ function factory(
       var params = {
         limit: model.limit
       };
-      if(scope.account) {
-        params.account = scope.account.id;
+      if(!model.recent && model.account) {
+        params.account = model.account.id;
       }
       // previous txns exist, get next page
       if(model.txns.storage.length > 0) {
@@ -145,7 +137,9 @@ function factory(
     };
 
     function _updateTable() {
-      var table = [];
+      // clear table
+      model.table.splice(0, model.table.length);
+      // process each transaction
       angular.forEach(model.txns.storage, function(txn) {
         // skip txns w/insufficent funds
         if(txn.voided &&
@@ -153,10 +147,10 @@ function factory(
           return;
         }
 
-        table.push(txn);
+        model.table.push(txn);
         // add transfers if showing details
         if(model.details) {
-          var txnIndex = table.length - 1;
+          var txnIndex = model.table.length - 1;
           angular.forEach(txn.transfer, function(transfer) {
             // denormalized data and indexing used to avoid circular references
             transfer.txn = {
@@ -189,12 +183,16 @@ function factory(
               }
             }
             transfer.hidden = true;
-            table.push(transfer);
+            model.table.push(transfer);
           });
         }
       });
-      ModelService.replaceArray(model.table, table);
       scope.$apply();
+    }
+
+    // get initial data in recent mode
+    if(model.recent) {
+      model.getMore();
     }
 
     RefreshService.register(scope, model.txns);

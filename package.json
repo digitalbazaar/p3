@@ -26,7 +26,7 @@
     "almond": "~0.2.6",
     "async": "~0.2.8",
     "bcrypt": "^0.7.6",
-    "bignumber.js": "~1.2.1",
+    "bignumber.js": "^1.4.1",
     "bossgeo": "~0.0.7",
     "cube": "~0.2.0",
     "cubism": "^1.6.0",

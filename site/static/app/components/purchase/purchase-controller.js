@@ -148,7 +148,9 @@ function factory(
     // load data in parallel
     Promise.all([
       AddressService.getAll({force: true}),
-      AccountService.collection.getAll({force: true})
+      AccountService.collection.getAll({force: true}),
+      // ensure budgets are up-to-date
+      BudgetService.collection.getAll({force: true})
     ]).then(function(results) {
       // check pre-conditions serially so only one modal is shown at a time
       var addresses = results[0];
@@ -167,9 +169,6 @@ function factory(
           message: 'Account required to make a purchase.'
         };
       }
-
-      // ensure budgets are up-to-date
-      return BudgetService.collection.getAll({force: true});
     }).then(function() {
       // get a quote now; this can still fail if data is changed between the
       // checks and quote

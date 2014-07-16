@@ -15,7 +15,7 @@
         <div class="controls">
           <div class="input-append">
             <input type="text" name="address-region"
-              data-ng-model="model.addressRegion"
+              data-ng-model="model.address.addressRegion"
               data-track-state="model.help.addressRegion" />
             <button class="btn" data-help-toggle="model.help.addressRegion">
               <i class="icon-question-sign"></i>
@@ -29,7 +29,7 @@
       <div class="control-group" data-binding="addressCountry">
         <label class="control-label" for="address-country">Country</label>
         <div class="controls">
-          <select name="country" data-ng-model="model.addressCountry">
+          <select name="country" data-ng-model="model.address.addressCountry">
               <option data-ng-repeat="country in model.countries"
                 value="{{country.code}}"
                 data-ng-selected="model.addressCountry == country.code">{{country.name}}</option>
@@ -44,6 +44,6 @@
       data-spinner-class="prepend-btn-spinner"></span>
     <button class="btn btn-primary"
       data-ng-disabled="model.state.loading"
-      data-ng-click="model.setRegulatoryLocality()"><i class="icon-ok"></i> Continue</button>
+      data-ng-click="model.setRegulatoryAddress()"><i class="icon-ok"></i> Continue</button>
   </div>
 </div>

@@ -19,6 +19,7 @@ function factory(
 
   function Link(scope) {
     var model = scope.model = {};
+    model.address = {};
     model.countries = config.constants.countries;
     model.data = config.data;
     model.identity = IdentityService.identity;
@@ -32,13 +33,15 @@ function factory(
     model.setRegulatoryLocality = function() {
       AlertService.clearModalFeedback(scope);
 
-      var locality = {
+      var data = {
         '@context': config.data.contextUrl,
-        addressRegion: model.addressRegion,
-        addressCountry: model.addressCountry
+        address: {
+          addressRegion: model.address.addressRegion,
+          addressCountry: model.address.addressCountry
+        }
       };
       model.state.loading = true;
-      AddressService.setRegulatoryLocality(locality).then(function() {
+      AddressService.setRegulatoryAddress(data).then(function() {
         // FIXME: allow user customization?
         // FIXME: actually probably need to move this to a backend service
         // (and maybe to the account service entirely) as accounts will need

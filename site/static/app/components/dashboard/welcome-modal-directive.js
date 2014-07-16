@@ -34,33 +34,27 @@ function factory(
       AlertService.clearModalFeedback(scope);
 
       var data = {
-        '@context': config.data.contextUrl,
         address: {
+          '@context': config.data.contextUrl,
+          type: 'Address',
           addressRegion: model.address.addressRegion,
           addressCountry: model.address.addressCountry
-        }
-      };
-      model.state.loading = true;
-      AddressService.setRegulatoryAddress(data).then(function() {
+        },
         // FIXME: allow user customization?
-        // FIXME: actually probably need to move this to a backend service
-        // (and maybe to the account service entirely) as accounts will need
-        // to be updated when this value changes anyway ... initial setting
-        // would only be different in that a default account gets created as
-        // a result
-        var account = {
+        account: {
           '@context': config.data.contextUrl,
           // FIXME: use default values from config
           label: 'Primary Account',
           sysSlug: 'primary',
           currency: 'USD',
           sysPublic: []
-        };
-        return AccountService.collection.add(account);
-      }).then(function(account) {
+        }
+      };
+      model.state.loading = true;
+      AddressService.setRegulatoryAddress(data).then(function() {
         model.state.loading = false;
         scope.$apply();
-        scope.modal.close(null, account);
+        scope.modal.close(null);
       }).catch(function(err) {
         model.state.loading = false;
         AlertService.add('error', err);

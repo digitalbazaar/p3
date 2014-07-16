@@ -7,7 +7,7 @@ define([
   'angular', 'async', 'forge/pki', 'FileSaver', 'zip', 'TypedArray', 'Blob'
 ], function(angular, async, pki, saveAs, zip) {
 
-'use strict'; 
+'use strict';
 
 /* @ngInject */
 function factory(AlertService, HostedAssetService, ModalService, config) {

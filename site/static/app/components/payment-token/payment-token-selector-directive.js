@@ -5,7 +5,7 @@
  */
 define(['angular'], function(angular) {
 
-'use strict'; 
+'use strict';
 
 /* @ngInject */
 function factory(AlertService, ModelService, PaymentTokenService) {

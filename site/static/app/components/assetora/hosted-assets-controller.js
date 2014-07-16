@@ -5,7 +5,7 @@
  */
 define(['angular', 'async'], function(angular, async) {
 
-'use strict'; 
+'use strict';
 
 /* @ngInject */
 function factory($scope, HostedAssetService, HostedListingService) {

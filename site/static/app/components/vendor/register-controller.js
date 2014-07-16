@@ -6,7 +6,7 @@
  */
 define([], function() {
 
-'use strict'; 
+'use strict';
 
 /* @ngInject */
 function factory(

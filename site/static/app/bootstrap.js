@@ -7,7 +7,7 @@
  */
 define([], function() {
 
-'use strict'; 
+'use strict';
 
 require.config({
   paths: {

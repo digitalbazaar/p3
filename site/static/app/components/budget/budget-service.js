@@ -5,7 +5,7 @@
  */
 define(['iso8601'], function(iso8601) {
 
-'use strict'; 
+'use strict';
 
 /* @ngInject */
 function factory(

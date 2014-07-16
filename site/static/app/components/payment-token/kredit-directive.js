@@ -5,7 +5,7 @@
  */
 define(['jquery'], function($) {
 
-'use strict'; 
+'use strict';
 
 /* @ngInject */
 function factory() {

@@ -184,6 +184,10 @@ function factory(
       // page now ready
       self.ready = true;
       $scope.$apply();
+    }).catch(function(err) {
+      AlertService.add('error', err);
+      $scope.$apply();
+      throw err;
     });
   }
 

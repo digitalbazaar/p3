@@ -1,0 +1,137 @@
+<dl class="dl-horizontal">
+  <dt>Id</dt>
+  <dd>
+    <ul class="unstyled">
+      <li>{{model.txn.id}}</li>
+    </ul>
+  </dd>
+
+  <dt>Type</dt>
+  <dd>
+    <ul class="unstyled">
+      <li data-ng-show="model.isContract">Contract</li>
+      <li data-ng-show="model.isDeposit">Deposit</li>
+      <li data-ng-show="model.isWithdrawal">Withdrawal</li>
+    </ul>
+  </dd>
+
+  <dt>Created</dt>
+  <dd>
+    <ul class="unstyled">
+      <li>{{model.txn.created | date:'medium'}}</li>
+    </ul>
+  </dd>
+
+  <dt data-ng-show="model.txn.voided">Voided</dt>
+  <dd data-ng-show="model.txn.voided">
+    <ul class="unstyled">
+      <li>{{model.txn.voided | date:'medium'}}</li>
+    </ul>
+  </dd>
+
+  <dt data-ng-show="model.txn.voided">Void Reason</dt>
+  <dd data-ng-show="model.txn.voided">
+    <ul class="unstyled" data-ng-switch="model.txn.voidReason">
+      <li data-ng-switch-when="payswarm.paymentGateway.Declined">
+        Transaction declined by the external payment gateway.
+      </li>
+      <li data-ng-switch-default>
+        {{model.txn.voidReason}}
+      </li>
+    </ul>
+  </dd>
+
+  <dt>Total Amount</dt>
+  <dd>
+    <ul class="unstyled">
+      <li><span data-money="model.txn"></span></li>
+    </ul>
+  </dd>
+
+  <dt data-ng-show="model.txn.triggeredBy && model.txn.triggerReason == 'InsufficientFunds'">Instant Transfer For</dt>
+  <dd data-ng-show="model.txn.triggeredBy && model.txn.triggerReason == 'InsufficientFunds'">
+    <ul class="unstyled">
+      <li><a href="{{model.txn.triggeredBy}}">{{model.txn.triggeredBy}}</a></li>
+    </ul>
+  </dd>
+
+  <dt data-ng-show="model.isContract">Asset</dt>
+  <dd data-ng-show="model.isContract">
+    <ul class="unstyled">
+      <li>
+        <a href="{{model.txn.asset.assetContent}}">{{model.txn.asset.title}}</a>
+        by {{model.txn.asset.creator.name}}
+      </li>
+    </ul>
+  </dd>
+
+  <dt data-ng-show="model.isContract && model.txn.assetProvider.id != model.txn.vendor.id">Provider</dt>
+  <dt data-ng-show="model.isContract && model.txn.assetProvider.id == model.txn.vendor.id">Provider/Vendor</dt>
+  <dd data-ng-show="model.isContract">
+    <ul class="unstyled">
+      <li><a href="{{model.txn.assetProvider.id}}">{{model.txn.assetProvider.label}}</a></li>
+    </ul>
+  </dd>
+
+  <dt data-ng-show="model.isContract && model.txn.assetProvider.id != model.txn.vendor.id">Vendor</dt>
+  <dd data-ng-show="model.isContract && model.txn.assetProvider.id != model.txn.vendor.id">
+    <ul class="unstyled">
+      <li><a href="{{model.txn.vendor.id}}">{{model.txn.vendor.label}}</a></li>
+    </ul>
+  </dd>
+
+  <dt data-ng-show="model.isContract && model.txn.license">License</dt>
+  <dd data-ng-show="model.isContract && model.txn.license">
+    <ul class="unstyled">
+      <li><pre>{{model.txn.license.licenseTemplate}}</pre></li>
+    </ul>
+  </dd>
+
+  <dt data-ng-show="model.txn.transfer">Transfers</dt>
+  <dd data-ng-show="model.txn.transfer">
+    <ul class="transfers">
+      <li data-ng-repeat="transfer in model.txn.transfer" class="transfer">
+        <ul class="unstyled">
+          <li>
+            <i class="icon-info-sign" title="Details"></i>
+            {{transfer.comment}}
+          </li>
+          <li>
+            <i class="icon-money" title="Amount"></i>
+            <span data-money="transfer"></span>
+          </li>
+          <li>
+            <i class="icon-minus" title="Source"></i>
+            <span data-ng-show="model.txn.source && transfer.source == model.txn.source.id">
+              {{model.txn.source.label}}
+              <span data-ng-show="model.txn.source.paymentMethod == 'CreditCard'">
+                (Credit Card: {{model.txn.source.cardNumber}})
+              </span>
+              <span data-ng-show="model.txn.source.paymentMethod == 'BankAccount'">
+                (Bank Account: {{model.txn.source.bankAccount}})
+              </span>
+            </span>
+            <span data-ng-hide="model.txn.source && transfer.source == model.txn.source.id">
+              <a href="{{transfer.source}}">{{transfer.source}}</a>
+            </span>
+          </li>
+          <li>
+            <i class="icon-plus" title="Destination Account"></i>
+            <span data-ng-show="model.txn.destination && transfer.destination == model.txn.destination.id">
+              {{model.txn.destination.label}}
+              <span data-ng-show="model.txn.destination.paymentMethod == 'CreditCard'">
+                (Credit Card: {{model.txn.destination.cardNumber}})
+              </span>
+              <span data-ng-show="model.txn.destination.paymentMethod == 'BankAccount'">
+                (Bank Account: {{model.txn.destination.bankAccount}})
+              </span>
+            </span>
+            <span data-ng-hide="model.txn.destination && transfer.destination == model.txn.destination.id">
+              <a href="{{transfer.destination}}">{{transfer.destination}}</a><br/>
+            </span>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </dd>
+</dl>

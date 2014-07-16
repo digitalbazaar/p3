@@ -8,14 +8,18 @@
 define([
   'angular',
   './money-directive',
+  './transaction-controller',
   './transaction-service',
   './transaction-details-directive',
+  './transaction-routes',
   './transactions-directive'
 ], function(
   angular,
   moneyDirective,
+  transactionController,
   transactionService,
   transactionDetailsDirective,
+  transactionRoutes,
   transactionsDirective
 ) {
 
@@ -24,9 +28,17 @@ define([
 var module = angular.module('app.transaction', []);
 
 module.directive(moneyDirective);
+module.controller(transactionController);
 module.service(transactionService);
 module.directive(transactionDetailsDirective);
 module.directive(transactionsDirective);
+
+/* @ngInject */                                                                  
+module.config(function($routeProvider) {
+  angular.forEach(transactionRoutes, function(route) {
+    $routeProvider.when(route.path, route.options);
+  });
+});
 
 return module.name;
 

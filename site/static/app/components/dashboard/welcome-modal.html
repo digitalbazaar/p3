@@ -1,0 +1,49 @@
+<div class="modal">
+  <div class="modal-header">
+    <h3>Welcome to {{model.data.siteTitle}}!</h3>
+  </div>
+  <div class="modal-body">
+    <div data-ng-include="'/app/components/util/demo-warning.html'"></div>
+    <p>Before you continue, please tell us the country and state or region of
+    your <strong>primary residence</strong>. We will use this information to
+    create a Financial Account for you that complies with your local
+    regulations.</p>
+    <form class="well form-horizontal" action="">
+    <fieldset>
+      <div class="control-group" data-binding="addressRegion">
+        <label class="control-label" for="address-region">State / Region</label>
+        <div class="controls">
+          <div class="input-append">
+            <input type="text" name="address-region"
+              data-ng-model="model.addressRegion"
+              data-track-state="model.help.addressRegion" />
+            <button class="btn" data-help-toggle="model.help.addressRegion">
+              <i class="icon-question-sign"></i>
+            </button>
+          </div>
+          <p data-fade-toggle="model.help.addressRegion.show" class="help-block">
+            Please enter your state or region.
+          </p>
+        </div>
+      </div>
+      <div class="control-group" data-binding="addressCountry">
+        <label class="control-label" for="address-country">Country</label>
+        <div class="controls">
+          <select name="country" data-ng-model="model.addressCountry">
+              <option data-ng-repeat="country in model.countries"
+                value="{{country.code}}"
+                data-ng-selected="model.addressCountry == country.code">{{country.name}}</option>
+          </select>
+        </div>
+      </div>
+    </fieldset>
+    </form>
+  </div>
+  <div data-modal-footer>
+    <span data-spinner="model.state.loading"
+      data-spinner-class="prepend-btn-spinner"></span>
+    <button class="btn btn-primary"
+      data-ng-disabled="model.state.loading"
+      data-ng-click="model.setRegulatoryLocality()"><i class="icon-ok"></i> Continue</button>
+  </div>
+</div>

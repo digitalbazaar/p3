@@ -5,7 +5,7 @@
  */
 define(['angular'], function(angular) {
 
-'use strict'; 
+'use strict';
 
 /* @ngInject */
 function factory(
@@ -33,7 +33,9 @@ function factory(
     };
     scope.validatedAddress = null;
 
-    scope.$watch('app.services.address.state', function(value) {
+    scope.$watch(function() {
+      return AddressService.state.loading;
+    }, function(value) {
       scope.loading = !!value;
     });
 

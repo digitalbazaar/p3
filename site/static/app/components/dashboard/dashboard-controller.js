@@ -8,10 +8,16 @@
  */
 define([], function() {
 
-'use strict'; 
+'use strict';
 
 /* @ngInject */
-function factory() {}
+function factory(IdentityService) {
+  var self = this;
+  self.identity = IdentityService.identity;
+  // FIXME: set initial value according to whether or not a regulatory
+  // locality has been set
+  self.showWelcomeModal = false;
+}
 
 return {DashboardController: factory};
 

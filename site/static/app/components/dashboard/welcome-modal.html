@@ -33,7 +33,7 @@
           <select name="country" data-ng-model="model.address.addressCountry">
               <option data-ng-repeat="country in model.countries"
                 value="{{country.code}}"
-                data-ng-selected="model.addressCountry == country.code">{{country.name}}</option>
+                data-ng-selected="model.address.addressCountry == country.code">{{country.name}}</option>
           </select>
         </div>
       </div>

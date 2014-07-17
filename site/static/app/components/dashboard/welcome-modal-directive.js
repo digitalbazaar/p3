@@ -3,7 +3,7 @@
  *
  * @author Dave Longley
  */
-define([], function() {
+define(['angular'], function(angular) {
 
 'use strict';
 
@@ -18,11 +18,11 @@ function factory(
 
   function Link(scope) {
     var model = scope.model = {};
-    model.address = {};
     model.countries = config.constants.countries;
     model.data = config.data;
     model.identity = IdentityService.identity;
     model.state = AccountService.state;
+    model.address = angular.copy(model.identity.sysRegulatoryAddress || {});
 
     model.setRegulatoryAddress = function() {
       AlertService.clearModalFeedback(scope);

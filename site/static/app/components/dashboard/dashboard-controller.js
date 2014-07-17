@@ -14,9 +14,8 @@ define([], function() {
 function factory(IdentityService) {
   var self = this;
   self.identity = IdentityService.identity;
-  // FIXME: set initial value according to whether or not a regulatory
-  // locality has been set
-  self.showWelcomeModal = false;
+  // show welcome modal based on whether a regulatory address has been set
+  self.showWelcomeModal = !self.identity.sysRegulatoryAddress;
 }
 
 return {DashboardController: factory};

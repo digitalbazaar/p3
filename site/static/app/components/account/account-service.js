@@ -79,8 +79,8 @@ function factory(
     return Promise.resolve($http.post(
       identity.id + '/regulatory-address', address))
       .then(function() {
-        // refresh accounts
-        return service.collection.getAll({force: true});
+        // do refresh
+        RefreshService.refresh();
       })
       .catch(function(err) {
         service.state.loading = false;

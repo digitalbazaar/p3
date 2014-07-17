@@ -9,8 +9,7 @@ define([], function() {
 
 /* @ngInject */
 function factory(
-  AccountService, AddressService, AlertService, IdentityService,
-  ModalService, config) {
+  AccountService, AlertService, IdentityService, ModalService, config) {
   return ModalService.directive({
     name: 'welcome',
     templateUrl: '/app/components/dashboard/welcome-modal.html',
@@ -23,12 +22,7 @@ function factory(
     model.countries = config.constants.countries;
     model.data = config.data;
     model.identity = IdentityService.identity;
-    model.state = {};
-    scope.$watch(function() {
-      return AccountService.state.loading && AddressService.state.loading;
-    }, function(value) {
-      model.state.loading = model.state.loading && !!value;
-    });
+    model.state = AccountService.state;
 
     model.setRegulatoryLocality = function() {
       AlertService.clearModalFeedback(scope);
@@ -50,13 +44,10 @@ function factory(
           sysPublic: []
         }
       };
-      model.state.loading = true;
-      AddressService.setRegulatoryAddress(data).then(function() {
-        model.state.loading = false;
+      AccountService.setRegulatoryAddress(data).then(function() {
         scope.$apply();
         scope.modal.close(null);
       }).catch(function(err) {
-        model.state.loading = false;
         AlertService.add('error', err);
         scope.$apply();
       });

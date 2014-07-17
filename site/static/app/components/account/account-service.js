@@ -73,6 +73,21 @@ function factory(
     });
   };
 
+  // set the current identity's regulatory address
+  service.setRegulatoryAddress = function(address) {
+    service.state.loading = true;
+    return Promise.resolve($http.post(
+      identity.id + '/regulatory-address', address))
+      .then(function() {
+        // refresh accounts
+        return service.collection.getAll({force: true});
+      })
+      .catch(function(err) {
+        service.state.loading = false;
+        throw err;
+      });
+  };
+
   function _storeAccount(account) {
     var storage;
     if(!(account.owner in service.identities)) {

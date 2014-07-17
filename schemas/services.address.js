@@ -1,9 +1,7 @@
 var bedrock = require('bedrock');
-var schemas = bedrock.validation.schemas;
+var schemas = bedrock.module('validation').schemas;
 
 var address = require('./address');
-var currency = require('./currency');
-var regulatoryAddress = require('./regulatoryAddress');
 var validatedAddress = require('./validatedAddress');
 
 var postAddressesQuery = {
@@ -37,31 +35,6 @@ var delAddressesQuery = {
   additionalProperties: true
 };
 
-var postRegulatoryAddress = {
-  type: 'object',
-  properties: {
-    address: regulatoryAddress(),
-    account: {
-      required: false,
-      type: 'object',
-      properties: {
-        '@context': schemas.jsonldContext(),
-        sysSlug: schemas.slug(),
-        label: {
-          required: true,
-          type: schemas.label()
-        },
-        sysPublic: {
-          required: false,
-          type: schemas.propertyVisibility()
-        },
-        currency: currency()
-      },
-      additionalProperties: false
-    }
-  }
-};
-
 module.exports.postAddressesQuery = function() {
   return postAddressesQuery;
 };
@@ -73,7 +46,4 @@ module.exports.validateAddress = function() {
 };
 module.exports.delAddressesQuery = function() {
   return delAddressesQuery;
-};
-module.exports.postRegulatoryAddress = function() {
-  return postRegulatoryAddress;
 };

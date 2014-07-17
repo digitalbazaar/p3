@@ -1,8 +1,9 @@
 var bedrock = require('bedrock');
-var schemas = bedrock.validation.schemas;
+var schemas = bedrock.module('validation').schemas;
 
 var currency = require('./currency');
 var money = require('./money');
+var regulatoryAddress = require('./regulatoryAddress');
 
 var postAccounts = {
   type: 'object',
@@ -84,6 +85,31 @@ var postAccountBackupSource = {
   additionalProperties: false
 };
 
+var postRegulatoryAddress = {
+  type: 'object',
+  properties: {
+    address: regulatoryAddress(),
+    account: {
+      required: false,
+      type: 'object',
+      properties: {
+        '@context': schemas.jsonldContext(),
+        sysSlug: schemas.slug(),
+        label: {
+          required: true,
+          type: schemas.label()
+        },
+        sysPublic: {
+          required: false,
+          type: schemas.propertyVisibility()
+        },
+        currency: currency()
+      },
+      additionalProperties: false
+    }
+  }
+};
+
 module.exports.postAccounts = function() {
   return postAccounts;
 };
@@ -98,4 +124,7 @@ module.exports.postAccountCreditLine = function() {
 };
 module.exports.postAccountBackupSource = function() {
   return postAccountBackupSource;
+};
+module.exports.postRegulatoryAddress = function() {
+  return postRegulatoryAddress;
 };

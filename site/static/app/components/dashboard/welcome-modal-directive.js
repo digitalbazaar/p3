@@ -24,10 +24,9 @@ function factory(
     model.identity = IdentityService.identity;
     model.state = AccountService.state;
 
-    model.setRegulatoryLocality = function() {
+    model.setRegulatoryAddress = function() {
       AlertService.clearModalFeedback(scope);
-
-      var data = {
+      AccountService.setRegulatoryAddress({
         address: {
           '@context': config.data.contextUrl,
           type: 'Address',
@@ -43,8 +42,7 @@ function factory(
           currency: 'USD',
           sysPublic: []
         }
-      };
-      AccountService.setRegulatoryAddress(data).then(function() {
+      }).then(function() {
         scope.$apply();
         scope.modal.close(null);
       }).catch(function(err) {

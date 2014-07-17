@@ -6,7 +6,7 @@
 {% block content %}
 
 {% raw %}
-<div class="row ng-cloak" data-ng-controller="CreateIdentityController">
+<div class="row ng-cloak" data-ng-controller="CreateIdentityController as model">
   <div class="span8 offset2">
     <h2>Create an Identity</h2>
 
@@ -20,7 +20,7 @@
 
     <hr />
 
-    <form class="form-horizontal" action="" data-ng-submit="submit()">
+    <form class="form-horizontal" action="" data-ng-submit="model.submit()">
       <fieldset>
         <legend>Your Email and Password</legend>
 
@@ -30,15 +30,15 @@
             <div class="input-append">
               <input class="input-xlarge form-field-vspaced"
                 name="email" data-binding="email" type="text"
-                data-ng-model="identity.email"
+                data-ng-model="model.identity.email"
                 data-track-state="model.help.email"
-                data-ng-disabled="loading"
+                data-ng-disabled="model.loading"
                 autocomplete="off" />
               <button class="btn" data-help-toggle="model.help.email">
                 <i class="icon-question-sign"></i>
               </button>
             </div>
-            <div data-duplicate-checker="identity.email"
+            <div data-duplicate-checker="model.identity.email"
               data-duplicate-checker-type="email"
               data-duplicate-checker-available="This email address is available!"
               data-duplicate-checker-invalid="Email address is invalid."
@@ -60,9 +60,9 @@
               <input class="input-xlarge"
                 name="password" data-binding="sysPassword"
                 maxlength="32" type="password"
-                data-ng-model="identity.sysPassword"
+                data-ng-model="model.identity.sysPassword"
                 data-track-state="model.help.password"
-                data-ng-disabled="loading" />
+                data-ng-disabled="model.loading" />
               <button class="btn" data-help-toggle="model.help.password">
                 <i class="icon-question-sign"></i>
               </button>
@@ -90,16 +90,17 @@
           </p>
         </div>
 
-        <div class="control-group" data-binding="sysIdentity.label">
+        <div class="control-group" data-binding="identity.label">
           <label class="control-label" for="identity">Identity Name</label>
           <div class="controls">
             <div class="input-append">
               <input class="input-xlarge"
                 name="identity-label" type="text"
-                data-slug-out="identity.sysSlug"
-                data-ng-model="identity.label"
+                data-slug-out="model.identity.sysSlug"
+                data-ng-model="model.identity.label"
                 data-track-state="model.help.identityLabel"
-                data-ng-disabled="loading"
+                data-ng-disabled="model.loading"
+                placeholder="My Full Name"
                 autocomplete="off" />
               <button class="btn" data-help-toggle="model.help.identityLabel">
                 <i class="icon-question-sign"></i>
@@ -107,17 +108,39 @@
             </div>
             <p data-fade-toggle="model.help.identityLabel.show"
               class="help-block">
-              Enter your online handle, for example, some form of your full
-              name like 'janedoe'. You can also customize your identity vanity
-              address below:
+              Enter the full name that is associated with this new identity.
+              For example: "My Full Name" or "Mega Corp".
             </p>
-            <p><small>{{data.identityBaseUri}}/</small><input
-              data-binding="identity.sysSlug" class="slug"
-              name="identity-slug" type="text" maxlength="32"
-              placeholder="IDENTITY-NAME"
-              data-slug-in data-ng-model="identity.sysSlug"
-              data-ng-disabled="loading" /></p>
-            <div data-duplicate-checker="identity.sysSlug"
+          </div>
+        </div>
+
+        <div class="control-group" data-binding="identity.sysSlug">
+          <label class="control-label" for="identity-slug">Short Name</label>
+          <div class="controls">
+            <div class="input-append">
+              <input class="input-xlarge"
+                name="identity-slug" type="text"
+                data-ng-model="model.identity.sysSlug"
+                data-track-state="model.help.identity"
+                data-ng-disabled="model.loading"
+                data-slug-in maxlength="32"
+                data-binding="identity.sysSlug"
+                placeholder="my-short-name"
+                autocomplete="off" />
+              <button class="btn" data-help-toggle="model.help.identity">
+                <i class="icon-question-sign"></i>
+              </button>
+            </div>
+            <p data-fade-toggle="model.help.identity.show" class="help-block">
+              Enter a short name for this identity. A name similar to your full
+              name will help people to identify you. This short name will be
+              used in your identity address as shown below. An example would be
+              "my-short-name", "myshortname", or "megacorp".
+            </p>
+            <p>
+              <small>{{model.data.identityBaseUri}}/</small><strong>{{model.identity.sysSlug}}</strong>
+            </p>
+            <div data-duplicate-checker="model.identity.sysSlug"
               data-duplicate-checker-type="Identity"
               data-duplicate-checker-available="This identity name is available!"
               data-duplicate-checker-invalid="Identity name is invalid."
@@ -129,67 +152,20 @@
         </div>
       </fieldset>
 
-      <!-- <button class="btn" data-toggle="collapse" data-target="#account-form">
-        Advanced
-      </button> -->
-
-      <!-- <div class="collapse">
-        <fieldset>
-          <legend>Your Default Financial Account</legend>
-
-          <div class="control-group">
-            <p class="help-block">
-      Your default financial account is where you will keep your money and have
-      others send you money. You start off with one financial account, but you can
-      add others at any point at no extra cost.
-            </p>
-          </div>
-
-          <div class="control-group" data-binding="account.label">
-            <label class="control-label" for="account">Account Name</label>
-            <div class="controls">
-              <div class="input-append">
-                <input class="input-xlarge"
-                  name="account-label" value="Primary Account" type="text"
-                  data-ng-model="profile.account.label"
-                  data-slug-out="profile.account.sysSlug"
-                  data-track-state="model.help.accountLabel"
-                  data-ng-disabled="loading" />
-                <button class="btn" data-help-toggle="model.help.accountLabel">
-                  <i class="icon-question-sign"></i>
-                </button>
-              </div>
-              <p data-fade-toggle="model.help.accountLabel.show"
-                class="help-block">
-                The name of your default financial account. Most people pick
-                'Primary Account' for the name of this account. You can change
-                your account's vanity address below:
-              </p>
-              <p><small>{{baseUrl}}/i/{{sysIdentity.sysSlug || 'IDENTITY-NAME'}}/accounts/</small><input
-                data-binding="account.sysSlug" class="slug" name="account-slug"
-                type="text" placeholder="ACCOUNT-NAME"
-                data-slug-in data-ng-model="profile.account.sysSlug"
-                data-ng-disabled="loading" /></p>
-            </div>
-          </div>
-
-        </fieldset>
-      </div> -->
-
       <fieldset>
         <legend>Service Agreement</legend>
 
         <label class="checkbox">
-          <input type="checkbox" data-ng-model="agreementChecked"> I agree to the <a href="/legal#tos">Terms of Service</a> and <a href="/legal#pp">Privacy Policy</a>.
+          <input type="checkbox" data-ng-model="model.agreementChecked"> I agree to the <a href="/legal#tos">Terms of Service</a> and <a href="/legal#pp">Privacy Policy</a>.
         </label>
       </fieldset>
 
       <div class="form-actions">
         <button id="create-button"
-          data-ng-disabled="loading || !model.identitySlugAvailable || !model.emailAvailable || !agreementChecked"
+          data-ng-disabled="model.loading || !model.identitySlugAvailable || !model.emailAvailable || !model.agreementChecked"
           class="btn btn-large btn-primary"
           data-submit-form>Create Identity</button>
-        <span data-spinner="loading"
+        <span data-spinner="model.loading"
           data-spinner-class="append-btn-spinner"></span>
       </div>
     </form>

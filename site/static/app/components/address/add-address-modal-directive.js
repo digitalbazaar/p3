@@ -21,7 +21,6 @@ function factory(
     // FIXME: use 'model'
     var model = scope.model = {};
     scope.identity = IdentityService.identity;
-    scope.countries = config.constants.countries || {};
     scope.originalAddress = {
       '@context': config.data.contextUrl,
       type: 'Address',

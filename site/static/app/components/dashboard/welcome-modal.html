@@ -30,11 +30,7 @@
       <div class="control-group" data-binding="addressCountry">
         <label class="control-label" for="address-country">Country</label>
         <div class="controls">
-          <select name="country" data-ng-model="model.address.addressCountry">
-              <option data-ng-repeat="country in model.countries"
-                value="{{country.code}}"
-                data-ng-selected="model.address.addressCountry == country.code">{{country.name}}</option>
-          </select>
+          <data-country-selector data-ng-model="model.address.addressCountry"></data-country-selector>
         </div>
       </div>
     </fieldset>

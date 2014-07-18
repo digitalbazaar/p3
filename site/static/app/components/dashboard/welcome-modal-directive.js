@@ -18,7 +18,6 @@ function factory(
 
   function Link(scope) {
     var model = scope.model = {};
-    model.countries = config.constants.countries;
     model.data = config.data;
     model.identity = IdentityService.identity;
     model.state = AccountService.state;

@@ -34,6 +34,7 @@ module.exports = function(grunt) {
           '<%= dirs.bedrock %>/site/static/bootstrap/css/bootstrap.css',
           '<%= dirs.bedrock %>/site/static/bootstrap/css/bootstrap-responsive.css',
           '<%= dirs.bedrock %>/site/static/font-awesome/css/font-awesome.css',
+          '<%= dirs.bedrock %>/bower_components/select2/select2.css',
           '<%= dirs.bedrock %>/site/static/css/common.css',
           'site/static/css/custom.css'
         ]
@@ -90,6 +91,7 @@ module.exports = function(grunt) {
         baseUrl: '<%= dirs.bedrock %>/site/static',
         paths: {
           'almond': '../../node_modules/almond/almond',
+          'angular-ui-select2': '<%= dirs.bedrock %>/bower_components/angular-ui-select2/src/select2',
           'bedrock': '.',
           'forge': '<%= dirs.bedrock %>/node_modules/node-forge/js',
           'iso8601': '<%= dirs.bedrock %>/lib/iso8601/iso8601',
@@ -97,6 +99,7 @@ module.exports = function(grunt) {
           'opencred-verifier': '<%= dirs.bedrock %>/node_modules/opencred-verifier/lib/credentialVerifier',
           'promise': '<%= dirs.bedrock %>/node_modules/es6-promise/dist/promise-1.0.0',
           'payswarm': '../../../../site/static',
+          'select2': '<%= dirs.bedrock %>/bower_components/select2/select2',
           'underscore': '<%= dirs.bedrock %>/node_modules/underscore/underscore',
           // overrides
           'app/components': '../../../../site/static/app/components',

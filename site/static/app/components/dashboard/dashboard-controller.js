@@ -15,7 +15,7 @@ function factory(IdentityService) {
   var self = this;
   self.identity = IdentityService.identity;
   // show welcome modal based on whether a regulatory address has been set
-  self.showWelcomeModal = true;//!self.identity.sysRegulatoryAddress;
+  self.showWelcomeModal = !self.identity.sysRegulatoryAddress;
 }
 
 return {DashboardController: factory};

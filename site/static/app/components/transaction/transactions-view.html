@@ -57,7 +57,11 @@
     </form>
   </div>
 
-  <p class="well well-small" data-ng-hide="model.recent">Account activity on or before {{model.startDate | date:'medium'}}.</p>
+  <p class="well well-small" data-ng-hide="model.recent && !model.controls">
+    Account activity on or before
+    <span data-ng-hide="!model.controls || model.showControls"><a data-ng-click="model.showControls=true" href="#">{{model.startDate | date:'medium'}}</a>.</span>
+    <span data-ng-show="model.controls && model.showControls">{{model.startDate | date:'medium'}}.</span>
+  </p>
 
   <table class="table table-condensed" data-ng-class="{'table-hover': model.details}" data-ng-show="!model.state.txns.loading && model.table.length > 0">
     <thead>
@@ -124,11 +128,11 @@
           <ul data-ng-hide="model.moreHref" class="pager">
             <!--
             <li class="previous">
-              <button data-ng-click="model.next()" class="btn pull-left"><i class="icon-chevron-left"></i> Newer</a>
+              <button data-ng-click="model.newer()" class="btn pull-left"><i class="icon-chevron-left"></i> Newer</a>
             </li>
             -->
             <li class="next">
-              <button data-ng-click="model.previous()" class="btn pull-right">Older <i class="icon-chevron-right"></i></a>
+              <button data-ng-click="model.older()" class="btn pull-right">Older <i class="icon-chevron-right"></i></a>
             </li>
           </ul>
         </td>

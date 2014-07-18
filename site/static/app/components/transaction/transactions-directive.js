@@ -123,7 +123,7 @@ function factory(
       });
     };
 
-    model.previous = function() {
+    model.older = function() {
       var options = {};
       // txns exist, get previous page
       if(model.txns.storage.length > 0) {
@@ -134,18 +134,16 @@ function factory(
       model.load(options);
     };
 
-    /*
-    model.next = function() {
+    model.newer = function() {
       var options = {};
-      // txns exist, get next page
+      // txns exist, get newer page
       if(model.txns.storage.length > 0) {
         var txn = model.txns.storage[0];
         options.createdEnd = txn.created;
-        options.next = txn.id;
+        options.previous = txn.id;
       }
       model.load(options);
     };
-    */
 
     // show/hide transaction details
     model.toggleDetails = function(row) {

@@ -28,10 +28,14 @@ function factory($scope, AddressService, AlertService, IdentityService) {
   };
   self.confirmDeleteAddress = function(err, result) {
     if(!err && result === 'ok') {
-      AddressService.del(self.addressToDelete).catch(function(err) {
-        AlertService.add('error', err);
-        $scope.$apply();
-      });
+      AddressService.del(self.addressToDelete)
+        .then(function() {
+          $scope.$apply();
+        })
+        .catch(function(err) {
+          AlertService.add('error', err);
+          $scope.$apply();
+        });
     }
     self.addressToDelete = null;
   };

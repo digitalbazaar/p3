@@ -37,7 +37,7 @@ function factory(
 
     // setup default transaction collection
     model.txns = TransactionService.createTxnsCollection({
-      finishLoading: _updateTable
+      finishLoading: _update
     });
     model.state = {
       txns: model.txns.state
@@ -162,7 +162,9 @@ function factory(
       });
     };
 
-    function _updateTable() {
+    function _update() {
+      // set txn count
+      model.txnCount = model.txns.storage.length;
       // clear table
       model.table.splice(0, model.table.length);
       // process each transaction

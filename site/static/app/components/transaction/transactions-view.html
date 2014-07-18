@@ -57,8 +57,15 @@
     </form>
   </div>
 
-  <p class="well well-small" data-ng-hide="model.recent && !model.controls">
-    Account activity on or before
+  <p class="well well-small" data-ng-hide="(model.recent && !model.controls) || model.state.txns.loading">
+    Found
+    <span data-ng-pluralize="" data-count="model.txnCount"
+      data-when="{
+        '0': 'no transactions',
+        '1': '{}+ transaction',
+        'other': '{}+ transactions'
+      }"></span>
+    on or before
     <span data-ng-hide="!model.controls || model.showControls"><a data-ng-click="model.showControls=true" href="#">{{model.startDate | date:'medium'}}</a>.</span>
     <span data-ng-show="model.controls && model.showControls">{{model.startDate | date:'medium'}}.</span>
   </p>

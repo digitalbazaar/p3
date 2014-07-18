@@ -11,12 +11,13 @@ define([], function() {
 
 /* @ngInject */
 function factory(
-  $scope, AccountService, AlertService, RefreshService, config) {
+  $scope, AccountService, AlertService, IdentityService, RefreshService, config) {
   var self = this;
 
   self.modals = {};
   self.state = {
-    accounts: AccountService.state
+    accounts: AccountService.state,
+    identities: IdentityService.state
   };
   self.account = undefined;
 

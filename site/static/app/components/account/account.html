@@ -1,6 +1,24 @@
 <div class="container ng-cloak" data-ng-controller="AccountController as model">
 
   <div class="row">
+    <div class="span12">
+      <ul class="breadcrumb" data-ng-show="!model.account || model.state.accounts.loading">
+        <li>&nbsp;</li>
+      </ul>
+      <ul class="breadcrumb" data-ng-show="model.account && !model.state.accounts.loading && !model.state.identities.loading && app.services.identity.identity.id == model.account.owner">
+        <li><a data-ng-href="{{app.services.identity.identity.id}}/dashboard">Dashboard</a> <span class="divider">/</span></li>
+        <li><a data-ng-href="{{app.services.identity.identity.id}}/accounts">Accounts</a> <span class="divider">/</span></li>
+        <li class="active" data-ng-bind="model.account.label"></li>
+      </ul>
+      <ul class="breadcrumb" data-ng-show="model.account && !model.state.accounts.loading && !model.state.identities.loading && app.services.identity.identity.id != model.account.owner">
+        <li><a href="{{model.account.owner}}">Account Owner</a> <span class="divider">/</span></li>
+        <li>Accounts <span class="divider">/</span></li>
+        <li class="active" data-ng-bind="model.account.label"></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="row">
     <div class="section span12">
       <h3 class="headline">
         Financial Account

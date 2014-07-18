@@ -14,35 +14,15 @@ var getTransactionsQuery = {
       type: 'string',
       enum: ['pay']
     },
-    listing: {
-      required: false,
-      type: schemas.url()
-    },
+    listing: schemas.url({required: false}),
     'listing-hash': resourceHash({required: false}),
     'reference-id': referenceId({required: false}),
-    'callback': {
-      required: false,
-      type: schemas.url()
-    },
+    callback: schemas.url({required: false}),
     'response-nonce': schemas.nonce({required: false}),
-    createdStart: {
-      required: false,
-      type: 'string'
-      // FIXME w3cDateTime or int or other date format
-    },
-    createdEnd: {
-      required: false,
-      type: 'string'
-      // FIXME w3cDateTime or int or other date format
-    },
-    account: {
-      required: false,
-      type: schemas.url()
-    },
-    previous: {
-      required: false,
-      type: schemas.url()
-    },
+    createdStart: schemas.w3cDateTime({required: false}),
+    createdEnd: schemas.w3cDateTime({required: false}),
+    account: schemas.url({required: false}),
+    previous: schemas.url({required: false}),
     limit: {
       required: false,
       // query param will be a string but content is an integer from 1 to 30.

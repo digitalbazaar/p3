@@ -18,7 +18,7 @@ function factory(
   self.state = {
     accounts: AccountService.state
   };
-  self.account = null;
+  self.account = undefined;
 
   RefreshService.register($scope, function(force) {
     var opts = {force: !!force};
@@ -30,6 +30,7 @@ function factory(
       })
       .catch(function(err) {
         AlertService.add('error', err);
+        self.account = null;
         $scope.$apply();
       });
   })();

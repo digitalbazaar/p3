@@ -26,7 +26,7 @@
           <span data-spinner="model.state.accounts.loading" data-spinner-class="h3-spinner"></span>
         </span>
       </h3>
-      <div class="alert alert-error" data-ng-hide="model.account || model.state.accounts.loading">
+      <div class="alert alert-error" data-ng-show="model.account === null && !model.state.accounts.loading">
         <strong>Error!</strong> Account not found or access not allowed.
       </div>
     </div>

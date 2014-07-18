@@ -26,7 +26,7 @@
           <span data-spinner="model.state.budgets.loading" data-spinner-class="h3-spinner"></span>
         </span>
       </h3>
-      <div class="alert alert-error" data-ng-hide="model.budget && !model.state.budgets.loading">
+      <div class="alert alert-error" data-ng-show="model.budget === null && !model.state.budgets.loading">
         <strong>Error!</strong> Budget not found or access not allowed.
       </div>
     </div>

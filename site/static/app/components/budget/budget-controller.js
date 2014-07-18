@@ -19,7 +19,7 @@ function factory(
     accounts: AccountService.state,
     budgets: BudgetService.state
   };
-  self.budget = null;
+  self.budget = undefined;
   self.account = null;
   self.vendors = BudgetService.vendors;
 
@@ -77,6 +77,7 @@ function factory(
       })
       .catch(function(err) {
         AlertService.add('error', err);
+        self.budget = null;
         $scope.$apply();
       });
   })();

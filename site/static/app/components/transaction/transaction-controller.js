@@ -18,7 +18,7 @@ function factory(
   self.state = {
     txns: TransactionService.state
   };
-  self.txn = null;
+  self.txn = undefined;
 
   RefreshService.register($scope, function(force) {
     var opts = {force: !!force};
@@ -33,6 +33,7 @@ function factory(
       })
       .catch(function(err) {
         AlertService.add('error', err);
+        self.txn = null;
         $scope.$apply();
       });
   })();

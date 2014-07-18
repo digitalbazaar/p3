@@ -7,7 +7,7 @@
           <span data-spinner="model.state.accounts.loading" data-spinner-class="h3-spinner"></span>
         </span>
       </h3>
-      <div class="alert alert-error" data-ng-hide="model.txn || model.state.txns.loading">
+      <div class="alert alert-error" data-ng-show="model.txn === null && !model.state.txns.loading">
         <strong>Error!</strong> Transaction not found or access not allowed.
       </div>
     </div>

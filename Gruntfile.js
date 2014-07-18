@@ -35,6 +35,7 @@ module.exports = function(grunt) {
           '<%= dirs.bedrock %>/site/static/bootstrap/css/bootstrap-responsive.css',
           '<%= dirs.bedrock %>/site/static/font-awesome/css/font-awesome.css',
           '<%= dirs.bedrock %>/bower_components/select2/select2.css',
+          '<%= dirs.bedrock %>/bower_components/select2/select2-bootstrap.css',
           '<%= dirs.bedrock %>/site/static/css/common.css',
           'site/static/css/custom.css'
         ]

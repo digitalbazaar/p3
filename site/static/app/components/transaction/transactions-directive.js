@@ -18,7 +18,7 @@ function factory(
       account: '=',
       controls: '=',
       details: '=',
-      moreMode: '=',
+      moreHref: '=',
       // recent for all accounts
       recent: '='
     },
@@ -33,8 +33,7 @@ function factory(
     model.recent = scope.recent || false;
     model.controls = scope.controls || false;
     model.details = scope.details || false;
-    model.moreMode = scope.moreMode || 'load';
-    model.limit = 10;
+    model.moreHref = scope.moreHref || null;
 
     // setup default transaction collection
     model.txns = TransactionService.createTxnsCollection({
@@ -49,7 +48,7 @@ function factory(
         return;
       }
       model.account = account;
-      model.getMore();
+      model.load();
     });
 
     // txns expanded with details for table display
@@ -58,22 +57,18 @@ function factory(
     model.datePickerOpen = false;
     model.showControls = false;
 
-    // set start date to last ms of today
-    var now = new Date();
-    model.startDate = new Date(
-      now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
-    model.datePickerDate = new Date(model.startDate);
+    function _endOfDay(date) {
+      return new Date(
+        date.getFullYear(), date.getMonth(), date.getDate(),
+        23, 59, 59, 999);
+    }
 
     // convert date into the last millisecond of the day, also separate
     // vars are used to avoid modifying the text while typing and to ensure the
     // input blurs when using the calendar selector
     model.dateChanged = function() {
       if(model.datePickerDate) {
-        model.startDate = new Date(
-          model.datePickerDate.getFullYear(),
-          model.datePickerDate.getMonth(),
-          model.datePickerDate.getDate(), 23, 59, 59, 999);
-        model.getMore();
+        model.startDate = _endOfDay(model.datePickerDate);
       }
     };
 
@@ -92,7 +87,21 @@ function factory(
 
     model.getRowType = TransactionService.getType;
 
-    model.getMore = function() {
+    model.search = function() {
+      model.load({
+        createdStart: model.startDate.toISOString()
+      });
+    };
+
+    model.reset = function() {
+      // set start date to last ms of today
+      model.startDate = _endOfDay(new Date());
+      model.datePickerDate = new Date(model.startDate);
+      model.limit = 10;
+    };
+
+    model.load = function(options) {
+      options = options || {};
       // build options for fetching txns
       var params = {
         limit: model.limit
@@ -100,16 +109,11 @@ function factory(
       if(!model.recent && model.account) {
         params.account = model.account.id;
       }
-      // previous txns exist, get next page
-      if(model.txns.storage.length > 0) {
-        var txn = model.txns.storage[model.txns.storage.length - 1];
-        params.createdStart = txn.created;
-        params.previous = txn.id;
-      } else {
-        params.createdStart = model.startDate;
-      }
-      if(params.createdStart instanceof Date) {
-        params.createdStart = (+params.createdStart / 1000);
+      angular.extend(params, options);
+
+      if(options.createdStart) {
+        model.startDate = new Date(options.createdStart);
+        model.datePickerDate = new Date(options.createdStart);
       }
 
       // fetch txns
@@ -118,6 +122,30 @@ function factory(
         AlertService.addError(err);
       });
     };
+
+    model.previous = function() {
+      var options = {};
+      // txns exist, get previous page
+      if(model.txns.storage.length > 0) {
+        var txn = model.txns.storage[model.txns.storage.length - 1];
+        options.createdStart = txn.created;
+        options.previous = txn.id;
+      }
+      model.load(options);
+    };
+
+    /*
+    model.next = function() {
+      var options = {};
+      // txns exist, get next page
+      if(model.txns.storage.length > 0) {
+        var txn = model.txns.storage[0];
+        options.createdEnd = txn.created;
+        options.next = txn.id;
+      }
+      model.load(options);
+    };
+    */
 
     // show/hide transaction details
     model.toggleDetails = function(row) {
@@ -190,9 +218,12 @@ function factory(
       scope.$apply();
     }
 
+    // reset state
+    model.reset();
+
     // get initial data in recent mode
     if(model.recent) {
-      model.getMore();
+      model.load();
     }
 
     RefreshService.register(scope, model.txns);

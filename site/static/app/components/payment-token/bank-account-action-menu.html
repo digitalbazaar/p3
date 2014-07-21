@@ -6,14 +6,14 @@
   </li>
   <li class="divider"></li>
   <li class="btn-danger"
-    data-ng-show="model.bankAccount.sysStatus == 'active' || model.bankAccount.sysStatus == 'disabled'"
-    data-ng-disabled="!model.bankAccount.sysVerified && model.bankAccount.sysStatus != 'disabled'">
+    data-ng-show="bankAccount.sysStatus == 'active' || bankAccount.sysStatus == 'disabled'"
+    data-ng-disabled="!bankAccount.sysVerified && bankAccount.sysStatus != 'disabled'">
     <a data-ng-click="model.deletePaymentToken(bankAccount)">
       <i class="icon-trash"></i> Delete
     </a>
   </li>
   <li class="btn-success"
-    data-ng-show="!model.bankAccount.sysStatus || model.bankAccount.sysStatus == 'deleted'">
+    data-ng-show="!bankAccount.sysStatus || bankAccount.sysStatus == 'deleted'">
     <a data-ng-click="model.restorePaymentToken(bankAccount)">
       <i class="icon-undo"></i> Restore
     </a>

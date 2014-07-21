@@ -55,6 +55,7 @@ config.website.services = [
   path.join(_libdir, 'payswarm-auth', 'services.identityPreferences'),
   path.join(_libdir, 'payswarm-auth', 'services.license'),
   path.join(_libdir, 'payswarm-auth', 'services.paymentToken'),
+  path.join(_libdir, 'payswarm-auth', 'services.payswarm.identifier'),
   path.join(_libdir, 'payswarm-auth', 'services.promo'),
   //path.join(_libdir, 'payswarm-auth', 'services.system'),
   //path.join(_libdir, 'payswarm-auth', 'services.test'),

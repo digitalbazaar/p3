@@ -67,7 +67,7 @@ function factory(
       // do general update then remove backup sources
       scope.loading = true;
       AlertService.clearModalFeedback(scope);
-      PaymentTokenService.update(paymentToken).then(function(paymentToken) {
+      PaymentTokenService.collection.update(paymentToken).then(function(paymentToken) {
         // remove backup source from every related account
         var promises = [];
         angular.forEach(scope.backupSourceFor, function(info) {
@@ -79,8 +79,8 @@ function factory(
               }));
           }
         });
-        return Promises.all(promises).then(function() {
-          PaymentTokenService.get(paymentToken.id).then(function() {
+        return Promise.all(promises).then(function() {
+          PaymentTokenService.collection.get(paymentToken.id).then(function() {
             scope.modal.close(null, paymentToken);
           });
         });
@@ -116,7 +116,7 @@ function factory(
           exists: exists,
           loading: true
         };
-        AccountService.get(accountId).then(function(account) {
+        AccountService.collection.get(accountId).then(function(account) {
           scope.backupSourceFor[accountId].account = account;
         }).catch(function(err) {
           AlertService.add('error', err);

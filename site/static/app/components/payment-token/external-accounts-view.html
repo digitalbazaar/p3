@@ -16,7 +16,7 @@
         <span data-spinner="model.state.loading" data-spinner-class="h3-spinner"></span>
       </span>
     </h3>
-    <table class="table table-condensed" data-ng-show="model.state.loading || model.creditCards.length > 0">
+    <table class="table table-condensed" data-ng-show="(model.state.loading && model.creditCards.length > 0) || model.creditCards.length > 0">
       <thead>
         <tr>
           <th class="name">Name</th>
@@ -107,7 +107,7 @@
         <span data-spinner="model.state.loading" data-spinner-class="h3-spinner"></span>
       </span>
     </h3>
-    <table class="table table-condensed" data-ng-show="model.state.loading || model.bankAccounts.length > 0">
+    <table class="table table-condensed" data-ng-show="(model.state.loading && model.bankAccounts.length > 0) || model.bankAccounts.length > 0">
       <thead>
         <tr>
           <th>Name</th>

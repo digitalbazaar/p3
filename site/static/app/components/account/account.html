@@ -28,14 +28,28 @@
           </a>
           <ul class="dropdown-menu pull-right">
             <li>
-              <a data-ng-click="model.modals.account=model.account; model.modals.showEditAccountModal=true">
-                <i class="icon-pencil"></i> Edit
+              <a data-ng-click="model.modals.account=model.account; model.modals.showDeposit=true">
+                <i class="icon-plus"></i> Deposit
               </a>
             </li>
             <li>
-              <a data-ng-click="model.modals.account=model.account; model.modals.showDeleteAccountAlert=true"
-                class="btn-danger">
-                <i class="icon-remove"></i> Delete
+              <a data-ng-click="model.modals.account=model.account; model.modals.showWithdraw=true">
+                <i class="icon-minus"></i> Withdraw
+              </a>
+            </li>
+            <li>
+              <a data-ng-click="model.modals.account=model.account; model.modals.showEditAccount=true">
+                <i class="icon-pencil"></i> Edit
+              </a>
+            </li>
+            <li data-ng-show="model.identity.sysUnbackedCreditEmailAvailable && (!model.account.creditLimit || model.account.creditLimit == 0)">
+              <a data-ng-click="model.modals.account=model.account; model.modals.showAddCreditLine=true">
+                <i class="icon-credit-card"></i> Open Credit Line
+              </a>
+            </li>
+            <li>
+              <a data-ng-click="model.modals.account=model.account; model.modals.showRedeemPromoCode=true">
+                <i class="icon-money"></i> Redeem Promo Code
               </a>
             </li>
           </ul>
@@ -70,7 +84,16 @@
   </div>
 
   <!-- modals -->
-  <div data-edit-account-modal="model.modals.showEditAccountModal"
+  <div data-deposit-modal="model.modals.showDeposit"
+    data-account="model.modals.account" data-instant="false"></div>
+  <div data-withdraw-modal="model.modals.showWithdraw"
+    data-account="model.modals.account"></div>
+  <div data-edit-account-modal="model.modals.showEditAccount"
+    data-account="model.modals.account"></div>
+  <div data-add-account-modal="model.modals.showAddAccount"></div>
+  <div data-add-credit-line-modal="model.modals.showAddCreditLine"
+    data-account="model.modals.account"></div>
+  <div data-redeem-promo-code-modal="model.modals.showRedeemPromoCode"
     data-account="model.modals.account"></div>
 
 </div>

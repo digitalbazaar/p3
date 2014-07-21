@@ -118,6 +118,7 @@ function factory(
 
       // add payment token
       scope.loading = true;
+      AlertService.clearModalFeedback(scope);
       PaymentTokenService.collection.add(token).then(function(addedToken) {
         scope.loading = false;
         scope.modal.close(null, addedToken);

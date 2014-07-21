@@ -30,7 +30,7 @@
         <td class="name">
           <a href="{{account.id}}">{{account.label}}</a>
           <span data-ng-show="account.sysStatus != 'active'" class="disabled">(Disabled)</span>
-          <span data-ng-show="identity.preferences.source == account.id"
+          <span data-ng-show="model.identity.preferences.source == account.id"
             data-tooltip-title="This is the default account."
             data-placement="bottom" data-trigger="hover"><i class="icon icon-star"></i></span>
           <span data-ng-show="(account.creditLimit && util.parseFloat(account.creditLimit) != 0) && (!account.backupSource || !account.backupSource.length)"

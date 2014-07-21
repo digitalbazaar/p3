@@ -4,9 +4,12 @@
       <i class="icon-pencil"></i> Edit
     </a>
   </li>
-  <li data-ng-hide="card.backupSourceFor.length" class="divider"></li>
-  <li data-ng-hide="card.backupSourceFor.length" class="btn-danger">
-    <a data-ng-click="card.deleted=true">
+  <li class="divider"></li>
+  <li data-ng-class="{disabled: card.backupSourceFor.length, 'btn-danger': !card.backupSourceFor.length}">
+    <a data-ng-show="card.backupSourceFor.length" href="#">
+      <i class="icon-remove"></i> Delete
+    </a>
+    <a data-ng-hide="card.backupSourceFor.length" data-ng-click="card.deleted=true">
       <i class="icon-remove"></i> Delete
     </a>
   </li>

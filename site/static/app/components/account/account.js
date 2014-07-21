@@ -15,7 +15,6 @@ define([
   './account-selector-directive',
   './account-service',
   './accounts-directive',
-  './activity-controller',
   './add-account-modal-directive',
   './add-credit-line-modal-directive',
   './deposit-modal-directive',
@@ -32,7 +31,6 @@ define([
   accountSelectorDirective,
   accountService,
   accountsDirective,
-  activityController,
   addAccountModalDirective,
   addCreditLineModalDirective,
   depositModalDirective,
@@ -45,9 +43,6 @@ define([
 
 var module = angular.module('app.account', []);
 
-module.service(accountService);
-module.controller(activityController);
-
 module.directive(accountBalanceDetailsDirective);
 module.directive(accountBalanceDirective);
 module.directive(accountBalanceSummaryDirective);
@@ -55,7 +50,6 @@ module.controller(accountController);
 module.directive(accountSelectorDirective);
 module.service(accountService);
 module.directive(accountsDirective);
-module.controller(activityController);
 module.directive(addAccountModalDirective);
 module.directive(addCreditLineModalDirective);
 module.directive(depositModalDirective);

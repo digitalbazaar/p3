@@ -64,8 +64,11 @@
                   <i class="icon-plus"></i> Deposit
                 </a>
               </li>
-              <li>
-                <a data-ng-click="model.modals.account=account; model.modals.showWithdraw=true">
+              <li data-ng-class="{disabled: account.balance == 0}">
+                <a data-ng-show="account.balance == 0" href="#">
+                  <i class="icon-minus"></i> Withdraw
+                </a>
+                <a data-ng-hide="account.balance == 0" data-ng-click="model.modals.account=account; model.modals.showWithdraw=true">
                   <i class="icon-minus"></i> Withdraw
                 </a>
               </li>

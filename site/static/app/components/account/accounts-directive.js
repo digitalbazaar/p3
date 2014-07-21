@@ -49,6 +49,8 @@ function factory(
         .catch(function(err) {
           AlertService.add('error', err);
           console.error('setDefaultAccount error:', err);
+        })
+        .then(function() {
           $rootScope.$apply();
         });
     };

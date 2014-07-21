@@ -75,8 +75,8 @@ config.app.masterTitle = 'payswarm1d';
 config.app.workerTitle = 'payswarm1d-worker';
 config.app.restartWorkers = true;
 // system group and user IDs (can be groupname/username instead of numbers)
-config.app.user.groupId = process.getuid();
-config.app.user.userId = process.getgid();
+config.app.user.groupId = process.getgid();
+config.app.user.userId = process.getuid();
 
 // logging
 config.loggers.logdir = _logdir;

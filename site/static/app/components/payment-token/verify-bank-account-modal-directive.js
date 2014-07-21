@@ -85,7 +85,7 @@ function factory(
             return;
           }
           var info = scope.accounts[dst] = {loading: true, label: ''};
-          promises.push(AccountService.get(dst).then(function(account) {
+          promises.push(AccountService.collection.get(dst).then(function(account) {
             info.label = account.label;
           }).catch(function(err) {
             info.label = 'Private Account';
@@ -169,11 +169,11 @@ function factory(
           scope.state = 'complete';
 
           // get updated token
-          PaymentTokenService.get(scope.paymentToken.id);
+          PaymentTokenService.collection.get(scope.paymentToken.id);
 
           // get updated balance after a delay
           if(scope.selection.destination) {
-            AccountService.get(scope.selection.destination.id, {delay: 500});
+            AccountService.collection.get(scope.selection.destination.id, {delay: 500});
           }
         }).then(function(err) {
           AlertService.add('error', err);

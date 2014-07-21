@@ -35,7 +35,7 @@
     "grunt": "~0.4.2",
     "grunt-angular-templates": "git://github.com/digitalbazaar/grunt-angular-templates",
     "grunt-cli": "~0.1.9",
-    "grunt-contrib-cssmin": "~0.7.0",
+    "grunt-contrib-cssmin": "~0.10.0",
     "grunt-contrib-requirejs": "~0.4.1",
     "jsdom": "~0.7.0",
     "ng-annotate": "^0.9.7",

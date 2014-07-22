@@ -85,7 +85,8 @@ function factory(
             return;
           }
           var info = scope.accounts[dst] = {loading: true, label: ''};
-          promises.push(AccountService.collection.get(dst).then(function(account) {
+          promises.push(AccountService.collection.get(dst).then(
+            function(account) {
             info.label = account.label;
           }).catch(function(err) {
             info.label = 'Private Account';
@@ -96,7 +97,9 @@ function factory(
         });
         return Promise.all(promises).catch(function(err) {
           AlertService.add('error', err);
-          //
+          scope.$apply();
+          throw err;
+        }).then(function() {
           // go to top of page?
           // FIXME: use directive to do this
           //var target = options.target;
@@ -105,11 +108,12 @@ function factory(
           // copy to avoid angular keys in POSTed data
           scope.loading = false;
           scope.state = 'reviewing';
-        }).then(function() {
           scope.$apply();
         });
       }).catch(function(err) {
-        if(err.type === 'payswarm.website.VerifyPaymentTokenFailed' &&
+        // FIXME: namespace should be payswarm.website
+        //if(err.type === 'payswarm.website.VerifyPaymentTokenFailed' &&
+        if(err.type === 'bedrock.website.VerifyPaymentTokenFailed' &&
           err.cause &&
           err.cause.type === 'payswarm.financial.VerificationFailed') {
           AlertService.add('error', {
@@ -120,11 +124,11 @@ function factory(
           // synthesize validation error for UI
           err = {
             "message": "",
-            "type": "payswarm.validation.ValidationError",
+            "type": "bedrock.validation.ValidationError",
             "details": {
               "errors": [
                 {
-                  "name": "payswarm.validation.ValidationError",
+                  "name": "bedrock.validation.ValidationError",
                   "message": "verification amount is incorrect",
                   "details": {
                     "path": "sysVerifyParameters.amount[0]",
@@ -133,7 +137,7 @@ function factory(
                   "cause": null
                 },
                 {
-                  "name": "payswarm.validation.ValidationError",
+                  "name": "bedrock.validation.ValidationError",
                   "message": "verification amount is incorrect",
                   "details": {
                     "path": "sysVerifyParameters.amount[1]",
@@ -145,7 +149,9 @@ function factory(
             },
             "cause": null
           };
-        } else if(err.type === 'payswarm.website.VerifyPaymentTokenFailed' &&
+        // FIXME: namespace should be payswarm.website
+        //} else if(err.type === 'payswarm.website.VerifyPaymentTokenFailed' &&
+        } else if(err.type === 'bedrock.website.VerifyPaymentTokenFailed' &&
           err.cause &&
           err.cause.type === 'payswarm.financial.MaxVerifyAttemptsExceeded') {
           // FIXME: add special call to AlertService for this?
@@ -163,19 +169,19 @@ function factory(
       scope.loading = true;
       PaymentTokenService.verify(scope.paymentToken.id, scope._deposit)
         .then(function(deposit) {
-
           // show complete page
           scope.deposit = deposit;
           scope.state = 'complete';
 
-          // get updated token
-          PaymentTokenService.collection.get(scope.paymentToken.id);
-
           // get updated balance after a delay
           if(scope.selection.destination) {
-            AccountService.collection.get(scope.selection.destination.id, {delay: 500});
+            AccountService.collection.get(
+              scope.selection.destination.id, {delay: 500});
           }
-        }).then(function(err) {
+
+          // get updated token
+          return PaymentTokenService.collection.get(scope.paymentToken.id);
+        }).catch(function(err) {
           AlertService.add('error', err);
         }).then(function() {
           // go to top of page?

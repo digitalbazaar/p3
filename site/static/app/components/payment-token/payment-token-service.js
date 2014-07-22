@@ -43,31 +43,45 @@ function factory(
 
   // restores a deleted but unexpired paymentToken
   service.restore = function(tokenId) {
-    service.state.loading = true;
-    return Promise.resolve($http.post(tokenId, {
-      action: 'restore'
+    service.collection.startLoading();
+    return Promise.resolve($http.post(tokenId, null, {
+      params: {
+        action: 'restore'
+      }
     })).then(function() {
       // get payment token
       return service.collection.get(tokenId);
     }).catch(function(err) {
-      service.state.loading = false;
-      $rootScope.$apply();
-      throw err;
+      return service.collection.finishLoading().then(function() {
+        $rootScope.$apply();
+        throw err;
+      });
+    }).then(function(token) {
+      return service.collection.finishLoading().then(function() {
+        return token;
+      });
     });
   };
 
   // verify a token
   service.verify = function(tokenId, verifyRequest) {
-    service.state.loading = true;
+    service.collection.startLoading();
     return Promise.resolve($http.post(tokenId, verifyRequest, {
-      action: 'verify'
-    })).then(function() {
-      // get payment token
-      return service.collection.get(tokenId);
+      params: {
+        action: 'verify'
+      }
+    })).then(function(res) {
+      // return deposit transaction
+      return res.data;
     }).catch(function(err) {
-      service.state.loading = false;
-      $rootScope.$apply();
-      throw err;
+      return service.collection.finishLoading().then(function() {
+        $rootScope.$apply();
+        throw err;
+      });
+    }).then(function(txn) {
+      return service.collection.finishLoading().then(function() {
+        return txn;
+      });
     });
   };
 

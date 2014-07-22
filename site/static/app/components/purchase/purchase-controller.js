@@ -291,7 +291,9 @@ function factory(
             });
           }
           break;
-        case 'payswarm.website.DuplicatePurchase':
+        // FIXME: namespace should be payswarm.website
+        //case 'payswarm.website.DuplicatePurchase':
+        case 'bedrock.website.DuplicatePurchase':
           // set duplicate contract
           self.alertType = 'duplicatePurchase';
           self.purchased = true;

@@ -64,10 +64,12 @@ function factory(AccountService) {
       }
       var info = scope.accounts[accountId] = {
         loading: true,
-        label: ''
+        label: '',
+        owner: null
       };
       return AccountService.collection.get(accountId).then(function(account) {
         info.label = account.label;
+        info.owner = account.owner;
       }).catch(function() {
         info.label = 'Private Account';
       }).then(function() {

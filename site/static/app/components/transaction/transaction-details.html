@@ -33,7 +33,7 @@
       <th colspan="3"></th>
       <th class="money">Total</th>
     </tr>
-    <tr data-ng-show="type == 'Deposit'">
+    <tr data-ng-show="type == 'Deposit' && accounts[transaction.transfer[0].destination].owner == $root.app.services.identity.identity.id">
       <td colspan="3">
         Total <span data-ng-hide="complete">to be</span>
         deposited into your

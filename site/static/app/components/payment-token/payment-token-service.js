@@ -50,7 +50,7 @@ function factory(
       }
     })).then(function() {
       // get payment token
-      return service.collection.get(tokenId);
+      return service.collection.get(tokenId, {force: true});
     }).catch(function(err) {
       return service.collection.finishLoading().then(function() {
         $rootScope.$apply();
@@ -58,6 +58,7 @@ function factory(
       });
     }).then(function(token) {
       return service.collection.finishLoading().then(function() {
+        $rootScope.$apply();
         return token;
       });
     });
@@ -80,6 +81,7 @@ function factory(
       });
     }).then(function(txn) {
       return service.collection.finishLoading().then(function() {
+        $rootScope.$apply();
         return txn;
       });
     });

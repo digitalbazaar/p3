@@ -70,17 +70,17 @@
     </tbody>
   </table>
   <!-- Delete budget alert -->
-  <div data-alert-modal="model.showDeleteBudgetAlert"
-    data-modal-header="Warning"
-    data-modal-ok="Delete"
-    data-modal-cancel="Cancel"
-    data-modal-on-close="model.confirmDeleteBudget(err, result)">
-    <div>
+  <div stackable="model.showDeleteBudgetAlert"
+    stackable-modal="true"
+    stackable-closed="model.confirmDeleteBudget(err, result)">
+    <div data-alert-modal
+      data-modal-header="Warning"
+      data-modal-ok="Delete"
+      data-modal-cancel="Cancel">
       <p>Are you sure that you want to delete this budget?</p>
       <div data-budget-selector
         data-selected="model.budgetToDelete"
         data-invalid="invalidBudget" data-fixed="true"></div>
-    </div>
   </div>
   <div data-ng-show="!model.state.budgets.loading && model.budgets.length == 0">
     <p class="center">You have no budgets for this identity.</p>

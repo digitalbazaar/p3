@@ -304,24 +304,26 @@
   </div>
 
   <!-- Delete asset alert -->
-  <div data-alert-modal="showDeleteAssetAlert"
-    data-modal-header="Warning"
-    data-modal-ok="Delete"
-    data-modal-cancel="Cancel"
-    data-modal-on-close="confirmDeleteAsset(err, result)">
-    <div>
+  <div stackable="showDeleteAssetAlert"
+    stackable-modal="true"
+    stackable-closed="confirmDeleteAsset(err, result)">
+    <div data-alert-modal
+      data-modal-header="Warning"
+      data-modal-ok="Delete"
+      data-modal-cancel="Cancel">
       <p>Are you sure that you want to delete this asset?</p>
       <div>FIXME: display asset</div>
     </div>
   </div>
 
   <!-- Delete listing alert -->
-  <div data-alert-alert="showDeleteListingAlert"
-    data-modal-header="Warning"
-    data-modal-ok="Delete"
-    data-modal-cancel="Cancel"
-    data-modal-on-close="confirmDeleteListing(err, result)">
-    <div>
+  <div stackable="showDeleteListingAlert"
+    stackable-modal="true"
+    stackable-closed="confirmDeleteListing(err, result)">
+    <div data-alert-modal
+      data-modal-header="Warning"
+      data-modal-ok="Delete"
+      data-modal-cancel="Cancel">
       <p>Are you sure that you want to delete this listing?</p>
       <div>FIXME: display listing</div>
     </div>

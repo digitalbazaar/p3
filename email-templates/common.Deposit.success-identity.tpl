@@ -9,7 +9,7 @@ More info is available at http://payswarm.com/wiki/Demo_Warning.
 *** NOTE ***
 
 {% endif -%}
-Your {% if deposit.source.cardNumber %}credit card{% else if deposit.source.bankAccount %}bank account{% else %}account{% endif %} has been charged ${{deposit.amount}} {{deposit.currency}}. 
+Your {% if deposit.source.cardNumber %}credit card{% elseif deposit.source.bankAccount %}bank account{% else %}account{% endif %} has been charged ${{deposit.amount}} {{deposit.currency}}. 
 
 {%- if deposit.source.bankAccount %}
 
@@ -25,7 +25,7 @@ Source:
  From:    {{deposit.source.label}}
 {% if deposit.source.cardNumber %} Number:  {{deposit.source.cardNumber}}
  Exp:     {{deposit.source.cardExpMonth}}/{{deposit.source.cardExpYear}}
-{% else if deposit.source.bankAccount %} Routing: {{deposit.source.bankRoutingNumber}}
+{% elseif deposit.source.bankAccount %} Routing: {{deposit.source.bankRoutingNumber}}
  Account: {{deposit.source.bankAccount}}
 {% endif %} Charge:  ${{deposit.amount}} {{deposit.currency}}
 Deposit Details*:

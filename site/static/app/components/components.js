@@ -27,7 +27,6 @@ define([
   'bedrock/app/components/navbar/navbar',
   'bedrock/app/components/passcode/passcode',
   'bedrock/app/components/placeholder/placeholder',
-  'bedrock/app/components/popover-template/popover-template',
   'bedrock/app/components/selector/selector',
   'bedrock/app/components/settings/settings',
   'bedrock/app/components/slug/slug',

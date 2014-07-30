@@ -31,8 +31,9 @@
           <th class="action">Action</th>
         </tr>
       </thead>
-      <tbody>
-      <tr data-ng-repeat="card in model.creditCards | orderBy:'label'"
+      <tbody ng-init="model.creditCardActionMenus = []">
+      <tr ng-repeat="card in model.creditCards | orderBy:'label'"
+        ng-init="model.creditCardActionMenus[$index] = {}"
         data-fadeout="card.deleted"
         data-fadeout-callback="model.deletePaymentToken(card)"
         data-fadein="card.showDeletedError"
@@ -71,12 +72,33 @@
         <!-- Action -->
         <td class="action">
           <div class="btn-group">
-            <a class="btn"
-              data-popover-template="/app/components/payment-token/credit-card-action-menu.html"
-              data-popover-visible="showCreditCardActionMenu"
-              data-placement="bottom">
+            <a href="#" class="btn"
+              stackable-trigger="model.creditCardActionMenus[$index]"
+              stackable-toggle="'active'">
               <i class="icon-chevron-down"></i>
             </a>
+          </div>
+          <div stackable-popover="model.creditCardActionMenus[$index]"
+            stackable-hide-arrow="true"
+            stackable-placement="bottom"
+            stackable-alignment="right">
+            <ul class="stackable-menu">
+              <li>
+                <a class="stackable-cancel"
+                  data-ng-click="model.modals.paymentToken=card; model.modals.showEditPaymentToken=true">
+                  <i class="icon-pencil"></i> Edit
+                </a>
+              </li>
+              <li class="divider"></li>
+              <li data-ng-class="{disabled: card.backupSourceFor.length, 'btn-danger': !card.backupSourceFor.length}">
+                <a class="stackable-cancel" data-ng-show="card.backupSourceFor.length" href="#">
+                  <i class="icon-remove"></i> Delete
+                </a>
+                <a class="stackable-cancel" data-ng-hide="card.backupSourceFor.length" data-ng-click="card.deleted=true">
+                  <i class="icon-remove"></i> Delete
+                </a>
+              </li>
+            </ul>
           </div>
         </td>
       </tr>
@@ -120,9 +142,9 @@
           <th class="action">Action</th>
         </tr>
       </thead>
-      <tbody>
-      <tr data-ng-repeat="bankAccount in model.bankAccounts | orderBy:'label'"
-        data-ng-class="{info: bankAccount.sysStatus == 'active' && !bankAccount.sysVerified && bankAccount.sysVerifyReady}">
+      <tbody ng-init="model.bankAccountActionMenus = []">
+      <tr ng-repeat="bankAccount in model.bankAccounts | orderBy:'label'"
+        ng-class="{info: bankAccount.sysStatus == 'active' && !bankAccount.sysVerified && bankAccount.sysVerifyReady}">
         <!-- Name -->
         <td>
           <span>{{bankAccount.label}}</span>
@@ -155,12 +177,38 @@
         <!-- Action -->
         <td class="action">
           <div class="btn-group">
-            <a class="btn"
-              data-popover-template="/app/components/payment-token/bank-account-action-menu.html"
-              data-popover-visible="showBankAccountActionMenu"
-              data-placement="bottom">
+            <a href="#" class="btn"
+              stackable-trigger="model.bankAccountActionMenus[$index]"
+              stackable-toggle="'active'">
               <i class="icon-chevron-down"></i>
             </a>
+          </div>
+          <div stackable-popover="model.bankAccountActionMenus[$index]"
+            stackable-hide-arrow="true"
+            stackable-placement="bottom"
+            stackable-alignment="right">
+            <ul class="stackable-menu">
+              <li>
+                <a class="stackable-cancel"
+                  data-ng-click="model.modals.paymentToken=bankAccount; model.modals.showEditPaymentToken=true">
+                  <i class="icon-pencil"></i> Edit
+                </a>
+              </li>
+              <li class="divider"></li>
+              <li class="btn-danger"
+                data-ng-show="bankAccount.sysStatus == 'active' || bankAccount.sysStatus == 'disabled'"
+                data-ng-disabled="!bankAccount.sysVerified && bankAccount.sysStatus != 'disabled'">
+                <a class="stackable-cancel" data-ng-click="model.deletePaymentToken(bankAccount)">
+                  <i class="icon-trash"></i> Delete
+                </a>
+              </li>
+              <li class="btn-success"
+                data-ng-show="!bankAccount.sysStatus || bankAccount.sysStatus == 'deleted'">
+                <a class="stackable-cancel" data-ng-click="model.restorePaymentToken(bankAccount)">
+                  <i class="icon-undo"></i> Restore
+                </a>
+              </li>
+            </ul>
           </div>
         </td>
       </tr>

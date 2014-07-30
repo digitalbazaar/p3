@@ -1,6 +1,6 @@
 <div class="modal">
   <div class="modal-header" data-ng-switch="model.state">
-    <a class="close btn-close">&times;</a>
+    <a class="close stackable-cancel">&times;</a>
     <h3>Select a Payment Method</h3>
   </div>
   <div class="modal-body" data-ng-switch="model.state">
@@ -13,13 +13,13 @@
         data-omit="omit" data-instant="instant"></div>
     </div>
   </div>
-  <div data-modal-footer>
+  <div class="modal-footer">
     <span data-spinner="model.loading"
       data-spinner-class="prepend-btn-spinner"></span>
     <button class="btn btn-primary"
       data-ng-disabled="model.loading || !model.backupSource"
       data-ng-click="confirm()"><i class="icon-ok"></i> Confirm</button>
-    <button data-ng-disabled="loading" class="btn btn-close">Cancel</button>
+    <button data-ng-disabled="loading" class="btn stackable-cancel">Cancel</button>
     </span>
   </div>
 </div>

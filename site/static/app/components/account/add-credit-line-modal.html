@@ -1,6 +1,6 @@
 <div class="modal">
   <div class="modal-header" data-ng-switch="model.state">
-    <a class="close btn-close">&times;</a>
+    <a class="close stackable-close">&times;</a>
     <h3 data-ng-switch-when="reviewing">Open a Credit Line</h3>
     <h3 data-ng-switch-when="complete">Credit Line Opened</h3>
   </div>
@@ -13,17 +13,17 @@
       <div data-ng-include="'/app/components/account/add-credit-line-complete.html'"></div>
     </div>
   </div>
-  <div data-modal-footer>
+  <div class="modal-footer">
     <span data-spinner="model.loading"
       data-spinner-class="prepend-btn-spinner"></span>
     <span data-ng-show="model.state == 'reviewing'">
       <button class="btn btn-primary"
         data-ng-disabled="model.loading || !model.backupSource"
         data-ng-click="confirm()"><i class="icon-ok"></i> Confirm</button>
-      <button data-ng-disabled="model.loading" class="btn btn-close">Cancel</button>
+      <button data-ng-disabled="model.loading" class="btn stackable-cancel">Cancel</button>
     </span>
     <span data-ng-show="model.state == 'complete'">
-      <button class="btn btn-close btn-done">Done</button>
+      <button class="btn stackable-cancel">Done</button>
     </span>
   </div>
 </div>

@@ -1,6 +1,6 @@
 <div class="modal">
   <div class="modal-header" data-ng-switch="state">
-    <a class="close btn-close">&times;</a>
+    <a class="close stackable-cancel">&times;</a>
     <h3 data-ng-switch-when="preparing">
       <div data-ng-show="!account.sysAllowStoredValue && account.balance[0] != '-'">
         Credit Fully Paid Off
@@ -33,18 +33,18 @@
       <div data-ng-include="'/app/components/account/deposit-complete.html'"></div>
     </div>
   </div>
-  <div data-modal-footer>
+  <div class="modal-footer">
     <span data-spinner="loading"
       data-spinner-class="prepend-btn-spinner"></span>
     <span data-ng-show="state == 'preparing'">
       <div data-ng-show="!account.sysAllowStoredValue && account.balance[0] != '-'">
-        <button data-ng-disabled="loading" class="btn btn-close">Ok</button>
+        <button data-ng-disabled="loading" class="btn stackable-cancel">Ok</button>
       </div>
       <div data-ng-hide="!account.sysAllowStoredValue && account.balance[0] != '-'">
         <button class="btn btn-primary btn-review"
           data-ng-disabled="loading || !input.source"
           data-ng-click="review()">Review</button>
-        <button data-ng-disabled="loading" class="btn btn-close">Cancel</button>
+        <button data-ng-disabled="loading" class="btn stackable-cancel">Cancel</button>
       </div>
     </span>
     <span data-ng-show="state == 'reviewing'">
@@ -56,7 +56,7 @@
         data-ng-click="prepare()">Back</button>
     </span>
     <span data-ng-show="state == 'complete'">
-      <button class="btn btn-close btn-done">Done</button>
+      <button class="btn stackable-cancel">Done</button>
     </span>
   </div>
 </div>

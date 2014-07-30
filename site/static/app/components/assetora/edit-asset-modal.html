@@ -1,18 +1,18 @@
 <div class="modal">
   <div class="modal-header">
-    <a class="close btn-close">&times;</a>
+    <a class="close stackable-cancel">&times;</a>
     <h3>Edit Asset</h3>
   </div>
   <div class="modal-body">
     <div data-ng-include="'/app/components/util/demo-warning.html'"></div>
     <div data-ng-include="'/app/components/assetora/asset-form.html'"></div>
   </div>
-  <div data-modal-footer>
+  <div class="modal-footer">
     <span data-spinner="model.loading"
       data-spinner-class="prepend-btn-spinner"></span>
     <button class="btn btn-primary"
       data-ng-disabled="model.loading"
       data-ng-click="editAsset()"><i class="icon-ok"></i> Save</button>
-    <button class="btn btn-close" data-ng-disabled="model.loading">Cancel</button>
+    <button class="btn stackable-cancel" data-ng-disabled="model.loading">Cancel</button>
   </div>
 </div>

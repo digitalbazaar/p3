@@ -9,14 +9,13 @@ define(['angular'], function(angular) {
 
 /* @ngInject */
 function factory(
-  AccountService, AlertService, IdentityService,
-  ModalService, PaymentTokenService, config) {
-  return ModalService.directive({
-    name: 'editAccount',
+  AccountService, AlertService, IdentityService, PaymentTokenService, config) {
+  return {
     scope: {sourceAccount: '=account'},
+    require: '^stackable',
     templateUrl: '/app/components/account/edit-account-modal.html',
     link: Link
-  });
+  };
 
   function Link(scope, element, attrs) {
     var model = scope.model = {};

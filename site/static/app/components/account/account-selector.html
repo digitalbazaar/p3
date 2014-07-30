@@ -37,8 +37,9 @@
       <div data-ng-show="showDepositButton">
         <button class="btn btn-success"
           data-ng-click="model.showDepositModal=true"><i class="icon-plus"></i> Deposit</button><br/>
-        <div data-deposit-modal="model.showDepositModal"
-          data-account="selected" data-instant="instant"></div>
+        <div stackable="model.showDepositModal" stackable-modal="true">
+          <div data-deposit-modal data-account="selected" data-instant="instant"></div>
+        </div>
       </div>
       <div data-ng-show="model.balanceTooLow">
         <hr />
@@ -71,7 +72,11 @@
       </div>
     </div>
   </div>
-  <div data-add-account-modal="model.showAddAccountModal"
-    data-modal-on-close="!err && (selected=result)"></div>
-  <div data-edit-account-modal="model.showEditAccount" data-account="selected"></div>
+  <div stackable="model.showAddAccountModal" stackable-modal="true"
+    stackable-closed="!err && (selected=result)">
+    <div data-add-account-modal></div>
+  </div>
+  <div stackable="model.showEditAccount" stackable-modal="true">
+    <div data-edit-account-modal data-account="selected"></div>
+  </div>
 </div>

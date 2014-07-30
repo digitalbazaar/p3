@@ -8,13 +8,13 @@ define(['angular'], function(angular) {
 'use strict';
 
 /* @ngInject */
-function factory(
-  AccountService, AlertService, IdentityService, ModalService, config) {
-  return ModalService.directive({
-    name: 'welcome',
+function factory(AccountService, AlertService, IdentityService, config) {
+  return {
+    scope: {},
+    require: '^stackable',
     templateUrl: '/app/components/dashboard/welcome-modal.html',
     link: Link
-  });
+  };
 
   function Link(scope) {
     var model = scope.model = {};

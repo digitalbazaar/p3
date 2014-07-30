@@ -8,12 +8,13 @@ define(['angular'], function(angular) {
 'use strict';
 
 /* @ngInject */
-function factory(AlertService, HostedAssetService, ModalService, config) {
-  return ModalService.directive({
-    name: 'addInvoice',
+function factory(AlertService, HostedAssetService, config) {
+  return {
+    scope: {},
+    require: '^stackable',
     templateUrl: '/app/components/assetora/add-invoice-modal.html',
     link: Link
-  });
+  };
 
   function Link(scope) {
     // FIXME: use root/global data, move over to model

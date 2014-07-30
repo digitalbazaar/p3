@@ -330,10 +330,14 @@
   </div>
 
   <!-- Modals -->
-  <div data-add-asset-modal="model.modals.showAddAsset"></div>
-  <div data-protect-asset-modal="model.modals.showProtectAsset"
-    data-asset="model.modals.asset"></div>
-  <div data-add-listing-modal="model.modals.showAddListing"
-    data-asset="model.modals.asset"></div>
+  <div stackable="model.modals.showAddAsset" stackable-modal="true">
+    <div data-add-asset-modal></div>
+  </div>
+  <div stackable="model.modals.showProtectAsset" stackable-modal="true">
+    <div data-protect-asset-modal data-asset="model.modals.asset"></div>
+  </div>
+  <div stackable="model.modals.showAddListing" stackable-modal="true">
+    <div data-add-listing-modal data-asset="model.modals.asset"></div>
+  </div>
 
 </div>

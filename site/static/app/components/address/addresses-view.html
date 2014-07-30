@@ -54,7 +54,9 @@
       class="btn btn-success pull-right"
       data-ng-click="model.modals.showAddAddress=true"><i class="icon-plus"></i> Add Address</button>
   </div>
-  <div data-add-address-modal="model.modals.showAddAddress"></div>
+  <div stackable="model.modals.showAddAddress" stackable-modal="true">
+    <div data-add-address-modal></div>
+  </div>
 
   <!-- Removing last address alert -->
   <div stackable="model.modals.showDeleteAddressAlert"

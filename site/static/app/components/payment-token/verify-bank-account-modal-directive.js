@@ -8,14 +8,13 @@ define(['angular'], function(angular) {
 'use strict';
 
 /* @ngInject */
-function factory(
-  AccountService, AlertService, ModalService, PaymentTokenService, config) {
-  return ModalService.directive({
-    name: 'verifyBankAccount',
+function factory(AccountService, AlertService, PaymentTokenService, config) {
+  return {
     scope: {paymentToken: '='},
+    require: '^stackable',
     templateUrl: '/app/components/payment-token/verify-bank-account-modal.html',
     link: Link
-  });
+  };
 
   function Link(scope) {
     // FIXME: use 'model'

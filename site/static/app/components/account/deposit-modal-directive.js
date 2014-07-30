@@ -8,17 +8,16 @@ define(['angular'], function(angular) {
 'use strict';
 
 /* @ngInject */
-function factory(
-  AccountService, AlertService, ModalService, TransactionService, config) {
-  return ModalService.directive({
-    name: 'deposit',
+function factory(AccountService, AlertService, TransactionService, config) {
+  return {
     scope: {
       account: '=',
       instant: '='
     },
+    require: '^stackable',
     templateUrl: '/app/components/account/deposit-modal.html',
     link: Link
-  });
+  };
 
   function Link(scope) {
     // FIXME: be consistent with use of 'model'

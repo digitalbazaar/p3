@@ -101,15 +101,22 @@
   <div data-ng-show="!model.state.accounts.loading && model.accounts.length == 0">
     <p class="center">You have no accounts for this identity.</p>
   </div>
-  <div data-deposit-modal="model.modals.showDeposit"
-    data-account="model.modals.account" data-instant="false"></div>
-  <div data-withdraw-modal="model.modals.showWithdraw"
-    data-account="model.modals.account"></div>
-  <div data-edit-account-modal="model.modals.showEditAccount"
-    data-account="model.modals.account"></div>
-  <div data-add-account-modal="model.modals.showAddAccount"></div>
-  <div data-add-credit-line-modal="model.modals.showAddCreditLine"
-    data-account="model.modals.account"></div>
-  <div data-redeem-promo-code-modal="model.modals.showRedeemPromoCode"
-    data-account="model.modals.account"></div>
+  <div stackable="model.modals.showDeposit" stackable-modal="true">
+    <div data-deposit-modal data-account="model.modals.account" data-instant="false"></div>
+  </div>
+  <div stackable="model.modals.showWithdraw" stackable-modal="true">
+    <div data-withdraw-modal data-account="model.modals.account"></div>
+  </div>
+  <div stackable="model.modals.showEditAccount" stackable-modal="true">
+    <div data-edit-account-modal data-account="model.modals.account"></div>
+  </div>
+  <div stackable="model.modals.showAddAccount" stackable-modal="true">
+    <div data-add-account-modal></div>
+  </div>
+  <div stackable="model.modals.showAddCreditLine" stackable-modal="true">
+    <div data-add-credit-line-modal data-account="model.modals.account"></div>
+  </div>
+  <div stackable="model.modals.showRedeemPromoCode" stackable-modal="true">
+    <div data-redeem-promo-code-modal data-account="model.modals.account"></div>
+  </div>
 </div>

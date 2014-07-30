@@ -8,14 +8,13 @@ define([], function() {
 'use strict';
 
 /* @ngInject */
-function factory(
-  $rootScope, AccountService, AlertService, IdentityService, ModalService) {
-  return ModalService.directive({
-    name: 'addCreditLine',
+function factory($rootScope, AccountService, AlertService, IdentityService) {
+  return {
     scope: {account: '='},
+    require: '^stackable',
     templateUrl: '/app/components/account/add-credit-line-modal.html',
     link: Link
-  });
+  };
 
   function Link(scope) {
     var model = scope.model = {};

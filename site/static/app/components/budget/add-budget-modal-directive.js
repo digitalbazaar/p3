@@ -9,12 +9,13 @@ define([], function() {
 
 /* @ngInject */
 function factory(
-  AlertService, BudgetService, IdentityService, ModalService, config, util) {
-  return ModalService.directive({
-    name: 'addBudget',
+  AlertService, BudgetService, IdentityService, config, util) {
+  return {
+    scope: {},
+    require: '^stackable',
     templateUrl: '/app/components/budget/add-budget-modal.html',
     link: Link
-  });
+  };
 
   function Link(scope) {
     scope.model = {};

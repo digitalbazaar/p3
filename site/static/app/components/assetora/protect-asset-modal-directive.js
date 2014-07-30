@@ -10,15 +10,15 @@ define([
 'use strict';
 
 /* @ngInject */
-function factory(AlertService, HostedAssetService, ModalService, config) {
-  return ModalService.directive({
-    name: 'protectAsset',
+function factory(AlertService, HostedAssetService, config) {
+  return {
     scope: {asset: '='},
+    require: '^stackable',
     templateUrl: '/app/components/assetora/protect-asset-modal.html',
     link: Link
-  });
+  };
 
-  function Link(scope, element, attrs) {
+  function Link(scope) {
     // FIXME: move over to model
     var data = config.data || {};
     scope.identity = config.data.identity || {};

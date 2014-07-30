@@ -9,17 +9,16 @@ define(['angular'], function(angular) {
 
 /* @ngInject */
 function factory(
-  AccountService, AlertService, IdentityService, ModalService,
-  PaymentTokenService, config) {
-  return ModalService.directive({
-    name: 'editPaymentToken',
+  AccountService, AlertService, IdentityService, PaymentTokenService, config) {
+  return {
     scope: {
       paymentMethods: '=',
       sourcePaymentToken: '=paymentToken'
     },
+    name: 'editPaymentToken',
     templateUrl: '/app/components/payment-token/edit-payment-token-modal.html',
     link: Link
-  });
+  };
 
   function Link(scope) {
     scope.model = {};

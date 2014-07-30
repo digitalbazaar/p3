@@ -7,6 +7,8 @@
     <div data-ng-hide="services.address.loading"
       data-address-view="selected"></div>
   </div>
-  <div data-add-address-modal="showAddAddressModal"
-    data-modal-on-close="!err && (selected=result)"></div>
+  <div stackable="showAddAddressModal" stackable-modal="true"
+    stackable-closed="!err && (selected=result)">
+    <div data-add-address-modal></div>
+  </div>
 </div>

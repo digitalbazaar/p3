@@ -9,14 +9,13 @@ define(['angular'], function(angular) {
 
 /* @ngInject */
 function factory(
-  $filter, AccountService, AlertService,
-  ModalService, TransactionService, config) {
-  return ModalService.directive({
-    name: 'withdraw',
+  $filter, AccountService, AlertService, TransactionService, config) {
+  return {
     scope: {account: '='},
+    require: '^stackable',
     templateUrl: '/app/components/account/withdraw-modal.html',
     link: Link
-  });
+  };
 
   function Link(scope, element, attrs) {
     // FIXME: be consistent with use of 'model'

@@ -8,16 +8,16 @@ define([], function() {
 'use strict';
 
 /* @ngInject */
-function factory(ModalService, config) {
-  return ModalService.directive({
-    name: 'addInvoiceItem',
+function factory(config) {
+  return {
     scope: {
       asset: '=',
       destination: '='
     },
+    require: '^stackable',
     templateUrl: '/app/components/add-invoice-item-modal.html',
     link: Link
-  });
+  };
 
   function Link(scope) {
     // FIXME: use root/global data, move over to model

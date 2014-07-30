@@ -8,12 +8,13 @@ define([], function() {
 'use strict';
 
 /* @ngInject */
-function factory(AlertService, HostedAssetService, ModalService, config) {
-  return ModalService.directive({
-    name: 'addAsset',
+function factory(AlertService, HostedAssetService, config) {
+  return {
+    scope: {},
     templateUrl: '/app/components/assetora/add-asset-modal.html',
+    require: '^stackable',
     link: Link
-  });
+  };
 
   function Link(scope) {
     // FIXME: use root/global data, move over to model

@@ -8,14 +8,13 @@ define(['angular'], function(angular) {
 'use strict';
 
 /* @ngInject */
-function factory(
-  AddressService, AlertService, IdentityService, ModalService, config) {
-  return ModalService.directive({
-    name: 'addAddress',
+function factory(AddressService, AlertService, IdentityService, config) {
+  return {
     scope: {showAlert: '@addAddressAlertModal'},
+    require: '^stackable',
     templateUrl: '/app/components/address/add-address-modal.html',
     link: Link
-  });
+  };
 
   function Link(scope) {
     // FIXME: use 'model'

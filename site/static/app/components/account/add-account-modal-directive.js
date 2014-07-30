@@ -8,14 +8,13 @@ define([], function() {
 'use strict';
 
 /* @ngInject */
-function factory(
-  AccountService, AlertService, IdentityService, ModalService, config) {
-  return ModalService.directive({
-    name: 'addAccount',
+function factory(AccountService, AlertService, IdentityService, config) {
+  return {
     scope: {showAlert: '@addAccountAlertModal'},
+    require: '^stackable',
     templateUrl: '/app/components/account/add-account-modal.html',
     link: Link
-  });
+  };
 
   function Link(scope) {
     var model = scope.model = {};

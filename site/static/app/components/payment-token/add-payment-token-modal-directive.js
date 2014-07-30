@@ -8,14 +8,13 @@ define([], function() {
 'use strict';
 
 /* @ngInject */
-function factory(
-  AlertService, IdentityService, ModalService, PaymentTokenService, config) {
-  return ModalService.directive({
-    name: 'addPaymentToken',
+function factory(AlertService, IdentityService, PaymentTokenService, config) {
+  return {
     scope: {paymentMethods: '='},
+    require: '^stackable',
     templateUrl: '/app/components/payment-token/add-payment-token-modal.html',
     link: Link
-  });
+  };
 
   function Link(scope) {
     scope.model = {};

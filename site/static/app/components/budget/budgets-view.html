@@ -85,7 +85,10 @@
   <div data-ng-show="!model.state.budgets.loading && model.budgets.length == 0">
     <p class="center">You have no budgets for this identity.</p>
   </div>
-  <div data-edit-budget-modal="model.modals.showEditBudget"
-    data-budget="model.modals.budget"></div>
-  <div data-add-budget-modal="model.modals.showAddBudget"></div>
+  <div stackable="model.modals.showEditBudget" stackable-modal="true">
+    <div data-edit-budget-modal data-budget="model.modals.budget"></div>
+  </div>
+  <div stackable="model.modals.showAddBudget" stackable-modal="true">
+    <div data-add-budget-modal></div>
+  </div>
 </div>

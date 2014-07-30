@@ -288,12 +288,15 @@
   </div>
 </div> <!-- end error -->
 
-<div data-add-address-modal="model.showAddAddressModal"
-  data-add-address-alert-modal="Before you complete your purchase, please enter your {{(model.identity.type == 'VendorIdentity' && 'business\'s ') || ''}}name and address information."
-  data-modal-on-close="model.addAddressModalDone()"></div>
-<div data-add-account-modal="model.showAddAccountModal"
-  data-add-account-alert-modal="model.purchase"
-  data-modal-on-close="model.addAccountModalDone()"></div>
+<div stackable="model.showAddAddressModal" stackable-modal="true"
+  stackable-closed="model.addAddressModalDone()">
+  <div data-add-address-modal
+    data-add-address-alert-modal="Before you complete your purchase, please enter your {{(model.identity.type == 'VendorIdentity' && 'business\'s ') || ''}}name and address information."></div>
+</div>
+<div stackable="model.purchase" stackable-modal="true"
+  stackable-closed="model.addAccountModalDone()">
+  <div data-add-account-modal></div>
+</div>
 
 </div> <!-- end container -->
 {% endraw %}

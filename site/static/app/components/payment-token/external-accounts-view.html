@@ -31,9 +31,8 @@
           <th class="action">Action</th>
         </tr>
       </thead>
-      <tbody ng-init="model.creditCardActionMenus = []">
+      <tbody>
       <tr ng-repeat="card in model.creditCards | orderBy:'label'"
-        ng-init="model.creditCardActionMenus[$index] = {}"
         data-fadeout="card.deleted"
         data-fadeout-callback="model.deletePaymentToken(card)"
         data-fadein="card.showDeletedError"
@@ -71,17 +70,7 @@
         </td>
         <!-- Action -->
         <td class="action">
-          <div class="btn-group">
-            <a href="#" class="btn"
-              stackable-trigger="model.creditCardActionMenus[$index]"
-              stackable-toggle="'active'">
-              <i class="icon-chevron-down"></i>
-            </a>
-          </div>
-          <stackable-popover stackable="model.creditCardActionMenus[$index]"
-            stackable-hide-arrow="true"
-            stackable-placement="bottom"
-            stackable-alignment="right">
+          <action-menu>
             <ul class="stackable-menu">
               <li>
                 <a class="stackable-cancel"
@@ -99,7 +88,7 @@
                 </a>
               </li>
             </ul>
-          </stackable-popover>
+          </action-menu>
         </td>
       </tr>
       </tbody>
@@ -142,7 +131,7 @@
           <th class="action">Action</th>
         </tr>
       </thead>
-      <tbody ng-init="model.bankAccountActionMenus = []">
+      <tbody>
       <tr ng-repeat="bankAccount in model.bankAccounts | orderBy:'label'"
         ng-class="{info: bankAccount.sysStatus == 'active' && !bankAccount.sysVerified && bankAccount.sysVerifyReady}">
         <!-- Name -->
@@ -176,17 +165,7 @@
         </td>
         <!-- Action -->
         <td class="action">
-          <div class="btn-group">
-            <a href="#" class="btn"
-              stackable-trigger="model.bankAccountActionMenus[$index]"
-              stackable-toggle="'active'">
-              <i class="icon-chevron-down"></i>
-            </a>
-          </div>
-          <stackable-popover stackable="model.bankAccountActionMenus[$index]"
-            stackable-hide-arrow="true"
-            stackable-placement="bottom"
-            stackable-alignment="right">
+          <action-menu>
             <ul class="stackable-menu">
               <li>
                 <a class="stackable-cancel"
@@ -209,7 +188,7 @@
                 </a>
               </li>
             </ul>
-          </stackable-popover>
+          </action-menu>
         </td>
       </tr>
       </tbody>

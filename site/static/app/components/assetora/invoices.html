@@ -117,8 +117,7 @@
   </div>
 
   <!-- delete alert -->
-  <div stackable="showDeleteInvoiceAlert"
-    stackable-modal="true"
+  <stackable-modal stackable="showDeleteInvoiceAlert"
     stackable-closed="confirmDeleteInvoice(err, result)">
     <div data-alert-modal
       data-modal-header="Warning"
@@ -127,14 +126,14 @@
       <p>Are you sure that you want to delete this invoice?</p>
       <div>FIXME: display invoice</div>
     </div>
-  </div>
+  </stackable-modal>
 
   <!-- Modals -->
-  <div stackable="model.modals.showAddInvoice" stackable-modal="true">
+  <stackable-modal stackable="model.modals.showAddInvoice">
     <div data-add-invoice-modal></div>
-  </div>
-  <!-- <div stackable="model.modals.showEditInvoice" stackable-modal="true">
+  </stackable-modal>
+  <!-- <stackable-modal stackable="model.modals.showEditInvoice">
     <div data-edit-invoice-modal></div>
-  </div> -->
+  </stackable-modal> -->
 
 </div>

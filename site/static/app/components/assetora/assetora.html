@@ -304,8 +304,7 @@
   </div>
 
   <!-- Delete asset alert -->
-  <div stackable="showDeleteAssetAlert"
-    stackable-modal="true"
+  <stackable-modal stackable="showDeleteAssetAlert"
     stackable-closed="confirmDeleteAsset(err, result)">
     <div data-alert-modal
       data-modal-header="Warning"
@@ -314,11 +313,10 @@
       <p>Are you sure that you want to delete this asset?</p>
       <div>FIXME: display asset</div>
     </div>
-  </div>
+  </stackable-modal>
 
   <!-- Delete listing alert -->
-  <div stackable="showDeleteListingAlert"
-    stackable-modal="true"
+  <stackable-modal stackable="showDeleteListingAlert"
     stackable-closed="confirmDeleteListing(err, result)">
     <div data-alert-modal
       data-modal-header="Warning"
@@ -327,17 +325,17 @@
       <p>Are you sure that you want to delete this listing?</p>
       <div>FIXME: display listing</div>
     </div>
-  </div>
+  </stackable-modal>
 
   <!-- Modals -->
-  <div stackable="model.modals.showAddAsset" stackable-modal="true">
+  <stackable-modal stackable="model.modals.showAddAsset">
     <div data-add-asset-modal></div>
-  </div>
-  <div stackable="model.modals.showProtectAsset" stackable-modal="true">
+  </stackable-modal>
+  <stackable-modal stackable="model.modals.showProtectAsset">
     <div data-protect-asset-modal data-asset="model.modals.asset"></div>
-  </div>
-  <div stackable="model.modals.showAddListing" stackable-modal="true">
+  </stackable-modal>
+  <stackable-modal stackable="model.modals.showAddListing">
     <div data-add-listing-modal data-asset="model.modals.asset"></div>
-  </div>
+  </stackable-modal>
 
 </div>

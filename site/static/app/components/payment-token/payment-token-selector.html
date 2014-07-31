@@ -28,8 +28,8 @@
   <div data-ng-show="selected.showExpired" class="alert alert-error">
     <strong>Error!</strong> This payment method has expired.
   </div>
-  <div stackable="showAddPaymentTokenModal" stackable-modal="true"
+  <stackable-modal stackable="showAddPaymentTokenModal"
     stackable-closed="!err && (selected=result)">
     <div data-add-payment-token-modal data-payment-methods="paymentMethods"></div>
-  </div>
+  </stackable-modal>
 </div>

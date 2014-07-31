@@ -78,7 +78,7 @@
               <i class="icon-chevron-down"></i>
             </a>
           </div>
-          <div stackable-popover="model.creditCardActionMenus[$index]"
+          <stackable-popover stackable="model.creditCardActionMenus[$index]"
             stackable-hide-arrow="true"
             stackable-placement="bottom"
             stackable-alignment="right">
@@ -99,7 +99,7 @@
                 </a>
               </li>
             </ul>
-          </div>
+          </stackable-popover>
         </td>
       </tr>
       </tbody>
@@ -107,12 +107,12 @@
     <div data-ng-show="!model.state.loading && model.creditCards.length == 0">
       <p class="center">You have no credit cards associated with this identity.</p>
     </div>
-    <div stackable="model.modals.showAddCreditCard" stackable-modal="true">
+    <stackable-modal stackable="model.modals.showAddCreditCard">
       <div data-add-payment-token-modal data-payment-methods="model.creditCardMethods"></div>
-    </div>
-    <div stackable="model.modals.showEditPaymentToken" stackable-modal="true">
+    </stackable-modal>
+    <stackable-modal stackable="model.modals.showEditPaymentToken">
       <div data-edit-payment-token-modal data-payment-token="model.modals.paymentToken"></div>
-    </div>
+    </stackable-modal>
   </div>
 
   <div class="section section-bank-accounts">
@@ -183,7 +183,7 @@
               <i class="icon-chevron-down"></i>
             </a>
           </div>
-          <div stackable-popover="model.bankAccountActionMenus[$index]"
+          <stackable-popover stackable="model.bankAccountActionMenus[$index]"
             stackable-hide-arrow="true"
             stackable-placement="bottom"
             stackable-alignment="right">
@@ -209,7 +209,7 @@
                 </a>
               </li>
             </ul>
-          </div>
+          </stackable-popover>
         </td>
       </tr>
       </tbody>
@@ -217,11 +217,11 @@
     <div data-ng-show="!model.state.loading && model.bankAccounts.length == 0">
       <p class="center">You have no bank accounts associated with this identity.</p>
     </div>
-    <div stackable="model.modals.showAddBankAccount" stackable-modal="true">
+    <stackable-modal stackable="model.modals.showAddBankAccount">
       <div data-add-payment-token-modal data-payment-methods="model.bankAccountMethods"></div>
-    </div>
-    <div stackable="model.modals.showVerifyBankAccountModal" stackable-model="true">
+    </stackable-modal>
+    <stackable-modal stackable="model.modals.showVerifyBankAccountModal">
       <div data-verify-bank-account-modal data-payment-token="model.modals.paymentToken"></div>
-    </div>
+    </stackable-modal>
   </div>
 </div>

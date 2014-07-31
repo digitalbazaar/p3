@@ -70,8 +70,7 @@
     </tbody>
   </table>
   <!-- Delete budget alert -->
-  <div stackable="model.showDeleteBudgetAlert"
-    stackable-modal="true"
+  <stackable-modal stackable="model.showDeleteBudgetAlert"
     stackable-closed="model.confirmDeleteBudget(err, result)">
     <div data-alert-modal
       data-modal-header="Warning"
@@ -81,14 +80,14 @@
       <div data-budget-selector
         data-selected="model.budgetToDelete"
         data-invalid="invalidBudget" data-fixed="true"></div>
-  </div>
+  </stackable-modal>
   <div data-ng-show="!model.state.budgets.loading && model.budgets.length == 0">
     <p class="center">You have no budgets for this identity.</p>
   </div>
-  <div stackable="model.modals.showEditBudget" stackable-modal="true">
+  <stackable-modal stackable="model.modals.showEditBudget">
     <div data-edit-budget-modal data-budget="model.modals.budget"></div>
-  </div>
-  <div stackable="model.modals.showAddBudget" stackable-modal="true">
+  </stackable-modal>
+  <stackable-modal stackable="model.modals.showAddBudget">
     <div data-add-budget-modal></div>
-  </div>
+  </stackable-modal>
 </div>

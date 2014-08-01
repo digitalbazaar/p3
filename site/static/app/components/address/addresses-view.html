@@ -20,7 +20,7 @@
       <tr>
         <th>Name</th>
         <th>Address</th>
-        <th class="action">Delete</th>
+        <th class="action">Action</th>
       </tr>
     </thead>
     <tbody>
@@ -33,9 +33,23 @@
         <td>
           <span data-address-view="address" data-no-label="true"></span>
         </td>
-        <!-- Delete -->
+        <!-- Action -->
         <td class="action">
-          <button class="btn btn-danger" title="Delete" data-ng-click="model.deleteAddress(address)"><i class="icon-remove"></i></button>
+          <action-menu>
+            <ul class="dropdown-menu stackable-menu">
+              <li class="disabled">
+                <a class="stackable-cancel">
+                  <i class="icon-pencil"></i> Edit
+                </a>
+              </li>
+              <li class="divider"></li>
+              <li class="btn-danger">
+                <a class="stackable-cancel" data-ng-click="model.deleteAddress(address)">
+                  <i class="icon-remove"></i> Delete
+                </a>
+              </li>
+            </ul>
+          </action-menu>
         </td>
       </tr>
     </tbody>

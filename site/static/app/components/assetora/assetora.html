@@ -69,34 +69,31 @@
             </td>
             <!-- Action -->
             <td class="action">
-              <div class="btn-group">
-                <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
-                  <i class="icon-chevron-down"></i>
-                </a>
-                <ul class="dropdown-menu">
+              <action-menu>
+                <ul class="dropdown-menu stackable-menu">
                   <li>
-                    <a data-ng-click="model.modals.asset=asset; model.modals.showAddListing=true">
+                    <a class="stackable-cancel" data-ng-click="model.modals.asset=asset; model.modals.showAddListing=true">
                       <i class="icon-plus"></i> Add Listing
                     </a>
                   </li>
                   <li>
-                    <a data-ng-click="model.modals.asset=asset; model.modals.showEditAsset=true">
+                    <a class="stackable-cancel" data-ng-click="model.modals.asset=asset; model.modals.showEditAsset=true">
                       <i class="icon-pencil"></i> Edit
                     </a>
                   </li>
                   <li>
-                    <a data-ng-click="model.modals.asset=asset; model.modals.showProtectAsset=true">
+                    <a class="stackable-cancel" data-ng-click="model.modals.asset=asset; model.modals.showProtectAsset=true">
                       <i class="icon-lock"></i> Protect
                     </a>
                   </li>
                   <li class="divider"></li>
                   <li class="btn-danger">
-                    <a data-ng-click="deleteAsset(asset)">
+                    <a class="stackable-cancel" data-ng-click="deleteAsset(asset)">
                       <i class="icon-remove"></i> Delete
                     </a>
                   </li>
                 </ul>
-              </div>
+              </action-menu>
             </td>
           </tr>
         </tbody>

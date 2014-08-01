@@ -27,29 +27,26 @@
         </td>
         <!-- Action -->
         <td class="action" data-ng-show="tokenList.length > 1">
-          <div class="btn-group">
-            <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
-              <i class="icon-chevron-down"></i>
-            </a>
-            <ul class="dropdown-menu">
+          <action-menu>
+            <ul class="dropdown-menu stackable-menu">
               <li data-ng-show="!$first">
-                <a data-ng-click="moveIndexUp($index)">
+                <a class="stackable-cancel" data-ng-click="moveIndexUp($index)">
                   <i class="icon-chevron-up"></i> Move Up
                 </a>
               </li>
               <li data-ng-show="!$last">
-                <a data-ng-click="moveIndexDown($index)">
+                <a class="stackable-menu" data-ng-click="moveIndexDown($index)">
                   <i class="icon-chevron-down"></i> Move Down
                 </a>
               </li>
               <li class="divider"></li>
               <li class="btn-danger">
-                <a data-ng-click="deleteIndex($index)">
+                <a class="stackable-menu" data-ng-click="deleteIndex($index)">
                   <i class="icon-remove"></i> Delete
                 </a>
               </li>
             </ul>
-          </div>
+          </action-menu>
         </td>
       </tr>
     </tbody>

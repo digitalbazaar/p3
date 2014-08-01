@@ -38,7 +38,7 @@
       <tr>
         <th class="name">Title</th>
         <th class="money compact">Amount</th>
-        <th class="action">Actions</th>
+        <th class="action">Action</th>
       </tr>
     </thead>
     <tbody>
@@ -57,34 +57,31 @@
         </td>
         <!-- Action -->
         <td class="action">
-          <div class="btn-group">
-            <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
-              <i class="icon-chevron-down"></i>
-            </a>
-            <ul class="dropdown-menu">
+          <action-menu>
+            <ul class="dropdown-menu stackable-menu">
               <li>
-                <a data-ng-click="model.modals.item=item; model.modals.showEditInvoiceItem=true">
+                <a class="stackable-cancel" data-ng-click="model.modals.item=item; model.modals.showEditInvoiceItem=true">
                   <i class="icon-pencil"></i> Edit
                 </a>
               </li>
               <li data-ng-show="!$first">
-                <a data-ng-click="">
+                <a class="stackable-cancel" data-ng-click="">
                   <i class="icon-chevron-up"></i> Move Up
                 </a>
               </li>
               <li data-ng-show="!$last">
-                <a data-ng-click="">
+                <a class="stackable-cancel" data-ng-click="">
                   <i class="icon-chevron-down"></i> Move Down
                 </a>
               </li>
               <li class="divider"></li>
               <li class="btn-danger">
-                <a data-ng-click="deleteInvoiceItem(item)">
+                <a class="stackable-cancel" data-ng-click="deleteInvoiceItem(item)">
                   <i class="icon-remove"></i> Delete
                 </a>
               </li>
             </ul>
-          </div>
+          </action-menu>
         </td>
       </tr>
     </tbody>

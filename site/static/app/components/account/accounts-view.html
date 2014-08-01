@@ -49,18 +49,15 @@
         </td>
         <!-- Action -->
         <td class="action">
-          <div class="btn-group">
-            <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
-              <i class="icon-chevron-down"></i>
-            </a>
-            <ul class="dropdown-menu pull-right">
+          <action-menu>
+            <ul class="dropdown-menu stackable-menu">
               <li data-ng-show="model.identity.preferences.source != account.id">
-                <a data-ng-click="model.setDefaultAccount(account)">
+                <a class="stackable-cancel" data-ng-click="model.setDefaultAccount(account)">
                   <i class="icon-star"></i> Set as Default
                 </a>
               </li>
               <li>
-                <a data-ng-click="model.modals.account=account; model.modals.showDeposit=true">
+                <a class="stackable-cancel" data-ng-click="model.modals.account=account; model.modals.showDeposit=true">
                   <i class="icon-plus"></i> Deposit
                 </a>
               </li>
@@ -68,27 +65,27 @@
                 <a data-ng-show="account.balance == 0" href="#">
                   <i class="icon-minus"></i> Withdraw
                 </a>
-                <a data-ng-hide="account.balance == 0" data-ng-click="model.modals.account=account; model.modals.showWithdraw=true">
+                <a class="stackable-cancel" data-ng-hide="account.balance == 0" data-ng-click="model.modals.account=account; model.modals.showWithdraw=true">
                   <i class="icon-minus"></i> Withdraw
                 </a>
               </li>
               <li>
-                <a data-ng-click="model.modals.account=account; model.modals.showEditAccount=true">
+                <a class="stackable-cancel" data-ng-click="model.modals.account=account; model.modals.showEditAccount=true">
                   <i class="icon-pencil"></i> Edit
                 </a>
               </li>
               <li data-ng-show="model.identity.sysUnbackedCreditEmailAvailable && (!account.creditLimit || account.creditLimit == 0)">
-                <a data-ng-click="model.modals.account=account; model.modals.showAddCreditLine=true">
+                <a class="stackable-cancel" data-ng-click="model.modals.account=account; model.modals.showAddCreditLine=true">
                   <i class="icon-credit-card"></i> Open Credit Line
                 </a>
               </li>
               <li>
-                <a data-ng-click="model.modals.account=account; model.modals.showRedeemPromoCode=true">
+                <a class="stackable-cancel" data-ng-click="model.modals.account=account; model.modals.showRedeemPromoCode=true">
                   <i class="icon-money"></i> Redeem Promo Code
                 </a>
               </li>
             </ul>
-          </div>
+          </action-menu>
         </td>
       </tr>
       <tr>

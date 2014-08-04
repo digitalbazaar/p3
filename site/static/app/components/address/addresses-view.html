@@ -1,21 +1,12 @@
-<div class="section section-addresses" data-ng-controller="AddressesController as model">
-  <h3 class="headline">
-    Addresses
-    <span data-ng-hide="model.state.loading" class="btn-group pull-right">
-      <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
-        <i class="icon-reorder"></i>
-      </a>
-      <ul class="dropdown-menu pull-right">
-        <li>
-          <a data-ng-click="model.modals.showAddAddress=true"><i class="icon-plus"></i> Add Address</a>
-        </li>
-      </ul>
-    </span>
-    <span data-ng-show="model.state.loading" class="pull-right">
-      <span data-spinner="model.state.loading" data-spinner-class="h3-spinner"></span>
-    </span>
-  </h3>
-  <table class="table table-condensed" data-ng-show="model.state.loading || model.addresses.length > 0">
+<div class="section section-addresses" ng-controller="AddressesController as model">
+  <headline-menu headline="Addresses" loading="model.state.loading">
+    <ul class="stackable-menu dropdown-menu">
+      <li>
+        <a class="stackable-cancel" ng-click="model.modals.showAddAddress=true"><i class="icon-plus"></i> Add Address</a>
+      </li>
+    </ul>
+  </headline-menu>
+  <table class="table table-condensed" ng-show="model.state.loading || model.addresses.length > 0">
     <thead>
       <tr>
         <th>Name</th>
@@ -24,7 +15,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr data-ng-repeat="address in model.addresses | orderBy:'label'">
+      <tr ng-repeat="address in model.addresses | orderBy:'label'">
         <!-- Name -->
         <td>
           <span>{{address.label}}</span>
@@ -44,7 +35,7 @@
               </li>
               <li class="divider"></li>
               <li class="btn-danger">
-                <a class="stackable-cancel" data-ng-click="model.deleteAddress(address)">
+                <a class="stackable-cancel" ng-click="model.deleteAddress(address)">
                   <i class="icon-remove"></i> Delete
                 </a>
               </li>
@@ -54,7 +45,7 @@
       </tr>
     </tbody>
   </table>
-  <div data-ng-show="!model.state.loading && model.addresses.length == 0">
+  <div ng-show="!model.state.loading && model.addresses.length == 0">
     <p class="center">You have no addresses associated with this identity.</p>
 
     <div class="center alert">
@@ -66,7 +57,7 @@
 
     <button
       class="btn btn-success pull-right"
-      data-ng-click="model.modals.showAddAddress=true"><i class="icon-plus"></i> Add Address</button>
+      ng-click="model.modals.showAddAddress=true"><i class="icon-plus"></i> Add Address</button>
   </div>
   <stackable-modal stackable="model.modals.showAddAddress">
     <div data-add-address-modal></div>
@@ -79,7 +70,7 @@
       data-modal-header="Warning"
       data-modal-ok="Remove"
       data-modal-cancel="Cancel">
-      <div class="alert" data-ng-show="model.addresses.length == 1">
+      <div class="alert" ng-show="model.addresses.length == 1">
         <strong>Warning!</strong>
         Removing your last address will immediately prevent you from buying
         or selling with this identity. If you choose to remove your last

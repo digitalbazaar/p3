@@ -1,21 +1,12 @@
 <div class="section section-budgets">
-  <h3 class="headline">
-    Budgets
-    <span data-ng-hide="model.state.budgets.loading" class="btn-group pull-right">
-      <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
-        <i class="icon-reorder"></i>
-      </a>
-      <ul class="dropdown-menu pull-right">
-        <li>
-          <a data-ng-click="model.modals.showAddBudget=true"><i class="icon-plus"></i> Add Budget</a>
-        </li>
-      </ul>
-    </span>
-    <span data-ng-show="model.state.budgets.loading" class="pull-right">
-      <span data-spinner="model.state.budgets.loading" data-spinner-class="h3-spinner"></span>
-    </span>
-  </h3>
-  <table class="table table-condensed" data-ng-show="!model.state.budgets.loading && model.budgets.length > 0">
+  <headline-menu headline="Budgets" loading="model.state.budgets.loading">
+    <ul class="stackable-menu dropdown-menu">
+      <li>
+        <a class="stackable-cancel" ng-click="model.modals.showAddBudget=true"><i class="icon-plus"></i> Add Budget</a>
+      </li>
+    </ul>
+  </headline-menu>
+  <table class="table table-condensed" ng-show="!model.state.budgets.loading && model.budgets.length > 0">
     <thead>
       <tr>
         <th class="name">Budget</th>
@@ -25,7 +16,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr data-ng-repeat="budget in model.budgets | orderBy:'label'"
+      <tr ng-repeat="budget in model.budgets | orderBy:'label'"
         class="budget"
         data-fadeout="budget.deleted">
         <!-- Label -->
@@ -37,26 +28,26 @@
           <div data-budget-bar="budget"></div>
         </td>
         <!-- Refresh -->
-        <td data-ng-switch="model.getBudgetRefreshDuration(budget)">
-          <span data-ng-switch-when="never">Never</span>
-          <span data-ng-switch-when="PT1H">Hourly</span>
-          <span data-ng-switch-when="P1D">Daily</span>
-          <span data-ng-switch-when="P1W">Weekly</span>
-          <span data-ng-switch-when="P1M">Monthly</span>
-          <span data-ng-switch-when="P1Y">Yearly</span>
+        <td ng-switch="model.getBudgetRefreshDuration(budget)">
+          <span ng-switch-when="never">Never</span>
+          <span ng-switch-when="PT1H">Hourly</span>
+          <span ng-switch-when="P1D">Daily</span>
+          <span ng-switch-when="P1W">Weekly</span>
+          <span ng-switch-when="P1M">Monthly</span>
+          <span ng-switch-when="P1Y">Yearly</span>
         </td>
         <!-- Action -->
         <td class="action">
           <action-menu>
             <ul class="dropdown-menu stackable-menu">
               <li>
-                <a class="stackable-cancel" data-ng-click="model.modals.budget=budget; model.modals.showEditBudget=true">
+                <a class="stackable-cancel" ng-click="model.modals.budget=budget; model.modals.showEditBudget=true">
                   <i class="icon-pencil"></i> Edit
                 </a>
               </li>
               <li class="divider"></li>
               <li class="btn-danger">
-                <a class="stackable-cancel" data-ng-click="model.deleteBudget(budget)">
+                <a class="stackable-cancel" ng-click="model.deleteBudget(budget)">
                   <i class="icon-remove"></i> Delete
                 </a>
               </li>
@@ -78,7 +69,7 @@
         data-selected="model.budgetToDelete"
         data-invalid="invalidBudget" data-fixed="true"></div>
   </stackable-modal>
-  <div data-ng-show="!model.state.budgets.loading && model.budgets.length == 0">
+  <div ng-show="!model.state.budgets.loading && model.budgets.length == 0">
     <p class="center">You have no budgets for this identity.</p>
   </div>
   <stackable-modal stackable="model.modals.showEditBudget">

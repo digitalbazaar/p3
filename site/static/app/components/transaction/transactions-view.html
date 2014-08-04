@@ -1,34 +1,35 @@
 <div class="section section-transactions">
+  <!-- TODO: use headline-menu -->
   <h3 class="headline">
-    <span data-ng-show="model.recent">Recent Transactions</span>
-    <span data-ng-hide="model.recent">Transactions</span>
+    <span ng-show="model.recent">Recent Transactions</span>
+    <span ng-hide="model.recent">Transactions</span>
 
-    <span data-ng-hide="(model.recent && !model.controls) || !model.controls || model.state.txns.loading" class="btn-group pull-right">
+    <span ng-hide="(model.recent && !model.controls) || !model.controls || model.state.txns.loading" class="btn-group pull-right">
       <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
         <i class="icon-reorder"></i>
       </a>
       <ul class="dropdown-menu pull-right">
         <li>
-          <a data-ng-click="model.showControls=!model.showControls"><i class="icon-search"></i> Search Controls</a>
+          <a ng-click="model.showControls=!model.showControls"><i class="icon-search"></i> Search Controls</a>
         </li>
       </ul>
     </span>
 
-    <span data-ng-show="model.state.txns.loading" class="pull-right">
+    <span ng-show="model.state.txns.loading" class="pull-right">
       <span data-spinner="model.state.txns.loading" data-spinner-class="h3-spinner"></span>
     </span>
   </h3>
 
-  <div data-ng-show="model.controls && model.showControls" class="well account-activity-well">
-    <button type="button" class="close" data-ng-click="model.showControls=false">&times;</button>
+  <div ng-show="model.controls && model.showControls" class="well account-activity-well">
+    <button type="button" class="close" ng-click="model.showControls=false">&times;</button>
     <form class="form-horizontal account-activity-form" action="">
       <fieldset>
         <div class="control-group">
           <label class="control-label" for="dateField">Start Date</label>
           <div class="controls">
             <input name="dateField" type="text"
-              data-ng-model="model.datePickerDate"
-              data-datepicker-popup="yyyy/MM/dd" data-ng-change="model.dateChanged()"
+              ng-model="model.datePickerDate"
+              data-datepicker-popup="yyyy/MM/dd" ng-change="model.dateChanged()"
               data-is-open="model.datePickerOpen"
               data-ui-keyup="{'enter esc': 'model.dateQuitKeyPressed($event)'}" />
             <button class="btn" ng-click="model.openDatePicker()"><i class="icon-calendar"></i></button>
@@ -42,82 +43,82 @@
               min="1"
               max="30"
               required
-              data-ng-model="model.limit"
+              ng-model="model.limit"
               data-ui-keyup="{'enter esc': 'model.dateQuitKeyPressed($event)'}" />
           </div>
         </div>
 
         <div class="control-group">
           <div class="controls">
-            <button class="btn btn-primary" data-ng-click="model.search()"><i class="icon-search"></i> Search</button>
-            <button class="btn" data-ng-click="model.reset()">Reset</button>
+            <button class="btn btn-primary" ng-click="model.search()"><i class="icon-search"></i> Search</button>
+            <button class="btn" ng-click="model.reset()">Reset</button>
           </div>
         </div>
       </fieldset>
     </form>
   </div>
 
-  <p class="well well-small" data-ng-hide="(model.recent && !model.controls) || model.state.txns.loading">
+  <p class="well well-small" ng-hide="(model.recent && !model.controls) || model.state.txns.loading">
     Found
-    <span data-ng-pluralize="" data-count="model.txnCount"
+    <span ng-pluralize="" data-count="model.txnCount"
       data-when="{
         '0': 'no transactions',
         '1': '{}+ transaction',
         'other': '{}+ transactions'
       }"></span>
     on or before
-    <span data-ng-hide="!model.controls || model.showControls"><a data-ng-click="model.showControls=true" href="#">{{model.startDate | date:'medium'}}</a>.</span>
-    <span data-ng-show="model.controls && model.showControls">{{model.startDate | date:'medium'}}.</span>
+    <span ng-hide="!model.controls || model.showControls"><a ng-click="model.showControls=true" href="#">{{model.startDate | date:'medium'}}</a>.</span>
+    <span ng-show="model.controls && model.showControls">{{model.startDate | date:'medium'}}.</span>
   </p>
 
-  <table class="table table-condensed" data-ng-class="{'table-hover': model.details}" data-ng-show="!model.state.txns.loading && model.table.length > 0">
+  <table class="table table-condensed" ng-class="{'table-hover': model.details}" ng-show="!model.state.txns.loading && model.table.length > 0">
     <thead>
       <tr>
-        <th class="compact" data-ng-show="model.details"></th>
+        <th class="compact" ng-show="model.details"></th>
         <th class="date compact nowrap">Date</th>
         <th class="name">Item</th>
         <th class="money">Amount</th>
       </tr>
     </thead>
     <tbody>
-      <tr data-ng-repeat="row in model.table"
-        data-ng-class="{
+      <tr ng-repeat="row in model.table"
+        ng-class="{
           info: (model.getRowType(row) != 'transfer' && !row.settled && !row.voided) || (model.getRowType(row) == 'transfer' && !row.txn.settled && !row.txn.voided),
           error: row.voided
         }"
-        data-ng-hide="row.hidden"
-        data-ng-click="model.toggleDetails(row)">
+        ng-hide="row.hidden"
+        ng-click="model.toggleDetails(row)">
         <!-- icon -->
-        <td class="compact" data-ng-show="model.details" data-ng-switch="model.getRowType(row)">
-          <span data-ng-switch-when="transfer">&nbsp;</span>
-          <i data-ng-switch-default data-ng-show="!row.detailsVisible" class="icon-expand"></i>
-          <i data-ng-switch-default data-ng-show="row.detailsVisible" class="icon-collapse"></i>
+        <td class="compact" ng-show="model.details" ng-switch="model.getRowType(row)">
+          <span ng-switch-when="transfer">&nbsp;</span>
+          <i ng-switch-default ng-show="!row.detailsVisible" class="icon-expand"></i>
+          <i ng-switch-default ng-show="row.detailsVisible" class="icon-collapse"></i>
         </td>
         <!-- Date -->
-        <td class="compact nowrap" data-ng-switch="model.getRowType(row)">
-          <span data-ng-switch-when="deposit" class="date">{{row.created | date:'medium'}}</span>
-          <span data-ng-switch-when="contract" class="date">{{row.created | date:'medium'}}</span>
-          <span data-ng-switch-when="withdrawal" class="date">{{row.created | date:'medium'}}</span>
-          <span data-ng-switch-when="transfer">&nbsp;</span>
+        <td class="compact nowrap" ng-switch="model.getRowType(row)">
+          <span ng-switch-when="deposit" class="date">{{row.created | date:'medium'}}</span>
+          <span ng-switch-when="contract" class="date">{{row.created | date:'medium'}}</span>
+          <span ng-switch-when="withdrawal" class="date">{{row.created | date:'medium'}}</span>
+          <span ng-switch-when="transfer">&nbsp;</span>
         </td>
         <!-- Item -->
-        <td data-ng-switch="model.getRowType(row)">
-          <span data-ng-switch-when="deposit" class="name"><a href="{{row.id}}"><i class="icon-plus"></i> Deposit</a>
-            <span data-ng-show="!(row.settled || row.voided)" class="label label-info">Pending</span>
-            <span data-ng-show="row.voided" class="label label-important">Voided</span>
+        <td ng-switch="model.getRowType(row)">
+          <span ng-switch-when="deposit" class="name"><a href="{{row.id}}"><i class="icon-plus"></i> Deposit</a>
+            <span ng-show="!(row.settled || row.voided)" class="label label-info">Pending</span>
+            <span ng-show="row.voided" class="label label-important">Voided</span>
           </span>
-          <span data-ng-switch-when="contract" class="name"><a href="{{row.id}}"><i class="icon-shopping-cart"></i> {{row.asset.title}}</a>
-            <span data-ng-show="!(row.settled || row.voided)" class="label label-info">Pending</span>
-            <span data-ng-show="row.voided" class="label label-important">Voided</span>
+          <span ng-switch-when="contract" class="name"><a href="{{row.id}}"><i class="icon-shopping-cart"></i> {{row.asset.title}}</a>
+            <span ng-show="!(row.settled || row.voided)" class="label label-info">Pending</span>
+            <span ng-show="row.voided" class="label label-important">Voided</span>
           </span>
-          <span data-ng-switch-when="withdrawal" class="name"><a href="{{row.id}}"><i class="icon-minus"></i> Withdrawal</a>
-            <span data-ng-show="!(row.settled || row.voided)" class="label label-info">Pending</span>
-            <span data-ng-show="row.voided" class="label label-important">Voided</span>
+          <span ng-switch-when="withdrawal" class="name"><a href="{{row.id}}"><i class="icon-minus"></i> Withdrawal</a>
+            <span ng-show="!(row.settled || row.voided)" class="label label-info">Pending</span>
+            <span ng-show="row.voided" class="label label-important">Voided</span>
           </span>
-          <span data-ng-switch-when="transfer">
+          <span ng-switch-when="transfer">
             <i class="icon-info-sign" title="Details"></i> {{row.comment}}<br/>
-            <i class="icon-minus" title="Source Account"></i> <a data-ng-show="row.sourceLink" href="{{row.source}}">{{row.source}}</a><span data-ng-hide="row.sourceLink">{{row.source}}</span> <br/>
-            <i class="icon-plus" title="Destination Account"></i> <a data-ng-show="row.destinationLink" href="{{row.destination}}">{{row.destination}}</a><span data-ng-hide="row.destinationLink">{{row.destination}}</span>
+            <i class="icon-minus" title="Source Account"></i> <a ng-show="row.sourceLink" href="{{row.source}}">{{row.source}}</a><span ng-hide="row.sourceLink">{{row.source}}</span> <br/>
+            <i class="icon-plus" title="Destination Account"></i> <a ng-show="row.destinationLink" href="{{row.destination}}">{{row.destination}}</a><span ng-hide="row.destinationLink">{{row.destination}}</span>
           </span>
         </td>
         <!-- Amount -->
@@ -127,27 +128,27 @@
       </tr>
     </tbody>
     <tfoot>
-      <tr data-ng-hide="model.state.txns.loading">
+      <tr ng-hide="model.state.txns.loading">
         <td colspan="{{model.details ? '4' : '3'}}">
-          <ul data-ng-show="model.moreHref" class="pager">
+          <ul ng-show="model.moreHref" class="pager">
             <li class="next"><a href="{{model.moreHref}}" class="btn pull-right"><i class="icon-list"></i> More <i class="icon-chevron-right"></i></a></li>
         </ul>
-          <ul data-ng-hide="model.moreHref" class="pager">
+          <ul ng-hide="model.moreHref" class="pager">
             <!--
             <li class="previous">
-              <button data-ng-click="model.newer()" class="btn pull-left"><i class="icon-chevron-left"></i> Newer</a>
+              <button ng-click="model.newer()" class="btn pull-left"><i class="icon-chevron-left"></i> Newer</a>
             </li>
             -->
             <li class="next">
-              <button data-ng-click="model.older()" class="btn pull-right">Older <i class="icon-chevron-right"></i></a>
+              <button ng-click="model.older()" class="btn pull-right">Older <i class="icon-chevron-right"></i></a>
             </li>
           </ul>
         </td>
       </tr>
     </tfoot>
   </table>
-  <div data-ng-show="!model.state.txns.loading && model.table.length == 0">
-    <p data-ng-show="model.recent" class="center">No recent transactions found.</p>
-    <p data-ng-hide="model.recent" class="center">No transactions found.</p>
+  <div ng-show="!model.state.txns.loading && model.table.length == 0">
+    <p ng-show="model.recent" class="center">No recent transactions found.</p>
+    <p ng-hide="model.recent" class="center">No transactions found.</p>
   </div>
 </div>

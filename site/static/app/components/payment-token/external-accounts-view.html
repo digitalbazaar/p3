@@ -1,21 +1,12 @@
-<div data-ng-controller="ExternalAccountsController as model">
+<div ng-controller="ExternalAccountsController as model">
   <div class="section section-credit-cards">
-    <h3 class="headline">
-      Credit Cards
-      <span data-ng-hide="model.state.loading" class="btn-group pull-right">
-        <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
-          <i class="icon-reorder"></i>
-        </a>
-        <ul class="dropdown-menu pull-right">
-          <li>
-          <a data-ng-click="model.modals.showAddCreditCard=true"><i class="icon-plus"></i> Add Credit Card</a>
-          </li>
-        </ul>
-      </span>
-      <span data-ng-show="model.state.loading" class="pull-right">
-        <span data-spinner="model.state.loading" data-spinner-class="h3-spinner"></span>
-      </span>
-    </h3>
+    <headline-menu headline="Credit Cards" loading="model.state.loading">
+      <ul class="stackable-menu dropdown-menu">
+        <li>
+          <a class="stackable-cancel" ng-click="model.modals.showAddCreditCard=true"><i class="icon-plus"></i> Add Credit Card</a>
+        </li>
+      </ul>
+    </headline-menu>
     <table class="table table-condensed" data-ng-show="(model.state.loading && model.creditCards.length > 0) || model.creditCards.length > 0">
       <thead>
         <tr>
@@ -74,7 +65,7 @@
             <ul class="dropdown-menu stackable-menu">
               <li>
                 <a class="stackable-cancel"
-                  data-ng-click="model.modals.paymentToken=card; model.modals.showEditPaymentToken=true">
+                  ng-click="model.modals.paymentToken=card; model.modals.showEditPaymentToken=true">
                   <i class="icon-pencil"></i> Edit
                 </a>
               </li>
@@ -93,7 +84,7 @@
       </tr>
       </tbody>
     </table>
-    <div data-ng-show="!model.state.loading && model.creditCards.length == 0">
+    <div ng-show="!model.state.loading && model.creditCards.length == 0">
       <p class="center">You have no credit cards associated with this identity.</p>
     </div>
     <stackable-modal stackable="model.modals.showAddCreditCard">
@@ -105,23 +96,14 @@
   </div>
 
   <div class="section section-bank-accounts">
-    <h3 class="headline">
-      Bank Accounts
-      <span data-ng-hide="model.state.loading" class="btn-group pull-right">
-        <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
-          <i class="icon-reorder"></i>
-        </a>
-        <ul class="dropdown-menu pull-right">
-          <li>
-          <a data-ng-click="model.modals.showAddBankAccount=true"><i class="icon-plus"></i> Add Bank Account</a>
-          </li>
-        </ul>
-      </span>
-      <span data-ng-show="model.state.loading" class="pull-right">
-        <span data-spinner="model.state.loading" data-spinner-class="h3-spinner"></span>
-      </span>
-    </h3>
-    <table class="table table-condensed" data-ng-show="(model.state.loading && model.bankAccounts.length > 0) || model.bankAccounts.length > 0">
+    <headline-menu headline="Bank Accounts" loading="model.state.loading">
+      <ul class="stackable-menu dropdown-menu">
+        <li>
+          <a class="stackable-cancel" ng-click="model.modals.showAddBankAccount=true"><i class="icon-plus"></i> Add Bank Account</a>
+        </li>
+      </ul>
+    </headline-menu>
+    <table class="table table-condensed" ng-show="(model.state.loading && model.bankAccounts.length > 0) || model.bankAccounts.length > 0">
       <thead>
         <tr>
           <th>Name</th>

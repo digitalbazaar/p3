@@ -24,7 +24,7 @@ function factory(AccountService, AlertService, IdentityService, config) {
     model.address = angular.copy(model.identity.sysRegulatoryAddress || {});
 
     model.setRegulatoryAddress = function() {
-      AlertService.clearModalFeedback(scope);
+      AlertService.clearFeedback(scope);
       AccountService.setRegulatoryAddress({
         address: {
           '@context': config.data.contextUrl,

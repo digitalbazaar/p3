@@ -65,7 +65,7 @@ function factory(
 
       // do general update then remove backup sources
       scope.loading = true;
-      AlertService.clearModalFeedback(scope);
+      AlertService.clearFeedback(scope);
       PaymentTokenService.collection.update(paymentToken).then(function(paymentToken) {
         // remove backup source from every related account
         var promises = [];

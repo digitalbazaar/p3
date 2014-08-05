@@ -41,7 +41,7 @@ function factory(AddressService, AlertService, IdentityService, config) {
     scope.state = 'editing';
 
     scope.validate = function() {
-      AlertService.clearModalFeedback();
+      AlertService.clearFeedback(scope);
       AddressService.validate(scope.originalAddress).then(function(validated) {
         // FIXME: should backend handle this?
         // copy over non-validation fields
@@ -66,7 +66,7 @@ function factory(AddressService, AlertService, IdentityService, config) {
 
     scope.add = function(clickedAddress) {
       var addressToAdd = clickedAddress || scope.selection.address;
-      AlertService.clearModalFeedback();
+      AlertService.clearFeedback(scope);
       AddressService.add(addressToAdd).then(function(addedAddress) {
         scope.modal.close(null, addedAddress);
       }).catch(function(err) {
@@ -76,7 +76,7 @@ function factory(AddressService, AlertService, IdentityService, config) {
     };
 
     scope.edit = function() {
-      AlertService.clearModalFeedback();
+      AlertService.clearFeedback(scope);
       scope.state = 'editing';
       scope.selection.address = null;
     };

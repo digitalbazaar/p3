@@ -56,7 +56,7 @@ function factory(AccountService, AlertService, TransactionService, config) {
     scope.prepare = function() {
       scope.state = 'preparing';
       scope.enableConfirm = true;
-      AlertService.clearModalFeedback(scope);
+      AlertService.clearFeedback(scope);
       reloadAccount().then(function() {
         scope.$apply();
       });
@@ -81,7 +81,7 @@ function factory(AccountService, AlertService, TransactionService, config) {
         source: scope.input.source.id
       };
       scope.loading = true;
-      AlertService.clearModalFeedback(scope);
+      AlertService.clearFeedback(scope);
       TransactionService.signDeposit(deposit).then(function(deposit) {
         // get public account information for all payees
         scope.accounts = {};
@@ -127,7 +127,7 @@ function factory(AccountService, AlertService, TransactionService, config) {
       scope.loading = true;
       // only allow a single confirm attempt
       scope.enableConfirm = false;
-      AlertService.clearModalFeedback(scope);
+      AlertService.clearFeedback(scope);
       TransactionService.confirmDeposit(scope._deposit).then(function(deposit) {
         // show complete page
         scope.deposit = deposit;

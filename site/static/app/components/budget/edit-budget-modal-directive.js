@@ -59,7 +59,7 @@ function factory(
     });
 
     scope.editBudget = function() {
-      AlertService.clearModalFeedback(scope);
+      AlertService.clearFeedback(scope);
 
       // set all fields from UI
       var b = scope.budget;

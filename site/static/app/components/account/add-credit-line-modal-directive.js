@@ -29,7 +29,7 @@ function factory($rootScope, AccountService, AlertService, IdentityService) {
     scope.sendPasscode = function() {
       // request a passcode
       model.loading = true;
-      AlertService.clearModalFeedback(scope);
+      AlertService.clearFeedback(scope);
       IdentityService.sendPasscode({
         sysIdentifier: model.identity.id,
         usage: 'verify'
@@ -48,7 +48,7 @@ function factory($rootScope, AccountService, AlertService, IdentityService) {
 
     scope.verifyEmail = function() {
       model.loading = true;
-      AlertService.clearModalFeedback(scope);
+      AlertService.clearFeedback(scope);
       IdentityService.verifyEmail(model.sysPasscode).then(function() {
         model.identity.sysEmailVerified = true;
         AlertService.add('success', {
@@ -67,7 +67,7 @@ function factory($rootScope, AccountService, AlertService, IdentityService) {
 
     scope.confirm = function() {
       model.loading = true;
-      AlertService.clearModalFeedback(scope);
+      AlertService.clearFeedback(scope);
       AccountService.addCreditLine(
         scope.account.id, model.backupSource.id).then(function() {
         // show complete page

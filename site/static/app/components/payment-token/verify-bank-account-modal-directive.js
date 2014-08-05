@@ -60,7 +60,7 @@ function factory(AccountService, AlertService, PaymentTokenService, config) {
         verifyRequest.amount = scope.input.amount;
       }
       scope.loading = true;
-      AlertService.clearModalFeedback(scope);
+      AlertService.clearFeedback(scope);
       PaymentTokenService.verify(scope.paymentToken.id, verifyRequest)
         .then(function(deposit) {
         // copy to avoid angular keys in POSTed data

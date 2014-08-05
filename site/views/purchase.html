@@ -293,9 +293,9 @@
   <div data-add-address-modal
     data-add-address-alert-modal="Before you complete your purchase, please enter your {{(model.identity.type == 'VendorIdentity' && 'business\'s ') || ''}}name and address information."></div>
 </stackable-modal>
-<stackable-modal stackable="model.purchase"
+<stackable-modal stackable="model.showAddAccountModal"
   stackable-closed="model.addAccountModalDone()">
-  <div data-add-account-modal></div>
+  <div data-add-account-modal data-add-account-alert-modal="model.purchase"></div>
 </stackable-modal>
 
 </div> <!-- end container -->

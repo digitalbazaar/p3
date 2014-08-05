@@ -6,13 +6,13 @@
     data-fixed="{{fixed}}">
     <div data-spinner="model.state.loading"
       data-spinner-class="selector-spinner"></div>
-    <div data-ng-hide="model.state.loading" class="account">
+    <div ng-hide="model.state.loading" class="account">
       <table class="table table-condensed">
         <thead>
           <tr>
             <th colspan="2">
               <span title="{{selected.id}}">{{selected.label}}</span>
-              <a data-ng-show="selecting" data-ng-click="model.showEditAccount=true"
+              <a ng-show="selecting" ng-click="model.showEditAccount=true"
                 data-tooltip-title="Edit"
                 data-placement="bottom" data-trigger="hover">
                 <i class="icon-pencil"></i>
@@ -34,24 +34,24 @@
           </tr>
         </tbody>
       </table>
-      <div data-ng-show="showDepositButton">
+      <div ng-show="showDepositButton">
         <button class="btn btn-success"
-          data-ng-click="model.showDepositModal=true"><i class="icon-plus"></i> Deposit</button><br/>
+          ng-click="model.showDepositModal=true"><i class="icon-plus"></i> Deposit</button><br/>
         <stackable-modal stackable="model.showDepositModal">
           <div data-deposit-modal data-account="selected" data-instant="instant"></div>
         </stackable-modal>
       </div>
-      <div data-ng-show="model.balanceTooLow">
+      <div ng-show="model.balanceTooLow">
         <hr />
         <div class="alert alert-error">You must select an account with a balance or remaining credit of at least <span
         class="currency">{{selected.currency}}</span> {{minBalance | ceil | currency:'$'}}.</div>
       </div>
-      <div data-ng-show="allowInstantTransfer && model.instantTransferRequired">
+      <div ng-show="allowInstantTransfer && model.instantTransferRequired">
         <hr />
         <div class="alert alert-warning">
           The selected account does not have sufficient funds. An instant transfer of <span data-money="instantTransferDeposit" data-important="true"></span> from your "<strong>{{model.backupSource.label}}</strong>" payment method will be performed to complete this purchase.
-          <span data-ng-show="model.backupSource">
-            Details of this instant transfer are available for review: <a data-ng-click="model.paymentMethodIsCollapsed=!model.paymentMethodIsCollapsed">
+          <span ng-show="model.backupSource">
+            Details of this instant transfer are available for review: <a ng-click="model.paymentMethodIsCollapsed=!model.paymentMethodIsCollapsed">
               <i class="icon-list-alt"></i>
             </a>.
           </span>

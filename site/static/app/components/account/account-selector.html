@@ -36,7 +36,7 @@
       </table>
       <div ng-show="showDepositButton">
         <button class="btn btn-success"
-          ng-click="model.showDepositModal=true"><i class="icon-plus"></i> Deposit</button><br/>
+          ng-click="model.showDepositModal=true; $event.stopPropagation()"><i class="icon-plus"></i> Deposit</button><br/>
         <stackable-modal stackable="model.showDepositModal">
           <div data-deposit-modal data-account="selected" data-instant="instant"></div>
         </stackable-modal>

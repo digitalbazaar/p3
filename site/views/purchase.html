@@ -6,17 +6,17 @@
 {% block content %}
 
 {% raw %}
-<div class="container" data-ng-controller="PurchaseController as model" class="ng-cloak">
+<div class="container" ng-controller="PurchaseController as model" class="ng-cloak">
 
-<div data-ng-show="model.alertType">
+<div ng-show="model.alertType">
   <div class="row">
     <div class="span6 offset3">
-      <div data-ng-show="model.alertType == 'purchased'" class="alert alert-block alert-success">
+      <div ng-show="model.alertType == 'purchased'" class="alert alert-block alert-success">
         <button type="button" class="close" data-dismiss="alert">×</button>
         <h4>Congratulations!</h4>
         <br/>
         <p>Your purchase is complete.
-        <span data-ng-show="model.budget">
+        <span ng-show="model.budget">
         The purchase was made using your budget "<strong>{{model.budget.label}}</strong>",
         which has a remaining balance of <span class="money"
           data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact amount of this transaction is USD {{model.budget.balance}}."
@@ -25,7 +25,7 @@
         </span>
         </p>
       </div>
-      <div data-ng-show="model.alertType == 'budgetExceeded'" class="alert alert-block alert-error">
+      <div ng-show="model.alertType == 'budgetExceeded'" class="alert alert-block alert-error">
         <button type="button" class="close" data-dismiss="alert">×</button>
 
         <h4>Budget Exceeded</h4>
@@ -39,7 +39,7 @@
           <li>Associate this this vendor with another budget or a new budget.</p>
         </ul>
       </div>
-      <div data-ng-show="model.alertType == 'duplicatePurchase'" class="alert alert-block alert-success">
+      <div ng-show="model.alertType == 'duplicatePurchase'" class="alert alert-block alert-success">
         <button type="button" class="close" data-dismiss="alert">×</button>
         <h4>Duplicate Purchase</h4>
         <p>Our records indicate that you have already bought the item below.
@@ -49,9 +49,9 @@
   </div>
 </div>
 
-<div data-ng-hide="error">
+<div ng-hide="error">
 
-  <div data-ng-show="model.loading || !model.ready" class="row">
+  <div ng-show="model.loading || !model.ready" class="row">
     <div class="span6 offset3">
       <div class="alert alert-info">Loading purchase details...
         <div data-spinner="model.loading || !model.ready"
@@ -60,7 +60,7 @@
     </div>
   </div>
 
-  <div data-ng-hide="model.loading || !model.ready || model.purchased">
+  <div ng-hide="model.loading || !model.ready || model.purchased">
     <div class="row">
       <div class="span6 offset3">
         <h3>Do you want to make this purchase?</h3>
@@ -68,7 +68,7 @@
     </div>
   </div>
 
-  <div data-ng-hide="model.loading || !model.ready">
+  <div ng-hide="model.loading || !model.ready">
     <div class="row">
       <div class="section span6 offset3">
         <h4 class="headline">Purchase Details</h4>
@@ -87,14 +87,14 @@
                 data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact amount of this transaction is USD {{model.contract.amount}}."
                 data-placement="bottom" data-trigger="hover"><span
                 class="currency">USD</span> {{model.contract.amount | ceil | currency:'$'}}</span></td>
-              <td class="action"><button class="btn" data-ng-click="model.showDetails=!model.showDetails"><i class="icon-list-alt" title="Details"></i></button></td>
+              <td class="action"><button class="btn" ng-click="model.showDetails=!model.showDetails"><i class="icon-list-alt" title="Details"></i></button></td>
             </tr>
-            <tr data-ng-show="model.showDetails">
+            <tr ng-show="model.showDetails">
               <th>Cost breakdown</th>
               <th></th>
               <th></th>
             </tr>
-            <tr data-ng-show="model.showDetails" data-ng-repeat="transfer in model.contract.transfer">
+            <tr ng-show="model.showDetails" ng-repeat="transfer in model.contract.transfer">
               <td>{{transfer.comment}}</td>
               <td class="money"><span class="money right"
                 data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact amount of this transfer is USD {{transfer.amount}}."
@@ -102,12 +102,12 @@
                 class="currency">USD</span> {{transfer.amount | ceil | currency:'$'}}</span></td>
               <td><a href="{{transfer.destination}}" target="_blank">Destination</a></td>
             </tr>
-            <tr data-ng-show="model.showDetails">
+            <tr ng-show="model.showDetails">
               <th>License Agreement</th>
               <th></th>
               <th></th>
             </tr>
-            <tr body data-ng-show="model.showDetails">
+            <tr body ng-show="model.showDetails">
               <td colspan="3"><pre class="license">{{model.contract.license.licenseTemplate}}</pre></td>
             </tr>
           </tbody>
@@ -137,7 +137,7 @@
       </div>
     </div>
 
-    <div class="row" data-ng-show="{{model.contract.vendor.id != model.contract.assetProvider.id}}">
+    <div class="row" ng-show="{{model.contract.vendor.id != model.contract.assetProvider.id}}">
       <div class="section span6 offset3">
         <h4 class="headline">Asset Provider</h4>
         <table class="table">
@@ -159,7 +159,7 @@
       </div>
     </div>
 
-    <div data-ng-hide="model.purchased" class="row">
+    <div ng-hide="model.purchased" class="row">
       <div class="section span6 offset3">
         <h4 class="headline">Payment</h4>
         <form action="">
@@ -168,7 +168,7 @@
               <div class="controls payment-radio-group">
                 <label class="radio">
                   <input type="radio" name="source-type"
-                    data-ng-model="model.sourceType" value="account" />
+                    ng-model="model.sourceType" value="account" />
                   Make one-time payment.
                   <span class="help-block">
                     Make a payment from an account. Funds can be deposited
@@ -176,17 +176,17 @@
                   </span>
                 </label>
                 <!-- FIXME
-                <label data-ng-show="model.contract.vendor.type == 'VendorIdentity'"
+                <label ng-show="model.contract.vendor.type == 'VendorIdentity'"
                   class="radio" -->
                 <label class="radio">
                   <input type="radio" name="source-type"
-                    data-ng-model="model.sourceType" value="budget" />
+                    ng-model="model.sourceType" value="budget" />
                   Set up a budget for this vendor.
                   <div class="help-block">
                     Assigning a budget will cause future purchases with this
                     vendor to happen <strong>automatically</strong> if the
                     purchase amount is within the budget spending limitations.
-                    <div data-ng-show="model.sourceType == 'budget'"
+                    <div ng-show="model.sourceType == 'budget'"
                       class="alert alert-warning">
                       <strong>Warning:</strong>
                       Only choose this option if you trust the vendor you are
@@ -204,9 +204,9 @@
       </div>
     </div>
 
-    <div data-ng-hide="model.purchased" class="row">
+    <div ng-hide="model.purchased" class="row">
       <div class="section span6 offset3">
-        <div data-ng-show="model.sourceType == 'account'">
+        <div ng-show="model.sourceType == 'account'">
           <h4 class="headline">Account</h4>
           <div data-account-selector
             data-selected="model.selection.account"
@@ -217,7 +217,7 @@
             data-allow-instant-transfer="true"
             data-instant-transfer-deposit="model.contract.triggered"></div>
         </div>
-        <div data-ng-show="model.sourceType == 'budget'">
+        <div ng-show="model.sourceType == 'budget'">
           <h4 class="headline">Budget</h4>
           <div data-budget-selector
             data-selected="model.selection.budget"
@@ -227,24 +227,24 @@
       </div>
     </div>
 
-    <div data-ng-hide="model.purchased" class="row">
+    <div ng-hide="model.purchased" class="row">
       <div class="span6 offset3">
         <hr />
         <div class="well center">
-          <button class="btn btn-primary" data-ng-click="model.purchase()"
-            data-ng-disabled="model.purchaseDisabled">Purchase</button>
+          <button class="btn btn-primary" ng-click="model.purchase()"
+            ng-disabled="model.purchaseDisabled">Purchase</button>
           <!-- button class="btn">Cancel</button -->
         </div>
       </div>
     </div>
 
-    <div data-ng-show="model.purchased" class="row">
-      <div data-ng-show="model.callback" class="span6 offset3">
+    <div ng-show="model.purchased" class="row">
+      <div ng-show="model.callback" class="span6 offset3">
         <div class="alert alert-success">
           Click the button below to return to the vendor's website and view
           the item you purchased.
         </div>
-        <form data-ng-show="model.receipt" method="post" action="{{model.callback}}">
+        <form ng-show="model.receipt" method="post" action="{{model.callback}}">
           <fieldset>
             <input name="receipt" value="{{model.receipt | json}}" type="hidden" />
           </fieldset>
@@ -252,8 +252,8 @@
             <button class="btn btn-primary">Return to Vendor's Website</button>
           </div>
         </form>
-        <form data-ng-show="model.encryptedMessage" method="post" action="{{model.callback}}">
-          <fieldset data-ng-show="model.encryptedMessage">
+        <form ng-show="model.encryptedMessage" method="post" action="{{model.callback}}">
+          <fieldset ng-show="model.encryptedMessage">
             <input
               name="encrypted-message" value="{{model.encryptedMessage | json}}"
               type="hidden" />
@@ -263,7 +263,7 @@
           </div>
         </form>
       </div>
-      <div data-ng-hide="model.callback" class="span6 offset3">
+      <div ng-hide="model.callback" class="span6 offset3">
         <div class="alert alert-success">
           Return to the vendor's website to view the item you purchased.
         </div>
@@ -275,14 +275,14 @@
 </div> <!-- end non-error -->
 
 <!-- FIXME: unused, remove -->
-<div data-ng-show="model.error" class="alert alert-error">
+<div ng-show="model.error" class="alert alert-error">
   <em>Error</em>
   <br/>
   {{model.error.message}}
-  <div data-ng-show="model.error.details" class="container">
+  <div ng-show="model.error.details" class="container">
     <br/>
-    <em data-ng-show="model.error.details.length > 0">Error Details</em>
-    <div class="row" data-ng-repeat="(key, detail) in error.details">
+    <em ng-show="model.error.details.length > 0">Error Details</em>
+    <div class="row" ng-repeat="(key, detail) in error.details">
       <span class="span12"><strong>{{key}}</strong>: {{detail}}</span>
     </div>
   </div>

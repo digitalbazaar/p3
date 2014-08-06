@@ -47,7 +47,7 @@ function factory(
     scope.model.budgetValidDuration = 'never';
 
     scope.addBudget = function() {
-      AlertService.clearFeedback(scope);
+      AlertService.clearFeedback();
 
       // budget refresh duration
       if(scope.model.budgetRefreshDuration !== 'never') {

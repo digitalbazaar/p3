@@ -65,7 +65,7 @@ function factory(
     model.editing = true;
 
     model.editAccount = function() {
-      AlertService.clearFeedback(scope);
+      AlertService.clearFeedback();
       var accountUpdate = {
         '@context': config.data.contextUrl,
         id: account.id,

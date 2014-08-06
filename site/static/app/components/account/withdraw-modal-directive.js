@@ -53,7 +53,7 @@ function factory(
     scope.prepare = function() {
       scope.state = 'preparing';
       scope.enableConfirm = true;
-      AlertService.clearFeedback(scope);
+      AlertService.clearFeedback();
     };
 
     scope.prepare();
@@ -77,7 +77,7 @@ function factory(
         destination: scope.input.destination.id
       };
       scope.loading = true;
-      AlertService.clearFeedback(scope);
+      AlertService.clearFeedback();
       TransactionService.signWithdrawal(withdrawal).then(function(withdrawal) {
         // get public account information for all payees
         scope.accounts = {};
@@ -127,7 +127,7 @@ function factory(
       scope.loading = true;
       // only allow a single confirm attempt
       scope.enableConfirm = false;
-      AlertService.clearFeedback(scope);
+      AlertService.clearFeedback();
       TransactionService.confirmWithdrawal(scope._withdrawal)
         .then(function(withdrawal) {
           // show complete page

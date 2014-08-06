@@ -28,7 +28,7 @@ function factory(AccountService, AlertService, IdentityService, config) {
     model.accountVisibility = 'hidden';
 
     model.addAccount = function() {
-      AlertService.clearFeedback(scope);
+      AlertService.clearFeedback();
       account.sysPublic = [];
       if(model.accountVisibility === 'public') {
         account.sysPublic.push('label');

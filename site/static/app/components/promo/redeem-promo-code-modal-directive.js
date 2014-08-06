@@ -27,7 +27,7 @@ function factory(AlertService, PromoService) {
           scope.model.promo = promo;
         })
         .catch(function(err) {
-          AlertService.add('error', err);
+          AlertService.add('error', err, {scope: scope});
         })
         .then(function() {
           scope.$apply();

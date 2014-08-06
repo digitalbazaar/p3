@@ -215,7 +215,6 @@ function factory(
           });
         }
       });
-      scope.$apply();
     }
 
     // reset state

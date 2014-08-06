@@ -156,20 +156,16 @@ function factory(
       var addresses = results[0];
       if(addresses.length === 0) {
         self.showAddAddressModal = true;
-        throw {
-          type: 'payswarm.identity.IdentityIncomplete',
-          message: 'Address required to make a purchase.'
-        };
+        return;
       }
       var accounts = results[1];
       if(accounts.length === 0) {
         self.showAddAccountModal = true;
-        throw {
-          type: 'payswarm.identity.IdentityIncomplete',
-          message: 'Account required to make a purchase.'
-        };
       }
     }).then(function() {
+      if(self.showAddAddressModal || self.showAccountModal) {
+        return;
+      }
       // get a quote now; this can still fail if data is changed between the
       // checks and quote
       self.selection.account = (
@@ -181,7 +177,7 @@ function factory(
       }).catch(function(){});
     }).then(function() {
       // page now ready
-      self.ready = true;
+      self.ready = !self.showAddAddressModal && !self.showAddAccountModal;
       $scope.$apply();
     }).catch(function(err) {
       AlertService.add('error', err);

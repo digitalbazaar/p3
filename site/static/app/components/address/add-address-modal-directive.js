@@ -10,7 +10,7 @@ define(['angular'], function(angular) {
 /* @ngInject */
 function factory(AddressService, AlertService, IdentityService, config) {
   return {
-    scope: {showAlert: '@addAddressAlertModal'},
+    scope: {},
     require: '^stackable',
     templateUrl: '/app/components/address/add-address-modal.html',
     link: Link

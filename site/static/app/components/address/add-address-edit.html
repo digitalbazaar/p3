@@ -1,6 +1,3 @@
-<p data-ng-show="showAlert" class="alert alert-info">
-  <strong>Note:</strong> {{showAlert}}
-</p>
 <form class="well form-horizontal" action="">
   <fieldset>
     <div class="control-group" data-binding="label">
@@ -8,7 +5,7 @@
       <div class="controls">
         <div class="input-append">
           <input type="text" name="label"
-            data-ng-model="originalAddress.label"
+            ng-model="originalAddress.label"
             data-track-state="model.help.label" />
           <button class="btn" data-help-toggle="model.help.label">
             <i class="icon-question-sign"></i>
@@ -25,7 +22,7 @@
       <div class="controls">
         <div class="input-append">
           <input type="text" name="name"
-            data-ng-model="originalAddress.name"
+            ng-model="originalAddress.name"
             data-track-state="model.help.name" />
           <button class="btn" data-help-toggle="model.help.name">
             <i class="icon-question-sign"></i>
@@ -41,7 +38,7 @@
       <div class="controls">
         <div class="input-append">
           <input type="text" name="street-address"
-            data-ng-model="originalAddress.streetAddress"
+            ng-model="originalAddress.streetAddress"
             data-track-state="model.help.streetAddress" />
           <button class="btn" data-help-toggle="model.help.streetAddress">
             <i class="icon-question-sign"></i>
@@ -58,7 +55,7 @@
       <div class="controls">
         <div class="input-append">
           <input type="text" name="address-locality"
-            data-ng-model="originalAddress.addressLocality"
+            ng-model="originalAddress.addressLocality"
             data-track-state="model.help.addressLocality" />
           <button class="btn" data-help-toggle="model.help.addressLocality">
             <i class="icon-question-sign"></i>
@@ -74,7 +71,7 @@
       <div class="controls">
         <div class="input-append">
           <input type="text" name="address-region"
-            data-ng-model="originalAddress.addressRegion"
+            ng-model="originalAddress.addressRegion"
             data-track-state="model.help.addressRegion" />
           <button class="btn" data-help-toggle="model.help.addressRegion">
             <i class="icon-question-sign"></i>
@@ -90,7 +87,7 @@
       <div class="controls">
         <div class="input-append">
           <input type="text" name="postal-code"
-            data-ng-model="originalAddress.postalCode"
+            ng-model="originalAddress.postalCode"
             data-track-state="model.help.postalCode" />
           <button class="btn" data-help-toggle="model.help.postalCode">
             <i class="icon-question-sign"></i>
@@ -104,7 +101,7 @@
     <div class="control-group" data-binding="addressCountry">
       <label class="control-label" for="address-country">Country</label>
       <div class="controls">
-        <data-country-selector data-ng-model="originalAddress.addressCountry"></data-country-selector>
+        <data-country-selector ng-model="originalAddress.addressCountry"></data-country-selector>
       </div>
     </div>
   </fieldset>

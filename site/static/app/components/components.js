@@ -16,6 +16,7 @@ define([
   './purchase/purchase',
   './transaction/transaction',
   './vendor/vendor',
+  'bedrock/app/components/alert/alert',
   'bedrock/app/components/dashboard/dashboard',
   'bedrock/app/components/duplicate-checker/duplicate-checker',
   'bedrock/app/components/fade/fade',

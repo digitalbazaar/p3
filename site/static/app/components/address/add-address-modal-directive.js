@@ -58,7 +58,7 @@ function factory(AddressService, AlertService, IdentityService, config) {
           scope.selection.address = scope.originalAddress;
         }
       }).catch(function(err) {
-        AlertService.add('error', err);
+        AlertService.add('error', err, {scope: scope});
       }).then(function() {
         scope.$apply();
       });
@@ -70,7 +70,7 @@ function factory(AddressService, AlertService, IdentityService, config) {
       AddressService.add(addressToAdd).then(function(addedAddress) {
         scope.modal.close(null, addedAddress);
       }).catch(function(err) {
-        AlertService.add('error', err);
+        AlertService.add('error', err, {scope: scope});
         scope.$apply();
       });
     };

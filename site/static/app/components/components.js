@@ -19,7 +19,6 @@ define([
   'bedrock/app/components/dashboard/dashboard',
   'bedrock/app/components/duplicate-checker/duplicate-checker',
   'bedrock/app/components/fade/fade',
-  'bedrock/app/components/feedback/feedback',
   'bedrock/app/components/identity/identity',
   'bedrock/app/components/key/key',
   'bedrock/app/components/login/login',

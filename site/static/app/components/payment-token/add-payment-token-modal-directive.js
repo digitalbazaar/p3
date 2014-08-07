@@ -123,7 +123,7 @@ function factory(AlertService, IdentityService, PaymentTokenService, config) {
         scope.loading = false;
         stackable.close(null, addedToken);
       }).catch(function(err) {
-        AlertService.add('error', err);
+        AlertService.add('error', err, {scope: scope});
         scope.loading = false;
         scope.$apply();
       });

@@ -18,7 +18,7 @@ function factory(
     link: Link
   };
 
-  function Link(scope) {
+  function Link(scope, element, attrs, stackable) {
     scope.model = {};
     scope.selection = {
       account: null
@@ -67,7 +67,7 @@ function factory(
 
       scope.budget.source = scope.selection.account.id;
       BudgetService.collection.add(scope.budget).then(function(budget) {
-        scope.modal.close(null, budget);
+        stackable.close(null, budget);
       }).catch(function(err) {
         AlertService.add('error', err);
         scope.$apply();

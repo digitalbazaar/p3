@@ -17,7 +17,7 @@ function factory(AccountService, AlertService, IdentityService, config) {
     link: Link
   };
 
-  function Link(scope) {
+  function Link(scope, element, attrs, stackable) {
     var model = scope.model = {};
     model.identity = IdentityService.identity;
     model.state = AccountService.state;
@@ -37,7 +37,7 @@ function factory(AccountService, AlertService, IdentityService, config) {
       }
 
       AccountService.collection.add(account).then(function(account) {
-        scope.modal.close(null, account);
+        stackable.close(null, account);
       }).catch(function(err) {
         AlertService.add('error', err);
         scope.$apply();

@@ -21,14 +21,14 @@ function factory() {
     link: Link
   };
 
-  function Link(scope) {
+  function Link(scope, element, attrs, stackable) {
     var model = scope.model = {};
     model.loading = false;
     // payment backup source selected
     model.backupSource = null;
 
     scope.confirm = function() {
-      scope.modal.close(null, model.backupSource);
+      stackable.close(null, model.backupSource);
     };
   }
 }

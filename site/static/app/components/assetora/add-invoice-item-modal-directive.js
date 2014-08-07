@@ -20,7 +20,7 @@ function factory(config) {
     link: Link
   };
 
-  function Link(scope) {
+  function Link(scope, element, attrs, stackable) {
     // FIXME: use root/global data, move over to model
     scope.data = config.data || {};
     scope.identity = config.data.identity || {};
@@ -47,7 +47,7 @@ function factory(config) {
     scope.addInvoiceItem = function() {
       var item = scope.model.item;
       scope.model.asset.invoiceItem.push(item);
-      scope.modal.close(null, item);
+      stackable.close(null, item);
     };
   }
 }

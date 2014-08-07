@@ -17,7 +17,7 @@ function factory(AddressService, AlertService, IdentityService, config) {
     link: Link
   };
 
-  function Link(scope) {
+  function Link(scope, element, attrs, stackable) {
     // FIXME: use 'model'
     var model = scope.model = {};
     scope.identity = IdentityService.identity;
@@ -69,7 +69,7 @@ function factory(AddressService, AlertService, IdentityService, config) {
       var addressToAdd = clickedAddress || scope.selection.address;
       AlertService.clearFeedback();
       AddressService.add(addressToAdd).then(function(addedAddress) {
-        scope.modal.close(null, addedAddress);
+        stackable.close(null, addedAddress);
       }).catch(function(err) {
         AlertService.add('error', err, {scope: scope});
         scope.$apply();

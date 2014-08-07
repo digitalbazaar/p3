@@ -17,7 +17,7 @@ function factory(AlertService, IdentityService, PaymentTokenService, config) {
     link: Link
   };
 
-  function Link(scope) {
+  function Link(scope, element, attrs, stackable) {
     scope.model = {};
     scope.selection = {
       address: null
@@ -121,7 +121,7 @@ function factory(AlertService, IdentityService, PaymentTokenService, config) {
       AlertService.clearFeedback();
       PaymentTokenService.collection.add(token).then(function(addedToken) {
         scope.loading = false;
-        scope.modal.close(null, addedToken);
+        stackable.close(null, addedToken);
       }).catch(function(err) {
         AlertService.add('error', err);
         scope.loading = false;

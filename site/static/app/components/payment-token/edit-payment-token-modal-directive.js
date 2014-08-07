@@ -16,12 +16,13 @@ function factory(
       paymentMethods: '=',
       sourcePaymentToken: '=paymentToken'
     },
+    require: '^stackable',
     name: 'editPaymentToken',
     templateUrl: '/app/components/payment-token/edit-payment-token-modal.html',
     link: Link
   };
 
-  function Link(scope) {
+  function Link(scope, element, attrs, stackable) {
     scope.model = {};
     scope.monthLabels = config.constants.monthLabels;
     scope.years = config.constants.years;
@@ -67,28 +68,30 @@ function factory(
       // do general update then remove backup sources
       scope.loading = true;
       AlertService.clearFeedback();
-      PaymentTokenService.collection.update(paymentToken).then(function(paymentToken) {
-        // remove backup source from every related account
-        var promises = [];
-        angular.forEach(scope.backupSourceFor, function(info) {
-          if(!info.active) {
-            promises.push(AccountService.delBackupSource(
-              info.account.id, scope.paymentToken.id).then(function() {
-                // mark as gone
-                scope.backupSourceFor[info.account.id].exists = false;
-              }));
-          }
-        });
-        return Promise.all(promises).then(function() {
-          PaymentTokenService.collection.get(paymentToken.id).then(function() {
-            scope.modal.close(null, paymentToken);
+      PaymentTokenService.collection.update(paymentToken)
+        .then(function(paymentToken) {
+          // remove backup source from every related account
+          var promises = [];
+          angular.forEach(scope.backupSourceFor, function(info) {
+            if(!info.active) {
+              promises.push(AccountService.delBackupSource(
+                info.account.id, scope.paymentToken.id).then(function() {
+                  // mark as gone
+                  scope.backupSourceFor[info.account.id].exists = false;
+                }));
+            }
           });
+          return Promise.all(promises).then(function() {
+            PaymentTokenService.collection.get(paymentToken.id).then(function() {
+              stackable.close(null, paymentToken);
+            });
+          });
+        })
+        .catch(function(err) {
+          // editor still open, update display
+          AlertService.add('error', err);
+          updateBackupSources();
         });
-      }).catch(function(err) {
-        // editor still open, update display
-        AlertService.add('error', err);
-        updateBackupSources();
-      });
     };
 
     updateBackupSources();

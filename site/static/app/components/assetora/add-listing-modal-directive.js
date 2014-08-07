@@ -17,7 +17,7 @@ function factory(AlertService, HostedListingService, config) {
     link: Link
   };
 
-  function Link(scope) {
+  function Link(scope, element, attrs, stackable) {
     // FIXME: use root/global data, move over to model
     scope.data = config.data || {};
     scope.identity = config.data.identity || {};
@@ -66,7 +66,7 @@ function factory(AlertService, HostedListingService, config) {
       listing.asset = scope.asset.id;
       HostedListingService.add(listing).then(function(listing) {
         scope.loading = false;
-        scope.modal.close(null, listing);
+        stackable.close(null, listing);
       }).catch(function(err) {
         AlertService.add('error', err);
         scope.loading = false;

@@ -18,7 +18,7 @@ function factory(
     link: Link
   };
 
-  function Link(scope, element, attrs) {
+  function Link(scope, element, attrs, stackable) {
     var model = scope.model = {};
     model.identity = IdentityService.identity;
     var state = model.state = {loading: false};
@@ -91,7 +91,7 @@ function factory(
       state.loading = true;
       AccountService.collection.update(accountUpdate).then(function(account) {
         state.loading = false;
-        scope.modal.close(null, account);
+        stackable.close(null, account);
       }).catch(function(err) {
         AlertService.add('error', err);
         state.loading = false;

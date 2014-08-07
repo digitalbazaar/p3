@@ -12,12 +12,12 @@ function factory(AlertService, HostedAssetService, config) {
   return {
     restrict: 'A',
     scope: {},
-    templateUrl: '/app/components/assetora/add-asset-modal.html',
     require: '^stackable',
+    templateUrl: '/app/components/assetora/add-asset-modal.html',
     link: Link
   };
 
-  function Link(scope) {
+  function Link(scope, element, attrs, stackable) {
     // FIXME: use root/global data, move over to model
     scope.data = config.data || {};
     scope.identity = scope.data.identity || {};
@@ -46,7 +46,7 @@ function factory(AlertService, HostedAssetService, config) {
       console.log('asset', asset);
       HostedAssetService.add(asset).then(function(asset) {
         scope.loading = false;
-        scope.modal.close(null, asset);
+        stackable.close(null, asset);
       }).catch(function(err) {
         AlertService.add('error', err);
         scope.loading = false;

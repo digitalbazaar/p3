@@ -18,7 +18,7 @@ function factory(
     link: Link
   };
 
-  function Link(scope) {
+  function Link(scope, element, attrs, stackable) {
     scope.model = {};
     scope.selection = {
       account: null
@@ -112,7 +112,7 @@ function factory(
       scope.loading = true;
       BudgetService.collection.update(budget).then(function(budget) {
         scope.loading = false;
-        scope.modal.close(null, budget);
+        stackable.close(null, budget);
       }).catch(function(err) {
         scope.loading = false;
         AlertService.add('error', err);

@@ -10,6 +10,7 @@ define([], function() {
 /* @ngInject */
 function factory(AccountService, BudgetService) {
   return {
+    restrict: 'A',
     scope: {
       selected: '=',
       invalid: '=',

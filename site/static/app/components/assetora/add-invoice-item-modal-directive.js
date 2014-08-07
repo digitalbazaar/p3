@@ -10,6 +10,7 @@ define([], function() {
 /* @ngInject */
 function factory(config) {
   return {
+    restrict: 'A',
     scope: {
       asset: '=',
       destination: '='

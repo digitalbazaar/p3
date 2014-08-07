@@ -13,6 +13,7 @@ define([], function() {
 /* @ngInject */
 function factory(IdentityService) {
   return {
+    restrict: 'A',
     templateUrl: '/app/components/dashboard/messages-view.html',
     link: Link
   };

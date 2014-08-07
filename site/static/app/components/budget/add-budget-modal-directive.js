@@ -11,6 +11,7 @@ define([], function() {
 function factory(
   AlertService, BudgetService, IdentityService, config, util) {
   return {
+    restrict: 'A',
     scope: {},
     require: '^stackable',
     templateUrl: '/app/components/budget/add-budget-modal.html',

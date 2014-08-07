@@ -10,6 +10,7 @@ define(['angular'], function(angular) {
 /* @ngInject */
 function factory(AccountService, AlertService, IdentityService, config) {
   return {
+    restrict: 'A',
     scope: {},
     require: '^stackable',
     templateUrl: '/app/components/dashboard/welcome-modal.html',

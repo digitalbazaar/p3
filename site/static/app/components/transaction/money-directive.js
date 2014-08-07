@@ -21,6 +21,7 @@ var CURRENCY_INFO = {
 /* @ngInject */
 function factory($filter) {
   return {
+    restrict: 'A',
     scope: {
       money: '=',
       // hint to highlight the value

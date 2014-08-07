@@ -13,6 +13,7 @@ define([], function() {
 /* @ngInject */
 function factory(AlertService, BudgetService) {
   return {
+    restrict: 'A',
     scope: {},
     templateUrl: '/app/components/budget/budgets-view.html',
     link: Link

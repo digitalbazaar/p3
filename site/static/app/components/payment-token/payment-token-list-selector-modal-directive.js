@@ -10,6 +10,7 @@ define([], function() {
 /* @ngInject */
 function factory() {
   return {
+    restrict: 'A',
     scope: {
       instant: '=',
       omit: '='

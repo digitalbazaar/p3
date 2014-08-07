@@ -11,6 +11,7 @@ define(['angular'], function(angular) {
 function factory(
   AccountService, AlertService, BudgetService, IdentityService, config, util) {
   return {
+    restrict: 'A',
     scope: {sourceBudget: '=budget'},
     require: '^stackable',
     templateUrl: '/app/components/budget/edit-budget-modal.html',

@@ -10,6 +10,7 @@ define(['angular'], function(angular) {
 /* @ngInject */
 function factory(AlertService, HostedAssetService, config) {
   return {
+    restrict: 'A',
     scope: {},
     require: '^stackable',
     templateUrl: '/app/components/assetora/add-invoice-modal.html',

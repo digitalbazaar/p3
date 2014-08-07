@@ -10,6 +10,7 @@ define(['angular'], function(angular) {
 /* @ngInject */
 function factory(AlertService, ModelService, PaymentTokenService) {
   return {
+    restrict: 'A',
     scope: {
       selected: '=',
       invalid: '=',

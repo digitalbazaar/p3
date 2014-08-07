@@ -10,6 +10,7 @@ define([], function() {
 /* @ngInject */
 function factory(AlertService, PromoService) {
   return {
+    restrict: 'A',
     scope: {account: '='},
     require: '^stackable',
     templateUrl: '/app/components/promo/redeem-promo-code-modal.html',

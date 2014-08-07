@@ -10,6 +10,7 @@ define([], function() {
 /* @ngInject */
 function factory() {
   return {
+    restrict: 'A',
     scope: {budget: '=budgetBar'},
     replace: true,
     templateUrl: '/app/components/budget/budget-bar.html',

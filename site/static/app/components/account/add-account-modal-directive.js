@@ -10,6 +10,7 @@ define([], function() {
 /* @ngInject */
 function factory(AccountService, AlertService, IdentityService, config) {
   return {
+    restrict: 'A',
     scope: {},
     require: '^stackable',
     templateUrl: '/app/components/account/add-account-modal.html',

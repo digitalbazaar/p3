@@ -15,6 +15,7 @@ function factory(
   $rootScope, AccountService, AlertService, IdentityService,
   IdentityPreferencesService, PaymentTokenService, config) {
   return {
+    restrict: 'A',
     scope: {},
     templateUrl: '/app/components/account/accounts-view.html',
     link: Link

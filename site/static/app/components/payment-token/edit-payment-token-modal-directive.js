@@ -11,6 +11,7 @@ define(['angular'], function(angular) {
 function factory(
   AccountService, AlertService, IdentityService, PaymentTokenService, config) {
   return {
+    restrict: 'A',
     scope: {
       paymentMethods: '=',
       sourcePaymentToken: '=paymentToken'

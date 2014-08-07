@@ -10,6 +10,7 @@ define(['angular'], function(angular) {
 /* @ngInject */
 function factory(AccountService, AlertService, TransactionService, config) {
   return {
+    restrict: 'A',
     scope: {
       account: '=',
       instant: '='

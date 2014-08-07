@@ -10,6 +10,7 @@ define([], function() {
 /* @ngInject */
 function factory(AlertService, PaymentTokenService) {
   return {
+    restrict: 'A',
     scope: {account: '=accountBalance'},
     replace: true,
     templateUrl: '/app/components/account/account-balance.html',

@@ -12,6 +12,7 @@ define([
 /* @ngInject */
 function factory(AlertService, HostedAssetService, config) {
   return {
+    restrict: 'A',
     scope: {asset: '='},
     require: '^stackable',
     templateUrl: '/app/components/assetora/protect-asset-modal.html',

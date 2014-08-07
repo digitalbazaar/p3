@@ -10,6 +10,7 @@ define([], function() {
 /* @ngInject */
 function factory(AlertService, IdentityService, PaymentTokenService, config) {
   return {
+    restrict: 'A',
     scope: {paymentMethods: '='},
     require: '^stackable',
     templateUrl: '/app/components/payment-token/add-payment-token-modal.html',

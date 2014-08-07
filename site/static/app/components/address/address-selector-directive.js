@@ -10,6 +10,7 @@ define([], function() {
 /* @ngInject */
 function factory(AddressService, IdentityService) {
   return {
+    restrict: 'A',
     scope: {
       selected: '=',
       invalid: '=',

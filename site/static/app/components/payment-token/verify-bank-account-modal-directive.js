@@ -10,6 +10,7 @@ define(['angular'], function(angular) {
 /* @ngInject */
 function factory(AccountService, AlertService, PaymentTokenService, config) {
   return {
+    restrict: 'A',
     scope: {paymentToken: '='},
     require: '^stackable',
     templateUrl: '/app/components/payment-token/verify-bank-account-modal.html',

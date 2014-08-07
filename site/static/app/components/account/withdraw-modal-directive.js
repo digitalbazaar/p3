@@ -11,6 +11,7 @@ define(['angular'], function(angular) {
 function factory(
   $filter, AccountService, AlertService, TransactionService, config) {
   return {
+    restrict: 'A',
     scope: {account: '='},
     require: '^stackable',
     templateUrl: '/app/components/account/withdraw-modal.html',

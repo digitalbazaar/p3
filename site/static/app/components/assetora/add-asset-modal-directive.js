@@ -10,6 +10,7 @@ define([], function() {
 /* @ngInject */
 function factory(AlertService, HostedAssetService, config) {
   return {
+    restrict: 'A',
     scope: {},
     templateUrl: '/app/components/assetora/add-asset-modal.html',
     require: '^stackable',

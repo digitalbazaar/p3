@@ -10,6 +10,7 @@ define(['angular', 'jsonld'], function(angular, jsonld) {
 /* @ngInject */
 function factory(AccountService) {
   return {
+    restrict: 'A',
     scope: {
       transaction: '=transactionDetails',
       source: '=',

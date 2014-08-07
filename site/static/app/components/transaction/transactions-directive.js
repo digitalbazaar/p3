@@ -14,6 +14,7 @@ define(['angular', 'jsonld'], function(angular, jsonld) {
 function factory(
   $timeout, IdentityService, RefreshService, TransactionService) {
   return {
+    restrict: 'A',
     scope: {
       account: '=',
       controls: '=',

@@ -10,6 +10,7 @@ define([], function() {
 /* @ngInject */
 function factory(AlertService, PaymentTokenService) {
   return {
+    restrict: 'A',
     scope: {
       account: '=accountBalanceDetails',
       expand: '='

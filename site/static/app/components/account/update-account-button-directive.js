@@ -10,6 +10,7 @@ define([], function() {
 /* @ngInject */
 function factory(AccountService, AlertService, IdentityService, config) {
   return {
+    restrict: 'A',
     scope: {account: '=', callback: '&'},
     templateUrl: '/app/components/account/update-account-button.html',
     link: Link

@@ -8,7 +8,7 @@ define([], function() {
 'use strict';
 
 /* @ngInject */
-function factory($timeout, AlertService, PaymentTokenService) {
+function factory($scope, AlertService, PaymentTokenService) {
   var self = this;
 
   self.state = PaymentTokenService.state;
@@ -29,17 +29,17 @@ function factory($timeout, AlertService, PaymentTokenService) {
   };
 
   self.deletePaymentToken = function(paymentToken) {
-    PaymentTokenService.collection.del(paymentToken.id, {update: false}).catch(
-      function(err) {
-      AlertService.add('error', err);
-      $timeout(function() {
+    paymentToken.deleted = true;
+    PaymentTokenService.collection.del(paymentToken.id, {update: false})
+      .catch(function(err) {
+        AlertService.add('error', err);
         paymentToken.deleted = false;
-        paymentToken.showDeletedError = true;
-      }, 500);
-    }).then(function() {
-      // get token again since deletion is not immediate
-      return PaymentTokenService.collection.get(paymentToken.id, {force: true});
-    });
+        $scope.apply();
+      })
+      .then(function() {
+        // get token again since deletion is not immediate
+        return PaymentTokenService.collection.get(paymentToken.id, {force: true});
+      });
   };
   self.restorePaymentToken = function(paymentToken) {
     PaymentTokenService.restore(paymentToken.id);

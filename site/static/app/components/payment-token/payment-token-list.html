@@ -1,47 +1,46 @@
 <div>
-  <table class="table table-condensed" data-ng-show="state.loading || idList.length > 0">
+  <table class="table table-condensed" ng-show="state.loading || idList.length > 0">
     <thead>
       <tr>
         <th class="name compact">Priority</th>
         <th class="name compact">Type</th>
         <th class="name">Name</th>
-        <th class="action" data-ng-show="tokenList.length > 1">Action</th>
+        <th class="action" ng-show="tokenList.length > 1">Action</th>
       </tr>
     </thead>
     <tbody>
-      <tr data-ng-repeat="token in tokenList"
-        data-fadeout="token.deleted"
-        data-fadeout-callback="deletePaymentToken(token)">
+      <tr ng-repeat="token in tokenList" class="br-fadeout br-fadein"
+        ng-if="!token.deleted">
         <!-- Priority -->
         <td class="compact">
           <span>{{$index + 1}}</span>
         </td>
         <!-- Type -->
-        <td class="compact" data-ng-when="token.paymentMethod">
-          <span data-ng-when="CreditCard"><i class="icon-credit-card"></i></span>
-          <span data-ng-show="BankAccount"><i class="icon-building"></i></span>
+        <td class="compact" ng-when="token.paymentMethod">
+          <span ng-when="CreditCard"><i class="icon-credit-card"></i></span>
+          <span ng-show="BankAccount"><i class="icon-building"></i></span>
         </td>
         <!-- Name -->
         <td>
           <span>{{token.label}}</span>
         </td>
         <!-- Action -->
-        <td class="action" data-ng-show="tokenList.length > 1">
+        <td class="action" ng-show="tokenList.length > 1">
           <action-menu>
             <ul class="dropdown-menu stackable-menu">
-              <li data-ng-show="!$first">
-                <a class="stackable-cancel" data-ng-click="moveIndexUp($index)">
+              <li ng-show="!$first">
+                <a class="stackable-cancel" ng-click="moveIndexUp($index)">
                   <i class="icon-chevron-up"></i> Move Up
                 </a>
               </li>
-              <li data-ng-show="!$last">
-                <a class="stackable-menu" data-ng-click="moveIndexDown($index)">
+              <li ng-show="!$last">
+                <a class="stackable-menu" ng-click="moveIndexDown($index)">
                   <i class="icon-chevron-down"></i> Move Down
                 </a>
               </li>
               <li class="divider"></li>
               <li class="btn-danger">
-                <a class="stackable-menu" data-ng-click="deleteIndex($index)">
+                <a class="stackable-menu" ng-click="deleteIndex($index)">
                   <i class="icon-remove"></i> Delete
                 </a>
               </li>
@@ -51,15 +50,15 @@
       </tr>
     </tbody>
     <tfoot>
-      <tr data-ng-hide="state.loading">
+      <tr ng-hide="state.loading">
         <!-- Use Payment Token -->
         <td colspan="5">
           <button
             class="btn btn-success pull-right"
-            data-ng-click="modals.showPaymentTokenListSelector=true"><i class="icon-plus"></i> Use Payment Method</button>
+            ng-click="modals.showPaymentTokenListSelector=true"><i class="icon-plus"></i> Use Payment Method</button>
         </td>
       </tr>
-      <tr data-ng-show="state.loading">
+      <tr ng-show="state.loading">
         <td colspan="5" style="text-align: center">
           <span class="center">
             <span data-spinner="state.loading" data-spinner-class="table-spinner"></span>
@@ -68,9 +67,9 @@
       </tr>
     </tfoot>
   </table>
-  <div data-ng-show="idList.length == 0">
+  <div ng-show="idList.length == 0">
     <p class="center">None.</p>
-    <button class="btn btn-success pull-right" data-ng-click="modals.showPaymentTokenListSelector=true"><i class="icon-plus"></i> Select Payment Method</button>
+    <button class="btn btn-success pull-right" ng-click="modals.showPaymentTokenListSelector=true"><i class="icon-plus"></i> Select Payment Method</button>
   </div>
   <div data-modal-payment-token-list-selector="modals.showPaymentTokenListSelector" data-instant="instant" data-omit="idList" data-modal-on-close="addToken(err, result)"></div>
 </div>

@@ -17,8 +17,7 @@
     </thead>
     <tbody>
       <tr ng-repeat="budget in model.budgets | orderBy:'label'"
-        class="budget"
-        data-fadeout="budget.deleted">
+        class="budget br-fadein br-fadeout" ng-if="!budget.deleted">
         <!-- Label -->
         <td class="name">
           <a href="{{budget.id}}">{{budget.label}}</a>

@@ -1,10 +1,10 @@
 <div class="modal">
-  <div class="modal-header" data-ng-switch="model.state">
+  <div class="modal-header" ng-switch="model.state">
     <a class="close stackable-cancel">&times;</a>
     <h3>Select a Payment Method</h3>
   </div>
-  <div class="modal-body" data-ng-switch="model.state">
-    <div data-ng-include="'/app/components/util/demo-warning.html'"></div>
+  <div class="modal-body" ng-switch="model.state">
+    <div ng-include="'/app/components/util/demo-warning.html'"></div>
     <p>Please select a payment method to add to your account.</p>
 
     <div class="section">
@@ -17,9 +17,9 @@
     <span data-spinner="model.loading"
       data-spinner-class="prepend-btn-spinner"></span>
     <button class="btn btn-primary"
-      data-ng-disabled="model.loading || !model.backupSource"
-      data-ng-click="confirm()"><i class="icon-ok"></i> Confirm</button>
-    <button data-ng-disabled="loading" class="btn stackable-cancel">Cancel</button>
+      ng-disabled="model.loading || !model.backupSource"
+      ng-click="confirm()"><i class="icon-ok"></i> Confirm</button>
+    <button ng-disabled="loading" class="btn stackable-cancel">Cancel</button>
     </span>
   </div>
 </div>

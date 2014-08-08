@@ -11,7 +11,7 @@ define([], function() {
 /* @ngInject */
 function factory(
   $scope, $timeout, AccountService, AlertService, BudgetService,
-  RefreshService, config) {
+  RefreshService) {
   var self = this;
 
   self.modals = {};
@@ -39,10 +39,10 @@ function factory(
 
       // wait to delete so modal can transition
       $timeout(function() {
-        BudgetService.delVendor(self.budget.id, vendor.id, function(err) {
-          if(err) {
-            vendor.deleted = false;
-          }
+        BudgetService.delVendor(self.budget.id, vendor.id).catch(function(err) {
+          AlertService.add('error', err);
+          vendor.deleted = false;
+          $scope.$apply();
         });
       });
     }

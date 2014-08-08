@@ -90,7 +90,7 @@
         </thead>
         <tbody>
         <tr data-ng-repeat="vendor in model.vendors[model.budget.id].storage | orderBy:'label'"
-          class="vendor" data-fadeout="vendor.deleted">
+          class="vendor br-fadein br-fadeout" ng-if="!vendor.deleted">
           <!-- Label -->
           <td class="name">
             <a href="{{vendor.id}}">{{vendor.label || vendor.id}}</a>

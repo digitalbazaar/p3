@@ -31,7 +31,7 @@
               ng-model="model.datePickerDate"
               data-datepicker-popup="yyyy/MM/dd" ng-change="model.dateChanged()"
               data-is-open="model.datePickerOpen"
-              data-ui-keyup="{'enter esc': 'model.dateQuitKeyPressed($event)'}" />
+              ng-keyup="($event.which == 13 || $event.which == 27) && model.dateQuitKeyPressed($event)" />
             <button class="btn" ng-click="model.openDatePicker()"><i class="icon-calendar"></i></button>
           </div>
         </div>
@@ -44,7 +44,7 @@
               max="30"
               required
               ng-model="model.limit"
-              data-ui-keyup="{'enter esc': 'model.dateQuitKeyPressed($event)'}" />
+              ng-keyup="($event.which == 13 || $event.which == 27) && model.dateQuitKeyPressed($event)" />
           </div>
         </div>
 

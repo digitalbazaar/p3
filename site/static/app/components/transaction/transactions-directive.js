@@ -76,7 +76,9 @@ function factory(
     // lose focus and hide datepicker
     model.dateQuitKeyPressed = function($event) {
       model.datePickerOpen = false;
-      $event.target.blur();
+      $timeout(function() {
+        $event.target.blur();
+      });
     };
 
     model.openDatePicker = function() {

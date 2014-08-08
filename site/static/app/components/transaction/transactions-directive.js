@@ -44,7 +44,7 @@ function factory(
       txns: model.txns.state
     };
 
-    scope.$watch('account', function(account, oldAccount) {
+    scope.$watch('account', function(account) {
       if(!account || model.recent) {
         return;
       }

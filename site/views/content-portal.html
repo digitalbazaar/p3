@@ -5,7 +5,7 @@
 {% block content %}
 
 {% raw %}
-<div class="container ng-cloak" data-ng-controller="ContentPortalController">
+<div class="container ng-cloak" ng-controller="ContentPortalController">
 
   <div class="row">
     <div class="title-section span12">
@@ -18,7 +18,7 @@
       <div class="alert alert-success">
         Click the button below to see the content you purchased.
       </div>
-      <form data-ng-show="model.encryptedReceipt" method="post"
+      <form ng-show="model.encryptedReceipt" method="post"
         action="{{model.asset.assetContent}}">
         <fieldset>
           <input
@@ -29,7 +29,7 @@
           <button class="btn btn-primary">View content</button>
         </div>
       </form>
-      <div data-ng-hide="model.encryptedReceipt" class="well center">
+      <div ng-hide="model.encryptedReceipt" class="well center">
         <a class="btn btn-primary" href="{{model.asset.assetContent}}">View content</a>
       </div>
     </div>

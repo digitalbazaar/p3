@@ -32,20 +32,20 @@ like to withdraw.</p>
           <label class="radio">
             <input
               type="radio" name="amount"
-              data-ng-model="input.mode"
+              ng-model="input.mode"
               value="all"
-              data-ng-change="setAmount(account.balance)" />
+              ng-change="setAmount(account.balance)" />
             Maximum withdrawal: <span data-money="account" data-important="true" data-value-field="balance" data-round-mode="down"></span>
           </label>
           <div>
             <input
               type="radio" name="amount"
-              data-ng-model="input.mode"
+              ng-model="input.mode"
               value="custom" />
             <div class="input-prepend input-append">
               <span class="add-on"><i class="icon-money"></i></span><input
                 type="text" name="amount" placeholder="Enter withdrawal amount..."
-                data-ng-model="input.amount"
+                ng-model="input.amount"
                 data-track-state="model.help.amount" />
               <button class="btn" data-help-toggle="model.help.amount">
                 <i class="icon-question-sign"></i>

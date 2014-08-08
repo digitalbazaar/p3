@@ -2,11 +2,11 @@
 
   <div class="row">
     <div class="span12">
-      <ul class="breadcrumb" data-ng-show="app.services.identity.state.loading">
+      <ul class="breadcrumb" ng-show="app.services.identity.state.loading">
         <li>&nbsp;</li>
       </ul>
-      <ul class="breadcrumb" data-ng-show="!app.services.identity.state.loading">
-        <li><a data-ng-href="{{app.services.identity.identity.id}}/dashboard">Dashboard</a> <span class="divider">/</span></li>
+      <ul class="breadcrumb" ng-show="!app.services.identity.state.loading">
+        <li><a ng-href="{{app.services.identity.identity.id}}/dashboard">Dashboard</a> <span class="divider">/</span></li>
         <li class="active">Accounts</li>
       </ul>
     </div>

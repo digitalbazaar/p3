@@ -6,7 +6,7 @@
 {% block content %}
 
 {% raw %}
-<div data-ng-controller="RegisterController as model" class="ng-cloak">
+<div ng-controller="RegisterController as model" class="ng-cloak">
 
 <div class="row">
   <h1 class="headline">Access Key Registration</h1>
@@ -25,19 +25,19 @@
 
 <div class="row">
   <div class="span6 offset3">
-    <form data-ng-hide="model.registered" class="form-horizontal" action="">
+    <form ng-hide="model.registered" class="form-horizontal" action="">
       <fieldset>
         <div class="control-group">
           <label class="control-label">Purpose</label>
           <div class="controls">
           <label class="radio">
             <input type="radio" name="registration-type"
-              value="vendor" data-ng-model="model.registrationType" />
+              value="vendor" ng-model="model.registrationType" />
             Only for listing things for sale (Vendor only)
           </label>
           <label class="radio">
             <input type="radio" name="registration-type"
-              value="buyer" data-ng-model="model.registrationType" />
+              value="buyer" ng-model="model.registrationType" />
             Buying things and listings things for sale (Vendor/Buyer)
           </label>
           </div>
@@ -59,7 +59,7 @@
           <label class="control-label" for="access-key-label">Access Key Label</label>
           <div class="controls">
             <input id="access-key-label" class="form-field-vspaced form-field-constrained"
-              data-ng-model="model.publicKey.label"
+              ng-model="model.publicKey.label"
               name="publicKeyLabel" type="text" />
           </div>
         </div>
@@ -68,7 +68,7 @@
           <label class="control-label" for="public-key-pem">Access Key</label>
           <div class="controls">
             <textarea id="public-key-pem" class="form-field-vspaced form-field-constrained small-text"
-              data-ng-model="model.publicKey.publicKeyPem"
+              ng-model="model.publicKey.publicKeyPem"
               name="publicKeyPem" rows="7">{% endraw %}{% if publicKeyPem %}{{publicKeyPem}}{% endif %}{% raw %}</textarea>
           </div>
         </div>
@@ -79,17 +79,17 @@
             <div data-add-address-modal data-add-address-alert-modal="Before you complete your registration, please enter your business's name and address information."></div>
           </div>
           <button class="btn btn-large btn-primary"
-            data-ng-disabled="model.loading || !model.identity || !model.selection.account"
-            data-ng-click="model.register()">Register</button>
+            ng-disabled="model.loading || !model.identity || !model.selection.account"
+            ng-click="model.register()">Register</button>
           <span data-spinner="model.loading" class="append-btn-spinner"></span>
         </div>
       </fieldset>
     </form>
 
-    <div data-ng-show="model.registered">
+    <div ng-show="model.registered">
       <p>The access key has been registered.</p>
 
-      <form data-ng-show="model.registrationCallback" id="vendor-form"
+      <form ng-show="model.registrationCallback" id="vendor-form"
         class="form-vertical" method="post" action="{{model.registrationCallback}}">
         <input name="encrypted-message" value="{{model.encryptedMessage}}"
           type="hidden" />
@@ -102,7 +102,7 @@
           type="submit">Complete Vendor Registration</button>
       </form>
 
-      <div data-ng-hide="model.registrationCallback">
+      <div ng-hide="model.registrationCallback">
         <p>
         Cut and paste the following data into your software to finish
         the registration process:

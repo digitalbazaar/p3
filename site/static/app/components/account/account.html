@@ -1,19 +1,19 @@
-<div class="container ng-cloak" data-ng-controller="AccountController as model">
+<div class="container ng-cloak" ng-controller="AccountController as model">
 
   <div class="row">
     <div class="span12">
-      <ul class="breadcrumb" data-ng-show="!model.account || model.state.accounts.loading">
+      <ul class="breadcrumb" ng-show="!model.account || model.state.accounts.loading">
         <li>&nbsp;</li>
       </ul>
-      <ul class="breadcrumb" data-ng-show="model.account && !model.state.accounts.loading && !model.state.identities.loading && app.services.identity.identity.id == model.account.owner">
-        <li><a data-ng-href="{{app.services.identity.identity.id}}/dashboard">Dashboard</a> <span class="divider">/</span></li>
-        <li><a data-ng-href="{{app.services.identity.identity.id}}/accounts">Accounts</a> <span class="divider">/</span></li>
-        <li class="active" data-ng-bind="model.account.label"></li>
+      <ul class="breadcrumb" ng-show="model.account && !model.state.accounts.loading && !model.state.identities.loading && app.services.identity.identity.id == model.account.owner">
+        <li><a ng-href="{{app.services.identity.identity.id}}/dashboard">Dashboard</a> <span class="divider">/</span></li>
+        <li><a ng-href="{{app.services.identity.identity.id}}/accounts">Accounts</a> <span class="divider">/</span></li>
+        <li class="active" ng-bind="model.account.label"></li>
       </ul>
-      <ul class="breadcrumb" data-ng-show="model.account && !model.state.accounts.loading && !model.state.identities.loading && app.services.identity.identity.id != model.account.owner">
+      <ul class="breadcrumb" ng-show="model.account && !model.state.accounts.loading && !model.state.identities.loading && app.services.identity.identity.id != model.account.owner">
         <li><a href="{{model.account.owner}}">Account Owner</a> <span class="divider">/</span></li>
         <li>Accounts <span class="divider">/</span></li>
-        <li class="active" data-ng-bind="model.account.label"></li>
+        <li class="active" ng-bind="model.account.label"></li>
       </ul>
     </div>
   </div>
@@ -22,65 +22,65 @@
     <div class="section span12">
       <h3 class="headline">
         Financial Account
-        <span data-ng-hide="!model.account || model.state.accounts.loading" class="btn-group pull-right">
+        <span ng-hide="!model.account || model.state.accounts.loading" class="btn-group pull-right">
           <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
             <i class="icon-reorder"></i>
           </a>
           <ul class="dropdown-menu pull-right">
             <li>
-              <a data-ng-click="model.modals.account=model.account; model.modals.showDeposit=true">
+              <a ng-click="model.modals.account=model.account; model.modals.showDeposit=true">
                 <i class="icon-plus"></i> Deposit
               </a>
             </li>
-            <li data-ng-class="{disabled: model.account.balance == 0}">
-              <a data-ng-show="model.account.balance == 0" href="#">
+            <li ng-class="{disabled: model.account.balance == 0}">
+              <a ng-show="model.account.balance == 0" href="#">
                 <i class="icon-minus"></i> Withdraw
               </a>
-              <a data-ng-hide="model.account.balance == 0" data-ng-click="model.modals.account=model.account; model.modals.showWithdraw=true">
+              <a ng-hide="model.account.balance == 0" ng-click="model.modals.account=model.account; model.modals.showWithdraw=true">
                 <i class="icon-minus"></i> Withdraw
               </a>
             </li>
             <li>
-              <a data-ng-click="model.modals.account=model.account; model.modals.showEditAccount=true">
+              <a ng-click="model.modals.account=model.account; model.modals.showEditAccount=true">
                 <i class="icon-pencil"></i> Edit
               </a>
             </li>
-            <li data-ng-show="model.identity.sysUnbackedCreditEmailAvailable && (!model.account.creditLimit || model.account.creditLimit == 0)">
-              <a data-ng-click="model.modals.account=model.account; model.modals.showAddCreditLine=true">
+            <li ng-show="model.identity.sysUnbackedCreditEmailAvailable && (!model.account.creditLimit || model.account.creditLimit == 0)">
+              <a ng-click="model.modals.account=model.account; model.modals.showAddCreditLine=true">
                 <i class="icon-credit-card"></i> Open Credit Line
               </a>
             </li>
             <li>
-              <a data-ng-click="model.modals.account=model.account; model.modals.showRedeemPromoCode=true">
+              <a ng-click="model.modals.account=model.account; model.modals.showRedeemPromoCode=true">
                 <i class="icon-money"></i> Redeem Promo Code
               </a>
             </li>
           </ul>
         </span>
-        <span data-ng-show="model.state.accounts.loading" class="pull-right">
+        <span ng-show="model.state.accounts.loading" class="pull-right">
           <span data-spinner="model.state.accounts.loading" data-spinner-class="h3-spinner"></span>
         </span>
       </h3>
-      <div class="alert alert-error" data-ng-show="model.account === null && !model.state.accounts.loading">
+      <div class="alert alert-error" ng-show="model.account === null && !model.state.accounts.loading">
         <strong>Error!</strong> Account not found or access not allowed.
       </div>
     </div>
   </div>
 
-  <div class="row" data-ng-show="model.account">
+  <div class="row" ng-show="model.account">
     <div class="title-section span12">
-      <h1 class="headline" data-ng-bind="model.account.label"></h1>
+      <h1 class="headline" ng-bind="model.account.label"></h1>
       <hr/>
     </div>
   </div>
 
-  <div class="row" data-ng-show="model.account">
-    <div data-ng-show="!model.state.accounts.loading" class="section span12">
-      <div data-ng-include="'/app/components/account/account-view.html'"></div>
+  <div class="row" ng-show="model.account">
+    <div ng-show="!model.state.accounts.loading" class="section span12">
+      <div ng-include="'/app/components/account/account-view.html'"></div>
     </div>
   </div>
 
-  <div class="row" data-ng-show="model.account">
+  <div class="row" ng-show="model.account">
     <div class="span12">
       <div data-transactions data-account="model.account" data-details="true" data-controls="true"></div>
     </div>

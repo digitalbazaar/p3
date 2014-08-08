@@ -2,9 +2,9 @@
 that you received two small deposits from us. You should see two deposits that
 have the label <strong>DIGITAL BAZAAR CREDIT</strong> on your bank statement.
 Please enter those amounts below. You may enter them in any order; the order
-they appear on your bank statement is not significant.<span data-ng-show="selection.destination.sysAllowStoredValue"> Once you have entered
+they appear on your bank statement is not significant.<span ng-show="selection.destination.sysAllowStoredValue"> Once you have entered
 the amounts, you may optionally add an amount for an initial deposit.</span> The
-amounts you enter<span data-ng-show="selection.destination.sysAllowStoredValue">, the optional initial deposit,</span> and any transfer fees will
+amounts you enter<span ng-show="selection.destination.sysAllowStoredValue">, the optional initial deposit,</span> and any transfer fees will
 be withdrawn from your bank account.</p>
 
 <div class="section">
@@ -15,8 +15,8 @@ be withdrawn from your bank account.</p>
 </div>
 
 <div class="section">
-  <h4 data-ng-show="selection.destination.sysAllowStoredValue" class="headline">Verification and Deposit Details</h4>
-  <h4 data-ng-hide="selection.destination.sysAllowStoredValue" class="headline">Verification Details</h4>
+  <h4 ng-show="selection.destination.sysAllowStoredValue" class="headline">Verification and Deposit Details</h4>
+  <h4 ng-hide="selection.destination.sysAllowStoredValue" class="headline">Verification Details</h4>
   <form class="well form-horizontal" action="">
     <fieldset>
       <label class="control-label" for="verifyAmount0">First Amount</label>
@@ -25,7 +25,7 @@ be withdrawn from your bank account.</p>
           <div class="input-prepend input-append">
             <span class="add-on"><i class="icon-money"></i></span><input
               type="text" name="verifyAmount0" placeholder="Enter first deposited amount."
-              data-ng-model="sysVerifyParameters.amount[0]"
+              ng-model="sysVerifyParameters.amount[0]"
               data-track-state="model.help.verifyAmount1" />
             <button class="btn" data-help-toggle="model.help.verifyAmount1">
               <i class="icon-question-sign"></i>
@@ -44,7 +44,7 @@ be withdrawn from your bank account.</p>
           <div class="input-prepend input-append">
             <span class="add-on"><i class="icon-money"></i></span><input
               type="text" name="verifyAmount1" placeholder="Enter second deposited amount."
-              data-ng-model="sysVerifyParameters.amount[1]"
+              ng-model="sysVerifyParameters.amount[1]"
               data-track-state="model.help.verifyAmount2" />
             <button class="btn" data-help-toggle="model.help.verifyAmount2">
               <i class="icon-question-sign"></i>
@@ -57,13 +57,13 @@ be withdrawn from your bank account.</p>
           </p>
         </div>
       </div>
-      <label data-ng-show="selection.destination.sysAllowStoredValue" class="control-label" for="verificationAmount1">Deposit (optional)</label>
-      <div data-ng-show="selection.destination.sysAllowStoredValue" class="control-group" data-binding="amount">
+      <label ng-show="selection.destination.sysAllowStoredValue" class="control-label" for="verificationAmount1">Deposit (optional)</label>
+      <div ng-show="selection.destination.sysAllowStoredValue" class="control-group" data-binding="amount">
         <div class="controls">
           <div class="input-prepend input-append">
             <span class="add-on"><i class="icon-money"></i></span><input
               type="text" name="amount" placeholder="Enter deposit amount..."
-              data-ng-model="input.amount"
+              ng-model="input.amount"
               data-track-state="model.help.amount" />
             <button class="btn" data-help-toggle="model.help.amount">
               <i class="icon-question-sign"></i>
@@ -81,7 +81,7 @@ be withdrawn from your bank account.</p>
   </form>
 </div>
 
-<div data-ng-show="selection.destination.sysAllowStoredValue" class="section">
+<div ng-show="selection.destination.sysAllowStoredValue" class="section">
   <h4 class="headline">Deposit Destination</h4>
   <div data-account-selector
     data-selected="selection.destination"

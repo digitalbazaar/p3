@@ -4,15 +4,15 @@
     <h3>New Budget</h3>
   </div>
   <div class="modal-body">
-    <div data-ng-include="'/app/components/util/demo-warning.html'"></div>
-    <div data-ng-include="'/app/components/budget/budget-form.html'"></div>
+    <div ng-include="'/app/components/util/demo-warning.html'"></div>
+    <div ng-include="'/app/components/budget/budget-form.html'"></div>
   </div>
   <div class="modal-footer">
     <span data-spinner="state.loading"
       data-spinner-class="prepend-btn-spinner"></span>
     <button class="btn btn-primary"
-      data-ng-disabled="state.loading"
-      data-ng-click="addBudget()"><i class="icon-ok"></i> Add</button>
-    <button class="btn stackable-cancel" data-ng-disabled="state.loading">Cancel</button>
+      ng-disabled="state.loading"
+      ng-click="addBudget()"><i class="icon-ok"></i> Add</button>
+    <button class="btn stackable-cancel" ng-disabled="state.loading">Cancel</button>
   </div>
 </div>

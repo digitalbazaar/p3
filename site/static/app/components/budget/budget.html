@@ -1,14 +1,14 @@
-<div class="container ng-cloak" data-ng-controller="BudgetController as model">
+<div class="container ng-cloak" ng-controller="BudgetController as model">
 
   <div class="row">
     <div class="span12">
-      <ul class="breadcrumb" data-ng-show="!model.budget || model.state.budgets.loading">
+      <ul class="breadcrumb" ng-show="!model.budget || model.state.budgets.loading">
         <li>&nbsp;</li>
       </ul>
-      <ul class="breadcrumb" data-ng-show="model.budget && !model.state.budgets.loading && !model.state.identities.loading && app.services.identity.identity.id == model.budget.owner">
-        <li><a data-ng-href="{{app.services.identity.identity.id}}/dashboard">Dashboard</a> <span class="divider">/</span></li>
+      <ul class="breadcrumb" ng-show="model.budget && !model.state.budgets.loading && !model.state.identities.loading && app.services.identity.identity.id == model.budget.owner">
+        <li><a ng-href="{{app.services.identity.identity.id}}/dashboard">Dashboard</a> <span class="divider">/</span></li>
         <li>Budgets <span class="divider">/</span></li>
-        <li class="active" data-ng-bind="model.budget.label"></li>
+        <li class="active" ng-bind="model.budget.label"></li>
       </ul>
     </div>
   </div>
@@ -17,44 +17,44 @@
     <div class="section span12">
       <h3 class="headline">
         Budget
-        <span data-ng-hide="!model.budget || model.state.budgets.loading" class="btn-group pull-right">
+        <span ng-hide="!model.budget || model.state.budgets.loading" class="btn-group pull-right">
           <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
             <i class="icon-reorder"></i>
           </a>
           <ul class="dropdown-menu pull-right">
             <li>
-              <a data-ng-click="model.modals.budget=model.budget; model.modals.showEditBudgetModal=true">
+              <a ng-click="model.modals.budget=model.budget; model.modals.showEditBudgetModal=true">
                 <i class="icon-pencil"></i> Edit
               </a>
             </li>
             <li>
-              <a data-ng-click="model.modals.budget=model.budget; model.modals.showDeleteBudgetAlert=true"
+              <a ng-click="model.modals.budget=model.budget; model.modals.showDeleteBudgetAlert=true"
                 class="btn-danger">
                 <i class="icon-remove"></i> Delete
               </a>
             </li>
           </ul>
         </span>
-        <span data-ng-show="model.state.budgets.loading" class="pull-right">
+        <span ng-show="model.state.budgets.loading" class="pull-right">
           <span data-spinner="model.state.budgets.loading" data-spinner-class="h3-spinner"></span>
         </span>
       </h3>
-      <div class="alert alert-error" data-ng-show="model.budget === null && !model.state.budgets.loading">
+      <div class="alert alert-error" ng-show="model.budget === null && !model.state.budgets.loading">
         <strong>Error!</strong> Budget not found or access not allowed.
       </div>
     </div>
   </div>
 
-  <div class="row" data-ng-show="model.budget">
+  <div class="row" ng-show="model.budget">
     <div class="title-section span12">
-      <h1 class="headline" data-ng-bind="model.budget.label"></h1>
+      <h1 class="headline" ng-bind="model.budget.label"></h1>
       <hr/>
     </div>
   </div>
 
-  <div class="row" data-ng-show="model.budget">
-    <div data-ng-show="!model.state.budgets.loading" class="section span12">
-      <div data-ng-include="'/app/components/budget/budget-view.html'"></div>
+  <div class="row" ng-show="model.budget">
+    <div ng-show="!model.state.budgets.loading" class="section span12">
+      <div ng-include="'/app/components/budget/budget-view.html'"></div>
     </div>
   </div>
 
@@ -97,8 +97,8 @@
             <a href="{{model.modals.vendorToDelete.id}}">{{model.modals.vendorToDelete.label || model.modals.vendorToDelete.id}}</a>
           </td>
           <td class="name">
-            <a data-ng-show="model.modals.vendorToDelete.url" href="{{model.modals.vendorToDelete.url}}">{{model.modals.vendorToDelete.url}}</a>
-            <span data-ng-hide="model.modals.vendorToDelete.url">&nbsp;</span>
+            <a ng-show="model.modals.vendorToDelete.url" href="{{model.modals.vendorToDelete.url}}">{{model.modals.vendorToDelete.url}}</a>
+            <span ng-hide="model.modals.vendorToDelete.url">&nbsp;</span>
           </td>
         </tr>
         </tbody>

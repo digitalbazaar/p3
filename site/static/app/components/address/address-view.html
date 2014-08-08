@@ -1,6 +1,6 @@
 <div class="address">
-  <span data-ng-show="!noLabel">
-    <strong>{{address.label}}</strong><span class="meta" data-ng-show="address.sysValidated"> (Validated)</span><br/>
+  <span ng-show="!noLabel">
+    <strong>{{address.label}}</strong><span class="meta" ng-show="address.sysValidated"> (Validated)</span><br/>
   </span>
   {{address.name}}<br/>
   {{address.streetAddress}}<br/>

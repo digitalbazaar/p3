@@ -1,61 +1,61 @@
 <div class="modal">
-  <div class="modal-header" data-ng-switch="state">
+  <div class="modal-header" ng-switch="state">
     <a class="close stackable-cancel">&times;</a>
-    <h3 data-ng-switch-when="preparing">
-      <div data-ng-show="!account.sysAllowStoredValue && account.balance[0] != '-'">
+    <h3 ng-switch-when="preparing">
+      <div ng-show="!account.sysAllowStoredValue && account.balance[0] != '-'">
         Credit Fully Paid Off
       </div>
-      <div data-ng-hide="!account.sysAllowStoredValue && account.balance[0] != '-'">
+      <div ng-hide="!account.sysAllowStoredValue && account.balance[0] != '-'">
         Prepare Deposit
       </div>
     </h3>
-    <h3 data-ng-switch-when="reviewing">Review Deposit</h3>
-    <h3 data-ng-switch-when="complete">Deposit Complete</h3>
+    <h3 ng-switch-when="reviewing">Review Deposit</h3>
+    <h3 ng-switch-when="complete">Deposit Complete</h3>
   </div>
-  <div class="modal-body" data-ng-switch="state">
-    <div data-ng-include="'/app/components/util/demo-warning.html'"></div>
-    <div data-ng-switch-when="preparing">
-      <div data-ng-show="!account.sysAllowStoredValue && account.balance[0] != '-'">
+  <div class="modal-body" ng-switch="state">
+    <div ng-include="'/app/components/util/demo-warning.html'"></div>
+    <div ng-switch-when="preparing">
+      <div ng-show="!account.sysAllowStoredValue && account.balance[0] != '-'">
         <p>
           You can't deposit any funds into your account because you haven't used
           any credit yet. A deposit can only be made to this account to pay
           back used credit.
         </p>
       </div>
-      <div data-ng-hide="!account.sysAllowStoredValue && account.balance[0] != '-'">
-        <div data-ng-include="'/app/components/account/deposit-prepare.html'"></div>
+      <div ng-hide="!account.sysAllowStoredValue && account.balance[0] != '-'">
+        <div ng-include="'/app/components/account/deposit-prepare.html'"></div>
       </div>
     </div>
-    <div data-ng-switch-when="reviewing">
-      <div data-ng-include="'/app/components/account/deposit-review.html'"></div>
+    <div ng-switch-when="reviewing">
+      <div ng-include="'/app/components/account/deposit-review.html'"></div>
     </div>
-    <div data-ng-switch-when="complete">
-      <div data-ng-include="'/app/components/account/deposit-complete.html'"></div>
+    <div ng-switch-when="complete">
+      <div ng-include="'/app/components/account/deposit-complete.html'"></div>
     </div>
   </div>
   <div class="modal-footer">
     <span data-spinner="loading"
       data-spinner-class="prepend-btn-spinner"></span>
-    <span data-ng-show="state == 'preparing'">
-      <div data-ng-show="!account.sysAllowStoredValue && account.balance[0] != '-'">
-        <button data-ng-disabled="loading" class="btn stackable-cancel">Ok</button>
+    <span ng-show="state == 'preparing'">
+      <div ng-show="!account.sysAllowStoredValue && account.balance[0] != '-'">
+        <button ng-disabled="loading" class="btn stackable-cancel">Ok</button>
       </div>
-      <div data-ng-hide="!account.sysAllowStoredValue && account.balance[0] != '-'">
+      <div ng-hide="!account.sysAllowStoredValue && account.balance[0] != '-'">
         <button class="btn btn-primary btn-review"
-          data-ng-disabled="loading || !input.source"
-          data-ng-click="review()">Review</button>
-        <button data-ng-disabled="loading" class="btn stackable-cancel">Cancel</button>
+          ng-disabled="loading || !input.source"
+          ng-click="review()">Review</button>
+        <button ng-disabled="loading" class="btn stackable-cancel">Cancel</button>
       </div>
     </span>
-    <span data-ng-show="state == 'reviewing'">
+    <span ng-show="state == 'reviewing'">
       <button class="btn btn-primary btn-deposit"
-        data-ng-disabled="loading || !enableConfirm"
-        data-ng-click="confirm()"><i class="icon-ok"></i> Deposit</button>
+        ng-disabled="loading || !enableConfirm"
+        ng-click="confirm()"><i class="icon-ok"></i> Deposit</button>
       <button class="btn"
-        data-ng-disabled="loading"
-        data-ng-click="prepare()">Back</button>
+        ng-disabled="loading"
+        ng-click="prepare()">Back</button>
     </span>
-    <span data-ng-show="state == 'complete'">
+    <span ng-show="state == 'complete'">
       <button class="btn stackable-cancel">Done</button>
     </span>
   </div>

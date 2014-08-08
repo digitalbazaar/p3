@@ -4,7 +4,7 @@
     data-add-item="showAddBudgetModal=true" data-fixed="{{fixed}}">
     <div data-spinner="services.budget.loading"
       data-spinner-class="selector-spinner"></div>
-    <div data-ng-hide="services.budget.loading" class="budget">
+    <div ng-hide="services.budget.loading" class="budget">
       <table class="table table-condensed">
         <thead>
           <tr>
@@ -20,17 +20,17 @@
           </tr>
         </tbody>
       </table>
-      <div data-ng-show="showRefreshButton">
+      <div ng-show="showRefreshButton">
         <button class="btn btn-success"
-          data-ng-click="refresh(selected)"><i class="icon-refresh"></i> Refresh</button><br/>
+          ng-click="refresh(selected)"><i class="icon-refresh"></i> Refresh</button><br/>
       </div>
-      <div data-ng-show="balanceTooLow">
+      <div ng-show="balanceTooLow">
         <hr />
         <div class="alert alert-error">You must select a budget with a balance of at least <span
         class="currency">{{selected.currency}}</span> {{minBalance | ceil | currency:'$'}}. The budget's
         associated account must also have enough funds unless instant transfer is enabled.</div>
       </div>
-      <div data-ng-show="maxPerUseTooLow">
+      <div ng-show="maxPerUseTooLow">
         <hr />
         <div class="alert alert-error">You must choose a budget that allows
         a single purchase of at least <span

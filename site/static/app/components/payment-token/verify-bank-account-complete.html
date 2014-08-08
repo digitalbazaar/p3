@@ -1,4 +1,4 @@
-<p data-ng-show="depositTransfer">
+<p ng-show="depositTransfer">
   You have deposited
   <span data-money="depositTransfer" data-important="true"></span>
   into your
@@ -7,18 +7,18 @@
 </p>
 
 <div class="section">
-  <h4 class="headline">Verification<span data-ng-show="depositTransfer"> and Deposit</span> Details</h4>
+  <h4 class="headline">Verification<span ng-show="depositTransfer"> and Deposit</span> Details</h4>
   <div data-transaction-details="deposit"
     data-source="input.source"
     data-complete="true"></div>
 </div>
 
 <p style="margin-top: 10px;">
-  Including fees, your 
-  <span data-ng-switch="input.source.paymentMethod">
-    <span data-ng-switch-when="CreditCard">credit card</span>
-    <span data-ng-switch-when="BankAccount">bank account</span>
-    <span data-ng-switch-default>external account</span>
+  Including fees, your
+  <span ng-switch="input.source.paymentMethod">
+    <span ng-switch-when="CreditCard">credit card</span>
+    <span ng-switch-when="BankAccount">bank account</span>
+    <span ng-switch-default>external account</span>
   </span>
   was charged
   <span data-money="deposit" data-important="true"></span>

@@ -1,8 +1,8 @@
-<div class="paymentToken" data-ng-switch="selected.paymentMethod">
-  <div class="cc-box {{selected.cardBrand | lowercase}}" data-ng-switch-when="CreditCard"
-    data-ng-class="{'cc-selecting': selecting}">
-    <table class="cc-table {{selected.cardBrand | lowercase}}" data-ng-class="selecting && 'item-hover'"
-      data-ng-click="selecting && select(selected)">
+<div class="paymentToken" ng-switch="selected.paymentMethod">
+  <div class="cc-box {{selected.cardBrand | lowercase}}" ng-switch-when="CreditCard"
+    ng-class="{'cc-selecting': selecting}">
+    <table class="cc-table {{selected.cardBrand | lowercase}}" ng-class="selecting && 'item-hover'"
+      ng-click="selecting && select(selected)">
       <tbody>
         <tr>
           <td colspan="2" class="cc-layer">
@@ -29,17 +29,17 @@
       </tbody>
     </table>
   </div>
-  <div data-ng-switch-when="BankAccount" class="bank-box"
-    data-ng-class="{'bank-disabled-box': !selected.sysVerified || selected.sysStatus == 'disabled' || selected.sysStatus == 'deleted', 'bank-selecting': selecting}">
-    <div data-ng-show="!selected.sysVerified && selected.sysStatus != 'disabled' && selected.sysStatus != 'deleted'"
+  <div ng-switch-when="BankAccount" class="bank-box"
+    ng-class="{'bank-disabled-box': !selected.sysVerified || selected.sysStatus == 'disabled' || selected.sysStatus == 'deleted', 'bank-selecting': selecting}">
+    <div ng-show="!selected.sysVerified && selected.sysStatus != 'disabled' && selected.sysStatus != 'deleted'"
       class="bank-disabled-overlay">Unverified</div>
-    <div data-ng-show="selected.sysStatus == 'disabled'"
+    <div ng-show="selected.sysStatus == 'disabled'"
       class="bank-disabled-overlay">Disabled</div>
-    <div data-ng-show="selected.sysStatus == 'deleted'"
+    <div ng-show="selected.sysStatus == 'deleted'"
       class="bank-disabled-overlay">Deleted</div>
     <table class="bank-table"
-      data-ng-class="{'bank-disabled-table': !selected.sysVerified || selected.sysStatus == 'disabled' || selected.sysStatus == 'deleted', 'item-hover': selected.sysVerified && selecting}"
-      data-ng-click="selected.sysStatus == 'active' && selected.sysVerified && selecting && select(selected)">
+      ng-class="{'bank-disabled-table': !selected.sysVerified || selected.sysStatus == 'disabled' || selected.sysStatus == 'deleted', 'item-hover': selected.sysVerified && selecting}"
+      ng-click="selected.sysStatus == 'active' && selected.sysVerified && selecting && select(selected)">
       <tbody>
         <tr>
           <td class="bank-layer">

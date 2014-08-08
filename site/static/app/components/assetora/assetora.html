@@ -1,4 +1,4 @@
-<div data-ng-controller="AssetoraController as model">
+<div ng-controller="AssetoraController as model">
 
   <div class="row">
     <div class="title-section span12">
@@ -24,16 +24,16 @@
       <h3 class="headline">Search</h3>
       <form class="form-search">
         <input type="text" name="search" class="input-xlarge search-query"
-          data-ng-model="model.search.input">
+          ng-model="model.search.input">
         <span data-input-watcher="model.search.input"
           data-input-watcher-state="model.search.state"
           data-input-change="search(input, state, callback)">
         </span>
         <span data-spinner="model.search.state.loading || state.assets.loading || state.listings.loading"
           data-spinner-class="append-btn-spinner"></span>
-        <button data-ng-show="!(model.search.state.loading || state.assets.loading || state.listings.loading)"
+        <button ng-show="!(model.search.state.loading || state.assets.loading || state.listings.loading)"
           class="btn btn-success btn-add"
-          data-ng-click="model.modals.showAddAsset=true"><i class="icon-plus"></i> Add Asset</button>
+          ng-click="model.modals.showAddAsset=true"><i class="icon-plus"></i> Add Asset</button>
       </form>
     </div>
   </div>
@@ -43,7 +43,7 @@
       <h3 class="headline">Asset Search Results</h3>
 
       <table class="table table-condensed"
-        data-ng-show="!state.assets.loading && model.search.assets.length > 0">
+        ng-show="!state.assets.loading && model.search.assets.length > 0">
         <thead>
           <tr>
             <th class="date">Date</th>
@@ -53,7 +53,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr data-ng-repeat="asset in model.search.assets" class="asset"
+          <tr ng-repeat="asset in model.search.assets" class="asset"
             data-fadein="asset.added" data-fadeout="asset.deleted">
             <!-- Date -->
             <td>
@@ -72,23 +72,23 @@
               <action-menu>
                 <ul class="dropdown-menu stackable-menu">
                   <li>
-                    <a class="stackable-cancel" data-ng-click="model.modals.asset=asset; model.modals.showAddListing=true">
+                    <a class="stackable-cancel" ng-click="model.modals.asset=asset; model.modals.showAddListing=true">
                       <i class="icon-plus"></i> Add Listing
                     </a>
                   </li>
                   <li>
-                    <a class="stackable-cancel" data-ng-click="model.modals.asset=asset; model.modals.showEditAsset=true">
+                    <a class="stackable-cancel" ng-click="model.modals.asset=asset; model.modals.showEditAsset=true">
                       <i class="icon-pencil"></i> Edit
                     </a>
                   </li>
                   <li>
-                    <a class="stackable-cancel" data-ng-click="model.modals.asset=asset; model.modals.showProtectAsset=true">
+                    <a class="stackable-cancel" ng-click="model.modals.asset=asset; model.modals.showProtectAsset=true">
                       <i class="icon-lock"></i> Protect
                     </a>
                   </li>
                   <li class="divider"></li>
                   <li class="btn-danger">
-                    <a class="stackable-cancel" data-ng-click="deleteAsset(asset)">
+                    <a class="stackable-cancel" ng-click="deleteAsset(asset)">
                       <i class="icon-remove"></i> Delete
                     </a>
                   </li>
@@ -98,7 +98,7 @@
           </tr>
         </tbody>
         <tfoot>
-          <tr data-ng-show="state.assets.loading">
+          <tr ng-show="state.assets.loading">
             <td colspan="3" style="text-align: center">
               <span class="center">
                 <span data-spinner="state.assets.loading" data-spinner-class="table-spinner"></span>
@@ -107,7 +107,7 @@
           </tr>
         </tfoot>
       </table>
-      <div data-ng-show="!state.assets.loading && model.search.assets.length == 0">
+      <div ng-show="!state.assets.loading && model.search.assets.length == 0">
         <p class="center">No matches.</p>
       </div>
     </div>
@@ -116,7 +116,7 @@
       <h3 class="headline">Listing Search Results</h3>
 
       <table class="table table-condensed"
-        data-ng-show="!state.listings.loading && model.search.listings.length > 0">
+        ng-show="!state.listings.loading && model.search.listings.length > 0">
         <thead>
           <tr>
             <th class="date">Date</th>
@@ -126,7 +126,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr data-ng-repeat="listing in model.search.listings" class="listing"
+          <tr ng-repeat="listing in model.search.listings" class="listing"
             data-fadein="listing.added" data-fadeout="listing.deleted">
             <!-- Date -->
             <td>
@@ -148,13 +148,13 @@
                 </a>
                 <ul class="dropdown-menu">
                   <li>
-                    <a data-ng-click="model.modals.listing=listing; model.modals.showEditListing=true">
+                    <a ng-click="model.modals.listing=listing; model.modals.showEditListing=true">
                       <i class="icon-pencil"></i> Edit
                     </a>
                   </li>
                   <li class="divider"></li>
                   <li class="btn-danger">
-                    <a data-ng-click="deleteListing(listing)">
+                    <a ng-click="deleteListing(listing)">
                       <i class="icon-remove"></i> Delete
                     </a>
                   </li>
@@ -164,7 +164,7 @@
           </tr>
         </tbody>
         <tfoot>
-          <tr data-ng-show="state.listings.loading">
+          <tr ng-show="state.listings.loading">
             <td colspan="3" style="text-align: center">
               <span class="center">
                 <span data-spinner="state.listings.loading" data-spinner-class="table-spinner"></span>
@@ -173,7 +173,7 @@
           </tr>
         </tfoot>
       </table>
-      <div data-ng-show="!state.listings.loading && model.search.listings.length == 0">
+      <div ng-show="!state.listings.loading && model.search.listings.length == 0">
         <p class="center">No matches.</p>
       </div>
     </div>
@@ -183,7 +183,7 @@
     <div class="section section-recent-assets span6">
       <h3 class="headline">Recent Assets</h3>
 
-      <table class="table table-condensed" data-ng-show="state.assets.loading || model.recentAssets.length > 0">
+      <table class="table table-condensed" ng-show="state.assets.loading || model.recentAssets.length > 0">
         <thead>
           <tr>
             <th class="date">Date</th>
@@ -193,7 +193,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr data-ng-repeat="asset in model.recentAssets" class="asset"
+          <tr ng-repeat="asset in model.recentAssets" class="asset"
             data-fadein="asset.added" data-fadeout="asset.deleted">
             <!-- Date -->
             <td>
@@ -215,23 +215,23 @@
                 </a>
                 <ul class="dropdown-menu">
                   <li>
-                    <a data-ng-click="model.modals.asset=asset; model.modals.showAddListing=true">
+                    <a ng-click="model.modals.asset=asset; model.modals.showAddListing=true">
                       <i class="icon-plus"></i> Add Listing
                     </a>
                   </li>
                   <li>
-                    <a data-ng-click="model.modals.asset=asset; model.modals.showEditAsset=true">
+                    <a ng-click="model.modals.asset=asset; model.modals.showEditAsset=true">
                       <i class="icon-pencil"></i> Edit
                     </a>
                   </li>
                   <li>
-                    <a data-ng-click="model.modals.asset=asset; model.modals.showProtectAsset=true">
+                    <a ng-click="model.modals.asset=asset; model.modals.showProtectAsset=true">
                       <i class="icon-lock"></i> Protect
                     </a>
                   </li>
                   <li class="divider"></li>
                   <li class="btn-danger">
-                    <a data-ng-click="deleteAsset(asset)">
+                    <a ng-click="deleteAsset(asset)">
                       <i class="icon-remove"></i> Delete
                     </a>
                   </li>
@@ -241,7 +241,7 @@
           </tr>
         </tbody>
         <tfoot>
-          <tr data-ng-show="state.assets.loading">
+          <tr ng-show="state.assets.loading">
             <td colspan="3" style="text-align: center">
               <span class="center">
                 <span data-spinner="state.assets.loading" data-spinner-class="table-spinner"></span>
@@ -250,7 +250,7 @@
           </tr>
         </tfoot>
       </table>
-      <div data-ng-show="!state.assets.loading && model.recentAssets.length == 0">
+      <div ng-show="!state.assets.loading && model.recentAssets.length == 0">
         <p class="center">You have no recent assets for this identity.</p>
       </div>
     </div>
@@ -258,7 +258,7 @@
     <div class="section section-recent-listings span6">
       <h3 class="headline">Recent Listings</h3>
 
-      <table class="table table-condensed" data-ng-show="state.listings.loading || model.recentListings.length > 0">
+      <table class="table table-condensed" ng-show="state.listings.loading || model.recentListings.length > 0">
         <thead>
           <tr>
             <th class="date">Date</th>
@@ -268,7 +268,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr data-ng-repeat="listing in model.recentListings" class="listing"
+          <tr ng-repeat="listing in model.recentListings" class="listing"
             data-fadein="listing.added" data-fadeout="listing.deleted">
             <!-- Date -->
             <td>
@@ -285,7 +285,7 @@
           </tr>
         </tbody>
         <tfoot>
-          <tr data-ng-show="state.listings.loading">
+          <tr ng-show="state.listings.loading">
             <td colspan="3" style="text-align: center">
               <span class="center">
                 <span data-spinner="state.listings.loading" data-spinner-class="table-spinner"></span>
@@ -294,7 +294,7 @@
           </tr>
         </tfoot>
       </table>
-      <div data-ng-show="!state.listings.loading && model.recentListings.length == 0">
+      <div ng-show="!state.listings.loading && model.recentListings.length == 0">
         <p class="center">You have no recent listings for this identity.</p>
       </div>
     </div>

@@ -6,7 +6,7 @@
         <div class="input-prepend input-append">
           <span class="add-on"><i class="icon-tag"></i></span><input
             type="text" name="label"
-            data-ng-model="model.account.label"
+            ng-model="model.account.label"
             data-slug-out="model.account.sysSlug"
             data-track-state="model.help.label"
             autocomplete="off" />
@@ -16,17 +16,17 @@
         </div>
         <p ng-show="model.help.label.show" class="help-block br-fadein br-fadeout">
           Enter a name for your financial account, for instance 'primary' or 'secondary'.
-          <span data-ng-hide="model.editing">The name you choose will become part of your account URL:</span>
+          <span ng-hide="model.editing">The name you choose will become part of your account URL:</span>
         </p>
-        <div data-ng-hide="model.editing">
-          <p><small><span data-ng-show="model.identity.id">{{model.identity.id}}</span><span
-            data-ng-hide="model.identity.id">{{model.baseUrl}}/i/</span><span
-            data-ng-hide="model.identity.id"
+        <div ng-hide="model.editing">
+          <p><small><span ng-show="model.identity.id">{{model.identity.id}}</span><span
+            ng-hide="model.identity.id">{{model.baseUrl}}/i/</span><span
+            ng-hide="model.identity.id"
             class="slug">{{model.identity.sysSlug || 'IDENTITY-NAME'}}</span>/accounts/</small><input
             type="text" maxlength="32"
             data-binding="sysSlug" class="slug" name="slug"
             placeholder="ACCOUNT-NAME"
-            data-slug-in data-ng-model="model.account.sysSlug" /></p>
+            data-slug-in ng-model="model.account.sysSlug" /></p>
           <div data-duplicate-checker="model.account.sysSlug"
             data-duplicate-checker-type="financial-account"
             data-duplicate-checker-owner="{{model.identity.id || (model.baseUrl+'/i/'+model.identity.slug)}}"
@@ -44,8 +44,8 @@
       <div class="controls">
         <div class="input-prepend input-append">
           <span class="add-on"><i class="icon-eye-open"></i></span><select
-            name="visibility" data-ng-model="model.accountVisibility"
-            data-ng-options="value as key for (key, value) in {Hidden: 'hidden', Public: 'public'}">
+            name="visibility" ng-model="model.accountVisibility"
+            ng-options="value as key for (key, value) in {Hidden: 'hidden', Public: 'public'}">
           </select>
           <button class="btn" data-help-toggle="model.help.visibility">
             <i class="icon-question-sign"></i>
@@ -56,13 +56,13 @@
         </p>
       </div>
     </div>
-    <div data-ng-hide="editing" class="control-group">
+    <div ng-hide="editing" class="control-group">
       <label class="control-label" for="currency">Currency</label>
       <div class="controls">
         <div class="input-prepend input-append">
           <span class="add-on"><i class="icon-money"></i></span><select
-            name="currency" data-ng-model="model.account.currency"
-            data-ng-options="value as key for (key, value) in {'US Dollars $': 'USD'}">
+            name="currency" ng-model="model.account.currency"
+            ng-options="value as key for (key, value) in {'US Dollars $': 'USD'}">
           </select>
           <button class="btn" data-help-toggle="model.help.currency">
             <i class="icon-question-sign"></i>
@@ -73,14 +73,14 @@
         </p>
       </div>
     </div>
-    <div data-ng-hide="!model.editing" class="control-group">
+    <div ng-hide="!model.editing" class="control-group">
       <label class="control-label" for="creditLimit">Credit Limit</label>
       <div class="controls">
         <div class="input-prepend input-append">
           <!--
           <span class="add-on"><i class="icon-money"></i></span><input
             type="text" name="creditLimit"
-            data-ng-model="model.account.creditLimit"
+            ng-model="model.account.creditLimit"
             data-track-state="model.help.creditLimit"
             autocomplete="off" />
           -->
@@ -94,7 +94,7 @@
         </p>
       </div>
     </div>
-    <div data-ng-hide="!model.editing" class="control-group">
+    <div ng-hide="!model.editing" class="control-group">
       <label class="control-label" for="backups">
         External Payment Method
         <a data-help-toggle="model.help.backupSource">
@@ -104,12 +104,12 @@
       <div class="controls">
         <label class="radio inline">
           <input type="radio" name="enable-backup-source"
-            data-ng-value="true" data-ng-model="model.backupSourceEnabled" />
+            ng-value="true" ng-model="model.backupSourceEnabled" />
           Enable
         </label>
         <label class="radio inline">
           <input type="radio" name="enable-backup-source"
-            data-ng-value="false" data-ng-model="model.backupSourceEnabled" />
+            ng-value="false" ng-model="model.backupSourceEnabled" />
           Disable
         </label>
         <div ng-show="model.help.backupSource.show" style="margin-top: 10px">
@@ -120,11 +120,11 @@
           </p>
         </div>
         <div style="margin-top: 10px"></div>
-        <div data-ng-show="model.backupSourceEnabled">
+        <div ng-show="model.backupSourceEnabled">
           <div data-payment-token-selector data-selected="model.backupSource"
             data-instant="true"></div>
         </div>
-        <div data-ng-hide="model.backupSourceEnabled || model.creditDisabled || model.fullyBackedCredit"
+        <div ng-hide="model.backupSourceEnabled || model.creditDisabled || model.fullyBackedCredit"
           class="alert alert-warning">
           <strong>Warning:</strong>
           Use of your credit line and instant transfer will be disabled until a payment method is enabled.
@@ -138,7 +138,7 @@
         -->
       </div>
     </div>
-    <div data-ng-hide="!editing" class="control-group">
+    <div ng-hide="!editing" class="control-group">
       <label class="control-label" for="sysAllowInstantTransfer">
         Instant Transfer
         <a data-help-toggle="model.help.sysAllowInstantTransfer">
@@ -148,12 +148,12 @@
       <div class="controls">
         <label class="radio inline">
           <input type="radio" name="enable-instant-transfer"
-            data-ng-value="true" data-ng-model="model.account.sysAllowInstantTransfer" />
+            ng-value="true" ng-model="model.account.sysAllowInstantTransfer" />
           Enable
         </label>
         <label class="radio inline">
           <input type="radio" name="enable-instant-transfer"
-            data-ng-value="false" data-ng-model="model.account.sysAllowInstantTransfer" />
+            ng-value="false" ng-model="model.account.sysAllowInstantTransfer" />
           Disable
         </label>
         <div ng-show="model.help.sysAllowInstantTransfer.show"
@@ -166,13 +166,13 @@
         </div>
       </div>
     </div>
-    <div data-ng-hide="!editing" class="control-group" data-binding="sysMinInstantTransfer">
+    <div ng-hide="!editing" class="control-group" data-binding="sysMinInstantTransfer">
       <label class="control-label" for="sysMinInstantTransfer">Minimum Amount</label>
       <div class="controls">
         <div class="input-prepend input-append">
           <span class="add-on"><i class="icon-money"></i></span><input
             type="text" name="sysMinInstantTransfer"
-            data-ng-model="model.account.sysMinInstantTransfer"
+            ng-model="model.account.sysMinInstantTransfer"
             data-track-state="model.help.sysMinInstantTransfer" />
           <button class="btn" data-help-toggle="model.help.sysMinInstantTransfer">
             <i class="icon-question-sign"></i>

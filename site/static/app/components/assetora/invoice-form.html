@@ -6,7 +6,7 @@
         <div class="input-prepend input-append">
           <span class="add-on"><i class="icon-tag"></i></span><input
             type="text" name="title"
-            data-ng-model="model.asset.title"
+            ng-model="model.asset.title"
             data-track-state="model.help.title"
             placeholder="Title" />
           <button class="btn" data-help-toggle="model.help.title">
@@ -28,12 +28,12 @@
 <div class="section">
   <h4 class="headline">Items</h4>
 
-  <button data-ng-show="!(model.search.state.loading || state.assets.loading || state.listings.loading)"
+  <button ng-show="!(model.search.state.loading || state.assets.loading || state.listings.loading)"
     class="btn btn-success btn-add"
-    data-ng-click="model.modals.showAddInvoiceItem=true"><i class="icon-plus"></i> Add Item</button>
+    ng-click="model.modals.showAddInvoiceItem=true"><i class="icon-plus"></i> Add Item</button>
 
   <table class="table table-condensed"
-    data-ng-show="!state.assets.loading && model.asset.invoiceItem.length > 0">
+    ng-show="!state.assets.loading && model.asset.invoiceItem.length > 0">
     <thead>
       <tr>
         <th class="name">Title</th>
@@ -42,12 +42,12 @@
       </tr>
     </thead>
     <tbody>
-      <tr data-ng-repeat="item in model.asset.invoiceItem" class="asset"
+      <tr ng-repeat="item in model.asset.invoiceItem" class="asset"
         data-fadein="asset.added" data-fadeout="asset.deleted">
         <!-- Description -->
         <td>
           <span class="name">{{item.title}}</span>
-          <div data-ng-show="item.comment">
+          <div ng-show="item.comment">
             <p class="muted">{{item.comment}}</p>
           </div>
         </td>
@@ -60,23 +60,23 @@
           <action-menu>
             <ul class="dropdown-menu stackable-menu">
               <li>
-                <a class="stackable-cancel" data-ng-click="model.modals.item=item; model.modals.showEditInvoiceItem=true">
+                <a class="stackable-cancel" ng-click="model.modals.item=item; model.modals.showEditInvoiceItem=true">
                   <i class="icon-pencil"></i> Edit
                 </a>
               </li>
-              <li data-ng-show="!$first">
-                <a class="stackable-cancel" data-ng-click="">
+              <li ng-show="!$first">
+                <a class="stackable-cancel" ng-click="">
                   <i class="icon-chevron-up"></i> Move Up
                 </a>
               </li>
-              <li data-ng-show="!$last">
-                <a class="stackable-cancel" data-ng-click="">
+              <li ng-show="!$last">
+                <a class="stackable-cancel" ng-click="">
                   <i class="icon-chevron-down"></i> Move Down
                 </a>
               </li>
               <li class="divider"></li>
               <li class="btn-danger">
-                <a class="stackable-cancel" data-ng-click="deleteInvoiceItem(item)">
+                <a class="stackable-cancel" ng-click="deleteInvoiceItem(item)">
                   <i class="icon-remove"></i> Delete
                 </a>
               </li>
@@ -100,7 +100,7 @@
         </td>
         <td></td>
       </tr>
-      <tr data-ng-show="state.assets.loading">
+      <tr ng-show="state.assets.loading">
         <td colspan="3" style="text-align: center">
           <span class="center">
             <span data-spinner="state.assets.loading" data-spinner-class="table-spinner"></span>
@@ -109,7 +109,7 @@
       </tr>
     </tfoot>
   </table>
-  <div data-ng-show="!state.assets.loading && model.asset.invoiceItem.length == 0">
+  <div ng-show="!state.assets.loading && model.asset.invoiceItem.length == 0">
     <p class="center">No items.</p>
   </div>
 

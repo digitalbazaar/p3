@@ -3,29 +3,29 @@
     data-items="paymentTokens" data-selected="selected" data-invalid="invalid"
     data-add-item="showAddPaymentTokenModal=true" data-fixed="{{fixed}}"
     data-custom-display="true" data-columns="2" data-selecting="selecting">
-    <ul data-ng-show="services.token.loading" class="unstyled item">
+    <ul ng-show="services.token.loading" class="unstyled item">
       <li class="item-hover well">
         <div data-spinner="services.token.loading"
           data-spinner-class="selector-spinner"></div>
       </li>
     </ul>
-    <div data-ng-hide="services.token.loading || selecting">
-      <div data-ng-include="'/app/components/payment-token/payment-token-display.html'"></div>
+    <div ng-hide="services.token.loading || selecting">
+      <div ng-include="'/app/components/payment-token/payment-token-display.html'"></div>
     </div>
-    <div data-ng-show="!services.token.loading && selecting" class="container-fluid">
-      <div data-ng-repeat="row in grid">
+    <div ng-show="!services.token.loading && selecting" class="container-fluid">
+      <div ng-repeat="row in grid">
         <div class="row-fluid">
-          <div class="span6" data-ng-repeat="selected in row">
-            <div data-ng-include="'/app/components/payment-token/payment-token-display.html'"></div>
+          <div class="span6" ng-repeat="selected in row">
+            <div ng-include="'/app/components/payment-token/payment-token-display.html'"></div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div data-ng-show="selected.showExpirationWarning" class="alert alert-warning">
+  <div ng-show="selected.showExpirationWarning" class="alert alert-warning">
     <strong>Warning!</strong> This payment method will expire in less than a month.
   </div>
-  <div data-ng-show="selected.showExpired" class="alert alert-error">
+  <div ng-show="selected.showExpired" class="alert alert-error">
     <strong>Error!</strong> This payment method has expired.
   </div>
   <stackable-modal stackable="showAddPaymentTokenModal"

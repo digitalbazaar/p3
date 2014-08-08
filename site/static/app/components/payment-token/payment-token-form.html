@@ -6,7 +6,7 @@
         <label class="control-label" for="label">Name</label>
         <div class="controls">
           <div class="input-append">
-            <input type="text" name="label" data-ng-model="paymentToken.label"
+            <input type="text" name="label" ng-model="paymentToken.label"
               data-track-state="model.help.label" />
             <button class="btn" data-help-toggle="model.help.label">
               <i class="icon-question-sign"></i>
@@ -16,7 +16,7 @@
             Please enter a memorable name that describes this method of
             payment. It will be displayed to you later.
             <br/><br/>
-            Suggestions: <span data-ng-show="paymentMethod == 'CreditCard'">My MasterCard, Visa Rewards</span><span data-ng-show="paymentMethod == 'BankAccount'">Checking Account, ING Direct</span>
+            Suggestions: <span ng-show="paymentMethod == 'CreditCard'">My MasterCard, Visa Rewards</span><span ng-show="paymentMethod == 'BankAccount'">Checking Account, ING Direct</span>
           </p>
         </div>
       </div>
@@ -24,26 +24,26 @@
   </form>
 </div>
 
-<div class="section" data-ng-show="!editing">
+<div class="section" ng-show="!editing">
   <h4 class="headline">Enter Payment Details</h4>
   <form class="well form-horizontal" action="">
     <fieldset>
-      <div class="control-group" data-ng-show="multiEnabled">
+      <div class="control-group" ng-show="multiEnabled">
         <div class="controls">
-          <label class="radio inline" data-ng-show="creditCardEnabled">
+          <label class="radio inline" ng-show="creditCardEnabled">
             <input type="radio" name="payment-type" value="CreditCard"
-              checked="checked" data-ng-model="paymentMethod" />
+              checked="checked" ng-model="paymentMethod" />
             Credit Card
           </label>
-          <label class="radio inline" data-ng-show="bankAccountEnabled">
+          <label class="radio inline" ng-show="bankAccountEnabled">
             <input type="radio" name="payment-type" value="BankAccount"
-              data-ng-model="paymentMethod" />
+              ng-model="paymentMethod" />
             Bank Account
           </label>
         </div>
       </div>
-      <div name="payment-type-fields" data-ng-switch="paymentMethod">
-        <div data-ng-switch-when="CreditCard">
+      <div name="payment-type-fields" ng-switch="paymentMethod">
+        <div ng-switch-when="CreditCard">
           <div class="control-group" data-binding="source.cardBrand">
             <label class="control-label" for="card-brand">Type</label>
             <div class="controls">
@@ -58,7 +58,7 @@
               <div class="input-append">
                 <input class="input-large" type="text"
                   name="card-number" maxlength="16"
-                  data-ng-model="card.cardNumber"
+                  ng-model="card.cardNumber"
                   data-track-state="model.help.cardNumber"
                   autocomplete="off" />
                 <button class="btn"
@@ -77,8 +77,8 @@
             <label class="control-label" for="card-exp-month">Expiration Month</label>
             <div class="controls">
               <select class="input-medium" name="card-exp-month"
-                data-ng-model="card.cardExpMonth"
-                data-ng-options="month.index as month.label for month in monthLabels">
+                ng-model="card.cardExpMonth"
+                ng-options="month.index as month.label for month in monthLabels">
                 <option value=""></option>
               </select>
             </div>
@@ -87,8 +87,8 @@
             <label class="control-label" for="card-exp-year">Expiration Year</label>
             <div class="controls">
               <select class="input-small" name="card-exp-year"
-                data-ng-model="card.cardExpYear"
-                data-ng-options="year for year in years">
+                ng-model="card.cardExpYear"
+                ng-options="year for year in years">
                 <option value=""></option>
               </select>
             </div>
@@ -101,7 +101,7 @@
                 <span class="add-on"><img src="/img/scode.png" /></span><input
                   class="input-small" type="text"
                   name="card-cvm" maxlength="4"
-                  data-ng-model="card.cardCvm"
+                  ng-model="card.cardCvm"
                   data-track-state="model.help.cardCvm"
                   autocomplete="off" />
                 <button class="btn" data-help-toggle="model.help.cardCvm">
@@ -118,7 +118,7 @@
             </div>
           </div>
         </div>
-        <div data-ng-switch-when="BankAccount">
+        <div ng-switch-when="BankAccount">
           <div class="bank-box bank-example">
             <table class="bank-table">
               <tbody>
@@ -156,7 +156,7 @@
             <div class="controls">
               <div class="input-append">
                 <input type="text" name="bank-routing-number" maxlength="9"
-                  data-ng-model="bankAccount.bankRoutingNumber"
+                  ng-model="bankAccount.bankRoutingNumber"
                   data-track-state="model.help.bankRoutingNumber"
                   autocomplete="off" />
                 <button class="btn"
@@ -174,8 +174,8 @@
             <label class="control-label" for="bank-account-type">Account Type</label>
             <div class="controls">
               <select class="input-medium" name="bank-account-type"
-                data-ng-model="bankAccount.bankAccountType"
-                data-ng-options="type.id as type.label for type in bankAccountTypes">
+                ng-model="bankAccount.bankAccountType"
+                ng-options="type.id as type.label for type in bankAccountTypes">
               </select>
               <p class="help-block">
                 If your bank account does not have a type, choose 'Checking'.
@@ -187,7 +187,7 @@
             <div class="controls">
               <div class="input-append">
                 <input type="text" name="bank-account" maxlength="30"
-                  data-ng-model="bankAccount.bankAccount"
+                  ng-model="bankAccount.bankAccount"
                   data-track-state="model.help.bankAccount"
                   autocomplete="off" />
                 <button class="btn"
@@ -208,13 +208,13 @@
   </form>
 </div>
 
-<div class="section" data-ng-show="!editing && model.billingAddressRequired">
+<div class="section" ng-show="!editing && model.billingAddressRequired">
   <h4 class="headline">Select Billing Address</h4>
   <div data-address-selector data-selected="selection.address"
     data-invalid="selection.invalidAddress"></div>
 </div>
 
-<div class="section" data-ng-show="!editing && paymentMethod == 'BankAccount'">
+<div class="section" ng-show="!editing && paymentMethod == 'BankAccount'">
   <h4 class="headline">Bank Account Agreement</h4>
   <div class="well">
 
@@ -245,20 +245,20 @@
     <form class="form-vertical" action="">
       <fieldset>
         <label class="checkbox">
-          <input type="checkbox" data-ng-model="model.agreementChecked"> I agree to the above terms and conditions.</input>
+          <input type="checkbox" ng-model="model.agreementChecked"> I agree to the above terms and conditions.</input>
         </label>
       </fieldset>
     </form>
   </div>
 </div>
 
-<div class="section" data-ng-show="editing && paymentToken.backupSourceFor && paymentToken.backupSourceFor.length > 0">
+<div class="section" ng-show="editing && paymentToken.backupSourceFor && paymentToken.backupSourceFor.length > 0">
   <h4 class="headline">Linked Accounts</h4>
   <form class="form-vertical" action="">
     <div class="control-group">
       <div class="controls">
-        <label class="checkbox" data-ng-repeat="(accountId, info) in backupSourceFor | filter:'info.exists' | orderBy:['account.label','account.id']">
-          <input type="checkbox" data-ng-model="info.active"></input>
+        <label class="checkbox" ng-repeat="(accountId, info) in backupSourceFor | filter:'info.exists' | orderBy:['account.label','account.id']">
+          <input type="checkbox" ng-model="info.active"></input>
           <span class="active-{{info.active}}">
             <a href="{{info.account.id}}" target="_blank">
               {{info.account.label}}

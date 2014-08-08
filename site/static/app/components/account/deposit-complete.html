@@ -16,11 +16,11 @@
 <div class="section">
   <h4 class="headline">Summary</h4>
   <p>
-    Including fees, your 
-    <span data-ng-switch="input.source.paymentMethod">
-      <span data-ng-switch-when="CreditCard">credit card</span>
-      <span data-ng-switch-when="BankAccount">bank account</span>
-      <span data-ng-switch-default>external account</span>
+    Including fees, your
+    <span ng-switch="input.source.paymentMethod">
+      <span ng-switch-when="CreditCard">credit card</span>
+      <span ng-switch-when="BankAccount">bank account</span>
+      <span ng-switch-default>external account</span>
     </span>
     "<strong>{{input.source.label}}</strong>"
     was charged

@@ -4,7 +4,7 @@
     <h3>Redeem Promotional Code</h3>
   </div>
   <div class="modal-body">
-    <div data-ng-hide="model.success">
+    <div ng-hide="model.success">
       <p>
         Please enter the promotional code that you wish to redeem. Once
         you've entered a valid promotional code, the details about the related
@@ -22,7 +22,7 @@
                 </span>
                 <input
                   type="text" name="promoCode" maxlength="20"
-                  data-ng-model="model.promoCode"
+                  ng-model="model.promoCode"
                   data-track-state="model.help.promoCode"
                   autocomplete="off" />
                 <span class="inside-input-spinner-wrapper"
@@ -40,7 +40,7 @@
               </p>
             </div>
           </div>
-          <div data-ng-show="model.promoCodeChecker.promo">
+          <div ng-show="model.promoCodeChecker.promo">
             <hr/>
             <div class="alert alert-success">
               <h4>{{model.promoCodeChecker.promo.title}}</h4>
@@ -54,7 +54,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr data-ng-repeat="deposit in model.promoCodeChecker.promo.deposit">
+                  <tr ng-repeat="deposit in model.promoCodeChecker.promo.deposit">
                     <td>{{deposit.comment}}</td>
                     <td class="money"><span class="money"
                       data-tooltip-title="Since we support micro-payments, we track monetary amounts very accurately. The exact amount is USD {{deposit.amount}}."
@@ -65,11 +65,11 @@
               </table>
             </div>
           </div>
-          <div data-ng-show="model.promoCodeChecker.notFound">
+          <div ng-show="model.promoCodeChecker.notFound">
             <hr/>
             <div class="alert alert-error">The promotion was not found.</div>
           </div>
-          <div data-ng-show="model.promoCodeChecker.expired">
+          <div ng-show="model.promoCodeChecker.expired">
             <hr/>
             <div class="alert alert-error">The promotion has expired.</div>
           </div>
@@ -79,7 +79,7 @@
         Any applicable funds will be deposited into:
       </p>
     </div>
-    <div data-ng-show="model.success">
+    <div ng-show="model.success">
       <p class="alert alert-success">
         Promotional code <strong>{{model.promo.promoCode}}</strong> redeemed.
       </p>
@@ -95,7 +95,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr data-ng-repeat="deposit in model.promoCodeChecker.promo.deposit">
+            <tr ng-repeat="deposit in model.promoCodeChecker.promo.deposit">
               <td>{{deposit.comment}}</td>
               <td class="money"><span class="money"
                 data-tooltip-title="Since we support micro-payments, we track monetary amounts very accurately. The exact amount is USD {{deposit.amount}}."
@@ -116,13 +116,13 @@
   <div class="modal-footer">
     <span data-spinner="model.services.promo.state.loading"
       data-spinner-class="prepend-btn-spinner"></span>
-    <span data-ng-hide="model.success">
+    <span ng-hide="model.success">
       <button class="btn btn-primary"
-        data-ng-disabled="!model.promoCode || model.services.promo.state.loading || model.invalidAccount"
-        data-ng-click="redeemPromoCode()">Redeem</button>
+        ng-disabled="!model.promoCode || model.services.promo.state.loading || model.invalidAccount"
+        ng-click="redeemPromoCode()">Redeem</button>
       <button class="btn stackable-cancel">Cancel</button>
     </span>
-    <span data-ng-show="model.success">
+    <span ng-show="model.success">
       <button class="btn btn-primary stackable-cancel">Done</button>
     </span>
   </div>

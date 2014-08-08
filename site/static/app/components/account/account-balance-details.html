@@ -1,23 +1,23 @@
 <div data-collapse="!expand">
   <!-- <h5 class="headline">Balance Breakdown</h5> -->
   <div>
-    <span data-ng-show="model.hasCreditLine" class="pull-left"><small><strong>Exact balance, not including credit </strong></small></span>
-    <span data-ng-hide="model.hasCreditLine" class="pull-left"><small><strong>Exact balance </strong></small></span>
+    <span ng-show="model.hasCreditLine" class="pull-left"><small><strong>Exact balance, not including credit </strong></small></span>
+    <span ng-hide="model.hasCreditLine" class="pull-left"><small><strong>Exact balance </strong></small></span>
     <div style="clear: both"></div>
     <span class="money pull-left">
       <small>
         <span class="currency">{{account.currency}}</span>
-        <span data-ng-show="model.balance < 0" class="negative-money">({{account.balance.substr(1)}})</span>
-        <span data-ng-show="model.balance >= 0">{{account.balance}}</span>
+        <span ng-show="model.balance < 0" class="negative-money">({{account.balance.substr(1)}})</span>
+        <span ng-show="model.balance >= 0">{{account.balance}}</span>
       </small>
     </span>
   </div>
-  <div data-ng-show="model.hasCreditLine">
+  <div ng-show="model.hasCreditLine">
     <div style="clear: both"></div>
-    <div class="pull-left"><small><strong>Remaining credit<span class="disabled-credit" data-ng-show="account.sysCreditDisabled"> (Disabled)</span></strong></small></div>
+    <div class="pull-left"><small><strong>Remaining credit<span class="disabled-credit" ng-show="account.sysCreditDisabled"> (Disabled)</span></strong></small></div>
     <div style="clear: both"></div>
     <div class="progress progress-striped no-margin"
-      data-ng-class="{'progress-disabled': account.sysCreditDisabled, 'progress-success': (!account.sysCreditDisabled && model.creditBar.width >= 50), 'progress-warning': (!account.sysCreditDisabled && model.creditBar.width < 50 && model.creditBar.width >= 25), 'progress-danger': (!account.sysCreditDisabled && model.creditBar.width < 25)}">
+      ng-class="{'progress-disabled': account.sysCreditDisabled, 'progress-success': (!account.sysCreditDisabled && model.creditBar.width >= 50), 'progress-warning': (!account.sysCreditDisabled && model.creditBar.width < 50 && model.creditBar.width >= 25), 'progress-danger': (!account.sysCreditDisabled && model.creditBar.width < 25)}">
       <div class="progressbar-text-back">
         <span>{{account.currency}}</span>
         <span>{{model.remainingCredit | floor | currency:'$'}} / {{model.creditLimit | floor | currency:'$'}}</span>
@@ -34,15 +34,15 @@
       <div style="display: inline-block; height 0px;">{{account.currency}}</div>
       <div style="display: inline-block; height 0px;">{{model.remainingCredit | floor | currency:'$'}} / {{account.creditLimit | floor | currency:'$'}}</div>
     </div>
-    <div data-ng-show="account.creditPaymentDue">
+    <div ng-show="account.creditPaymentDue">
       <div style="clear: both"></div>
       <div class="pull-left"><small><strong>Next automatic payment</strong></small></div>
       <div style="clear: both"></div>
       <div class="pull-left">
         <small>
           {{account.creditPaymentDue | date:'mediumDate'}}
-          <span data-ng-show="account.backupSource && account.backupSource.length">
-            <a data-ng-click="model.paymentMethodIsCollapsed=!model.paymentMethodIsCollapsed">
+          <span ng-show="account.backupSource && account.backupSource.length">
+            <a ng-click="model.paymentMethodIsCollapsed=!model.paymentMethodIsCollapsed">
               <i class="icon-credit-card"></i>
             </a>
           </span>
@@ -53,18 +53,18 @@
         <div data-payment-token-selector data-selected="model.backupSource" data-instant="true" fixed="true"></div>
       </div>
     </div>
-    <div data-ng-show="!account.backupSource || !account.backupSource.length || (model.hasCreditLine && account.sysCreditDisabled) || account.showExpirationWarning || account.showExpired">
+    <div ng-show="!account.backupSource || !account.backupSource.length || (model.hasCreditLine && account.sysCreditDisabled) || account.showExpirationWarning || account.showExpired">
       <div style="clear: both; margin-bottom: 20px"></div>
-      <div data-ng-show="!account.backupSource || !account.backupSource.length" class="alert alert-error">
+      <div ng-show="!account.backupSource || !account.backupSource.length" class="alert alert-error">
         This account has no associated payment methods. Please edit the account information.
       </div>
-      <div data-ng-show="model.hasCreditLine && account.sysCreditDisabled" class="alert alert-error">
+      <div ng-show="model.hasCreditLine && account.sysCreditDisabled" class="alert alert-error">
         This account's credit line will be disabled until a valid payment method is associated with it.
       </div>
-      <div data-ng-show="account.showExpirationWarning" class="alert alert-warning">
+      <div ng-show="account.showExpirationWarning" class="alert alert-warning">
         This account uses a payment method that will expire soon.
       </div>
-      <div data-ng-show="account.showExpired" class="alert alert-warning">
+      <div ng-show="account.showExpired" class="alert alert-warning">
         This account uses an expired payment method.
       </div>
     </div>

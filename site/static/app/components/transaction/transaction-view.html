@@ -9,9 +9,9 @@
   <dt>Type</dt>
   <dd>
     <ul class="unstyled">
-      <li data-ng-show="model.isContract">Contract</li>
-      <li data-ng-show="model.isDeposit">Deposit</li>
-      <li data-ng-show="model.isWithdrawal">Withdrawal</li>
+      <li ng-show="model.isContract">Contract</li>
+      <li ng-show="model.isDeposit">Deposit</li>
+      <li ng-show="model.isWithdrawal">Withdrawal</li>
     </ul>
   </dd>
 
@@ -22,20 +22,20 @@
     </ul>
   </dd>
 
-  <dt data-ng-show="model.txn.voided">Voided</dt>
-  <dd data-ng-show="model.txn.voided">
+  <dt ng-show="model.txn.voided">Voided</dt>
+  <dd ng-show="model.txn.voided">
     <ul class="unstyled">
       <li>{{model.txn.voided | date:'medium'}}</li>
     </ul>
   </dd>
 
-  <dt data-ng-show="model.txn.voided">Void Reason</dt>
-  <dd data-ng-show="model.txn.voided">
-    <ul class="unstyled" data-ng-switch="model.txn.voidReason">
-      <li data-ng-switch-when="payswarm.paymentGateway.Declined">
+  <dt ng-show="model.txn.voided">Void Reason</dt>
+  <dd ng-show="model.txn.voided">
+    <ul class="unstyled" ng-switch="model.txn.voidReason">
+      <li ng-switch-when="payswarm.paymentGateway.Declined">
         Transaction declined by the external payment gateway.
       </li>
-      <li data-ng-switch-default>
+      <li ng-switch-default>
         {{model.txn.voidReason}}
       </li>
     </ul>
@@ -48,15 +48,15 @@
     </ul>
   </dd>
 
-  <dt data-ng-show="model.txn.triggeredBy && model.txn.triggerReason == 'InsufficientFunds'">Instant Transfer For</dt>
-  <dd data-ng-show="model.txn.triggeredBy && model.txn.triggerReason == 'InsufficientFunds'">
+  <dt ng-show="model.txn.triggeredBy && model.txn.triggerReason == 'InsufficientFunds'">Instant Transfer For</dt>
+  <dd ng-show="model.txn.triggeredBy && model.txn.triggerReason == 'InsufficientFunds'">
     <ul class="unstyled">
       <li><a href="{{model.txn.triggeredBy}}">{{model.txn.triggeredBy}}</a></li>
     </ul>
   </dd>
 
-  <dt data-ng-show="model.isContract">Asset</dt>
-  <dd data-ng-show="model.isContract">
+  <dt ng-show="model.isContract">Asset</dt>
+  <dd ng-show="model.isContract">
     <ul class="unstyled">
       <li>
         <a href="{{model.txn.asset.assetContent}}">{{model.txn.asset.title}}</a>
@@ -65,32 +65,32 @@
     </ul>
   </dd>
 
-  <dt data-ng-show="model.isContract && model.txn.assetProvider.id != model.txn.vendor.id">Provider</dt>
-  <dt data-ng-show="model.isContract && model.txn.assetProvider.id == model.txn.vendor.id">Provider/Vendor</dt>
-  <dd data-ng-show="model.isContract">
+  <dt ng-show="model.isContract && model.txn.assetProvider.id != model.txn.vendor.id">Provider</dt>
+  <dt ng-show="model.isContract && model.txn.assetProvider.id == model.txn.vendor.id">Provider/Vendor</dt>
+  <dd ng-show="model.isContract">
     <ul class="unstyled">
       <li><a href="{{model.txn.assetProvider.id}}">{{model.txn.assetProvider.label}}</a></li>
     </ul>
   </dd>
 
-  <dt data-ng-show="model.isContract && model.txn.assetProvider.id != model.txn.vendor.id">Vendor</dt>
-  <dd data-ng-show="model.isContract && model.txn.assetProvider.id != model.txn.vendor.id">
+  <dt ng-show="model.isContract && model.txn.assetProvider.id != model.txn.vendor.id">Vendor</dt>
+  <dd ng-show="model.isContract && model.txn.assetProvider.id != model.txn.vendor.id">
     <ul class="unstyled">
       <li><a href="{{model.txn.vendor.id}}">{{model.txn.vendor.label}}</a></li>
     </ul>
   </dd>
 
-  <dt data-ng-show="model.isContract && model.txn.license">License</dt>
-  <dd data-ng-show="model.isContract && model.txn.license">
+  <dt ng-show="model.isContract && model.txn.license">License</dt>
+  <dd ng-show="model.isContract && model.txn.license">
     <ul class="unstyled">
       <li><pre>{{model.txn.license.licenseTemplate}}</pre></li>
     </ul>
   </dd>
 
-  <dt data-ng-show="model.txn.transfer">Transfers</dt>
-  <dd data-ng-show="model.txn.transfer">
+  <dt ng-show="model.txn.transfer">Transfers</dt>
+  <dd ng-show="model.txn.transfer">
     <ul class="transfers">
-      <li data-ng-repeat="transfer in model.txn.transfer" class="transfer">
+      <li ng-repeat="transfer in model.txn.transfer" class="transfer">
         <ul class="unstyled">
           <li>
             <i class="icon-info-sign" title="Details"></i>
@@ -102,31 +102,31 @@
           </li>
           <li>
             <i class="icon-minus" title="Source"></i>
-            <span data-ng-show="model.txn.source && transfer.source == model.txn.source.id">
+            <span ng-show="model.txn.source && transfer.source == model.txn.source.id">
               {{model.txn.source.label}}
-              <span data-ng-show="model.txn.source.paymentMethod == 'CreditCard'">
+              <span ng-show="model.txn.source.paymentMethod == 'CreditCard'">
                 (Credit Card: {{model.txn.source.cardNumber}})
               </span>
-              <span data-ng-show="model.txn.source.paymentMethod == 'BankAccount'">
+              <span ng-show="model.txn.source.paymentMethod == 'BankAccount'">
                 (Bank Account: {{model.txn.source.bankAccount}})
               </span>
             </span>
-            <span data-ng-hide="model.txn.source && transfer.source == model.txn.source.id">
+            <span ng-hide="model.txn.source && transfer.source == model.txn.source.id">
               <a href="{{transfer.source}}">{{transfer.source}}</a>
             </span>
           </li>
           <li>
             <i class="icon-plus" title="Destination Account"></i>
-            <span data-ng-show="model.txn.destination && transfer.destination == model.txn.destination.id">
+            <span ng-show="model.txn.destination && transfer.destination == model.txn.destination.id">
               {{model.txn.destination.label}}
-              <span data-ng-show="model.txn.destination.paymentMethod == 'CreditCard'">
+              <span ng-show="model.txn.destination.paymentMethod == 'CreditCard'">
                 (Credit Card: {{model.txn.destination.cardNumber}})
               </span>
-              <span data-ng-show="model.txn.destination.paymentMethod == 'BankAccount'">
+              <span ng-show="model.txn.destination.paymentMethod == 'BankAccount'">
                 (Bank Account: {{model.txn.destination.bankAccount}})
               </span>
             </span>
-            <span data-ng-hide="model.txn.destination && transfer.destination == model.txn.destination.id">
+            <span ng-hide="model.txn.destination && transfer.destination == model.txn.destination.id">
               <a href="{{transfer.destination}}">{{transfer.destination}}</a><br/>
             </span>
           </li>

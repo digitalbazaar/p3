@@ -37,13 +37,13 @@
   <dt>Refill</dt>
   <dd>
     <ul class="unstyled">
-      <li data-ng-switch="model.getRefreshDuration(model.budget)">
-        <span data-ng-switch-when="never">Never</span>
-        <span data-ng-switch-when="PT1H">Hourly</span>
-        <span data-ng-switch-when="P1D">Daily</span>
-        <span data-ng-switch-when="P1W">Weekly</span>
-        <span data-ng-switch-when="P1M">Monthly</span>
-        <span data-ng-switch-when="P1Y">Yearly</span>
+      <li ng-switch="model.getRefreshDuration(model.budget)">
+        <span ng-switch-when="never">Never</span>
+        <span ng-switch-when="PT1H">Hourly</span>
+        <span ng-switch-when="P1D">Daily</span>
+        <span ng-switch-when="P1W">Weekly</span>
+        <span ng-switch-when="P1M">Monthly</span>
+        <span ng-switch-when="P1Y">Yearly</span>
       </li>
     </ul>
   </dd>
@@ -58,9 +58,9 @@
   <dt>Expires</dt>
   <dd>
     <ul class="unstyled">
-      <li data-ng-switch="model.getExpiration(model.budget)">
-        <span data-ng-switch-when="never">Never</span>
-        <span data-ng-switch-default>{{model.getExpiration(model.budget) | date:'medium'}}</span>
+      <li ng-switch="model.getExpiration(model.budget)">
+        <span ng-switch-when="never">Never</span>
+        <span ng-switch-default>{{model.getExpiration(model.budget) | date:'medium'}}</span>
       </li>
     </ul>
   </dd>
@@ -79,7 +79,7 @@
   <dt>Vendors</dt>
   <dd>
     <ul class="unstyled">
-      <li data-ng-show="model.state.budgets.loading || model.budget.vendor.length > 0">
+      <li ng-show="model.state.budgets.loading || model.budget.vendor.length > 0">
       <table class="table table-condensed">
         <thead>
           <tr>
@@ -89,23 +89,23 @@
           </tr>
         </thead>
         <tbody>
-        <tr data-ng-repeat="vendor in model.vendors[model.budget.id].storage | orderBy:'label'"
+        <tr ng-repeat="vendor in model.vendors[model.budget.id].storage | orderBy:'label'"
           class="vendor br-fadein br-fadeout" ng-if="!vendor.deleted">
           <!-- Label -->
           <td class="name">
             <a href="{{vendor.id}}">{{vendor.label || vendor.id}}</a>
           </td>
           <td class="name">
-            <a data-ng-show="vendor.url" href="{{vendor.url}}">{{vendor.url}}</a>
-            <span data-ng-hide="vendor.url">&nbsp;</span>
+            <a ng-show="vendor.url" href="{{vendor.url}}">{{vendor.url}}</a>
+            <span ng-hide="vendor.url">&nbsp;</span>
           </td>
           <!-- Delete -->
           <td class="action">
-            <button class="btn btn-danger" title="Delete" data-ng-click="model.deleteVendor(vendor)"><i class="icon-remove"></i></button>
+            <button class="btn btn-danger" title="Delete" ng-click="model.deleteVendor(vendor)"><i class="icon-remove"></i></button>
           </td>
         </tr>
         </tbody>
-        <tfoot data-ng-show="model.state.budgets.loading">
+        <tfoot ng-show="model.state.budgets.loading">
           <tr>
             <td colspan="5" style="text-align: center">
               <span class="center">
@@ -116,7 +116,7 @@
         </tfoot>
       </table>
       </li>
-      <li data-ng-show="!model.state.budgets.loading && model.budget.vendor.length == 0">
+      <li ng-show="!model.state.budgets.loading && model.budget.vendor.length == 0">
       You have no vendors configured for this budget.
       </li>
     </ul>

@@ -5,21 +5,21 @@ FIXME: INSTRUCTIONS ABOUT HOW CREDIT LINES WORK HERE. See our
 <p>Please select a payment method below that will be used to automatically
 pay back any credit you use on a periodic basis.</p>
 
-<div data-ng-hide="model.identity.sysEmailVerified" class="section">
+<div ng-hide="model.identity.sysEmailVerified" class="section">
   <h4 class="headline">Verify Your Email Address</h4>
   <p>Before opening a free credit line, you must first verify your email
     address. First, click to send yourself an email verification code. Then,
     once you have received an email with the verification code, enter it
     below and click "Verify Email".
   </p>
-  <form class="form-horizontal" action="" data-ng-submit="sendPasscode()">
+  <form class="form-horizontal" action="" ng-submit="sendPasscode()">
     <fieldset>
       <div class="control-group" data-binding="sysIdentifier">
         <label class="control-label" for="email">Email</label>
         <div class="controls">
           <div class="input-append">
             <input name="identity" type="text" maxlength="320"
-              data-ng-model="model.identity.email"
+              ng-model="model.identity.email"
               data-track-state="model.help.email"
               disabled="disabled" />
             <button class="btn" data-help-toggle="model.help.email">
@@ -33,7 +33,7 @@ pay back any credit you use on a periodic basis.</p>
         </div>
       </div>
     <div class="form-actions">
-      <button data-ng-disabled="model.loading"
+      <button ng-disabled="model.loading"
         class="btn btn-primary" data-submit-form>Send Verify Email</button>
       <span data-spinner="model.loading"
         data-spinner-class="append-btn-spinner"></span>
@@ -41,19 +41,19 @@ pay back any credit you use on a periodic basis.</p>
     </fieldset>
   </form>
 
-  <form class="form-horizontal" action="" data-ng-submit="verifyEmail()">
+  <form class="form-horizontal" action="" ng-submit="verifyEmail()">
     <fieldset>
 
-    <input name="input" type="hidden" data-ng-model="model.identity.email" />
+    <input name="input" type="hidden" ng-model="model.identity.email" />
 
     <div class="control-group" data-binding="sysPasscode">
       <label class="control-label" for="passcode">Passcode</label>
       <div class="controls">
         <div class="input-append">
           <input name="sysPasscode" type="text" maxlength="8"
-            data-ng-model="model.sysPasscode"
+            ng-model="model.sysPasscode"
             data-track-state="model.help.passcode"
-            data-ng-disabled="model.loading" />
+            ng-disabled="model.loading" />
           <button class="btn" data-help-toggle="model.help.passcode">
             <i class="icon-question-sign"></i>
           </button>
@@ -66,7 +66,7 @@ pay back any credit you use on a periodic basis.</p>
     </div>
 
     <div class="form-actions">
-       <button data-ng-disabled="model.loading"
+       <button ng-disabled="model.loading"
          class="btn btn-primary" data-submit-form>Verify Email</button>
        <span data-spinner="model.loading"
          data-spinner-class="append-btn-spinner"></span>
@@ -76,7 +76,7 @@ pay back any credit you use on a periodic basis.</p>
 
 </div>
 
-<div data-ng-show="model.identity.sysEmailVerified" class="section">
+<div ng-show="model.identity.sysEmailVerified" class="section">
   <h4 class="headline">Email Verified</h4>
   <div><span class="alert-success">{{model.identity.email}}</span></div>
 </div>

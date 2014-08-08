@@ -13,15 +13,15 @@
     </ul>
   </dd>
 
-  <dt data-ng-show="model.account.sysStatus">Status</dt>
-  <dd data-ng-show="model.account.sysStatus">
+  <dt ng-show="model.account.sysStatus">Status</dt>
+  <dd ng-show="model.account.sysStatus">
     <ul class="unstyled">
       <li>{{model.account.sysStatus}}</li>
     </ul>
   </dd>
 
-  <dt data-ng-show="model.account.balance">Balance</dt>
-  <dd data-ng-show="model.account.balance">
+  <dt ng-show="model.account.balance">Balance</dt>
+  <dd ng-show="model.account.balance">
     <ul class="unstyled">
       <li>
         <div data-account-balance-summary="model.account" data-expand="model.expandAccountBalance"></div>
@@ -30,8 +30,8 @@
     </ul>
   </dd>
 
-  <dt data-ng-show="model.account.owner">Owner</dt>
-  <dd data-ng-show="model.account.owner">
+  <dt ng-show="model.account.owner">Owner</dt>
+  <dd ng-show="model.account.owner">
     <ul class="unstyled">
       <li><a href="{{model.account.owner}}">{{model.account.owner}}</a></li>
     </ul>

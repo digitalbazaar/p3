@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node payswarm.dev.js",
-    "bootstrap": "make -C ../payswarm-bootstrap bootstrap && rsync -av ../payswarm-bootstrap/bootstrap/ ./site/static/bootstrap/",
+    "bootstrap": "grunt compile-bootstrap",
     "ci-test": "node ./node_modules/bedrock/test.js --backend --frontend --config `pwd`/configs/test.js",
     "ci-lint": "grunt jshint --mode=ci || exit 0",
     "coverage": "mkdir -p reports && rm -rf lib-cov; ./node_modules/visionmedia-jscoverage/jscoverage lib lib-cov && BEDROCK_COV=1 node test.js --backend > reports/coverage.html && rm -rf lib-cov",
@@ -47,7 +47,8 @@
     "ursa": "v0.8.0"
   },
   "devDependencies": {
-    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-jshint": "~0.10.0",
+    "grunt-contrib-less": "~0.11.4",
     "json-schema": "git://github.com/digitalbazaar/json-schema.git",
     "payswarm": "~0.10.6",
     "visionmedia-jscoverage": "~1.0.0"

@@ -172,6 +172,25 @@ module.exports = function(grunt) {
     }
   });
 
+  grunt.loadNpmTasks('grunt-contrib-less');
+  grunt.config('less', {
+    compileBootstrap: {
+      options: {
+        strictMath: true,
+        sourceMap: false,
+        outputSourceFiles: false
+      },
+      files: {
+        'site/static/bootstrap/css/bootstrap.css': [
+          '<%= dirs.bedrock %>/less/bootstrap.less',
+          'less/custom.less'
+        ]
+      }
+    }
+  });
+
+  grunt.registerTask('compile-bootstrap', ['less:compileBootstrap']);
+
   // default tasks
   grunt.registerTask('default', ['ngtemplates', 'cssmin', 'requirejs']);
 };

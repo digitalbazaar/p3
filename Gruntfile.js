@@ -93,6 +93,10 @@ module.exports = function(grunt) {
         baseUrl: '<%= dirs.bedrock %>/site/static',
         paths: {
           'almond': '../../node_modules/almond/almond',
+          'angular': '<%= dirs.bedrock %>/bower_components/angular/angular',
+          'angular-animate': '<%= dirs.bedrock %>/bower_components/angular-animate/angular-animate',
+          'angular-route': '<%= dirs.bedrock %>/bower_components/angular-route/angular-route',
+          'angular-sanitize': '<%= dirs.bedrock %>/bower_components/angular-sanitize/angular-sanitize',
           'angular-ui-select2': '<%= dirs.bedrock %>/bower_components/angular-ui-select2/src/select2',
           'bedrock': '.',
           'dialog-polyfill': '<%= dirs.bedrock %>/bower_components/dialog-polyfill/dialog-polyfill',

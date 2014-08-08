@@ -52,7 +52,7 @@ like to withdraw.</p>
               </button>
             </div>
             <br/>
-            <p data-fade-toggle="model.help.amount.show" class="help-block">
+            <p ng-show="model.help.amount.show" class="help-block br-fadein br-fadeout">
               Please enter an amount to withdraw from your
               "<strong>{{account.label}}</strong>" account. You must enter
               a valid monetary amount, like 25 or 25.82.

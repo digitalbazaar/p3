@@ -12,7 +12,7 @@
             <i class="icon-question-sign"></i>
           </button>
         </div>
-        <p data-fade-toggle="model.help.label.show" class="help-block">
+        <p ng-show="model.help.label.show" class="help-block br-fadein br-fadeout">
           Please enter a memorable name that describes what this budget is
           for.
           <br/><br/>
@@ -33,7 +33,7 @@
             <i class="icon-question-sign"></i>
           </button>
         </div>
-        <p data-fade-toggle="model.help.amount.show" class="help-block">
+        <p ng-show="model.help.amount.show" class="help-block br-fadein br-fadeout">
           Please enter the maximum amount that can be used before the budget
           is refilled.
           <br/><br/>
@@ -54,7 +54,7 @@
             <i class="icon-question-sign"></i>
           </button>
         </div>
-        <p data-fade-toggle="model.help.maxPerUse.show" class="help-block">
+        <p ng-show="model.help.maxPerUse.show" class="help-block br-fadein br-fadeout">
           Please enter the maximum amount that can be used per transaction
           using this budget.
           <br/><br/>

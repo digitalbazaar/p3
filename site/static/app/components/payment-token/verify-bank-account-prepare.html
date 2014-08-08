@@ -31,8 +31,8 @@ be withdrawn from your bank account.</p>
               <i class="icon-question-sign"></i>
             </button>
           </div>
-          <p data-fade-toggle="model.help.verifyAmount1.show"
-            class="help-block">
+          <p ng-show="model.help.verifyAmount1.show"
+            class="help-block br-fadein br-fadeout">
             Please enter the first verification deposit amount in your bank
             account. You must enter a valid monetary amount, like 0.12.
           </p>
@@ -50,8 +50,8 @@ be withdrawn from your bank account.</p>
               <i class="icon-question-sign"></i>
             </button>
           </div>
-          <p data-fade-toggle="model.help.verifyAmount2.show"
-            class="help-block">
+          <p ng-show="model.help.verifyAmount2.show"
+            class="help-block br-fadein br-fadeout">
             Please enter the second verification deposit amount in your bank
             account. You must enter a valid monetary amount, like 0.12.
           </p>
@@ -69,7 +69,7 @@ be withdrawn from your bank account.</p>
               <i class="icon-question-sign"></i>
             </button>
           </div>
-          <p data-fade-toggle="model.help.amount.show" class="help-block">
+          <p ng-show="model.help.amount.show" class="help-block br-fadein br-fadeout">
             You may enter an optional amount to deposit from this bank account.
             Doing a deposit now helps save on transaction fees. If you'd like
             to deposit now, then you must enter a valid monetary amount, like

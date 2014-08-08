@@ -12,7 +12,7 @@
               <i class="icon-question-sign"></i>
             </button>
           </div>
-          <p data-fade-toggle="model.help.label.show" class="help-block">
+          <p ng-show="model.help.label.show" class="help-block br-fadein br-fadeout">
             Please enter a memorable name that describes this method of
             payment. It will be displayed to you later.
             <br/><br/>
@@ -65,9 +65,9 @@
                   data-help-toggle="model.help.cardNumber">
                   <i class="icon-question-sign"></i>
                 </button>
-              </div>                    
-              <p data-fade-toggle="model.help.cardNumber.show"
-                class="help-block">
+              </div>
+              <p ng-show="model.help.cardNumber.show"
+                class="help-block br-fadein br-fadeout">
                 Please enter your credit card number, which must be 16 digits long.
               </p>
             </div>
@@ -108,8 +108,8 @@
                   <i class="icon-question-sign"></i>
                 </button>
               </div>
-              <p data-fade-toggle="model.help.cardCvm.show"
-                class="help-block">
+              <p ng-show="model.help.cardCvm.show"
+                class="help-block br-fadein br-fadeout">
                 Please enter the 3-digit security code located on the back
                 of your credit card. If you are using American Express,
                 then the number will be on the front and will be 4 digits
@@ -150,7 +150,7 @@
               </tbody>
             </table>
           </div>
-        
+
           <div class="control-group" data-binding="source.bankRoutingNumber">
             <label class="control-label" for="bank-routing-number">Routing Number</label>
             <div class="controls">
@@ -164,8 +164,8 @@
                   <i class="icon-question-sign"></i>
                 </button>
               </div>
-              <p data-fade-toggle="model.help.bankRoutingNumber.show"
-                class="help-block">
+              <p ng-show="model.help.bankRoutingNumber.show"
+                class="help-block br-fadein br-fadeout">
                 Please enter your bank's routing number. This can be found in your checkbook or by signing into your bank online.
               </p>
             </div>
@@ -195,8 +195,8 @@
                   <i class="icon-question-sign"></i>
                 </button>
               </div>
-              <p data-fade-toggle="model.help.bankAccount.show"
-                class="help-block">
+              <p ng-show="model.help.bankAccount.show"
+                class="help-block br-fadein br-fadeout">
                 Please enter your bank account number. This can be found
                 in your checkbook or by signing into your bank online.
               </p>

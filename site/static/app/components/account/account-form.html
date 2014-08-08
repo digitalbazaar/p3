@@ -14,7 +14,7 @@
             <i class="icon-question-sign"></i>
           </button>
         </div>
-        <p data-fade-toggle="model.help.label.show" class="help-block">
+        <p ng-show="model.help.label.show" class="help-block br-fadein br-fadeout">
           Enter a name for your financial account, for instance 'primary' or 'secondary'.
           <span data-ng-hide="model.editing">The name you choose will become part of your account URL:</span>
         </p>
@@ -51,7 +51,7 @@
             <i class="icon-question-sign"></i>
           </button>
         </div>
-        <p data-fade-toggle="model.help.visibility.show" class="help-block">
+        <p ng-show="model.help.visibility.show" class="help-block br-fadein br-fadeout">
           Choose if the account is public or private.
         </p>
       </div>
@@ -68,7 +68,7 @@
             <i class="icon-question-sign"></i>
           </button>
         </div>
-        <p data-fade-toggle="model.help.currency.show" class="help-block">
+        <p ng-show="model.help.currency.show" class="help-block br-fadein br-fadeout">
           Choose the currency for the account. This can not be changed after an account is created.
         </p>
       </div>
@@ -89,7 +89,7 @@
             <i class="icon-question-sign"></i>
           </button>
         </div>
-        <p data-fade-toggle="model.help.creditLimit.show" class="help-block">
+        <p ng-show="model.help.creditLimit.show" class="help-block br-fadein br-fadeout">
           Choose a credit limit for this account. Other factors may reduce your maximum available credit.
         </p>
       </div>
@@ -112,8 +112,8 @@
             data-ng-value="false" data-ng-model="model.backupSourceEnabled" />
           Disable
         </label>
-        <div data-fade-toggle="model.help.backupSource.show" style="margin-top: 10px">
-          <p class="help-block">
+        <div ng-show="model.help.backupSource.show" style="margin-top: 10px">
+          <p class="help-block br-fadein br-fadeout">
             An external payment method is used to automatically pay back used
             credit on its due date and to provide funds if an instant transfer
             is required to complete a purchase.
@@ -132,7 +132,7 @@
 
         <!--
         <div data-payment-token-list data-instant="true" data-id-list="model.account.backupSource"></div>
-        <p data-fade-toggle="model.help.backups.show" class="help-block">
+        <p ng-show="model.help.backups.show" class="help-block br-fadein br-fadeout">
           Choose the payment methods that are used to fund this account.
         </p>
         -->
@@ -156,7 +156,8 @@
             data-ng-value="false" data-ng-model="model.account.sysAllowInstantTransfer" />
           Disable
         </label>
-        <div data-fade-toggle="model.help.sysAllowInstantTransfer.show" style="margin-top: 10px">
+        <div ng-show="model.help.sysAllowInstantTransfer.show"
+          style="margin-top: 10px" class="br-fadein br-fadeout">
           <p class="help-block">
             Enabling instant transfer will cause purchases that exceed your
             credit limit to be performed using the payment method of your
@@ -177,7 +178,7 @@
             <i class="icon-question-sign"></i>
           </button>
         </div>
-        <p data-fade-toggle="model.help.sysMinInstantTransfer.show" class="help-block">
+        <p ng-show="model.help.sysMinInstantTransfer.show" class="help-block br-fadein br-fadeout">
           Please enter the minimum purchase amount required in order to trigger an
           instant transfer.
           <br/><br/>

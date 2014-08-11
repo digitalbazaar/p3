@@ -13,33 +13,33 @@
             promotion will be displayed. Any monetary amounts associated with the
             promotion will be deposited into the account you select below.
           </p>
-          <form class="well form-vertical" action="">
+          <form class="well form-vertical">
             <fieldset>
-              <div class="control-group" data-binding="promoCode">
-                <label class="control-label" for="promoCode">Promo Code</label>
-                <div class="controls">
-                  <div class="input-append">
-                    <span data-promo-code-checker="model.promoCode"
-                      data-promo-code-checker-state="model.promoCodeChecker">
-                    </span>
-                    <input
-                      type="text" name="promoCode" maxlength="20"
-                      ng-model="model.promoCode"
-                      data-track-state="model.help.promoCode"
-                      autocomplete="off" />
-                    <span class="inside-input-spinner-wrapper"
-                      data-spinner="model.promoCodeChecker.loading"
-                      data-spinner-class="inside-input-spinner"></span>
+              <div class="form-group" data-binding="promoCode">
+                <label class="control-label col-sm-3" for="promoCode">Promo Code</label>
+                <div class="input-group col-sm-8">
+                  <input class="form-control"
+                    type="text" name="promoCode" maxlength="20"
+                    ng-model="model.promoCode"
+                    data-track-state="model.help.promoCode"
+                    autocomplete="off" />
+                  <span class="inside-input-spinner-wrapper"
+                    data-spinner="model.promoCodeChecker.loading"
+                    data-spinner-class="inside-input-spinner"></span>
+                  <span class="input-group-btn">
                     <button type="button" class="btn btn-default before-spinner"
                       data-help-toggle="model.help.promoCode">
                       <i class="icon-question-sign"></i>
                     </button>
-                  </div>
-                  <p ng-show="model.help.promoCode.show"
-                    class="help-block br-fadein br-fadeout">
-                    Please enter a promotional code; it will be applied to the
-                    financial account displayed below.
-                  </p>
+                  </span>
+                </div>
+                <p ng-show="model.help.promoCode.show"
+                  class="help-block col-sm-offset-3 col-sm-8 br-fadein br-fadeout">
+                  Please enter a promotional code; it will be applied to the
+                  financial account displayed below.
+                </p>
+                <div data-promo-code-checker="model.promoCode"
+                  data-promo-code-checker-state="model.promoCodeChecker">
                 </div>
               </div>
               <div ng-show="model.promoCodeChecker.promo">

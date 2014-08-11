@@ -8,14 +8,14 @@ define([], function() {
 'use strict';
 
 /* @ngInject */
-function factory($parse, $http) {
+function factory($http, AlertService) {
   return {
     restrict: 'A',
     scope: {
       input: '=promoCodeChecker',
       state: '=promoCodeCheckerState'
     },
-    link: function(scope, element, attrs) {
+    link: function(scope) {
       // init state object
       var state = {
         loading: false,
@@ -56,7 +56,7 @@ function factory($parse, $http) {
           }
 
           $http.get(encodeURI('/promos/' + scope.input))
-            .success(function(data) {
+            .then(function(data) {
               // promo found
               state.loading = false;
               var now = new Date();
@@ -66,10 +66,13 @@ function factory($parse, $http) {
               } else {
                 state.promo = data;
               }
+              scope.$apply();
             })
-            .error(function(data, status) {
+            .catch(function(err) {
+              AlertService.add('error', err);
               state.loading = false;
               state.notFound = true;
+              scope.$apply();
             });
         }, 1000);
       });

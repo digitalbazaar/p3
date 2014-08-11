@@ -1,7 +1,7 @@
-<div class="container ng-cloak" ng-controller="AccountController as model">
+<div class="ng-cloak" ng-controller="AccountController as model">
 
   <div class="row">
-    <div class="span12">
+    <div class="col-md-12">
       <ul class="breadcrumb" ng-show="!model.account || model.state.accounts.loading">
         <li>&nbsp;</li>
       </ul>
@@ -19,7 +19,7 @@
   </div>
 
   <div class="row">
-    <div class="section span12">
+    <div class="section col-md-12">
       <h3 class="headline">
         Financial Account
         <span ng-hide="!model.account || model.state.accounts.loading" class="btn-group pull-right">
@@ -61,27 +61,27 @@
           <span data-spinner="model.state.accounts.loading" data-spinner-class="h3-spinner"></span>
         </span>
       </h3>
-      <div class="alert alert-error" ng-show="model.account === null && !model.state.accounts.loading">
+      <div class="alert alert-danger" ng-show="model.account === null && !model.state.accounts.loading">
         <strong>Error!</strong> Account not found or access not allowed.
       </div>
     </div>
   </div>
 
   <div class="row" ng-show="model.account">
-    <div class="title-section span12">
+    <div class="col-md-12">
       <h1 class="headline" ng-bind="model.account.label"></h1>
       <hr/>
     </div>
   </div>
 
   <div class="row" ng-show="model.account">
-    <div ng-show="!model.state.accounts.loading" class="section span12">
+    <div ng-show="!model.state.accounts.loading" class="section col-md-12">
       <div ng-include="'/app/components/account/account-view.html'"></div>
     </div>
   </div>
 
   <div class="row" ng-show="model.account">
-    <div class="span12">
+    <div class="col-md-12">
       <div data-transactions data-account="model.account" data-details="true" data-controls="true"></div>
     </div>
   </div>

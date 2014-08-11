@@ -1,7 +1,7 @@
-<div class="container ng-cloak" ng-controller="BudgetController as model">
+<div class="ng-cloak" ng-controller="BudgetController as model">
 
   <div class="row">
-    <div class="span12">
+    <div class="col-md-12">
       <ul class="breadcrumb" ng-show="!model.budget || model.state.budgets.loading">
         <li>&nbsp;</li>
       </ul>
@@ -14,7 +14,7 @@
   </div>
 
   <div class="row">
-    <div class="section span12">
+    <div class="section col-md-12">
       <h3 class="headline">
         Budget
         <span ng-hide="!model.budget || model.state.budgets.loading" class="btn-group pull-right">
@@ -27,9 +27,8 @@
                 <i class="icon-pencil"></i> Edit
               </a>
             </li>
-            <li>
-              <a ng-click="model.modals.budget=model.budget; model.modals.showDeleteBudgetAlert=true"
-                class="btn-danger">
+            <li class="alert-danger">
+              <a ng-click="model.modals.budget=model.budget; model.modals.showDeleteBudgetAlert=true">
                 <i class="icon-remove"></i> Delete
               </a>
             </li>
@@ -39,21 +38,21 @@
           <span data-spinner="model.state.budgets.loading" data-spinner-class="h3-spinner"></span>
         </span>
       </h3>
-      <div class="alert alert-error" ng-show="model.budget === null && !model.state.budgets.loading">
+      <div class="alert alert-danger" ng-show="model.budget === null && !model.state.budgets.loading">
         <strong>Error!</strong> Budget not found or access not allowed.
       </div>
     </div>
   </div>
 
   <div class="row" ng-show="model.budget">
-    <div class="title-section span12">
+    <div class="col-md-12">
       <h1 class="headline" ng-bind="model.budget.label"></h1>
       <hr/>
     </div>
   </div>
 
   <div class="row" ng-show="model.budget">
-    <div ng-show="!model.state.budgets.loading" class="section span12">
+    <div ng-show="!model.state.budgets.loading" class="section col-md-12">
       <div ng-include="'/app/components/budget/budget-view.html'"></div>
     </div>
   </div>

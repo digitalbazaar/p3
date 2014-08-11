@@ -1,7 +1,7 @@
-<div class="container ng-cloak" ng-controller="TransactionController as model">
+<div class="ng-cloak" ng-controller="TransactionController as model">
 
   <div class="row">
-    <div class="span12">
+    <div class="col-md-12">
       <ul class="breadcrumb" ng-show="!model.txn || model.state.txns.loading">
         <li>&nbsp;</li>
       </ul>
@@ -14,21 +14,21 @@
   </div>
 
   <div class="row">
-    <div class="section span12">
+    <div class="section col-md-12">
       <h3 class="headline">
         Transaction
         <span ng-show="model.state.accounts.loading" class="pull-right">
           <span data-spinner="model.state.accounts.loading" data-spinner-class="h3-spinner"></span>
         </span>
       </h3>
-      <div class="alert alert-error" ng-show="model.txn === null && !model.state.txns.loading">
+      <div class="alert alert-danger" ng-show="model.txn === null && !model.state.txns.loading">
         <strong>Error!</strong> Transaction not found or access not allowed.
       </div>
     </div>
   </div>
 
   <div class="row" ng-show="model.txn">
-    <div ng-show="!model.state.txns.loading" class="section span12">
+    <div ng-show="!model.state.txns.loading" class="section col-md-12">
       <div ng-include="'/app/components/transaction/transaction-view.html'"></div>
     </div>
   </div>

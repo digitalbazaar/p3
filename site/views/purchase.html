@@ -6,11 +6,11 @@
 {% block content %}
 
 {% raw %}
-<div class="container" ng-controller="PurchaseController as model" class="ng-cloak">
+<div class="ng-cloak" ng-controller="PurchaseController as model">
 
 <div ng-show="model.alertType">
   <div class="row">
-    <div class="span6 offset3">
+    <div class="col-md-6 col-md-offset-3">
       <div ng-show="model.alertType == 'purchased'" class="alert alert-block alert-success">
         <button type="button" class="close" data-dismiss="alert">×</button>
         <h4>Congratulations!</h4>
@@ -25,7 +25,7 @@
         </span>
         </p>
       </div>
-      <div ng-show="model.alertType == 'budgetExceeded'" class="alert alert-block alert-error">
+      <div ng-show="model.alertType == 'budgetExceeded'" class="alert alert-block alert-danger">
         <button type="button" class="close" data-dismiss="alert">×</button>
 
         <h4>Budget Exceeded</h4>
@@ -52,7 +52,7 @@
 <div ng-hide="error">
 
   <div ng-show="model.loading || !model.ready" class="row">
-    <div class="span6 offset3">
+    <div class="col-md-6 col-md-offset-3">
       <div class="alert alert-info">Loading purchase details...
         <div data-spinner="model.loading || !model.ready"
           data-spinner-class="alert-spinner"></div>
@@ -62,7 +62,7 @@
 
   <div ng-hide="model.loading || !model.ready || model.purchased">
     <div class="row">
-      <div class="span6 offset3">
+      <div class="col-md-6 col-md-offset-3">
         <h3>Do you want to make this purchase?</h3>
       </div>
     </div>
@@ -70,7 +70,7 @@
 
   <div ng-hide="model.loading || !model.ready">
     <div class="row">
-      <div class="section span6 offset3">
+      <div class="section col-md-6 col-md-offset-3">
         <h4 class="headline">Purchase Details</h4>
         <table class="table">
           <thead>
@@ -116,7 +116,7 @@
     </div>
 
     <div class="row">
-      <div class="section span6 offset3">
+      <div class="section col-md-6 col-md-offset-3">
         <h4 class="headline">{{(model.contract.vendor.id == model.contract.assetProvider.id && 'Vendor and Asset Provider') || 'Vendor'}}</h4>
         <table class="table">
           <thead>
@@ -138,7 +138,7 @@
     </div>
 
     <div class="row" ng-show="{{model.contract.vendor.id != model.contract.assetProvider.id}}">
-      <div class="section span6 offset3">
+      <div class="section col-md-6 col-md-offset-3">
         <h4 class="headline">Asset Provider</h4>
         <table class="table">
           <thead>
@@ -160,7 +160,7 @@
     </div>
 
     <div ng-hide="model.purchased" class="row">
-      <div class="section span6 offset3">
+      <div class="section col-md-6 col-md-offset-3">
         <h4 class="headline">Payment</h4>
         <form action="">
           <fieldset>
@@ -205,7 +205,7 @@
     </div>
 
     <div ng-hide="model.purchased" class="row">
-      <div class="section span6 offset3">
+      <div class="section col-md-6 col-md-offset-3">
         <div ng-show="model.sourceType == 'account'">
           <h4 class="headline">Account</h4>
           <div data-account-selector
@@ -228,7 +228,7 @@
     </div>
 
     <div ng-hide="model.purchased" class="row">
-      <div class="span6 offset3">
+      <div class="col-md-6 col-md-offset-3">
         <hr />
         <div class="well center">
           <button class="btn btn-primary" ng-click="model.purchase()"
@@ -239,7 +239,7 @@
     </div>
 
     <div ng-show="model.purchased" class="row">
-      <div ng-show="model.callback" class="span6 offset3">
+      <div ng-show="model.callback" class="col-md-6 col-md-offset-3">
         <div class="alert alert-success">
           Click the button below to return to the vendor's website and view
           the item you purchased.
@@ -263,7 +263,7 @@
           </div>
         </form>
       </div>
-      <div ng-hide="model.callback" class="span6 offset3">
+      <div ng-hide="model.callback" class="col-md-6 col-md-offset-3">
         <div class="alert alert-success">
           Return to the vendor's website to view the item you purchased.
         </div>
@@ -275,15 +275,15 @@
 </div> <!-- end non-error -->
 
 <!-- FIXME: unused, remove -->
-<div ng-show="model.error" class="alert alert-error">
+<div ng-show="model.error" class="alert alert-danger">
   <em>Error</em>
   <br/>
   {{model.error.message}}
-  <div ng-show="model.error.details" class="container">
+  <div ng-show="model.error.details">
     <br/>
     <em ng-show="model.error.details.length > 0">Error Details</em>
     <div class="row" ng-repeat="(key, detail) in error.details">
-      <span class="span12"><strong>{{key}}</strong>: {{detail}}</span>
+      <span class="col-md-12"><strong>{{key}}</strong>: {{detail}}</span>
     </div>
   </div>
 </div> <!-- end error -->
@@ -307,7 +307,7 @@
   <div data-add-account-modal></div>
 </stackable-modal>
 
-</div> <!-- end container -->
+</div>
 {% endraw %}
 
 {% endblock %}

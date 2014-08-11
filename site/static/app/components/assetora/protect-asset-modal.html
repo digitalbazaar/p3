@@ -1,56 +1,60 @@
 <div class="modal">
-  <div class="modal-header">
-    <a class="close stackable-cancel">&times;</a>
-    <h3>Protect Asset Content</h3>
-  </div>
-  <div class="modal-body">
-    <div ng-include="'/app/components/util/demo-warning.html'"></div>
-    <div ng-hide="model.success">
-      <p>
-        This tool allows you to generate a bundle of files to host on your
-        web server to provide a basic paywall for your asset content.
-      </p>
-      <div>
-        Title: {{asset.title}}
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <a class="close stackable-cancel">&times;<span class="sr-only">Close</span></a>
+        <h3 class="modal-title">Protect Asset Content</h3>
       </div>
-      <div>
-        URL: {{asset.assetContent}}
+      <div class="modal-body">
+        <div ng-include="'/app/components/util/demo-warning.html'"></div>
+        <div ng-hide="model.success">
+          <p>
+            This tool allows you to generate a bundle of files to host on your
+            web server to provide a basic paywall for your asset content.
+          </p>
+          <div>
+            Title: {{asset.title}}
+          </div>
+          <div>
+            URL: {{asset.assetContent}}
+          </div>
+          <div>
+            Stuff about how other assets in the same dir will be affected, maybe
+            even show which ones, but that might be asking too much.
+          </div>
+          <button ng-hide="model.loading"
+            type="button" class="btn btn-primary"
+            ng-click="generateBundle()">Generate Bundle</button>
+          <span ng-show="model.loading">[{{model.bundleStep}}] </span>
+          <span ng-show="model.loading"> This may take a while...</span>
+          <span data-spinner="model.loading"
+            data-spinner-class="append-btn-spinner"></span>
+        </div>
+        <div ng-show="model.success">
+          <p class="alert alert-success">
+            Bundle generated. Your content will not be protected until you
+            save the bundle and unzip it in the FIXME directory on your
+            web server.
+          </p>
+          <div ng-hide="model.saveAsSupported">
+            <div ng-include="'/app/components/assetora/protect-asset-php.html'"></div>
+          </div>
+          <div ng-show="model.saveAsSupported">
+            <button ng-hide="model.bundleSaved" class="btn btn-primary"
+              ng-click="savePhpBundle()">Save PHP Bundle</button>
+          </div>
+        </div>
       </div>
-      <div>
-        Stuff about how other assets in the same dir will be affected, maybe
-        even show which ones, but that might be asking too much.
+      <div class="modal-footer">
+        <span data-spinner="model.state.assets.loading"
+          data-spinner-class="prepend-btn-spinner"></span>
+        <span ng-hide="model.success">
+          <button type="button" class="btn btn-default stackable-cancel">Cancel</button>
+        </span>
+        <span ng-show="model.success">
+          <button type="button" class="btn btn-primary stackable-cancel">Done</button>
+        </span>
       </div>
-      <button ng-hide="model.loading"
-        class="btn btn-primary"
-        ng-click="generateBundle()">Generate Bundle</button>
-      <span ng-show="model.loading">[{{model.bundleStep}}] </span>
-      <span ng-show="model.loading"> This may take a while...</span>
-      <span data-spinner="model.loading"
-        data-spinner-class="append-btn-spinner"></span>
-    </div>
-    <div ng-show="model.success">
-      <p class="alert alert-success">
-        Bundle generated. Your content will not be protected until you
-        save the bundle and unzip it in the FIXME directory on your
-        web server.
-      </p>
-      <div ng-hide="model.saveAsSupported">
-        <div ng-include="'/app/components/assetora/protect-asset-php.html'"></div>
-      </div>
-      <div ng-show="model.saveAsSupported">
-        <button ng-hide="model.bundleSaved" class="btn btn-primary"
-          ng-click="savePhpBundle()">Save PHP Bundle</button>
-      </div>
-    </div>
-  </div>
-  <div class="modal-footer">
-    <span data-spinner="model.state.assets.loading"
-      data-spinner-class="prepend-btn-spinner"></span>
-    <span ng-hide="model.success">
-      <button class="btn stackable-cancel">Cancel</button>
-    </span>
-    <span ng-show="model.success">
-      <button class="btn btn-primary stackable-cancel">Done</button>
-    </span>
-  </div>
-</div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

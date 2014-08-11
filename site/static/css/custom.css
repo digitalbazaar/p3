@@ -77,6 +77,10 @@ span.negative-money {
   margin: 6px 0 20px;
 }
 
+.table .money {
+  text-align: right;
+}
+
 .cc-box {
   width: 235px;
   height: 147.558px;

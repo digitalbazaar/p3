@@ -1,25 +1,30 @@
 <div class="modal">
-  <div class="modal-header" ng-switch="model.state">
-    <a class="close stackable-cancel">&times;</a>
-    <h3>Select a Payment Method</h3>
-  </div>
-  <div class="modal-body" ng-switch="model.state">
-    <div ng-include="'/app/components/util/demo-warning.html'"></div>
-    <p>Please select a payment method to add to your account.</p>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" ng-switch="model.state">
+        <a class="close stackable-cancel">&times;<span class="sr-only">Close</span></a>
+        <h3 class="modal-title">Select a Payment Method</h3>
+      </div>
+      <div class="modal-body" ng-switch="model.state">
+        <div ng-include="'/app/components/util/demo-warning.html'"></div>
+        <p>Please select a payment method to add to your account.</p>
 
-    <div class="section">
-      <h4 class="headline">Payment Method</h4>
-      <div data-payment-token-selector data-selected="model.backupSource"
-        data-omit="omit" data-instant="instant"></div>
-    </div>
-  </div>
-  <div class="modal-footer">
-    <span data-spinner="model.loading"
-      data-spinner-class="prepend-btn-spinner"></span>
-    <button class="btn btn-primary"
-      ng-disabled="model.loading || !model.backupSource"
-      ng-click="confirm()"><i class="icon-ok"></i> Confirm</button>
-    <button ng-disabled="loading" class="btn stackable-cancel">Cancel</button>
-    </span>
-  </div>
-</div>
+        <div class="section">
+          <h4 class="headline">Payment Method</h4>
+          <div data-payment-token-selector data-selected="model.backupSource"
+            data-omit="omit" data-instant="instant"></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <span data-spinner="model.loading"
+          data-spinner-class="prepend-btn-spinner"></span>
+        <button type="button" class="btn btn-primary"
+          ng-disabled="model.loading || !model.backupSource"
+          ng-click="confirm()"><i class="icon-ok"></i> Confirm</button>
+        <button type="button" ng-disabled="loading"
+          class="btn btn-default stackable-cancel">Cancel</button>
+        </span>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

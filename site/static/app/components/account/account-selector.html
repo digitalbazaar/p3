@@ -35,7 +35,7 @@
         </tbody>
       </table>
       <div ng-show="showDepositButton">
-        <button class="btn btn-success"
+        <button type="button" class="btn btn-success"
           ng-click="model.showDepositModal=true; $event.stopPropagation()"><i class="icon-plus"></i> Deposit</button><br/>
         <stackable-modal stackable="model.showDepositModal">
           <div data-deposit-modal data-account="selected" data-instant="instant"></div>
@@ -43,7 +43,7 @@
       </div>
       <div ng-show="model.balanceTooLow">
         <hr />
-        <div class="alert alert-error">You must select an account with a balance or remaining credit of at least <span
+        <div class="alert alert-danger">You must select an account with a balance or remaining credit of at least <span
         class="currency">{{selected.currency}}</span> {{minBalance | ceil | currency:'$'}}.</div>
       </div>
       <div ng-show="allowInstantTransfer && model.instantTransferRequired">

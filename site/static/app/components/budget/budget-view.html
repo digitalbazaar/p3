@@ -1,42 +1,42 @@
 <dl class="dl-horizontal">
   <dt>Id</dt>
   <dd>
-    <ul class="unstyled">
+    <ul class="list-unstyled">
       <li>{{model.budget.id}}</li>
     </ul>
   </dd>
 
   <dt>Label</dt>
   <dd>
-    <ul class="unstyled">
+    <ul class="list-unstyled">
       <li>{{model.budget.label}}</li>
     </ul>
   </dd>
 
   <dt>Total Amount</dt>
   <dd>
-    <ul class="unstyled">
+    <ul class="list-unstyled">
       <li><span data-money="model.budget" data-round-mode="down"></span></li>
     </ul>
   </dd>
 
   <dt>Current Balance</dt>
   <dd>
-    <ul class="unstyled">
+    <ul class="list-unstyled">
       <li><span data-money="model.budget" data-round-mode="down" data-value-field="balance"></span></li>
     </ul>
   </dd>
 
   <dt>Max Per Use</dt>
   <dd>
-    <ul class="unstyled">
+    <ul class="list-unstyled">
       <li><span data-money="model.budget" data-round-mode="down" data-value-field="sysMaxPerUse"></span></li>
     </ul>
   </dd>
 
   <dt>Refill</dt>
   <dd>
-    <ul class="unstyled">
+    <ul class="list-unstyled">
       <li ng-switch="model.getRefreshDuration(model.budget)">
         <span ng-switch-when="never">Never</span>
         <span ng-switch-when="PT1H">Hourly</span>
@@ -50,14 +50,14 @@
 
   <dt>Last Refreshed</dt>
   <dd>
-    <ul class="unstyled">
+    <ul class="list-unstyled">
       <li>{{model.getLastRefresh(model.budget) | date:'medium'}}</li>
     </ul>
   </dd>
 
   <dt>Expires</dt>
   <dd>
-    <ul class="unstyled">
+    <ul class="list-unstyled">
       <li ng-switch="model.getExpiration(model.budget)">
         <span ng-switch-when="never">Never</span>
         <span ng-switch-default>{{model.getExpiration(model.budget) | date:'medium'}}</span>
@@ -67,7 +67,7 @@
 
   <dt>Source</dt>
   <dd>
-    <ul class="unstyled">
+    <ul class="list-unstyled">
       <li>
         <div data-account-selector data-selected="model.account"
           data-invalid="model.invalidAccount" data-fixed="true"
@@ -78,7 +78,7 @@
 
   <dt>Vendors</dt>
   <dd>
-    <ul class="unstyled">
+    <ul class="list-unstyled">
       <li ng-show="model.state.budgets.loading || model.budget.vendor.length > 0">
       <table class="table table-condensed">
         <thead>

@@ -1,18 +1,23 @@
 <div class="modal">
-  <div class="modal-header">
-    <a class="close stackable-cancel">&times;</a>
-    <h3>New Invoice Item</h3>
-  </div>
-  <div class="modal-body">
-    <div ng-include="'/app/components/util/demo-warning.html'"></div>
-    <div ng-include="'/app/components/assetora/invoice-item-form.html'"></div>
-  </div>
-  <div class="modal-footer">
-    <span data-spinner="loading"
-      data-spinner-class="prepend-btn-spinner"></span>
-    <button class="btn btn-primary"
-      ng-disabled="loading || !model.item.title || !model.item.amount"
-      ng-click="addInvoiceItem()"><i class="icon-ok"></i> Add</button>
-    <button class="btn stackable-cancel" ng-disabled="loading">Cancel</button>
-  </div>
-</div>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <a class="close stackable-cancel">&times;<span class="sr-only">Close</span></a>
+        <h3 class="modal-title">New Invoice Item</h3>
+      </div>
+      <div class="modal-body">
+        <div ng-include="'/app/components/util/demo-warning.html'"></div>
+        <div ng-include="'/app/components/assetora/invoice-item-form.html'"></div>
+      </div>
+      <div class="modal-footer">
+        <span data-spinner="loading"
+          data-spinner-class="prepend-btn-spinner"></span>
+        <button type="button" class="btn btn-primary"
+          ng-disabled="loading || !model.item.title || !model.item.amount"
+          ng-click="addInvoiceItem()"><i class="icon-ok"></i> Add</button>
+        <button type="button" class="btn btn-default stackable-cancel"
+          ng-disabled="loading">Cancel</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

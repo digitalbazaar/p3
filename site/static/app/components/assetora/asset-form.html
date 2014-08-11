@@ -1,43 +1,47 @@
-<form class="well form-horizontal" action="">
+<form class="well form-horizontal">
   <fieldset>
-    <div class="control-group" data-binding="assetContent">
-      <label class="control-label" for="assetContent">Asset Content URL</label>
-      <div class="controls">
-        <div class="input-prepend input-append">
-          <span class="add-on"><i class="icon-globe"></i></span><input
-            type="text" name="assetContent"
-            ng-model="model.asset.assetContent"
-            data-track-state="model.help.assetContent" />
-          <button class="btn" data-help-toggle="model.help.assetContent">
+    <div class="form-group" data-binding="assetContent">
+      <label class="control-label col-sm-3" for="assetContent">Asset Content URL</label>
+      <div class="input-group col-sm-8">
+        <span class="input-group-addon"><i class="icon-globe"></i></span>
+        <input class="form-control" type="text" name="assetContent"
+          ng-model="model.asset.assetContent"
+          data-track-state="model.help.assetContent" />
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default"
+            data-help-toggle="model.help.assetContent">
             <i class="icon-question-sign"></i>
           </button>
-        </div>
-        <p ng-show="model.help.assetContent.show" class="help-block br-fadein br-fadeout">
-          Please enter the URL for the Asset content. This is the URL that
-          your customers will visit to see the content that they have
-          purchased.
-        </p>
+        </span>
       </div>
+      <p ng-show="model.help.assetContent.show"
+        class="help-block col-sm-offset-3 col-sm-8 br-fadein br-fadeout">
+        Please enter the URL for the Asset content. This is the URL that
+        your customers will visit to see the content that they have
+        purchased.
+      </p>
     </div>
 
-    <div class="control-group" data-binding="title">
-      <label class="control-label" for="title">Asset Title</label>
-      <div class="controls">
-        <div class="input-prepend input-append">
-          <span class="add-on"><i class="icon-tag"></i></span><input
-            type="text" name="title"
-            ng-model="model.asset.title"
-            data-track-state="model.help.title" />
-          <button class="btn" data-help-toggle="model.help.title">
+    <div class="form-group" data-binding="title">
+      <label class="control-label col-sm-3" for="title">Asset Title</label>
+      <div class="input-group col-sm-8">
+        <span class="input-group-addon"><i class="icon-tag"></i></span>
+        <input class="form-control" type="text" name="title"
+          ng-model="model.asset.title"
+          data-track-state="model.help.title" />
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default"
+            data-help-toggle="model.help.title">
             <i class="icon-question-sign"></i>
           </button>
-        </div>
-        <p ng-show="model.help.title.show" class="help-block br-fadein br-fadeout">
-          Please enter the title for the Asset.
-          <br/><br/>
-          Suggestions: How to Bake Like a Boss, View From Atop Rainier
-        </p>
+        </span>
       </div>
+      <p ng-show="model.help.title.show"
+        class="help-block col-sm-offset-3 col-sm-8 br-fadein br-fadeout">
+        Please enter the title for the Asset.
+        <br/><br/>
+        Suggestions: How to Bake Like a Boss, View From Atop Rainier
+      </p>
     </div>
   </fieldset>
 </form>

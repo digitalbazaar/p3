@@ -1,20 +1,20 @@
 <div>
   <div class="progress progress-striped no-margin"
-    ng-class="{'progress-success': model.barPercentage >= 50, 'progress-warning': model.barPercentage < 50 && model.barPercentage >= 25, 'progress-danger': model.barPercentage < 25}"
     data-tooltip-title="Since we support micro-payments, we track your budget balance very accurately. The exact balance of this budget is {{budget.currency}} {{budget.balance}} / {{budget.amount}}">
-    <div class="progressbar-text-back">
+    <div class="progress-bar-text-back">
       <span>{{budget.currency}}</span>
       <span>{{budget.balance | floor | currency:'$'}} / {{budget.amount | floor | currency:'$'}}</span>
     </div>
-    <div class="bar" style="width: {{model.barPercentage}}%">
-      <div class="progressbar-text-front" style="width: {{model.textPercentage}}%">
+    <div class="progress-bar" style="width: {{model.barPercentage}}%"
+      ng-class="{'progress-bar-success': model.barPercentage >= 50, 'progress-bar-warning': model.barPercentage < 50 && model.barPercentage >= 25, 'progress-bar-danger': model.barPercentage < 25}">
+      <div class="progress-bar-text-front" style="width: {{model.textPercentage}}%">
         <span>{{budget.currency}}</span>
         <span>{{budget.balance | floor | currency:'$'}} / {{budget.amount | floor | currency:'$'}}</span>
       </div>
     </div>
   </div>
   <!-- Ensures bar is appropriate width -->
-  <div class="progressbar-text-front" style="width: {{model.textPercentage}}%; height: 0px; visibility: hidden;">
+  <div class="progress-bar-text-front" style="width: {{model.textPercentage}}%; height: 0px; visibility: hidden;">
     <div style="display: inline-block; height 0px;">{{budget.currency}}</div>
     <div style="display: inline-block; height 0px;">{{budget.balance | floor | currency:'$'}} / {{budget.amount | floor | currency:'$'}}</div>
   </div>

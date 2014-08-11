@@ -1,14 +1,14 @@
 <dl class="dl-horizontal">
   <dt>Id</dt>
   <dd>
-    <ul class="unstyled">
+    <ul class="list-unstyled">
       <li>{{model.txn.id}}</li>
     </ul>
   </dd>
 
   <dt>Type</dt>
   <dd>
-    <ul class="unstyled">
+    <ul class="list-unstyled">
       <li ng-show="model.isContract">Contract</li>
       <li ng-show="model.isDeposit">Deposit</li>
       <li ng-show="model.isWithdrawal">Withdrawal</li>
@@ -17,21 +17,21 @@
 
   <dt>Created</dt>
   <dd>
-    <ul class="unstyled">
+    <ul class="list-unstyled">
       <li>{{model.txn.created | date:'medium'}}</li>
     </ul>
   </dd>
 
   <dt ng-show="model.txn.voided">Voided</dt>
   <dd ng-show="model.txn.voided">
-    <ul class="unstyled">
+    <ul class="list-unstyled">
       <li>{{model.txn.voided | date:'medium'}}</li>
     </ul>
   </dd>
 
   <dt ng-show="model.txn.voided">Void Reason</dt>
   <dd ng-show="model.txn.voided">
-    <ul class="unstyled" ng-switch="model.txn.voidReason">
+    <ul class="list-unstyled" ng-switch="model.txn.voidReason">
       <li ng-switch-when="payswarm.paymentGateway.Declined">
         Transaction declined by the external payment gateway.
       </li>
@@ -43,21 +43,21 @@
 
   <dt>Total Amount</dt>
   <dd>
-    <ul class="unstyled">
+    <ul class="list-unstyled">
       <li><span data-money="model.txn"></span></li>
     </ul>
   </dd>
 
   <dt ng-show="model.txn.triggeredBy && model.txn.triggerReason == 'InsufficientFunds'">Instant Transfer For</dt>
   <dd ng-show="model.txn.triggeredBy && model.txn.triggerReason == 'InsufficientFunds'">
-    <ul class="unstyled">
+    <ul class="list-unstyled">
       <li><a href="{{model.txn.triggeredBy}}">{{model.txn.triggeredBy}}</a></li>
     </ul>
   </dd>
 
   <dt ng-show="model.isContract">Asset</dt>
   <dd ng-show="model.isContract">
-    <ul class="unstyled">
+    <ul class="list-unstyled">
       <li>
         <a href="{{model.txn.asset.assetContent}}">{{model.txn.asset.title}}</a>
         by {{model.txn.asset.creator.name}}
@@ -68,21 +68,21 @@
   <dt ng-show="model.isContract && model.txn.assetProvider.id != model.txn.vendor.id">Provider</dt>
   <dt ng-show="model.isContract && model.txn.assetProvider.id == model.txn.vendor.id">Provider/Vendor</dt>
   <dd ng-show="model.isContract">
-    <ul class="unstyled">
+    <ul class="list-unstyled">
       <li><a href="{{model.txn.assetProvider.id}}">{{model.txn.assetProvider.label}}</a></li>
     </ul>
   </dd>
 
   <dt ng-show="model.isContract && model.txn.assetProvider.id != model.txn.vendor.id">Vendor</dt>
   <dd ng-show="model.isContract && model.txn.assetProvider.id != model.txn.vendor.id">
-    <ul class="unstyled">
+    <ul class="list-unstyled">
       <li><a href="{{model.txn.vendor.id}}">{{model.txn.vendor.label}}</a></li>
     </ul>
   </dd>
 
   <dt ng-show="model.isContract && model.txn.license">License</dt>
   <dd ng-show="model.isContract && model.txn.license">
-    <ul class="unstyled">
+    <ul class="list-unstyled">
       <li><pre>{{model.txn.license.licenseTemplate}}</pre></li>
     </ul>
   </dd>
@@ -91,7 +91,7 @@
   <dd ng-show="model.txn.transfer">
     <ul class="transfers">
       <li ng-repeat="transfer in model.txn.transfer" class="transfer">
-        <ul class="unstyled">
+        <ul class="list-unstyled">
           <li>
             <i class="icon-info-sign" title="Details"></i>
             {{transfer.comment}}

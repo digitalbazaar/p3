@@ -20,50 +20,57 @@ like to deposit.</p>
 
 <div class="section">
   <h4 class="headline">Deposit Details</h4>
-  <form class="well form-horizontal" action="">
+  <form class="well form-horizontal">
     <fieldset>
-      <label class="control-label" for="account">Account</label>
-      <div class="control-group">
-        <div class="controls">
+      <div class="form-group">
+        <label class="control-label col-sm-3" for="account">Account</label>
+        <div class="col-sm-12">
           Money will be deposited into your "<strong>{{account.label}}</strong>" account.
         </div>
       </div>
-      <label class="control-label" for="amount">Amount</label>
-      <div class="control-group" data-binding="payee[0].payeeRate">
-        <div class="controls">
-          <label class="radio" ng-hide="account.sysAllowStoredValue">
-            <input
-              type="radio" name="amount"
-              ng-model="input.mode"
-              value="all"
-              ng-change="input.amount = input.max.amount" />
-            Maximum deposit: <span data-money="input.max" data-important="true" data-exact="true"></span>
-            <br/>
-            <span class="muted">The maxiumum deposit will fully pay back your used credit.</span>
-          </label>
-          <div>
+      <div class="form-group" data-binding="payee[0].payeeRate">
+        <label class="control-label col-sm-3" for="amount">Amount</label>
+        <div class="col-sm-8">
+          <div class="radio" ng-hide="account.sysAllowStoredValue">
+            <label>
+              <input
+                type="radio" name="amount"
+                ng-model="input.mode"
+                value="all"
+                ng-change="input.amount = input.max.amount" />
+              Maximum deposit: <span data-money="input.max" data-important="true" data-exact="true"></span>
+              <br/>
+              <span class="muted">The maxiumum deposit will fully pay back your used credit.</span>
+            </label>
+          </div>
+          <div class="radio">
             <input
               type="radio" name="amount"
               ng-model="input.mode"
               value="custom"
               ng-hide="account.sysAllowStoredValue" />
-            <div class="input-prepend input-append">
-              <span class="add-on"><i class="icon-money"></i></span><input
-                type="text" name="amount" placeholder="Enter deposit amount..."
-                ng-model="input.amount"
-                data-track-state="model.help.amount" />
-              <button class="btn" data-help-toggle="model.help.amount">
+          </div>
+          <div class="input-group">
+            <span class="input-group-addon"><i class="icon-money"></i></span>
+            <input class="form-control" type="text" name="amount"
+              placeholder="Enter deposit amount..."
+              ng-model="input.amount"
+              data-track-state="model.help.amount" />
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default"
+                data-help-toggle="model.help.amount">
                 <i class="icon-question-sign"></i>
               </button>
-            </div>
-            <br/>
-            <p ng-show="model.help.amount.show" class="help-block br-fadein br-fadeout">
-              Please enter an amount to deposit into your
-              "<strong>{{account.label}}</strong>" account. You must enter a
-              valid monetary amount, like 25 or 25.82.
-            </p>
+            </span>
           </div>
         </div>
+        <br/>
+        <p ng-show="model.help.amount.show"
+          class="help-block col-sm-offset-3 col-sm-8 br-fadein br-fadeout">
+          Please enter an amount to deposit into your
+          "<strong>{{account.label}}</strong>" account. You must enter a
+          valid monetary amount, like 25 or 25.82.
+        </p>
       </div>
     </fieldset>
   </form>

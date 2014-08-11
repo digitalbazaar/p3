@@ -18,47 +18,54 @@ like to withdraw.</p>
 
 <div class="section">
   <h4 class="headline">Withdrawal Details</h4>
-  <form class="well form-horizontal" action="">
+  <form class="well form-horizontal">
     <fieldset>
-      <label class="control-label" for="account">Account</label>
-      <div class="control-group">
-        <div class="controls">
+      <div class="form-group">
+        <label class="control-label col-sm-3" for="account">Account</label>
+        <div class="col-sm-8">
           Money will be withdrawn from your "<strong>{{account.label}}</strong>" account.
         </div>
       </div>
-      <label class="control-label" for="amount">Amount</label>
-      <div class="control-group" data-binding="payee[0].payeeRate">
-        <div class="controls">
-          <label class="radio">
-            <input
-              type="radio" name="amount"
-              ng-model="input.mode"
-              value="all"
-              ng-change="setAmount(account.balance)" />
-            Maximum withdrawal: <span data-money="account" data-important="true" data-value-field="balance" data-round-mode="down"></span>
-          </label>
-          <div>
+      <div class="form-group" data-binding="payee[0].payeeRate">
+        <label class="control-label col-sm-3" for="amount">Amount</label>
+        <div class="col-sm-8">
+          <div class="radio">
+            <label>
+              <input
+                type="radio" name="amount"
+                ng-model="input.mode"
+                value="all"
+                ng-change="setAmount(account.balance)" />
+              Maximum withdrawal: <span data-money="account" data-important="true" data-value-field="balance" data-round-mode="down"></span>
+            </label>
+          </div>
+          <div class="radio">
             <input
               type="radio" name="amount"
               ng-model="input.mode"
               value="custom" />
-            <div class="input-prepend input-append">
-              <span class="add-on"><i class="icon-money"></i></span><input
-                type="text" name="amount" placeholder="Enter withdrawal amount..."
-                ng-model="input.amount"
-                data-track-state="model.help.amount" />
-              <button class="btn" data-help-toggle="model.help.amount">
+          </div>
+          <div class="input-group">
+            <span class="input-group-addon"><i class="icon-money"></i></span>
+            <input class="form-control"
+              type="text" name="amount" placeholder="Enter withdrawal amount..."
+              ng-model="input.amount"
+              data-track-state="model.help.amount" />
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default"
+                data-help-toggle="model.help.amount">
                 <i class="icon-question-sign"></i>
               </button>
-            </div>
-            <br/>
-            <p ng-show="model.help.amount.show" class="help-block br-fadein br-fadeout">
-              Please enter an amount to withdraw from your
-              "<strong>{{account.label}}</strong>" account. You must enter
-              a valid monetary amount, like 25 or 25.82.
-            </p>
+            </span>
           </div>
         </div>
+        <br/>
+        <p ng-show="model.help.amount.show"
+          class="help-block col-sm-offset-3 col-sm-8 br-fadein br-fadeout">
+          Please enter an amount to withdraw from your
+          "<strong>{{account.label}}</strong>" account. You must enter
+          a valid monetary amount, like 25 or 25.82.
+        </p>
       </div>
     </fieldset>
   </form>

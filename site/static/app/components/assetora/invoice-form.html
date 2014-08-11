@@ -1,26 +1,28 @@
-<form class="well form-horizontal" action="">
+<form class="well form-horizontal">
   <fieldset>
-    <div class="control-group" data-binding="title">
-      <label class="control-label" for="title">Title</label>
-      <div class="controls">
-        <div class="input-prepend input-append">
-          <span class="add-on"><i class="icon-tag"></i></span><input
-            type="text" name="title"
-            ng-model="model.asset.title"
-            data-track-state="model.help.title"
-            placeholder="Title" />
-          <button class="btn" data-help-toggle="model.help.title">
+    <div class="form-group" data-binding="title">
+      <label class="control-label col-sm-3" for="title">Title</label>
+      <div class="input-group col-sm-8">
+        <span class="add-on"><i class="icon-tag"></i></span>
+        <input class="form-control" type="text" name="title"
+          ng-model="model.asset.title"
+          data-track-state="model.help.title"
+          placeholder="Title" />
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default"
+            data-help-toggle="model.help.title">
             <i class="icon-question-sign"></i>
           </button>
-        </div>
-        <p ng-show="model.help.title.show" class="help-block br-fadein br-fadeout">
-          Please enter the title for the invoice.
-          <!--
-          <br/><br/>
-          Suggestions: ...
-          -->
-        </p>
+        </span>
       </div>
+      <p ng-show="model.help.title.show"
+        class="help-block col-sm-offset-3 col-sm-8 br-fadein br-fadeout">
+        Please enter the title for the invoice.
+        <!--
+        <br/><br/>
+        Suggestions: ...
+        -->
+      </p>
     </div>
   </fieldset>
 </form>
@@ -29,7 +31,7 @@
   <h4 class="headline">Items</h4>
 
   <button ng-show="!(model.search.state.loading || state.assets.loading || state.listings.loading)"
-    class="btn btn-success btn-add"
+    class="btn btn-success"
     ng-click="model.modals.showAddInvoiceItem=true"><i class="icon-plus"></i> Add Item</button>
 
   <table class="table table-condensed"
@@ -75,7 +77,7 @@
                 </a>
               </li>
               <li class="divider"></li>
-              <li class="btn-danger">
+              <li class="alert-danger">
                 <a class="stackable-cancel" ng-click="deleteInvoiceItem(item)">
                   <i class="icon-remove"></i> Delete
                 </a>

@@ -26,13 +26,13 @@
       </div>
       <div ng-show="balanceTooLow">
         <hr />
-        <div class="alert alert-error">You must select a budget with a balance of at least <span
+        <div class="alert alert-danger">You must select a budget with a balance of at least <span
         class="currency">{{selected.currency}}</span> {{minBalance | ceil | currency:'$'}}. The budget's
         associated account must also have enough funds unless instant transfer is enabled.</div>
       </div>
       <div ng-show="maxPerUseTooLow">
         <hr />
-        <div class="alert alert-error">You must choose a budget that allows
+        <div class="alert alert-danger">You must choose a budget that allows
         a single purchase of at least <span
         class="currency">{{selected.currency}}</span> {{minBalance | ceil | currency:'$'}}.</div>
       </div>

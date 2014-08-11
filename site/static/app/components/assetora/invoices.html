@@ -1,7 +1,7 @@
 <div ng-controller="InvoicesController as model">
 
   <div class="row">
-    <div class="title-section span12">
+    <div class="col-md-12">
       <h1 class="headline">Invoices</h1>
 
       <!--
@@ -11,11 +11,11 @@
   </div>
 
   <div class="row">
-    <div class="section span12">
+    <div class="section col-md-12">
       <h3 class="headline">Invoices</h3>
 
       <button ng-show="!(model.search.state.loading || state.assets.loading || state.listings.loading)"
-        class="btn btn-success btn-add"
+        class="btn btn-success"
         ng-click="model.modals.showAddInvoice=true"><i class="icon-plus"></i> Add Invoice</button>
 
       <form class="form-search pull-right">
@@ -87,7 +87,7 @@
                     </a>
                   </li>
                   <li class="divider"></li>
-                  <li class="btn-danger">
+                  <li class="alert-danger">
                     <a class="stackable-menu" ng-click="deleteAsset(asset)">
                       <i class="icon-remove"></i> Delete
                     </a>

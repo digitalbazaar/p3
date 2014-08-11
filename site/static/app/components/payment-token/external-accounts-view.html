@@ -64,7 +64,7 @@
                 </a>
               </li>
               <li class="divider"></li>
-              <li ng-class="{disabled: card.backupSourceFor.length, 'btn-danger': !card.backupSourceFor.length}">
+              <li ng-class="{disabled: card.backupSourceFor.length, 'alert-danger': !card.backupSourceFor.length}">
                 <a class="stackable-cancel" ng-show="card.backupSourceFor.length" href="#">
                   <i class="icon-remove"></i> Delete
                 </a>
@@ -150,14 +150,14 @@
                 </a>
               </li>
               <li class="divider"></li>
-              <li class="btn-danger"
+              <li class="alert-danger"
                 ng-show="bankAccount.sysStatus == 'active' || bankAccount.sysStatus == 'disabled'"
                 ng-disabled="!bankAccount.sysVerified && bankAccount.sysStatus != 'disabled'">
                 <a class="stackable-cancel" ng-click="model.deletePaymentToken(bankAccount)">
                   <i class="icon-trash"></i> Delete
                 </a>
               </li>
-              <li class="btn-success"
+              <li class="alert-success"
                 ng-show="!bankAccount.sysStatus || bankAccount.sysStatus == 'deleted'">
                 <a class="stackable-cancel" ng-click="model.restorePaymentToken(bankAccount)">
                   <i class="icon-undo"></i> Restore

@@ -1,26 +1,27 @@
-<div class="dashboard container ng-cloak" ng-controller="DashboardController as dashboard">
+<div class="dashboard ng-cloak" ng-controller="DashboardController as dashboard">
+
   <div class="row">
-    <div class="title-section span12">
+    <div class="col-md-12">
       <h1 class="headline">Dashboard</h1>
     </div>
   </div>
 
   <div class="row">
-    <div class="span6">
+    <div class="col-md-6">
       <div data-accounts></div>
     </div>
 
-    <div class="span6">
+    <div class="col-md-6">
       <div data-budgets></div>
     </div>
   </div>
 
   <div class="row">
-    <div class="span6">
+    <div class="col-md-6">
       <div data-transactions data-recent="true" data-account="null" data-details="false" data-controls="false" data-more-href="'accounts'"></div>
     </div>
 
-    <div class="span6">
+    <div class="col-md-6">
       <!-- <div data-messages></div> -->
       <div class="section section-messages">
         <h3 class="headline">Messages</h3>

@@ -1,7 +1,7 @@
 <div ng-controller="AssetoraController as model">
 
   <div class="row">
-    <div class="title-section span12">
+    <div class="col-md-12">
       <h1 class="headline">Assetora</h1>
 
       <p>Assetora is a service that makes it easier for you to sell the
@@ -20,10 +20,10 @@
   </div>
 
   <div class="row">
-    <div class="section span12">
+    <div class="section col-md-12">
       <h3 class="headline">Search</h3>
       <form class="form-search">
-        <input type="text" name="search" class="input-xlarge search-query"
+        <input class="form-control search-query" type="text" name="search"
           ng-model="model.search.input">
         <span data-input-watcher="model.search.input"
           data-input-watcher-state="model.search.state"
@@ -32,14 +32,14 @@
         <span data-spinner="model.search.state.loading || state.assets.loading || state.listings.loading"
           data-spinner-class="append-btn-spinner"></span>
         <button ng-show="!(model.search.state.loading || state.assets.loading || state.listings.loading)"
-          class="btn btn-success btn-add"
+          class="btn btn-success"
           ng-click="model.modals.showAddAsset=true"><i class="icon-plus"></i> Add Asset</button>
       </form>
     </div>
   </div>
 
   <div class="row">
-    <div class="section section-asset-search span6">
+    <div class="section section-asset-search col-md-6">
       <h3 class="headline">Asset Search Results</h3>
 
       <table class="table table-condensed"
@@ -87,7 +87,7 @@
                     </a>
                   </li>
                   <li class="divider"></li>
-                  <li class="btn-danger">
+                  <li class="alert-danger">
                     <a class="stackable-cancel" ng-click="deleteAsset(asset)">
                       <i class="icon-remove"></i> Delete
                     </a>
@@ -112,7 +112,7 @@
       </div>
     </div>
 
-    <div class="section section-listing-search span6">
+    <div class="section section-listing-search col-md-6">
       <h3 class="headline">Listing Search Results</h3>
 
       <table class="table table-condensed"
@@ -153,7 +153,7 @@
                     </a>
                   </li>
                   <li class="divider"></li>
-                  <li class="btn-danger">
+                  <li class="alert-danger">
                     <a ng-click="deleteListing(listing)">
                       <i class="icon-remove"></i> Delete
                     </a>
@@ -180,7 +180,7 @@
   </div>
 
   <div class="row">
-    <div class="section section-recent-assets span6">
+    <div class="section section-recent-assets col-md-6">
       <h3 class="headline">Recent Assets</h3>
 
       <table class="table table-condensed" ng-show="state.assets.loading || model.recentAssets.length > 0">
@@ -230,7 +230,7 @@
                     </a>
                   </li>
                   <li class="divider"></li>
-                  <li class="btn-danger">
+                  <li class="alert-danger">
                     <a ng-click="deleteAsset(asset)">
                       <i class="icon-remove"></i> Delete
                     </a>
@@ -255,7 +255,7 @@
       </div>
     </div>
 
-    <div class="section section-recent-listings span6">
+    <div class="section section-recent-listings col-md-6">
       <h3 class="headline">Recent Listings</h3>
 
       <table class="table table-condensed" ng-show="state.listings.loading || model.recentListings.length > 0">

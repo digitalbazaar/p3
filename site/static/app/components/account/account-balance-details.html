@@ -18,19 +18,19 @@
     <div style="clear: both"></div>
     <div class="progress progress-striped no-margin"
       ng-class="{'progress-disabled': account.sysCreditDisabled, 'progress-success': (!account.sysCreditDisabled && model.creditBar.width >= 50), 'progress-warning': (!account.sysCreditDisabled && model.creditBar.width < 50 && model.creditBar.width >= 25), 'progress-danger': (!account.sysCreditDisabled && model.creditBar.width < 25)}">
-      <div class="progressbar-text-back">
+      <div class="progress-bar-text-back">
         <span>{{account.currency}}</span>
         <span>{{model.remainingCredit | floor | currency:'$'}} / {{model.creditLimit | floor | currency:'$'}}</span>
       </div>
-      <div class="bar" style="width: {{model.creditBar.width}}%">
-        <div class="progressbar-text-front" style="width: {{model.creditBar.textWidth}}%">
+      <div class="progress-bar" style="width: {{model.creditBar.width}}%">
+        <div class="progress-bar-text-front" style="width: {{model.creditBar.textWidth}}%">
           <span>{{account.currency}}</span>
           <span>{{model.remainingCredit | floor | currency:'$'}} / {{account.creditLimit | floor | currency:'$'}}</span>
         </div>
       </div>
     </div>
     <!-- Ensures bar is appropriate width -->
-    <div class="progressbar-text-front" style="width: {{model.creditBar.textWidth}}%; height: 0px; display: none; visibility: hidden;">
+    <div class="progress-bar-text-front" style="width: {{model.creditBar.textWidth}}%; height: 0px; display: none; visibility: hidden;">
       <div style="display: inline-block; height 0px;">{{account.currency}}</div>
       <div style="display: inline-block; height 0px;">{{model.remainingCredit | floor | currency:'$'}} / {{account.creditLimit | floor | currency:'$'}}</div>
     </div>
@@ -55,10 +55,10 @@
     </div>
     <div ng-show="!account.backupSource || !account.backupSource.length || (model.hasCreditLine && account.sysCreditDisabled) || account.showExpirationWarning || account.showExpired">
       <div style="clear: both; margin-bottom: 20px"></div>
-      <div ng-show="!account.backupSource || !account.backupSource.length" class="alert alert-error">
+      <div ng-show="!account.backupSource || !account.backupSource.length" class="alert alert-danger">
         This account has no associated payment methods. Please edit the account information.
       </div>
-      <div ng-show="model.hasCreditLine && account.sysCreditDisabled" class="alert alert-error">
+      <div ng-show="model.hasCreditLine && account.sysCreditDisabled" class="alert alert-danger">
         This account's credit line will be disabled until a valid payment method is associated with it.
       </div>
       <div ng-show="account.showExpirationWarning" class="alert alert-warning">

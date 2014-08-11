@@ -45,7 +45,8 @@
       <label class="control-label col-sm-3" for="visibility">Account Visibility</label>
       <div class="input-group col-sm-8">
         <span class="input-group-addon"><i class="icon-eye-open"></i></span>
-        <select name="visibility" ng-model="model.accountVisibility"
+        <select class="form-control"
+          name="visibility" ng-model="model.accountVisibility"
           ng-options="value as key for (key, value) in {Hidden: 'hidden', Public: 'public'}">
         </select>
         <span class="input-group-btn">
@@ -64,7 +65,8 @@
       <label class="control-label col-sm-3" for="currency">Currency</label>
       <div class="input-group col-sm-8">
         <span class="input-group-addon"><i class="icon-money"></i></span>
-        <select name="currency" ng-model="model.account.currency"
+        <select class="form-control"
+          name="currency" ng-model="model.account.currency"
           ng-options="value as key for (key, value) in {'US Dollars $': 'USD'}">
         </select>
         <span class="input-group-btn">
@@ -89,7 +91,8 @@
           data-track-state="model.help.creditLimit"
           autocomplete="off" />
         -->
-        <span class="input-group-addon"><i class="icon-money"></i></span><span class="input-large uneditable-input">{{model.account.creditLimit}}</span>
+        <span class="input-group-addon"><i class="icon-money"></i></span>
+        <input class="form-control" ng-model="model.account.creditLimit" disabled />
         <span class="input-group-btn">
           <button type="button" class="btn btn-default"
             data-help-toggle="model.help.creditLimit">
@@ -103,18 +106,18 @@
       </p>
     </div>
     <div ng-hide="!model.editing" class="form-group">
-      <label class="control-label col-sm-3" for="backups">
+      <label class="control-label col-sm-5" for="backups">
         External Payment Method
         <a data-help-toggle="model.help.backupSource">
           <i class="icon-question-sign"></i>
         </a>
       </label>
-      <label class="radio inline">
+      <label class="radio-inline">
         <input type="radio" name="enable-backup-source"
           ng-value="true" ng-model="model.backupSourceEnabled" />
         Enable
       </label>
-      <label class="radio inline">
+      <label class="radio-inline">
         <input type="radio" name="enable-backup-source"
           ng-value="false" ng-model="model.backupSourceEnabled" />
         Disable

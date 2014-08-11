@@ -181,10 +181,7 @@ module.exports = function(grunt) {
         outputSourceFiles: false
       },
       files: {
-        'site/static/bootstrap/css/bootstrap.css': [
-          '<%= dirs.bedrock %>/less/bootstrap.less',
-          'less/custom.less'
-        ]
+        'site/static/bootstrap/css/bootstrap.css': 'less/custom.less'
       }
     }
   });

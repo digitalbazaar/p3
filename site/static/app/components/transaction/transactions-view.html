@@ -22,24 +22,27 @@
 
   <div ng-show="model.controls && model.showControls" class="well account-activity-well">
     <button type="button" class="close" ng-click="model.showControls=false">&times;</button>
-    <form class="form-horizontal account-activity-form" action="">
+    <form class="form-vertical account-activity-form">
       <fieldset>
-        <div class="control-group">
-          <label class="control-label" for="dateField">Start Date</label>
-          <div class="controls">
-            <input name="dateField" type="text"
+        <div class="form-group">
+          <label class="control-label col-md-2" for="dateField">Start Date</label>
+          <div class="input-group col-md-offset-2 col-md-2">
+            <input class="form-control" name="dateField" type="text"
               ng-model="model.datePickerDate"
               data-datepicker-popup="yyyy/MM/dd" ng-change="model.dateChanged()"
               data-is-open="model.datePickerOpen"
               ng-keyup="($event.which == 13 || $event.which == 27) && model.dateQuitKeyPressed($event)" />
-            <button class="btn" ng-click="model.openDatePicker()"><i class="icon-calendar"></i></button>
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default"
+                ng-click="model.openDatePicker()"><i class="icon-calendar"></i></button>
+            </span>
           </div>
         </div>
 
-        <div class="control-group">
-          <label class="control-label" for="items">Items</label>
-          <div class="controls">
-            <input name="items" type="number"
+        <div class="form-group">
+          <label class="control-label col-md-2" for="items">Items</label>
+          <div class="input-group col-md-offset-2 col-md-2">
+            <input class="form-control" name="items" type="number"
               min="1"
               max="30"
               required
@@ -48,10 +51,17 @@
           </div>
         </div>
 
-        <div class="control-group">
-          <div class="controls">
-            <button class="btn btn-primary" ng-click="model.search()"><i class="icon-search"></i> Search</button>
-            <button class="btn" ng-click="model.reset()">Reset</button>
+        <div class="form-group">
+          <div class="col-md-offset-2">
+            <div class="btn-toolbar">
+              <div class="btn-group">
+                <button type="button" class="btn btn-primary" ng-click="model.search()"><i class="icon-search"></i> Search</button>
+              </div>
+              <div class="btn-group">
+                <button type="button" class="btn btn-default"
+                  ng-click="model.reset()">Reset</button>
+              </div>
+            </div>
           </div>
         </div>
       </fieldset>

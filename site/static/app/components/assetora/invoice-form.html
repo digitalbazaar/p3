@@ -3,7 +3,7 @@
     <div class="form-group" data-binding="title">
       <label class="control-label col-sm-3" for="title">Title</label>
       <div class="input-group col-sm-8">
-        <span class="add-on"><i class="icon-tag"></i></span>
+        <span class="add-on"><i class="fa fa-tag"></i></span>
         <input class="form-control" type="text" name="title"
           ng-model="model.asset.title"
           data-track-state="model.help.title"
@@ -11,7 +11,7 @@
         <span class="input-group-btn">
           <button type="button" class="btn btn-default"
             data-help-toggle="model.help.title">
-            <i class="icon-question-sign"></i>
+            <i class="fa fa-question-circle"></i>
           </button>
         </span>
       </div>
@@ -32,7 +32,7 @@
 
   <button ng-show="!(model.search.state.loading || state.assets.loading || state.listings.loading)"
     class="btn btn-success"
-    ng-click="model.modals.showAddInvoiceItem=true"><i class="icon-plus"></i> Add Item</button>
+    ng-click="model.modals.showAddInvoiceItem=true"><i class="fa fa-plus"></i> Add Item</button>
 
   <table class="table table-condensed"
     ng-show="!state.assets.loading && model.asset.invoiceItem.length > 0">
@@ -63,23 +63,23 @@
             <ul class="dropdown-menu stackable-menu">
               <li>
                 <a class="stackable-cancel" ng-click="model.modals.item=item; model.modals.showEditInvoiceItem=true">
-                  <i class="icon-pencil"></i> Edit
+                  <i class="fa fa-pencil"></i> Edit
                 </a>
               </li>
               <li ng-show="!$first">
                 <a class="stackable-cancel" ng-click="">
-                  <i class="icon-chevron-up"></i> Move Up
+                  <i class="fa fa-chevron-up"></i> Move Up
                 </a>
               </li>
               <li ng-show="!$last">
                 <a class="stackable-cancel" ng-click="">
-                  <i class="icon-chevron-down"></i> Move Down
+                  <i class="fa fa-chevron-down"></i> Move Down
                 </a>
               </li>
               <li class="divider"></li>
               <li class="alert-danger">
                 <a class="stackable-cancel" ng-click="deleteInvoiceItem(item)">
-                  <i class="icon-remove"></i> Delete
+                  <i class="fa fa-times"></i> Delete
                 </a>
               </li>
             </ul>

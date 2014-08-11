@@ -15,7 +15,7 @@
               <a ng-show="selecting" ng-click="model.showEditAccount=true"
                 data-tooltip-title="Edit"
                 data-placement="bottom" data-trigger="hover">
-                <i class="icon-pencil"></i>
+                <i class="fa fa-pencil"></i>
               </a>
             </th>
           </tr>
@@ -36,7 +36,7 @@
       </table>
       <div ng-show="showDepositButton">
         <button type="button" class="btn btn-success"
-          ng-click="model.showDepositModal=true; $event.stopPropagation()"><i class="icon-plus"></i> Deposit</button><br/>
+          ng-click="model.showDepositModal=true; $event.stopPropagation()"><i class="fa fa-plus"></i> Deposit</button><br/>
         <stackable-modal stackable="model.showDepositModal">
           <div data-deposit-modal data-account="selected" data-instant="instant"></div>
         </stackable-modal>
@@ -52,7 +52,7 @@
           The selected account does not have sufficient funds. An instant transfer of <span data-money="instantTransferDeposit" data-important="true"></span> from your "<strong>{{model.backupSource.label}}</strong>" payment method will be performed to complete this purchase.
           <span ng-show="model.backupSource">
             Details of this instant transfer are available for review: <a ng-click="model.paymentMethodIsCollapsed=!model.paymentMethodIsCollapsed">
-              <i class="icon-list-alt"></i>
+              <i class="fa fa-list-alt"></i>
             </a>.
           </span>
         </div>

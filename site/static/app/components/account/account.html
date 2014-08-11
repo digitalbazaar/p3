@@ -24,35 +24,35 @@
         Financial Account
         <span ng-hide="!model.account || model.state.accounts.loading" class="btn-group pull-right">
           <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
-            <i class="icon-reorder"></i>
+            <i class="fa fa-bars"></i>
           </a>
           <ul class="dropdown-menu pull-right">
             <li>
               <a ng-click="model.modals.account=model.account; model.modals.showDeposit=true">
-                <i class="icon-plus"></i> Deposit
+                <i class="fa fa-plus"></i> Deposit
               </a>
             </li>
             <li ng-class="{disabled: model.account.balance == 0}">
               <a ng-show="model.account.balance == 0" href="#">
-                <i class="icon-minus"></i> Withdraw
+                <i class="fa fa-minus"></i> Withdraw
               </a>
               <a ng-hide="model.account.balance == 0" ng-click="model.modals.account=model.account; model.modals.showWithdraw=true">
-                <i class="icon-minus"></i> Withdraw
+                <i class="fa fa-minus"></i> Withdraw
               </a>
             </li>
             <li>
               <a ng-click="model.modals.account=model.account; model.modals.showEditAccount=true">
-                <i class="icon-pencil"></i> Edit
+                <i class="fa fa-pencil"></i> Edit
               </a>
             </li>
             <li ng-show="model.identity.sysUnbackedCreditEmailAvailable && (!model.account.creditLimit || model.account.creditLimit == 0)">
               <a ng-click="model.modals.account=model.account; model.modals.showAddCreditLine=true">
-                <i class="icon-credit-card"></i> Open Credit Line
+                <i class="fa fa-credit-card"></i> Open Credit Line
               </a>
             </li>
             <li>
               <a ng-click="model.modals.account=model.account; model.modals.showRedeemPromoCode=true">
-                <i class="icon-money"></i> Redeem Promo Code
+                <i class="fa fa-money"></i> Redeem Promo Code
               </a>
             </li>
           </ul>

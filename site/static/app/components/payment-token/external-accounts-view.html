@@ -3,7 +3,7 @@
     <headline-menu headline="Credit Cards" loading="model.state.loading">
       <ul class="stackable-menu dropdown-menu">
         <li>
-          <a class="stackable-cancel" ng-click="model.modals.showAddCreditCard=true"><i class="icon-plus"></i> Add Credit Card</a>
+          <a class="stackable-cancel" ng-click="model.modals.showAddCreditCard=true"><i class="fa fa-plus"></i> Add Credit Card</a>
         </li>
       </ul>
     </headline-menu>
@@ -17,7 +17,7 @@
           <th class="compact">
             <span
               data-tooltip-title="Links from accounts to this payment method. A payment method cannot be deleted while linked."
-              data-placement="bottom" data-trigger="hover"><i class="icon icon-link"></i></span>
+              data-placement="bottom" data-trigger="hover"><i class="icon fa fa-link"></i></span>
           </th>
           <th class="action">Action</th>
         </tr>
@@ -44,10 +44,10 @@
           <span>{{card.cardExpMonth}} / {{card.cardExpYear}}</span>
           <span ng-show="card.showExpirationWarning"
             data-tooltip-title="This payment method will expire in less than a month. Please update or replace the credit card information."
-            data-placement="bottom" data-trigger="hover"><i class="icon icon-warning-sign"></i></span>
+            data-placement="bottom" data-trigger="hover"><i class="icon fa fa-exclamation-triangle"></i></span>
           <span ng-show="card.showExpired"
             data-tooltip-title="This payment method has expired. Please update or replace the credit card information."
-            data-placement="bottom" data-trigger="hover"><i class="icon icon-warning-sign"></i></span>
+            data-placement="bottom" data-trigger="hover"><i class="icon fa fa-exclamation-triangle"></i></span>
         </td>
         <!-- Links -->
         <td class="compact">
@@ -60,16 +60,16 @@
               <li>
                 <a class="stackable-cancel"
                   ng-click="model.modals.paymentToken=card; model.modals.showEditPaymentToken=true">
-                  <i class="icon-pencil"></i> Edit
+                  <i class="fa fa-pencil"></i> Edit
                 </a>
               </li>
               <li class="divider"></li>
               <li ng-class="{disabled: card.backupSourceFor.length, 'alert-danger': !card.backupSourceFor.length}">
                 <a class="stackable-cancel" ng-show="card.backupSourceFor.length" href="#">
-                  <i class="icon-remove"></i> Delete
+                  <i class="fa fa-times"></i> Delete
                 </a>
                 <a class="stackable-cancel" ng-hide="card.backupSourceFor.length" ng-click="model.deletePaymentToken(card)">
-                  <i class="icon-remove"></i> Delete
+                  <i class="fa fa-times"></i> Delete
                 </a>
               </li>
             </ul>
@@ -93,7 +93,7 @@
     <headline-menu headline="Bank Accounts" loading="model.state.loading">
       <ul class="stackable-menu dropdown-menu">
         <li>
-          <a class="stackable-cancel" ng-click="model.modals.showAddBankAccount=true"><i class="icon-plus"></i> Add Bank Account</a>
+          <a class="stackable-cancel" ng-click="model.modals.showAddBankAccount=true"><i class="fa fa-plus"></i> Add Bank Account</a>
         </li>
       </ul>
     </headline-menu>
@@ -146,7 +146,7 @@
               <li>
                 <a class="stackable-cancel"
                   ng-click="model.modals.paymentToken=bankAccount; model.modals.showEditPaymentToken=true">
-                  <i class="icon-pencil"></i> Edit
+                  <i class="fa fa-pencil"></i> Edit
                 </a>
               </li>
               <li class="divider"></li>
@@ -154,13 +154,13 @@
                 ng-show="bankAccount.sysStatus == 'active' || bankAccount.sysStatus == 'disabled'"
                 ng-disabled="!bankAccount.sysVerified && bankAccount.sysStatus != 'disabled'">
                 <a class="stackable-cancel" ng-click="model.deletePaymentToken(bankAccount)">
-                  <i class="icon-trash"></i> Delete
+                  <i class="fa fa-trash-o"></i> Delete
                 </a>
               </li>
               <li class="alert-success"
                 ng-show="!bankAccount.sysStatus || bankAccount.sysStatus == 'deleted'">
                 <a class="stackable-cancel" ng-click="model.restorePaymentToken(bankAccount)">
-                  <i class="icon-undo"></i> Restore
+                  <i class="fa fa-undo"></i> Restore
                 </a>
               </li>
             </ul>

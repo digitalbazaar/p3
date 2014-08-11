@@ -16,7 +16,7 @@
             <label class="control-label" for="name">Name</label>
             <div class="controls">
               <div class="input-prepend input-append">
-                <span class="add-on"><i class="icon-tag"></i></span><input
+                <span class="add-on"><i class="fa fa-tag"></i></span><input
                   type="text" name="label"
                   data-ng-model="identityLabel"
                   data-slug-out="identitySlug"
@@ -24,7 +24,7 @@
                   autocomplete="off" />
                 <button class="btn"
                   data-help-toggle="model.help.identityLabel">
-                  <i class="icon-question-sign"></i>
+                  <i class="fa fa-question-circle"></i>
                 </button>
               </div>
               <p data-fade-toggle="model.help.identityLabel.show"
@@ -52,7 +52,7 @@
             <label class="control-label" for="type">Type</label>
             <div class="controls">
               <div class="input-prepend">
-                <span class="add-on"><i class="icon-user"></i></span>
+                <span class="add-on"><i class="fa fa-user"></i></span>
                 <select name="type"
                   data-ng-model="identityType"
                   data-ng-options="identityTypeLabels[type] for type in identityTypes">
@@ -69,12 +69,12 @@
               <label class="control-label" for="name">Vendor Website</label>
               <div class="controls">
                 <div class="input-prepend input-append">
-                  <span class="add-on"><i class="icon-globe"></i></span><input
+                  <span class="add-on"><i class="fa fa-globe"></i></span><input
                     type="text" name="vendor-website"
                     data-ng-model="identity['VendorIdentity'].website"
                     data-track-state="model.help.website" />
                   <button class="btn" data-help-toggle="model.help.website">
-                    <i class="icon-question-sign"></i>
+                    <i class="fa fa-question-circle"></i>
                   </button>
                 </div>
                 <p data-fade-toggle="model.help.website.show"
@@ -107,7 +107,7 @@
       data-spinner-class="prepend-btn-spinner"></span>
     <button class="btn btn-primary"
       data-ng-disabled="loading || !model.identitySlugAvailable || !model.accountSlugAvailable"
-      data-ng-click="addIdentity()"><i class="icon-ok"></i> Add</button>
+      data-ng-click="addIdentity()"><i class="fa fa-check"></i> Add</button>
     <button class="btn btn-close" data-ng-disabled="loading">Cancel</button>
   </div>
 </div>

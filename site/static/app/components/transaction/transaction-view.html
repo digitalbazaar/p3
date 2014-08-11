@@ -93,15 +93,15 @@
       <li ng-repeat="transfer in model.txn.transfer" class="transfer">
         <ul class="list-unstyled">
           <li>
-            <i class="icon-info-sign" title="Details"></i>
+            <i class="fa fa-info-circle" title="Details"></i>
             {{transfer.comment}}
           </li>
           <li>
-            <i class="icon-money" title="Amount"></i>
+            <i class="fa fa-money" title="Amount"></i>
             <span data-money="transfer"></span>
           </li>
           <li>
-            <i class="icon-minus" title="Source"></i>
+            <i class="fa fa-minus" title="Source"></i>
             <span ng-show="model.txn.source && transfer.source == model.txn.source.id">
               {{model.txn.source.label}}
               <span ng-show="model.txn.source.paymentMethod == 'CreditCard'">
@@ -116,7 +116,7 @@
             </span>
           </li>
           <li>
-            <i class="icon-plus" title="Destination Account"></i>
+            <i class="fa fa-plus" title="Destination Account"></i>
             <span ng-show="model.txn.destination && transfer.destination == model.txn.destination.id">
               {{model.txn.destination.label}}
               <span ng-show="model.txn.destination.paymentMethod == 'CreditCard'">

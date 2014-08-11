@@ -2,7 +2,7 @@
   <headline-menu headline="Accounts" loading="model.state.accounts.loading">
     <ul class="stackable-menu dropdown-menu">
       <li>
-        <a class="stackable-cancel" ng-click="model.modals.showAddAccount=true"><i class="icon-plus"></i> Add Account</a>
+        <a class="stackable-cancel" ng-click="model.modals.showAddAccount=true"><i class="fa fa-plus"></i> Add Account</a>
       </li>
     </ul>
   </headline-menu>
@@ -23,16 +23,16 @@
           <span ng-show="account.sysStatus != 'active'" class="disabled">(Disabled)</span>
           <span ng-show="model.identity.preferences.source == account.id"
             data-tooltip-title="This is the default account."
-            data-placement="bottom" data-trigger="hover"><i class="icon icon-star"></i></span>
+            data-placement="bottom" data-trigger="hover"><i class="icon fa fa-star"></i></span>
           <span ng-show="(account.creditLimit && util.parseFloat(account.creditLimit) != 0) && (!account.backupSource || !account.backupSource.length)"
             data-tooltip-title="This account has no associated payment methods. Please edit the account information."
-            data-placement="bottom" data-trigger="hover"><i class="icon icon-warning-sign"></i></span>
+            data-placement="bottom" data-trigger="hover"><i class="icon fa fa-exclamation-triangle"></i></span>
           <span ng-show="account.showExpirationWarning"
             data-tooltip-title="This account uses a payment method that will expire soon."
-            data-placement="bottom" data-trigger="hover"><i class="icon icon-warning-sign"></i></span>
+            data-placement="bottom" data-trigger="hover"><i class="icon fa fa-exclamation-triangle"></i></span>
           <span ng-show="account.showExpired"
             data-tooltip-title="This account uses an expired payment method."
-            data-placement="bottom" data-trigger="hover"><i class="icon icon-warning-sign"></i></span>
+            data-placement="bottom" data-trigger="hover"><i class="icon fa fa-exclamation-triangle"></i></span>
         </td>
         <!-- Balance -->
         <td class="money">
@@ -44,35 +44,35 @@
             <ul class="dropdown-menu stackable-menu">
               <li ng-show="model.identity.preferences.source != account.id">
                 <a class="stackable-cancel" ng-click="model.setDefaultAccount(account)">
-                  <i class="icon-star"></i> Set as Default
+                  <i class="fa fa-star"></i> Set as Default
                 </a>
               </li>
               <li>
                 <a class="stackable-cancel" ng-click="model.modals.account=account; model.modals.showDeposit=true">
-                  <i class="icon-plus"></i> Deposit
+                  <i class="fa fa-plus"></i> Deposit
                 </a>
               </li>
               <li ng-class="{disabled: account.balance == 0}">
                 <a ng-show="account.balance == 0" href="#">
-                  <i class="icon-minus"></i> Withdraw
+                  <i class="fa fa-minus"></i> Withdraw
                 </a>
                 <a class="stackable-cancel" ng-hide="account.balance == 0" ng-click="model.modals.account=account; model.modals.showWithdraw=true">
-                  <i class="icon-minus"></i> Withdraw
+                  <i class="fa fa-minus"></i> Withdraw
                 </a>
               </li>
               <li>
                 <a class="stackable-cancel" ng-click="model.modals.account=account; model.modals.showEditAccount=true">
-                  <i class="icon-pencil"></i> Edit
+                  <i class="fa fa-pencil"></i> Edit
                 </a>
               </li>
               <li ng-show="model.identity.sysUnbackedCreditEmailAvailable && (!account.creditLimit || account.creditLimit == 0)">
                 <a class="stackable-cancel" ng-click="model.modals.account=account; model.modals.showAddCreditLine=true">
-                  <i class="icon-credit-card"></i> Open Credit Line
+                  <i class="fa fa-credit-card"></i> Open Credit Line
                 </a>
               </li>
               <li>
                 <a class="stackable-cancel" ng-click="model.modals.account=account; model.modals.showRedeemPromoCode=true">
-                  <i class="icon-money"></i> Redeem Promo Code
+                  <i class="fa fa-money"></i> Redeem Promo Code
                 </a>
               </li>
             </ul>

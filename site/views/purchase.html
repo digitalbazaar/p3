@@ -87,7 +87,7 @@
                 data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact amount of this transaction is USD {{model.contract.amount}}."
                 data-placement="bottom" data-trigger="hover"><span
                 class="currency">USD</span> {{model.contract.amount | ceil | currency:'$'}}</span></td>
-              <td class="action"><button class="btn" ng-click="model.showDetails=!model.showDetails"><i class="icon-list-alt" title="Details"></i></button></td>
+              <td class="action"><button class="btn" ng-click="model.showDetails=!model.showDetails"><i class="fa fa-list-alt" title="Details"></i></button></td>
             </tr>
             <tr ng-show="model.showDetails">
               <th>Cost breakdown</th>
@@ -130,7 +130,7 @@
             <tr>
               <td><a href="{{model.contract.vendor.id}}" target="_blank">{{model.contract.vendor.label}}</a></td>
               <td>{{model.contract.vendor.description}}</td>
-              <td><a href="{{model.contract.vendor.website}}" target="_blank"><i class="icon-globe" title="Details"></i> {{model.contract.vendor.website}}</a></td>
+              <td><a href="{{model.contract.vendor.website}}" target="_blank"><i class="fa fa-globe" title="Details"></i> {{model.contract.vendor.website}}</a></td>
             </tr>
           </tbody>
         </table>
@@ -152,7 +152,7 @@
             <tr>
               <td><a href="{{model.contract.assetProvider.id}}" target="_blank">{{model.contract.assetProvider.label}}</a></td>
               <td>{{model.contract.assetProvider.description}}</td>
-              <td><a href="{{model.contract.assetProvider.website}}" target="_blank"><i class="icon-globe" title="Details"></i> {{model.contract.assetProvider.website}}</a></td>
+              <td><a href="{{model.contract.assetProvider.website}}" target="_blank"><i class="fa fa-globe" title="Details"></i> {{model.contract.assetProvider.website}}</a></td>
             </tr>
           </tbody>
         </table>

@@ -33,7 +33,7 @@
           data-spinner-class="append-btn-spinner"></span>
         <button ng-show="!(model.search.state.loading || state.assets.loading || state.listings.loading)"
           class="btn btn-success"
-          ng-click="model.modals.showAddAsset=true"><i class="icon-plus"></i> Add Asset</button>
+          ng-click="model.modals.showAddAsset=true"><i class="fa fa-plus"></i> Add Asset</button>
       </form>
     </div>
   </div>
@@ -73,23 +73,23 @@
                 <ul class="dropdown-menu stackable-menu">
                   <li>
                     <a class="stackable-cancel" ng-click="model.modals.asset=asset; model.modals.showAddListing=true">
-                      <i class="icon-plus"></i> Add Listing
+                      <i class="fa fa-plus"></i> Add Listing
                     </a>
                   </li>
                   <li>
                     <a class="stackable-cancel" ng-click="model.modals.asset=asset; model.modals.showEditAsset=true">
-                      <i class="icon-pencil"></i> Edit
+                      <i class="fa fa-pencil"></i> Edit
                     </a>
                   </li>
                   <li>
                     <a class="stackable-cancel" ng-click="model.modals.asset=asset; model.modals.showProtectAsset=true">
-                      <i class="icon-lock"></i> Protect
+                      <i class="fa fa-lock"></i> Protect
                     </a>
                   </li>
                   <li class="divider"></li>
                   <li class="alert-danger">
                     <a class="stackable-cancel" ng-click="deleteAsset(asset)">
-                      <i class="icon-remove"></i> Delete
+                      <i class="fa fa-times"></i> Delete
                     </a>
                   </li>
                 </ul>
@@ -144,18 +144,18 @@
             <td class="action">
               <div class="btn-group">
                 <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
-                  <i class="icon-chevron-down"></i>
+                  <i class="fa fa-chevron-down"></i>
                 </a>
                 <ul class="dropdown-menu">
                   <li>
                     <a ng-click="model.modals.listing=listing; model.modals.showEditListing=true">
-                      <i class="icon-pencil"></i> Edit
+                      <i class="fa fa-pencil"></i> Edit
                     </a>
                   </li>
                   <li class="divider"></li>
                   <li class="alert-danger">
                     <a ng-click="deleteListing(listing)">
-                      <i class="icon-remove"></i> Delete
+                      <i class="fa fa-times"></i> Delete
                     </a>
                   </li>
                 </ul>
@@ -211,28 +211,28 @@
             <td class="action">
               <div class="btn-group">
                 <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
-                  <i class="icon-chevron-down"></i>
+                  <i class="fa fa-chevron-down"></i>
                 </a>
                 <ul class="dropdown-menu">
                   <li>
                     <a ng-click="model.modals.asset=asset; model.modals.showAddListing=true">
-                      <i class="icon-plus"></i> Add Listing
+                      <i class="fa fa-plus"></i> Add Listing
                     </a>
                   </li>
                   <li>
                     <a ng-click="model.modals.asset=asset; model.modals.showEditAsset=true">
-                      <i class="icon-pencil"></i> Edit
+                      <i class="fa fa-pencil"></i> Edit
                     </a>
                   </li>
                   <li>
                     <a ng-click="model.modals.asset=asset; model.modals.showProtectAsset=true">
-                      <i class="icon-lock"></i> Protect
+                      <i class="fa fa-lock"></i> Protect
                     </a>
                   </li>
                   <li class="divider"></li>
                   <li class="alert-danger">
                     <a ng-click="deleteAsset(asset)">
-                      <i class="icon-remove"></i> Delete
+                      <i class="fa fa-times"></i> Delete
                     </a>
                   </li>
                 </ul>

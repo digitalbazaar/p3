@@ -16,7 +16,7 @@
 
       <button ng-show="!(model.search.state.loading || state.assets.loading || state.listings.loading)"
         class="btn btn-success"
-        ng-click="model.modals.showAddInvoice=true"><i class="icon-plus"></i> Add Invoice</button>
+        ng-click="model.modals.showAddInvoice=true"><i class="fa fa-plus"></i> Add Invoice</button>
 
       <form class="form-search pull-right">
         <!--
@@ -73,23 +73,23 @@
                 <ul class="dropdown-menu stackable-menu">
                   <li>
                     <a class="stackable-menu" ng-click="model.modals.asset=asset; model.modals.showAddListing=true">
-                      <i class="icon-plus"></i> Add Listing
+                      <i class="fa fa-plus"></i> Add Listing
                     </a>
                   </li>
                   <li>
                     <a class="stackable-menu" ng-click="model.modals.asset=asset; model.modals.showEditAsset=true">
-                      <i class="icon-pencil"></i> Edit
+                      <i class="fa fa-pencil"></i> Edit
                     </a>
                   </li>
                   <li>
                     <a class="stackable-menu" ng-click="model.modals.asset=asset; model.modals.showProtectAsset=true">
-                      <i class="icon-lock"></i> Protect
+                      <i class="fa fa-lock"></i> Protect
                     </a>
                   </li>
                   <li class="divider"></li>
                   <li class="alert-danger">
                     <a class="stackable-menu" ng-click="deleteAsset(asset)">
-                      <i class="icon-remove"></i> Delete
+                      <i class="fa fa-times"></i> Delete
                     </a>
                   </li>
                 </ul>

@@ -15,37 +15,37 @@ return {
       private: [
         {
           slug: 'dashboard',
-          icon: 'icon-dashboard',
+          icon: 'fa fa-dashboard',
           label: 'Dashboard',
           pageTitle: 'Dashboard'
         },
 /*
         {
           slug: 'tools',
-          icon: 'icon-briefcase',
+          icon: 'fa fa-briefcase',
           label: 'Tools',
           items: [
             {
               slug: 'assetora',
-              icon: 'icon-cloud',
+              icon: 'fa fa-cloud',
               label: 'Sell Digital Content',
               pageTitle: 'Sell Digital Content'
             },
             {
               slug: 'invoices',
-              icon: 'icon-money',
+              icon: 'fa fa-money',
               label: 'Invoices',
               pageTitle: 'Invoices'
             },
             {
               slug: 'causes',
-              icon: 'icon-heart',
+              icon: 'fa fa-heart',
               label: 'Causes',
               pageTitle: 'Causes'
             },
             {
               slug: 'tickets',
-              icon: 'icon-ticket',
+              icon: 'fa fa-ticket',
               label: 'Tickets',
               pageTitle: 'Tickets'
             },
@@ -54,7 +54,7 @@ return {
             },
             {
               slug: 'tools',
-              icon: 'icon-list',
+              icon: 'fa fa-list',
               label: 'More',
               pageTitle: 'Tools'
             }
@@ -63,7 +63,7 @@ return {
 */
         {
           slug: 'settings',
-          icon: 'icon-wrench',
+          icon: 'fa fa-wrench',
           label: 'Settings',
           pageTitle: 'Settings'
         }
@@ -71,7 +71,7 @@ return {
       public: [/*
         {
           slug: 'tools',
-          icon: 'icon-cogs',
+          icon: 'fa fa-cogs',
           label: 'Tools',
           pageTitle: 'Tools',
           url: '/tools'

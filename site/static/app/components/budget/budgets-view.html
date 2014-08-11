@@ -2,7 +2,7 @@
   <headline-menu headline="Budgets" loading="model.state.budgets.loading">
     <ul class="stackable-menu dropdown-menu">
       <li>
-        <a class="stackable-cancel" ng-click="model.modals.showAddBudget=true"><i class="icon-plus"></i> Add Budget</a>
+        <a class="stackable-cancel" ng-click="model.modals.showAddBudget=true"><i class="fa fa-plus"></i> Add Budget</a>
       </li>
     </ul>
   </headline-menu>
@@ -41,13 +41,13 @@
             <ul class="dropdown-menu stackable-menu">
               <li>
                 <a class="stackable-cancel" ng-click="model.modals.budget=budget; model.modals.showEditBudget=true">
-                  <i class="icon-pencil"></i> Edit
+                  <i class="fa fa-pencil"></i> Edit
                 </a>
               </li>
               <li class="divider"></li>
               <li class="alert-danger">
                 <a class="stackable-cancel" ng-click="model.deleteBudget(budget)">
-                  <i class="icon-remove"></i> Delete
+                  <i class="fa fa-times"></i> Delete
                 </a>
               </li>
             </ul>

@@ -6,11 +6,11 @@
 
     <span ng-hide="(model.recent && !model.controls) || !model.controls || model.state.txns.loading" class="btn-group pull-right">
       <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
-        <i class="icon-reorder"></i>
+        <i class="fa fa-bars"></i>
       </a>
       <ul class="dropdown-menu pull-right">
         <li>
-          <a ng-click="model.showControls=!model.showControls"><i class="icon-search"></i> Search Controls</a>
+          <a ng-click="model.showControls=!model.showControls"><i class="fa fa-search"></i> Search Controls</a>
         </li>
       </ul>
     </span>
@@ -34,7 +34,7 @@
               ng-keyup="($event.which == 13 || $event.which == 27) && model.dateQuitKeyPressed($event)" />
             <span class="input-group-btn">
               <button type="button" class="btn btn-default"
-                ng-click="model.openDatePicker()"><i class="icon-calendar"></i></button>
+                ng-click="model.openDatePicker()"><i class="fa fa-calendar"></i></button>
             </span>
           </div>
         </div>
@@ -55,7 +55,7 @@
           <div class="col-md-offset-2">
             <div class="btn-toolbar">
               <div class="btn-group">
-                <button type="button" class="btn btn-primary" ng-click="model.search()"><i class="icon-search"></i> Search</button>
+                <button type="button" class="btn btn-primary" ng-click="model.search()"><i class="fa fa-search"></i> Search</button>
               </div>
               <div class="btn-group">
                 <button type="button" class="btn btn-default"
@@ -101,8 +101,8 @@
         <!-- icon -->
         <td class="compact" ng-show="model.details" ng-switch="model.getRowType(row)">
           <span ng-switch-when="transfer">&nbsp;</span>
-          <i ng-switch-default ng-show="!row.detailsVisible" class="icon-expand"></i>
-          <i ng-switch-default ng-show="row.detailsVisible" class="icon-collapse"></i>
+          <i ng-switch-default ng-show="!row.detailsVisible" class="fa fa-caret-square-o-right"></i>
+          <i ng-switch-default ng-show="row.detailsVisible" class="fa fa-caret-square-o-down"></i>
         </td>
         <!-- Date -->
         <td class="compact nowrap" ng-switch="model.getRowType(row)">
@@ -113,22 +113,22 @@
         </td>
         <!-- Item -->
         <td ng-switch="model.getRowType(row)">
-          <span ng-switch-when="deposit" class="name"><a href="{{row.id}}"><i class="icon-plus"></i> Deposit</a>
+          <span ng-switch-when="deposit" class="name"><a href="{{row.id}}"><i class="fa fa-plus"></i> Deposit</a>
             <span ng-show="!(row.settled || row.voided)" class="label label-info">Pending</span>
             <span ng-show="row.voided" class="label label-important">Voided</span>
           </span>
-          <span ng-switch-when="contract" class="name"><a href="{{row.id}}"><i class="icon-shopping-cart"></i> {{row.asset.title}}</a>
+          <span ng-switch-when="contract" class="name"><a href="{{row.id}}"><i class="fa fa-shopping-cart"></i> {{row.asset.title}}</a>
             <span ng-show="!(row.settled || row.voided)" class="label label-info">Pending</span>
             <span ng-show="row.voided" class="label label-important">Voided</span>
           </span>
-          <span ng-switch-when="withdrawal" class="name"><a href="{{row.id}}"><i class="icon-minus"></i> Withdrawal</a>
+          <span ng-switch-when="withdrawal" class="name"><a href="{{row.id}}"><i class="fa fa-minus"></i> Withdrawal</a>
             <span ng-show="!(row.settled || row.voided)" class="label label-info">Pending</span>
             <span ng-show="row.voided" class="label label-important">Voided</span>
           </span>
           <span ng-switch-when="transfer">
-            <i class="icon-info-sign" title="Details"></i> {{row.comment}}<br/>
-            <i class="icon-minus" title="Source Account"></i> <a ng-show="row.sourceLink" href="{{row.source}}">{{row.source}}</a><span ng-hide="row.sourceLink">{{row.source}}</span> <br/>
-            <i class="icon-plus" title="Destination Account"></i> <a ng-show="row.destinationLink" href="{{row.destination}}">{{row.destination}}</a><span ng-hide="row.destinationLink">{{row.destination}}</span>
+            <i class="fa fa-info-circle" title="Details"></i> {{row.comment}}<br/>
+            <i class="fa fa-minus" title="Source Account"></i> <a ng-show="row.sourceLink" href="{{row.source}}">{{row.source}}</a><span ng-hide="row.sourceLink">{{row.source}}</span> <br/>
+            <i class="fa fa-plus" title="Destination Account"></i> <a ng-show="row.destinationLink" href="{{row.destination}}">{{row.destination}}</a><span ng-hide="row.destinationLink">{{row.destination}}</span>
           </span>
         </td>
         <!-- Amount -->
@@ -141,16 +141,16 @@
       <tr ng-hide="model.state.txns.loading">
         <td colspan="{{model.details ? '4' : '3'}}">
           <ul ng-show="model.moreHref" class="pager">
-            <li class="next"><a href="{{model.moreHref}}" class="btn pull-right"><i class="icon-list"></i> More <i class="icon-chevron-right"></i></a></li>
+            <li class="next"><a href="{{model.moreHref}}" class="btn pull-right"><i class="fa fa-list"></i> More <i class="fa fa-chevron-right"></i></a></li>
         </ul>
           <ul ng-hide="model.moreHref" class="pager">
             <!--
             <li class="previous">
-              <button ng-click="model.newer()" class="btn pull-left"><i class="icon-chevron-left"></i> Newer</a>
+              <button ng-click="model.newer()" class="btn pull-left"><i class="fa fa-chevron-left"></i> Newer</a>
             </li>
             -->
             <li class="next">
-              <button ng-click="model.older()" class="btn pull-right">Older <i class="icon-chevron-right"></i></a>
+              <button ng-click="model.older()" class="btn pull-right">Older <i class="fa fa-chevron-right"></i></a>
             </li>
           </ul>
         </td>

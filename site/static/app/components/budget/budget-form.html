@@ -3,7 +3,7 @@
     <div class="form-group" data-binding="label">
       <label class="control-label col-sm-4" for="label">Name</label>
       <div class="input-group col-sm-7">
-        <span class="input-group-addon"><i class="icon-tag"></i></span>
+        <span class="input-group-addon"><i class="fa fa-tag"></i></span>
         <input class="form-control"
           type="text" name="label"
           ng-model="budget.label"
@@ -11,7 +11,7 @@
         <span class="input-group-btn">
           <button type="button" class="btn btn-default"
             data-help-toggle="model.help.label">
-            <i class="icon-question-sign"></i>
+            <i class="fa fa-question-circle"></i>
           </button>
         </span>
       </div>
@@ -27,14 +27,14 @@
     <div class="form-group" data-binding="amount">
       <label class="control-label col-sm-4" for="amount">Budgeted Amount</label>
       <div class="input-group col-sm-7">
-        <span class="input-group-addon"><i class="icon-money"></i></span>
+        <span class="input-group-addon"><i class="fa fa-money"></i></span>
         <input class="form-control" type="text" name="amount"
           ng-model="budget.amount"
           data-track-state="model.help.amount" />
         <span class="input-group-btn">
           <button type="button" class="btn btn-default"
             data-help-toggle="model.help.amount">
-            <i class="icon-question-sign"></i>
+            <i class="fa fa-question-circle"></i>
           </button>
         </span>
       </div>
@@ -50,14 +50,14 @@
     <div class="form-group" data-binding="sysMaxPerUse">
       <label class="control-label col-sm-4" for="max-per-use">Max Per Use</label>
       <div class="input-group col-sm-7">
-        <span class="input-group-addon"><i class="icon-money"></i></span>
+        <span class="input-group-addon"><i class="fa fa-money"></i></span>
         <input class="form-control" type="text" name="max-per-use"
           ng-model="budget.sysMaxPerUse"
           data-track-state="model.help.maxPerUse" />
         <span class="input-group-btn">
           <button type="button" class="btn btn-default"
             data-help-toggle="model.help.maxPerUse">
-            <i class="icon-question-sign"></i>
+            <i class="fa fa-question-circle"></i>
           </button>
         </span>
       </div>
@@ -73,7 +73,7 @@
     <div class="form-group" data-binding="sysRefreshInterval">
       <label class="control-label col-sm-4" for="refresh">Refill</label>
       <div class="input-group col-sm-7">
-        <span class="input-group-addon"><i class="icon-calendar"></i></span>
+        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
         <select class="form-control"
           name="refresh" ng-model="model.budgetRefreshDuration"
           ng-options="refresh.value as refresh.label for refresh in refreshChoices">
@@ -88,7 +88,7 @@
     <div class="form-group" data-binding="sysValidityInterval">
       <label class="control-label col-sm-4" for="expires">Expire after</label>
       <div class="input-group col-sm-7">
-        <span class="input-group-addon"><i class="icon-calendar"></i></span>
+        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
         <select class="form-control"
           name="validity" ng-model="model.budgetValidDuration"
           ng-options="duration.value as duration.label for duration in validityChoices">

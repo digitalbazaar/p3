@@ -2,13 +2,13 @@
 
   <div class="row">
     <div class="col-md-12">
-      <ul class="breadcrumb" ng-show="app.services.identity.state.loading">
+      <ol class="breadcrumb" ng-show="app.services.identity.state.loading">
         <li>&nbsp;</li>
-      </ul>
-      <ul class="breadcrumb" ng-show="!app.services.identity.state.loading">
-        <li><a ng-href="{{app.services.identity.identity.id}}/dashboard">Dashboard</a> <span class="divider">/</span></li>
+      </ol>
+      <ol class="breadcrumb" ng-show="!app.services.identity.state.loading">
+        <li><a ng-href="{{app.services.identity.identity.id}}/dashboard">Dashboard</a></li>
         <li class="active">Accounts</li>
-      </ul>
+      </ol>
     </div>
   </div>
 

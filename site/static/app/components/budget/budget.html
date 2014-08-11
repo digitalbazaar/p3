@@ -2,14 +2,14 @@
 
   <div class="row">
     <div class="col-md-12">
-      <ul class="breadcrumb" ng-show="!model.budget || model.state.budgets.loading">
+      <ol class="breadcrumb" ng-show="!model.budget || model.state.budgets.loading">
         <li>&nbsp;</li>
       </ul>
-      <ul class="breadcrumb" ng-show="model.budget && !model.state.budgets.loading && !model.state.identities.loading && app.services.identity.identity.id == model.budget.owner">
-        <li><a ng-href="{{app.services.identity.identity.id}}/dashboard">Dashboard</a> <span class="divider">/</span></li>
-        <li>Budgets <span class="divider">/</span></li>
+      <ol class="breadcrumb" ng-show="model.budget && !model.state.budgets.loading && !model.state.identities.loading && app.services.identity.identity.id == model.budget.owner">
+        <li><a ng-href="{{app.services.identity.identity.id}}/dashboard">Dashboard</a></li>
+        <li>Budgets</li>
         <li class="active" ng-bind="model.budget.label"></li>
-      </ul>
+      </ol>
     </div>
   </div>
 

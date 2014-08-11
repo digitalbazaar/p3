@@ -2,19 +2,19 @@
 
   <div class="row">
     <div class="col-md-12">
-      <ul class="breadcrumb" ng-show="!model.account || model.state.accounts.loading">
+      <ol class="breadcrumb" ng-show="!model.account || model.state.accounts.loading">
         <li>&nbsp;</li>
-      </ul>
-      <ul class="breadcrumb" ng-show="model.account && !model.state.accounts.loading && !model.state.identities.loading && app.services.identity.identity.id == model.account.owner">
-        <li><a ng-href="{{app.services.identity.identity.id}}/dashboard">Dashboard</a> <span class="divider">/</span></li>
-        <li><a ng-href="{{app.services.identity.identity.id}}/accounts">Accounts</a> <span class="divider">/</span></li>
+      </ol>
+      <ol class="breadcrumb" ng-show="model.account && !model.state.accounts.loading && !model.state.identities.loading && app.services.identity.identity.id == model.account.owner">
+        <li><a ng-href="{{app.services.identity.identity.id}}/dashboard">Dashboard</a></li>
+        <li><a ng-href="{{app.services.identity.identity.id}}/accounts">Accounts</a></li>
         <li class="active" ng-bind="model.account.label"></li>
-      </ul>
-      <ul class="breadcrumb" ng-show="model.account && !model.state.accounts.loading && !model.state.identities.loading && app.services.identity.identity.id != model.account.owner">
-        <li><a href="{{model.account.owner}}">Account Owner</a> <span class="divider">/</span></li>
+      </ol>
+      <ol class="breadcrumb" ng-show="model.account && !model.state.accounts.loading && !model.state.identities.loading && app.services.identity.identity.id != model.account.owner">
+        <li><a href="{{model.account.owner}}">Account Owner</a></li>
         <li>Accounts <span class="divider">/</span></li>
         <li class="active" ng-bind="model.account.label"></li>
-      </ul>
+      </ol>
     </div>
   </div>
 

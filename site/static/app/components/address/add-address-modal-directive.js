@@ -68,7 +68,7 @@ function factory(AddressService, AlertService, IdentityService, config) {
     scope.add = function(clickedAddress) {
       var addressToAdd = clickedAddress || scope.selection.address;
       AlertService.clearFeedback();
-      AddressService.add(addressToAdd).then(function(addedAddress) {
+      AddressService.collection.add(addressToAdd).then(function(addedAddress) {
         stackable.close(null, addedAddress);
       }).catch(function(err) {
         AlertService.add('error', err, {scope: scope});

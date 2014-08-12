@@ -39,7 +39,7 @@ function factory(AddressService, IdentityService) {
       }
     }, true);
 
-    AddressService.getAll();
+    AddressService.collection.getAll();
   }
 }
 

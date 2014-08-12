@@ -36,7 +36,7 @@ function factory(
   self.register = function() {
     // update the preferences associated with the vendor identity
     self.loading = true;
-    AddressService.getAll({force: true})
+    AddressService.collection.getAll({force: true})
       .then(function(addresses) {
         if(addresses.length === 0) {
           self.showAddAddressModal = true;

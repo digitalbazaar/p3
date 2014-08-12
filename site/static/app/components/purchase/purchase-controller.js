@@ -147,7 +147,7 @@ function factory(
   function tryPurchase() {
     // load data in parallel
     Promise.all([
-      AddressService.getAll({force: true}),
+      AddressService.collection.getAll({force: true}),
       AccountService.collection.getAll({force: true}),
       // ensure budgets are up-to-date
       BudgetService.collection.getAll({force: true})

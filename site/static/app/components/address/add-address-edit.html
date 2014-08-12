@@ -1,115 +1,37 @@
 <form class="well form-horizontal">
   <fieldset>
-    <div class="form-group" data-binding="label">
-      <label class="control-label col-sm-3" for="label">Label</label>
-      <div class="input-group col-sm-8">
-        <input class="form-control" type="text" name="label"
-          ng-model="originalAddress.label"
-          data-track-state="model.help.label" />
-        <span class="input-group-btn">
-          <button type="button" class="btn btn-default"
-            data-help-toggle="model.help.label">
-            <i class="fa fa-question-circle"></i>
-          </button>
-        </span>
-      </div>
-      <p ng-show="model.help.label.show"
-        class="help-block col-sm-offset-3 col-sm-8 br-fadein br-fadeout">
-        Enter a memorable label for this address such as
-        &quot;Home&quot; or &quot;Work&quot;.
-      </p>
-    </div>
-    <div class="form-group" data-binding="name">
-      <label class="control-label col-sm-3" for="name">Name</label>
-      <div class="input-group col-sm-8">
-        <input class="form-control" type="text" name="name"
-          ng-model="originalAddress.name"
-          data-track-state="model.help.name" />
-        <span class="input-group-btn">
-          <button type="button" class="btn btn-default"
-            data-help-toggle="model.help.name">
-            <i class="fa fa-question-circle"></i>
-          </button>
-        </span>
-      </div>
-      <p ng-show="model.help.name.show"
-        class="help-block col-sm-offset-3 col-sm-8 br-fadein br-fadeout">
-        Please enter both your first name and last name.
-      </p>
-    </div>
-    <div class="form-group" data-binding="streetAddress">
-      <label class="control-label col-sm-3" for="street-address">Street Address</label>
-      <div class="input-group col-sm-8">
-        <input class="form-control" type="text" name="street-address"
-          ng-model="originalAddress.streetAddress"
-          data-track-state="model.help.streetAddress" />
-        <span class="input-group-btn">
-          <button type="button" class="btn btn-default"
-            data-help-toggle="model.help.streetAddress">
-            <i class="fa fa-question-circle"></i>
-          </button>
-        </span>
-      </div>
-      <p ng-show="model.help.streetAddress.show"
-        class="help-block col-sm-offset-3 col-sm-8 br-fadein br-fadeout">
-        Please enter your full street address, including street number,
-        street, and any apartment number, etc.
-      </p>
-    </div>
-    <div class="form-group" data-binding="addressLocality">
-      <label class="control-label col-sm-3" for="address-locality">City</label>
-      <div class="input-group col-sm-8">
-        <input class="form-control" type="text" name="address-locality"
-          ng-model="originalAddress.addressLocality"
-          data-track-state="model.help.addressLocality" />
-        <span class="input-group-btn">
-          <button type="button" class="btn btn-default"
-            data-help-toggle="model.help.addressLocality">
-            <i class="fa fa-question-circle"></i>
-          </button>
-        </span>
-      </div>
-      <p ng-show="model.help.addressLocality.show"
-        class="help-block col-sm-offset-3 col-sm-8 br-fadein br-fadeout">
-        Please enter your city or locality.
-      </p>
-    </div>
-    <div class="form-group" data-binding="addressRegion">
-      <label class="control-label col-sm-3" for="address-region">State / Region</label>
-      <div class="input-group col-sm-8">
-        <input class="form-control" type="text" name="address-region"
-          ng-model="originalAddress.addressRegion"
-          data-track-state="model.help.addressRegion" />
-        <span class="input-group-btn">
-          <button type="button" class="btn btn-default"
-            data-help-toggle="model.help.addressRegion">
-            <i class="fa fa-question-circle"></i>
-          </button>
-        </span>
-      </div>
-      <p ng-show="model.help.addressRegion.show"
-        class="help-block col-sm-offset-3 col-sm-8 br-fadein br-fadeout">
-        Please enter your state or region.
-      </p>
-    </div>
-    <div class="form-group" data-binding="postalCode">
-      <label class="control-label col-sm-3" for="postal-code">Postal Code</label>
-      <div class="input-group col-sm-8">
-        <input class="form-control" type="text" name="postal-code"
-          ng-model="originalAddress.postalCode"
-          data-track-state="model.help.postalCode" />
-        <span class="input-group-btn">
-          <button type="button" class="btn btn-default"
-            data-help-toggle="model.help.postalCode">
-            <i class="fa fa-question-circle"></i>
-          </button>
-        </span>
-      </div>
-      <p ng-show="model.help.postalCode.show"
-        class="help-block col-sm-offset-3 col-sm-8 br-fadein br-fadeout">
-        Please enter your zip or postal code.
-      </p>
-    </div>
+    <br-input br-model="originalAddress.label"
+      br-options="{name: 'label', label: 'Label'}">
+      Enter a memorable label for this address such as
+      &quot;Home&quot; or &quot;Work&quot;.
+    </br-input>
+
+    <br-input br-model="originalAddress.name"
+      br-options="{name: 'name', label: 'Name'}">
+      Please enter both your first name and last name.
+    </br-input>
+
+    <br-input br-model="originalAddress.streetAddress"
+      br-options="{name: 'streetAddress', label: 'Street Address'}">
+      Please enter your full street address, including street number,
+      street, and any apartment number, etc.
+    </br-input>
+
+    <br-input br-model="originalAddress.addressLocality"
+      br-options="{name: 'addressLocality', label: 'City'}">
+      Please enter your city or locality.
+    </br-input>
+
+    <br-input br-model="originalAddress.addressRegion"
+      br-options="{name: 'addressRegion', label: 'State / Region'}">
+      Please enter your state or region.
+    </br-input>
+
+    <br-input br-model="originalAddress.postalCode"
+      br-options="{name: 'postalCode', label: 'Postal Code'}">
+      Please enter your zip or postal code.
+    </br-input>
+
     <div class="form-group" data-binding="addressCountry">
       <label class="control-label col-sm-3" for="address-country">Country</label>
       <div class="col-sm-8">

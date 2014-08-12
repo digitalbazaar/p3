@@ -1,24 +1,8 @@
 <form class="well form-horizontal">
   <fieldset>
-    <div class="form-group" data-binding="label">
-      <label class="control-label col-sm-3" for="label">Address Label</label>
-      <div class="input-group col-sm-8">
-        <span class="input-group-addon"><i class="fa fa-tag"></i></span>
-        <input class="form-control"
-          type="text" name="label"
-          data-ng-model="model.address.label"
-          data-track-state="model.help.label" />
-        <span class="input-group-btn">
-          <button type="button" class="btn btn-default"
-            data-help-toggle="model.help.label">
-            <i class="fa fa-question-circle"></i>
-          </button>
-        </span>
-      </div>
-      <p ng-show="model.help.label.show"
-        class="help-block col-sm-offset-3 col-sm-8">
-        Enter a memorable name that describes this address.
-      </p>
-    </div>
+    <br-input br-model="model.address.label"
+      br-options="{icon: 'fa-tag', name: 'label', label: 'Address Label'}">
+      Enter a memorable name that describes this address.
+    </br-input>
   </fieldset>
 </form>

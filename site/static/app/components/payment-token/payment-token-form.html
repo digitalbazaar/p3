@@ -2,23 +2,26 @@
   <h4 class="headline">Select Payment Method Name</h4>
   <form class="well form-horizontal">
     <fieldset>
-      <div class="control-group" data-binding="label">
-        <label class="control-label" for="label">Name</label>
-        <div class="controls">
-          <div class="input-append">
-            <input type="text" name="label" ng-model="paymentToken.label"
-              data-track-state="model.help.label" />
-            <button class="btn" data-help-toggle="model.help.label">
+      <div class="form-group" data-binding="label">
+        <label class="control-label col-sm-3" for="label">Name</label>
+        <div class="input-group col-sm-8">
+          <input class="form-control"
+            type="text" name="label" ng-model="paymentToken.label"
+            data-track-state="model.help.label" />
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default"
+              data-help-toggle="model.help.label">
               <i class="fa fa-question-circle"></i>
             </button>
-          </div>
-          <p ng-show="model.help.label.show" class="help-block br-fadein br-fadeout">
-            Please enter a memorable name that describes this method of
-            payment. It will be displayed to you later.
-            <br/><br/>
-            Suggestions: <span ng-show="paymentMethod == 'CreditCard'">My MasterCard, Visa Rewards</span><span ng-show="paymentMethod == 'BankAccount'">Checking Account, ING Direct</span>
-          </p>
+          </span>
         </div>
+        <p ng-show="model.help.label.show"
+          class="help-block col-sm-offset-3 col-sm-8 br-fadein br-fadeout">
+          Please enter a memorable name that describes this method of
+          payment. It will be displayed to you later.
+          <br/><br/>
+          Suggestions: <span ng-show="paymentMethod == 'CreditCard'">My MasterCard, Visa Rewards</span><span ng-show="paymentMethod == 'BankAccount'">Checking Account, ING Direct</span>
+        </p>
       </div>
     </fieldset>
   </form>
@@ -26,16 +29,16 @@
 
 <div class="section" ng-show="!editing">
   <h4 class="headline">Enter Payment Details</h4>
-  <form class="well form-horizontal" action="">
+  <form class="well form-horizontal">
     <fieldset>
-      <div class="control-group" ng-show="multiEnabled">
-        <div class="controls">
-          <label class="radio inline" ng-show="creditCardEnabled">
+      <div class="form-group" ng-show="multiEnabled">
+        <div class="input-group col-sm-8">
+          <label class="radio-inline" ng-show="creditCardEnabled">
             <input type="radio" name="payment-type" value="CreditCard"
               checked="checked" ng-model="paymentMethod" />
             Credit Card
           </label>
-          <label class="radio inline" ng-show="bankAccountEnabled">
+          <label class="radio-inline" ng-show="bankAccountEnabled">
             <input type="radio" name="payment-type" value="BankAccount"
               ng-model="paymentMethod" />
             Bank Account
@@ -44,49 +47,49 @@
       </div>
       <div name="payment-type-fields" ng-switch="paymentMethod">
         <div ng-switch-when="CreditCard">
-          <div class="control-group" data-binding="source.cardBrand">
-            <label class="control-label" for="card-brand">Type</label>
-            <div class="controls">
+          <div class="form-group" data-binding="source.cardBrand">
+            <label class="control-label col-sm-3" for="card-brand">Type</label>
+            <div class="input-group col-sm-8">
               <span name="card-brand"
                 data-credit-card-selector="card.cardNumber"
                 data-credit-card-brand="card.cardBrand"></span>
             </div>
           </div>
-          <div class="control-group" data-binding="source.cardNumber">
-            <label class="control-label" for="card-number">Card Number</label>
-            <div class="controls">
-              <div class="input-append">
-                <input class="input-large" type="text"
-                  name="card-number" maxlength="16"
-                  ng-model="card.cardNumber"
-                  data-track-state="model.help.cardNumber"
-                  autocomplete="off" />
-                <button class="btn"
+          <div class="form-group" data-binding="source.cardNumber">
+            <label class="control-label col-sm-3" for="card-number">Card Number</label>
+            <div class="input-group col-sm-6">
+              <input class="form-control" type="text"
+                name="card-number" maxlength="16"
+                ng-model="card.cardNumber"
+                data-track-state="model.help.cardNumber"
+                autocomplete="off" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default"
                   data-help-toggle="model.help.cardNumber">
                   <i class="fa fa-question-circle"></i>
                 </button>
-              </div>
-              <p ng-show="model.help.cardNumber.show"
-                class="help-block br-fadein br-fadeout">
-                Please enter your credit card number, which must be 16 digits long.
-              </p>
+              </span>
             </div>
+            <p ng-show="model.help.cardNumber.show"
+              class="help-block col-sm-offset-3 col-sm-8 br-fadein br-fadeout">
+              Please enter your credit card number, which must be 16 digits long.
+            </p>
           </div>
           <div></div>
-          <div class="control-group" data-binding="source.cardExpMonth">
-            <label class="control-label" for="card-exp-month">Expiration Month</label>
-            <div class="controls">
-              <select class="input-medium" name="card-exp-month"
+          <div class="form-group" data-binding="source.cardExpMonth">
+            <label class="control-label col-sm-3" for="card-exp-month">Expiration Month</label>
+            <div class="input-group col-sm-3">
+              <select class="form-control" name="card-exp-month"
                 ng-model="card.cardExpMonth"
                 ng-options="month.index as month.label for month in monthLabels">
                 <option value=""></option>
               </select>
             </div>
           </div>
-          <div class="control-group" data-binding="source.cardExpYear">
-            <label class="control-label" for="card-exp-year">Expiration Year</label>
-            <div class="controls">
-              <select class="input-small" name="card-exp-year"
+          <div class="form-group" data-binding="source.cardExpYear">
+            <label class="control-label col-sm-3" for="card-exp-year">Expiration Year</label>
+            <div class="input-group col-sm-2">
+              <select class="form-control" name="card-exp-year"
                 ng-model="card.cardExpYear"
                 ng-options="year for year in years">
                 <option value=""></option>
@@ -94,28 +97,29 @@
             </div>
           </div>
           <div></div>
-          <div class="control-group" data-binding="source.cardCvm">
-            <label class="control-label" for="card-cvm">Security Code</label>
-            <div class="controls">
-              <div class="input-prepend input-append">
-                <span class="add-on"><img src="/img/scode.png" /></span><input
-                  class="input-small" type="text"
-                  name="card-cvm" maxlength="4"
-                  ng-model="card.cardCvm"
-                  data-track-state="model.help.cardCvm"
-                  autocomplete="off" />
-                <button class="btn" data-help-toggle="model.help.cardCvm">
+          <div class="form-group" data-binding="source.cardCvm">
+            <label class="control-label col-sm-3" for="card-cvm">Security Code</label>
+            <div class="input-group col-sm-4">
+              <span class="input-group-addon"><img src="/img/scode.png" /></span>
+              <input class="form-control" type="text"
+                name="card-cvm" maxlength="4"
+                ng-model="card.cardCvm"
+                data-track-state="model.help.cardCvm"
+                autocomplete="off" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default"
+                  data-help-toggle="model.help.cardCvm">
                   <i class="fa fa-question-circle"></i>
                 </button>
-              </div>
-              <p ng-show="model.help.cardCvm.show"
-                class="help-block br-fadein br-fadeout">
-                Please enter the 3-digit security code located on the back
-                of your credit card. If you are using American Express,
-                then the number will be on the front and will be 4 digits
-                long.
-              </p>
+              </span>
             </div>
+            <p ng-show="model.help.cardCvm.show"
+              class="help-block col-sm-offset-3 col-sm-8 br-fadein br-fadeout">
+              Please enter the 3-digit security code located on the back
+              of your credit card. If you are using American Express,
+              then the number will be on the front and will be 4 digits
+              long.
+            </p>
           </div>
         </div>
         <div ng-switch-when="BankAccount">
@@ -132,18 +136,18 @@
                   <td class="bank-layer"><span class="bank-date">{{'' | now:'d MMM yyyy'}}</span></td>
                 </tr>
                 <tr>
-                  <td class="text-align-center bank-layer bank-font">
+                  <td class="text-center bank-layer bank-font">
                     <span class="bank-routing-outline">A123456789A</span>
                   </td>
-                  <td class="text-align-center bank-layer bank-font">
+                  <td class="text-center bank-layer bank-font">
                     <span class="bank-account-outline">C098765C</span>
                   </td>
                 </tr>
                 <tr>
-                  <td class="text-align-center bank-layer">
+                  <td class="text-center bank-layer">
                     <span class="bank-routing-highlight">Routing</span>
                   </td>
-                  <td class="text-align-center bank-layer">
+                  <td class="text-center bank-layer">
                     <span class="bank-account-highlight">Account</span>
                   </td>
                 </tr>
@@ -151,56 +155,58 @@
             </table>
           </div>
 
-          <div class="control-group" data-binding="source.bankRoutingNumber">
-            <label class="control-label" for="bank-routing-number">Routing Number</label>
-            <div class="controls">
-              <div class="input-append">
-                <input type="text" name="bank-routing-number" maxlength="9"
-                  ng-model="bankAccount.bankRoutingNumber"
-                  data-track-state="model.help.bankRoutingNumber"
-                  autocomplete="off" />
-                <button class="btn"
+          <div class="form-group" data-binding="source.bankRoutingNumber">
+            <label class="control-label col-sm-3" for="bank-routing-number">Routing Number</label>
+            <div class="input-group col-sm-8">
+              <input class="form-control"
+                type="text" name="bank-routing-number" maxlength="9"
+                ng-model="bankAccount.bankRoutingNumber"
+                data-track-state="model.help.bankRoutingNumber"
+                autocomplete="off" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default"
                   data-help-toggle="model.help.bankRoutingNumber">
                   <i class="fa fa-question-circle"></i>
                 </button>
-              </div>
-              <p ng-show="model.help.bankRoutingNumber.show"
-                class="help-block br-fadein br-fadeout">
-                Please enter your bank's routing number. This can be found in your checkbook or by signing into your bank online.
-              </p>
+              </span>
             </div>
+            <p ng-show="model.help.bankRoutingNumber.show"
+              class="help-block col-sm-offset-3 col-sm-8 br-fadein br-fadeout">
+              Please enter your bank's routing number. This can be found in your checkbook or by signing into your bank online.
+            </p>
           </div>
-          <div class="control-group" data-binding="source.bankAccountType">
-            <label class="control-label" for="bank-account-type">Account Type</label>
-            <div class="controls">
-              <select class="input-medium" name="bank-account-type"
+          <div class="form-group" data-binding="source.bankAccountType">
+            <label class="control-label col-sm-3" for="bank-account-type">Account Type</label>
+            <div class="input-group col-sm-8">
+              <select class="form-control" name="bank-account-type"
                 ng-model="bankAccount.bankAccountType"
                 ng-options="type.id as type.label for type in bankAccountTypes">
               </select>
-              <p class="help-block">
-                If your bank account does not have a type, choose 'Checking'.
-              </p>
             </div>
+            <p class="help-block col-sm-offset-3 col-sm-8">
+              If your bank account does not have a type, choose 'Checking'.
+            </p>
           </div>
-          <div class="control-group" data-binding="source.bankAccount">
-            <label class="control-label" for="bank-account">Account Number</label>
-            <div class="controls">
-              <div class="input-append">
-                <input type="text" name="bank-account" maxlength="30"
-                  ng-model="bankAccount.bankAccount"
-                  data-track-state="model.help.bankAccount"
-                  autocomplete="off" />
-                <button class="btn"
+          <div class="form-group" data-binding="source.bankAccount">
+            <label class="control-label col-sm-3" for="bank-account">Account Number</label>
+            <div class="input-group col-sm-8">
+              <input class="form-control"
+                type="text" name="bank-account" maxlength="30"
+                ng-model="bankAccount.bankAccount"
+                data-track-state="model.help.bankAccount"
+                autocomplete="off" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default"
                   data-help-toggle="model.help.bankAccount">
                   <i class="fa fa-question-circle"></i>
                 </button>
-              </div>
-              <p ng-show="model.help.bankAccount.show"
-                class="help-block br-fadein br-fadeout">
-                Please enter your bank account number. This can be found
-                in your checkbook or by signing into your bank online.
-              </p>
+              </span>
             </div>
+            <p ng-show="model.help.bankAccount.show"
+              class="help-block col-sm-offset-3 col-sm-8 br-fadein br-fadeout">
+              Please enter your bank account number. This can be found
+              in your checkbook or by signing into your bank online.
+            </p>
           </div>
         </div>
       </div>
@@ -242,11 +248,13 @@
     take 3-7 business days to be processed.</p>
 
     <hr/>
-    <form class="form-vertical" action="">
+    <form class="form-horizontal">
       <fieldset>
-        <label class="checkbox">
-          <input type="checkbox" ng-model="model.agreementChecked"> I agree to the above terms and conditions.</input>
-        </label>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" ng-model="model.agreementChecked"> I agree to the above terms and conditions.</input>
+          </label>
+        </div>
       </fieldset>
     </form>
   </div>
@@ -254,10 +262,10 @@
 
 <div class="section" ng-show="editing && paymentToken.backupSourceFor && paymentToken.backupSourceFor.length > 0">
   <h4 class="headline">Linked Accounts</h4>
-  <form class="form-vertical" action="">
-    <div class="control-group">
-      <div class="controls">
-        <label class="checkbox" ng-repeat="(accountId, info) in backupSourceFor | filter:'info.exists' | orderBy:['account.label','account.id']">
+  <form class="form-horizontal">
+    <div class="form-group">
+      <div class="checkbox" ng-repeat="(accountId, info) in backupSourceFor | filter:'info.exists' | orderBy:['account.label','account.id']">
+        <label>
           <input type="checkbox" ng-model="info.active"></input>
           <span class="active-{{info.active}}">
             <a href="{{info.account.id}}" target="_blank">

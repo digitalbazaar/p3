@@ -163,26 +163,30 @@
     <div ng-hide="model.purchased" class="row">
       <div class="section col-md-6 col-md-offset-3">
         <h4 class="headline">Payment</h4>
-        <form action="">
+        <form>
           <fieldset>
-            <div class="control-group">
-              <div class="controls payment-radio-group">
-                <label class="radio">
-                  <input type="radio" name="source-type"
-                    ng-model="model.sourceType" value="account" />
-                  Make one-time payment.
+            <div class="form-group">
+              <div class="input-group payment-radio-group">
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="source-type"
+                      ng-model="model.sourceType" value="account" />
+                    Make one-time payment.
+                  </label>
                   <span class="help-block">
                     Make a payment from an account. Funds can be deposited
                     if needed.
                   </span>
-                </label>
+                </div>
                 <!-- FIXME
                 <label ng-show="model.contract.vendor.type == 'VendorIdentity'"
                   class="radio" -->
-                <label class="radio">
-                  <input type="radio" name="source-type"
-                    ng-model="model.sourceType" value="budget" />
-                  Set up a budget for this vendor.
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="source-type"
+                      ng-model="model.sourceType" value="budget" />
+                    Set up a budget for this vendor.
+                  </label>
                   <div class="help-block">
                     Assigning a budget will cause future purchases with this
                     vendor to happen <strong>automatically</strong> if the
@@ -197,7 +201,7 @@
                       secure.
                     </div>
                   </div>
-                </label>
+                </div>
               </div>
             </div>
           </fieldset>

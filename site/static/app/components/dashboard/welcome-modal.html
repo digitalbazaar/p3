@@ -1,47 +1,53 @@
 <div class="modal">
-  <div class="modal-header">
-    <h3>Welcome to {{model.data.siteTitle}}!</h3>
-  </div>
-  <div class="modal-body">
-    <div ng-include="'/app/components/util/demo-warning.html'"></div>
-    <p>Before you continue, please tell us the country and state or region of
-    your <strong>primary residence</strong>. If you are acting on behalf of a
-    business, please use the <strong>primary business location</strong>. We
-    will use this information to create a Financial Account for you that
-    complies with your local regulations.</p>
-    <form class="well form-horizontal" action="">
-    <fieldset>
-      <div class="control-group" data-binding="address.addressRegion">
-        <label class="control-label" for="address-region">State / Region</label>
-        <div class="controls">
-          <div class="input-append">
-            <input type="text" name="address-region"
-              ng-model="model.address.addressRegion"
-              data-track-state="model.help.addressRegion" />
-            <button class="btn" data-help-toggle="model.help.addressRegion">
-              <i class="fa fa-question-circle"></i>
-            </button>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Welcome to {{model.data.siteTitle}}!</h3>
+      </div>
+      <div class="modal-body">
+        <div ng-include="'/app/components/util/demo-warning.html'"></div>
+        <p>Before you continue, please tell us the country and state or region of
+        your <strong>primary residence</strong>. If you are acting on behalf of a
+        business, please use the <strong>primary business location</strong>. We
+        will use this information to create a Financial Account for you that
+        complies with your local regulations.</p>
+        <form class="well form-horizontal">
+        <fieldset>
+          <div class="form-group" data-binding="address.addressRegion">
+            <label class="control-label col-sm-3" for="address-region">State / Region</label>
+            <div class="input-group">
+              <input class="form-control" type="text" name="address-region"
+                ng-model="model.address.addressRegion"
+                data-track-state="model.help.addressRegion" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default"
+                  data-help-toggle="model.help.addressRegion">
+                  <i class="fa fa-question-circle"></i>
+                </button>
+              </span>
+            </div>
+            <p ng-show="model.help.addressRegion.show"
+              class="help-block col-sm-offset-3 col-sm-8 br-fadein br-fadeout">
+              Please enter your state or region.
+            </p>
           </div>
-          <p ng-show="model.help.addressRegion.show" class="help-block br-fadein br-fadeout">
-            Please enter your state or region.
-          </p>
-        </div>
+          <div class="form-group" data-binding="address.addressCountry">
+            <label class="control-label col-sm-3" for="address-country">Country</label>
+            <div class="input-group col-sm-8">
+              <data-country-selector ng-model="model.address.addressCountry"></data-country-selector>
+            </div>
+          </div>
+        </fieldset>
+        </form>
       </div>
-      <div class="control-group" data-binding="address.addressCountry">
-        <label class="control-label" for="address-country">Country</label>
-        <div class="controls">
-          <data-country-selector ng-model="model.address.addressCountry"></data-country-selector>
-        </div>
+      <div class="modal-footer">
+        <span ng-show="model.state.loading">
+          <i class="fa fa-refresh fa-spin text-muted"></i>
+        </span>
+        <button type="button" class="btn btn-primary"
+          ng-disabled="model.state.loading"
+          ng-click="model.setRegulatoryAddress()"><i class="fa fa-check"></i> Continue</button>
       </div>
-    </fieldset>
-    </form>
-  </div>
-  <div class="modal-footer">
-    <span ng-show="model.state.loading">
-      <i class="fa fa-refresh fa-spin text-muted"></i>
-    </span>
-    <button type="button" class="btn btn-primary"
-      ng-disabled="model.state.loading"
-      ng-click="model.setRegulatoryAddress()"><i class="fa fa-check"></i> Continue</button>
-  </div>
-</div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

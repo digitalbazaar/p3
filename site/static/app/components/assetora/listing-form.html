@@ -1,106 +1,121 @@
-<form class="well form-horizontal" action="">
+<form class="well form-horizontal">
   <fieldset>
-    <div class="control-group" data-binding="assetContent">
-      <label class="control-label" for="assetContent">Asset Content URL</label>
-      <div class="controls">
-        <div class="input-prepend input-append">
-          <span class="add-on"><i class="fa fa-tag"></i></span><input
-            type="text" name="assetContent"
-            ng-model="model.asset.assetContent"
-            data-track-state="model.help.assetContent" />
-          <button class="btn" data-help-toggle="model.help.assetContent">
+    <div class="form-group" data-binding="assetContent">
+      <label class="control-label col-sm-3" for="assetContent">Asset Content URL</label>
+      <div class="input-group col-sm-8">
+        <span class="input-group-addon"><i class="fa fa-tag"></i></span>
+        <input class="form-control"
+          type="text" name="assetContent"
+          ng-model="model.asset.assetContent"
+          data-track-state="model.help.assetContent" />
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default"
+            data-help-toggle="model.help.assetContent">
             <i class="fa fa-question-circle"></i>
           </button>
-        </div>
-        <p ng-show="model.help.assetContent.show" class="help-block br-fadein br-fadeout">
-          Please enter the URL to the Asset that you want to list for sale.
-          This is the URL that your customers will visit to see the content
-          they have purchased.
-        </p>
+        </span>
       </div>
+      <p ng-show="model.help.assetContent.show"
+        class="help-block col-sm-offset-3 col-sm-8 br-fadein br-fadeout">
+        Please enter the URL to the Asset that you want to list for sale.
+        This is the URL that your customers will visit to see the content
+        they have purchased.
+      </p>
     </div>
 
-    <div class="control-group" data-binding="title">
-      <label class="control-label" for="title">Asset Title</label>
-      <div class="controls">
-        <div class="input-prepend input-append">
-          <span class="add-on"><i class="fa fa-tag"></i></span><input
-            type="text" name="title"
-            ng-model="model.asset.title"
-            data-track-state="model.help.title" />
-          <button class="btn" data-help-toggle="model.help.title">
+    <div class="form-group" data-binding="title">
+      <label class="control-label col-sm-3" for="title">Asset Title</label>
+      <div class="input-group">
+        <span class="input-group-addon"><i class="fa fa-tag"></i></span>
+        <input class="form-control"
+          type="text" name="title"
+          ng-model="model.asset.title"
+          data-track-state="model.help.title" />
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default"
+            data-help-toggle="model.help.title">
             <i class="fa fa-question-circle"></i>
           </button>
-        </div>
-        <p ng-show="model.help.title.show" class="help-block br-fadein br-fadeout">
-          Please enter the title for the Asset you want to list for sale.
-          <br/><br/>
-          Suggestions: How to Bake Like a Boss, View From Atop Rainier
-        </p>
+        </span>
       </div>
+      <p ng-show="model.help.title.show"
+        class="help-block col-sm-offset-3 col-sm-8 br-fadein br-fadeout">
+        Please enter the title for the Asset you want to list for sale.
+        <br/><br/>
+        Suggestions: How to Bake Like a Boss, View From Atop Rainier
+      </p>
     </div>
 
-    <div class="control-group" data-binding="total">
-      <label class="control-label" for="total">Price</label>
-      <div class="controls">
-        <div class="input-prepend input-append">
-          <span class="add-on"><i class="fa fa-money"></i></span><input
-            type="text" name="total"
-            ng-model="model.total"
-            data-track-state="model.help.total" />
-          <button class="btn" data-help-toggle="model.help.total">
+    <div class="form-group" data-binding="total">
+      <label class="control-label col-sm-3" for="total">Price</label>
+      <div class="input-group col-sm-8">
+        <span class="input-group-addon"><i class="fa fa-money"></i></span>
+        <input class="form-control"
+          type="text" name="total"
+          ng-model="model.total"
+          data-track-state="model.help.total" />
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default"
+            data-help-toggle="model.help.total">
             <i class="fa fa-question-circle"></i>
           </button>
-        </div>
-        <p ng-show="model.help.total.show" class="help-block br-fadein br-fadeout">
-          Please enter the total price to list the Asset for. The amount that
-          you receive out of the total is displayed below.
-          <br/><br/>
-          You must enter a valid monetary amount like 20 or 5.00.
-        </p>
+        </span>
       </div>
+      <p ng-show="model.help.total.show"
+        class="help-block col-sm-offset-3 col-sm-8 br-fadein br-fadeout">
+        Please enter the total price to list the Asset for. The amount that
+        you receive out of the total is displayed below.
+        <br/><br/>
+        You must enter a valid monetary amount like 20 or 5.00.
+      </p>
     </div>
 
-    <div class="control-group">
-      <label class="control-label" for="providerAmount">Your cut</label>
-      <div class="controls">
-        <div class="input-prepend input-append">
-          <span class="add-on"><i class="fa fa-money"></i></span><input
-            type="text" name="providerAmount"
-            ng-model="model.providerAmount"
-            data-track-state="model.help.providerAmount" />
-          <button class="btn" data-help-toggle="model.help.providerAmount">
+    <div class="form-group">
+      <label class="control-label col-sm-3" for="providerAmount">Your cut</label>
+      <div class="input-group col-sm-3">
+        <span class="input-group-addon"><i class="fa fa-money"></i></span>
+        <input class="form-control"
+          type="text" name="providerAmount"
+          ng-model="model.providerAmount"
+          data-track-state="model.help.providerAmount" />
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default"
+            data-help-toggle="model.help.providerAmount">
             <i class="fa fa-question-circle"></i>
           </button>
-        </div>
-        <p ng-show="model.help.providerAmount.show" class="help-block br-fadein br-fadeout">
-          Please enter the amount you want to receive when the Asset is sold.
-          The total price that your customers will see is displayed above.
-          <br/><br/>
-          You must enter a valid monetary amount like 20 or 5.00.
-        </p>
+        </span>
       </div>
+      <p ng-show="model.help.providerAmount.show"
+        class="help-block col-sm-offset-3 col-sm-8 br-fadein br-fadeout">
+        Please enter the amount you want to receive when the Asset is sold.
+        The total price that your customers will see is displayed above.
+        <br/><br/>
+        You must enter a valid monetary amount like 20 or 5.00.
+      </p>
     </div>
 
     <!--
-    <div class="control-group" data-binding="license">
-      <label class="control-label" for="license">License URL</label>
-      <div class="controls">
-        <div class="input-prepend input-append">
-          <span class="add-on"><i class="fa fa-tag"></i></span><input
-            type="text" name="license"
-            ng-model="model.listing.license"
-            data-track-state="model.help.license" />
-          <button class="btn" data-help-toggle="model.help.license">
+    <div class="form-group" data-binding="license">
+      <label class="form-label col-sm-3" for="license">License URL</label>
+      <div class="input-group col-sm-8">
+        <span class="input-group-addon"><i class="fa fa-tag"></i></span>
+        <input class="form-control"
+          type="text" name="license"
+          ng-model="model.listing.license"
+          data-track-state="model.help.license" />
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default"
+            data-help-toggle="model.help.license">
             <i class="fa fa-question-circle"></i>
           </button>
-        </div>
-        <p ng-show="model.help.license.show" class="help-block br-fadein br-fadeout">
-          Please enter the URL to the License that you want to grant to
-          your customers that purchase your Asset. The License indicates
-          what rights your customers have for using the Asset they purchase.
-        </p>
+        </span>
       </div>
+      <p ng-show="model.help.license.show"
+        class="help-block col-sm-offset-3 col-sm-8 br-fadein br-fadeout">
+        Please enter the URL to the License that you want to grant to
+        your customers that purchase your Asset. The License indicates
+        what rights your customers have for using the Asset they purchase.
+      </p>
     </div>
     -->
   </fieldset>

@@ -1,70 +1,79 @@
-<form class="well form-horizontal" action="">
+<form class="well form-horizontal">
   <fieldset>
-    <div class="control-group" data-binding="title">
-      <label class="control-label" for="label">Title</label>
-      <div class="controls">
-        <div class="input-prepend input-append">
-          <span class="add-on"><i class="fa fa-tag"></i></span><input
-            type="text" name="title"
-            ng-model="model.item.title"
-            data-track-state="model.help.title"
-            placeholder="Title" required="required" />
-          <button class="btn" data-help-toggle="model.help.title">
+    <div class="form-group" data-binding="title">
+      <label class="control-label col-sm-3" for="label">Title</label>
+      <div class="input-group col-sm-8">
+        <span class="input-group-addon"><i class="fa fa-tag"></i></span>
+        <input class="form-control"
+          type="text" name="title"
+          ng-model="model.item.title"
+          data-track-state="model.help.title"
+          placeholder="Title" required="required" />
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default"
+            data-help-toggle="model.help.title">
             <i class="fa fa-question-circle"></i>
           </button>
-        </div>
-        <p ng-show="model.help.title.show" class="help-block br-fadein br-fadeout">
-          Please enter a short title for this item.
-          <!--
-          <br/><br/>
-          Suggestions: ...
-          -->
-        </p>
+        </span>
       </div>
+      <p ng-show="model.help.title.show"
+        class="help-block col-sm-offset-3 col-sm-8 br-fadein br-fadeout">
+        Please enter a short title for this item.
+        <!--
+        <br/><br/>
+        Suggestions: ...
+        -->
+      </p>
     </div>
 
-    <div class="control-group" data-binding="amount">
-      <label class="control-label" for="amount">Amount</label>
-      <div class="controls">
-        <div class="input-prepend input-append">
-          <span class="add-on"><i class="fa fa-money"></i></span><input
-            type="text" name="amount"
-            ng-model="model.item.amount"
-            data-track-state="model.help.amount"
-            placeholder="Amount" required="required" />
-          <button class="btn" data-help-toggle="model.help.amount">
+    <div class="form-group" data-binding="amount">
+      <label class="control-label col-sm-3" for="amount">Amount</label>
+      <div class="input-group col-sm-8">
+        <span class="input-group-addon"><i class="fa fa-money"></i></span>
+        <input class="form-control"
+          type="text" name="amount"
+          ng-model="model.item.amount"
+          data-track-state="model.help.amount"
+          placeholder="Amount" required="required" />
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default"
+            data-help-toggle="model.help.amount">
             <i class="fa fa-question-circle"></i>
           </button>
-        </div>
-        <p ng-show="model.help.amount.show" class="help-block br-fadein br-fadeout">
-          Please enter the amount of this item.
-          <br/><br/>
-          You must enter a valid monetary amount like 20 or 5.00.
-        </p>
+        </span>
       </div>
+      <p ng-show="model.help.amount.show"
+        class="help-block col-sm-offset-3 col-sm-8 br-fadein br-fadeout">
+        Please enter the amount of this item.
+        <br/><br/>
+        You must enter a valid monetary amount like 20 or 5.00.
+      </p>
     </div>
 
-    <div class="control-group" data-binding="comment">
-      <label class="control-label" for="comment">Comment</label>
-      <div class="controls">
-        <div class="input-prepend input-append">
-          <span class="add-on"><i class="fa fa-comment"></i></span><textarea
-            rows="5" name="comment"
-            ng-model="model.item.comment"
-            data-track-state="model.help.comment"
-            placeholder="Additional comments" />
-          <button class="btn" data-help-toggle="model.help.comment">
+    <div class="form-group" data-binding="comment">
+      <label class="control-label col-sm-3" for="comment">Comment</label>
+      <div class="input-group col-sm-8">
+        <span class="input-group-addon"><i class="fa fa-comment"></i></span>
+        <textarea class="form-control"
+          rows="5" name="comment"
+          ng-model="model.item.comment"
+          data-track-state="model.help.comment"
+          placeholder="Additional comments" />
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default"
+            data-help-toggle="model.help.comment">
             <i class="fa fa-question-circle"></i>
           </button>
-        </div>
-        <p ng-show="model.help.comment.show" class="help-block br-fadein br-fadeout">
-          Please enter comments about this item if needed.
-          <!--
-          <br/><br/>
-          Suggestions: ...
-          -->
-        </p>
+        </span>
       </div>
+      <p ng-show="model.help.comment.show"
+        class="help-block col-sm-offset-3 col-sm-8 br-fadein br-fadeout">
+        Please enter comments about this item if needed.
+        <!--
+        <br/><br/>
+        Suggestions: ...
+        -->
+      </p>
     </div>
   </fieldset>
 </form>

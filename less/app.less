@@ -141,15 +141,16 @@
 @navbar-height: 45px;
 @navbar-default-bg: @ps-green;
 @navbar-default-border: darken(@navbar-default-bg, 12%);
-/*
-@navbar-default-color: @grayLight;
-@navbar-default-link-color: @grayLight;
+@navbar-default-color: @gray-lighter;
+@navbar-default-link-color: @gray-lighter;
 @navbar-default-link-hover-color: @white;
-@navbar-default-link-active-color: @grayLighter;
-*/
+@navbar-default-link-active-color: lighten(@gray-lighter, 10%);
 /*
 @navbar-margin-bottom: @line-height-computed;
 @navbar-border-radius: @border-radius-base;
+@navbar-inverse-color: @white;
+@navbar-inverse-bg: #444;
+@navbar-inverse-border: darken(@navbar-inverse-bg, 10%);
 @navbar-padding-horizontal: floor(@grid-gutter-width / 2);
 @navbar-padding-vertical: ((@navbar-height - @line-height-computed) / 2);
 @navbar-default-link-hover-bg: transparent;

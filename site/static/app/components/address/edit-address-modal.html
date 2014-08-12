@@ -1,0 +1,22 @@
+<div class="modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <a class="close stackable-cancel">&times;<span class="sr-only">Close</span></a>
+        <h3 class="modal-title">Edit Address</h3>
+      </div>
+      <div class="modal-body">
+        <div data-ng-include="'/app/components/util/demo-warning.html'"></div>
+        <div data-ng-include="'/app/components/address/address-form.html'"></div>
+      </div>
+      <div class="modal-footer">
+        <span data-spinner="model.loading"
+          data-spinner-class="prepend-btn-spinner"></span>
+        <button type="button" class="btn btn-primary"
+          data-ng-disabled="model.loading"
+          data-ng-click="model.editAddress()"><i class="fa fa-check"></i> Save</button>
+        <button type="button" class="btn btn-default stackable-cancel" data-ng-disabled="model.loading">Cancel</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

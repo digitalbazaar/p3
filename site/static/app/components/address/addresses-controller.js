@@ -19,7 +19,9 @@ function factory($scope, AddressService, AlertService, IdentityService) {
   self.addressToDelete = null;
   self.modals = {
     showAddAddress: false,
-    showDeleteAddressAlert: false
+    showDeleteAddressAlert: false,
+    showEditAddress: false,
+    address: null
   };
 
   self.deleteAddress = function(address) {
@@ -28,7 +30,7 @@ function factory($scope, AddressService, AlertService, IdentityService) {
   };
   self.confirmDeleteAddress = function(err, result) {
     if(!err && result === 'ok') {
-      AddressService.del(self.addressToDelete)
+      AddressService.collection.del(self.addressToDelete.id)
         .catch(function(err) {
           AlertService.add('error', err);
         })
@@ -38,8 +40,12 @@ function factory($scope, AddressService, AlertService, IdentityService) {
     }
     self.addressToDelete = null;
   };
+  self.editAddress = function(address) {
+    self.modals.showEditAddress = true;
+    self.modals.address = address;
+  };
 
-  AddressService.getAll();
+  AddressService.collection.getAll();
 }
 
 return {AddressesController: factory};

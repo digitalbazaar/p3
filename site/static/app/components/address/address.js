@@ -12,7 +12,8 @@ define([
   './address-service',
   './address-view-directive',
   './addresses-controller',
-  './addresses-directive'
+  './addresses-directive',
+  './edit-address-modal-directive',
 ], function(
   angular,
   addAddressModalDirective,
@@ -20,7 +21,8 @@ define([
   addressService,
   addressViewDirective,
   addressesController,
-  addressesDirective
+  addressesDirective,
+  editAddressModalDirective
 ) {
 
 'use strict';
@@ -33,6 +35,7 @@ module.service(addressService);
 module.directive(addressViewDirective);
 module.controller(addressesController);
 module.directive(addressesDirective);
+module.directive(editAddressModalDirective);
 
 return module.name;
 

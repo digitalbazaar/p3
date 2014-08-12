@@ -4,6 +4,16 @@ var schemas = bedrock.module('validation').schemas;
 var address = require('./address');
 var validatedAddress = require('./validatedAddress');
 
+var postAddress = {
+  type: 'object',
+  properties: {
+    '@context': schemas.jsonldContext(),
+    id: schemas.identifier(),
+    label: schemas.label({required: false})
+  },
+  additionalProperties: false
+};
+
 var postAddressesQuery = {
   type: 'object',
   properties: {
@@ -24,17 +34,9 @@ var validateAddress = {
   type: [address(), validatedAddress()]
 };
 
-var delAddressesQuery = {
-  type: 'object',
-  properties: {
-    addressId: {
-      required: true,
-      type: schemas.label()
-    }
-  },
-  additionalProperties: true
+module.exports.postAddress = function() {
+  return postAddress;
 };
-
 module.exports.postAddressesQuery = function() {
   return postAddressesQuery;
 };
@@ -43,7 +45,4 @@ module.exports.postAddresses = function() {
 };
 module.exports.validateAddress = function() {
   return validateAddress;
-};
-module.exports.delAddressesQuery = function() {
-  return delAddressesQuery;
 };

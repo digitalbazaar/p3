@@ -28,8 +28,8 @@
         <td class="action">
           <action-menu>
             <ul class="dropdown-menu stackable-menu">
-              <li class="disabled">
-                <a class="stackable-cancel">
+              <li>
+                <a class="stackable-cancel" ng-click="model.editAddress(address)">
                   <i class="fa fa-pencil"></i> Edit
                 </a>
               </li>
@@ -57,6 +57,9 @@
   </div>
   <stackable-modal stackable="model.modals.showAddAddress">
     <div data-add-address-modal></div>
+  </stackable-modal>
+  <stackable-modal stackable="model.modals.showEditAddress">
+    <div data-edit-address-modal data-address="model.modals.address"></div>
   </stackable-modal>
 
   <!-- Removing last address alert -->

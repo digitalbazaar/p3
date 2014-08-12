@@ -2,8 +2,9 @@
   <div data-selector data-item-type="Address"
     data-items="addresses" data-selected="selected" data-invalid="invalid"
     data-add-item="showAddAddressModal=true" data-fixed="{{fixed}}">
-    <div data-spinner="services.address.loading"
-      data-spinner-class="selector-spinner"></div>
+    <div ng-show="services.address.loading">
+      <i class="fa fa-refresh fa-spin text-muted"></i>
+    </div>
     <div ng-hide="services.address.loading"
       data-address-view="selected"></div>
   </div>

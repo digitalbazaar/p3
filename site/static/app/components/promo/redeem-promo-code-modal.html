@@ -13,7 +13,7 @@
             promotion will be displayed. Any monetary amounts associated with the
             promotion will be deposited into the account you select below.
           </p>
-          <form class="well form-vertical">
+          <form class="well form-horizontal">
             <fieldset>
               <div class="form-group" data-binding="promoCode">
                 <label class="control-label col-sm-3" for="promoCode">Promo Code</label>
@@ -23,9 +23,10 @@
                     ng-model="model.promoCode"
                     data-track-state="model.help.promoCode"
                     autocomplete="off" />
-                  <span class="inside-input-spinner-wrapper"
-                    data-spinner="model.promoCodeChecker.loading"
-                    data-spinner-class="inside-input-spinner"></span>
+                  <span ng-show="model.promoCodeChecker.loading"
+                    class="br-spinner-inside-input">
+                    <i class="fa fa-refresh fa-spin text-muted"></i>
+                  </span>
                   <span class="input-group-btn">
                     <button type="button" class="btn btn-default before-spinner"
                       data-help-toggle="model.help.promoCode">
@@ -116,8 +117,9 @@
           data-instant-transfer-deposit="ignore"></div>
       </div>
       <div class="modal-footer">
-        <span data-spinner="model.services.promo.state.loading"
-          data-spinner-class="prepend-btn-spinner"></span>
+        <span ng-show="model.services.promo.state.loading">
+          <i class="fa fa-refresh fa-spin text-muted"></i>
+        </span>
         <span ng-hide="model.success">
           <button type="button" class="btn btn-primary"
             ng-disabled="!model.promoCode || model.services.promo.state.loading || model.invalidAccount"

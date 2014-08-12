@@ -19,7 +19,9 @@
       <td ng-switch="type == 'Withdrawal' && transfer.destination == transaction.destination.id">
         <strong ng-switch-when="true">{{transaction.destination.label}}</strong>
         <a ng-switch-default href="{{transfer.destination}}" target="_blank">
-          <span data-spinner="accounts[transfer.destination].loading" data-spinner-class="center-spinner"></span>
+          <span ng-show="accounts[transfer.destination].loading">
+            <i class="fa fa-refresh fa-spin text-muted"></i>
+          </span>
           {{accounts[transfer.destination].label}}
         </a>
       </td>

@@ -29,8 +29,9 @@
           data-input-watcher-state="model.search.state"
           data-input-change="search(input, state, callback)">
         </span>
-        <span data-spinner="model.search.state.loading || state.assets.loading || state.listings.loading"
-          data-spinner-class="append-btn-spinner"></span>
+        <span ng-show="model.search.state.loading || state.assets.loading || state.listings.loading">
+          <i class="fa fa-refresh fa-spin text-muted"></i>
+        </span>
         <button ng-show="!(model.search.state.loading || state.assets.loading || state.listings.loading)"
           class="btn btn-success"
           ng-click="model.modals.showAddAsset=true"><i class="fa fa-plus"></i> Add Asset</button>
@@ -99,9 +100,9 @@
         </tbody>
         <tfoot>
           <tr ng-show="state.assets.loading">
-            <td colspan="3" style="text-align: center">
-              <span class="center">
-                <span data-spinner="state.assets.loading" data-spinner-class="table-spinner"></span>
+            <td colspan="3" class="text-center">
+              <span ng-show="state.assets.loading">
+                <i class="fa fa-refresh fa-spin text-muted"></i>
               </span>
             </td>
           </tr>
@@ -165,9 +166,9 @@
         </tbody>
         <tfoot>
           <tr ng-show="state.listings.loading">
-            <td colspan="3" style="text-align: center">
-              <span class="center">
-                <span data-spinner="state.listings.loading" data-spinner-class="table-spinner"></span>
+            <td colspan="3" class="text-center">
+              <span ng-show="state.listings.loading">
+                <i class="fa fa-refresh fa-spin text-muted"></i>
               </span>
             </td>
           </tr>
@@ -242,9 +243,9 @@
         </tbody>
         <tfoot>
           <tr ng-show="state.assets.loading">
-            <td colspan="3" style="text-align: center">
-              <span class="center">
-                <span data-spinner="state.assets.loading" data-spinner-class="table-spinner"></span>
+            <td colspan="3" class="text-center">
+              <span ng-show="state.assets.loading">
+                <i class="fa fa-refresh fa-spin text-muted"></i>
               </span>
             </td>
           </tr>
@@ -286,9 +287,9 @@
         </tbody>
         <tfoot>
           <tr ng-show="state.listings.loading">
-            <td colspan="3" style="text-align: center">
-              <span class="center">
-                <span data-spinner="state.listings.loading" data-spinner-class="table-spinner"></span>
+            <td colspan="3" class="text-center">
+              <span ng-show="state.listings.loading">
+                <i class="fa fa-refresh fa-spin text-muted"></i>
               </span>
             </td>
           </tr>

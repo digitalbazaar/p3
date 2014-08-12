@@ -2,8 +2,9 @@
   <div data-selector data-item-type="Budget"
     data-items="budgets" data-selected="selected" data-invalid="invalid"
     data-add-item="showAddBudgetModal=true" data-fixed="{{fixed}}">
-    <div data-spinner="services.budget.loading"
-      data-spinner-class="selector-spinner"></div>
+    <div ng-show="services.budget.loading">
+      <i class="fa fa-refresh fa-spin text-muted"></i>
+    </div>
     <div ng-hide="services.budget.loading" class="budget">
       <table class="table table-condensed">
         <thead>

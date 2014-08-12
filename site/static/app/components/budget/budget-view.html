@@ -107,9 +107,9 @@
         </tbody>
         <tfoot ng-show="model.state.budgets.loading">
           <tr>
-            <td colspan="5" style="text-align: center">
-              <span class="center">
-                <span data-spinner="model.state.budgets.loading" data-spinner-class="table-spinner"></span>
+            <td colspan="5" class="text-center">
+              <span ng-show="model.state.budgets.loading">
+                <i class="fa fa-refresh fa-spin text-muted"></i>
               </span>
             </td>
           </tr>

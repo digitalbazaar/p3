@@ -22,8 +22,9 @@
       <div class="modal-footer">
         <div class="alert alert-danger" ng-show="state == 'preparing' && !checkAmount()">Withdrawal amount must be greater than zero and less than or equal to the account balance.</div>
 
-        <span data-spinner="loading"
-          data-spinner-class="prepend-btn-spinner"></span>
+        <span ng-show="loading">
+          <i class="fa fa-refresh fa-spin text-muted"></i>
+        </span>
         <span ng-show="state == 'preparing'">
           <button type="button" class="btn btn-primary"
             ng-disabled="loading || !checkAmount() || !input.destination"

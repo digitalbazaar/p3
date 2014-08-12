@@ -18,7 +18,7 @@
       <h3 class="headline">
         Transaction
         <span ng-show="model.state.accounts.loading" class="pull-right">
-          <span data-spinner="model.state.accounts.loading" data-spinner-class="h3-spinner"></span>
+          <i class="fa fa-refresh fa-spin text-muted"></i>
         </span>
       </h3>
       <div class="alert alert-danger" ng-show="model.txn === null && !model.state.txns.loading">

@@ -39,8 +39,9 @@ pay back any credit you use on a periodic basis.</p>
         <div class="col-sm-offset-3">
           <button type="button" ng-disabled="model.loading"
             class="btn btn-primary" data-submit-form>Send Verify Email</button>
-          <span data-spinner="model.loading"
-            data-spinner-class="append-btn-spinner"></span>
+          <span ng-show="model.loading">
+            <i class="fa fa-refresh fa-spin text-muted"></i>
+          </span>
         </div>
       </div>
     </fieldset>
@@ -78,10 +79,11 @@ pay back any credit you use on a periodic basis.</p>
       <div class="col-sm-offset-3">
          <button type="button" ng-disabled="model.loading"
            class="btn btn-primary" data-submit-form>Verify Email</button>
-         <span data-spinner="model.loading"
-           data-spinner-class="append-btn-spinner"></span>
+         <span ng-show="model.loading">
+           <i class="fa fa-refresh fa-spin text-muted"></i>
+         </span>
       </div>
-    </siv>
+    </div>
     </fieldset>
   </form>
 

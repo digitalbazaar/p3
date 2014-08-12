@@ -5,8 +5,9 @@
     data-custom-display="true" data-columns="2" data-selecting="selecting">
     <ul ng-show="services.token.loading" class="list-unstyled item">
       <li class="item-hover well">
-        <div data-spinner="services.token.loading"
-          data-spinner-class="selector-spinner"></div>
+        <div ng-show="services.token.loading">
+          <i class="fa fa-refresh fa-spin text-muted"></i>
+        </div>
       </li>
     </ul>
     <div ng-hide="services.token.loading || selecting">

@@ -37,8 +37,9 @@
     </form>
   </div>
   <div class="modal-footer">
-    <span data-spinner="model.state.loading"
-      data-spinner-class="prepend-btn-spinner"></span>
+    <span ng-show="model.state.loading">
+      <i class="fa fa-refresh fa-spin text-muted"></i>
+    </span>
     <button type="button" class="btn btn-primary"
       ng-disabled="model.state.loading"
       ng-click="model.setRegulatoryAddress()"><i class="fa fa-check"></i> Continue</button>

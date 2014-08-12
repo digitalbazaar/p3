@@ -4,8 +4,9 @@
     data-invalid="invalid"
     data-add-item="model.showAddAccountModal=true"
     data-fixed="{{fixed}}">
-    <div data-spinner="model.state.loading"
-      data-spinner-class="selector-spinner"></div>
+    <div ng-show="model.state.loading">
+      <i class="fa fa-refresh fa-spin text-muted"></i>
+    </div>
     <div ng-hide="model.state.loading" class="account">
       <table class="table table-condensed">
         <thead>

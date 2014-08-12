@@ -25,10 +25,9 @@
           <button ng-hide="model.loading"
             type="button" class="btn btn-primary"
             ng-click="generateBundle()">Generate Bundle</button>
-          <span ng-show="model.loading">[{{model.bundleStep}}] </span>
-          <span ng-show="model.loading"> This may take a while...</span>
-          <span data-spinner="model.loading"
-            data-spinner-class="append-btn-spinner"></span>
+          <span ng-show="model.loading">
+            [{{model.bundleStep}}] This may take a while... <i class="fa fa-refresh fa-spin text-muted"></i>
+          </span>
         </div>
         <div ng-show="model.success">
           <p class="alert alert-success">
@@ -46,8 +45,9 @@
         </div>
       </div>
       <div class="modal-footer">
-        <span data-spinner="model.state.assets.loading"
-          data-spinner-class="prepend-btn-spinner"></span>
+        <span ng-show="model.state.assets.loading">
+          <i class="fa fa-refresh fa-spin text-muted"></i>
+        </span>
         <span ng-hide="model.success">
           <button type="button" class="btn btn-default stackable-cancel">Cancel</button>
         </span>

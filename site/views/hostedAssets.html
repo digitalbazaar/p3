@@ -46,9 +46,9 @@
   </tbody>
   <tfoot>
     <tr ng-show="model.loading">
-      <td colspan="3" style="text-align: center">
-        <span class="center">
-          <span data-spinner="model.loading" data-spinner-class="table-spinner"></span>
+      <td colspan="3" class="text-center">
+        <span ng-show="model.loading">
+          <i class="fa fa-refresh fa-spin text-muted"></i>
         </span>
       </td>
     </tr>

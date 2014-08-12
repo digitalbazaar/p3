@@ -77,7 +77,9 @@
           <button type="button" class="btn btn-lg btn-primary"
             ng-disabled="model.loading || !model.identity || !model.selection.account"
             ng-click="model.register()">Register</button>
-          <span data-spinner="model.loading" class="append-btn-spinner"></span>
+          <span ng-show="model.loading">
+            <i class="fa fa-refresh fa-spin text-muted"></i>
+          </span>
         </div>
       </fieldset>
     </form>

@@ -1,7 +1,7 @@
 <form class="well form-horizontal">
   <fieldset>
     <br-input br-model="model.account.label"
-      br-options="{icon: 'fa-tag', type: 'text', name: 'label', label: 'Name'}">
+      br-options="{icon: 'fa-tag', name: 'label', label: 'Name'}">
       Enter a name for your financial account, for instance 'primary' or 'secondary'.
       <span ng-hide="model.editing">The name you choose will become part of your account URL:</span>
     </br-input>
@@ -70,7 +70,7 @@
     </div>
 
     <br-input ng-hide="!model.editing" br-model="model.account.creditLimit"
-      br-options="{icon: 'fa-money', type: 'text', name: 'creditLimit', label: 'Credit Limit', disabled: true}">
+      br-options="{icon: 'fa-money', name: 'creditLimit', label: 'Credit Limit', disabled: true}">
       Choose a credit limit for this account. Other factors may reduce your maximum available credit.
     </br-input>
 
@@ -146,7 +146,7 @@
     </div>
 
     <br-input ng-hide="!model.editing" br-model="model.account.sysMinInstantTransfer"
-      br-options="{icon: 'fa-money', type: 'text', name: 'sysMinInstantTransfer', label: 'Minimum Amount'}">
+      br-options="{icon: 'fa-money', name: 'sysMinInstantTransfer', label: 'Minimum Amount'}">
       Please enter the minimum purchase amount required in order to trigger an
       instant transfer.
       <br/><br/>

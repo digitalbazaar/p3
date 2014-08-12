@@ -14,27 +14,11 @@ pay back any credit you use on a periodic basis.</p>
   </p>
   <form class="form-horizontal" ng-submit="sendPasscode()">
     <fieldset>
-      <div class="form-group" data-binding="sysIdentifier">
-        <label class="control-label col-sm-3" for="email">Email</label>
-        <div class="input-group col-sm-8">
-          <input class="form-control"
-            name="identity" type="text" maxlength="320"
-            ng-model="model.identity.email"
-            data-track-state="model.help.email"
-            disabled="disabled" />
-          <span class="input-group-btn">
-            <button type="button" class="btn btn-default"
-              data-help-toggle="model.help.email">
-              <i class="fa fa-question-circle"></i>
-            </button>
-          </span>
-        </div>
-        <p ng-show="model.help.email.show"
-          class="help-block col-sm-offset-3 col-sm-8 br-fadein br-fadeout">
-          Please enter the email address that you used when you registered
-          with this website.
-        </p>
-      </div>
+      <br-input br-model="model.identity.email"
+        br-options="{icon: 'fa-envelope', name: 'sysIdentifier', label: 'Email', disabled: true}">
+        Please enter the email address that you used when you registered
+        with this website.
+      </br-input>
       <div class="form-group">
         <div class="col-sm-offset-3">
           <button type="button" ng-disabled="model.loading"
@@ -49,41 +33,23 @@ pay back any credit you use on a periodic basis.</p>
 
   <form class="form-horizontal" ng-submit="verifyEmail()">
     <fieldset>
+      <input name="input" type="hidden" ng-model="model.identity.email" />
 
-    <input class="form-control"
-      name="input" type="hidden" ng-model="model.identity.email" />
-
-    <div class="form-group" data-binding="sysPasscode">
-      <label class="control-label col-sm-3" for="passcode">Passcode</label>
-      <div class="input-group col-sm-8">
-        <input class="form-control"
-          name="sysPasscode" type="text" maxlength="8"
-          ng-model="model.sysPasscode"
-          data-track-state="model.help.passcode"
-          ng-disabled="model.loading" />
-        <span class="input-group-btn">
-          <button type="button" class="btn btn-default"
-            data-help-toggle="model.help.passcode">
-            <i class="fa fa-question-circle"></i>
-          </button>
-        </span>
-      </div>
-      <p ng-show="model.help.passcode.show"
-        class="help-block col-sm-offset-3 col-sm-8 br-fadein br-fadeout">
+      <br-input br-model="model.sysPasscode"
+        br-options="{name: 'sysPasscode', label: 'Passcode', disabled: model.loading}">
         Please enter the passcode that was sent to you in the verify
         email from this website.
-      </p>
-    </div>
+      </br-input>
 
-    <div class="form-group">
-      <div class="col-sm-offset-3">
-         <button type="button" ng-disabled="model.loading"
-           class="btn btn-primary" data-submit-form>Verify Email</button>
-         <span ng-show="model.loading">
-           <i class="fa fa-refresh fa-spin text-muted"></i>
-         </span>
+      <div class="form-group">
+        <div class="col-sm-offset-3">
+           <button type="button" ng-disabled="model.loading"
+             class="btn btn-primary" data-submit-form>Verify Email</button>
+           <span ng-show="model.loading">
+             <i class="fa fa-refresh fa-spin text-muted"></i>
+           </span>
+        </div>
       </div>
-    </div>
     </fieldset>
   </form>
 

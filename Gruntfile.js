@@ -31,13 +31,7 @@ module.exports = function(grunt) {
       },
       files: {
         'site/static/css/bundle.min.css': [
-          '<%= dirs.bedrock %>/site/static/bootstrap/css/bootstrap.css',
-          '<%= dirs.bedrock %>/site/static/bootstrap/css/bootstrap-responsive.css',
-          '<%= dirs.bedrock %>/site/static/font-awesome/css/font-awesome.css',
-          '<%= dirs.bedrock %>/bower_components/select2/select2.css',
-          '<%= dirs.bedrock %>/bower_components/select2/select2-bootstrap.css',
-          '<%= dirs.bedrock %>/bower_components/angular-stackables/stackables.css',
-          '<%= dirs.bedrock %>/site/static/css/common.css',
+          '<%= dirs.bedrock %>/site/static/css/app.css',
           'site/static/css/custom.css'
         ]
       }
@@ -99,6 +93,7 @@ module.exports = function(grunt) {
           'angular-sanitize': '<%= dirs.bedrock %>/bower_components/angular-sanitize/angular-sanitize',
           'angular-ui-select2': '<%= dirs.bedrock %>/bower_components/angular-ui-select2/src/select2',
           'bedrock': '.',
+          'bootstrap': '<%= dirs.bedrock %>/bower_components/bootstrap/dist/js/bootstrap',
           'dialog-polyfill': '<%= dirs.bedrock %>/bower_components/dialog-polyfill/dialog-polyfill',
           'forge': '<%= dirs.bedrock %>/node_modules/node-forge/js',
           'iso8601': '<%= dirs.bedrock %>/lib/iso8601/iso8601',
@@ -174,19 +169,19 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.config('less', {
-    compileBootstrap: {
+    compileApp: {
       options: {
         strictMath: true,
         sourceMap: false,
         outputSourceFiles: false
       },
       files: {
-        'site/static/bootstrap/css/bootstrap.css': 'less/custom.less'
+        'site/static/css/app.css': 'less/app.less'
       }
     }
   });
 
-  grunt.registerTask('compile-bootstrap', ['less:compileBootstrap']);
+  grunt.registerTask('compile-css', ['less:compileApp']);
 
   // default tasks
   grunt.registerTask('default', ['ngtemplates', 'cssmin', 'requirejs']);

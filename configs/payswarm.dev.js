@@ -207,6 +207,7 @@ var clientData = config.website.views.vars.clientData;
 clientData.baseUri = config.server.baseUri;
 clientData.siteTitle = config.brand.name;
 clientData.productionMode = false;
+clientData.demoWarningUrl = 'https://payswarm.com/wiki/Demo_Warning';
 
 // identity service
 config.identity.owner = config.authority.id;

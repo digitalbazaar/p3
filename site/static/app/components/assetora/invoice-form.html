@@ -1,29 +1,13 @@
 <form class="well form-horizontal">
   <fieldset>
-    <div class="form-group" data-binding="title">
-      <label class="control-label col-sm-3" for="title">Title</label>
-      <div class="input-group col-sm-8">
-        <span class="add-on"><i class="fa fa-tag"></i></span>
-        <input class="form-control" type="text" name="title"
-          ng-model="model.asset.title"
-          data-track-state="model.help.title"
-          placeholder="Title" />
-        <span class="input-group-btn">
-          <button type="button" class="btn btn-default"
-            data-help-toggle="model.help.title">
-            <i class="fa fa-question-circle"></i>
-          </button>
-        </span>
-      </div>
-      <p ng-show="model.help.title.show"
-        class="help-block col-sm-offset-3 col-sm-8 br-fadein br-fadeout">
-        Please enter the title for the invoice.
-        <!--
-        <br/><br/>
-        Suggestions: ...
-        -->
-      </p>
-    </div>
+    <br-input br-model="model.asset.title"
+      br-options="{icon: 'fa-tag', name: 'title', label: 'Title'}">
+      Please enter the title for the invoice.
+      <!--
+      <br/><br/>
+      Suggestions: ...
+      -->
+    </br-input>
   </fieldset>
 </form>
 

@@ -1,74 +1,49 @@
 <form class="well form-horizontal">
   <fieldset>
-    <div class="form-group" data-binding="label">
-      <label class="control-label col-sm-4" for="label">Name</label>
-      <div class="input-group col-sm-7">
-        <span class="input-group-addon"><i class="fa fa-tag"></i></span>
-        <input class="form-control"
-          type="text" name="label"
-          ng-model="budget.label"
-          data-track-state="model.help.label" />
-        <span class="input-group-btn">
-          <button type="button" class="btn btn-default"
-            data-help-toggle="model.help.label">
-            <i class="fa fa-question-circle"></i>
-          </button>
-        </span>
-      </div>
-      <p ng-show="model.help.label.show"
-        class="help-block col-sm-offset-4 col-sm-7 br-fadein br-fadeout">
-        Please enter a memorable name that describes what this budget is
-        for.
-        <br/><br/>
-        Suggestions: News, Movies, Favorites
-      </p>
-    </div>
+    <br-input br-model="budget.label"
+      br-options="{
+        icon: 'fa-tag', name: 'label', label: 'Name',
+        columns: {
+          label: 'col-sm-4',
+          input: 'col-sm-7',
+          help: 'col-sm-offset-4 col-sm-7'
+        }
+      }">
+      Please enter a memorable name that describes what this budget is
+      for.
+      <br/><br/>
+      Suggestions: News, Movies, Favorites
+    </br-input>
 
-    <div class="form-group" data-binding="amount">
-      <label class="control-label col-sm-4" for="amount">Budgeted Amount</label>
-      <div class="input-group col-sm-7">
-        <span class="input-group-addon"><i class="fa fa-money"></i></span>
-        <input class="form-control" type="text" name="amount"
-          ng-model="budget.amount"
-          data-track-state="model.help.amount" />
-        <span class="input-group-btn">
-          <button type="button" class="btn btn-default"
-            data-help-toggle="model.help.amount">
-            <i class="fa fa-question-circle"></i>
-          </button>
-        </span>
-      </div>
-      <p ng-show="model.help.amount.show"
-        class="help-block col-sm-offset-4 col-sm-7 br-fadein br-fadeout">
-        Please enter the maximum amount that can be used before the budget
-        is refilled.
-        <br/><br/>
-        You must enter a valid monetary amount like 20 or 5.00.
-      </p>
-    </div>
+    <br-input br-model="budget.amount"
+      br-options="{
+        icon: 'fa-money', name: 'amount', label: 'Budgeted Amount',
+        columns: {
+          label: 'col-sm-4',
+          input: 'col-sm-7',
+          help: 'col-sm-offset-4 col-sm-7'
+        }
+      }">
+      Please enter the maximum amount that can be used before the budget
+      is refilled.
+      <br/><br/>
+      You must enter a valid monetary amount like 20 or 5.00.
+    </br-input>
 
-    <div class="form-group" data-binding="sysMaxPerUse">
-      <label class="control-label col-sm-4" for="max-per-use">Max Per Use</label>
-      <div class="input-group col-sm-7">
-        <span class="input-group-addon"><i class="fa fa-money"></i></span>
-        <input class="form-control" type="text" name="max-per-use"
-          ng-model="budget.sysMaxPerUse"
-          data-track-state="model.help.maxPerUse" />
-        <span class="input-group-btn">
-          <button type="button" class="btn btn-default"
-            data-help-toggle="model.help.maxPerUse">
-            <i class="fa fa-question-circle"></i>
-          </button>
-        </span>
-      </div>
-      <p ng-show="model.help.maxPerUse.show"
-        class="help-block col-sm-offset-4 col-sm-7 br-fadein br-fadeout">
-        Please enter the maximum amount that can be used per transaction
-        using this budget.
-        <br/><br/>
-        You must enter a valid monetary amount like 20 or 5.00.
-      </p>
-    </div>
+    <br-input br-model="budget.sysMaxPerUse"
+      br-options="{
+        icon: 'fa-money', name: 'sysMaxPerUse', label: 'Max Per Use',
+        columns: {
+          label: 'col-sm-4',
+          input: 'col-sm-7',
+          help: 'col-sm-offset-4 col-sm-7'
+        }
+      }">
+      Please enter the maximum amount that can be used per transaction
+      using this budget.
+      <br/><br/>
+      You must enter a valid monetary amount like 20 or 5.00.
+    </br-input>
 
     <div class="form-group" data-binding="sysRefreshInterval">
       <label class="control-label col-sm-4" for="refresh">Refill</label>

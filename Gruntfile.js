@@ -89,6 +89,7 @@ module.exports = function(grunt) {
           'almond': '../../node_modules/almond/almond',
           'angular': '<%= dirs.bedrock %>/bower_components/angular/angular',
           'angular-animate': '<%= dirs.bedrock %>/bower_components/angular-animate/angular-animate',
+          'angular-bootstrap': '<%= dirs.bedrock %>/bower_components/angular-bootstrap/ui-bootstrap-tpls',
           'angular-route': '<%= dirs.bedrock %>/bower_components/angular-route/angular-route',
           'angular-sanitize': '<%= dirs.bedrock %>/bower_components/angular-sanitize/angular-sanitize',
           'angular-ui-select2': '<%= dirs.bedrock %>/bower_components/angular-ui-select2/src/select2',

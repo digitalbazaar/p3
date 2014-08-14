@@ -92,7 +92,7 @@ module.exports = function(grunt) {
           'angular-bootstrap': '<%= dirs.bedrock %>/bower_components/angular-bootstrap/ui-bootstrap-tpls',
           'angular-route': '<%= dirs.bedrock %>/bower_components/angular-route/angular-route',
           'angular-sanitize': '<%= dirs.bedrock %>/bower_components/angular-sanitize/angular-sanitize',
-          'angular-ui-select2': '<%= dirs.bedrock %>/bower_components/angular-ui-select2/src/select2',
+          'angular-ui-select': '<%= dirs.bedrock %>/bower_components/angular-ui-select/dist/select',
           'bedrock': '.',
           'bootstrap': '<%= dirs.bedrock %>/bower_components/bootstrap/dist/js/bootstrap',
           'dialog-polyfill': '<%= dirs.bedrock %>/bower_components/dialog-polyfill/dialog-polyfill',
@@ -104,7 +104,6 @@ module.exports = function(grunt) {
           'opencred-verifier': '<%= dirs.bedrock %>/node_modules/opencred-verifier/lib/credentialVerifier',
           'promise': '<%= dirs.bedrock %>/node_modules/es6-promise/dist/promise-1.0.0',
           'payswarm': '../../../../site/static',
-          'select2': '<%= dirs.bedrock %>/bower_components/select2/select2',
           'stackables': '<%= dirs.bedrock %>/bower_components/angular-stackables/stackables',
           'underscore': '<%= dirs.bedrock %>/node_modules/underscore/underscore',
           // overrides

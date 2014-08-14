@@ -32,21 +32,9 @@
       Please enter your zip or postal code.
     </br-input>
 
-    <div class="form-group" data-binding="addressCountry">
-      <label class="control-label col-sm-3" for="address-country">Country</label>
-      <div class="input-group col-sm-8">
-        <br-country-selector data-track-state="help" ng-model="originalAddress.addressCountry"></br-country-selector>
-        <span class="input-group-btn">
-          <button type="button" class="btn btn-default"
-            data-help-toggle="model.help.country">
-            <i class="fa fa-question-circle"></i>
-          </button>
-        </span>
-      </div>
-    </div>
-    <div ng-show="model.help.country.show"
-      class="col-sm-offset-3 col-sm-8 help-block br-fadein br-fadeout">
+    <br-country-selector br-model="originalAddress.addressCountry"
+      br-options="{name: 'addressCountry', label: 'Country'}">
       Please choose your country.
-    </div>
+    </br-country-selector>
   </fieldset>
 </form>

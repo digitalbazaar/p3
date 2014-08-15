@@ -32,9 +32,10 @@
       Please enter your zip or postal code.
     </br-input>
 
-    <br-country-selector br-model="originalAddress.addressCountry"
-      br-options="{name: 'addressCountry', label: 'Country'}">
+    <br-select br-model="originalAddress.addressCountry"
+      br-items="model.countries" br-display-item="item.name"
+      br-options="{name: 'addressCountry', label: 'Country', placeholder: 'Pick a country...', key: 'code'}">
       Please choose your country.
-    </br-country-selector>
+    </br-select>
   </fieldset>
 </form>

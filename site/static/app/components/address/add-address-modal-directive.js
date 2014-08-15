@@ -20,6 +20,7 @@ function factory(AddressService, AlertService, IdentityService, config) {
   function Link(scope, element, attrs, stackable) {
     // FIXME: use 'model'
     var model = scope.model = {};
+    model.countries = config.constants.countries;
     scope.identity = IdentityService.identity;
     scope.originalAddress = {
       '@context': config.data.contextUrl,

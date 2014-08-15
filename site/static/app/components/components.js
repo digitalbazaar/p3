@@ -31,7 +31,6 @@ define([
   'bedrock/app/components/settings/settings',
   'bedrock/app/components/slug/slug',
   'bedrock/app/components/spinner/spinner',
-  'bedrock/app/components/submit-form/submit-form',
   'bedrock/app/components/tabs/tabs',
   'bedrock/app/components/util/util'
 ], function(angular) {

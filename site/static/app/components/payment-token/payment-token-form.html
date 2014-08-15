@@ -51,24 +51,19 @@
 
           <div class="form-group">
             <label class="control-label col-sm-3">Expiration</label>
-            <div class="input-group co-sm-9 row">
-              <div class="col-sm-7" style="padding-right: 0"
-                data-binding="source.cardExpMonth">
-                <select class="form-control" name="card-exp-month"
-                  ng-model="card.cardExpMonth"
-                  ng-options="month.index as month.label for month in monthLabels">
-                  <option value=""></option>
-                </select>
+            <div class="input-group col-sm-9 row">
+              <br-select br-model="card.cardExpMonth"
+                br-items="monthLabels" br-display-item="item.label"
+                br-options="{
+                  name: 'source.cardExpMonth', placeholder: 'Month',
+                  inline: true, columns: {select: 'col-sm-5'}
+                }"></br-select>
+              <br-select br-model="card.cardExpYear" br-items="years"
+                br-options="{
+                  name: 'source.cardExpYear', placeholder: 'Year',
+                  inline: true, columns: {select: 'col-sm-4'}
+                }"></br-select>
               </div>
-              <div class="col-sm-5" style="padding-left: 5px"
-                data-binding="source.cardExpYear">
-                <select class="form-control" name="card-exp-year"
-                  ng-model="card.cardExpYear"
-                  ng-options="year for year in years">
-                  <option value=""></option>
-                </select>
-              </div>
-            </div>
           </div>
 
           <br-input br-model="card.cardCvm"

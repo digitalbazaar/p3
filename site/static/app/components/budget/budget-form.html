@@ -45,35 +45,34 @@
       You must enter a valid monetary amount like 20 or 5.00.
     </br-input>
 
-    <div class="form-group" data-binding="sysRefreshInterval">
-      <label class="control-label col-sm-4" for="refresh">Refill</label>
-      <div class="input-group col-sm-7">
-        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-        <select class="form-control"
-          name="refresh" ng-model="model.budgetRefreshDuration"
-          ng-options="refresh.value as refresh.label for refresh in refreshChoices">
-        </select>
-      </div>
-      <p class="help-block col-sm-offset-4 col-sm-7">
-        Please choose the interval between refilling the budget balance to
-        the maximum amount.
-      </p>
-    </div>
+    <br-select br-model="model.budgetRefreshDuration"
+      br-items="refreshChoices" br-display-item="item.label"
+      br-options="{
+        icon: 'fa-calendar', name: 'sysRefreshInterval',
+        label: 'Refill', key: 'value',
+        columns: {
+          label: 'col-sm-4',
+          select: 'col-sm-7',
+          help: 'col-sm-offset-4 col-sm-7'
+        }
+      }">
+      Please choose the interval between refilling the budget balance to
+      the maximum amount.
+    </br-select>
 
-    <div class="form-group" data-binding="sysValidityInterval">
-      <label class="control-label col-sm-4" for="expires">Expire after</label>
-      <div class="input-group col-sm-7">
-        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-        <select class="form-control"
-          name="validity" ng-model="model.budgetValidDuration"
-          ng-options="duration.value as duration.label for duration in validityChoices">
-        </select>
-      </div>
-      <p class="help-block col-sm-offset-4 col-sm-7">
-        Please choose when this budget should expire
-        due to inactivity.
-      </p>
-    </div>
+    <br-select br-model="model.budgetValidDuration"
+      br-items="validityChoices" br-display-item="item.label"
+      br-options="{
+        icon: 'fa-calendar', name: 'sysValidityInterval',
+        label: 'Expire after', placeholder: 'Current', key: 'value',
+        columns: {
+          label: 'col-sm-4',
+          select: 'col-sm-7',
+          help: 'col-sm-offset-4 col-sm-7'
+        }
+      }">
+      Please choose when this budget should expire due to inactivity.
+    </br-select>
   </fieldset>
 </form>
 

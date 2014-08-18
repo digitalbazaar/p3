@@ -110,25 +110,42 @@
           </div>
 
           <br-input br-model="bankAccount.bankRoutingNumber"
-            br-options="{name: 'source.bankRoutingNumber', label: 'Routing Number', maxLength: '9', autocomplete: 'off'}">
-            Please enter your bank's routing number. This can be found in your checkbook or by signing into your bank online.
+            br-options="{
+              name: 'source.bankRoutingNumber', label: 'Routing Number',
+              maxLength: '9', autocomplete: 'off',
+              columns: {
+                label: 'col-sm-4',
+                input: 'col-sm-7',
+                help: 'col-sm-offset-4, col-sm-7'
+              }
+            }">
+            Please enter your bank's routing number. This can be found in your
+            checkbook or by signing into your bank online.
           </br-input>
 
-          <div class="form-group" data-binding="source.bankAccountType">
-            <label class="control-label col-sm-3" for="bank-account-type">Account Type</label>
-            <div class="input-group col-sm-8">
-              <select class="form-control" name="bank-account-type"
-                ng-model="bankAccount.bankAccountType"
-                ng-options="type.id as type.label for type in bankAccountTypes">
-              </select>
-            </div>
-            <p class="help-block col-sm-offset-3 col-sm-8">
-              If your bank account does not have a type, choose 'Checking'.
-            </p>
-          </div>
+          <br-select br-model="bankAccount.bankAccountType"
+            br-items="bankAccountTypes" br-display-item="item.label"
+            br-options="{
+              name: 'source.bankAccountType', label: 'Account Type', key: 'id',
+              columns: {
+                label: 'col-sm-4',
+                select: 'col-sm-7',
+                help: 'col-sm-offset-4, col-sm-7'
+              }
+            }">
+            If your bank account does not have a type, choose 'Checking'.
+          </br-select>
 
           <br-input br-model="bankAccount.bankAccount"
-            br-options="{name: 'source.bankAccount', label: 'Account Number', maxLength: '30', autocomplete: 'off'}">
+            br-options="{
+              name: 'source.bankAccount', label: 'Account Number',
+              maxLength: '30', autocomplete: 'off',
+              columns: {
+                label: 'col-sm-4',
+                input: 'col-sm-7',
+                help: 'col-sm-offset-4, col-sm-7'
+              }
+            }">
             Please enter your bank account number. This can be found
             in your checkbook or by signing into your bank online.
           </br-input>

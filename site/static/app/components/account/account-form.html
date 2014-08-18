@@ -27,47 +27,18 @@
       </div>
     </div>
 
-    <div class="form-group">
-      <label class="control-label col-sm-3" for="visibility">Visibility</label>
-      <div class="input-group col-sm-8">
-        <span class="input-group-addon"><i class="fa fa-eye"></i></span>
-        <select class="form-control"
-          name="visibility" ng-model="model.accountVisibility"
-          ng-options="value as key for (key, value) in {Hidden: 'hidden', Public: 'public'}">
-        </select>
-        <span class="input-group-btn">
-          <button type="button" class="btn btn-default"
-            data-help-toggle="model.help.visibility">
-            <i class="fa fa-question-circle"></i>
-          </button>
-        </span>
-      </div>
-      <p ng-show="model.help.visibility.show"
-        class="help-block col-sm-offset-3 col-sm-8 br-fadein br-fadeout">
-        Choose if the account is public or private.
-      </p>
-    </div>
+    <br-select br-model="model.accountVisibility"
+      br-items="[{id: 'hidden', display: 'Hidden'}, {id: 'public', display: 'Public'}]"
+      br-display-item="item.display"
+      br-options="{icon: 'fa-eye', name: 'visibility', label: 'Visibility', key: 'id'}">
+      Choose if the account is public or private.
+    </br-select>
 
-    <div ng-hide="editing" class="form-group">
-      <label class="control-label col-sm-3" for="currency">Currency</label>
-      <div class="input-group col-sm-8">
-        <span class="input-group-addon"><i class="fa fa-money"></i></span>
-        <select class="form-control"
-          name="currency" ng-model="model.account.currency"
-          ng-options="value as key for (key, value) in {'US Dollars $': 'USD'}">
-        </select>
-        <span class="input-group-btn">
-          <button type="button" class="btn btn-default"
-            data-help-toggle="model.help.currency">
-            <i class="fa fa-question-circle"></i>
-          </button>
-        </span>
-      </div>
-      <p ng-show="model.help.currency.show"
-        class="help-block col-sm-offset-3 col-sm-8 br-fadein br-fadeout">
-        Choose the currency for the account. This can not be changed after an account is created.
-      </p>
-    </div>
+    <br-select ng-hide="model.editing" br-model="model.account.currency"
+      br-items="[{id: 'USD', display: 'US Dollars $'}]" br-display-item="item.display"
+      br-options="{icon: 'fa-money', name: 'currency', label: 'Currency', key: 'id'}">
+      Choose the currency for the account. This can not be changed after an account is created.
+    </br-select>
 
     <br-input ng-hide="!model.editing" br-model="model.account.creditLimit"
       br-options="{icon: 'fa-money', name: 'creditLimit', label: 'Credit Limit', disabled: true}">

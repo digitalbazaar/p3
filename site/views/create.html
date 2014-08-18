@@ -6,17 +6,22 @@
 {% block content %}
 
 {% raw %}
-<div class="row ng-cloak" ng-controller="CreateIdentityController as model">
-  <div ng-include="'/app/components/util/demo-warning.html'"></div>
+<div class="ng-cloak" ng-controller="CreateIdentityController as model">
 
+<div class="row">
   <div class="col-md-12">
-    <h2>Create an Identity</h2>
+    <div ng-include="'/app/components/util/demo-warning.html'"></div>
+  </div>
+</div>
 
-    <p>
-    By creating an identity, you will be able to buy and sell digital goods
-    online, raise money for projects, fund other projects, and enter a new
-    world of collaboration on the web.
-    </p>
+<div class="row">
+  <div class="col-md-12">
+    <h2 class="headline">Create an Identity</h2>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-offset-2 col-md-8">
 
     <hr />
 
@@ -24,21 +29,29 @@
       <fieldset>
         <legend>Your Email and Password</legend>
 
+        <div class="form-group">
+          <p class="help-block col-md-10">
+            By creating an identity, you will be able to buy and sell digital
+            goods online, raise money for projects, fund other projects, and
+            enter a new world of collaboration on the web.
+          </p>
+        </div>
+
         <br-input br-model="model.identity.email"
           br-options="{
             name: 'email', label: 'Email', disabled: model.loading,
             autocomplete: 'off',
             columns: {
               label: 'col-md-2',
-              input: 'col-md-9',
-              help: 'col-md-offset-2 col-md-9'
+              input: 'col-md-8',
+              help: 'col-md-offset-2 col-md-8'
             }
           }">
           A valid email address is required so that we can reset
           your password if you get locked out.
         </br-input>
         <div ng-show="model.identity.email" class="form-group">
-          <div class="col-md-offset-2 col-md-9"
+          <div class="col-md-offset-2 col-md-8"
             data-duplicate-checker="model.identity.email"
             data-duplicate-checker-type="email"
             data-duplicate-checker-available="This email address is available!"
@@ -55,8 +68,8 @@
             label: 'Password', maxlength: '32', disabled: model.loading,
             columns: {
               label: 'col-md-2',
-              input: 'col-md-9',
-              help: 'col-md-offset-2 col-md-9'
+              input: 'col-md-8',
+              help: 'col-md-offset-2 col-md-8'
             }
           }">
           Please enter a secure password that is between 6 and 32 characters long. The best passwords are
@@ -64,11 +77,13 @@
         </br-input>
       </fieldset>
 
+      <br />
+
       <fieldset>
         <legend>Your Identity</legend>
 
         <div class="form-group">
-          <p class="help-block col-md-12">
+          <p class="help-block col-md-10">
             Your identity will be used to keep track of and verify your online
             activity with this service. It is stored along with any purchases or
             sales that you participate in. It is usually a good idea to use some
@@ -86,8 +101,8 @@
             autocomplete: 'off',
             columns: {
               label: 'col-md-2',
-              input: 'col-md-9',
-              help: 'col-md-offset-2 col-md-9'
+              input: 'col-md-8',
+              help: 'col-md-offset-2 col-md-8'
             }
           }">
           Enter the full name that is associated with this new identity.
@@ -103,8 +118,8 @@
             autocomplete: 'off', maxlength: '32',
             columns: {
               label: 'col-md-2',
-              input: 'col-md-9',
-              help: 'col-md-offset-2 col-md-9'
+              input: 'col-md-8',
+              help: 'col-md-offset-2 col-md-8'
             }
           }">
           Enter a short name for this identity. A name similar to your full
@@ -113,12 +128,12 @@
           "my-short-name", "myshortname", or "megacorp".
         </br-input>
         <div class="form-group">
-          <div class="col-md-offset-2 col-md-9">
+          <div class="col-md-offset-2 col-md-8">
             <small>{{model.data.identityBaseUri}}/</small><strong>{{model.identity.sysSlug}}</strong>
           </div>
         </div>
         <div ng-show="model.identity.sysSlug" class="form-group">
-          <div class="col-md-offset-2 col-md-9"
+          <div class="col-md-offset-2 col-md-8"
             data-duplicate-checker="model.identity.sysSlug"
             data-duplicate-checker-type="identity"
             data-duplicate-checker-available="This identity name is available!"
@@ -130,11 +145,13 @@
         </div>
       </fieldset>
 
+      <br />
+
       <fieldset>
         <legend>Service Agreement</legend>
 
         <div class="form-group" data-binding="agreementChecked">
-          <div class="col-sm-offset-2 col-sm-9">
+          <div class="col-sm-offset-2 col-sm-8">
             <div class="checkbox">
               <label>
                 <input type="checkbox" ng-model="model.agreementChecked"> I agree to the <a target="_blank" href="/legal#tos">Terms of Service</a> and <a target="_blank" href="/legal#pp">Privacy Policy</a>.

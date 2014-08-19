@@ -53,10 +53,11 @@
 
   <div ng-show="model.loading || !model.ready" class="row">
     <div class="col-md-6 col-md-offset-3">
-      <div class="alert alert-info">Loading purchase details...
-        <div ng-show="model.loading || !model.ready">
-          <i class="fa fa-refresh fa-spin text-muted"></i>
-        </div>
+      <div class="alert alert-info">
+        <span>
+          Loading purchase details...
+          <i class="fa fa-refresh fa-spin text-muted pull-right alert-info"></i>
+        </span>
       </div>
     </div>
   </div>

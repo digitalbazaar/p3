@@ -201,19 +201,21 @@
   </div>
 </div>
 
-<div class="section" ng-show="editing && paymentToken.backupSourceFor && paymentToken.backupSourceFor.length > 0">
+<div class="section" ng-show="editing && paymentToken.backupSourceFor.length > 0">
   <h4 class="headline">Linked Accounts</h4>
-  <form class="form-horizontal">
-    <div class="form-group">
-      <div class="checkbox" ng-repeat="(accountId, info) in backupSourceFor | filter:'info.exists' | orderBy:['account.label','account.id']">
-        <label>
-          <input type="checkbox" ng-model="info.active"></input>
-          <span class="active-{{info.active}}">
-            <a href="{{info.account.id}}" target="_blank">
-              {{info.account.label}}
-            </a>
-          </span>
-        </label>
+  <form class="well form-horizontal">
+    <div class="form-group" ng-repeat="(accountId, info) in backupSourceFor | filter:'info.exists' | orderBy:['account.label','account.id']">
+      <div class="col-sm-12">
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" ng-model="info.active"></input>
+            <span class="active-{{info.active}}">
+              <a href="{{info.account.id}}" target="_blank">
+                {{info.account.label}}
+              </a>
+            </span>
+          </label>
+        </div>
       </div>
     </div>
   </form>

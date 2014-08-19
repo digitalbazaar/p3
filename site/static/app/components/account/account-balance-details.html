@@ -16,13 +16,18 @@
     <div style="clear: both"></div>
     <div class="pull-left"><small><strong>Remaining credit<span class="disabled-credit" ng-show="account.sysCreditDisabled"> (Disabled)</span></strong></small></div>
     <div style="clear: both"></div>
-    <div class="progress progress-striped no-margin"
-      ng-class="{'progress-disabled': account.sysCreditDisabled, 'progress-success': (!account.sysCreditDisabled && model.creditBar.width >= 50), 'progress-warning': (!account.sysCreditDisabled && model.creditBar.width < 50 && model.creditBar.width >= 25), 'progress-danger': (!account.sysCreditDisabled && model.creditBar.width < 25)}">
+    <div class="progress progress-striped no-margin">
       <div class="progress-bar-text-back">
         <span>{{account.currency}}</span>
         <span>{{model.remainingCredit | floor | currency:'$'}} / {{model.creditLimit | floor | currency:'$'}}</span>
       </div>
-      <div class="progress-bar" style="width: {{model.creditBar.width}}%">
+      <div class="progress-bar" style="width: {{model.creditBar.width}}%"
+        ng-class="{
+          'progress-bar-disabled': account.sysCreditDisabled,
+          'progress-bar-success': (!account.sysCreditDisabled && model.creditBar.width >= 50),
+          'progress-bar-warning': (!account.sysCreditDisabled && model.creditBar.width < 50 && model.creditBar.width >= 25),
+          'progress-bar-danger': (!account.sysCreditDisabled && model.creditBar.width < 25)
+        }">
         <div class="progress-bar-text-front" style="width: {{model.creditBar.textWidth}}%">
           <span>{{account.currency}}</span>
           <span>{{model.remainingCredit | floor | currency:'$'}} / {{account.creditLimit | floor | currency:'$'}}</span>

@@ -6,7 +6,11 @@
       <span>{{budget.balance | floor | currency:'$'}} / {{budget.amount | floor | currency:'$'}}</span>
     </div>
     <div class="progress-bar" style="width: {{model.barPercentage}}%"
-      ng-class="{'progress-bar-success': model.barPercentage >= 50, 'progress-bar-warning': model.barPercentage < 50 && model.barPercentage >= 25, 'progress-bar-danger': model.barPercentage < 25}">
+      ng-class="{
+        'progress-bar-success': model.barPercentage >= 50,
+        'progress-bar-warning': model.barPercentage < 50 && model.barPercentage >= 25,
+        'progress-bar-danger': model.barPercentage < 25
+      }">
       <div class="progress-bar-text-front" style="width: {{model.textPercentage}}%">
         <span>{{budget.currency}}</span>
         <span>{{budget.balance | floor | currency:'$'}} / {{budget.amount | floor | currency:'$'}}</span>

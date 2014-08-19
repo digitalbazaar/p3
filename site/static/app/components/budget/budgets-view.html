@@ -59,10 +59,10 @@
   <!-- Delete budget alert -->
   <stackable-modal stackable="model.showDeleteBudgetAlert"
     stackable-closed="model.confirmDeleteBudget(err, result)">
-    <div data-alert-modal
-      data-modal-header="Warning"
-      data-modal-ok="Delete"
-      data-modal-cancel="Cancel">
+    <div br-alert-modal
+      br-modal-header="Warning"
+      br-modal-ok="Delete"
+      br-modal-cancel="Cancel">
       <p>Are you sure that you want to delete this budget?</p>
       <div data-budget-selector
         data-selected="model.budgetToDelete"

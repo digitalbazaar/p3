@@ -295,20 +295,20 @@
 
 <stackable-modal stackable="model.showAddAddressModal"
   stackable-closed="model.addAddressModalDone()">
-  <add-alert alert-type="warning">
+  <br-add-alert br-alert-type="warning">
     <span><strong>Note:</strong> Before you complete your purchase, please enter
     your {{(model.identity.type == 'VendorIdentity' && 'business\'s ') || ''}}
     name and address information.</span>
-  </add-alert>
+  </br-add-alert>
   <div data-add-address-modal>
   </div>
 </stackable-modal>
 <stackable-modal stackable="model.showAddAccountModal"
   stackable-closed="model.addAccountModalDone()">
-  <add-alert alert-type="warning">
+  <br-add-alert br-alert-type="warning">
     <span><strong>Note:</strong> Before you make your {{model.purchase}}, please
     create a financial account.</span>
-  </add-alert>
+  </br-add-alert>
   <div data-add-account-modal></div>
 </stackable-modal>
 

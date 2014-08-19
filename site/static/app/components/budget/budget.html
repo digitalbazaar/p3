@@ -65,10 +65,10 @@
   <div stackable="model.modals.showDeleteBudgetAlert"
     stackable-modal="true"
     stackable-closed="model.confirmDeleteBudget(err, result)">
-    <div data-alert-modal
-      data-modal-header="Warning"
-      data-modal-ok="Delete"
-      data-modal-cancel="Cancel">
+    <div br-alert-modal
+      br-modal-header="Warning"
+      br-modal-ok="Delete"
+      br-modal-cancel="Cancel">
       <p>Are you sure that you want to delete this budget? This action can't be undone.</p>
       <!-- TODO: Show budget {{model.budget}} -->
     </div>
@@ -77,10 +77,10 @@
   <div stackable="model.modals.showDeleteVendorAlert"
     stackable-modal="true"
     stackable-closed="model.confirmDeleteVendor(err, result)">
-    <div data-alert-modal
-      data-modal-header="Warning"
-      data-modal-ok="Delete"
-      data-modal-cancel="Cancel">
+    <div br-alert-modal
+      br-modal-header="Warning"
+      br-modal-ok="Delete"
+      br-modal-cancel="Cancel">
       <p>Are you sure that you want to remove this vendor from the budget?</p>
       <table class="table table-condensed">
         <thead>

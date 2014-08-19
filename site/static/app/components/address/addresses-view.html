@@ -65,10 +65,10 @@
   <!-- Removing last address alert -->
   <stackable-modal stackable="model.modals.showDeleteAddressAlert"
     stackable-closed="model.confirmDeleteAddress(err, result)">
-    <div data-alert-modal
-      data-modal-header="Warning"
-      data-modal-ok="Remove"
-      data-modal-cancel="Cancel">
+    <div br-alert-modal
+      br-modal-header="Warning"
+      br-modal-ok="Remove"
+      br-modal-cancel="Cancel">
       <div class="alert alert-warning" ng-show="model.addresses.length == 1">
         <strong>Warning!</strong>
         Removing your last address will immediately prevent you from buying

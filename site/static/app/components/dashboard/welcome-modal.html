@@ -13,30 +13,16 @@
         complies with your local regulations.</p>
         <form class="well form-horizontal">
         <fieldset>
-          <div class="form-group" data-binding="address.addressRegion">
-            <label class="control-label col-sm-3" for="address-region">State / Region</label>
-            <div class="input-group">
-              <input class="form-control" type="text" name="address-region"
-                ng-model="model.address.addressRegion"
-                data-track-state="model.help.addressRegion" />
-              <span class="input-group-btn">
-                <button type="button" class="btn btn-default"
-                  data-help-toggle="model.help.addressRegion">
-                  <i class="fa fa-question-circle"></i>
-                </button>
-              </span>
-            </div>
-            <p ng-show="model.help.addressRegion.show"
-              class="help-block col-sm-offset-3 col-sm-8 br-fadein br-fadeout">
-              Please enter your state or region.
-            </p>
-          </div>
-          <div class="form-group" data-binding="address.addressCountry">
-            <label class="control-label col-sm-3" for="address-country">Country</label>
-            <div class="input-group col-sm-8">
-              <data-country-selector ng-model="model.address.addressCountry"></data-country-selector>
-            </div>
-          </div>
+          <br-input br-model="model.address.addressRegion"
+            br-options="{name: 'address.addressRegion', label: 'State / Region'}">
+            Please enter your state or region.
+          </br-input>
+
+          <br-select br-model="address.addressCountry"
+            br-items="model.countries" br-display-item="item.name"
+            br-options="{name: 'model.address.addressCountry', label: 'Country', placeholder: 'Pick a country...', key: 'code'}">
+            Please choose your country.
+          </br-select>
         </fieldset>
         </form>
       </div>

@@ -23,6 +23,7 @@ function factory(AccountService, AlertService, IdentityService, config) {
     model.identity = IdentityService.identity;
     model.state = AccountService.state;
     model.address = angular.copy(model.identity.sysRegulatoryAddress || {});
+    model.countries = config.constants.countries;
 
     model.setRegulatoryAddress = function() {
       AlertService.clearFeedback();

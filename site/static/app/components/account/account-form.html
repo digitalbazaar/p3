@@ -10,19 +10,19 @@
         <p><small><span ng-show="model.identity.id">{{model.identity.id}}</span><span
           ng-hide="model.identity.id">{{model.baseUrl}}/i/</span><span
           ng-hide="model.identity.id"
-          class="slug">{{model.identity.sysSlug || 'IDENTITY-NAME'}}</span>/accounts/</small><input
+          class="br-slug">{{model.identity.sysSlug || 'IDENTITY-NAME'}}</span>/accounts/</small><input
           type="text" maxlength="32"
-          data-binding="sysSlug" class="slug" name="slug"
+          data-binding="sysSlug" class="br-slug" name="slug"
           placeholder="ACCOUNT-NAME"
-          data-slug-in="model.account.label" ng-model="model.account.sysSlug" /></p>
-        <div data-duplicate-checker="model.account.sysSlug"
-          data-duplicate-checker-type="financial-account"
-          data-duplicate-checker-owner="{{model.identity.id || (model.baseUrl+'/i/'+model.identity.slug)}}"
-          data-duplicate-checker-available="This account name is available!"
-          data-duplicate-checker-invalid="Account name is invalid."
-          data-duplicate-checker-taken="Account name has already been taken."
-          data-duplicate-checker-checking="Checking Availability..."
-          data-duplicate-checker-result="model.accountSlugAvailable">
+          br-slug-in="model.account.label" ng-model="model.account.sysSlug" /></p>
+        <div br-duplicate-checker="model.account.sysSlug"
+          br-duplicate-checker-type="financial-account"
+          br-duplicate-checker-owner="{{model.identity.id || (model.baseUrl+'/i/'+model.identity.slug)}}"
+          br-duplicate-checker-available="This account name is available!"
+          br-duplicate-checker-invalid="Account name is invalid."
+          br-duplicate-checker-taken="Account name has already been taken."
+          br-duplicate-checker-checking="Checking Availability..."
+          br-duplicate-checker-result="model.accountSlugAvailable">
         </div>
       </div>
     </div>
@@ -48,7 +48,7 @@
     <div ng-hide="!model.editing" class="form-group">
       <label class="control-label col-sm-5" for="backups">
         External Payment Method
-        <a data-help-toggle="model.help.backupSource">
+        <a br-help-toggle="model.help.backupSource">
           <i class="fa fa-question-circle"></i>
         </a>
       </label>
@@ -92,7 +92,7 @@
     <div ng-hide="!editing" class="form-group">
       <label class="control-label col-sm-3" for="sysAllowInstantTransfer">
         Instant Transfer
-        <a data-help-toggle="model.help.sysAllowInstantTransfer">
+        <a br-help-toggle="model.help.sysAllowInstantTransfer">
           <i class="fa fa-question-circle"></i>
         </a>
       </label>

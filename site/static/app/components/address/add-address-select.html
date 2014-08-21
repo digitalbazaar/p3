@@ -12,14 +12,14 @@
 
 <div class="section" ng-show="validatedAddress.sysValidated">
   <h4 class="headline">Validated Address</h4>
-  <div class="item-hover well unselectable" ng-class="{'item-selected': selection.address == validatedAddress}" ng-click="selection.address=validatedAddress"
+  <div class="br-item-hover well unselectable" ng-class="{'item-selected': selection.address == validatedAddress}" ng-click="selection.address=validatedAddress"
     ng-dblclick="add(validatedAddress)">
     <div data-address-view="validatedAddress"></div>
   </div>
 </div>
 <div class="section">
   <h4 class="headline">Entered Address</h4>
-  <div class="item-hover well unselectable" ng-class="{'item-selected': selection.address == originalAddress}" ng-click="selection.address=originalAddress"
+  <div class="br-item-hover well unselectable" ng-class="{'item-selected': selection.address == originalAddress}" ng-click="selection.address=originalAddress"
     ng-dblclick="add(originalAddress)">
     <div data-address-view="originalAddress"></div>
   </div>

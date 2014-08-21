@@ -1,11 +1,11 @@
 <div class="section section-budgets">
-  <headline-menu headline="Budgets" loading="model.state.budgets.loading">
+  <br-headline-menu br-headline="Budgets" br-loading="model.state.budgets.loading">
     <ul class="stackable-menu dropdown-menu">
       <li>
         <a class="stackable-cancel" ng-click="model.modals.showAddBudget=true"><i class="fa fa-plus"></i> Add Budget</a>
       </li>
     </ul>
-  </headline-menu>
+  </br-headline-menu>
   <table class="table table-condensed" ng-if="!model.state.budgets.loading && model.budgets.length > 0">
     <thead>
       <tr>
@@ -36,7 +36,7 @@
         </td>
         <!-- Action -->
         <td class="action">
-          <action-menu>
+          <br-action-menu>
             <ul class="dropdown-menu stackable-menu">
               <li>
                 <a class="stackable-cancel" ng-click="model.modals.budget=budget; model.modals.showEditBudget=true">
@@ -50,7 +50,7 @@
                 </a>
               </li>
             </ul>
-          </action-menu>
+          </br-action-menu>
         </td>
       </tr>
     </tbody>

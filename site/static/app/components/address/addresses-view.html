@@ -1,11 +1,11 @@
 <div class="section section-addresses" ng-controller="AddressesController as model">
-  <headline-menu headline="Addresses" loading="model.state.loading">
+  <br-headline-menu br-headline="Addresses" br-loading="model.state.loading">
     <ul class="stackable-menu dropdown-menu">
       <li>
         <a class="stackable-cancel" ng-click="model.modals.showAddAddress=true"><i class="fa fa-plus"></i> Add Address</a>
       </li>
     </ul>
-  </headline-menu>
+  </br-headline-menu>
   <table class="table table-condensed" ng-show="model.state.loading || model.addresses.length > 0">
     <thead>
       <tr>
@@ -26,7 +26,7 @@
         </td>
         <!-- Action -->
         <td class="action">
-          <action-menu>
+          <br-action-menu>
             <ul class="dropdown-menu stackable-menu">
               <li>
                 <a class="stackable-cancel" ng-click="model.editAddress(address)">
@@ -40,7 +40,7 @@
                 </a>
               </li>
             </ul>
-          </action-menu>
+          </br-action-menu>
         </td>
       </tr>
     </tbody>

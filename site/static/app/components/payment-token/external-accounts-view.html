@@ -1,12 +1,12 @@
 <div ng-controller="ExternalAccountsController as model">
   <div class="section section-credit-cards">
-    <headline-menu headline="Credit Cards" loading="model.state.loading">
+    <br-headline-menu br-headline="Credit Cards" br-loading="model.state.loading">
       <ul class="stackable-menu dropdown-menu">
         <li>
           <a class="stackable-cancel" ng-click="model.modals.showAddCreditCard=true"><i class="fa fa-plus"></i> Add Credit Card</a>
         </li>
       </ul>
-    </headline-menu>
+    </br-headline-menu>
     <table class="table table-condensed" ng-if="(model.state.loading && model.creditCards.length > 0) || model.creditCards.length > 0">
       <thead>
         <tr>
@@ -55,7 +55,7 @@
           </td>
           <!-- Action -->
           <td class="action">
-            <action-menu>
+            <br-action-menu>
               <ul class="dropdown-menu stackable-menu">
                 <li>
                   <a class="stackable-cancel"
@@ -73,7 +73,7 @@
                   </a>
                 </li>
               </ul>
-            </action-menu>
+            </br-action-menu>
           </td>
         </tr>
       </tbody>
@@ -90,13 +90,13 @@
   </div>
 
   <div class="section section-bank-accounts">
-    <headline-menu headline="Bank Accounts" loading="model.state.loading">
+    <br-headline-menu br-headline="Bank Accounts" br-loading="model.state.loading">
       <ul class="stackable-menu dropdown-menu">
         <li>
           <a class="stackable-cancel" ng-click="model.modals.showAddBankAccount=true"><i class="fa fa-plus"></i> Add Bank Account</a>
         </li>
       </ul>
-    </headline-menu>
+    </br-headline-menu>
     <table class="table table-condensed" ng-show="(model.state.loading && model.bankAccounts.length > 0) || model.bankAccounts.length > 0">
       <thead>
         <tr>
@@ -141,7 +141,7 @@
           </td>
           <!-- Action -->
           <td class="action">
-            <action-menu>
+            <br-action-menu>
               <ul class="dropdown-menu stackable-menu">
                 <li>
                   <a class="stackable-cancel"
@@ -164,7 +164,7 @@
                   </a>
                 </li>
               </ul>
-            </action-menu>
+            </br-action-menu>
           </td>
         </tr>
       </tbody>

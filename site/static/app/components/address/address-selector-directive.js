@@ -21,19 +21,18 @@ function factory(AddressService, IdentityService) {
   };
 
   function Link(scope, element, attrs) {
-    // FIXME: use model consistently
-    scope.model = {};
-    scope.services = {
+    var model = scope.model = {};
+    model.services = {
       address: AddressService.state
     };
-    scope.identity = IdentityService.identity;
-    scope.addresses = AddressService.addresses;
+    model.identity = IdentityService.identity;
+    model.addresses = AddressService.addresses;
 
     attrs.$observe('psFixed', function(value) {
       scope.fixed = value;
     });
 
-    scope.$watch('addresses', function(addresses) {
+    scope.$watch('model.addresses', function(addresses) {
       if(!scope.selected || $.inArray(scope.selected, addresses) === -1) {
         scope.selected = addresses[0] || null;
       }

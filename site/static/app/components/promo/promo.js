@@ -21,7 +21,7 @@ define([
 
 var module = angular.module('app.promo', []);
 
-module.controller(promoCodeCheckerDirective);
+module.directive(promoCodeCheckerDirective);
 module.service(promoService);
 module.directive(redeemPromoCodeModalDirective);
 

@@ -15,37 +15,21 @@
           </p>
           <form class="well form-horizontal">
             <fieldset>
-              <div class="form-group" br-property-path="promoCode">
-                <label class="control-label col-sm-3" for="promoCode">Promo Code</label>
-                <div class="input-group col-sm-8">
-                  <input class="form-control"
-                    type="text" name="promoCode" maxlength="20"
-                    ng-model="model.promoCode"
-                    br-track-state="model.help.promoCode"
-                    autocomplete="off" />
-                  <span ng-show="model.promoCodeChecker.loading"
-                    class="br-spinner-inside-input">
-                    <i class="fa fa-refresh fa-spin text-muted"></i>
-                  </span>
-                  <span class="input-group-btn">
-                    <button type="button" class="btn btn-default before-spinner"
-                      br-help-toggle="model.help.promoCode">
-                      <i class="fa fa-question-circle"></i>
-                    </button>
-                  </span>
-                </div>
-                <p ng-show="model.help.promoCode.show"
-                  class="help-block col-sm-offset-3 col-sm-8 br-fadein br-fadeout">
-                  Please enter a promotional code; it will be applied to the
-                  financial account displayed below.
-                </p>
-                <div br-promo-code-checker="model.promoCode"
-                  br-promo-code-checker-state="model.promoCodeChecker">
-                </div>
+              <br-input br-model="model.promoCode"
+                br-options="{
+                  name: 'promoCode', label: 'Promo Code',
+                  loading: {{!!model.promoCodeChecker.loading}},
+                  disabled: {{!!model.services.promo.state.loading}},
+                  autocomplete: 'off', maxlength: '20'
+                }">
+                Please enter a promotional code; it will be applied to the
+                financial account displayed below.
+              </br-input>
+              <div ps-promo-code-checker="model.promoCode"
+                ps-promo-code-checker-state="model.promoCodeChecker">
               </div>
               <div ng-show="model.promoCodeChecker.promo">
-                <hr/>
-                <div class="alert alert-success">
+                <div class="alert alert-success" style="margin-bottom: 0">
                   <h4>{{model.promoCodeChecker.promo.title}}</h4>
                   <p>Expires: {{model.promoCodeChecker.promo.expires | date:'medium'}}</p>
                   <p>{{model.promoCodeChecker.promo.description}}</p>
@@ -69,12 +53,14 @@
                 </div>
               </div>
               <div ng-show="model.promoCodeChecker.notFound">
-                <hr/>
-                <div class="alert alert-danger">The promotion was not found.</div>
+                <div class="alert alert-danger" style="margin-bottom: 0">
+                  The promotion was not found.
+                </div>
               </div>
               <div ng-show="model.promoCodeChecker.expired">
-                <hr/>
-                <div class="alert alert-danger">The promotion has expired.</div>
+                <div class="alert alert-danger" style="margin-bottom: 0">
+                  The promotion has expired.
+                </div>
               </div>
             </fieldset>
           </form>

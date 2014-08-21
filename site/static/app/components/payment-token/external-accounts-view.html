@@ -7,7 +7,7 @@
         </li>
       </ul>
     </headline-menu>
-    <table class="table table-condensed" ng-show="(model.state.loading && model.creditCards.length > 0) || model.creditCards.length > 0">
+    <table class="table table-condensed" ng-if="(model.state.loading && model.creditCards.length > 0) || model.creditCards.length > 0">
       <thead>
         <tr>
           <th class="name">Name</th>
@@ -23,59 +23,59 @@
         </tr>
       </thead>
       <tbody>
-      <tr ng-repeat="card in model.creditCards | orderBy:'label'"
-        class="br-fadein br-fadeout" ng-if="!card.deleted"
-        ng-class="{warning: card.showExpirationWarning, error: card.showExpired}">
-        <!-- Name -->
-        <td>
-          <span>{{card.label}}</span>
-        </td>
-        <!-- Brand -->
-        <td>
-          <span><i class="{{card.cardBrand|cardBrand:true}}"></i></span>
-        </td>
-        <!-- Number -->
-        <td>
-          <span>{{card.cardNumber}}</span>
-        </td>
-        <!-- Expiration -->
-        <td>
-          <!-- FIXME: add warning for near or already expired cards -->
-          <span>{{card.cardExpMonth}} / {{card.cardExpYear}}</span>
-          <span ng-show="card.showExpirationWarning"
-            data-tooltip-title="This payment method will expire in less than a month. Please update or replace the credit card information."
-            data-placement="bottom" data-trigger="hover"><i class="icon fa fa-exclamation-triangle"></i></span>
-          <span ng-show="card.showExpired"
-            data-tooltip-title="This payment method has expired. Please update or replace the credit card information."
-            data-placement="bottom" data-trigger="hover"><i class="icon fa fa-exclamation-triangle"></i></span>
-        </td>
-        <!-- Links -->
-        <td class="compact">
-          <span class="badge">{{card.backupSourceFor.length || ''}}</span>
-        </td>
-        <!-- Action -->
-        <td class="action">
-          <action-menu>
-            <ul class="dropdown-menu stackable-menu">
-              <li>
-                <a class="stackable-cancel"
-                  ng-click="model.modals.paymentToken=card; model.modals.showEditPaymentToken=true">
-                  <i class="fa fa-pencil"></i> Edit
-                </a>
-              </li>
-              <li class="divider"></li>
-              <li ng-class="{disabled: card.backupSourceFor.length, 'alert-danger': !card.backupSourceFor.length}">
-                <a class="stackable-cancel" ng-show="card.backupSourceFor.length" href="#">
-                  <i class="fa fa-times"></i> Delete
-                </a>
-                <a class="stackable-cancel" ng-hide="card.backupSourceFor.length" ng-click="model.deletePaymentToken(card)">
-                  <i class="fa fa-times"></i> Delete
-                </a>
-              </li>
-            </ul>
-          </action-menu>
-        </td>
-      </tr>
+        <tr ng-repeat="card in model.creditCards | orderBy:'label'"
+          class="br-fadein br-fadeout" ng-if="!card.deleted"
+          ng-class="{warning: card.showExpirationWarning, error: card.showExpired}">
+          <!-- Name -->
+          <td>
+            <span>{{card.label}}</span>
+          </td>
+          <!-- Brand -->
+          <td>
+            <span><i class="{{card.cardBrand|cardBrand:true}}"></i></span>
+          </td>
+          <!-- Number -->
+          <td>
+            <span>{{card.cardNumber}}</span>
+          </td>
+          <!-- Expiration -->
+          <td>
+            <!-- FIXME: add warning for near or already expired cards -->
+            <span>{{card.cardExpMonth}} / {{card.cardExpYear}}</span>
+            <span ng-show="card.showExpirationWarning"
+              data-tooltip-title="This payment method will expire in less than a month. Please update or replace the credit card information."
+              data-placement="bottom" data-trigger="hover"><i class="icon fa fa-exclamation-triangle"></i></span>
+            <span ng-show="card.showExpired"
+              data-tooltip-title="This payment method has expired. Please update or replace the credit card information."
+              data-placement="bottom" data-trigger="hover"><i class="icon fa fa-exclamation-triangle"></i></span>
+          </td>
+          <!-- Links -->
+          <td class="compact">
+            <span class="badge">{{card.backupSourceFor.length || ''}}</span>
+          </td>
+          <!-- Action -->
+          <td class="action">
+            <action-menu>
+              <ul class="dropdown-menu stackable-menu">
+                <li>
+                  <a class="stackable-cancel"
+                    ng-click="model.modals.paymentToken=card; model.modals.showEditPaymentToken=true">
+                    <i class="fa fa-pencil"></i> Edit
+                  </a>
+                </li>
+                <li class="divider"></li>
+                <li ng-class="{disabled: card.backupSourceFor.length, 'alert-danger': !card.backupSourceFor.length}">
+                  <a class="stackable-cancel" ng-show="card.backupSourceFor.length" href="#">
+                    <i class="fa fa-times"></i> Delete
+                  </a>
+                  <a class="stackable-cancel" ng-hide="card.backupSourceFor.length" ng-click="model.deletePaymentToken(card)">
+                    <i class="fa fa-times"></i> Delete
+                  </a>
+                </li>
+              </ul>
+            </action-menu>
+          </td>
+        </tr>
       </tbody>
     </table>
     <div ng-show="!model.state.loading && model.creditCards.length == 0">
@@ -108,65 +108,65 @@
         </tr>
       </thead>
       <tbody>
-      <tr ng-repeat="bankAccount in model.bankAccounts | orderBy:'label'"
-        ng-class="{info: bankAccount.sysStatus == 'active' && !bankAccount.sysVerified && bankAccount.sysVerifyReady}">
-        <!-- Name -->
-        <td>
-          <span>{{bankAccount.label}}</span>
-        </td>
-        <!-- Number -->
-        <td>
-          <span>{{bankAccount.bankAccount}}</span>
-        </td>
-        <!-- Routing -->
-        <td>
-          <span>{{bankAccount.bankRoutingNumber}}</span>
-        </td>
-        <!-- Status -->
-        <td ng-show="bankAccount.sysStatus == 'active' || bankAccount.sysStatus == 'disabled'">
-          <button ng-show="bankAccount.sysStatus == 'active' && !bankAccount.sysVerified && bankAccount.sysVerifyReady"
-            ng-click="model.modals.paymentToken=bankAccount; model.modals.showVerifyBankAccountModal=true"
-            class="btn btn-primary" title="Verify">Verify</button>
-          <span ng-show="bankAccount.sysStatus == 'disabled'"
-            data-tooltip-title="This payment method was likely disabled because your bank account information could not be verified. Please delete this payment method and try to add it again with corrected information."
-            data-placement="bottom" data-trigger="hover" class="label label-important">Disabled</span>
-          <span ng-show="bankAccount.sysStatus != 'active' && bankAccount.sysStatus != 'disabled' && bankAccount.sysStatus != 'deleted' && !bankAccount.sysVerified" class="label label-warning">Unverified</span>
-          <span ng-show="bankAccount.sysStatus == 'active' && !bankAccount.sysVerified && !bankAccount.sysVerifyReady" class="label label-info">Pending</span>
-          <span ng-show="bankAccount.sysVerified" class="label label-success">Verified</span>
-        </td>
-        <td ng-show="bankAccount.sysStatus == 'deleted'">
-          <span
-            data-tooltip-title="Because verifying a bank account is a costly process, we do not delete bank accounts immediately. You may restore the bank account before the expiration date passes if you wish."
-            data-placement="bottom" data-trigger="hover" class="label label-warning">Expires {{bankAccount.sysExpires | date:'MMM d'}}</span>
-        </td>
-        <!-- Action -->
-        <td class="action">
-          <action-menu>
-            <ul class="dropdown-menu stackable-menu">
-              <li>
-                <a class="stackable-cancel"
-                  ng-click="model.modals.paymentToken=bankAccount; model.modals.showEditPaymentToken=true">
-                  <i class="fa fa-pencil"></i> Edit
-                </a>
-              </li>
-              <li class="divider"></li>
-              <li class="alert-danger"
-                ng-show="bankAccount.sysStatus == 'active' || bankAccount.sysStatus == 'disabled'"
-                ng-disabled="!bankAccount.sysVerified && bankAccount.sysStatus != 'disabled'">
-                <a class="stackable-cancel" ng-click="model.deletePaymentToken(bankAccount)">
-                  <i class="fa fa-trash-o"></i> Delete
-                </a>
-              </li>
-              <li class="alert-success"
-                ng-show="!bankAccount.sysStatus || bankAccount.sysStatus == 'deleted'">
-                <a class="stackable-cancel" ng-click="model.restorePaymentToken(bankAccount)">
-                  <i class="fa fa-undo"></i> Restore
-                </a>
-              </li>
-            </ul>
-          </action-menu>
-        </td>
-      </tr>
+        <tr ng-repeat="bankAccount in model.bankAccounts | orderBy:'label'"
+          ng-class="{info: bankAccount.sysStatus == 'active' && !bankAccount.sysVerified && bankAccount.sysVerifyReady}">
+          <!-- Name -->
+          <td>
+            <span>{{bankAccount.label}}</span>
+          </td>
+          <!-- Number -->
+          <td>
+            <span>{{bankAccount.bankAccount}}</span>
+          </td>
+          <!-- Routing -->
+          <td>
+            <span>{{bankAccount.bankRoutingNumber}}</span>
+          </td>
+          <!-- Status -->
+          <td ng-show="bankAccount.sysStatus == 'active' || bankAccount.sysStatus == 'disabled'">
+            <button ng-show="bankAccount.sysStatus == 'active' && !bankAccount.sysVerified && bankAccount.sysVerifyReady"
+              ng-click="model.modals.paymentToken=bankAccount; model.modals.showVerifyBankAccountModal=true"
+              class="btn btn-primary" title="Verify">Verify</button>
+            <span ng-show="bankAccount.sysStatus == 'disabled'"
+              data-tooltip-title="This payment method was likely disabled because your bank account information could not be verified. Please delete this payment method and try to add it again with corrected information."
+              data-placement="bottom" data-trigger="hover" class="label label-important">Disabled</span>
+            <span ng-show="bankAccount.sysStatus != 'active' && bankAccount.sysStatus != 'disabled' && bankAccount.sysStatus != 'deleted' && !bankAccount.sysVerified" class="label label-warning">Unverified</span>
+            <span ng-show="bankAccount.sysStatus == 'active' && !bankAccount.sysVerified && !bankAccount.sysVerifyReady" class="label label-info">Pending</span>
+            <span ng-show="bankAccount.sysVerified" class="label label-success">Verified</span>
+          </td>
+          <td ng-show="bankAccount.sysStatus == 'deleted'">
+            <span
+              data-tooltip-title="Because verifying a bank account is a costly process, we do not delete bank accounts immediately. You may restore the bank account before the expiration date passes if you wish."
+              data-placement="bottom" data-trigger="hover" class="label label-warning">Expires {{bankAccount.sysExpires | date:'MMM d'}}</span>
+          </td>
+          <!-- Action -->
+          <td class="action">
+            <action-menu>
+              <ul class="dropdown-menu stackable-menu">
+                <li>
+                  <a class="stackable-cancel"
+                    ng-click="model.modals.paymentToken=bankAccount; model.modals.showEditPaymentToken=true">
+                    <i class="fa fa-pencil"></i> Edit
+                  </a>
+                </li>
+                <li class="divider"></li>
+                <li class="alert-danger"
+                  ng-show="bankAccount.sysStatus == 'active' || bankAccount.sysStatus == 'disabled'"
+                  ng-disabled="!bankAccount.sysVerified && bankAccount.sysStatus != 'disabled'">
+                  <a class="stackable-cancel" ng-click="model.deletePaymentToken(bankAccount)">
+                    <i class="fa fa-trash-o"></i> Delete
+                  </a>
+                </li>
+                <li class="alert-success"
+                  ng-show="!bankAccount.sysStatus || bankAccount.sysStatus == 'deleted'">
+                  <a class="stackable-cancel" ng-click="model.restorePaymentToken(bankAccount)">
+                    <i class="fa fa-undo"></i> Restore
+                  </a>
+                </li>
+              </ul>
+            </action-menu>
+          </td>
+        </tr>
       </tbody>
     </table>
     <div ng-show="!model.state.loading && model.bankAccounts.length == 0">

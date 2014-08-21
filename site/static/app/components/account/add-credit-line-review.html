@@ -36,7 +36,7 @@ pay back any credit you use on a periodic basis.</p>
       <input name="input" type="hidden" ng-model="model.identity.email" />
 
       <br-input br-model="model.sysPasscode"
-        br-options="{name: 'sysPasscode', label: 'Passcode', disabled: model.loading}">
+        br-options="{name: 'sysPasscode', label: 'Passcode', disabled: {{model.loading}}}">
         Please enter the passcode that was sent to you in the verify
         email from this website.
       </br-input>

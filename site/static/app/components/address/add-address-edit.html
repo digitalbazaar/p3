@@ -1,40 +1,40 @@
 <form class="well form-horizontal">
   <fieldset>
     <br-input br-model="originalAddress.label"
-      br-options="{name: 'label', label: 'Label'}">
+      br-options="{name: 'label', label: 'Label', disabled: {{loading}}}">
       Enter a memorable label for this address such as
       &quot;Home&quot; or &quot;Work&quot;.
     </br-input>
 
     <br-input br-model="originalAddress.name"
-      br-options="{name: 'name', label: 'Name'}">
+      br-options="{name: 'name', label: 'Name', disabled: {{loading}}}">
       Please enter both your first name and last name.
     </br-input>
 
     <br-input br-model="originalAddress.streetAddress"
-      br-options="{name: 'streetAddress', label: 'Street Address'}">
+      br-options="{name: 'streetAddress', label: 'Street Address', disabled: {{loading}}}">
       Please enter your full street address, including street number,
       street, and any apartment number, etc.
     </br-input>
 
     <br-input br-model="originalAddress.addressLocality"
-      br-options="{name: 'addressLocality', label: 'City'}">
+      br-options="{name: 'addressLocality', label: 'City', disabled: {{loading}}}">
       Please enter your city or locality.
     </br-input>
 
     <br-input br-model="originalAddress.addressRegion"
-      br-options="{name: 'addressRegion', label: 'State / Region'}">
+      br-options="{name: 'addressRegion', label: 'State / Region', disabled: {{loading}}}">
       Please enter your state or region.
     </br-input>
 
     <br-input br-model="originalAddress.postalCode"
-      br-options="{name: 'postalCode', label: 'Postal Code'}">
+      br-options="{name: 'postalCode', label: 'Postal Code', disabled: {{loading}}}">
       Please enter your zip or postal code.
     </br-input>
 
     <br-select br-model="originalAddress.addressCountry"
       br-items="model.countries" br-display-item="item.name"
-      br-options="{name: 'addressCountry', label: 'Country', placeholder: 'Pick a country...', key: 'code'}">
+      br-options="{name: 'addressCountry', label: 'Country', placeholder: 'Pick a country...', key: 'code', disabled: {{loading}}}">
       Please choose your country.
     </br-select>
   </fieldset>

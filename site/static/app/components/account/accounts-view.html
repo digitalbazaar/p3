@@ -21,18 +21,26 @@
         <td class="name">
           <a href="{{account.id}}">{{account.label}}</a>
           <span ng-show="account.sysStatus != 'active'" class="disabled">(Disabled)</span>
-          <span ng-show="model.identity.preferences.source == account.id"
-            data-tooltip-title="This is the default account."
-            data-placement="bottom" data-trigger="hover"><i class="icon fa fa-star"></i></span>
-          <span ng-show="(account.creditLimit && util.parseFloat(account.creditLimit) != 0) && (!account.backupSource || !account.backupSource.length)"
-            data-tooltip-title="This account has no associated payment methods. Please edit the account information."
-            data-placement="bottom" data-trigger="hover"><i class="icon fa fa-exclamation-triangle"></i></span>
-          <span ng-show="account.showExpirationWarning"
-            data-tooltip-title="This account uses a payment method that will expire soon."
-            data-placement="bottom" data-trigger="hover"><i class="icon fa fa-exclamation-triangle"></i></span>
-          <span ng-show="account.showExpired"
-            data-tooltip-title="This account uses an expired payment method."
-            data-placement="bottom" data-trigger="hover"><i class="icon fa fa-exclamation-triangle"></i></span>
+          <span ng-show="model.identity.preferences.source == account.id">
+            <i class="icon fa fa-star"
+              br-tooltip="This is the default account."
+              br-options="{placement: 'bottom', trigger: 'hover'}"></i>
+          </span>
+          <span ng-show="(account.creditLimit && util.parseFloat(account.creditLimit) != 0) && (!account.backupSource || !account.backupSource.length)">
+            <i class="icon fa fa-exclamation-triangle"
+              br-tooltip="This account has no associated payment methods. Please edit the account information."
+              br-options="{placement: 'bottom', trigger: 'hover'}"></i>
+          </span>
+          <span ng-show="account.showExpirationWarning">
+            <i class="icon fa fa-exclamation-triangle"
+              br-tooltip="This account uses a payment method that will expire soon."
+              br-options="{placement: 'bottom', trigger: 'hover'}"></i>
+          </span>
+          <span ng-show="account.showExpired">
+            <i class="icon fa fa-exclamation-triangle"
+              br-tooltip="This account uses an expired payment method."
+              br-options="{placement: 'bottom', trigger: 'hover'}"></i>
+          </span>
         </td>
         <!-- Balance -->
         <td class="money">

@@ -44,8 +44,8 @@
                       <tr ng-repeat="deposit in model.promoCodeChecker.promo.deposit">
                         <td>{{deposit.comment}}</td>
                         <td class="money"><span class="money"
-                          data-tooltip-title="Since we support micro-payments, we track monetary amounts very accurately. The exact amount is USD {{deposit.amount}}."
-                          data-placement="bottom" data-trigger="hover"><span
+                          br-tooltip="Since we support micro-payments, we track monetary amounts very accurately. The exact amount is USD {{deposit.amount}}."
+                          br-options="{placement: 'bottom', trigger: 'hover'}"><span
                           class="currency">USD</span> {{deposit.amount | ceil | currency:'$'}}</span></td>
                       </tr>
                     </tbody>
@@ -87,8 +87,8 @@
                 <tr ng-repeat="deposit in model.promoCodeChecker.promo.deposit">
                   <td>{{deposit.comment}}</td>
                   <td class="money"><span class="money"
-                    data-tooltip-title="Since we support micro-payments, we track monetary amounts very accurately. The exact amount is USD {{deposit.amount}}."
-                    data-placement="bottom" data-trigger="hover"><span
+                    br-tooltip="Since we support micro-payments, we track monetary amounts very accurately. The exact amount is USD {{deposit.amount}}."
+                    br-options="{placement: 'bottom', trigger: 'hover'}"><span
                     class="currency">USD</span> {{deposit.amount | ceil | currency:'$'}}</span></td>
                 </tr>
               </tbody>

@@ -19,8 +19,8 @@
         <span ng-show="model.budget">
         The purchase was made using your budget "<strong>{{model.budget.label}}</strong>",
         which has a remaining balance of <span class="money"
-          data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact amount of this transaction is USD {{model.budget.balance}}."
-          data-placement="bottom" data-trigger="hover"><span
+          br-tooltip="Since we support micro-payments, we track transaction amounts very accurately. The exact amount of this transaction is USD {{model.budget.balance}}."
+          br-options="{placement: 'bottom', trigger: 'hover'}"><span
           class="currency">USD</span> {{model.budget.balance | floor | currency:'$'}}</span>.
         </span>
         </p>
@@ -86,8 +86,8 @@
             <tr>
               <td><a href="{{model.contract.asset.assetContent}}" target="_blank">{{model.contract.asset.title}}</a></td>
               <td class="money"><span class="money"
-                data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact amount of this transaction is USD {{model.contract.amount}}."
-                data-placement="bottom" data-trigger="hover"><span
+                br-tooltip="Since we support micro-payments, we track transaction amounts very accurately. The exact amount of this transaction is USD {{model.contract.amount}}."
+                br-options="{placement: 'bottom', trigger: 'hover'}"><span
                 class="currency">USD</span> {{model.contract.amount | ceil | currency:'$'}}</span></td>
               <td class="action"><button class="btn" ng-click="model.showDetails=!model.showDetails"><i class="fa fa-list-alt" title="Details"></i></button></td>
             </tr>
@@ -99,8 +99,8 @@
             <tr ng-show="model.showDetails" ng-repeat="transfer in model.contract.transfer">
               <td>{{transfer.comment}}</td>
               <td class="money"><span class="money right"
-                data-tooltip-title="Since we support micro-payments, we track transaction amounts very accurately. The exact amount of this transfer is USD {{transfer.amount}}."
-                data-placement="bottom" data-trigger="hover"><span
+                br-tooltip="Since we support micro-payments, we track transaction amounts very accurately. The exact amount of this transfer is USD {{transfer.amount}}."
+                br-options="{placement: 'bottom', trigger: 'hover'}"><span
                 class="currency">USD</span> {{transfer.amount | ceil | currency:'$'}}</span></td>
               <td><a href="{{transfer.destination}}" target="_blank">Destination</a></td>
             </tr>

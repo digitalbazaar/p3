@@ -1,7 +1,6 @@
 <span class="money"
-  data-tooltip-title="This system supports micro-payments and tracks amounts very accurately. The exact amount of this value is {{money.currency}} {{symbol}}{{exactAmount}}."
-  data-placement="bottom"
-  data-trigger="hover">
+  br-tooltip="This system supports micro-payments and tracks amounts very accurately. The exact amount of this value is {{money.currency}} {{symbol}}{{exactAmount}}."
+  br-options="{placement: 'bottom', trigger: 'hover'}">
   <span class="currency">{{money.currency}}</span>
   <strong ng-show="important">{{symbol}}{{formattedAmount}}</strong>
   <span ng-hide="important">{{symbol}}{{formattedAmount}}</span>

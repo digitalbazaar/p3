@@ -9,8 +9,8 @@
   </thead>
   <tbody>
     <tr ng-repeat="transfer in transaction.transfer">
-      <td data-tooltip-title="{{transfer.comment}}"
-        data-placement="bottom" data-trigger="hover">
+      <td br-tooltip="{{transfer.comment}}"
+        br-options="{placement: 'bottom', trigger: 'hover'}">
         {{transfer.comment | ellipsis:40}}
       </td>
       <td class="compact">

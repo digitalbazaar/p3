@@ -6,7 +6,7 @@
       </li>
     </ul>
   </headline-menu>
-  <table class="table table-condensed" ng-show="!model.state.budgets.loading && model.budgets.length > 0">
+  <table class="table table-condensed" ng-if="!model.state.budgets.loading && model.budgets.length > 0">
     <thead>
       <tr>
         <th class="name">Budget</th>
@@ -16,8 +16,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="budget in model.budgets | orderBy:'label'"
-        class="budget br-fadein br-fadeout" ng-if="!budget.deleted">
+      <tr ng-repeat="budget in model.budgets | orderBy:'label'" class="br-fadein br-fadeout" ng-if="!budget.deleted">
         <!-- Label -->
         <td class="name">
           <a href="{{budget.id}}">{{budget.label}}</a>

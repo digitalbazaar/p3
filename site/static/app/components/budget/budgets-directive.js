@@ -40,12 +40,13 @@ function factory(AlertService, BudgetService) {
       if(!err && result === 'ok') {
         var budget = model.budgetToDelete;
         budget.deleted = true;
-
+        scope.$apply();
         // wait to delete so modal can transition
         BudgetService.collection.del(budget.id, {delay: 400})
           .catch(function(err) {
             AlertService.add('error', err);
             budget.deleted = false;
+            scope.$apply();
           });
       }
       model.budgetToDelete = null;

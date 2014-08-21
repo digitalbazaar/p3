@@ -33,7 +33,7 @@
       </div>
       <div name="payment-type-fields" ng-switch="paymentMethod">
         <div ng-switch-when="CreditCard">
-          <div class="form-group" data-binding="source.cardBrand">
+          <div class="form-group" br-property-path="source.cardBrand">
             <label class="control-label col-sm-3" for="card-brand">Type</label>
             <div class="input-group col-sm-8">
               <span name="card-brand"

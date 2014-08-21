@@ -55,14 +55,14 @@
             ps-instant-transfer-deposit="ignore"></div>
         </div>
 
-        <div class="form-group" data-binding="publicKey.label">
+        <div class="form-group" br-property-path="publicKey.label">
           <label class="control-label" for="access-key-label">Access Key Label</label>
           <input id="access-key-label" class="form-control"
             ng-model="model.publicKey.label"
             name="publicKeyLabel" type="text" />
         </div>
 
-        <div class="form-group" data-binding="publicKey.publicKeyPem">
+        <div class="form-group" br-property-path="publicKey.publicKeyPem">
           <label class="control-label" for="public-key-pem">Access Key</label>
           <textarea id="public-key-pem" class="form-control input-sm"
             ng-model="model.publicKey.publicKeyPem"

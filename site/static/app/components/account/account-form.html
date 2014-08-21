@@ -12,7 +12,7 @@
           ng-hide="model.identity.id"
           class="br-slug">{{model.identity.sysSlug || 'IDENTITY-NAME'}}</span>/accounts/</small><input
           type="text" maxlength="32"
-          data-binding="sysSlug" class="br-slug" name="slug"
+          br-property-path="sysSlug" class="br-slug" name="slug"
           placeholder="ACCOUNT-NAME"
           br-slug-in="model.account.label" ng-model="model.account.sysSlug" /></p>
         <div br-duplicate-checker="model.account.sysSlug"

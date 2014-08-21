@@ -19,7 +19,7 @@ be withdrawn from your bank account.</p>
   <h4 ng-hide="selection.destination.sysAllowStoredValue" class="headline">Verification Details</h4>
   <form class="well form-horizontal">
     <fieldset>
-      <div class="form-group" data-binding="sysVerifyParameters.amount[0]">
+      <div class="form-group" br-property-path="sysVerifyParameters.amount[0]">
         <label class="control-label col-sm-3" for="verifyAmount0">First Amount</label>
         <div class="input-group col-sm-8">
           <span class="input-group-addon"><i class="fa fa-money"></i></span>
@@ -40,7 +40,7 @@ be withdrawn from your bank account.</p>
           account. You must enter a valid monetary amount, like 0.12.
         </p>
       </div>
-      <div class="form-group" data-binding="sysVerifyParameters.amount[1]">
+      <div class="form-group" br-property-path="sysVerifyParameters.amount[1]">
         <label class="control-label col-sm-3" for="verifyAmount1">Second Amount</label>
         <div class="input-group col-sm-8">
           <span class="input-group-addon"><i class="fa fa-money"></i></span>
@@ -62,7 +62,7 @@ be withdrawn from your bank account.</p>
         </p>
       </div>
       <div ng-show="selection.destination.sysAllowStoredValue"
-        class="form-group" data-binding="amount">
+        class="form-group" br-property-path="amount">
         <label class="control-label col-sm-3"
           for="verificationAmount1">Deposit (optional)</label>
         <div class="input-group col-sm-8">

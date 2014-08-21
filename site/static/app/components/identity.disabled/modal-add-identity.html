@@ -12,7 +12,7 @@
       <h4 class="headline">New Identity</h4>
       <form class="well form-vertical" action="">
         <fieldset>
-          <div class="control-group" data-binding="label">
+          <div class="control-group" br-property-path="label">
             <label class="control-label" for="name">Name</label>
             <div class="controls">
               <div class="input-prepend input-append">
@@ -35,7 +35,7 @@
                 URL:
               </p>
               <p><small>{{baseUrl}}/i/</small><input
-                data-binding="sysSlug" class="slug" name="slug"
+                br-property-path="sysSlug" class="slug" name="slug"
                 placeholder="IDENTITY-NAME"
                 data-slug-in data-ng-model="identitySlug" /></p>
               <div data-duplicate-checker="identitySlug"
@@ -65,7 +65,7 @@
             </div>
           </div>
           <div data-ng-show="identityType == 'VendorIdentity'">
-            <div class="control-group" data-binding="website">
+            <div class="control-group" br-property-path="website">
               <label class="control-label" for="name">Vendor Website</label>
               <div class="controls">
                 <div class="input-prepend input-append">
@@ -83,7 +83,7 @@
                   your customers.</p>
               </div>
             </div>
-            <div class="control-group" data-binding="description">
+            <div class="control-group" br-property-path="description">
               <label class="control-label" for="name">Description</label>
               <div class="controls">
                 <textarea class="resize-vertical"

@@ -11,7 +11,7 @@ define([], function() {
 function factory(AlertService, HostedListingService, config) {
   return {
     restrict: 'A',
-    scope: {asset: '='},
+    scope: {asset: '=psAsset'},
     require: '^stackable',
     templateUrl: '/app/components/assetora/add-listing-modal.html',
     link: Link
@@ -75,6 +75,6 @@ function factory(AlertService, HostedListingService, config) {
   }
 }
 
-return {addListingModal: factory};
+return {psAddListingModal: factory};
 
 });

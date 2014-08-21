@@ -23,15 +23,15 @@ function factory($filter) {
   return {
     restrict: 'A',
     scope: {
-      money: '=',
+      money: '=psMoney',
       // hint to highlight the value
-      important: '@?',
+      important: '@?psImportant',
       // field name to get value from (default: 'amount')
-      valueField: '@?',
+      valueField: '@?psValueField',
       // display exact value and no tooltip
-      exact: '@?',
+      exact: '@?psExact',
       // round mode: 'up' or 'down', default: 'up'
-      roundMode: '@?'
+      roundMode: '@?psRoundMode'
     },
     replace: true,
     templateUrl: '/app/components/transaction/money.html',
@@ -70,6 +70,6 @@ function factory($filter) {
   }
 }
 
-return {money: factory};
+return {psMoney: factory};
 
 });

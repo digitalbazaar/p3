@@ -12,8 +12,8 @@ function factory(AlertService, PaymentTokenService) {
   return {
     restrict: 'A',
     scope: {
-      account: '=accountBalanceDetails',
-      expand: '='
+      account: '=psAccountBalanceDetails',
+      expand: '=psExpand'
     },
     replace: true,
     templateUrl: '/app/components/account/account-balance-details.html',
@@ -79,6 +79,6 @@ function factory(AlertService, PaymentTokenService) {
   }
 }
 
-return {accountBalanceDetails: factory};
+return {psAccountBalanceDetails: factory};
 
 });

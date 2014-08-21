@@ -11,7 +11,7 @@ define([], function() {
 function factory(AlertService, PaymentTokenService) {
   return {
     restrict: 'A',
-    scope: {account: '=accountBalance'},
+    scope: {account: '=psAccountBalance'},
     replace: true,
     templateUrl: '/app/components/account/account-balance.html',
     link: Link
@@ -77,6 +77,6 @@ function factory(AlertService, PaymentTokenService) {
   }
 }
 
-return {accountBalance: factory};
+return {psAccountBalance: factory};
 
 });

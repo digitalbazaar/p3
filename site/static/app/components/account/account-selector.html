@@ -25,12 +25,12 @@
           <tr>
             <td class="compact">Balance</td>
             <td>
-              <div data-account-balance-summary="selected" data-expand="model.expandAccountBalance"></div>
+              <div ps-account-balance-summary="selected" ps-expand="model.expandAccountBalance"></div>
             </td>
           </tr>
           <tr>
             <td colspan="2" style="border: none; padding-top: 0; padding-bottom: 5px">
-              <div data-account-balance-details="selected" data-expand="model.expandAccountBalance"></div>
+              <div ps-account-balance-details="selected" ps-expand="model.expandAccountBalance"></div>
             </td>
           </tr>
         </tbody>
@@ -39,7 +39,7 @@
         <button type="button" class="btn btn-success"
           ng-click="model.showDepositModal=true; $event.stopPropagation()"><i class="fa fa-plus"></i> Deposit</button><br/>
         <stackable-modal stackable="model.showDepositModal">
-          <div data-deposit-modal data-account="selected" data-instant="instant"></div>
+          <div ps-deposit-modal ps-account="selected" ps-instant="instant"></div>
         </stackable-modal>
       </div>
       <div ng-show="model.balanceTooLow">
@@ -50,7 +50,7 @@
       <div ng-show="allowInstantTransfer && model.instantTransferRequired">
         <hr />
         <div class="alert alert-warning">
-          The selected account does not have sufficient funds. An instant transfer of <span data-money="instantTransferDeposit" data-important="true"></span> from your "<strong>{{model.backupSource.label}}</strong>" payment method will be performed to complete this purchase.
+          The selected account does not have sufficient funds. An instant transfer of <span ps-money="instantTransferDeposit" ps-important="true"></span> from your "<strong>{{model.backupSource.label}}</strong>" payment method will be performed to complete this purchase.
           <span ng-show="model.backupSource">
             Details of this instant transfer are available for review: <a ng-click="model.paymentMethodIsCollapsed=!model.paymentMethodIsCollapsed">
               <i class="fa fa-list-alt"></i>
@@ -59,15 +59,15 @@
         </div>
         <div data-collapse="model.paymentMethodIsCollapsed">
           <h5 class="headline">Instant Transfer Payment Method</h5>
-          <div data-payment-token-selector
-            data-selected="model.backupSource"
-            data-instant="true" data-fixed="true"></div>
+          <div ps-payment-token-selector
+            ps-selected="model.backupSource"
+            ps-instant="true" ps-fixed="true"></div>
         <div>
         <div data-collapse="model.paymentMethodIsCollapsed">
           <h5 class="headline">Instant Transfer Deposit Details</h5>
-            <div data-transaction-details="instantTransferDeposit"
-              data-source="model.backupSource"
-              data-complete="false"></div>
+            <div ps-transaction-details="instantTransferDeposit"
+              ps-source="model.backupSource"
+              ps-complete="false"></div>
           </div>
         </div>
       </div>
@@ -75,9 +75,9 @@
   </div>
   <stackable-modal stackable="model.showAddAccountModal"
     stackable-closed="!err && (selected=result)">
-    <div data-add-account-modal></div>
+    <div ps-add-account-modal></div>
   </stackable-modal>
   <stackable-modal stackable="model.showEditAccount">
-    <div data-edit-account-modal data-account="selected"></div>
+    <div ps-edit-account-modal ps-account="selected"></div>
   </stackable-modal>
 </div>

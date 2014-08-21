@@ -12,8 +12,8 @@ function factory() {
   return {
     restrict: 'A',
     scope: {
-      number: '=creditCardSelector',
-      brand: '=creditCardBrand'
+      number: '=psCreditCardSelector',
+      brand: '=psCreditCardBrand'
     },
     template: [
       '<span><span name="left"></span>',
@@ -65,6 +65,6 @@ function factory() {
   }
 }
 
-return {creditCardSelector: factory};
+return {psCreditCardSelector: factory};
 
 });

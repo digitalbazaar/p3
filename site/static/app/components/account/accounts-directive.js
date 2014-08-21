@@ -66,6 +66,6 @@ function factory(
   }
 }
 
-return {accounts: factory};
+return {psAccounts: factory};
 
 });

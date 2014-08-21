@@ -1,6 +1,6 @@
 <p>
   You have withdrawn
-  <span data-money="withdrawal" data-important="true"></span>
+  <span ps-money="withdrawal" ps-important="true"></span>
   from your
   "<strong>{{account.label}}</strong>"
   account.
@@ -8,9 +8,9 @@
 
 <div class="section">
   <h4 class="headline">Withdrawal Details</h4>
-  <div data-transaction-details="withdrawal"
-    data-destination="input.destination"
-    data-complete="true"></div>
+  <div ps-transaction-details="withdrawal"
+    ps-destination="input.destination"
+    ps-complete="true"></div>
 </div>
 
 <div class="section">
@@ -23,7 +23,7 @@
     </span>
     "<strong>{{input.destination.label}}</strong>"
     was credited
-    <span data-money="withdrawal.transfer[0]" data-important="true"></span>
+    <span ps-money="withdrawal.transfer[0]" ps-important="true"></span>
     on
     <span class="date">{{withdrawal.created | date:'medium'}}</span>.
     "Digital Bazaar" will appear on your bank statement.

@@ -11,7 +11,7 @@ define([], function() {
 function factory(AlertService, PromoService) {
   return {
     restrict: 'A',
-    scope: {account: '='},
+    scope: {account: '=psAccount'},
     require: '^stackable',
     templateUrl: '/app/components/promo/redeem-promo-code-modal.html',
     link: Link
@@ -37,6 +37,6 @@ function factory(AlertService, PromoService) {
   }
 }
 
-return {redeemPromoCodeModal: factory};
+return {psRedeemPromoCodeModal: factory};
 
 });

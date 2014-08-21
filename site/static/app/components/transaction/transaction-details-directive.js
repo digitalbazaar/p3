@@ -12,10 +12,10 @@ function factory(AccountService) {
   return {
     restrict: 'A',
     scope: {
-      transaction: '=transactionDetails',
-      source: '=',
-      destination: '=',
-      complete: '@'
+      transaction: '=psTransactionDetails',
+      source: '=psSource',
+      destination: '=psDestination',
+      complete: '@psComplete'
     },
     templateUrl: '/app/components/transaction/transaction-details.html',
     link: Link
@@ -80,6 +80,6 @@ function factory(AccountService) {
   }
 }
 
-return {transactionDetails: factory};
+return {psTransactionDetails: factory};
 
 });

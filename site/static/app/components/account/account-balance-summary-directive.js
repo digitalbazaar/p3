@@ -12,8 +12,8 @@ function factory() {
   return {
     restrict: 'A',
     scope: {
-      account: '=accountBalanceSummary',
-      expand: '='
+      account: '=psAccountBalanceSummary',
+      expand: '=psExpand'
     },
     replace: true,
     templateUrl: '/app/components/account/account-balance-summary.html',
@@ -42,6 +42,6 @@ function factory() {
   }
 }
 
-return {accountBalanceSummary: factory};
+return {psAccountBalanceSummary: factory};
 
 });

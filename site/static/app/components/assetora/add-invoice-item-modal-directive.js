@@ -12,8 +12,8 @@ function factory(config) {
   return {
     restrict: 'A',
     scope: {
-      asset: '=',
-      destination: '='
+      asset: '=psAsset',
+      destination: '=psDestination'
     },
     require: '^stackable',
     templateUrl: '/app/components/add-invoice-item-modal.html',
@@ -52,6 +52,6 @@ function factory(config) {
   }
 }
 
-return {addInvoiceItemModal: factory};
+return {psAddInvoiceItemModal: factory};
 
 });

@@ -12,10 +12,10 @@ function factory(AccountService, BudgetService) {
   return {
     restrict: 'A',
     scope: {
-      selected: '=',
-      invalid: '=',
-      minBalance: '@',
-      fixed: '@'
+      selected: '=psSelected',
+      invalid: '=psInvalid',
+      minBalance: '@psMinBalance',
+      fixed: '@psFixed'
     },
     templateUrl: '/app/components/budget/budget-selector.html',
     link: Link
@@ -36,7 +36,7 @@ function factory(AccountService, BudgetService) {
       }
     }, true);
 
-    attrs.$observe('fixed', function(value) {
+    attrs.$observe('psFixed', function(value) {
       scope.fixed = value;
     });
 
@@ -115,6 +115,6 @@ function factory(AccountService, BudgetService) {
   }
 }
 
-return {budgetSelector: factory};
+return {psBudgetSelector: factory};
 
 });

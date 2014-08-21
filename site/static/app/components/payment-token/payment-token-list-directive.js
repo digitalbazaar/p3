@@ -12,8 +12,8 @@ function factory(AlertService, ModelService, PaymentTokenService) {
   return {
     restrict: 'A',
     scope: {
-      idList: '=',
-      instant: '='
+      idList: '=psIdList',
+      instant: '=psInstant'
     },
     templateUrl: '/app/components/payment-token/payment-token-list.html',
     link: Link
@@ -83,6 +83,6 @@ function factory(AlertService, ModelService, PaymentTokenService) {
   }
 }
 
-return {paymentTokenList: factory};
+return {psPaymentTokenList: factory};
 
 });

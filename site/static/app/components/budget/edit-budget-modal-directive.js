@@ -12,7 +12,7 @@ function factory(
   AccountService, AlertService, BudgetService, IdentityService, config, util) {
   return {
     restrict: 'A',
-    scope: {sourceBudget: '=budget'},
+    scope: {sourceBudget: '=psBudget'},
     require: '^stackable',
     templateUrl: '/app/components/budget/edit-budget-modal.html',
     link: Link
@@ -122,6 +122,6 @@ function factory(
   }
 }
 
-return {editBudgetModal: factory};
+return {psEditBudgetModal: factory};
 
 });

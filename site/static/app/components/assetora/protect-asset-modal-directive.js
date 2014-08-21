@@ -13,7 +13,7 @@ define([
 function factory(AlertService, HostedAssetService, config) {
   return {
     restrict: 'A',
-    scope: {asset: '='},
+    scope: {asset: '=psAsset'},
     require: '^stackable',
     templateUrl: '/app/components/assetora/protect-asset-modal.html',
     link: Link
@@ -185,6 +185,6 @@ function factory(AlertService, HostedAssetService, config) {
   }
 }
 
-return {protectAssetModal: factory};
+return {psProtectAssetModal: factory};
 
 });

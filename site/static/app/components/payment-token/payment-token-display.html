@@ -11,16 +11,16 @@
         </tr>
         <tr>
           <td colspan="2" class="cc-layer">
-            <span class="cc-font-front cc-number" data-kredit>{{selected.cardNumber | mask | ccNumber}}</span>
-            <span class="cc-font-back cc-number" data-kredit>{{selected.cardNumber | mask | ccNumber}}</span>
-            <span class="cc-font-shine cc-number" data-kredit>{{selected.cardNumber | mask | ccNumber}}</span>
+            <span class="cc-font-front cc-number" ps-kredit>{{selected.cardNumber | mask | ccNumber}}</span>
+            <span class="cc-font-back cc-number" ps-kredit>{{selected.cardNumber | mask | ccNumber}}</span>
+            <span class="cc-font-shine cc-number" ps-kredit>{{selected.cardNumber | mask | ccNumber}}</span>
           </td>
         </tr>
         <tr>
           <td class="cc-layer">
-            <span class="cc-font-front cc-date" data-kredit>{{selected.cardExpMonth | prefill}} / {{selected.cardExpYear}}</span>
-            <span class="cc-font-back cc-date" data-kredit>{{selected.cardExpMonth | prefill}} / {{selected.cardExpYear}}</span>
-            <span class="cc-font-shine cc-date" data-kredit>{{selected.cardExpMonth | prefill}} / {{selected.cardExpYear}}</span>
+            <span class="cc-font-front cc-date" ps-kredit>{{selected.cardExpMonth | prefill}} / {{selected.cardExpYear}}</span>
+            <span class="cc-font-back cc-date" ps-kredit>{{selected.cardExpMonth | prefill}} / {{selected.cardExpYear}}</span>
+            <span class="cc-font-shine cc-date" ps-kredit>{{selected.cardExpMonth | prefill}} / {{selected.cardExpYear}}</span>
           </td>
           <td class="cc-layer">
             <span class="cc-brand"><i class="{{selected.cardBrand|cardBrand:true}}"></i></span>

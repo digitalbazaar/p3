@@ -12,8 +12,8 @@ function factory() {
   return {
     restrict: 'A',
     scope: {
-      instant: '=',
-      omit: '='
+      instant: '=psInstant',
+      omit: '=psOmit'
     },
     require: '^stackable',
     templateUrl:
@@ -33,6 +33,6 @@ function factory() {
   }
 }
 
-return {paymentTokenListSelectorModal: factory};
+return {psPaymentTokenListSelectorModal: factory};
 
 });

@@ -11,7 +11,7 @@ define([], function() {
 function factory($rootScope, AccountService, AlertService, IdentityService) {
   return {
     restrict: 'A',
-    scope: {account: '='},
+    scope: {account: '=psAccount'},
     require: '^stackable',
     templateUrl: '/app/components/account/add-credit-line-modal.html',
     link: Link
@@ -83,6 +83,6 @@ function factory($rootScope, AccountService, AlertService, IdentityService) {
   }
 }
 
-return {addCreditLineModal: factory};
+return {psAddCreditLineModal: factory};
 
 });

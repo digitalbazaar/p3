@@ -13,8 +13,8 @@ function factory(
   return {
     restrict: 'A',
     scope: {
-      paymentMethods: '=',
-      sourcePaymentToken: '=paymentToken'
+      paymentMethods: '=psPaymentMethods',
+      sourcePaymentToken: '=psPaymentToken'
     },
     require: '^stackable',
     name: 'editPaymentToken',
@@ -132,6 +132,6 @@ function factory(
   }
 }
 
-return {editPaymentTokenModal: factory};
+return {psEditPaymentTokenModal: factory};
 
 });

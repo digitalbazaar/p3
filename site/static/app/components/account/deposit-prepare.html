@@ -14,8 +14,8 @@ like to deposit.</p>
     <strong>Note:</strong> Deposits made with a bank account will take
     3-7 business days to be processed before the money appears in your account.
   </div>
-  <div data-payment-token-selector data-selected="input.source"
-    data-invalid="selection.invalidSource" data-instant="instant || !account.sysAllowStoredValue"></div>
+  <div ps-payment-token-selector ps-selected="input.source"
+    ps-invalid="selection.invalidSource" ps-instant="instant || !account.sysAllowStoredValue"></div>
 </div>
 
 <div class="section">
@@ -38,7 +38,7 @@ like to deposit.</p>
                 ng-model="input.mode"
                 value="all"
                 ng-change="input.amount = input.max.amount" />
-              Maximum deposit: <span data-money="input.max" data-important="true" data-exact="true"></span>
+              Maximum deposit: <span ps-money="input.max" ps-important="true" ps-exact="true"></span>
               <br/>
               <span class="muted">The maxiumum deposit will fully pay back your used credit.</span>
             </label>

@@ -12,16 +12,16 @@ define(['angular', 'jsonld'], function(angular, jsonld) {
 
 /* @ngInject */
 function factory(
-  $timeout, IdentityService, RefreshService, TransactionService) {
+  $timeout, AlertService, IdentityService, RefreshService, TransactionService) {
   return {
     restrict: 'A',
     scope: {
-      account: '=',
-      controls: '=',
-      details: '=',
-      moreHref: '=',
+      account: '=psAccount',
+      controls: '=psControls',
+      details: '=psDetails',
+      moreHref: '=psMoreHref',
       // recent for all accounts
-      recent: '='
+      recent: '=psRecent'
     },
     templateUrl: '/app/components/transaction/transactions-view.html',
     link: Link
@@ -232,6 +232,6 @@ function factory(
   }
 }
 
-return {transactions: factory};
+return {psTransactions: factory};
 
 });

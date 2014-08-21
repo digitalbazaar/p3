@@ -5,11 +5,10 @@
     <div ng-show="services.address.loading">
       <i class="fa fa-refresh fa-spin text-muted"></i>
     </div>
-    <div ng-hide="services.address.loading"
-      data-address-view="selected"></div>
+    <div ng-hide="services.address.loading" ps-address-view="selected"></div>
   </div>
   <stackable-modal stackable="showAddAddressModal"
     stackable-closed="!err && (selected=result)">
-    <div data-add-address-modal></div>
+    <div ps-add-address-modal></div>
   </stackable-modal>
 </div>

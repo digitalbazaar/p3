@@ -76,6 +76,6 @@ function factory(
   }
 }
 
-return {addBudgetModal: factory};
+return {psAddBudgetModal: factory};
 
 });

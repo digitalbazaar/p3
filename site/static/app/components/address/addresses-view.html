@@ -22,7 +22,7 @@
         </td>
         <!-- Address -->
         <td>
-          <span data-address-view="address" data-no-label="true"></span>
+          <span ps-address-view="address" ps-no-label="true"></span>
         </td>
         <!-- Action -->
         <td class="action">
@@ -56,10 +56,10 @@
     </div>
   </div>
   <stackable-modal stackable="model.modals.showAddAddress">
-    <div data-add-address-modal></div>
+    <div ps-add-address-modal></div>
   </stackable-modal>
   <stackable-modal stackable="model.modals.showEditAddress">
-    <div data-edit-address-modal data-address="model.modals.address"></div>
+    <div ps-edit-address-modal ps-address="model.modals.address"></div>
   </stackable-modal>
 
   <!-- Removing last address alert -->
@@ -78,7 +78,7 @@
       </div>
       <p>Are you sure that you want to remove this address?</p>
       <div class="well">
-        <div data-address-view="model.addressToDelete"></div>
+        <div ps-address-view="model.addressToDelete"></div>
       </div>
     </div>
   </stackable-modal>

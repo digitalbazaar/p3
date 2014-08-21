@@ -82,28 +82,28 @@
 
   <div class="row" ng-show="model.account">
     <div class="col-md-12">
-      <div data-transactions data-account="model.account" data-details="true" data-controls="true"></div>
+      <div ps-transactions ps-account="model.account" ps-details="true" ps-controls="true"></div>
     </div>
   </div>
 
   <!-- modals -->
   <stackable-modal stackable="model.modals.showDeposit">
-    <div data-deposit-modal data-account="model.modals.account" data-instant="false"></div>
+    <div ps-deposit-modal ps-account="model.modals.account" ps-instant="false"></div>
   </stackable-modal>
   <stackable-modal stackable="model.modals.showWithdraw">
-    <div data-withdraw-modal data-account="model.modals.account"></div>
+    <div ps-withdraw-modal ps-account="model.modals.account"></div>
   </stackable-modal>
   <stackable-modal stackable="model.modals.showEditAccount">
-    <div data-edit-account-modal data-account="model.modals.account"></div>
+    <div ps-edit-account-modal ps-account="model.modals.account"></div>
   </stackable-modal>
   <stackable-modal stackable="model.modals.showAddAccount">
-    <div data-add-account-modal></div>
+    <div ps-add-account-modal></div>
   </stackable-modal>
   <stackable-modal stackable="model.modals.showAddCreditLine">
-    <div data-add-credit-line-modal data-account="model.modals.account"></div>
+    <div ps-add-credit-line-modal ps-account="model.modals.account"></div>
   </stackable-modal>
   <stackable-modal stackable="model.modals.showRedeemPromoCode">
-    <div data-redeem-promo-code-modal data-account="model.modals.account"></div>
+    <div ps-redeem-promo-code-modal ps-account="model.modals.account"></div>
   </stackable-modal>
 
 </div>

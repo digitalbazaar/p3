@@ -11,7 +11,7 @@ define(['angular'], function(angular) {
 function factory(AccountService, AlertService, PaymentTokenService, config) {
   return {
     restrict: 'A',
-    scope: {paymentToken: '='},
+    scope: {paymentToken: '=psPaymentToken'},
     require: '^stackable',
     templateUrl: '/app/components/payment-token/verify-bank-account-modal.html',
     link: Link
@@ -195,6 +195,6 @@ function factory(AccountService, AlertService, PaymentTokenService, config) {
   }
 }
 
-return {verifyBankAccountModal: factory};
+return {psVerifyBankAccountModal: factory};
 
 });

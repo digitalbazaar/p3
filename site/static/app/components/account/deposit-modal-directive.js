@@ -12,8 +12,8 @@ function factory(AccountService, AlertService, TransactionService, config) {
   return {
     restrict: 'A',
     scope: {
-      account: '=',
-      instant: '='
+      account: '=psAccount',
+      instant: '=psInstant'
     },
     require: '^stackable',
     templateUrl: '/app/components/account/deposit-modal.html',
@@ -153,6 +153,6 @@ function factory(AccountService, AlertService, TransactionService, config) {
   }
 }
 
-return {depositModal: factory};
+return {psDepositModal: factory};
 
 });

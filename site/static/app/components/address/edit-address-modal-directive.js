@@ -10,7 +10,7 @@ define(['angular'], function(angular) {
 /* @ngInject */
 function factory(AddressService, AlertService, config) {
   return {
-    scope: {sourceAddress: '=address'},
+    scope: {sourceAddress: '=psAddress'},
     require: '^stackable',
     templateUrl: '/app/components/address/edit-address-modal.html',
     link: Link
@@ -48,6 +48,6 @@ function factory(AddressService, AlertService, config) {
   }
 }
 
-return {editAddressModal: factory};
+return {psEditAddressModal: factory};
 
 });

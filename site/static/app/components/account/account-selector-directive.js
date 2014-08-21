@@ -12,14 +12,14 @@ function factory(AccountService, PaymentTokenService) {
   return {
     restrict: 'A',
     scope: {
-      selected: '=',
-      invalid: '=',
-      fixed: '@',
-      minBalance: '@',
-      showDepositButton: '@',
-      instant: '=',
-      allowInstantTransfer: '@',
-      instantTransferDeposit: '=?'
+      selected: '=psSelected',
+      invalid: '=psInvalid',
+      fixed: '@psFixed',
+      minBalance: '@psMinBalance',
+      showDepositButton: '@psShowDepositButton',
+      instant: '=psInstant',
+      allowInstantTransfer: '@psAllowInstantTransfer',
+      instantTransferDeposit: '=?psInstantTransferDeposit'
     },
     templateUrl: '/app/components/account/account-selector.html',
     link: Link
@@ -46,7 +46,7 @@ function factory(AccountService, PaymentTokenService) {
       }
     }, true);
 
-    attrs.$observe('fixed', function(value) {
+    attrs.$observe('psFixed', function(value) {
       scope.fixed = value;
     });
 
@@ -110,6 +110,6 @@ function factory(AccountService, PaymentTokenService) {
   }
 }
 
-return {accountSelector: factory};
+return {psAccountSelector: factory};
 
 });

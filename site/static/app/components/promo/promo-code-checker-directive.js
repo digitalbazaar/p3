@@ -12,8 +12,8 @@ function factory($http, AlertService) {
   return {
     restrict: 'A',
     scope: {
-      input: '=promoCodeChecker',
-      state: '=promoCodeCheckerState'
+      input: '=psPromoCodeChecker',
+      state: '=psPromoCodeCheckerState'
     },
     link: function(scope) {
       // init state object
@@ -55,9 +55,10 @@ function factory($http, AlertService) {
             return;
           }
 
-          $http.get(encodeURI('/promos/' + scope.input))
-            .then(function(data) {
+          Promise.resolve($http.get(encodeURI('/promos/' + scope.input)))
+            .then(function(response) {
               // promo found
+              var data = response.data;
               state.loading = false;
               var now = new Date();
               var expires = new Date(data.expires);
@@ -80,6 +81,6 @@ function factory($http, AlertService) {
   };
 }
 
-return {promoCodeChecker: factory};
+return {psPromoCodeChecker: factory};
 
 });

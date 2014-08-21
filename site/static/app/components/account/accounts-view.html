@@ -36,7 +36,7 @@
         </td>
         <!-- Balance -->
         <td class="money">
-          <div data-account-balance-summary="account" data-expand="model.expandAccountBalance[account.id]"></div>
+          <div ps-account-balance-summary="account" ps-expand="model.expandAccountBalance[account.id]"></div>
         </td>
         <!-- Action -->
         <td class="action">
@@ -81,7 +81,7 @@
       </tr>
       <tr>
         <td colspan="3" style="border: none; padding-top: 0; padding-bottom: {{model.expandAccountBalance[account.id] && '4px' || '0'}}">
-          <div data-account-balance-details="account" data-expand="model.expandAccountBalance[account.id]"></div>
+          <div ps-account-balance-details="account" ps-expand="model.expandAccountBalance[account.id]"></div>
         </td>
       </tr>
     </tbody>
@@ -90,21 +90,21 @@
     <p class="center">You have no accounts for this identity.</p>
   </div>
   <stackable-modal stackable="model.modals.showDeposit">
-    <div data-deposit-modal data-account="model.modals.account" data-instant="false"></div>
+    <div ps-deposit-modal ps-account="model.modals.account" ps-instant="false"></div>
   </stackable-modal>
   <stackable-modal stackable="model.modals.showWithdraw">
-    <div data-withdraw-modal data-account="model.modals.account"></div>
+    <div ps-withdraw-modal ps-account="model.modals.account"></div>
   </stackable-modal>
   <stackable-modal stackable="model.modals.showEditAccount">
-    <div data-edit-account-modal data-account="model.modals.account"></div>
+    <div ps-edit-account-modal ps-account="model.modals.account"></div>
   </stackable-modal>
   <stackable-modal stackable="model.modals.showAddAccount">
-    <div data-add-account-modal></div>
+    <div ps-add-account-modal></div>
   </stackable-modal>
   <stackable-modal stackable="model.modals.showAddCreditLine">
-    <div data-add-credit-line-modal data-account="model.modals.account"></div>
+    <div ps-add-credit-line-modal ps-account="model.modals.account"></div>
   </stackable-modal>
   <stackable-modal stackable="model.modals.showRedeemPromoCode">
-    <div data-redeem-promo-code-modal data-account="model.modals.account"></div>
+    <div ps-redeem-promo-code-modal ps-account="model.modals.account"></div>
   </stackable-modal>
 </div>

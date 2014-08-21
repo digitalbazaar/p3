@@ -72,8 +72,8 @@
       </div>
       <div style="margin-top: 10px"></div>
       <div ng-show="model.backupSourceEnabled">
-        <div data-payment-token-selector data-selected="model.backupSource"
-          data-instant="true"></div>
+        <div ps-payment-token-selector ps-selected="model.backupSource"
+          ps-instant="true"></div>
       </div>
       <div ng-hide="model.backupSourceEnabled || model.creditDisabled || model.fullyBackedCredit"
         class="alert alert-warning">
@@ -82,7 +82,7 @@
       </div>
 
       <!--
-      <div data-payment-token-list data-instant="true" data-id-list="model.account.backupSource"></div>
+      <div ps-payment-token-list ps-instant="true" ps-id-list="model.account.backupSource"></div>
       <p ng-show="model.help.backups.show"
         class="help-block col-sm-offset-3 col-sm-8 br-fadein br-fadeout">
         Choose the payment methods that are used to fund this account.

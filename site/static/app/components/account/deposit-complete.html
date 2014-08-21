@@ -1,6 +1,6 @@
 <p>
   You have deposited
-  <span data-money="deposit.transfer[0]" data-important="true"></span>
+  <span ps-money="deposit.transfer[0]" ps-important="true"></span>
   into your
   "<strong>{{accounts[account.id].label}}</strong>"
   account.
@@ -8,9 +8,9 @@
 
 <div class="section">
   <h4 class="headline">Deposit Details</h4>
-  <div data-transaction-details="deposit"
-    data-source="input.source"
-    data-complete="true"></div>
+  <div ps-transaction-details="deposit"
+    ps-source="input.source"
+    ps-complete="true"></div>
 </div>
 
 <div class="section">
@@ -24,7 +24,7 @@
     </span>
     "<strong>{{input.source.label}}</strong>"
     was charged
-    <span data-money="deposit" data-important="true"></span>
+    <span ps-money="deposit" ps-important="true"></span>
     on
     <span class="date">{{deposit.created | date:'medium'}}</span>.
     "Digital Bazaar" will appear on your billing statement.

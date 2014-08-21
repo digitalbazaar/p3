@@ -214,21 +214,21 @@
       <div class="section col-md-6 col-md-offset-3">
         <div ng-show="model.sourceType == 'account'">
           <h4 class="headline">Account</h4>
-          <div data-account-selector
-            data-selected="model.selection.account"
-            data-invalid="model.selection.invalidAccount"
-            data-show-deposit-button="true"
-            data-instant="true"
-            data-min-balance="{{model.contract.amount}}"
-            data-allow-instant-transfer="true"
-            data-instant-transfer-deposit="model.contract.triggered"></div>
+          <div ps-account-selector
+            ps-selected="model.selection.account"
+            ps-invalid="model.selection.invalidAccount"
+            ps-show-deposit-button="true"
+            ps-instant="true"
+            ps-min-balance="{{model.contract.amount}}"
+            ps-allow-instant-transfer="true"
+            ps-instant-transfer-deposit="model.contract.triggered"></div>
         </div>
         <div ng-show="model.sourceType == 'budget'">
           <h4 class="headline">Budget</h4>
-          <div data-budget-selector
-            data-selected="model.selection.budget"
-            data-invalid="model.selection.invalidBudget"
-            data-min-balance="{{model.contract.amount}}"></div>
+          <div ps-budget-selector
+            ps-selected="model.selection.budget"
+            ps-invalid="model.selection.invalidBudget"
+            ps-min-balance="{{model.contract.amount}}"></div>
         </div>
       </div>
     </div>
@@ -301,7 +301,7 @@
     your {{(model.identity.type == 'VendorIdentity' && 'business\'s ') || ''}}
     name and address information.</span>
   </br-add-alert>
-  <div data-add-address-modal>
+  <div ps-add-address-modal>
   </div>
 </stackable-modal>
 <stackable-modal stackable="model.showAddAccountModal"
@@ -310,7 +310,7 @@
     <span><strong>Note:</strong> Before you make your {{model.purchase}}, please
     create a financial account.</span>
   </br-add-alert>
-  <div data-add-account-modal></div>
+  <div ps-add-account-modal></div>
 </stackable-modal>
 
 </div>

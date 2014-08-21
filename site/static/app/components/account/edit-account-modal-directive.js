@@ -12,7 +12,7 @@ function factory(
   AccountService, AlertService, IdentityService, PaymentTokenService, config) {
   return {
     restrict: 'A',
-    scope: {sourceAccount: '=account'},
+    scope: {sourceAccount: '=psAccount'},
     require: '^stackable',
     templateUrl: '/app/components/account/edit-account-modal.html',
     link: Link
@@ -101,6 +101,6 @@ function factory(
   }
 }
 
-return {editAccountModal: factory};
+return {psEditAccountModal: factory};
 
 });

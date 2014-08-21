@@ -12,13 +12,13 @@ function factory() {
   return {
     restrict: 'A',
     scope: {
-      address: '=addressView',
-      noLabel: '=?'
+      address: '=psAddressView',
+      noLabel: '=?psNoLabel'
     },
     templateUrl: '/app/components/address/address-view.html'
   };
 }
 
-return {addressView: factory};
+return {psAddressView: factory};
 
 });

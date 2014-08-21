@@ -25,9 +25,9 @@
       <form class="form-search">
         <input class="form-control search-query" type="text" name="search"
           ng-model="model.search.input">
-        <span data-input-watcher="model.search.input"
-          data-input-watcher-state="model.search.state"
-          data-input-change="search(input, state, callback)">
+        <span br-input-watcher="model.search.input"
+          br-input-watcher-state="model.search.state"
+          br-input-change="search(input, state, callback)">
         </span>
         <span ng-show="model.search.state.loading || state.assets.loading || state.listings.loading">
           <i class="fa fa-refresh fa-spin text-muted"></i>
@@ -44,7 +44,7 @@
       <h3 class="headline">Asset Search Results</h3>
 
       <table class="table table-condensed"
-        ng-show="!state.assets.loading && model.search.assets.length > 0">
+        ng-if="!state.assets.loading && model.search.assets.length > 0">
         <thead>
           <tr>
             <th class="date">Date</th>
@@ -54,8 +54,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="asset in model.search.assets" class="asset"
-            data-fadein="asset.added" data-fadeout="asset.deleted">
+          <tr ng-repeat="asset in model.search.assets"
+            class="asset br-fadein br-fadeout" ng-if="!asset.deleted">
             <!-- Date -->
             <td>
               <span class="date">{{asset.created | date:'medium'}}</span>
@@ -117,7 +117,7 @@
       <h3 class="headline">Listing Search Results</h3>
 
       <table class="table table-condensed"
-        ng-show="!state.listings.loading && model.search.listings.length > 0">
+        ng-if="!state.listings.loading && model.search.listings.length > 0">
         <thead>
           <tr>
             <th class="date">Date</th>
@@ -127,8 +127,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="listing in model.search.listings" class="listing"
-            data-fadein="listing.added" data-fadeout="listing.deleted">
+          <tr ng-repeat="listing in model.search.listings"
+            class="listing br-fadein br-fadeout" ng-if="!listing.deleted">
             <!-- Date -->
             <td>
               <span class="date">{{listing.asset.created | date:'medium'}}</span>
@@ -184,7 +184,7 @@
     <div class="section section-recent-assets col-md-6">
       <h3 class="headline">Recent Assets</h3>
 
-      <table class="table table-condensed" ng-show="state.assets.loading || model.recentAssets.length > 0">
+      <table class="table table-condensed" ng-if="state.assets.loading || model.recentAssets.length > 0">
         <thead>
           <tr>
             <th class="date">Date</th>
@@ -194,8 +194,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="asset in model.recentAssets" class="asset"
-            data-fadein="asset.added" data-fadeout="asset.deleted">
+          <tr ng-repeat="asset in model.recentAssets"
+            class="asset br-fadein br-fadeout" ng-if="!asset.deleted">
             <!-- Date -->
             <td>
               <span class="date">{{asset.created | date:'medium'}}</span>
@@ -259,7 +259,7 @@
     <div class="section section-recent-listings col-md-6">
       <h3 class="headline">Recent Listings</h3>
 
-      <table class="table table-condensed" ng-show="state.listings.loading || model.recentListings.length > 0">
+      <table class="table table-condensed" ng-if="state.listings.loading || model.recentListings.length > 0">
         <thead>
           <tr>
             <th class="date">Date</th>
@@ -269,8 +269,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="listing in model.recentListings" class="listing"
-            data-fadein="listing.added" data-fadeout="listing.deleted">
+          <tr ng-repeat="listing in model.recentListings"
+            class="listing br-fadein br-fadeout" ng-if="!listing.deleted">
             <!-- Date -->
             <td>
               <span class="date">{{listing.asset.created | date:'medium'}}</span>
@@ -327,13 +327,13 @@
 
   <!-- Modals -->
   <stackable-modal stackable="model.modals.showAddAsset">
-    <div data-add-asset-modal></div>
+    <div ps-add-asset-modal></div>
   </stackable-modal>
   <stackable-modal stackable="model.modals.showProtectAsset">
-    <div data-protect-asset-modal data-asset="model.modals.asset"></div>
+    <div ps-protect-asset-modal ps-asset="model.modals.asset"></div>
   </stackable-modal>
   <stackable-modal stackable="model.modals.showAddListing">
-    <div data-add-listing-modal data-asset="model.modals.asset"></div>
+    <div ps-add-listing-modal ps-asset="model.modals.asset"></div>
   </stackable-modal>
 
 </div>

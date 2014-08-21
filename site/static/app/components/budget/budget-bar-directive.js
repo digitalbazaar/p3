@@ -11,7 +11,7 @@ define([], function() {
 function factory() {
   return {
     restrict: 'A',
-    scope: {budget: '=budgetBar'},
+    scope: {budget: '=psBudgetBar'},
     replace: true,
     templateUrl: '/app/components/budget/budget-bar.html',
     link: function(scope) {
@@ -32,6 +32,6 @@ function factory() {
   };
 }
 
-return {budgetBar: factory};
+return {psBudgetBar: factory};
 
 });

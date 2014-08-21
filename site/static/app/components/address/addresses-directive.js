@@ -19,6 +19,6 @@ function factory() {
   };
 }
 
-return {appAddresses: factory};
+return {psAddresses: factory};
 
 });

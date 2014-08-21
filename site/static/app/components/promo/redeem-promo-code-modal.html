@@ -21,7 +21,7 @@
                   <input class="form-control"
                     type="text" name="promoCode" maxlength="20"
                     ng-model="model.promoCode"
-                    data-track-state="model.help.promoCode"
+                    br-track-state="model.help.promoCode"
                     autocomplete="off" />
                   <span ng-show="model.promoCodeChecker.loading"
                     class="br-spinner-inside-input">
@@ -39,8 +39,8 @@
                   Please enter a promotional code; it will be applied to the
                   financial account displayed below.
                 </p>
-                <div data-promo-code-checker="model.promoCode"
-                  data-promo-code-checker-state="model.promoCodeChecker">
+                <div br-promo-code-checker="model.promoCode"
+                  br-promo-code-checker-state="model.promoCodeChecker">
                 </div>
               </div>
               <div ng-show="model.promoCodeChecker.promo">
@@ -112,9 +112,9 @@
             Any applicable funds were deposited into:
           </p>
         </div>
-        <div data-account-selector data-selected="account" data-fixed="true"
-          data-invalid="model.invalidAccount"
-          data-instant-transfer-deposit="ignore"></div>
+        <div ps-account-selector ps-selected="account" ps-fixed="true"
+          ps-invalid="model.invalidAccount"
+          ps-instant-transfer-deposit="ignore"></div>
       </div>
       <div class="modal-footer">
         <span ng-show="model.services.promo.state.loading">

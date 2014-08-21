@@ -49,10 +49,10 @@
 
         <div class="form-group">
           <label class="control-label" for="account-selector">Financial Account</label>
-          <div id="account-selector" data-account-selector
-            data-selected="model.selection.account"
-            data-invalid="model.selection.invalidAccount"
-            data-instant-transfer-deposit="ignore"></div>
+          <div id="account-selector" ps-account-selector
+            ps-selected="model.selection.account"
+            ps-invalid="model.selection.invalidAccount"
+            ps-instant-transfer-deposit="ignore"></div>
         </div>
 
         <div class="form-group" data-binding="publicKey.label">
@@ -70,10 +70,10 @@
         </div>
 
         <div class="form-group">
-          <div stackable="model.showAddAddressModal" stackable-modal="true"
+          <stackable-modal="model.showAddAddressModal"
             stackable-closed="model.register()">
-            <div data-add-address-modal data-add-address-alert-modal="Before you complete your registration, please enter your business's name and address information."></div>
-          </div>
+            <div ps-add-address-modal ps-add-address-alert-modal="Before you complete your registration, please enter your business's name and address information."></div>
+          </stackable>
           <button type="button" class="btn btn-lg btn-primary"
             ng-disabled="model.loading || !model.identity || !model.selection.account"
             ng-click="model.register()">Register</button>

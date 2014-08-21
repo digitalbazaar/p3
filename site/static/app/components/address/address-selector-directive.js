@@ -12,9 +12,9 @@ function factory(AddressService, IdentityService) {
   return {
     restrict: 'A',
     scope: {
-      selected: '=',
-      invalid: '=',
-      fixed: '@'
+      selected: '=psSelected',
+      invalid: '=psInvalid',
+      fixed: '@psFixed'
     },
     templateUrl: '/app/components/address/address-selector.html',
     link: Link
@@ -29,7 +29,7 @@ function factory(AddressService, IdentityService) {
     scope.identity = IdentityService.identity;
     scope.addresses = AddressService.addresses;
 
-    attrs.$observe('fixed', function(value) {
+    attrs.$observe('psFixed', function(value) {
       scope.fixed = value;
     });
 
@@ -43,6 +43,6 @@ function factory(AddressService, IdentityService) {
   }
 }
 
-return {addressSelector: factory};
+return {psAddressSelector: factory};
 
 });

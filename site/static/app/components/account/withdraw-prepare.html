@@ -12,8 +12,8 @@ like to withdraw.</p>
     <strong>Note:</strong> Withdrawals take 3-7 business days to be processed
     before the money appears in your bank account.
   </div>
-  <div data-payment-token-selector data-selected="input.destination"
-    data-invalid="selection.invalidDestination" data-instant="'non'"></div>
+  <div ps-payment-token-selector ps-selected="input.destination"
+    ps-invalid="selection.invalidDestination" ps-instant="'non'"></div>
 </div>
 
 <div class="section">
@@ -36,7 +36,7 @@ like to withdraw.</p>
                 ng-model="input.mode"
                 value="all"
                 ng-change="setAmount(account.balance)" />
-              Maximum withdrawal: <span data-money="account" data-important="true" data-value-field="balance" data-round-mode="down"></span>
+              Maximum withdrawal: <span ps-money="account" ps-important="true" ps-value-field="balance" ps-round-mode="down"></span>
             </label>
           </div>
           <div class="radio">

@@ -12,7 +12,7 @@ function factory(
   $filter, AccountService, AlertService, TransactionService, config) {
   return {
     restrict: 'A',
-    scope: {account: '='},
+    scope: {account: '=psAccount'},
     require: '^stackable',
     templateUrl: '/app/components/account/withdraw-modal.html',
     link: Link
@@ -156,6 +156,6 @@ function factory(
   }
 }
 
-return {withdrawModal: factory};
+return {psWithdrawModal: factory};
 
 });

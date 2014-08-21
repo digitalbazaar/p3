@@ -85,6 +85,6 @@ function factory(AddressService, AlertService, IdentityService, config) {
   }
 }
 
-return {addAddressModal: factory};
+return {psAddAddressModal: factory};
 
 });

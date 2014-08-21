@@ -27,9 +27,9 @@
         <input type="text" name="search" class="input-xlarge search-query"
           ng-model="model.search.input"
           placeholder="Search..." />
-        <span data-input-watcher="model.search.input"
-          data-input-watcher-state="model.search.state"
-          data-input-change="search(input, state, callback)">
+        <span br-input-watcher="model.search.input"
+          br-input-watcher-state="model.search.state"
+          br-input-change="search(input, state, callback)">
         </span>
         <span ng-show="model.search.state.loading || state.assets.loading || state.listings.loading">
           <i class="fa fa-refresh fa-spin text-muted"></i>
@@ -50,8 +50,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="asset in model.search.assets" class="asset"
-            data-fadein="asset.added" data-fadeout="asset.deleted">
+          <tr ng-repeat="asset in model.search.assets"
+            class="asset br-fadein br-fadeout" ng-if="!asset.deleted">
             <!-- Paid -->
             <td>
               <span>X</span>
@@ -128,10 +128,10 @@
 
   <!-- Modals -->
   <stackable-modal stackable="model.modals.showAddInvoice">
-    <div data-add-invoice-modal></div>
+    <div ps-add-invoice-modal></div>
   </stackable-modal>
   <!-- <stackable-modal stackable="model.modals.showEditInvoice">
-    <div data-edit-invoice-modal></div>
+    <div ps-edit-invoice-modal></div>
   </stackable-modal> -->
 
 </div>

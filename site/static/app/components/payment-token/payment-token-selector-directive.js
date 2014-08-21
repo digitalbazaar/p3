@@ -12,11 +12,11 @@ function factory(AlertService, ModelService, PaymentTokenService) {
   return {
     restrict: 'A',
     scope: {
-      selected: '=',
-      invalid: '=',
-      fixed: '@',
-      instant: '=',
-      omit: '='
+      selected: '=psSelected',
+      invalid: '=psInvalid',
+      fixed: '@psFixed',
+      instant: '=psInstant',
+      omit: '=psOmit'
     },
     templateUrl:
       '/app/components/payment-token/payment-token-selector.html',
@@ -37,7 +37,7 @@ function factory(AlertService, ModelService, PaymentTokenService) {
       }
     }, true);
 
-    attrs.$observe('fixed', function(value) {
+    attrs.$observe('psFixed', function(value) {
       scope.fixed = value;
     });
 
@@ -95,6 +95,6 @@ function factory(AlertService, ModelService, PaymentTokenService) {
   }
 }
 
-return {paymentTokenSelector: factory};
+return {psPaymentTokenSelector: factory};
 
 });

@@ -27,6 +27,6 @@ function factory(IdentityService) {
   }
 }
 
-return {messages: factory};
+return {psMessages: factory};
 
 });

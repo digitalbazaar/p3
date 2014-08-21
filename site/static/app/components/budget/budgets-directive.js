@@ -56,6 +56,6 @@ function factory(AlertService, BudgetService) {
   }
 }
 
-return {budgets: factory};
+return {psBudgets: factory};
 
 });

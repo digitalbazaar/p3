@@ -11,7 +11,7 @@ define([], function() {
 function factory(AlertService, IdentityService, PaymentTokenService, config) {
   return {
     restrict: 'A',
-    scope: {paymentMethods: '='},
+    scope: {paymentMethods: '=psPaymentMethods'},
     require: '^stackable',
     templateUrl: '/app/components/payment-token/add-payment-token-modal.html',
     link: Link
@@ -131,6 +131,6 @@ function factory(AlertService, IdentityService, PaymentTokenService, config) {
   }
 }
 
-return {addPaymentTokenModal: factory};
+return {psAddPaymentTokenModal: factory};
 
 });

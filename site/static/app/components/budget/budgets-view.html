@@ -23,7 +23,7 @@
         </td>
         <!-- Balance -->
         <td class="money">
-          <div data-budget-bar="budget"></div>
+          <div ps-budget-bar="budget"></div>
         </td>
         <!-- Refresh -->
         <td ng-switch="model.getBudgetRefreshDuration(budget)">
@@ -63,18 +63,18 @@
       br-modal-ok="Delete"
       br-modal-cancel="Cancel">
       <p>Are you sure that you want to delete this budget?</p>
-      <div data-budget-selector
-        data-selected="model.budgetToDelete"
-        data-invalid="invalidBudget" data-fixed="true"></div>
+      <div ps-budget-selector
+        ps-selected="model.budgetToDelete"
+        ps-invalid="invalidBudget" ps-fixed="true"></div>
     </div>
   </stackable-modal>
   <div ng-show="!model.state.budgets.loading && model.budgets.length == 0">
     <p class="center">You have no budgets for this identity.</p>
   </div>
   <stackable-modal stackable="model.modals.showEditBudget">
-    <div data-edit-budget-modal data-budget="model.modals.budget"></div>
+    <div ps-edit-budget-modal ps-budget="model.modals.budget"></div>
   </stackable-modal>
   <stackable-modal stackable="model.modals.showAddBudget">
-    <div data-add-budget-modal></div>
+    <div ps-add-budget-modal></div>
   </stackable-modal>
 </div>

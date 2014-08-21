@@ -46,6 +46,6 @@ function factory(AccountService, AlertService, IdentityService, config) {
   }
 }
 
-return {addAccountModal: factory};
+return {psAddAccountModal: factory};
 
 });

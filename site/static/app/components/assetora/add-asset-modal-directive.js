@@ -55,6 +55,6 @@ function factory(AlertService, HostedAssetService, config) {
   }
 }
 
-return {addAssetModal: factory};
+return {psAddAssetModal: factory};
 
 });

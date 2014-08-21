@@ -19,6 +19,6 @@ function factory() {
   };
 }
 
-return {appExternalAccounts: factory};
+return {psExternalAccounts: factory};
 
 });

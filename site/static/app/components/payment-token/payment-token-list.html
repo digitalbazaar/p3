@@ -71,5 +71,8 @@
     <p class="center">None.</p>
     <button class="btn btn-success pull-right" ng-click="modals.showPaymentTokenListSelector=true"><i class="fa fa-plus"></i> Select Payment Method</button>
   </div>
-  <div data-modal-payment-token-list-selector="modals.showPaymentTokenListSelector" data-instant="instant" data-omit="idList" data-modal-on-close="addToken(err, result)"></div>
+  <stackable-modal stackable="modals.showPaymentTokenListSelector"
+    stackable-closed="addToken(err, result">
+    <div ps-payment-token-list-selector-modal data-instant="instant" data-omit="idList"></div>
+  </stackable>
 </div>

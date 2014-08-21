@@ -1,11 +1,11 @@
 <div class="section section-budgets">
-  <br-headline-menu br-headline="Budgets" br-loading="model.state.budgets.loading">
+  <br-headline br-title="Budgets" br-loading="model.state.budgets.loading">
     <ul class="stackable-menu dropdown-menu">
       <li>
         <a class="stackable-cancel" ng-click="model.modals.showAddBudget=true"><i class="fa fa-plus"></i> Add Budget</a>
       </li>
     </ul>
-  </br-headline-menu>
+  </br-headline>
   <table class="table table-condensed" ng-if="!model.state.budgets.loading && model.budgets.length > 0">
     <thead>
       <tr>

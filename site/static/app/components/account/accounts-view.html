@@ -1,11 +1,11 @@
 <div class="section section-accounts">
-  <br-headline-menu br-headline="Accounts" br-loading="model.state.accounts.loading">
+  <br-headline br-title="Accounts" br-loading="model.state.accounts.loading">
     <ul class="stackable-menu dropdown-menu">
       <li>
         <a class="stackable-cancel" ng-click="model.modals.showAddAccount=true"><i class="fa fa-plus"></i> Add Account</a>
       </li>
     </ul>
-  </br-headline-menu>
+  </br-headline>
   <table class="table table-condensed" ng-show="!model.state.accounts.loading && model.accounts.length > 0">
     <thead>
       <tr>

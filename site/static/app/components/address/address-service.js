@@ -25,7 +25,8 @@ function factory(
   // validate an address
   service.validate = function(address) {
     return service.collection.add(address, {
-      params: {action: 'validate'}
+      params: {action: 'validate'},
+      update: false
     });
   };
 

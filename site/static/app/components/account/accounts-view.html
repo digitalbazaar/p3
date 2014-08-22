@@ -55,7 +55,7 @@
                   <i class="fa fa-star"></i> Set as Default
                 </a>
               </li>
-              <li>
+              <li ng-hide="!account.sysAllowStoredValue && account.balance[0] != '-'">
                 <a class="stackable-cancel" ng-click="model.modals.account=account; model.modals.showDeposit=true">
                   <i class="fa fa-plus"></i> Deposit
                 </a>

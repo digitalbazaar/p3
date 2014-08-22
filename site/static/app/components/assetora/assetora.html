@@ -21,7 +21,8 @@
 
   <div class="row">
     <div class="section col-md-12">
-      <h3 class="headline">Search</h3>
+      <br-headline br-title="Search" br-options="{menu:false}"></br-headline>
+
       <form class="form-search">
         <input class="form-control search-query" type="text" name="search"
           ng-model="model.search.input">
@@ -41,7 +42,7 @@
 
   <div class="row">
     <div class="section section-asset-search col-md-6">
-      <h3 class="headline">Asset Search Results</h3>
+      <br-headline br-title="Asset Search Results" br-options="{menu:false}"></br-headline>
 
       <table class="table table-condensed"
         ng-if="!state.assets.loading && model.search.assets.length > 0">
@@ -114,7 +115,7 @@
     </div>
 
     <div class="section section-listing-search col-md-6">
-      <h3 class="headline">Listing Search Results</h3>
+      <br-headline br-title="Listing Search Results" br-options="{menu:false}"></br-headline>
 
       <table class="table table-condensed"
         ng-if="!state.listings.loading && model.search.listings.length > 0">
@@ -182,7 +183,7 @@
 
   <div class="row">
     <div class="section section-recent-assets col-md-6">
-      <h3 class="headline">Recent Assets</h3>
+      <br-headline br-title="Recent Assets" br-options="{menu:false}"></br-headline>
 
       <table class="table table-condensed" ng-if="state.assets.loading || model.recentAssets.length > 0">
         <thead>
@@ -257,7 +258,7 @@
     </div>
 
     <div class="section section-recent-listings col-md-6">
-      <h3 class="headline">Recent Listings</h3>
+      <br-headline br-title="Recent Listings" br-options="{menu:false}"></br-headline>
 
       <table class="table table-condensed" ng-if="state.listings.loading || model.recentListings.length > 0">
         <thead>

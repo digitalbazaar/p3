@@ -15,12 +15,7 @@
 
   <div class="row">
     <div class="section col-md-12">
-      <h3 class="headline">
-        Transaction
-        <span ng-show="model.state.accounts.loading" class="pull-right">
-          <i class="fa fa-refresh fa-spin text-muted"></i>
-        </span>
-      </h3>
+      <br-headline br-title="Transaction" br-loading="model.state.accounts.loading" br-options="{menu:false}"></br-headline>
       <div class="alert alert-danger" ng-show="model.txn === null && !model.state.txns.loading">
         <strong>Error!</strong> Transaction not found or access not allowed.
       </div>

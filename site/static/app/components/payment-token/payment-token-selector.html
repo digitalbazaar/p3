@@ -2,7 +2,7 @@
   <div br-selector br-item-type="Payment Method"
     br-items="paymentTokens" br-selected="selected" br-invalid="invalid"
     br-add-item="showAddPaymentTokenModal=true" br-fixed="{{fixed}}"
-    br-custom-display="true" br-columns="2" br-selecting="selecting">
+    br-custom-display="true" br-selecting="selecting">
     <ul ng-show="services.token.loading" class="list-unstyled item">
       <li class="item-hover well">
         <div ng-show="services.token.loading">
@@ -11,13 +11,13 @@
       </li>
     </ul>
     <div ng-hide="services.token.loading || selecting">
-      <div ng-include="'/app/components/payment-token/payment-token-display.html'"></div>
+      <ps-payment-token ps-token="selected"></ps-payment-token>
     </div>
     <div ng-show="!services.token.loading && selecting">
       <div ng-repeat="row in grid">
         <div class="row">
-          <div class="col-md-6" ng-repeat="selected in row">
-            <div ng-include="'/app/components/payment-token/payment-token-display.html'"></div>
+          <div class="col-md-6" ng-repeat="token in row">
+            <ps-payment-token ps-token="token" ps-selecting="selecting" ps-select="select(token)"></ps-payment-token>
           </div>
         </div>
       </div>
@@ -31,6 +31,6 @@
   </div>
   <stackable-modal stackable="showAddPaymentTokenModal"
     stackable-closed="!err && (selected=result)">
-    <div data-add-payment-token-modal data-payment-methods="paymentMethods"></div>
+    <div ps-add-payment-token-modal data-payment-methods="paymentMethods"></div>
   </stackable-modal>
 </div>

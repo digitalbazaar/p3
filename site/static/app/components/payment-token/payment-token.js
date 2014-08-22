@@ -15,6 +15,7 @@ define([
   './external-accounts-controller',
   './external-accounts-directive',
   './kredit-directive',
+  './payment-token-directive',
   './payment-token-list-directive',
   './payment-token-list-selector-modal-directive',
   './payment-token-selector-directive',
@@ -30,6 +31,7 @@ define([
   externalAccountsController,
   externalAccountsDirective,
   kreditDirective,
+  paymentTokenDirective,
   paymentTokenListDirective,
   paymentTokenListSelectorModalDirective,
   paymentTokenSelectorDirective,
@@ -48,6 +50,7 @@ module.directive(kreditDirective);
 module.directive(editPaymentTokenModalDirective);
 module.controller(externalAccountsController);
 module.directive(externalAccountsDirective);
+module.directive(paymentTokenDirective);
 module.directive(paymentTokenListDirective);
 module.directive(paymentTokenListSelectorModalDirective);
 module.directive(paymentTokenSelectorDirective);

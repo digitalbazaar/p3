@@ -28,13 +28,21 @@ function factory(AlertService, ModelService, PaymentTokenService) {
     scope.services = {
       token: PaymentTokenService.state
     };
+    scope.grid = [];
     scope.paymentTokens = [];
     scope.tokensFilteredByInstant = [];
+
+    scope.select = function(token) {
+      scope.selected = token;
+    };
+
     scope.$watch('paymentTokens', function(tokens) {
       // use first token if available and none yet selected
       if(!scope.selected) {
         scope.selected = tokens[0] || null;
       }
+      // keep grid up-to-date
+      buildGrid(2);
     }, true);
 
     attrs.$observe('psFixed', function(value) {
@@ -91,6 +99,24 @@ function factory(AlertService, ModelService, PaymentTokenService) {
         }
       }
       ModelService.replaceArray(scope.paymentTokens, tokens);
+    }
+
+    function buildGrid(columns) {
+      var row = null;
+      scope.grid.length = 0;
+      angular.forEach(scope.paymentTokens, function(token) {
+        if(!row) {
+          row = [];
+        }
+        row.push(token);
+        if(row.length === columns) {
+          scope.grid.push(row);
+          row = null;
+        }
+      });
+      if(row) {
+        scope.grid.push(row);
+      }
     }
   }
 }

@@ -1,58 +1,58 @@
-<div class="paymentToken" ng-switch="selected.paymentMethod">
-  <div class="cc-box {{selected.cardBrand | lowercase}}" ng-switch-when="CreditCard"
+<div class="paymentToken" ng-switch="token.paymentMethod">
+  <div class="cc-box {{token.cardBrand | lowercase}} unselectable" ng-switch-when="CreditCard"
     ng-class="{'cc-selecting': selecting}">
-    <table class="cc-table {{selected.cardBrand | lowercase}}" ng-class="selecting && 'br-item-hover'"
-      ng-click="selecting && select(selected)">
+    <table class="cc-table {{token.cardBrand | lowercase}}" ng-class="selecting && 'br-item-hover'"
+      ng-click="selecting && select({token: token})">
       <tbody>
         <tr>
           <td colspan="2" class="cc-layer">
-            <span class="cc-label"><strong>{{selected.label | ellipsis:25}}</strong></span>
+            <span class="cc-label"><strong>{{token.label | ellipsis:25}}</strong></span>
           </td>
         </tr>
         <tr>
           <td colspan="2" class="cc-layer">
-            <span class="cc-font-front cc-number" ps-kredit>{{selected.cardNumber | mask | ccNumber}}</span>
-            <span class="cc-font-back cc-number" ps-kredit>{{selected.cardNumber | mask | ccNumber}}</span>
-            <span class="cc-font-shine cc-number" ps-kredit>{{selected.cardNumber | mask | ccNumber}}</span>
+            <span class="cc-font-front cc-number" ps-kredit>{{token.cardNumber | mask | ccNumber}}</span>
+            <span class="cc-font-back cc-number" ps-kredit>{{token.cardNumber | mask | ccNumber}}</span>
+            <span class="cc-font-shine cc-number" ps-kredit>{{token.cardNumber | mask | ccNumber}}</span>
           </td>
         </tr>
         <tr>
           <td class="cc-layer">
-            <span class="cc-font-front cc-date" ps-kredit>{{selected.cardExpMonth | prefill}} / {{selected.cardExpYear}}</span>
-            <span class="cc-font-back cc-date" ps-kredit>{{selected.cardExpMonth | prefill}} / {{selected.cardExpYear}}</span>
-            <span class="cc-font-shine cc-date" ps-kredit>{{selected.cardExpMonth | prefill}} / {{selected.cardExpYear}}</span>
+            <span class="cc-font-front cc-date" ps-kredit>{{token.cardExpMonth | prefill}} / {{token.cardExpYear}}</span>
+            <span class="cc-font-back cc-date" ps-kredit>{{token.cardExpMonth | prefill}} / {{token.cardExpYear}}</span>
+            <span class="cc-font-shine cc-date" ps-kredit>{{token.cardExpMonth | prefill}} / {{token.cardExpYear}}</span>
           </td>
           <td class="cc-layer">
-            <span class="cc-brand"><i class="{{selected.cardBrand|cardBrand:true}}"></i></span>
+            <span class="cc-brand"><i class="{{token.cardBrand|cardBrand:true}}"></i></span>
           </td>
         </tr>
       </tbody>
     </table>
   </div>
-  <div ng-switch-when="BankAccount" class="bank-box"
-    ng-class="{'bank-disabled-box': !selected.sysVerified || selected.sysStatus == 'disabled' || selected.sysStatus == 'deleted', 'bank-selecting': selecting}">
-    <div ng-show="!selected.sysVerified && selected.sysStatus != 'disabled' && selected.sysStatus != 'deleted'"
+  <div ng-switch-when="BankAccount" class="bank-box unselectable"
+    ng-class="{'bank-disabled-box': !token.sysVerified || token.sysStatus == 'disabled' || token.sysStatus == 'deleted', 'bank-selecting': selecting}">
+    <div ng-show="!token.sysVerified && token.sysStatus != 'disabled' && token.sysStatus != 'deleted'"
       class="bank-disabled-overlay">Unverified</div>
-    <div ng-show="selected.sysStatus == 'disabled'"
+    <div ng-show="token.sysStatus == 'disabled'"
       class="bank-disabled-overlay">Disabled</div>
-    <div ng-show="selected.sysStatus == 'deleted'"
+    <div ng-show="token.sysStatus == 'deleted'"
       class="bank-disabled-overlay">Deleted</div>
     <table class="bank-table"
-      ng-class="{'bank-disabled-table': !selected.sysVerified || selected.sysStatus == 'disabled' || selected.sysStatus == 'deleted', 'br-item-hover': selected.sysVerified && selecting}"
-      ng-click="selected.sysStatus == 'active' && selected.sysVerified && selecting && select(selected)">
+      ng-class="{'bank-disabled-table': !token.sysVerified || token.sysStatus == 'disabled' || token.sysStatus == 'deleted', 'br-item-hover': token.sysVerified && selecting}"
+      ng-click="token.sysStatus == 'active' && token.sysVerified && selecting && select({token: token})">
       <tbody>
         <tr>
           <td class="bank-layer">
             <i class="bank-icon"></i>
             <span class="bank-label">
-              <strong>{{selected.label | ellipsis:20}}</strong>
+              <strong>{{token.label | ellipsis:20}}</strong>
             </span>
           </td>
           <td class="bank-layer"><span class="bank-date">{{'' | now:'d MMM yyyy'}}</span></td>
         </tr>
         <tr>
-          <td class="text-center bank-layer bank-font">A{{selected.bankRoutingNumber | mask:9}}A</td>
-          <td class="text-center bank-layer bank-font">C{{selected.bankAccount | mask:10}}C</td>
+          <td class="text-center bank-layer bank-font">A{{token.bankRoutingNumber | mask:9}}A</td>
+          <td class="text-center bank-layer bank-font">C{{token.bankAccount | mask:10}}C</td>
         </tr>
       </tbody>
     </table>

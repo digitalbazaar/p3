@@ -1,24 +1,18 @@
 <div class="section section-transactions">
-  <!-- TODO: use headline-menu -->
-  <h3 class="headline">
-    <span ng-show="model.recent">Recent Transactions</span>
-    <span ng-hide="model.recent">Transactions</span>
-
-    <span ng-hide="(model.recent && !model.controls) || !model.controls || model.state.txns.loading" class="btn-group pull-right">
-      <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
-        <i class="fa fa-bars"></i>
-      </a>
-      <ul class="dropdown-menu pull-right">
-        <li>
-          <a ng-click="model.showControls=!model.showControls"><i class="fa fa-search"></i> Search Controls</a>
-        </li>
-      </ul>
-    </span>
-
-    <span ng-show="model.state.txns.loading" class="pull-right">
-      <i class="fa fa-refresh fa-spin text-muted"></i>
-    </span>
-  </h3>
+  <br-headline ng-if="model.recent" br-title="Recent Transactions" br-loading="model.state.txns.loading" br-options="{menu: {{model.controls}}}">
+    <ul class="stackable-menu dropdown-menu">
+      <li>
+        <a class="stackable-cancel" ng-click="model.showControls=!model.showControls"><i class="fa fa-search"></i> Search Controls</a>
+      </li>
+    </ul>
+  </br-headline>
+  <br-headline ng-if="!model.recent" br-title="Transactions" br-loading="model.state.txns.loading" br-options="{menu: {{model.controls}}}">
+    <ul class="stackable-menu dropdown-menu">
+      <li>
+        <a class="stackable-cancel" ng-click="model.showControls=!model.showControls"><i class="fa fa-search"></i> Search Controls</a>
+      </li>
+    </ul>
+  </br-headline>
 
   <div ng-show="model.controls && model.showControls" class="well account-activity-well">
     <button type="button" class="close" ng-click="model.showControls=false">&times;</button>

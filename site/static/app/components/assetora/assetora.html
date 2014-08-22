@@ -72,7 +72,7 @@
             <!-- Action -->
             <td class="action">
               <br-action-menu>
-                <ul class="dropdown-menu stackable-menu">
+                <ul class="stackable-menu dropdown-menu">
                   <li>
                     <a class="stackable-cancel" ng-click="model.modals.asset=asset; model.modals.showAddListing=true">
                       <i class="fa fa-plus"></i> Add Listing
@@ -144,24 +144,21 @@
             </td>
             <!-- Action -->
             <td class="action">
-              <div class="btn-group">
-                <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
-                  <i class="fa fa-chevron-down"></i>
-                </a>
-                <ul class="dropdown-menu">
+              <br-action-menu>
+                <ul class="stackable-menu dropdown-menu">
                   <li>
-                    <a ng-click="model.modals.listing=listing; model.modals.showEditListing=true">
+                    <a class="stackable-cancel" ng-click="model.modals.listing=listing; model.modals.showEditListing=true">
                       <i class="fa fa-pencil"></i> Edit
                     </a>
                   </li>
                   <li class="divider"></li>
                   <li class="alert-danger">
-                    <a ng-click="deleteListing(listing)">
+                    <a class="stackable-cancel" ng-click="deleteListing(listing)">
                       <i class="fa fa-times"></i> Delete
                     </a>
                   </li>
                 </ul>
-              </div>
+              </br-action-menu>
             </td>
           </tr>
         </tbody>
@@ -211,34 +208,31 @@
             </td>
             <!-- Action -->
             <td class="action">
-              <div class="btn-group">
-                <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
-                  <i class="fa fa-chevron-down"></i>
-                </a>
-                <ul class="dropdown-menu">
+              <br-action-menu>
+                <ul class="stackable-menu dropdown-menu">
                   <li>
-                    <a ng-click="model.modals.asset=asset; model.modals.showAddListing=true">
+                    <a class="stackable-cancel" ng-click="model.modals.asset=asset; model.modals.showAddListing=true">
                       <i class="fa fa-plus"></i> Add Listing
                     </a>
                   </li>
                   <li>
-                    <a ng-click="model.modals.asset=asset; model.modals.showEditAsset=true">
+                    <a class="stackable-cancel" ng-click="model.modals.asset=asset; model.modals.showEditAsset=true">
                       <i class="fa fa-pencil"></i> Edit
                     </a>
                   </li>
                   <li>
-                    <a ng-click="model.modals.asset=asset; model.modals.showProtectAsset=true">
+                    <a class="stackable-cancel" ng-click="model.modals.asset=asset; model.modals.showProtectAsset=true">
                       <i class="fa fa-lock"></i> Protect
                     </a>
                   </li>
                   <li class="divider"></li>
                   <li class="alert-danger">
-                    <a ng-click="deleteAsset(asset)">
+                    <a class="stackable-cancel" ng-click="deleteAsset(asset)">
                       <i class="fa fa-times"></i> Delete
                     </a>
                   </li>
                 </ul>
-              </div>
+              </br-action-menu>
             </td>
           </tr>
         </tbody>

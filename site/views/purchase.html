@@ -89,7 +89,7 @@
                 br-tooltip="Since we support micro-payments, we track transaction amounts very accurately. The exact amount of this transaction is USD {{model.contract.amount}}."
                 br-options="{placement: 'bottom', trigger: 'hover'}"><span
                 class="currency">USD</span> {{model.contract.amount | ceil | currency:'$'}}</span></td>
-              <td class="action"><button class="btn" ng-click="model.showDetails=!model.showDetails"><i class="fa fa-list-alt" title="Details"></i></button></td>
+              <td class="action"><button class="btn btn-default" ng-click="model.showDetails=!model.showDetails"><i class="fa fa-list-alt" title="Details"></i></button></td>
             </tr>
             <tr ng-show="model.showDetails">
               <th>Cost breakdown</th>
@@ -239,7 +239,7 @@
         <div class="well center">
           <button class="btn btn-primary" ng-click="model.purchase()"
             ng-disabled="model.purchaseDisabled">Purchase</button>
-          <!-- button class="btn">Cancel</button -->
+          <!-- button class="btn btn-default">Cancel</button -->
         </div>
       </div>
     </div>

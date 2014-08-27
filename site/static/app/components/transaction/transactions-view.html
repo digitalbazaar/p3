@@ -135,12 +135,12 @@
       <tr ng-hide="model.state.txns.loading">
         <td colspan="{{model.details ? '4' : '3'}}">
           <ul ng-show="model.moreHref" class="pager">
-            <li class="next"><a href="{{model.moreHref}}" class="btn pull-right"><i class="fa fa-list"></i> More <i class="fa fa-chevron-right"></i></a></li>
+            <li class="next"><a href="{{model.moreHref}}" class="btn btn-default pull-right"><i class="fa fa-list"></i> More <i class="fa fa-chevron-right"></i></a></li>
         </ul>
           <ul ng-hide="model.moreHref" class="pager">
             <!--
             <li class="previous">
-              <button ng-click="model.newer()" class="btn pull-left"><i class="fa fa-chevron-left"></i> Newer</a>
+              <button ng-click="model.newer()" class="btn btn-default pull-left"><i class="fa fa-chevron-left"></i> Newer</a>
             </li>
             -->
             <li class="next">

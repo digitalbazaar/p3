@@ -23,8 +23,8 @@
     <thead>
       <tr>
         <th class="name">Title</th>
-        <th class="money compact">Amount</th>
-        <th class="action">Action</th>
+        <th class="money br-compact">Amount</th>
+        <th class="br-action">Action</th>
       </tr>
     </thead>
     <tbody>
@@ -38,11 +38,11 @@
           </div>
         </td>
         <!-- Amount -->
-        <td class="money compact">
+        <td class="money br-compact">
           <span class="money"><span class="currency">{{item.currency}}</span> {{item.amount | currency:'$'}}</span>
         </td>
         <!-- Action -->
-        <td class="action">
+        <td class="br-action">
           <br-action-menu>
             <ul class="dropdown-menu stackable-menu">
               <li>

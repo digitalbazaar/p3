@@ -2,21 +2,21 @@
   <table class="table table-condensed" ng-show="state.loading || idList.length > 0">
     <thead>
       <tr>
-        <th class="name compact">Priority</th>
-        <th class="name compact">Type</th>
+        <th class="name br-compact">Priority</th>
+        <th class="name br-compact">Type</th>
         <th class="name">Name</th>
-        <th class="action" ng-show="tokenList.length > 1">Action</th>
+        <th class="br-action" ng-show="tokenList.length > 1">Action</th>
       </tr>
     </thead>
     <tbody>
       <tr ng-repeat="token in tokenList" class="br-fadeout br-fadein"
         ng-if="!token.deleted">
         <!-- Priority -->
-        <td class="compact">
+        <td class="br-compact">
           <span>{{$index + 1}}</span>
         </td>
         <!-- Type -->
-        <td class="compact" ng-when="token.paymentMethod">
+        <td class="br-compact" ng-when="token.paymentMethod">
           <span ng-when="CreditCard"><i class="fa fa-credit-card"></i></span>
           <span ng-show="BankAccount"><i class="fa fa-building"></i></span>
         </td>
@@ -25,7 +25,7 @@
           <span>{{token.label}}</span>
         </td>
         <!-- Action -->
-        <td class="action" ng-show="tokenList.length > 1">
+        <td class="br-action" ng-show="tokenList.length > 1">
           <br-action-menu>
             <ul class="dropdown-menu stackable-menu">
               <li ng-show="!$first">

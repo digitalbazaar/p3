@@ -11,17 +11,17 @@
       <thead>
         <tr>
           <th class="name">Name</th>
-          <th class="name">Brand</th>
+          <th class="br-compact">Brand</th>
           <th class="name">Number</th>
           <th>Expiration</th>
-          <th class="compact">
+          <th class="br-compact text-center">
             <span>
               <i class="icon fa fa-link"
                 br-tooltip="Links from accounts to this payment method. A payment method cannot be deleted while linked."
                 br-options="{placement: 'bottom', trigger: 'hover'}"></i>
               </span>
           </th>
-          <th class="action">Action</th>
+          <th class="br-action">Action</th>
         </tr>
       </thead>
       <tbody>
@@ -33,7 +33,7 @@
             <span>{{card.label}}</span>
           </td>
           <!-- Brand -->
-          <td>
+          <td class="br-compact">
             <span><i class="{{card.cardBrand|cardBrand:true}}"></i></span>
           </td>
           <!-- Number -->
@@ -56,11 +56,11 @@
             </span>
           </td>
           <!-- Links -->
-          <td class="compact">
+          <td class="br-compact text-center">
             <span class="badge">{{card.backupSourceFor.length || ''}}</span>
           </td>
           <!-- Action -->
-          <td class="action">
+          <td class="br-action">
             <br-action-menu>
               <ul class="dropdown-menu stackable-menu">
                 <li>
@@ -109,8 +109,8 @@
           <th>Name</th>
           <th>Number</th>
           <th>Routing</th>
-          <th>Status</th>
-          <th class="action">Action</th>
+          <th class="br-compact text-center">Status</th>
+          <th class="br-action">Action</th>
         </tr>
       </thead>
       <tbody>
@@ -129,7 +129,7 @@
             <span>{{bankAccount.bankRoutingNumber}}</span>
           </td>
           <!-- Status -->
-          <td ng-show="bankAccount.sysStatus == 'active' || bankAccount.sysStatus == 'disabled'">
+          <td class="br-compact text-center" ng-show="bankAccount.sysStatus == 'active' || bankAccount.sysStatus == 'disabled'">
             <button ng-show="bankAccount.sysStatus == 'active' && !bankAccount.sysVerified && bankAccount.sysVerifyReady"
               ng-click="model.modals.paymentToken=bankAccount; model.modals.showVerifyBankAccountModal=true"
               class="btn btn-primary" title="Verify">Verify</button>
@@ -147,7 +147,7 @@
               br-options="{placement: 'bottom', trigger: 'hover'}">Expires {{bankAccount.sysExpires | date:'MMM d'}}</span>
           </td>
           <!-- Action -->
-          <td class="action">
+          <td class="br-action">
             <br-action-menu>
               <ul class="dropdown-menu stackable-menu">
                 <li>

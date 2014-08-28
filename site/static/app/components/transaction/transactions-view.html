@@ -78,8 +78,8 @@
   <table class="table table-condensed" ng-class="{'table-hover': model.details}" ng-show="!model.state.txns.loading && model.table.length > 0">
     <thead>
       <tr>
-        <th class="compact" ng-show="model.details"></th>
-        <th class="date compact nowrap">Date</th>
+        <th class="br-compact" ng-show="model.details"></th>
+        <th class="date br-compact br-nowrap">Date</th>
         <th class="name">Item</th>
         <th class="money">Amount</th>
       </tr>
@@ -93,13 +93,13 @@
         ng-hide="row.hidden"
         ng-click="model.toggleDetails(row)">
         <!-- icon -->
-        <td class="compact" ng-show="model.details" ng-switch="model.getRowType(row)">
+        <td class="br-compact" ng-show="model.details" ng-switch="model.getRowType(row)">
           <span ng-switch-when="transfer">&nbsp;</span>
           <i ng-switch-default ng-show="!row.detailsVisible" class="fa fa-caret-square-o-right"></i>
           <i ng-switch-default ng-show="row.detailsVisible" class="fa fa-caret-square-o-down"></i>
         </td>
         <!-- Date -->
-        <td class="compact nowrap" ng-switch="model.getRowType(row)">
+        <td class="br-compact br-nowrap" ng-switch="model.getRowType(row)">
           <span ng-switch-when="deposit" class="date">{{row.created | date:'medium'}}</span>
           <span ng-switch-when="contract" class="date">{{row.created | date:'medium'}}</span>
           <span ng-switch-when="withdrawal" class="date">{{row.created | date:'medium'}}</span>

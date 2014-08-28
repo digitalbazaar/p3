@@ -42,18 +42,18 @@
         ng-show="!state.assets.loading && model.search.assets.length > 0">
         <thead>
           <tr>
-            <th class="compact">Paid</th>
+            <th class="br-compact">Paid</th>
             <th class="date">Date</th>
             <th class="name">Title</th>
             <th class="name">Creator</th>
-            <th class="action">Action</th>
+            <th class="br-action">Action</th>
           </tr>
         </thead>
         <tbody>
           <tr ng-repeat="asset in model.search.assets"
             class="asset br-fadein br-fadeout" ng-if="!asset.deleted">
             <!-- Paid -->
-            <td>
+            <td class="br-compact">
               <span>X</span>
             </td>
             <!-- Date -->
@@ -69,7 +69,7 @@
               <span class="name">{{asset.creator.name}}</span>
             </td>
             <!-- Action -->
-            <td class="action">
+            <td class="br-action">
               <br-action-menu>
                 <ul class="dropdown-menu stackable-menu">
                   <li>

@@ -11,7 +11,7 @@
       <tr>
         <th class="name">Account</th>
         <th class="money">Balance</th>
-        <th class="action">Action</th>
+        <th class="br-action">Action</th>
       </tr>
     </thead>
     <!-- FIXME: use ng-repeat-start/ng-repeat-end on tr once using AngularJS 1.2 -->
@@ -47,7 +47,7 @@
           <div ps-account-balance-summary="account" ps-expand="model.expandAccountBalance[account.id]"></div>
         </td>
         <!-- Action -->
-        <td class="action">
+        <td class="br-action">
           <br-action-menu>
             <ul class="dropdown-menu stackable-menu">
               <li ng-show="model.identity.preferences.source != account.id">

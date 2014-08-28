@@ -57,4 +57,10 @@
       </tbody>
     </table>
   </div>
+  <div ng-show="token.showExpirationWarning" class="alert alert-warning">
+    <strong>Warning!</strong> This payment method will expire in less than a month.
+  </div>
+  <div ng-show="token.showExpired" class="alert alert-danger">
+    <strong>Error!</strong> This payment method has expired.
+  </div>
 </div>

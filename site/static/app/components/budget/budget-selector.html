@@ -1,46 +1,29 @@
-<div>
-  <div br-selector br-item-type="Budget"
-    br-items="budgets" br-selected="selected" br-invalid="invalid"
-    br-add-item="showAddBudgetModal=true" br-fixed="{{fixed}}">
-    <div ng-show="services.budget.loading">
+<br-selector2 br-selected="selected=brSelector.selected" ps-budget-selector-inner>
+  <div name="br-selector-selected">
+    <span ng-show="model.state.loading">
       <i class="fa fa-refresh fa-spin text-muted"></i>
-    </div>
-    <div ng-hide="services.budget.loading" class="budget">
-      <table class="table table-condensed">
-        <thead>
-          <tr>
-            <th colspan="2"><span title="{{selected.id}}">{{selected.label}}</a></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="compact">Balance</td>
-            <td class="money">
-              <div ps-budget-bar="selected"></div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div ng-show="showRefreshButton">
-        <button class="btn btn-success"
-          ng-click="refresh(selected)"><i class="fa fa-refresh"></i> Refresh</button><br/>
-      </div>
-      <div ng-show="balanceTooLow">
-        <hr />
-        <div class="alert alert-danger">You must select a budget with a balance of at least <span
-        class="currency">{{selected.currency}}</span> {{minBalance | ceil | currency:'$'}}. The budget's
-        associated account must also have enough funds unless instant transfer is enabled.</div>
-      </div>
-      <div ng-show="maxPerUseTooLow">
-        <hr />
-        <div class="alert alert-danger">You must choose a budget that allows
-        a single purchase of at least <span
-        class="currency">{{selected.currency}}</span> {{minBalance | ceil | currency:'$'}}.</div>
-      </div>
+    </span>
+    <div ng-hide="model.state.loading">
+      <ps-budget-selection ps-budget="selected"
+        ps-min-balance="minBalance"
+        ps-invalid="invalid"></ps-budget-selection>
     </div>
   </div>
-  <stackable-modal stackable="showAddBudgetModal"
-    stackable-closed="!err && (selected=result)">
-    <div ps-add-budget-modal></div>
-  </stackable-modal>
-</div>
+  <div name="br-selector-choices">
+    <div ng-show="model.state.loading">
+      <i class="fa fa-refresh fa-spin text-muted"></i>
+    </div>
+    <ul class="list-unstyled">
+      <li class="br-item-hover well" ng-repeat="budget in model.budgets"
+        ng-click="brSelector.select(account)">
+        <ps-budget-selection ps-budget="budget"
+          ps-min-balance="minBalance"
+          ps-invalid="invalid"></ps-budget-selection>
+      </li>
+    </ul>
+  </div>
+</br-selector2>
+<stackable-modal stackable="model.showAddBudgetModal"
+  stackable-closed="!err && brSelector.select(result)">
+  <div ps-add-budget-modal></div>
+</stackable-modal>

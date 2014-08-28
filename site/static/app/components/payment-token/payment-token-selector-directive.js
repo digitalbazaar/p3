@@ -8,33 +8,20 @@ define(['angular'], function(angular) {
 'use strict';
 
 /* @ngInject */
-function factory(AlertService, ModelService, PaymentTokenService) {
+function paymentTokenSelectorInner(
+  AlertService, ModelService, PaymentTokenService) {
   return {
     restrict: 'A',
-    scope: {
-      selected: '=psSelected',
-      invalid: '=psInvalid',
-      fixed: '@psFixed',
-      instant: '=psInstant',
-      omit: '=psOmit'
-    },
-    templateUrl:
-      '/app/components/payment-token/payment-token-selector.html',
+    require: 'brSelector2',
     link: Link
   };
 
-  function Link(scope, element, attrs) {
-    scope.model = {};
-    scope.services = {
-      token: PaymentTokenService.state
-    };
+  function Link(scope, element, attrs, brSelector) {
+    var model = scope.model = {};
+    model.state = PaymentTokenService.state;
     scope.grid = [];
     scope.paymentTokens = [];
     scope.tokensFilteredByInstant = [];
-
-    scope.select = function(token) {
-      scope.selected = token;
-    };
 
     scope.$watch('paymentTokens', function(tokens) {
       // use first token if available and none yet selected
@@ -44,10 +31,6 @@ function factory(AlertService, ModelService, PaymentTokenService) {
       // keep grid up-to-date
       buildGrid(2);
     }, true);
-
-    attrs.$observe('psFixed', function(value) {
-      scope.fixed = value;
-    });
 
     scope.$watch('instant', function(value) {
       if(value === 'non') {
@@ -68,6 +51,17 @@ function factory(AlertService, ModelService, PaymentTokenService) {
     scope.$watch('paymentMethods', filterTokens, true);
     scope.$watch('omit', filterTokens);
     // FIXME: listen for changes to payment token service collection?
+
+    // configure brSelector
+    scope.brSelector = brSelector;
+    brSelector.itemType = 'Payment Method';
+    brSelector.items = scope.paymentTokens;
+    brSelector.addItem = function() {
+      model.showAddPaymentTokenModal = true;
+    };
+    scope.$watch('fixed', function(value) {
+      brSelector.fixed = value;
+    });
 
     PaymentTokenService.collection.getAll().then(filterTokens)
       .catch(function(err) {
@@ -121,6 +115,24 @@ function factory(AlertService, ModelService, PaymentTokenService) {
   }
 }
 
-return {psPaymentTokenSelector: factory};
+/* @ngInject */
+function paymentTokenSelector() {
+  return {
+    restrict: 'EA',
+    scope: {
+      selected: '=psSelected',
+      invalid: '=psInvalid',
+      fixed: '=?psFixed',
+      instant: '=psInstant',
+      omit: '=psOmit'
+    },
+    templateUrl: '/app/components/payment-token/payment-token-selector.html'
+  };
+}
+
+return {
+  psPaymentTokenSelector: paymentTokenSelector,
+  psPaymentTokenSelectorInner: paymentTokenSelectorInner
+};
 
 });

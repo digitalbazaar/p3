@@ -1,36 +1,26 @@
-<div>
-  <div br-selector br-item-type="Payment Method"
-    br-items="paymentTokens" br-selected="selected" br-invalid="invalid"
-    br-add-item="showAddPaymentTokenModal=true" br-fixed="{{fixed}}"
-    br-custom-display="true" br-selecting="selecting">
-    <ul ng-show="services.token.loading" class="list-unstyled item">
-      <li class="item-hover well">
-        <div ng-show="services.token.loading">
-          <i class="fa fa-refresh fa-spin text-muted"></i>
-        </div>
-      </li>
-    </ul>
-    <div ng-hide="services.token.loading || selecting">
+<br-selector2 br-selected="selected=brSelector.selected" ps-account-selector-inner>
+  <div name="br-selector-selected">
+    <span ng-show="model.state.loading">
+      <i class="fa fa-refresh fa-spin text-muted"></i>
+    </span>
+    <div ng-hide="model.state.loading">
       <ps-payment-token-selection ps-token="selected"></ps-payment-token-selection>
     </div>
-    <div ng-show="!services.token.loading && selecting">
-      <div ng-repeat="row in grid">
-        <div class="row">
-          <div class="col-md-6" ng-repeat="token in row">
-            <ps-payment-token-selection ps-token="token" ps-selecting="selecting" ps-select="select(token)"></ps-payment-token-selection>
-          </div>
+  </div>
+  <div name="br-selector-choices">
+    <div ng-show="model.state.loading">
+      <i class="fa fa-refresh fa-spin text-muted"></i>
+    </div>
+    <div ng-hide="model.state.loading" ng-repeat="row in grid">
+      <div class="row">
+        <div class="col-md-6" ng-repeat="token in row">
+          <ps-payment-token-selection ps-token="token" ps-selecting="selecting" ps-select="brSelect.select(token)"></ps-payment-token-selection>
         </div>
       </div>
     </div>
   </div>
-  <div ng-show="selected.showExpirationWarning" class="alert alert-warning">
-    <strong>Warning!</strong> This payment method will expire in less than a month.
-  </div>
-  <div ng-show="selected.showExpired" class="alert alert-danger">
-    <strong>Error!</strong> This payment method has expired.
-  </div>
-  <stackable-modal stackable="showAddPaymentTokenModal"
-    stackable-closed="!err && (selected=result)">
-    <div ps-add-payment-token-modal data-payment-methods="paymentMethods"></div>
-  </stackable-modal>
-</div>
+</br-selector2>
+<stackable-modal stackable="model.showAddPaymentTokenModal"
+  stackable-closed="!err && brSelector.select(result)">
+  <div ps-add-payment-token-modal ps-payment-methods="paymentMethods"></div>
+</stackable-modal>

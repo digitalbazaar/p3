@@ -5,6 +5,7 @@
     </span>
     <div ng-hide="model.state.loading">
       <ps-account-selection ps-account="selected"
+        ps-invalid="invalid"
         ps-min-balance="minBalance"
         ps-show-deposit-button="showDepositButton"
         ps-instant="instant"
@@ -20,6 +21,7 @@
       <li class="br-item-hover well" ng-repeat="account in model.accounts"
         ng-click="brSelector.select(account)">
         <ps-account-selection ps-account="account"
+          ps-invalid="invalid"
           ps-min-balance="minBalance"
           ps-show-deposit-button="showDepositButton"
           ps-instant="instant"

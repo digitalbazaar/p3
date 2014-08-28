@@ -1,14 +1,23 @@
-<div>
-  <div br-selector br-item-type="Address"
-    br-items="model.addresses" br-selected="selected" br-invalid="invalid"
-    br-add-item="model.showAddAddressModal=true" br-fixed="{{fixed}}">
+<br-selector2 br-selected="selected=brSelector.selected" ps-address-selector-inner>
+  <div name="br-selector-selected">
+    <span ng-show="model.services.address.loading">
+      <i class="fa fa-refresh fa-spin text-muted"></i>
+    </span>
+    <div ng-hide="model.services.address.loading" ps-address-view="selected"></div>
+  </div>
+  <div name="br-selector-choices">
     <div ng-show="model.services.address.loading">
       <i class="fa fa-refresh fa-spin text-muted"></i>
     </div>
-    <div ng-hide="model.services.address.loading" ps-address-view="selected"></div>
+    <ul ng-hide="model.services.address.loading" class="list-unstyled">
+      <li class="br-item-hover well" ng-repeat="address in model.addresses"
+        ng-click="brSelector.select(address)">
+        <div ng-hide="model.services.address.loading" ps-address-view="address"></div>
+      </li>
+    </ul>
   </div>
-  <stackable-modal stackable="model.showAddAddressModal"
-    stackable-closed="!err && (selected=result)">
-    <div ps-add-address-modal></div>
-  </stackable-modal>
-</div>
+</br-selector2>
+<stackable-modal stackable="model.showAddAddressModal"
+  stackable-closed="!err && brSelector.select(result)">
+  <div ps-add-address-modal></div>
+</stackable-modal>

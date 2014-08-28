@@ -11,7 +11,7 @@ define([], function() {
 function addressSelectorInner(AddressService, IdentityService) {
   return {
     restrict: 'A',
-    require: 'brSelector2',
+    require: 'brSelector',
     link: Link
   };
 

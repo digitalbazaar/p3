@@ -12,7 +12,7 @@ function paymentTokenSelectorInner(
   AlertService, ModelService, PaymentTokenService) {
   return {
     restrict: 'A',
-    require: 'brSelector2',
+    require: 'brSelector',
     link: Link
   };
 

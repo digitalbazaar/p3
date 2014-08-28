@@ -11,7 +11,7 @@ define([], function() {
 function budgetSelectorInner(BudgetService) {
   return {
     restrict: 'A',
-    require: 'brSelector2',
+    require: 'brSelector',
     link: Link
   };
 

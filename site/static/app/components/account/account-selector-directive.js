@@ -11,7 +11,7 @@ define([], function() {
 function accountSelectorInner(AccountService) {
   return {
     restrict: 'A',
-    require: 'brSelector2',
+    require: 'brSelector',
     link: Link
   };
 

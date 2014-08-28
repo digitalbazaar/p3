@@ -1,5 +1,5 @@
 /*!
- * PaymentToken Display.
+ * PaymentToken Selection Display.
  *
  * @author Digital Bazaar
  */
@@ -16,10 +16,10 @@ function factory() {
       selecting: '=psSelecting',
       select: '&?psSelect'
     },
-    templateUrl: '/app/components/payment-token/payment-token-display.html'
+    templateUrl: '/app/components/payment-token/payment-token-selection.html'
   };
 }
 
-return {psPaymentToken: factory};
+return {psPaymentTokenSelection: factory};
 
 });

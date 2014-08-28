@@ -47,7 +47,7 @@
         <small>
           {{account.creditPaymentDue | date:'mediumDate'}}
           <span ng-show="account.backupSource && account.backupSource.length">
-            <a ng-click="model.paymentMethodIsCollapsed=!model.paymentMethodIsCollapsed">
+            <a ng-click="model.paymentMethodIsCollapsed=!model.paymentMethodIsCollapsed; $event.stopPropagation()">
               <i class="fa fa-credit-card"></i>
             </a>
           </span>

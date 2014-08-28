@@ -12,6 +12,7 @@ define([
   './account-balance-summary-directive',
   './account-controller',
   './account-routes',
+  './account-selection-directive',
   './account-selector-directive',
   './account-service',
   './accounts-directive',
@@ -28,6 +29,7 @@ define([
   accountBalanceSummaryDirective,
   accountController,
   accountRoutes,
+  accountSelectionDirective,
   accountSelectorDirective,
   accountService,
   accountsDirective,
@@ -47,6 +49,7 @@ module.directive(accountBalanceDetailsDirective);
 module.directive(accountBalanceDirective);
 module.directive(accountBalanceSummaryDirective);
 module.controller(accountController);
+module.directive(accountSelectionDirective);
 module.directive(accountSelectorDirective);
 module.service(accountService);
 module.directive(accountsDirective);

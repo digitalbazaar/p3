@@ -1,0 +1,35 @@
+<div>
+  <table class="table table-condensed">
+    <thead>
+      <tr>
+        <th colspan="2"><span title="{{budget.id}}">{{budget.label}}</a></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="compact">Balance</td>
+        <td class="money">
+          <div ps-budget-bar="budget"></div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div ng-show="showRefreshButton">
+    <button class="btn btn-success"
+      ng-click="refresh(budget)"><i class="fa fa-refresh"></i> Refresh</button><br/>
+  </div>
+  <div ng-show="balanceTooLow">
+    <hr />
+    <div class="alert alert-danger">This budget does not have a balance of at least <span
+    class="currency">{{budget.currency}}</span> {{minBalance | ceil | currency:'$'}}. The budget's
+    associated account must also have enough funds unless instant transfer is enabled.</div>
+  </div>
+  <div ng-show="maxPerUseTooLow">
+    <hr />
+    <div class="alert alert-danger">
+      This budget does not allow a single purchase of at least
+      <span class="currency">{{budget.currency}}</span>
+      {{minBalance | ceil | currency:'$'}}.
+    </div>
+  </div>
+</div>

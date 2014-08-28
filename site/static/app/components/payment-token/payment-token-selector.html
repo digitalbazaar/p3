@@ -14,7 +14,7 @@
     <div ng-hide="model.state.loading" ng-repeat="row in grid">
       <div class="row">
         <div class="col-md-6" ng-repeat="token in row">
-          <ps-payment-token-selection ps-token="token" ps-selecting="selecting" ps-select="brSelect.select(token)"></ps-payment-token-selection>
+          <ps-payment-token-selection ps-token="token" ps-selecting="true" ps-select="brSelector.select(token)"></ps-payment-token-selection>
         </div>
       </div>
     </div>

@@ -20,7 +20,7 @@
 
   <div class="row">
     <div class="section col-md-12">
-      <br-headline br-title="Financial Account" br-loading="model.state.accounts.loading" br-options="{menu: {{model.account}}}">
+      <br-headline br-title="Financial Account" br-loading="model.state.accounts.loading" br-options="{menu: {{!!model.account}}}">
         <ul class="stackable-menu dropdown-menu">
           <li>
             <a ng-click="model.modals.account=model.account; model.modals.showDeposit=true">

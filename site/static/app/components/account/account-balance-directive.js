@@ -57,9 +57,9 @@ function factory(AlertService, PaymentTokenService) {
           PaymentTokenService.get(account.backupSource[0])
             .then(function(token) {
               model.backupSource = token;
-              scope.$apply();
             }).catch(function(err) {
               AlertService.add('error', err);
+            }).then(function() {
               scope.$apply();
             });
         }

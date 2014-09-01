@@ -52,10 +52,10 @@ function factory(
     AccountService.collection.get(scope.budget.source).then(function(account) {
       scope.selection.account = account;
       scope.loading = false;
-      scope.$apply();
     }).catch(function(err) {
       scope.loading = false;
       AlertService.addError('error', err);
+    }).then(function() {
       scope.$apply();
     });
 

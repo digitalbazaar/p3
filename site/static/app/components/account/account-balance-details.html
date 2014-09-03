@@ -39,23 +39,26 @@
       <div style="display: inline-block; height 0px;">{{account.currency}}</div>
       <div style="display: inline-block; height 0px;">{{model.remainingCredit | floor | currency:'$'}} / {{account.creditLimit | floor | currency:'$'}}</div>
     </div>
-    <div ng-show="account.creditPaymentDue">
-      <div style="clear: both"></div>
-      <div class="pull-left"><small><strong>Next automatic payment</strong></small></div>
-      <div style="clear: both"></div>
-      <div class="pull-left">
-        <small>
-          {{account.creditPaymentDue | date:'mediumDate'}}
-          <span ng-show="account.backupSource && account.backupSource.length">
-            <a ng-click="model.paymentMethodIsCollapsed=!model.paymentMethodIsCollapsed; $event.stopPropagation()">
-              <i class="fa fa-credit-card"></i>
-            </a>
-          </span>
-        </small>
-      </div>
-      <div style="clear: both"></div>
-      <div data-collapse="model.paymentMethodIsCollapsed">
-        <div ps-payment-token-selector ps-selected="model.backupSource" ps-instant="true" ps-fixed="true"></div>
+    <div br-lazy-compile="ps-account-balance-details-credit-payment-due"
+      br-compile-trigger="account.creditPaymentDue">
+      <div ng-show="account.creditPaymentDue">
+        <div style="clear: both"></div>
+        <div class="pull-left"><small><strong>Next automatic payment</strong></small></div>
+        <div style="clear: both"></div>
+        <div class="pull-left">
+          <small>
+            {{account.creditPaymentDue | date:'mediumDate'}}
+            <span ng-show="account.backupSource && account.backupSource.length">
+              <a ng-click="model.paymentMethodIsCollapsed=!model.paymentMethodIsCollapsed; $event.stopPropagation()">
+                <i class="fa fa-credit-card"></i>
+              </a>
+            </span>
+          </small>
+        </div>
+        <div style="clear: both"></div>
+        <div data-collapse="model.paymentMethodIsCollapsed">
+          <div ps-payment-token-selector ps-selected="model.backupSource" ps-instant="true" ps-fixed="true"></div>
+        </div>
       </div>
     </div>
     <div ng-show="!account.backupSource || !account.backupSource.length || (model.hasCreditLine && account.sysCreditDisabled) || account.showExpirationWarning || account.showExpired">

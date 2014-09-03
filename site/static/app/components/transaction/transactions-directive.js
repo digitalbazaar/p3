@@ -122,7 +122,7 @@ function factory(
       // fetch txns
       model.txns.setQuery(params);
       model.txns.getAll({force: true}).catch(function(err) {
-        AlertService.addError(err);
+        AlertService.add('error', err);
       });
     };
 

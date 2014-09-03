@@ -68,7 +68,7 @@ function factory(AlertService, HostedListingService, config) {
         scope.loading = false;
         stackable.close(null, listing);
       }).catch(function(err) {
-        AlertService.add('error', err);
+        AlertService.add('error', err, {scope: scope});
         scope.loading = false;
       });
     };

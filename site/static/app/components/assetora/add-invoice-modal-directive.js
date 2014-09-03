@@ -57,7 +57,7 @@ function factory(AlertService, HostedAssetService, config) {
         if(!err) {
           stackable.close(null, asset);
         } else {
-          AlertService.add('error', err);
+          AlertService.add('error', err, {scope: scope});
         }
       });
       // FIXME: create and add associated Listing

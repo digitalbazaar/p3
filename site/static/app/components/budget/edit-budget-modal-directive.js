@@ -54,7 +54,7 @@ function factory(
       scope.loading = false;
     }).catch(function(err) {
       scope.loading = false;
-      AlertService.addError('error', err);
+      AlertService.add('error', err, {scope: scope});
     }).then(function() {
       scope.$apply();
     });
@@ -115,7 +115,7 @@ function factory(
         stackable.close(null, budget);
       }).catch(function(err) {
         scope.loading = false;
-        AlertService.add('error', err);
+        AlertService.add('error', err, {scope: scope});
         scope.$apply();
       });
     };

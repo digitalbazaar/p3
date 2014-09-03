@@ -117,7 +117,7 @@ function factory(
           scope.state = 'reviewing';
         });
       }).catch(function(err) {
-        AlertService.add('error', err);
+        AlertService.add('error', err, {scope: scope});
       }).then(function() {
         scope.loading = false;
         scope.$apply();
@@ -146,7 +146,7 @@ function factory(
           //$(target).animate({scrollTop: 0}, 0);
         })
         .catch(function(err) {
-          AlertService.add('error', err);
+          AlertService.add('error', err, {scope: scope});
         })
         .then(function() {
           scope.loading = false;

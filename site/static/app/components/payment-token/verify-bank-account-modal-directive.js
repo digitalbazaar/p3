@@ -96,7 +96,7 @@ function factory(AccountService, AlertService, PaymentTokenService, config) {
           }));
         });
         return Promise.all(promises).catch(function(err) {
-          AlertService.add('error', err);
+          AlertService.add('error', err, {scope: scope});
           scope.$apply();
           throw err;
         }).then(function() {
@@ -119,7 +119,7 @@ function factory(AccountService, AlertService, PaymentTokenService, config) {
           AlertService.add('error', {
             message: 'The verification amounts you entered do not match ' +
               'what is on record for your bank account.'
-          });
+          }, {scope: scope});
           // FIXME: ugly
           // synthesize validation error for UI
           err = {
@@ -157,9 +157,9 @@ function factory(AccountService, AlertService, PaymentTokenService, config) {
           // FIXME: add special call to AlertService for this?
           AlertService.add('error', {
             message: 'Please contact customer support.'
-          });
+          }, {scope: scope});
         }
-        AlertService.add('error', err);
+        AlertService.add('error', err, {scope: scope});
         scope.loading = false;
         scope.$apply();
       });
@@ -182,7 +182,7 @@ function factory(AccountService, AlertService, PaymentTokenService, config) {
           // get updated token
           return PaymentTokenService.collection.get(scope.paymentToken.id);
         }).catch(function(err) {
-          AlertService.add('error', err);
+          AlertService.add('error', err, {scope: scope});
         }).then(function() {
           // go to top of page?
           //var target = options.target;

@@ -56,7 +56,7 @@ function factory(
           scope.sourceAccount.backupSource[0]);
         scope.$apply();
       }).catch(function(err) {
-        AlertService.add('error', err);
+        AlertService.add('error', err, {scope: scope});
         state.loading = false;
         scope.$apply();
       });
@@ -93,7 +93,7 @@ function factory(
         state.loading = false;
         stackable.close(null, account);
       }).catch(function(err) {
-        AlertService.add('error', err);
+        AlertService.add('error', err, {scope: scope});
         state.loading = false;
         scope.$apply();
       });

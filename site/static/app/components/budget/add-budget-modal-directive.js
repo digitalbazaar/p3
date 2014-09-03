@@ -69,7 +69,7 @@ function factory(
       BudgetService.collection.add(scope.budget).then(function(budget) {
         stackable.close(null, budget);
       }).catch(function(err) {
-        AlertService.add('error', err);
+        AlertService.add('error', err, {scope: scope});
         scope.$apply();
       });
     };

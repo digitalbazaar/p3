@@ -38,9 +38,9 @@ function factory($rootScope, AccountService, AlertService, IdentityService) {
         AlertService.add('success', {
           message:
             'An email has been sent to you with verification instructions.'
-        });
+        }, {scope: scope});
       }).catch(function(err) {
-        AlertService.add('error', err);
+        AlertService.add('error', err, {scope: scope});
       }).then(function() {
         model.loading = false;
         scope.$apply();
@@ -59,7 +59,7 @@ function factory($rootScope, AccountService, AlertService, IdentityService) {
         if(err.type === 'bedrock.website.PermissionDenied') {
           $rootScope.$emit('showLoginModal');
         }
-        AlertService.add('error', err);
+        AlertService.add('error', err, {scope: scope});
       }).then(function() {
         model.loading = false;
         scope.$apply();
@@ -74,7 +74,7 @@ function factory($rootScope, AccountService, AlertService, IdentityService) {
         // show complete page
         model.state = 'complete';
       }).catch(function(err) {
-        AlertService.add('error', err);
+        AlertService.add('error', err, {scope: scope});
       }).then(function() {
         model.loading = false;
         scope.$apply();

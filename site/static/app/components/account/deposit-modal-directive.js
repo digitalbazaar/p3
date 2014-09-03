@@ -50,7 +50,7 @@ function factory(AccountService, AlertService, TransactionService, config) {
           amount: -parseFloat(scope.account.balance)
         };
       }).catch(function(err) {
-        AlertService.add('error', err);
+        AlertService.add('error', err, {scope: scope});
       });
     }
 
@@ -116,7 +116,7 @@ function factory(AccountService, AlertService, TransactionService, config) {
           scope.state = 'reviewing';
         });
       }).catch(function(err) {
-        AlertService.add('error', err);
+        AlertService.add('error', err, {scope: scope});
         reloadAccount();
       }).then(function() {
         scope.loading = false;
@@ -144,7 +144,7 @@ function factory(AccountService, AlertService, TransactionService, config) {
         //var target = options.target;
         //$(target).animate({scrollTop: 0}, 0);
       }).catch(function(err) {
-        AlertService.add('error', err);
+        AlertService.add('error', err, {scope: scope});
       }).then(function() {
         scope.loading = false;
         scope.$apply();

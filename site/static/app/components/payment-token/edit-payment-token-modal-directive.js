@@ -89,7 +89,7 @@ function factory(
         })
         .catch(function(err) {
           // editor still open, update display
-          AlertService.add('error', err);
+          AlertService.add('error', err, {scope: scope});
           updateBackupSources();
         });
     };
@@ -122,7 +122,7 @@ function factory(
         AccountService.collection.get(accountId).then(function(account) {
           scope.backupSourceFor[accountId].account = account;
         }).catch(function(err) {
-          AlertService.add('error', err);
+          AlertService.add('error', err, {scope: scope});
         }).then(function() {
           scope.backupSourceFor[accountId].loading = false;
           scope.$apply();

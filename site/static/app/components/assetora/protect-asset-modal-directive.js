@@ -109,7 +109,7 @@ function factory(AlertService, HostedAssetService, config) {
         scope.model.loading = false;
 
         if(err) {
-          AlertService.add('error', err);
+          AlertService.add('error', err, {scope: scope});
           scope.$apply();
           return;
         }

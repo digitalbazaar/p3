@@ -47,7 +47,7 @@ function factory(AccountService, AlertService, IdentityService, config) {
         scope.$apply();
         stackable.close(null);
       }).catch(function(err) {
-        AlertService.add('error', err);
+        AlertService.add('error', err, {scope: scope});
         scope.$apply();
       });
     };

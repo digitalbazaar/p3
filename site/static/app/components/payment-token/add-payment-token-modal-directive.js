@@ -8,7 +8,8 @@ define([], function() {
 'use strict';
 
 /* @ngInject */
-function factory(brAlertService, brIdentityService, psPaymentTokenService, config) {
+function factory(
+  brAlertService, brIdentityService, psPaymentTokenService, config) {
   return {
     restrict: 'A',
     scope: {paymentMethods: '=psPaymentMethods'},

@@ -79,49 +79,52 @@ function factory(
       };
       scope.loading = true;
       brAlertService.clearFeedback();
-      psTransactionService.signWithdrawal(withdrawal).then(function(withdrawal) {
-        // get public account information for all payees
-        scope.accounts = {};
-        var promises = [];
-        angular.forEach(withdrawal.transfer, function(xfer) {
-          var dst = xfer.destination;
-          if(dst in scope.accounts || dst === scope.input.destination.id) {
-            return;
-          }
-          var info = scope.accounts[dst] = {loading: true, label: ''};
-          if(dst.indexOf('urn') === 0) {
-            info.label = scope.input.destination.label;
-            info.loading = false;
-            return;
-          }
-          promises.push(psAccountService.collection.get(dst).then(
-            function(account) {
-            info.label = account.label;
-          }).catch(function() {
-            info.label = 'Private Account';
-          }).then(function() {
-            info.loading = false;
-            scope.$apply();
-          }));
-        });
-        return Promise.all(promises).then(function() {
-          //
-          // go to top of page?
-          // FIXME: use directive to do this
-          //var target = options.target;
-          //$(target).animate({scrollTop: 0}, 0);
+      psTransactionService.signWithdrawal(withdrawal)
+        .then(function(withdrawal) {
+          // get public account information for all payees
+          scope.accounts = {};
+          var promises = [];
+          angular.forEach(withdrawal.transfer, function(xfer) {
+            var dst = xfer.destination;
+            if(dst in scope.accounts || dst === scope.input.destination.id) {
+              return;
+            }
+            var info = scope.accounts[dst] = {loading: true, label: ''};
+            if(dst.indexOf('urn') === 0) {
+              info.label = scope.input.destination.label;
+              info.loading = false;
+              return;
+            }
+            promises.push(psAccountService.collection.get(dst).then(
+              function(account) {
+              info.label = account.label;
+            }).catch(function() {
+              info.label = 'Private Account';
+            }).then(function() {
+              info.loading = false;
+              scope.$apply();
+            }));
+          });
+          return Promise.all(promises).then(function() {
+            //
+            // go to top of page?
+            // FIXME: use directive to do this
+            //var target = options.target;
+            //$(target).animate({scrollTop: 0}, 0);
 
-          // copy to avoid angular keys in POSTed data
-          scope._withdrawal = angular.copy(withdrawal);
-          scope.withdrawal = withdrawal;
-          scope.state = 'reviewing';
+            // copy to avoid angular keys in POSTed data
+            scope._withdrawal = angular.copy(withdrawal);
+            scope.withdrawal = withdrawal;
+            scope.state = 'reviewing';
+          });
+        })
+        .catch(function(err) {
+          brAlertService.add('error', err, {scope: scope});
+        })
+        .then(function() {
+          scope.loading = false;
+          scope.$apply();
         });
-      }).catch(function(err) {
-        brAlertService.add('error', err, {scope: scope});
-      }).then(function() {
-        scope.loading = false;
-        scope.$apply();
-      });
     };
 
     scope.confirm = function() {

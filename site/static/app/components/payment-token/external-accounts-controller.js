@@ -38,7 +38,8 @@ function factory($scope, brAlertService, psPaymentTokenService) {
       })
       .then(function() {
         // get token again since deletion is not immediate
-        return psPaymentTokenService.collection.get(paymentToken.id, {force: true});
+        return psPaymentTokenService.collection.get(
+          paymentToken.id, {force: true});
       });
   };
   self.restorePaymentToken = function(paymentToken) {

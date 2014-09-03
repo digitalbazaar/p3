@@ -8,7 +8,8 @@ define([], function() {
 'use strict';
 
 /* @ngInject */
-function factory($rootScope, psAccountService, brAlertService, brIdentityService) {
+function factory(
+  $rootScope, psAccountService, brAlertService, brIdentityService) {
   return {
     restrict: 'A',
     scope: {account: '=psAccount'},

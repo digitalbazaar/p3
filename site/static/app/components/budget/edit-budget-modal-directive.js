@@ -9,7 +9,8 @@ define(['angular'], function(angular) {
 
 /* @ngInject */
 function factory(
-  psAccountService, brAlertService, psBudgetService, brIdentityService, config, util) {
+  psAccountService, brAlertService,
+  psBudgetService, brIdentityService, config, util) {
   return {
     restrict: 'A',
     scope: {sourceBudget: '=psBudget'},
@@ -49,15 +50,18 @@ function factory(
     scope.model.budgetValidDuration = '';
 
     scope.loading = true;
-    psAccountService.collection.get(scope.budget.source).then(function(account) {
-      scope.selection.account = account;
-      scope.loading = false;
-    }).catch(function(err) {
-      scope.loading = false;
-      brAlertService.add('error', err, {scope: scope});
-    }).then(function() {
-      scope.$apply();
-    });
+    psAccountService.collection.get(scope.budget.source)
+      .then(function(account) {
+        scope.selection.account = account;
+        scope.loading = false;
+      })
+      .catch(function(err) {
+        scope.loading = false;
+        brAlertService.add('error', err, {scope: scope});
+      })
+      .then(function() {
+        scope.$apply();
+      });
 
     scope.editBudget = function() {
       brAlertService.clearFeedback();

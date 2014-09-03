@@ -57,9 +57,10 @@ function factory(
   service.getVendors = function(budgetId, options) {
     var collection;
     if(!(budgetId in service.vendors)) {
-      collection = service.vendors[budgetId] = new brResourceService.Collection({
-        url: budgetId + '?view=vendors'
-      });
+      collection = service.vendors[budgetId] =
+        new brResourceService.Collection({
+          url: budgetId + '?view=vendors'
+        });
     } else {
       collection = service.vendors[budgetId];
     }

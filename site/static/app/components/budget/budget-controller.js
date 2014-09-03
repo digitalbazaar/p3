@@ -39,11 +39,12 @@ function factory(
 
       // wait to delete so modal can transition
       $timeout(function() {
-        psBudgetService.delVendor(self.budget.id, vendor.id).catch(function(err) {
-          brAlertService.add('error', err);
-          vendor.deleted = false;
-          $scope.$apply();
-        });
+        psBudgetService.delVendor(self.budget.id, vendor.id)
+          .catch(function(err) {
+            brAlertService.add('error', err);
+            vendor.deleted = false;
+            $scope.$apply();
+          });
       });
     }
   };

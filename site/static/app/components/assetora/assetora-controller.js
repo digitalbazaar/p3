@@ -9,7 +9,8 @@ define([], function() {
 
 /* @ngInject */
 function factory(
-  $scope, brAlertService, psHostedAssetService, psHostedListingService, config) {
+  $scope, brAlertService, config,
+  psHostedAssetService, psHostedListingService) {
   $scope.model = {};
   $scope.identity = config.data.identity;
   $scope.model.recentAssets = psHostedAssetService.recentAssets;

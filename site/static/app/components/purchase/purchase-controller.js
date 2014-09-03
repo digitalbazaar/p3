@@ -48,7 +48,8 @@ function factory(
 
   // load and use default account if possible
   if(brIdentityService.identity.preferences.source) {
-    psAccountService.collection.get(brIdentityService.identity.preferences.source)
+    psAccountService.collection.get(
+      brIdentityService.identity.preferences.source)
       .then(function(account) {
         self.selection.account = account;
       })

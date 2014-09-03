@@ -12,7 +12,8 @@ define(['angular', 'jsonld'], function(angular, jsonld) {
 
 /* @ngInject */
 function factory(
-  $timeout, brAlertService, brIdentityService, brRefreshService, psTransactionService) {
+  $timeout, brAlertService, brIdentityService,
+  brRefreshService, psTransactionService) {
   return {
     restrict: 'A',
     scope: {

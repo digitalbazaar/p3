@@ -9,7 +9,8 @@ define(['angular'], function(angular) {
 
 /* @ngInject */
 function factory(
-  psAccountService, brAlertService, brIdentityService, psPaymentTokenService, config) {
+  psAccountService, brAlertService,
+  brIdentityService, psPaymentTokenService, config) {
   return {
     restrict: 'A',
     scope: {
@@ -82,9 +83,10 @@ function factory(
             }
           });
           return Promise.all(promises).then(function() {
-            psPaymentTokenService.collection.get(paymentToken.id).then(function() {
-              stackable.close(null, paymentToken);
-            });
+            psPaymentTokenService.collection.get(paymentToken.id)
+              .then(function() {
+                stackable.close(null, paymentToken);
+              });
           });
         })
         .catch(function(err) {

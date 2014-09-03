@@ -8,7 +8,8 @@ define(['angular'], function(angular) {
 'use strict';
 
 /* @ngInject */
-function factory(psAccountService, brAlertService, psTransactionService, config) {
+function factory(
+  psAccountService, brAlertService, psTransactionService, config) {
   return {
     restrict: 'A',
     scope: {
@@ -129,26 +130,29 @@ function factory(psAccountService, brAlertService, psTransactionService, config)
       // only allow a single confirm attempt
       scope.enableConfirm = false;
       brAlertService.clearFeedback();
-      psTransactionService.confirmDeposit(scope._deposit).then(function(deposit) {
-        // show complete page
-        scope.deposit = deposit;
-        scope.state = 'complete';
+      psTransactionService.confirmDeposit(scope._deposit)
+        .then(function(deposit) {
+          // show complete page
+          scope.deposit = deposit;
+          scope.state = 'complete';
 
-        // get updated balance after a delay
-        psAccountService.collection.get(scope.account.id, {delay: 500});
+          // get updated balance after a delay
+          psAccountService.collection.get(scope.account.id, {delay: 500});
 
-        // update recent transactions
-        psTransactionService.getRecent({force: true});
+          // update recent transactions
+          psTransactionService.getRecent({force: true});
 
-        // go to top of page?
-        //var target = options.target;
-        //$(target).animate({scrollTop: 0}, 0);
-      }).catch(function(err) {
-        brAlertService.add('error', err, {scope: scope});
-      }).then(function() {
-        scope.loading = false;
-        scope.$apply();
-      });
+          // go to top of page?
+          //var target = options.target;
+          //$(target).animate({scrollTop: 0}, 0);
+        })
+        .catch(function(err) {
+          brAlertService.add('error', err, {scope: scope});
+        })
+        .then(function() {
+          scope.loading = false;
+          scope.$apply();
+        });
     };
   }
 }

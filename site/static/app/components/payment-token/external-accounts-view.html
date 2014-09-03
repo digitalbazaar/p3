@@ -87,12 +87,18 @@
     <div ng-show="!model.state.loading && model.creditCards.length == 0">
       <p class="text-center">You have no credit cards associated with this identity.</p>
     </div>
-    <stackable-modal stackable="model.modals.showAddCreditCard">
-      <div ps-add-payment-token-modal ps-payment-methods="model.creditCardMethods"></div>
-    </stackable-modal>
-    <stackable-modal stackable="model.modals.showEditPaymentToken">
-      <div ps-edit-payment-token-modal ps-payment-token="model.modals.paymentToken"></div>
-    </stackable-modal>
+    <div br-lazy-compile="ps-external-accounts-view-add-credit-card-modal"
+      br-compile-trigger="model.modals.showAddCreditCard">
+      <stackable-modal stackable="model.modals.showAddCreditCard">
+        <div ps-add-payment-token-modal ps-payment-methods="model.creditCardMethods"></div>
+      </stackable-modal>
+    </div>
+    <div br-lazy-compile="ps-external-accounts-view-edit-payment-token-modal"
+      br-compile-trigger="model.modals.showEditPaymentToken">
+      <stackable-modal stackable="model.modals.showEditPaymentToken">
+        <div ps-edit-payment-token-modal ps-payment-token="model.modals.paymentToken"></div>
+      </stackable-modal>
+    </div>
   </div>
 
   <div class="section section-bank-accounts">
@@ -179,11 +185,17 @@
     <div ng-show="!model.state.loading && model.bankAccounts.length == 0">
       <p class="text-center">You have no bank accounts associated with this identity.</p>
     </div>
-    <stackable-modal stackable="model.modals.showAddBankAccount">
-      <div ps-add-payment-token-modal ps-payment-methods="model.bankAccountMethods"></div>
-    </stackable-modal>
-    <stackable-modal stackable="model.modals.showVerifyBankAccountModal">
-      <div ps-verify-bank-account-modal ps-payment-token="model.modals.paymentToken"></div>
-    </stackable-modal>
+    <div br-lazy-compile="ps-external-accounts-view-add-bank-account-modal"
+      br-compile-trigger="model.modals.showAddBankAccount">
+      <stackable-modal stackable="model.modals.showAddBankAccount">
+        <div ps-add-payment-token-modal ps-payment-methods="model.bankAccountMethods"></div>
+      </stackable-modal>
+    </div>
+    <div br-lazy-compile="ps-external-accounts-view-verify-bank-account-modal"
+      br-compile-trigger="model.modals.showVerifyBankAccountModal">
+      <stackable-modal stackable="model.modals.showVerifyBankAccountModal">
+        <div ps-verify-bank-account-modal ps-payment-token="model.modals.paymentToken"></div>
+      </stackable-modal>
+    </div>
   </div>
 </div>

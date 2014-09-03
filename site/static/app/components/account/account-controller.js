@@ -11,8 +11,8 @@ define([], function() {
 
 /* @ngInject */
 function factory(
-  $scope, psAccountService, brAlertService,
-  brIdentityService, brRefreshService) {
+  $scope, brAlertService, brIdentityService, brRefreshService,
+  psAccountService) {
   var self = this;
 
   self.modals = {};

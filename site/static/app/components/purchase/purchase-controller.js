@@ -11,8 +11,8 @@ define([], function() {
 
 /* @ngInject */
 function factory(
-  $scope, $sce, psAccountService, psAddressService, brAlertService,
-  psBudgetService, brIdentityService, psTransactionService, config) {
+  $scope, $sce, brAlertService, psBudgetService, brIdentityService,
+  config, psAccountService, psAddressService, psTransactionService) {
   var self = this;
   var data = config.data;
   self.identity = brIdentityService.identity;

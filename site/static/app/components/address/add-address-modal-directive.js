@@ -8,7 +8,7 @@ define(['angular'], function(angular) {
 'use strict';
 
 /* @ngInject */
-function factory(psAddressService, brAlertService, brIdentityService, config) {
+function factory(brAlertService, brIdentityService, config, psAddressService) {
   return {
     restrict: 'A',
     scope: {},

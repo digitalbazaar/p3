@@ -10,8 +10,8 @@ define([], function() {
 
 /* @ngInject */
 function factory(
-  $scope, $timeout, psAccountService, brAlertService, psBudgetService,
-  brRefreshService) {
+  $scope, $timeout, brAlertService, brRefreshService,
+  psAccountService, psBudgetService) {
   var self = this;
 
   self.modals = {};

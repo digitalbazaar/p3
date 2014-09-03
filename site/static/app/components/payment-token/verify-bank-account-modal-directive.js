@@ -9,7 +9,7 @@ define(['angular'], function(angular) {
 
 /* @ngInject */
 function factory(
-  psAccountService, brAlertService, psPaymentTokenService, config) {
+  psAccountService, brAlertService, config, psPaymentTokenService) {
   return {
     restrict: 'A',
     scope: {paymentToken: '=psPaymentToken'},

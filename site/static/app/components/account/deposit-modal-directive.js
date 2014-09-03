@@ -9,7 +9,7 @@ define(['angular'], function(angular) {
 
 /* @ngInject */
 function factory(
-  psAccountService, brAlertService, psTransactionService, config) {
+  brAlertService, config, psAccountService, psTransactionService) {
   return {
     restrict: 'A',
     scope: {

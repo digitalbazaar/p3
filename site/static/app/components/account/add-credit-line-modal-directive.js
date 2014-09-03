@@ -9,7 +9,7 @@ define([], function() {
 
 /* @ngInject */
 function factory(
-  $rootScope, psAccountService, brAlertService, brIdentityService) {
+  $rootScope, brAlertService, brIdentityService, psAccountService) {
   return {
     restrict: 'A',
     scope: {account: '=psAccount'},

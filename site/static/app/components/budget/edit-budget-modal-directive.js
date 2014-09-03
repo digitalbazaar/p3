@@ -9,8 +9,8 @@ define(['angular'], function(angular) {
 
 /* @ngInject */
 function factory(
-  psAccountService, brAlertService,
-  psBudgetService, brIdentityService, config, util) {
+  brAlertService, brIdentityService, config,
+  psBudgetService, psAccountService, util) {
   return {
     restrict: 'A',
     scope: {sourceBudget: '=psBudget'},

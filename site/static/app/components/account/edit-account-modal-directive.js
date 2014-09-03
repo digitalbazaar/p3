@@ -9,8 +9,8 @@ define(['angular'], function(angular) {
 
 /* @ngInject */
 function factory(
-  psAccountService, brAlertService,
-  brIdentityService, psPaymentTokenService, config) {
+  brAlertService, brIdentityService, config,
+  psAccountService, psPaymentTokenService) {
   return {
     restrict: 'A',
     scope: {sourceAccount: '=psAccount'},

@@ -10,13 +10,13 @@ define([], function() {
 
 /* @ngInject */
 function factory(
-  $scope, $timeout, $sce, AddressService, AlertService, IdentityService,
+  $scope, $timeout, $sce, AddressService, brAlertService, brIdentityService,
   IdentityPreferencesService, config) {
   // FIXME: only 1 identity now (no profile) ... no "multiple" identities for
   // a particular session ... will need to add a "switch identities" modal
   // thing? or option to login as another user?
   var self = this;
-  self.identity = IdentityService.identity;
+  self.identity = brIdentityService.identity;
   self.loading = false;
   self.registered = false;
   self.publicKey = {
@@ -65,7 +65,7 @@ function factory(
           // address modal will re-call register()
           return;
         }
-        AlertService.add('error', err);
+        brAlertService.add('error', err);
       })
       .then(function() {
         self.loading = false;

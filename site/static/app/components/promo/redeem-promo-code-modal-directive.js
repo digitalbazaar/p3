@@ -8,7 +8,7 @@ define([], function() {
 'use strict';
 
 /* @ngInject */
-function factory(AlertService, PromoService) {
+function factory(brAlertService, PromoService) {
   return {
     restrict: 'A',
     scope: {account: '=psAccount'},
@@ -28,7 +28,7 @@ function factory(AlertService, PromoService) {
           scope.model.promo = promo;
         })
         .catch(function(err) {
-          AlertService.add('error', err, {scope: scope});
+          brAlertService.add('error', err, {scope: scope});
         })
         .then(function() {
           scope.$apply();

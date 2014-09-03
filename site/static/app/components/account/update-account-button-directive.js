@@ -8,7 +8,7 @@ define([], function() {
 'use strict';
 
 /* @ngInject */
-function factory(AccountService, AlertService, IdentityService, config) {
+function factory(AccountService, brAlertService, brIdentityService, config) {
   return {
     restrict: 'A',
     scope: {account: '=psAccount', callback: '&psCallback'},
@@ -18,7 +18,7 @@ function factory(AccountService, AlertService, IdentityService, config) {
 
   function Link(scope, element) {
     var model = scope.model = {};
-    model.identity = IdentityService.identity;
+    model.identity = brIdentityService.identity;
 
     model.updateAccount = function() {
       // merge in all properties from given account
@@ -33,7 +33,7 @@ function factory(AccountService, AlertService, IdentityService, config) {
       AccountService.update(account).then(function(account) {
         scope.callback(null, account);
       }).catch(function(err) {
-        AlertService.add('error', err);
+        brAlertService.add('error', err);
         scope.callback(err, account);
       });
     };

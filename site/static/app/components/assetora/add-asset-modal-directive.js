@@ -8,7 +8,7 @@ define([], function() {
 'use strict';
 
 /* @ngInject */
-function factory(AlertService, HostedAssetService, config) {
+function factory(brAlertService, HostedAssetService, config) {
   return {
     restrict: 'A',
     scope: {},
@@ -48,7 +48,7 @@ function factory(AlertService, HostedAssetService, config) {
         scope.loading = false;
         stackable.close(null, asset);
       }).catch(function(err) {
-        AlertService.add('error', err, {scope: scope});
+        brAlertService.add('error', err, {scope: scope});
         scope.loading = false;
       });
     };

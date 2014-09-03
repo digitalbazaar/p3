@@ -8,7 +8,7 @@ define([], function() {
 'use strict';
 
 /* @ngInject */
-function factory($rootScope, AccountService, AlertService, IdentityService) {
+function factory($rootScope, AccountService, brAlertService, brIdentityService) {
   return {
     restrict: 'A',
     scope: {account: '=psAccount'},
@@ -19,7 +19,7 @@ function factory($rootScope, AccountService, AlertService, IdentityService) {
 
   function Link(scope) {
     var model = scope.model = {};
-    model.identity = IdentityService.identity;
+    model.identity = brIdentityService.identity;
     model.sysPasscode = '';
     // payment backup source for account's credit line
     model.backupSource = null;
@@ -30,17 +30,17 @@ function factory($rootScope, AccountService, AlertService, IdentityService) {
     scope.sendPasscode = function() {
       // request a passcode
       model.loading = true;
-      AlertService.clearFeedback();
-      IdentityService.sendPasscode({
+      brAlertService.clearFeedback();
+      brIdentityService.sendPasscode({
         sysIdentifier: model.identity.id,
         usage: 'verify'
       }).then(function() {
-        AlertService.add('success', {
+        brAlertService.add('success', {
           message:
             'An email has been sent to you with verification instructions.'
         }, {scope: scope});
       }).catch(function(err) {
-        AlertService.add('error', err, {scope: scope});
+        brAlertService.add('error', err, {scope: scope});
       }).then(function() {
         model.loading = false;
         scope.$apply();
@@ -49,17 +49,17 @@ function factory($rootScope, AccountService, AlertService, IdentityService) {
 
     scope.verifyEmail = function() {
       model.loading = true;
-      AlertService.clearFeedback();
-      IdentityService.verifyEmail(model.sysPasscode).then(function() {
+      brAlertService.clearFeedback();
+      brIdentityService.verifyEmail(model.sysPasscode).then(function() {
         model.identity.sysEmailVerified = true;
-        AlertService.add('success', {
+        brAlertService.add('success', {
           message: 'Your email address has been verified successfully.'
         });
       }).catch(function(err) {
         if(err.type === 'bedrock.website.PermissionDenied') {
           $rootScope.$emit('showLoginModal');
         }
-        AlertService.add('error', err, {scope: scope});
+        brAlertService.add('error', err, {scope: scope});
       }).then(function() {
         model.loading = false;
         scope.$apply();
@@ -68,13 +68,13 @@ function factory($rootScope, AccountService, AlertService, IdentityService) {
 
     scope.confirm = function() {
       model.loading = true;
-      AlertService.clearFeedback();
+      brAlertService.clearFeedback();
       AccountService.addCreditLine(
         scope.account.id, model.backupSource.id).then(function() {
         // show complete page
         model.state = 'complete';
       }).catch(function(err) {
-        AlertService.add('error', err, {scope: scope});
+        brAlertService.add('error', err, {scope: scope});
       }).then(function() {
         model.loading = false;
         scope.$apply();

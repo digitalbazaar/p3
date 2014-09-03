@@ -11,11 +11,11 @@ define([], function() {
 
 /* @ngInject */
 function factory(
-  $scope, $sce, AccountService, AddressService, AlertService,
-  BudgetService, IdentityService, TransactionService, config) {
+  $scope, $sce, AccountService, AddressService, brAlertService,
+  BudgetService, brIdentityService, TransactionService, config) {
   var self = this;
   var data = config.data;
-  self.identity = IdentityService.identity;
+  self.identity = brIdentityService.identity;
   self.budgets = BudgetService.budgets;
   self.accounts = AccountService.accounts;
   self.contract = null;
@@ -47,13 +47,13 @@ function factory(
   self.showDetails = false;
 
   // load and use default account if possible
-  if(IdentityService.identity.preferences.source) {
-    AccountService.collection.get(IdentityService.identity.preferences.source)
+  if(brIdentityService.identity.preferences.source) {
+    AccountService.collection.get(brIdentityService.identity.preferences.source)
       .then(function(account) {
         self.selection.account = account;
       })
       .catch(function(err) {
-        AlertService.add('error', err);
+        brAlertService.add('error', err);
       })
       .then(function() {
         $scope.$apply();
@@ -180,7 +180,7 @@ function factory(
       self.ready = !self.showAddAddressModal && !self.showAddAccountModal;
       $scope.$apply();
     }).catch(function(err) {
-      AlertService.add('error', err);
+      brAlertService.add('error', err);
       $scope.$apply();
       throw err;
     });
@@ -216,7 +216,7 @@ function factory(
       self.contract = contract;
       $scope.$apply();
     }).catch(function(err) {
-      AlertService.add('error', err);
+      brAlertService.add('error', err);
       self.loading = false;
       $scope.$apply();
       throw err;
@@ -261,10 +261,10 @@ function factory(
           })
           .catch(function(err) {
             // log error but don't throw it, purchase was completed
-            AlertService.add('error', err);
+            brAlertService.add('error', err);
           });
       }).catch(function(err) {
-        AlertService.add('error', err);
+        brAlertService.add('error', err);
         // clear any auto-purchase budget
         self.budget = null;
         switch(err.type) {
@@ -281,7 +281,7 @@ function factory(
             AccountService.collection.get(accountId).then(function(account) {
               self.selection.account = account;
             }).catch(function(err) {
-              AlertService.add('error', err);
+              brAlertService.add('error', err);
             }).then(function() {
               $scope.$apply();
             });

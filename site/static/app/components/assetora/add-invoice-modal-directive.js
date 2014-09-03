@@ -8,7 +8,7 @@ define(['angular'], function(angular) {
 'use strict';
 
 /* @ngInject */
-function factory(AlertService, HostedAssetService, config) {
+function factory(brAlertService, HostedAssetService, config) {
   return {
     restrict: 'A',
     scope: {},
@@ -57,7 +57,7 @@ function factory(AlertService, HostedAssetService, config) {
         if(!err) {
           stackable.close(null, asset);
         } else {
-          AlertService.add('error', err, {scope: scope});
+          brAlertService.add('error', err, {scope: scope});
         }
       });
       // FIXME: create and add associated Listing

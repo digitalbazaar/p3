@@ -9,7 +9,7 @@ define(['angular'], function(angular) {
 
 /* @ngInject */
 function factory(
-  AccountService, AlertService, BudgetService, IdentityService, config, util) {
+  AccountService, brAlertService, BudgetService, brIdentityService, config, util) {
   return {
     restrict: 'A',
     scope: {sourceBudget: '=psBudget'},
@@ -23,7 +23,7 @@ function factory(
     scope.selection = {
       account: null
     };
-    scope.identity = IdentityService.identity;
+    scope.identity = brIdentityService.identity;
     scope.refreshChoices = [
       {label: 'Never', value: 'never'},
       {label: 'Hourly', value: 'PT1H'},
@@ -54,13 +54,13 @@ function factory(
       scope.loading = false;
     }).catch(function(err) {
       scope.loading = false;
-      AlertService.add('error', err, {scope: scope});
+      brAlertService.add('error', err, {scope: scope});
     }).then(function() {
       scope.$apply();
     });
 
     scope.editBudget = function() {
-      AlertService.clearFeedback();
+      brAlertService.clearFeedback();
 
       // set all fields from UI
       var b = scope.budget;
@@ -115,7 +115,7 @@ function factory(
         stackable.close(null, budget);
       }).catch(function(err) {
         scope.loading = false;
-        AlertService.add('error', err, {scope: scope});
+        brAlertService.add('error', err, {scope: scope});
         scope.$apply();
       });
     };

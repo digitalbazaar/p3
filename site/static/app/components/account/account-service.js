@@ -10,13 +10,13 @@ define(['angular'], function(angular) {
 /* @ngInject */
 function factory(
   $http, $rootScope,
-  IdentityService, ModelService, PaymentTokenService,
-  RefreshService, ResourceService, config) {
+  brIdentityService, brModelService, PaymentTokenService,
+  brRefreshService, brResourceService, config) {
   var service = {};
 
   // create main account collection
-  var identity = IdentityService.identity;
-  service.collection = new ResourceService.Collection({
+  var identity = brIdentityService.identity;
+  service.collection = new brResourceService.Collection({
     url: identity.id + '/accounts',
     finishLoading: _updateAccounts
   });
@@ -80,7 +80,7 @@ function factory(
       identity.id + '/regulatory-address', address))
       .then(function() {
         // do refresh
-        RefreshService.refresh();
+        brRefreshService.refresh();
       })
       .catch(function(err) {
         service.state.loading = false;
@@ -95,7 +95,7 @@ function factory(
     } else {
       storage = service.identities[account.owner];
     }
-    ModelService.replaceInArray(storage, account);
+    brModelService.replaceInArray(storage, account);
   }
 
   function _updateAccounts() {
@@ -117,7 +117,7 @@ function factory(
   }
 
   // register for system-wide refreshes
-  RefreshService.register(service.collection);
+  brRefreshService.register(service.collection);
 
   // expose service to scope
   $rootScope.app.services.account = service;

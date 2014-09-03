@@ -8,7 +8,7 @@ define(['angular'], function(angular) {
 'use strict';
 
 /* @ngInject */
-function factory(AccountService, AlertService, IdentityService, config) {
+function factory(AccountService, brAlertService, brIdentityService, config) {
   return {
     restrict: 'A',
     scope: {},
@@ -20,13 +20,13 @@ function factory(AccountService, AlertService, IdentityService, config) {
   function Link(scope, element, attrs, stackable) {
     var model = scope.model = {};
     model.data = config.data;
-    model.identity = IdentityService.identity;
+    model.identity = brIdentityService.identity;
     model.state = AccountService.state;
     model.address = angular.copy(model.identity.sysRegulatoryAddress || {});
     model.countries = config.constants.countries;
 
     model.setRegulatoryAddress = function() {
-      AlertService.clearFeedback();
+      brAlertService.clearFeedback();
       AccountService.setRegulatoryAddress({
         address: {
           '@context': config.data.contextUrl,
@@ -47,7 +47,7 @@ function factory(AccountService, AlertService, IdentityService, config) {
         scope.$apply();
         stackable.close(null);
       }).catch(function(err) {
-        AlertService.add('error', err, {scope: scope});
+        brAlertService.add('error', err, {scope: scope});
         scope.$apply();
       });
     };

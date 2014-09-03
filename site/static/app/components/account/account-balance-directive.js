@@ -8,7 +8,7 @@ define([], function() {
 'use strict';
 
 /* @ngInject */
-function factory(AlertService, PaymentTokenService) {
+function factory(brAlertService, PaymentTokenService) {
   return {
     restrict: 'A',
     scope: {account: '=psAccountBalance'},
@@ -58,7 +58,7 @@ function factory(AlertService, PaymentTokenService) {
             .then(function(token) {
               model.backupSource = token;
             }).catch(function(err) {
-              AlertService.add('error', err);
+              brAlertService.add('error', err);
             }).then(function() {
               scope.$apply();
             });

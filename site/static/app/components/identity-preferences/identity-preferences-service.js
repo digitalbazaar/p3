@@ -8,7 +8,7 @@ define([], function() {
 'use strict';
 
 /* @ngInject */
-function factory($http, $rootScope, IdentityService) {
+function factory($http, $rootScope, brIdentityService) {
   var service = {};
   service.state = {
     loading: false
@@ -17,7 +17,7 @@ function factory($http, $rootScope, IdentityService) {
 
   // get identity preferences
   service.get = function(options) {
-    var url = IdentityService.identity.id + '/preferences';
+    var url = brIdentityService.identity.id + '/preferences';
 
     if(options.responseNonce) {
       url += '?response-nonce=' + encodeURIComponent(options.responseNonce);
@@ -39,7 +39,7 @@ function factory($http, $rootScope, IdentityService) {
   // update identity preferences
   service.update = function(preferences, options) {
     service.state.loading = true;
-    var url = IdentityService.identity.id + '/preferences';
+    var url = brIdentityService.identity.id + '/preferences';
 
     service.state.loading = false;
     return Promise.resolve($http.post(url, preferences))
@@ -49,7 +49,7 @@ function factory($http, $rootScope, IdentityService) {
       .then(function(preferences) {
         service.state.loading = false;
         // update preferences
-        IdentityService.identity.preferences = preferences;
+        brIdentityService.identity.preferences = preferences;
         return preferences;
       })
       .catch(function(err) {

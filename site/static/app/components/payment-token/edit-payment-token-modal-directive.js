@@ -9,7 +9,7 @@ define(['angular'], function(angular) {
 
 /* @ngInject */
 function factory(
-  AccountService, AlertService, IdentityService, PaymentTokenService, config) {
+  AccountService, brAlertService, brIdentityService, PaymentTokenService, config) {
   return {
     restrict: 'A',
     scope: {
@@ -26,7 +26,7 @@ function factory(
     scope.model = {};
     scope.monthLabels = config.constants.monthLabels;
     scope.years = config.constants.years;
-    scope.identity = IdentityService.identity;
+    scope.identity = brIdentityService.identity;
     scope.loading = false;
     scope.editing = true;
 
@@ -67,7 +67,7 @@ function factory(
 
       // do general update then remove backup sources
       scope.loading = true;
-      AlertService.clearFeedback();
+      brAlertService.clearFeedback();
       PaymentTokenService.collection.update(paymentToken)
         .then(function(paymentToken) {
           // remove backup source from every related account
@@ -89,7 +89,7 @@ function factory(
         })
         .catch(function(err) {
           // editor still open, update display
-          AlertService.add('error', err, {scope: scope});
+          brAlertService.add('error', err, {scope: scope});
           updateBackupSources();
         });
     };
@@ -122,7 +122,7 @@ function factory(
         AccountService.collection.get(accountId).then(function(account) {
           scope.backupSourceFor[accountId].account = account;
         }).catch(function(err) {
-          AlertService.add('error', err, {scope: scope});
+          brAlertService.add('error', err, {scope: scope});
         }).then(function() {
           scope.backupSourceFor[accountId].loading = false;
           scope.$apply();

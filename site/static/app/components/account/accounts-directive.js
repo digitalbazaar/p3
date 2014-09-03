@@ -12,7 +12,7 @@ define([], function() {
 
 /* @ngInject */
 function factory(
-  $rootScope, AccountService, AlertService, IdentityService,
+  $rootScope, AccountService, brAlertService, brIdentityService,
   IdentityPreferencesService, PaymentTokenService, config) {
   return {
     restrict: 'A',
@@ -23,7 +23,7 @@ function factory(
 
   function Link(scope) {
     var model = scope.model = {};
-    model.identity = IdentityService.identity;
+    model.identity = brIdentityService.identity;
     model.accounts = AccountService.accounts;
     model.tokens = PaymentTokenService.paymentTokens;
     model.state = {
@@ -45,10 +45,10 @@ function factory(
         source: account.id
       };
 
-      AlertService.clear();
+      brAlertService.clear();
       IdentityPreferencesService.update(update)
         .catch(function(err) {
-          AlertService.add('error', err);
+          brAlertService.add('error', err);
           console.error('setDefaultAccount error:', err);
         })
         .then(function() {

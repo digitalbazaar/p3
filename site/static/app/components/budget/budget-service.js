@@ -9,13 +9,13 @@ define(['iso8601'], function(iso8601) {
 
 /* @ngInject */
 function factory(
-  $http, $rootScope, IdentityService, RefreshService,
-  ResourceService, config) {
+  $http, $rootScope, brIdentityService, brRefreshService,
+  brResourceService, config) {
   var service = {};
 
   // create main budget collection
-  var identity = IdentityService.identity;
-  service.collection = new ResourceService.Collection({
+  var identity = brIdentityService.identity;
+  service.collection = new brResourceService.Collection({
     url: identity.id + '/budgets'
   });
   service.state = service.collection.state;
@@ -57,7 +57,7 @@ function factory(
   service.getVendors = function(budgetId, options) {
     var collection;
     if(!(budgetId in service.vendors)) {
-      collection = service.vendors[budgetId] = new ResourceService.Collection({
+      collection = service.vendors[budgetId] = new brResourceService.Collection({
         url: budgetId + '?view=vendors'
       });
     } else {
@@ -125,7 +125,7 @@ function factory(
   };
 
   // register for system-wide refreshes
-  RefreshService.register(service.collection);
+  brRefreshService.register(service.collection);
 
   // expose service to scope
   $rootScope.app.services.budget = service;

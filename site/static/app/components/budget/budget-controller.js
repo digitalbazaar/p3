@@ -10,8 +10,8 @@ define([], function() {
 
 /* @ngInject */
 function factory(
-  $scope, $timeout, AccountService, AlertService, BudgetService,
-  RefreshService) {
+  $scope, $timeout, AccountService, brAlertService, BudgetService,
+  brRefreshService) {
   var self = this;
 
   self.modals = {};
@@ -40,7 +40,7 @@ function factory(
       // wait to delete so modal can transition
       $timeout(function() {
         BudgetService.delVendor(self.budget.id, vendor.id).catch(function(err) {
-          AlertService.add('error', err);
+          brAlertService.add('error', err);
           vendor.deleted = false;
           $scope.$apply();
         });
@@ -67,16 +67,16 @@ function factory(
     });
   });
 
-  RefreshService.register($scope, function(force) {
+  brRefreshService.register($scope, function(force) {
     var opts = {force: !!force};
-    AlertService.clear();
+    brAlertService.clear();
     BudgetService.collection.getCurrent(opts)
       .then(function(budget) {
         self.budget = budget;
         $scope.$apply();
       })
       .catch(function(err) {
-        AlertService.add('error', err);
+        brAlertService.add('error', err);
         self.budget = null;
         $scope.$apply();
       });

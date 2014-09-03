@@ -8,7 +8,7 @@ define([], function() {
 'use strict';
 
 /* @ngInject */
-function factory(AlertService, IdentityService, PaymentTokenService, config) {
+function factory(brAlertService, brIdentityService, PaymentTokenService, config) {
   return {
     restrict: 'A',
     scope: {paymentMethods: '=psPaymentMethods'},
@@ -26,7 +26,7 @@ function factory(AlertService, IdentityService, PaymentTokenService, config) {
     scope.years = config.constants.years;
     scope.feedback = {contactSupport: true};
     scope.loading = false;
-    scope.identity = IdentityService.identity;
+    scope.identity = brIdentityService.identity;
     scope.editing = false;
 
     // common fields to all types
@@ -118,12 +118,12 @@ function factory(AlertService, IdentityService, PaymentTokenService, config) {
 
       // add payment token
       scope.loading = true;
-      AlertService.clearFeedback();
+      brAlertService.clearFeedback();
       PaymentTokenService.collection.add(token).then(function(addedToken) {
         scope.loading = false;
         stackable.close(null, addedToken);
       }).catch(function(err) {
-        AlertService.add('error', err, {scope: scope});
+        brAlertService.add('error', err, {scope: scope});
         scope.loading = false;
         scope.$apply();
       });

@@ -8,7 +8,7 @@ define([], function() {
 'use strict';
 
 /* @ngInject */
-function factory($scope, AlertService, PaymentTokenService) {
+function factory($scope, brAlertService, PaymentTokenService) {
   var self = this;
 
   self.state = PaymentTokenService.state;
@@ -32,7 +32,7 @@ function factory($scope, AlertService, PaymentTokenService) {
     paymentToken.deleted = true;
     PaymentTokenService.collection.del(paymentToken.id, {update: false})
       .catch(function(err) {
-        AlertService.add('error', err);
+        brAlertService.add('error', err);
         paymentToken.deleted = false;
         $scope.apply();
       })

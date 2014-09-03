@@ -8,7 +8,7 @@ define([], function() {
 'use strict';
 
 /* @ngInject */
-function factory(AccountService, AlertService, IdentityService, config) {
+function factory(AccountService, brAlertService, brIdentityService, config) {
   return {
     restrict: 'A',
     scope: {},
@@ -19,7 +19,7 @@ function factory(AccountService, AlertService, IdentityService, config) {
 
   function Link(scope, element, attrs, stackable) {
     var model = scope.model = {};
-    model.identity = IdentityService.identity;
+    model.identity = brIdentityService.identity;
     model.state = AccountService.state;
     var account = model.account = {
       '@context': config.data.contextUrl,
@@ -29,7 +29,7 @@ function factory(AccountService, AlertService, IdentityService, config) {
     model.accountVisibility = 'hidden';
 
     model.addAccount = function() {
-      AlertService.clearFeedback();
+      brAlertService.clearFeedback();
       account.sysPublic = [];
       if(model.accountVisibility === 'public') {
         account.sysPublic.push('label');
@@ -39,7 +39,7 @@ function factory(AccountService, AlertService, IdentityService, config) {
       AccountService.collection.add(account).then(function(account) {
         stackable.close(null, account);
       }).catch(function(err) {
-        AlertService.add('error', err, {scope: scope});
+        brAlertService.add('error', err, {scope: scope});
         scope.$apply();
       });
     };

@@ -12,7 +12,7 @@ define(['angular', 'jsonld'], function(angular, jsonld) {
 
 /* @ngInject */
 function factory(
-  $timeout, AlertService, IdentityService, RefreshService, TransactionService) {
+  $timeout, brAlertService, brIdentityService, brRefreshService, TransactionService) {
   return {
     restrict: 'A',
     scope: {
@@ -122,7 +122,7 @@ function factory(
       // fetch txns
       model.txns.setQuery(params);
       model.txns.getAll({force: true}).catch(function(err) {
-        AlertService.add('error', err);
+        brAlertService.add('error', err);
       });
     };
 
@@ -195,7 +195,7 @@ function factory(
               var src = txn.source;
               transfer.sourceLink = false;
               transfer.source = src.label;
-              if(src.owner === IdentityService.identity.id) {
+              if(src.owner === brIdentityService.identity.id) {
                 if(src.paymentMethod === 'CreditCard') {
                   transfer.source += ' (Credit Card: ' + src.cardNumber + ')';
                 } else if(src.paymentMethod === 'BankAccount') {
@@ -207,7 +207,7 @@ function factory(
               var dst = txn.destination;
               transfer.destinationLink = false;
               transfer.destination = dst.label;
-              if(dst.owner === IdentityService.identity.id &&
+              if(dst.owner === brIdentityService.identity.id &&
                 dst.paymentMethod === 'BankAccount') {
                 transfer.destination +=
                   ' (Bank Account: ' + dst.bankAccount + ')';
@@ -228,7 +228,7 @@ function factory(
       model.load();
     }
 
-    RefreshService.register(scope, model.txns);
+    brRefreshService.register(scope, model.txns);
   }
 }
 

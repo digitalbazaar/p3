@@ -9,13 +9,13 @@ define(['angular'], function(angular) {
 
 /* @ngInject */
 function factory(
-  $http, $rootScope, IdentityService, ModelService,
-  RefreshService, ResourceService) {
+  $http, $rootScope, brIdentityService, brModelService,
+  brRefreshService, brResourceService) {
   var service = {};
 
   // create main payment token collection
-  var identity = IdentityService.identity;
-  service.collection = new ResourceService.Collection({
+  var identity = brIdentityService.identity;
+  service.collection = new brResourceService.Collection({
     url: identity.id + '/payment-tokens',
     finishLoading: _updateTokens
   });
@@ -143,16 +143,16 @@ function factory(
         }
       }
     });
-    ModelService.replaceArray(service.active, active);
-    ModelService.replaceArray(service.deleted, deleted);
-    ModelService.replaceArray(service.creditCards, creditCards);
-    ModelService.replaceArray(service.bankAccounts, bankAccounts);
-    ModelService.replaceArray(service.instant, instant);
-    ModelService.replaceArray(service.nonInstant, nonInstant);
+    brModelService.replaceArray(service.active, active);
+    brModelService.replaceArray(service.deleted, deleted);
+    brModelService.replaceArray(service.creditCards, creditCards);
+    brModelService.replaceArray(service.bankAccounts, bankAccounts);
+    brModelService.replaceArray(service.instant, instant);
+    brModelService.replaceArray(service.nonInstant, nonInstant);
   }
 
   // register for system-wide refreshes
-  RefreshService.register(service.collection);
+  brRefreshService.register(service.collection);
 
   // expose service to scope
   $rootScope.app.services.paymentToken = service;

@@ -8,11 +8,11 @@ define([], function() {
 'use strict';
 
 /* @ngInject */
-function factory($http, $rootScope, IdentityService, ResourceService) {
+function factory($http, $rootScope, brIdentityService, brResourceService) {
   var service = {};
 
-  var identity = IdentityService.identity;
-  service.collection = new ResourceService.Collection({
+  var identity = brIdentityService.identity;
+  service.collection = new brResourceService.Collection({
     url: identity.id + '/assets'
   });
   service.state = service.collection.state;

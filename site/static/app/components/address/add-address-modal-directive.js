@@ -8,7 +8,7 @@ define(['angular'], function(angular) {
 'use strict';
 
 /* @ngInject */
-function factory(AddressService, AlertService, IdentityService, config) {
+function factory(AddressService, brAlertService, brIdentityService, config) {
   return {
     restrict: 'A',
     scope: {},
@@ -21,7 +21,7 @@ function factory(AddressService, AlertService, IdentityService, config) {
     // FIXME: use 'model'
     var model = scope.model = {};
     model.countries = config.constants.countries;
-    scope.identity = IdentityService.identity;
+    scope.identity = brIdentityService.identity;
     scope.originalAddress = {
       '@context': config.data.contextUrl,
       type: 'Address',
@@ -43,7 +43,7 @@ function factory(AddressService, AlertService, IdentityService, config) {
     scope.state = 'editing';
 
     scope.validate = function() {
-      AlertService.clearFeedback();
+      brAlertService.clearFeedback();
       AddressService.validate(scope.originalAddress).then(function(validated) {
         // FIXME: should backend handle this?
         // copy over non-validation fields
@@ -60,7 +60,7 @@ function factory(AddressService, AlertService, IdentityService, config) {
           scope.selection.address = scope.originalAddress;
         }
       }).catch(function(err) {
-        AlertService.add('error', err, {scope: scope});
+        brAlertService.add('error', err, {scope: scope});
       }).then(function() {
         scope.$apply();
       });
@@ -68,17 +68,17 @@ function factory(AddressService, AlertService, IdentityService, config) {
 
     scope.add = function(clickedAddress) {
       var addressToAdd = clickedAddress || scope.selection.address;
-      AlertService.clearFeedback();
+      brAlertService.clearFeedback();
       AddressService.collection.add(addressToAdd).then(function(addedAddress) {
         stackable.close(null, addedAddress);
       }).catch(function(err) {
-        AlertService.add('error', err, {scope: scope});
+        brAlertService.add('error', err, {scope: scope});
         scope.$apply();
       });
     };
 
     scope.edit = function() {
-      AlertService.clearFeedback();
+      brAlertService.clearFeedback();
       scope.state = 'editing';
       scope.selection.address = null;
     };

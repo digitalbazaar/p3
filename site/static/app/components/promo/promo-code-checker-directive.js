@@ -8,7 +8,7 @@ define([], function() {
 'use strict';
 
 /* @ngInject */
-function factory($http, AlertService) {
+function factory($http, brAlertService) {
   return {
     restrict: 'A',
     scope: {
@@ -74,7 +74,7 @@ function factory($http, AlertService) {
           })
           .catch(function(err) {
             if(!err.details || err.details.httpStatusCode !== 404) {
-              AlertService.add('error', err, {scope: scope});
+              brAlertService.add('error', err, {scope: scope});
             }
             state.loading = false;
             state.notFound = true;

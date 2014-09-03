@@ -9,7 +9,7 @@ define([], function() {
 
 /* @ngInject */
 function factory(
-  $scope, AlertService, HostedAssetService, HostedListingService, config) {
+  $scope, brAlertService, HostedAssetService, HostedListingService, config) {
   $scope.model = {};
   $scope.identity = config.data.identity;
   $scope.model.recentAssets = HostedAssetService.recentAssets;
@@ -40,7 +40,7 @@ function factory(
       // wait to delete so modal can transition
       HostedAssetService.collection.del(asset.id, {delay: 400})
         .catch(function(err) {
-          AlertService.add('error', err);
+          brAlertService.add('error', err);
           asset.deleted = false;
         });
     }
@@ -59,7 +59,7 @@ function factory(
       // wait to delete so modal can transition
       HostedListingService.del(listing.id, {delay: 400})
         .catch(function(err) {
-          AlertService.add('error', err);
+          brAlertService.add('error', err);
           listing.deleted = false;
         });
     }
@@ -87,13 +87,13 @@ function factory(
         storage: $scope.model.search.assets,
         keywords: $scope.model.search.input
       }).catch(function(err) {
-        AlertService.add('error', err);
+        brAlertService.add('error', err);
       }),
       HostedListingService.get({
         storage: $scope.model.search.listings,
         keywords: $scope.model.search.input
       }).catch(function(err) {
-        AlertService.add('error', err);
+        brAlertService.add('error', err);
       })
     ]);
   };

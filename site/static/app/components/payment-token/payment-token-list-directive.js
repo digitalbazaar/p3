@@ -8,7 +8,7 @@ define(['angular'], function(angular) {
 'use strict';
 
 /* @ngInject */
-function factory(AlertService, ModelService, PaymentTokenService) {
+function factory(brAlertService, brModelService, PaymentTokenService) {
   return {
     restrict: 'A',
     scope: {
@@ -31,7 +31,7 @@ function factory(AlertService, ModelService, PaymentTokenService) {
       if(err) {
         // display real errors (not 'canceled', etc)
         if(typeof err !== 'string') {
-          AlertService.add('error', err);
+          brAlertService.add('error', err);
         }
         return;
       }
@@ -78,7 +78,7 @@ function factory(AlertService, ModelService, PaymentTokenService) {
           });
         }
       });
-      ModelService.replaceArray(scope.tokenList, tokenList);
+      brModelService.replaceArray(scope.tokenList, tokenList);
     }
   }
 }

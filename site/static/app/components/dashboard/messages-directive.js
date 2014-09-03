@@ -11,7 +11,7 @@ define([], function() {
 'use strict';
 
 /* @ngInject */
-function factory(IdentityService) {
+function factory(brIdentityService) {
   return {
     restrict: 'A',
     templateUrl: '/app/components/dashboard/messages-view.html',
@@ -21,7 +21,7 @@ function factory(IdentityService) {
   function Link(scope) {
     var model = scope.model = {};
     model.state = {
-      identity: IdentityService.state
+      identity: brIdentityService.state
     };
     model.messages = [];
   }

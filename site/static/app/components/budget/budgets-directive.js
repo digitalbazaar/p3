@@ -11,7 +11,7 @@ define([], function() {
 'use strict';
 
 /* @ngInject */
-function factory(AlertService, BudgetService) {
+function factory(brAlertService, BudgetService) {
   return {
     restrict: 'A',
     scope: {},
@@ -44,7 +44,7 @@ function factory(AlertService, BudgetService) {
         // wait to delete so modal can transition
         BudgetService.collection.del(budget.id, {delay: 400})
           .catch(function(err) {
-            AlertService.add('error', err);
+            brAlertService.add('error', err);
             budget.deleted = false;
             scope.$apply();
           });

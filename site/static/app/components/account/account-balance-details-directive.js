@@ -8,7 +8,7 @@ define([], function() {
 'use strict';
 
 /* @ngInject */
-function factory(AlertService, PaymentTokenService) {
+function factory(brAlertService, PaymentTokenService) {
   return {
     restrict: 'A',
     scope: {
@@ -61,7 +61,7 @@ function factory(AlertService, PaymentTokenService) {
               model.backupSource = token;
               scope.$apply();
             }).catch(function(err) {
-              AlertService.add('error', err);
+              brAlertService.add('error', err);
               scope.$apply();
             });
         }

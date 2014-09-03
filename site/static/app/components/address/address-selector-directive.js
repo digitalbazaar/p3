@@ -8,7 +8,7 @@ define([], function() {
 'use strict';
 
 /* @ngInject */
-function addressSelectorInner(AddressService, IdentityService) {
+function addressSelectorInner(AddressService, brIdentityService) {
   return {
     restrict: 'A',
     require: 'brSelector',
@@ -20,7 +20,7 @@ function addressSelectorInner(AddressService, IdentityService) {
     model.services = {
       address: AddressService.state
     };
-    model.identity = IdentityService.identity;
+    model.identity = brIdentityService.identity;
     model.addresses = AddressService.addresses;
     scope.$watch('model.addresses', function(addresses) {
       if(!scope.selected || $.inArray(scope.selected, addresses) === -1) {

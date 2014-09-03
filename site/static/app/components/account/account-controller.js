@@ -11,26 +11,26 @@ define([], function() {
 
 /* @ngInject */
 function factory(
-  $scope, AccountService, AlertService, IdentityService, RefreshService, config) {
+  $scope, AccountService, brAlertService, brIdentityService, brRefreshService, config) {
   var self = this;
 
   self.modals = {};
   self.state = {
     accounts: AccountService.state,
-    identities: IdentityService.state
+    identities: brIdentityService.state
   };
   self.account = undefined;
 
-  RefreshService.register($scope, function(force) {
+  brRefreshService.register($scope, function(force) {
     var opts = {force: !!force};
-    AlertService.clear();
+    brAlertService.clear();
     AccountService.collection.getCurrent(opts)
       .then(function(account) {
         self.account = account;
         $scope.$apply();
       })
       .catch(function(err) {
-        AlertService.add('error', err);
+        brAlertService.add('error', err);
         self.account = null;
         $scope.$apply();
       });

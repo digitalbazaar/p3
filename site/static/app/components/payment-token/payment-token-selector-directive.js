@@ -9,7 +9,7 @@ define(['angular'], function(angular) {
 
 /* @ngInject */
 function paymentTokenSelectorInner(
-  AlertService, ModelService, PaymentTokenService) {
+  brAlertService, brModelService, PaymentTokenService) {
   return {
     restrict: 'A',
     require: 'brSelector',
@@ -65,7 +65,7 @@ function paymentTokenSelectorInner(
 
     PaymentTokenService.collection.getAll().then(filterTokens)
       .catch(function(err) {
-        AlertService.add('error', err);
+        brAlertService.add('error', err);
         scope.$apply();
       });
 
@@ -92,7 +92,7 @@ function paymentTokenSelectorInner(
           tokens.push(token);
         }
       }
-      ModelService.replaceArray(scope.paymentTokens, tokens);
+      brModelService.replaceArray(scope.paymentTokens, tokens);
     }
 
     function buildGrid(columns) {

@@ -10,7 +10,7 @@ define([
 'use strict';
 
 /* @ngInject */
-function factory(AlertService, HostedAssetService, config) {
+function factory(brAlertService, HostedAssetService, config) {
   return {
     restrict: 'A',
     scope: {asset: '=psAsset'},
@@ -109,7 +109,7 @@ function factory(AlertService, HostedAssetService, config) {
         scope.model.loading = false;
 
         if(err) {
-          AlertService.add('error', err, {scope: scope});
+          brAlertService.add('error', err, {scope: scope});
           scope.$apply();
           return;
         }

@@ -8,7 +8,7 @@ define([], function() {
 'use strict';
 
 /* @ngInject */
-function factory($scope, AlertService, HostedAssetService) {
+function factory($scope, brAlertService, HostedAssetService) {
   $scope.model = {};
   // FIXME: globalize window.data access
   var data = window.data || {};
@@ -41,7 +41,7 @@ function factory($scope, AlertService, HostedAssetService) {
       // wait to delete so modal can transition
       var asset = $scope.model.modals.asset;
       HostedAssetService.del(asset.id, {delay: 400}).catch(function(err) {
-        AlertService.add('error', err);
+        brAlertService.add('error', err);
         asset.deleted = false;
         // FIXME: delete related listing
       });
@@ -67,7 +67,7 @@ function factory($scope, AlertService, HostedAssetService) {
       storage: $scope.model.search.assets,
       keywords: $scope.model.search.input
     }).catch(function(err) {
-      AlertService.add('error', err);
+      brAlertService.add('error', err);
     });
   };
 

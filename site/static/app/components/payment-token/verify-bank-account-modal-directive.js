@@ -8,7 +8,7 @@ define(['angular'], function(angular) {
 'use strict';
 
 /* @ngInject */
-function factory(AccountService, AlertService, PaymentTokenService, config) {
+function factory(AccountService, brAlertService, PaymentTokenService, config) {
   return {
     restrict: 'A',
     scope: {paymentToken: '=psPaymentToken'},
@@ -61,7 +61,7 @@ function factory(AccountService, AlertService, PaymentTokenService, config) {
         verifyRequest.amount = scope.input.amount;
       }
       scope.loading = true;
-      AlertService.clearFeedback();
+      brAlertService.clearFeedback();
       PaymentTokenService.verify(scope.paymentToken.id, verifyRequest)
         .then(function(deposit) {
         // copy to avoid angular keys in POSTed data
@@ -96,7 +96,7 @@ function factory(AccountService, AlertService, PaymentTokenService, config) {
           }));
         });
         return Promise.all(promises).catch(function(err) {
-          AlertService.add('error', err, {scope: scope});
+          brAlertService.add('error', err, {scope: scope});
           scope.$apply();
           throw err;
         }).then(function() {
@@ -116,7 +116,7 @@ function factory(AccountService, AlertService, PaymentTokenService, config) {
         if(err.type === 'bedrock.website.VerifyPaymentTokenFailed' &&
           err.cause &&
           err.cause.type === 'payswarm.financial.VerificationFailed') {
-          AlertService.add('error', {
+          brAlertService.add('error', {
             message: 'The verification amounts you entered do not match ' +
               'what is on record for your bank account.'
           }, {scope: scope});
@@ -154,12 +154,12 @@ function factory(AccountService, AlertService, PaymentTokenService, config) {
         } else if(err.type === 'bedrock.website.VerifyPaymentTokenFailed' &&
           err.cause &&
           err.cause.type === 'payswarm.financial.MaxVerifyAttemptsExceeded') {
-          // FIXME: add special call to AlertService for this?
-          AlertService.add('error', {
+          // FIXME: add special call to brAlertService for this?
+          brAlertService.add('error', {
             message: 'Please contact customer support.'
           }, {scope: scope});
         }
-        AlertService.add('error', err, {scope: scope});
+        brAlertService.add('error', err, {scope: scope});
         scope.loading = false;
         scope.$apply();
       });
@@ -182,7 +182,7 @@ function factory(AccountService, AlertService, PaymentTokenService, config) {
           // get updated token
           return PaymentTokenService.collection.get(scope.paymentToken.id);
         }).catch(function(err) {
-          AlertService.add('error', err, {scope: scope});
+          brAlertService.add('error', err, {scope: scope});
         }).then(function() {
           // go to top of page?
           //var target = options.target;

@@ -11,7 +11,7 @@ define(['jsonld'], function(jsonld) {
 
 /* @ngInject */
 function factory(
-  $scope, TransactionService, AlertService, RefreshService, config) {
+  $scope, TransactionService, brAlertService, brRefreshService, config) {
   var self = this;
 
   self.modals = {};
@@ -20,9 +20,9 @@ function factory(
   };
   self.txn = undefined;
 
-  RefreshService.register($scope, function(force) {
+  brRefreshService.register($scope, function(force) {
     var opts = {force: !!force};
-    AlertService.clear();
+    brAlertService.clear();
     TransactionService.collection.getCurrent(opts)
       .then(function(txn) {
         self.txn = txn;
@@ -32,7 +32,7 @@ function factory(
         $scope.$apply();
       })
       .catch(function(err) {
-        AlertService.add('error', err);
+        brAlertService.add('error', err);
         self.txn = null;
         $scope.$apply();
       });

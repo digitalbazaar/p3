@@ -11,9 +11,9 @@ define([], function() {
 'use strict';
 
 /* @ngInject */
-function factory($scope, AddressService, AlertService, IdentityService) {
+function factory($scope, AddressService, brAlertService, brIdentityService) {
   var self = this;
-  self.identity = IdentityService.identity;
+  self.identity = brIdentityService.identity;
   self.state = AddressService.state;
   self.addresses = AddressService.addresses;
   self.addressToDelete = null;
@@ -32,7 +32,7 @@ function factory($scope, AddressService, AlertService, IdentityService) {
     if(!err && result === 'ok') {
       AddressService.collection.del(self.addressToDelete.id)
         .catch(function(err) {
-          AlertService.add('error', err);
+          brAlertService.add('error', err);
         })
         .then(function() {
           $scope.$apply();

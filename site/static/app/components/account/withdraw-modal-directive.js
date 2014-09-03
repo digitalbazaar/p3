@@ -9,7 +9,7 @@ define(['angular'], function(angular) {
 
 /* @ngInject */
 function factory(
-  $filter, AccountService, AlertService, TransactionService, config) {
+  $filter, AccountService, brAlertService, TransactionService, config) {
   return {
     restrict: 'A',
     scope: {account: '=psAccount'},
@@ -54,7 +54,7 @@ function factory(
     scope.prepare = function() {
       scope.state = 'preparing';
       scope.enableConfirm = true;
-      AlertService.clearFeedback();
+      brAlertService.clearFeedback();
     };
 
     scope.prepare();
@@ -78,7 +78,7 @@ function factory(
         destination: scope.input.destination.id
       };
       scope.loading = true;
-      AlertService.clearFeedback();
+      brAlertService.clearFeedback();
       TransactionService.signWithdrawal(withdrawal).then(function(withdrawal) {
         // get public account information for all payees
         scope.accounts = {};
@@ -117,7 +117,7 @@ function factory(
           scope.state = 'reviewing';
         });
       }).catch(function(err) {
-        AlertService.add('error', err, {scope: scope});
+        brAlertService.add('error', err, {scope: scope});
       }).then(function() {
         scope.loading = false;
         scope.$apply();
@@ -128,7 +128,7 @@ function factory(
       scope.loading = true;
       // only allow a single confirm attempt
       scope.enableConfirm = false;
-      AlertService.clearFeedback();
+      brAlertService.clearFeedback();
       TransactionService.confirmWithdrawal(scope._withdrawal)
         .then(function(withdrawal) {
           // show complete page
@@ -146,7 +146,7 @@ function factory(
           //$(target).animate({scrollTop: 0}, 0);
         })
         .catch(function(err) {
-          AlertService.add('error', err, {scope: scope});
+          brAlertService.add('error', err, {scope: scope});
         })
         .then(function() {
           scope.loading = false;

@@ -11,9 +11,9 @@ define([], function() {
 'use strict';
 
 /* @ngInject */
-function factory(IdentityService) {
+function factory(brIdentityService) {
   var self = this;
-  self.identity = IdentityService.identity;
+  self.identity = brIdentityService.identity;
   // show welcome modal based on whether a regulatory address has been set
   self.showWelcomeModal = !self.identity.sysRegulatoryAddress;
 }

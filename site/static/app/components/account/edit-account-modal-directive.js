@@ -9,7 +9,7 @@ define(['angular'], function(angular) {
 
 /* @ngInject */
 function factory(
-  AccountService, AlertService, IdentityService, PaymentTokenService, config) {
+  AccountService, brAlertService, brIdentityService, PaymentTokenService, config) {
   return {
     restrict: 'A',
     scope: {sourceAccount: '=psAccount'},
@@ -20,7 +20,7 @@ function factory(
 
   function Link(scope, element, attrs, stackable) {
     var model = scope.model = {};
-    model.identity = IdentityService.identity;
+    model.identity = brIdentityService.identity;
     var state = model.state = {loading: false};
 
     // copy account for editing
@@ -56,7 +56,7 @@ function factory(
           scope.sourceAccount.backupSource[0]);
         scope.$apply();
       }).catch(function(err) {
-        AlertService.add('error', err, {scope: scope});
+        brAlertService.add('error', err, {scope: scope});
         state.loading = false;
         scope.$apply();
       });
@@ -66,7 +66,7 @@ function factory(
     model.editing = true;
 
     model.editAccount = function() {
-      AlertService.clearFeedback();
+      brAlertService.clearFeedback();
       var accountUpdate = {
         '@context': config.data.contextUrl,
         id: account.id,
@@ -93,7 +93,7 @@ function factory(
         state.loading = false;
         stackable.close(null, account);
       }).catch(function(err) {
-        AlertService.add('error', err, {scope: scope});
+        brAlertService.add('error', err, {scope: scope});
         state.loading = false;
         scope.$apply();
       });

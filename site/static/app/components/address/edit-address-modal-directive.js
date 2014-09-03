@@ -8,7 +8,7 @@ define(['angular'], function(angular) {
 'use strict';
 
 /* @ngInject */
-function factory(AddressService, AlertService, config) {
+function factory(AddressService, brAlertService, config) {
   return {
     scope: {sourceAddress: '=psAddress'},
     require: '^stackable',
@@ -34,14 +34,14 @@ function factory(AddressService, AlertService, config) {
       };
 
       model.loading = true;
-      AlertService.clearFeedback();
+      brAlertService.clearFeedback();
       AddressService.collection.update(address).then(function(address) {
         model.loading = false;
         stackable.close(null, address);
         scope.$apply();
       }).catch(function(err) {
         model.loading = false;
-        AlertService.add('error', err, {scope: scope});
+        brAlertService.add('error', err, {scope: scope});
         scope.$apply();
       });
     };

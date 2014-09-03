@@ -9,7 +9,7 @@ define([], function() {
 
 /* @ngInject */
 function factory(
-  AlertService, BudgetService, IdentityService, config, util) {
+  brAlertService, BudgetService, brIdentityService, config, util) {
   return {
     restrict: 'A',
     scope: {},
@@ -23,7 +23,7 @@ function factory(
     scope.selection = {
       account: null
     };
-    scope.identity = IdentityService.identity;
+    scope.identity = brIdentityService.identity;
     scope.state = BudgetService.state;
     scope.budget = {
       '@context': config.data.contextUrl,
@@ -48,7 +48,7 @@ function factory(
     scope.model.budgetValidDuration = 'never';
 
     scope.addBudget = function() {
-      AlertService.clearFeedback();
+      brAlertService.clearFeedback();
 
       // budget refresh duration
       if(scope.model.budgetRefreshDuration !== 'never') {
@@ -69,7 +69,7 @@ function factory(
       BudgetService.collection.add(scope.budget).then(function(budget) {
         stackable.close(null, budget);
       }).catch(function(err) {
-        AlertService.add('error', err, {scope: scope});
+        brAlertService.add('error', err, {scope: scope});
         scope.$apply();
       });
     };

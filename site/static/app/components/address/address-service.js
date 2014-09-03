@@ -10,12 +10,12 @@ define([], function() {
 /* @ngInject */
 function factory(
   $http, $rootScope, $timeout,
-  IdentityService, ModelService, RefreshService, ResourceService) {
+  brIdentityService, brModelService, brRefreshService, brResourceService) {
   var service = {};
 
   // create address collection
-  var identity = IdentityService.identity;
-  service.collection = new ResourceService.Collection({
+  var identity = brIdentityService.identity;
+  service.collection = new brResourceService.Collection({
     url: identity.id + '/addresses',
     finishLoading: _updateAddresses
   });
@@ -32,11 +32,11 @@ function factory(
 
   function _updateAddresses() {
     // update identity addresses
-    ModelService.replaceArray(identity.address, service.addresses);
+    brModelService.replaceArray(identity.address, service.addresses);
   }
 
   // register for system-wide refreshes
-  RefreshService.register(service.collection);
+  brRefreshService.register(service.collection);
 
   // expose service to scope
   $rootScope.app.services.address = service;

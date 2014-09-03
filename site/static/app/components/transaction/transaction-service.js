@@ -9,13 +9,13 @@ define(['angular'], function(angular) {
 
 /* @ngInject */
 function factory(
-  $http, $rootScope, ModelService, RefreshService, ResourceService) {
+  $http, $rootScope, brModelService, brRefreshService, brResourceService) {
   var service = {};
 
   service.createTxnsCollection = function(options) {
     options = options || {};
     options.url = options.url || '/transactions';
-    return new ResourceService.Collection(options);
+    return new brResourceService.Collection(options);
   };
 
   // create main transaction collection
@@ -167,7 +167,7 @@ function factory(
     if(!(account in service.accounts)) {
       service.accounts[account] = [];
     }
-    ModelService.replaceArray(service.accounts[account], txns);
+    brModelService.replaceArray(service.accounts[account], txns);
   }
 
   function _updateRecent() {
@@ -180,11 +180,11 @@ function factory(
         recent.push(txn);
       }
     });
-    ModelService.replaceArray(service.recentTxns, recent);
+    brModelService.replaceArray(service.recentTxns, recent);
   }
 
   // register for system-wide refreshes
-  RefreshService.register(service.recentCollection);
+  brRefreshService.register(service.recentCollection);
 
   // expose service to scope
   $rootScope.app.services.transaction = service;

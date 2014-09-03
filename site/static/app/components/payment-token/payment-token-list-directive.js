@@ -8,7 +8,7 @@ define(['angular'], function(angular) {
 'use strict';
 
 /* @ngInject */
-function factory(brAlertService, brModelService, PaymentTokenService) {
+function factory(brAlertService, brModelService, psPaymentTokenService) {
   return {
     restrict: 'A',
     scope: {
@@ -22,7 +22,7 @@ function factory(brAlertService, brModelService, PaymentTokenService) {
   function Link(scope) {
     scope.model = {};
     scope.tokenList = [];
-    scope.paymentTokens = PaymentTokenService.paymentTokens;
+    scope.paymentTokens = psPaymentTokenService.paymentTokens;
 
     scope.$watch('paymentTokens', loadList, true);
     scope.$watch('idList', loadList);
@@ -55,7 +55,7 @@ function factory(brAlertService, brModelService, PaymentTokenService) {
       loadList(scope);
     };
 
-    PaymentTokenService.getAll();
+    psPaymentTokenService.getAll();
 
     function loadList() {
       // load token objects from the ids

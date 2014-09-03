@@ -9,7 +9,7 @@ define([], function() {
 
 /* @ngInject */
 function factory(
-  $http, $rootScope, AccountService, TransactionService, config) {
+  $http, $rootScope, psAccountService, psTransactionService, config) {
   var service = {};
 
   service.state = {
@@ -25,9 +25,9 @@ function factory(
     })).then(function() {
       service.state.loading = false;
       // refresh related account
-      AccountService.collection.get(accountId).then(function(account) {
+      psAccountService.collection.get(accountId).then(function(account) {
         // refresh latest transactions
-        TransactionService.getRecent({force: true});
+        psTransactionService.getRecent({force: true});
       });
     }).catch(function(err) {
       service.state.loading = false;
@@ -41,6 +41,6 @@ function factory(
   return service;
 }
 
-return {PromoService: factory};
+return {psPromoService: factory};
 
 });

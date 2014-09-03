@@ -133,6 +133,6 @@ function factory(
   return service;
 }
 
-return {BudgetService: factory};
+return {psBudgetService: factory};
 
 });

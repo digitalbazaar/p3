@@ -10,8 +10,8 @@ define([], function() {
 
 /* @ngInject */
 function factory(
-  $scope, $timeout, $sce, AddressService, brAlertService, brIdentityService,
-  IdentityPreferencesService, config) {
+  $scope, $timeout, $sce, psAddressService, brAlertService, brIdentityService,
+  psIdentityPreferencesService, config) {
   // FIXME: only 1 identity now (no profile) ... no "multiple" identities for
   // a particular session ... will need to add a "switch identities" modal
   // thing? or option to login as another user?
@@ -36,7 +36,7 @@ function factory(
   self.register = function() {
     // update the preferences associated with the vendor identity
     self.loading = true;
-    AddressService.collection.getAll({force: true})
+    psAddressService.collection.getAll({force: true})
       .then(function(addresses) {
         if(addresses.length === 0) {
           self.showAddAddressModal = true;
@@ -47,7 +47,7 @@ function factory(
       })
       .then(function() {
         // update and get identity preferences with nonce
-        return IdentityPreferencesService.update({
+        return psIdentityPreferencesService.update({
           '@context': config.data.contextUrl,
           type: 'IdentityPreferences',
           destination: self.selection.account.id,

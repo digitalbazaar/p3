@@ -8,7 +8,7 @@ define(['angular'], function(angular) {
 'use strict';
 
 /* @ngInject */
-function factory(AddressService, brAlertService, brIdentityService, config) {
+function factory(psAddressService, brAlertService, brIdentityService, config) {
   return {
     restrict: 'A',
     scope: {},
@@ -34,7 +34,7 @@ function factory(AddressService, brAlertService, brIdentityService, config) {
     scope.validatedAddress = null;
 
     scope.$watch(function() {
-      return AddressService.state.loading;
+      return psAddressService.state.loading;
     }, function(value) {
       scope.loading = !!value;
     });
@@ -44,7 +44,7 @@ function factory(AddressService, brAlertService, brIdentityService, config) {
 
     scope.validate = function() {
       brAlertService.clearFeedback();
-      AddressService.validate(scope.originalAddress).then(function(validated) {
+      psAddressService.validate(scope.originalAddress).then(function(validated) {
         // FIXME: should backend handle this?
         // copy over non-validation fields
         scope.validatedAddress = angular.extend(validated, {
@@ -69,7 +69,7 @@ function factory(AddressService, brAlertService, brIdentityService, config) {
     scope.add = function(clickedAddress) {
       var addressToAdd = clickedAddress || scope.selection.address;
       brAlertService.clearFeedback();
-      AddressService.collection.add(addressToAdd).then(function(addedAddress) {
+      psAddressService.collection.add(addressToAdd).then(function(addedAddress) {
         stackable.close(null, addedAddress);
       }).catch(function(err) {
         brAlertService.add('error', err, {scope: scope});

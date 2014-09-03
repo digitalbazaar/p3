@@ -8,7 +8,7 @@ define(['angular'], function(angular) {
 'use strict';
 
 /* @ngInject */
-function factory(AccountService, brAlertService, PaymentTokenService, config) {
+function factory(psAccountService, brAlertService, psPaymentTokenService, config) {
   return {
     restrict: 'A',
     scope: {paymentToken: '=psPaymentToken'},
@@ -62,7 +62,7 @@ function factory(AccountService, brAlertService, PaymentTokenService, config) {
       }
       scope.loading = true;
       brAlertService.clearFeedback();
-      PaymentTokenService.verify(scope.paymentToken.id, verifyRequest)
+      psPaymentTokenService.verify(scope.paymentToken.id, verifyRequest)
         .then(function(deposit) {
         // copy to avoid angular keys in POSTed data
         scope._deposit = angular.copy(deposit);
@@ -85,7 +85,7 @@ function factory(AccountService, brAlertService, PaymentTokenService, config) {
             return;
           }
           var info = scope.accounts[dst] = {loading: true, label: ''};
-          promises.push(AccountService.collection.get(dst).then(
+          promises.push(psAccountService.collection.get(dst).then(
             function(account) {
             info.label = account.label;
           }).catch(function(err) {
@@ -167,7 +167,7 @@ function factory(AccountService, brAlertService, PaymentTokenService, config) {
 
     scope.confirm = function() {
       scope.loading = true;
-      PaymentTokenService.verify(scope.paymentToken.id, scope._deposit)
+      psPaymentTokenService.verify(scope.paymentToken.id, scope._deposit)
         .then(function(deposit) {
           // show complete page
           scope.deposit = deposit;
@@ -175,12 +175,12 @@ function factory(AccountService, brAlertService, PaymentTokenService, config) {
 
           // get updated balance after a delay
           if(scope.selection.destination) {
-            AccountService.collection.get(
+            psAccountService.collection.get(
               scope.selection.destination.id, {delay: 500});
           }
 
           // get updated token
-          return PaymentTokenService.collection.get(scope.paymentToken.id);
+          return psPaymentTokenService.collection.get(scope.paymentToken.id);
         }).catch(function(err) {
           brAlertService.add('error', err, {scope: scope});
         }).then(function() {

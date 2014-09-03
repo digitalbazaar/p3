@@ -8,7 +8,7 @@ define([], function() {
 'use strict';
 
 /* @ngInject */
-function factory(AccountService, brAlertService, brIdentityService, config) {
+function factory(psAccountService, brAlertService, brIdentityService, config) {
   return {
     restrict: 'A',
     scope: {account: '=psAccount', callback: '&psCallback'},
@@ -30,7 +30,7 @@ function factory(AccountService, brAlertService, brIdentityService, config) {
         account[property] = scope.account[property];
       });
 
-      AccountService.update(account).then(function(account) {
+      psAccountService.update(account).then(function(account) {
         scope.callback(null, account);
       }).catch(function(err) {
         brAlertService.add('error', err);

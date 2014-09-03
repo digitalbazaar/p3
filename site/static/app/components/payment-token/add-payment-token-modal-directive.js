@@ -8,7 +8,7 @@ define([], function() {
 'use strict';
 
 /* @ngInject */
-function factory(brAlertService, brIdentityService, PaymentTokenService, config) {
+function factory(brAlertService, brIdentityService, psPaymentTokenService, config) {
   return {
     restrict: 'A',
     scope: {paymentMethods: '=psPaymentMethods'},
@@ -119,7 +119,7 @@ function factory(brAlertService, brIdentityService, PaymentTokenService, config)
       // add payment token
       scope.loading = true;
       brAlertService.clearFeedback();
-      PaymentTokenService.collection.add(token).then(function(addedToken) {
+      psPaymentTokenService.collection.add(token).then(function(addedToken) {
         scope.loading = false;
         stackable.close(null, addedToken);
       }).catch(function(err) {

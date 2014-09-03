@@ -9,7 +9,7 @@ define(['angular'], function(angular) {
 
 /* @ngInject */
 function factory(
-  AccountService, brAlertService, BudgetService, brIdentityService, config, util) {
+  psAccountService, brAlertService, psBudgetService, brIdentityService, config, util) {
   return {
     restrict: 'A',
     scope: {sourceBudget: '=psBudget'},
@@ -44,12 +44,12 @@ function factory(
     scope.budget = {};
     angular.extend(scope.budget, scope.sourceBudget);
     // default to current value
-    scope.model.budgetRefreshDuration = BudgetService.getRefreshDuration(
+    scope.model.budgetRefreshDuration = psBudgetService.getRefreshDuration(
       scope.budget);
     scope.model.budgetValidDuration = '';
 
     scope.loading = true;
-    AccountService.collection.get(scope.budget.source).then(function(account) {
+    psAccountService.collection.get(scope.budget.source).then(function(account) {
       scope.selection.account = account;
       scope.loading = false;
     }).catch(function(err) {
@@ -67,7 +67,7 @@ function factory(
 
       // budget refresh duration
       if(scope.model.budgetRefreshDuration ===
-        BudgetService.getRefreshDuration(scope.sourceBudget)) {
+        psBudgetService.getRefreshDuration(scope.sourceBudget)) {
         b.sysRefreshInterval = undefined;
       } else if(scope.model.budgetRefreshDuration === 'never') {
         b.sysRefreshInterval = util.w3cDate();
@@ -110,7 +110,7 @@ function factory(
       });
 
       scope.loading = true;
-      BudgetService.collection.update(budget).then(function(budget) {
+      psBudgetService.collection.update(budget).then(function(budget) {
         scope.loading = false;
         stackable.close(null, budget);
       }).catch(function(err) {

@@ -8,7 +8,7 @@ define([], function() {
 'use strict';
 
 /* @ngInject */
-function factory(brAlertService, PromoService) {
+function factory(brAlertService, psPromoService) {
   return {
     restrict: 'A',
     scope: {account: '=psAccount'},
@@ -19,10 +19,10 @@ function factory(brAlertService, PromoService) {
 
   function Link(scope) {
     scope.model = {};
-    scope.services = {promo: PromoService};
+    scope.services = {promo: psPromoService};
 
     scope.redeemPromoCode = function() {
-      PromoService.redeemCode(scope.model.promoCode, scope.account.id)
+      psPromoService.redeemCode(scope.model.promoCode, scope.account.id)
         .then(function(promo) {
           scope.model.success = true;
           scope.model.promo = promo;

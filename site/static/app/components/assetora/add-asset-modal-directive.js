@@ -8,7 +8,7 @@ define([], function() {
 'use strict';
 
 /* @ngInject */
-function factory(brAlertService, HostedAssetService, config) {
+function factory(brAlertService, psHostedAssetService, config) {
   return {
     restrict: 'A',
     scope: {},
@@ -44,7 +44,7 @@ function factory(brAlertService, HostedAssetService, config) {
       asset.created = window.iso8601.w3cDate();
 
       console.log('asset', asset);
-      HostedAssetService.add(asset).then(function(asset) {
+      psHostedAssetService.add(asset).then(function(asset) {
         scope.loading = false;
         stackable.close(null, asset);
       }).catch(function(err) {

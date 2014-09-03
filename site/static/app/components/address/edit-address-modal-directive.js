@@ -8,7 +8,7 @@ define(['angular'], function(angular) {
 'use strict';
 
 /* @ngInject */
-function factory(AddressService, brAlertService, config) {
+function factory(psAddressService, brAlertService, config) {
   return {
     scope: {sourceAddress: '=psAddress'},
     require: '^stackable',
@@ -35,7 +35,7 @@ function factory(AddressService, brAlertService, config) {
 
       model.loading = true;
       brAlertService.clearFeedback();
-      AddressService.collection.update(address).then(function(address) {
+      psAddressService.collection.update(address).then(function(address) {
         model.loading = false;
         stackable.close(null, address);
         scope.$apply();

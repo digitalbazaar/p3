@@ -44,6 +44,6 @@ function factory(
   return service;
 }
 
-return {AddressService: factory};
+return {psAddressService: factory};
 
 });

@@ -8,7 +8,7 @@ define(['angular'], function(angular) {
 'use strict';
 
 /* @ngInject */
-function factory(AccountService, brAlertService, TransactionService, config) {
+function factory(psAccountService, brAlertService, psTransactionService, config) {
   return {
     restrict: 'A',
     scope: {
@@ -42,7 +42,7 @@ function factory(AccountService, brAlertService, TransactionService, config) {
       }
       // showing unpaid balance, so load latest account info
       scope.loading = true;
-      return AccountService.collection.get(scope.account.id).then(function() {
+      return psAccountService.collection.get(scope.account.id).then(function() {
         scope.loading = false;
         scope.input.max = {
           currency: scope.account.currency,
@@ -83,7 +83,7 @@ function factory(AccountService, brAlertService, TransactionService, config) {
       };
       scope.loading = true;
       brAlertService.clearFeedback();
-      TransactionService.signDeposit(deposit).then(function(deposit) {
+      psTransactionService.signDeposit(deposit).then(function(deposit) {
         // get public account information for all payees
         scope.accounts = {};
         var promises = [];
@@ -93,7 +93,7 @@ function factory(AccountService, brAlertService, TransactionService, config) {
             return;
           }
           var info = scope.accounts[dst] = {loading: true, label: ''};
-          promises.push(AccountService.collection.get(dst).then(
+          promises.push(psAccountService.collection.get(dst).then(
             function(account) {
             info.label = account.label;
           }).catch(function() {
@@ -129,16 +129,16 @@ function factory(AccountService, brAlertService, TransactionService, config) {
       // only allow a single confirm attempt
       scope.enableConfirm = false;
       brAlertService.clearFeedback();
-      TransactionService.confirmDeposit(scope._deposit).then(function(deposit) {
+      psTransactionService.confirmDeposit(scope._deposit).then(function(deposit) {
         // show complete page
         scope.deposit = deposit;
         scope.state = 'complete';
 
         // get updated balance after a delay
-        AccountService.collection.get(scope.account.id, {delay: 500});
+        psAccountService.collection.get(scope.account.id, {delay: 500});
 
         // update recent transactions
-        TransactionService.getRecent({force: true});
+        psTransactionService.getRecent({force: true});
 
         // go to top of page?
         //var target = options.target;

@@ -10,22 +10,22 @@ define([], function() {
 
 /* @ngInject */
 function factory(
-  $scope, $timeout, AccountService, brAlertService, BudgetService,
+  $scope, $timeout, psAccountService, brAlertService, psBudgetService,
   brRefreshService) {
   var self = this;
 
   self.modals = {};
   self.state = {
-    accounts: AccountService.state,
-    budgets: BudgetService.state
+    accounts: psAccountService.state,
+    budgets: psBudgetService.state
   };
   self.budget = undefined;
   self.account = null;
-  self.vendors = BudgetService.vendors;
+  self.vendors = psBudgetService.vendors;
 
-  self.getLastRefresh = BudgetService.getLastRefresh;
-  self.getRefreshDuration = BudgetService.getRefreshDuration;
-  self.getExpiration = BudgetService.getExpiration;
+  self.getLastRefresh = psBudgetService.getLastRefresh;
+  self.getRefreshDuration = psBudgetService.getRefreshDuration;
+  self.getExpiration = psBudgetService.getExpiration;
 
   self.deleteVendor = function(vendor) {
     self.showDeleteVendorAlert = true;
@@ -39,7 +39,7 @@ function factory(
 
       // wait to delete so modal can transition
       $timeout(function() {
-        BudgetService.delVendor(self.budget.id, vendor.id).catch(function(err) {
+        psBudgetService.delVendor(self.budget.id, vendor.id).catch(function(err) {
           brAlertService.add('error', err);
           vendor.deleted = false;
           $scope.$apply();
@@ -54,10 +54,10 @@ function factory(
     }
 
     // fetch vendors for budget
-    var vendorsPromise = BudgetService.getVendors(budget.id);
+    var vendorsPromise = psBudgetService.getVendors(budget.id);
 
     // get budget account
-    var accountPromise = AccountService.collection.get(budget.source)
+    var accountPromise = psAccountService.collection.get(budget.source)
       .then(function(account) {
         self.account = account;
       });
@@ -70,7 +70,7 @@ function factory(
   brRefreshService.register($scope, function(force) {
     var opts = {force: !!force};
     brAlertService.clear();
-    BudgetService.collection.getCurrent(opts)
+    psBudgetService.collection.getCurrent(opts)
       .then(function(budget) {
         self.budget = budget;
         $scope.$apply();

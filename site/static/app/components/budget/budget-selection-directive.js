@@ -8,7 +8,7 @@ define([], function() {
 'use strict';
 
 /* @ngInject */
-function factory(AccountService) {
+function factory(psAccountService) {
   return {
     restrict: 'E',
     scope: {
@@ -23,7 +23,7 @@ function factory(AccountService) {
 
   function Link(scope) {
     scope.account = null;
-    scope.accounts = AccountService.accounts;
+    scope.accounts = psAccountService.accounts;
 
     scope.$watch('budget', function(value) {
       // set associated account

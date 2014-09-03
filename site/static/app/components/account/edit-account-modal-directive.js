@@ -9,7 +9,7 @@ define(['angular'], function(angular) {
 
 /* @ngInject */
 function factory(
-  AccountService, brAlertService, brIdentityService, PaymentTokenService, config) {
+  psAccountService, brAlertService, brIdentityService, psPaymentTokenService, config) {
   return {
     restrict: 'A',
     scope: {sourceAccount: '=psAccount'},
@@ -50,9 +50,9 @@ function factory(
       scope.sourceAccount.backupSource[0]) {
       state.loading = true;
       model.backupSourceEnabled = true;
-      PaymentTokenService.collection.getAll().then(function() {
+      psPaymentTokenService.collection.getAll().then(function() {
         state.loading = false;
-        model.backupSource = PaymentTokenService.find(
+        model.backupSource = psPaymentTokenService.find(
           scope.sourceAccount.backupSource[0]);
         scope.$apply();
       }).catch(function(err) {
@@ -89,7 +89,7 @@ function factory(
       }
 
       state.loading = true;
-      AccountService.collection.update(accountUpdate).then(function(account) {
+      psAccountService.collection.update(accountUpdate).then(function(account) {
         state.loading = false;
         stackable.close(null, account);
       }).catch(function(err) {

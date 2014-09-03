@@ -8,7 +8,7 @@ define([], function() {
 'use strict';
 
 /* @ngInject */
-function addressSelectorInner(AddressService, brIdentityService) {
+function addressSelectorInner(psAddressService, brIdentityService) {
   return {
     restrict: 'A',
     require: 'brSelector',
@@ -18,10 +18,10 @@ function addressSelectorInner(AddressService, brIdentityService) {
   function Link(scope, element, attrs, brSelector) {
     var model = scope.model = {};
     model.services = {
-      address: AddressService.state
+      address: psAddressService.state
     };
     model.identity = brIdentityService.identity;
-    model.addresses = AddressService.addresses;
+    model.addresses = psAddressService.addresses;
     scope.$watch('model.addresses', function(addresses) {
       if(!scope.selected || $.inArray(scope.selected, addresses) === -1) {
         scope.selected = addresses[0] || null;
@@ -39,7 +39,7 @@ function addressSelectorInner(AddressService, brIdentityService) {
       brSelector.fixed = value;
     });
 
-    AddressService.collection.getAll();
+    psAddressService.collection.getAll();
   }
 }
 

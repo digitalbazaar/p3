@@ -10,7 +10,7 @@ define(['angular'], function(angular) {
 /* @ngInject */
 function factory(
   $http, $rootScope,
-  brIdentityService, brModelService, PaymentTokenService,
+  brIdentityService, brModelService, psPaymentTokenService,
   brRefreshService, brResourceService, config) {
   var service = {};
 
@@ -104,7 +104,7 @@ function factory(
       account.showExpirationWarning = false;
       account.showExpired = false;
       angular.forEach(account.backupSource, function(sourceId) {
-        PaymentTokenService.find(sourceId, function(err, token) {
+        psPaymentTokenService.find(sourceId, function(err, token) {
           if(!err && token) {
             account.showExpirationWarning =
               account.showExpirationWarning || token.showExpirationWarning;
@@ -125,6 +125,6 @@ function factory(
   return service;
 }
 
-return {AccountService: factory};
+return {psAccountService: factory};
 
 });

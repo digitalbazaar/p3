@@ -8,7 +8,7 @@ define([], function() {
 'use strict';
 
 /* @ngInject */
-function factory(AccountService, brAlertService, brIdentityService, config) {
+function factory(psAccountService, brAlertService, brIdentityService, config) {
   return {
     restrict: 'A',
     scope: {},
@@ -20,7 +20,7 @@ function factory(AccountService, brAlertService, brIdentityService, config) {
   function Link(scope, element, attrs, stackable) {
     var model = scope.model = {};
     model.identity = brIdentityService.identity;
-    model.state = AccountService.state;
+    model.state = psAccountService.state;
     var account = model.account = {
       '@context': config.data.contextUrl,
       currency: 'USD',
@@ -36,7 +36,7 @@ function factory(AccountService, brAlertService, brIdentityService, config) {
         account.sysPublic.push('owner');
       }
 
-      AccountService.collection.add(account).then(function(account) {
+      psAccountService.collection.add(account).then(function(account) {
         stackable.close(null, account);
       }).catch(function(err) {
         brAlertService.add('error', err, {scope: scope});

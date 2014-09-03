@@ -8,10 +8,10 @@ define([], function() {
 'use strict';
 
 /* @ngInject */
-function factory($scope, brAlertService, PaymentTokenService) {
+function factory($scope, brAlertService, psPaymentTokenService) {
   var self = this;
 
-  self.state = PaymentTokenService.state;
+  self.state = psPaymentTokenService.state;
 
   // types for UI directives
   self.allMethods = ['CreditCard', 'BankAccount'];
@@ -19,8 +19,8 @@ function factory($scope, brAlertService, PaymentTokenService) {
   self.bankAccountMethods = ['BankAccount'];
 
   // service data
-  self.creditCards = PaymentTokenService.creditCards;
-  self.bankAccounts = PaymentTokenService.bankAccounts;
+  self.creditCards = psPaymentTokenService.creditCards;
+  self.bankAccounts = psPaymentTokenService.bankAccounts;
 
   // modals
   self.modals = {
@@ -30,7 +30,7 @@ function factory($scope, brAlertService, PaymentTokenService) {
 
   self.deletePaymentToken = function(paymentToken) {
     paymentToken.deleted = true;
-    PaymentTokenService.collection.del(paymentToken.id, {update: false})
+    psPaymentTokenService.collection.del(paymentToken.id, {update: false})
       .catch(function(err) {
         brAlertService.add('error', err);
         paymentToken.deleted = false;
@@ -38,14 +38,14 @@ function factory($scope, brAlertService, PaymentTokenService) {
       })
       .then(function() {
         // get token again since deletion is not immediate
-        return PaymentTokenService.collection.get(paymentToken.id, {force: true});
+        return psPaymentTokenService.collection.get(paymentToken.id, {force: true});
       });
   };
   self.restorePaymentToken = function(paymentToken) {
-    PaymentTokenService.restore(paymentToken.id);
+    psPaymentTokenService.restore(paymentToken.id);
   };
 
-  PaymentTokenService.collection.getAll();
+  psPaymentTokenService.collection.getAll();
 }
 
 return {ExternalAccountsController: factory};

@@ -8,7 +8,7 @@ define(['angular', 'jsonld'], function(angular, jsonld) {
 'use strict';
 
 /* @ngInject */
-function factory(AccountService) {
+function factory(psAccountService) {
   return {
     restrict: 'A',
     scope: {
@@ -68,7 +68,7 @@ function factory(AccountService) {
         label: '',
         owner: null
       };
-      return AccountService.collection.get(accountId).then(function(account) {
+      return psAccountService.collection.get(accountId).then(function(account) {
         info.label = account.label;
         info.owner = account.owner;
       }).catch(function() {

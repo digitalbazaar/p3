@@ -8,7 +8,7 @@ define(['angular'], function(angular) {
 'use strict';
 
 /* @ngInject */
-function factory(AccountService, brAlertService, brIdentityService, config) {
+function factory(psAccountService, brAlertService, brIdentityService, config) {
   return {
     restrict: 'A',
     scope: {},
@@ -21,13 +21,13 @@ function factory(AccountService, brAlertService, brIdentityService, config) {
     var model = scope.model = {};
     model.data = config.data;
     model.identity = brIdentityService.identity;
-    model.state = AccountService.state;
+    model.state = psAccountService.state;
     model.address = angular.copy(model.identity.sysRegulatoryAddress || {});
     model.countries = config.constants.countries;
 
     model.setRegulatoryAddress = function() {
       brAlertService.clearFeedback();
-      AccountService.setRegulatoryAddress({
+      psAccountService.setRegulatoryAddress({
         address: {
           '@context': config.data.contextUrl,
           type: 'Address',

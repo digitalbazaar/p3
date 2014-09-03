@@ -11,7 +11,7 @@ define([], function() {
 'use strict';
 
 /* @ngInject */
-function factory(brAlertService, BudgetService) {
+function factory(brAlertService, psBudgetService) {
   return {
     restrict: 'A',
     scope: {},
@@ -21,16 +21,16 @@ function factory(brAlertService, BudgetService) {
 
   function Link(scope) {
     var model = scope.model = {};
-    model.budgets = BudgetService.budgets;
+    model.budgets = psBudgetService.budgets;
     model.state = {
-      budgets: BudgetService.state
+      budgets: psBudgetService.state
     };
     model.modals = {
       showEditBudget: false,
       showAddBudget: false,
       budget: null
     };
-    model.getBudgetRefreshDuration = BudgetService.getRefreshDuration;
+    model.getBudgetRefreshDuration = psBudgetService.getRefreshDuration;
     model.deleteBudget = function(budget) {
       model.showDeleteBudgetAlert = true;
       model.budgetToDelete = budget;
@@ -42,7 +42,7 @@ function factory(brAlertService, BudgetService) {
         budget.deleted = true;
         scope.$apply();
         // wait to delete so modal can transition
-        BudgetService.collection.del(budget.id, {delay: 400})
+        psBudgetService.collection.del(budget.id, {delay: 400})
           .catch(function(err) {
             brAlertService.add('error', err);
             budget.deleted = false;
@@ -52,7 +52,7 @@ function factory(brAlertService, BudgetService) {
       model.budgetToDelete = null;
     };
 
-    BudgetService.collection.getAll();
+    psBudgetService.collection.getAll();
   }
 }
 

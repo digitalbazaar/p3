@@ -8,7 +8,7 @@ define([], function() {
 'use strict';
 
 /* @ngInject */
-function accountSelectorInner(AccountService) {
+function accountSelectorInner(psAccountService) {
   return {
     restrict: 'A',
     require: 'brSelector',
@@ -17,8 +17,8 @@ function accountSelectorInner(AccountService) {
 
   function Link(scope, element, attrs, brSelector) {
     var model = scope.model = {};
-    model.state = AccountService.state;
-    model.accounts = AccountService.accounts;
+    model.state = psAccountService.state;
+    model.accounts = psAccountService.accounts;
 
     scope.$watch(function() {
       return model.accounts;
@@ -42,7 +42,7 @@ function accountSelectorInner(AccountService) {
       brSelector.fixed = value;
     });
 
-    AccountService.collection.getAll();
+    psAccountService.collection.getAll();
   }
 }
 

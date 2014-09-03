@@ -9,7 +9,7 @@ define(['angular'], function(angular) {
 
 /* @ngInject */
 function factory(
-  AccountService, brAlertService, brIdentityService, PaymentTokenService, config) {
+  psAccountService, brAlertService, brIdentityService, psPaymentTokenService, config) {
   return {
     restrict: 'A',
     scope: {
@@ -68,13 +68,13 @@ function factory(
       // do general update then remove backup sources
       scope.loading = true;
       brAlertService.clearFeedback();
-      PaymentTokenService.collection.update(paymentToken)
+      psPaymentTokenService.collection.update(paymentToken)
         .then(function(paymentToken) {
           // remove backup source from every related account
           var promises = [];
           angular.forEach(scope.backupSourceFor, function(info) {
             if(!info.active) {
-              promises.push(AccountService.delBackupSource(
+              promises.push(psAccountService.delBackupSource(
                 info.account.id, scope.paymentToken.id).then(function() {
                   // mark as gone
                   scope.backupSourceFor[info.account.id].exists = false;
@@ -82,7 +82,7 @@ function factory(
             }
           });
           return Promise.all(promises).then(function() {
-            PaymentTokenService.collection.get(paymentToken.id).then(function() {
+            psPaymentTokenService.collection.get(paymentToken.id).then(function() {
               stackable.close(null, paymentToken);
             });
           });
@@ -119,7 +119,7 @@ function factory(
           exists: exists,
           loading: true
         };
-        AccountService.collection.get(accountId).then(function(account) {
+        psAccountService.collection.get(accountId).then(function(account) {
           scope.backupSourceFor[accountId].account = account;
         }).catch(function(err) {
           brAlertService.add('error', err, {scope: scope});

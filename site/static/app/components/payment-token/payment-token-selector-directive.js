@@ -9,7 +9,7 @@ define(['angular'], function(angular) {
 
 /* @ngInject */
 function paymentTokenSelectorInner(
-  brAlertService, brModelService, PaymentTokenService) {
+  brAlertService, brModelService, psPaymentTokenService) {
   return {
     restrict: 'A',
     require: 'brSelector',
@@ -18,7 +18,7 @@ function paymentTokenSelectorInner(
 
   function Link(scope, element, attrs, brSelector) {
     var model = scope.model = {};
-    model.state = PaymentTokenService.state;
+    model.state = psPaymentTokenService.state;
     scope.grid = [];
     scope.paymentTokens = [];
     scope.tokensFilteredByInstant = [];
@@ -34,14 +34,14 @@ function paymentTokenSelectorInner(
 
     scope.$watch('instant', function(value) {
       if(value === 'non') {
-        scope.tokensFilteredByInstant = PaymentTokenService.nonInstant;
-        scope.paymentMethods = PaymentTokenService.nonInstantPaymentMethods;
+        scope.tokensFilteredByInstant = psPaymentTokenService.nonInstant;
+        scope.paymentMethods = psPaymentTokenService.nonInstantPaymentMethods;
       } else if(value) {
-        scope.tokensFilteredByInstant = PaymentTokenService.instant;
-        scope.paymentMethods = PaymentTokenService.instantPaymentMethods;
+        scope.tokensFilteredByInstant = psPaymentTokenService.instant;
+        scope.paymentMethods = psPaymentTokenService.instantPaymentMethods;
       } else {
-        scope.tokensFilteredByInstant = PaymentTokenService.paymentTokens;
-        scope.paymentMethods = PaymentTokenService.paymentMethods;
+        scope.tokensFilteredByInstant = psPaymentTokenService.paymentTokens;
+        scope.paymentMethods = psPaymentTokenService.paymentMethods;
       }
     });
 
@@ -63,7 +63,7 @@ function paymentTokenSelectorInner(
       brSelector.fixed = value;
     });
 
-    PaymentTokenService.collection.getAll().then(filterTokens)
+    psPaymentTokenService.collection.getAll().then(filterTokens)
       .catch(function(err) {
         brAlertService.add('error', err);
         scope.$apply();

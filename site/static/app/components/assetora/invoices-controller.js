@@ -8,13 +8,13 @@ define([], function() {
 'use strict';
 
 /* @ngInject */
-function factory($scope, brAlertService, HostedAssetService) {
+function factory($scope, brAlertService, psHostedAssetService) {
   $scope.model = {};
   // FIXME: globalize window.data access
   var data = window.data || {};
   $scope.identity = data.identity;
   $scope.state = {
-    assets: HostedAssetService.state
+    assets: psHostedAssetService.state
   };
   $scope.model.search = {
     input: '',
@@ -40,7 +40,7 @@ function factory($scope, brAlertService, HostedAssetService) {
 
       // wait to delete so modal can transition
       var asset = $scope.model.modals.asset;
-      HostedAssetService.del(asset.id, {delay: 400}).catch(function(err) {
+      psHostedAssetService.del(asset.id, {delay: 400}).catch(function(err) {
         brAlertService.add('error', err);
         asset.deleted = false;
         // FIXME: delete related listing
@@ -63,7 +63,7 @@ function factory($scope, brAlertService, HostedAssetService) {
     // together?
 
     // search listings for input as keywords
-    HostedAssetService.query({
+    psHostedAssetService.query({
       storage: $scope.model.search.assets,
       keywords: $scope.model.search.input
     }).catch(function(err) {
@@ -71,7 +71,7 @@ function factory($scope, brAlertService, HostedAssetService) {
     });
   };
 
-  HostedAssetService.query({
+  psHostedAssetService.query({
     // FIXME
     limit: 10,
     type: 'Invoice',

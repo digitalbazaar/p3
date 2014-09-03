@@ -8,7 +8,7 @@ define([], function() {
 'use strict';
 
 /* @ngInject */
-function factory(PaymentTokenService) {
+function factory(psPaymentTokenService) {
   return {
     restrict: 'E',
     scope: {
@@ -81,7 +81,7 @@ function factory(PaymentTokenService) {
       if(scope.account) {
         var account = scope.account;
         if(account.backupSource && account.backupSource.length) {
-          model.backupSource = PaymentTokenService.find(
+          model.backupSource = psPaymentTokenService.find(
             account.backupSource[0]);
         }
       }

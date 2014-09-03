@@ -76,6 +76,6 @@ function factory($rootScope, brIdentityService, brResourceService) {
   return service;
 }
 
-return {HostedListingService: factory};
+return {psHostedListingService: factory};
 
 });

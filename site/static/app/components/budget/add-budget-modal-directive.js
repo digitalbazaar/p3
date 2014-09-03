@@ -9,7 +9,7 @@ define([], function() {
 
 /* @ngInject */
 function factory(
-  brAlertService, BudgetService, brIdentityService, config, util) {
+  brAlertService, psBudgetService, brIdentityService, config, util) {
   return {
     restrict: 'A',
     scope: {},
@@ -24,7 +24,7 @@ function factory(
       account: null
     };
     scope.identity = brIdentityService.identity;
-    scope.state = BudgetService.state;
+    scope.state = psBudgetService.state;
     scope.budget = {
       '@context': config.data.contextUrl,
       type: 'Budget'
@@ -66,7 +66,7 @@ function factory(
       }
 
       scope.budget.source = scope.selection.account.id;
-      BudgetService.collection.add(scope.budget).then(function(budget) {
+      psBudgetService.collection.add(scope.budget).then(function(budget) {
         stackable.close(null, budget);
       }).catch(function(err) {
         brAlertService.add('error', err, {scope: scope});

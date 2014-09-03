@@ -10,7 +10,7 @@ define([
 'use strict';
 
 /* @ngInject */
-function factory(brAlertService, HostedAssetService, config) {
+function factory(brAlertService, psHostedAssetService, config) {
   return {
     restrict: 'A',
     scope: {asset: '=psAsset'},
@@ -30,7 +30,7 @@ function factory(brAlertService, HostedAssetService, config) {
     scope.model.identity = scope.identity;
     scope.model.loading = false;
     scope.model.state = {
-      assets: HostedAssetService.state
+      assets: psHostedAssetService.state
     };
     // FIXME: figure out how to detect this and when it isn't available,
     // hide the save button and show the files to be downloaded on
@@ -90,7 +90,7 @@ function factory(brAlertService, HostedAssetService, config) {
           };
 
           // set asset's public key
-          HostedAssetService.setKey(scope.asset.id, {
+          psHostedAssetService.setKey(scope.asset.id, {
             '@context': 'https://w3id.org/payswarm/v1',
             publicKeyPem: scope.model.keypair.publicKey
           }, callback);

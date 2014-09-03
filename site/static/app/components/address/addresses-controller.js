@@ -11,11 +11,11 @@ define([], function() {
 'use strict';
 
 /* @ngInject */
-function factory($scope, AddressService, brAlertService, brIdentityService) {
+function factory($scope, psAddressService, brAlertService, brIdentityService) {
   var self = this;
   self.identity = brIdentityService.identity;
-  self.state = AddressService.state;
-  self.addresses = AddressService.addresses;
+  self.state = psAddressService.state;
+  self.addresses = psAddressService.addresses;
   self.addressToDelete = null;
   self.modals = {
     showAddAddress: false,
@@ -30,7 +30,7 @@ function factory($scope, AddressService, brAlertService, brIdentityService) {
   };
   self.confirmDeleteAddress = function(err, result) {
     if(!err && result === 'ok') {
-      AddressService.collection.del(self.addressToDelete.id)
+      psAddressService.collection.del(self.addressToDelete.id)
         .catch(function(err) {
           brAlertService.add('error', err);
         })
@@ -45,7 +45,7 @@ function factory($scope, AddressService, brAlertService, brIdentityService) {
     self.modals.address = address;
   };
 
-  AddressService.collection.getAll();
+  psAddressService.collection.getAll();
 }
 
 return {AddressesController: factory};

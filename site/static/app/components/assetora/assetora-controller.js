@@ -9,14 +9,14 @@ define([], function() {
 
 /* @ngInject */
 function factory(
-  $scope, brAlertService, HostedAssetService, HostedListingService, config) {
+  $scope, brAlertService, psHostedAssetService, psHostedListingService, config) {
   $scope.model = {};
   $scope.identity = config.data.identity;
-  $scope.model.recentAssets = HostedAssetService.recentAssets;
-  $scope.model.recentListings = HostedListingService.recentListings;
+  $scope.model.recentAssets = psHostedAssetService.recentAssets;
+  $scope.model.recentListings = psHostedListingService.recentListings;
   $scope.state = {
-    assets: HostedAssetService.state,
-    listings: HostedListingService.state
+    assets: psHostedAssetService.state,
+    listings: psHostedListingService.state
   };
   $scope.model.search = {input: '', assets: [], listings: []};
   $scope.model.modals = {
@@ -38,7 +38,7 @@ function factory(
       asset.deleted = true;
 
       // wait to delete so modal can transition
-      HostedAssetService.collection.del(asset.id, {delay: 400})
+      psHostedAssetService.collection.del(asset.id, {delay: 400})
         .catch(function(err) {
           brAlertService.add('error', err);
           asset.deleted = false;
@@ -57,7 +57,7 @@ function factory(
       listing.deleted = true;
 
       // wait to delete so modal can transition
-      HostedListingService.del(listing.id, {delay: 400})
+      psHostedListingService.del(listing.id, {delay: 400})
         .catch(function(err) {
           brAlertService.add('error', err);
           listing.deleted = false;
@@ -83,13 +83,13 @@ function factory(
 
     // search listings for input as keywords
     return Promise.all([
-      HostedAssetService.get({
+      psHostedAssetService.get({
         storage: $scope.model.search.assets,
         keywords: $scope.model.search.input
       }).catch(function(err) {
         brAlertService.add('error', err);
       }),
-      HostedListingService.get({
+      psHostedListingService.get({
         storage: $scope.model.search.listings,
         keywords: $scope.model.search.input
       }).catch(function(err) {
@@ -98,8 +98,8 @@ function factory(
     ]);
   };
 
-  HostedAssetService.query();
-  HostedListingService.query();
+  psHostedAssetService.query();
+  psHostedListingService.query();
 }
 
 return {AssetoraController: factory};

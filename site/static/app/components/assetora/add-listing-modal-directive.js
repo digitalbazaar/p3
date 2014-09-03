@@ -8,7 +8,7 @@ define([], function() {
 'use strict';
 
 /* @ngInject */
-function factory(brAlertService, HostedListingService, config) {
+function factory(brAlertService, psHostedListingService, config) {
   return {
     restrict: 'A',
     scope: {asset: '=psAsset'},
@@ -64,7 +64,7 @@ function factory(brAlertService, HostedListingService, config) {
 
       console.log('listing', listing);
       listing.asset = scope.asset.id;
-      HostedListingService.add(listing).then(function(listing) {
+      psHostedListingService.add(listing).then(function(listing) {
         scope.loading = false;
         stackable.close(null, listing);
       }).catch(function(err) {

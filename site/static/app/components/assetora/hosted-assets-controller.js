@@ -8,7 +8,7 @@ define(['angular', 'async'], function(angular, async) {
 'use strict';
 
 /* @ngInject */
-function factory($scope, HostedAssetService, HostedListingService) {
+function factory($scope, psHostedAssetService, psHostedListingService) {
   $scope.model = {};
   // FIXME: globalize window.data access
   var data = window.data || {};
@@ -25,7 +25,7 @@ function factory($scope, HostedAssetService, HostedListingService) {
     storage: $scope.model.assets
   });
   $scope.model.loading = true;
-  HostedAssetService.get(options, function(err) {
+  psHostedAssetService.get(options, function(err) {
     $scope.model.error = err;
     $scope.model.loading = false;
 
@@ -91,7 +91,7 @@ function factory($scope, HostedAssetService, HostedListingService) {
           listings: storage,
           rows: rows
         };
-        HostedListingService.get({
+        psHostedListingService.get({
           identity: data.identityId,
           storage: storage,
           includeAsset: false

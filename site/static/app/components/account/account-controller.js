@@ -11,12 +11,12 @@ define([], function() {
 
 /* @ngInject */
 function factory(
-  $scope, AccountService, brAlertService, brIdentityService, brRefreshService, config) {
+  $scope, psAccountService, brAlertService, brIdentityService, brRefreshService, config) {
   var self = this;
 
   self.modals = {};
   self.state = {
-    accounts: AccountService.state,
+    accounts: psAccountService.state,
     identities: brIdentityService.state
   };
   self.account = undefined;
@@ -24,7 +24,7 @@ function factory(
   brRefreshService.register($scope, function(force) {
     var opts = {force: !!force};
     brAlertService.clear();
-    AccountService.collection.getCurrent(opts)
+    psAccountService.collection.getCurrent(opts)
       .then(function(account) {
         self.account = account;
         $scope.$apply();

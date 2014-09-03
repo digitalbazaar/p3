@@ -160,6 +160,6 @@ function factory(
   return service;
 }
 
-return {PaymentTokenService: factory};
+return {psPaymentTokenService: factory};
 
 });

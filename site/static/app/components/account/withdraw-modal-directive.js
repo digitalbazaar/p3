@@ -9,7 +9,7 @@ define(['angular'], function(angular) {
 
 /* @ngInject */
 function factory(
-  $filter, AccountService, brAlertService, TransactionService, config) {
+  $filter, psAccountService, brAlertService, psTransactionService, config) {
   return {
     restrict: 'A',
     scope: {account: '=psAccount'},
@@ -79,7 +79,7 @@ function factory(
       };
       scope.loading = true;
       brAlertService.clearFeedback();
-      TransactionService.signWithdrawal(withdrawal).then(function(withdrawal) {
+      psTransactionService.signWithdrawal(withdrawal).then(function(withdrawal) {
         // get public account information for all payees
         scope.accounts = {};
         var promises = [];
@@ -94,7 +94,7 @@ function factory(
             info.loading = false;
             return;
           }
-          promises.push(AccountService.collection.get(dst).then(
+          promises.push(psAccountService.collection.get(dst).then(
             function(account) {
             info.label = account.label;
           }).catch(function() {
@@ -129,17 +129,17 @@ function factory(
       // only allow a single confirm attempt
       scope.enableConfirm = false;
       brAlertService.clearFeedback();
-      TransactionService.confirmWithdrawal(scope._withdrawal)
+      psTransactionService.confirmWithdrawal(scope._withdrawal)
         .then(function(withdrawal) {
           // show complete page
           scope.withdrawal = withdrawal;
           scope.state = 'complete';
 
           // get updated balance after a delay
-          AccountService.collection.get(scope.account.id, {delay: 500});
+          psAccountService.collection.get(scope.account.id, {delay: 500});
 
           // update recent transactions
-          TransactionService.getRecent({force: true});
+          psTransactionService.getRecent({force: true});
 
           // go to top of page?
           //var target = options.target;

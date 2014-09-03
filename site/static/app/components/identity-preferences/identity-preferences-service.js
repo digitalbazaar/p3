@@ -64,6 +64,6 @@ function factory($http, $rootScope, brIdentityService) {
   return service;
 }
 
-return {IdentityPreferencesService: factory};
+return {psIdentityPreferencesService: factory};
 
 });

@@ -11,19 +11,19 @@ define(['jsonld'], function(jsonld) {
 
 /* @ngInject */
 function factory(
-  $scope, TransactionService, brAlertService, brRefreshService, config) {
+  $scope, psTransactionService, brAlertService, brRefreshService, config) {
   var self = this;
 
   self.modals = {};
   self.state = {
-    txns: TransactionService.state
+    txns: psTransactionService.state
   };
   self.txn = undefined;
 
   brRefreshService.register($scope, function(force) {
     var opts = {force: !!force};
     brAlertService.clear();
-    TransactionService.collection.getCurrent(opts)
+    psTransactionService.collection.getCurrent(opts)
       .then(function(txn) {
         self.txn = txn;
         self.isContract = jsonld.hasValue(txn, 'type', 'Contract');

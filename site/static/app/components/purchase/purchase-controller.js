@@ -11,13 +11,13 @@ define([], function() {
 
 /* @ngInject */
 function factory(
-  $scope, $sce, AccountService, AddressService, brAlertService,
-  BudgetService, brIdentityService, TransactionService, config) {
+  $scope, $sce, psAccountService, psAddressService, brAlertService,
+  psBudgetService, brIdentityService, psTransactionService, config) {
   var self = this;
   var data = config.data;
   self.identity = brIdentityService.identity;
-  self.budgets = BudgetService.budgets;
-  self.accounts = AccountService.accounts;
+  self.budgets = psBudgetService.budgets;
+  self.accounts = psAccountService.accounts;
   self.contract = null;
   self.callback = data.callback || null;
   if(self.callback) {
@@ -48,7 +48,7 @@ function factory(
 
   // load and use default account if possible
   if(brIdentityService.identity.preferences.source) {
-    AccountService.collection.get(brIdentityService.identity.preferences.source)
+    psAccountService.collection.get(brIdentityService.identity.preferences.source)
       .then(function(account) {
         self.selection.account = account;
       })
@@ -114,7 +114,7 @@ function factory(
       // do budget-based purchase
       // first add vendor to budget
       var budget = self.selection.budget;
-      return BudgetService.addVendor(
+      return psBudgetService.addVendor(
         budget.id, self.contract.vendor.id).then(function() {
           return purchase(budget.source);
         });
@@ -147,10 +147,10 @@ function factory(
   function tryPurchase() {
     // load data in parallel
     Promise.all([
-      AddressService.collection.getAll({force: true}),
-      AccountService.collection.getAll({force: true}),
+      psAddressService.collection.getAll({force: true}),
+      psAccountService.collection.getAll({force: true}),
       // ensure budgets are up-to-date
-      BudgetService.collection.getAll({force: true})
+      psBudgetService.collection.getAll({force: true})
     ]).then(function(results) {
       // check pre-conditions serially so only one modal is shown at a time
       var addresses = results[0];
@@ -211,7 +211,7 @@ function factory(
     if(self.nonce !== null) {
       request.nonce = self.nonce;
     }
-    return TransactionService.getQuote(request).then(function(contract) {
+    return psTransactionService.getQuote(request).then(function(contract) {
       self.loading = false;
       self.contract = contract;
       $scope.$apply();
@@ -242,7 +242,7 @@ function factory(
       if(self.nonce !== null) {
         request.nonce = self.nonce;
       }
-      return TransactionService.purchase(request).then(function(response) {
+      return psTransactionService.purchase(request).then(function(response) {
         self.alertType = 'purchased';
         self.purchased = true;
         if(response.type === 'EncryptedMessage') {
@@ -255,7 +255,7 @@ function factory(
           return;
         }
         // auto-purchased, update budget
-        return BudgetService.collection.get(self.budget.id, {force: true})
+        return psBudgetService.collection.get(self.budget.id, {force: true})
           .then(function(budget) {
             self.budget = budget;
           })
@@ -278,7 +278,7 @@ function factory(
           self.selection.account = null;
           var accountId = (budget ? budget.source : null);
           if(accountId) {
-            AccountService.collection.get(accountId).then(function(account) {
+            psAccountService.collection.get(accountId).then(function(account) {
               self.selection.account = account;
             }).catch(function(err) {
               brAlertService.add('error', err);

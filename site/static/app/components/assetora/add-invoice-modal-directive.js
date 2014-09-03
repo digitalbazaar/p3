@@ -8,7 +8,7 @@ define(['angular'], function(angular) {
 'use strict';
 
 /* @ngInject */
-function factory(brAlertService, HostedAssetService, config) {
+function factory(brAlertService, psHostedAssetService, config) {
   return {
     restrict: 'A',
     scope: {},
@@ -52,7 +52,7 @@ function factory(brAlertService, HostedAssetService, config) {
       asset.sysPublished = asset.created;
 
       console.log('invoice asset', asset);
-      HostedAssetService.add(asset, function(err, asset) {
+      psHostedAssetService.add(asset, function(err, asset) {
         scope.loading = false;
         if(!err) {
           stackable.close(null, asset);

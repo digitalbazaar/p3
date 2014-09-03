@@ -8,7 +8,7 @@ define([], function() {
 'use strict';
 
 /* @ngInject */
-function factory($rootScope, AccountService, brAlertService, brIdentityService) {
+function factory($rootScope, psAccountService, brAlertService, brIdentityService) {
   return {
     restrict: 'A',
     scope: {account: '=psAccount'},
@@ -69,7 +69,7 @@ function factory($rootScope, AccountService, brAlertService, brIdentityService) 
     scope.confirm = function() {
       model.loading = true;
       brAlertService.clearFeedback();
-      AccountService.addCreditLine(
+      psAccountService.addCreditLine(
         scope.account.id, model.backupSource.id).then(function() {
         // show complete page
         model.state = 'complete';

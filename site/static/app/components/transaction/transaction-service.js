@@ -110,7 +110,7 @@ function factory(
    *
    * Usage:
    *
-   * TransactionService.getQuote({
+   * psTransactionService.getQuote({
    *   listing: 'https://merchant.com/listing-url',
    *   listingHash: 'ab34e87a8d8f5fde3f23f23',
    *   source 'https://example.com/i/myid/accounts/primary',
@@ -131,7 +131,7 @@ function factory(
    *
    * Usage:
    *
-   * TransactionService.purchase({
+   * psTransactionService.purchase({
    *   type: 'PurchaseRequest',
    *   transactionId: 'https://example.com/transactions/1.1.a',
    *   nonce: '12345' (optional)
@@ -192,6 +192,6 @@ function factory(
   return service;
 }
 
-return {TransactionService: factory};
+return {psTransactionService: factory};
 
 });

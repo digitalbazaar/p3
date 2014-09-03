@@ -12,8 +12,8 @@ define([], function() {
 
 /* @ngInject */
 function factory(
-  $rootScope, AccountService, brAlertService, brIdentityService,
-  IdentityPreferencesService, PaymentTokenService, config) {
+  $rootScope, psAccountService, brAlertService, brIdentityService,
+  psIdentityPreferencesService, psPaymentTokenService, config) {
   return {
     restrict: 'A',
     scope: {},
@@ -24,10 +24,10 @@ function factory(
   function Link(scope) {
     var model = scope.model = {};
     model.identity = brIdentityService.identity;
-    model.accounts = AccountService.accounts;
-    model.tokens = PaymentTokenService.paymentTokens;
+    model.accounts = psAccountService.accounts;
+    model.tokens = psPaymentTokenService.paymentTokens;
     model.state = {
-      accounts: AccountService.state
+      accounts: psAccountService.state
     };
     model.modals = {
       showDeposit: false,
@@ -46,7 +46,7 @@ function factory(
       };
 
       brAlertService.clear();
-      IdentityPreferencesService.update(update)
+      psIdentityPreferencesService.update(update)
         .catch(function(err) {
           brAlertService.add('error', err);
           console.error('setDefaultAccount error:', err);
@@ -58,11 +58,11 @@ function factory(
 
     // FIXME: token watch/update should be in the account service
     scope.$watch('model.tokens', function(value) {
-      AccountService.updateAccounts();
+      psAccountService.updateAccounts();
     }, true);
 
-    AccountService.collection.getAll();
-    PaymentTokenService.collection.getAll();
+    psAccountService.collection.getAll();
+    psPaymentTokenService.collection.getAll();
   }
 }
 

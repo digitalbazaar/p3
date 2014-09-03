@@ -12,7 +12,7 @@ define(['angular', 'jsonld'], function(angular, jsonld) {
 
 /* @ngInject */
 function factory(
-  $timeout, brAlertService, brIdentityService, brRefreshService, TransactionService) {
+  $timeout, brAlertService, brIdentityService, brRefreshService, psTransactionService) {
   return {
     restrict: 'A',
     scope: {
@@ -37,7 +37,7 @@ function factory(
     model.moreHref = scope.moreHref || null;
 
     // setup default transaction collection
-    model.txns = TransactionService.createTxnsCollection({
+    model.txns = psTransactionService.createTxnsCollection({
       finishLoading: _update
     });
     model.state = {
@@ -88,7 +88,7 @@ function factory(
       });
     };
 
-    model.getRowType = TransactionService.getType;
+    model.getRowType = psTransactionService.getType;
 
     model.search = function() {
       model.load({

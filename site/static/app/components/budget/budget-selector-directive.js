@@ -8,7 +8,7 @@ define([], function() {
 'use strict';
 
 /* @ngInject */
-function budgetSelectorInner(BudgetService) {
+function budgetSelectorInner(psBudgetService) {
   return {
     restrict: 'A',
     require: 'brSelector',
@@ -17,8 +17,8 @@ function budgetSelectorInner(BudgetService) {
 
   function Link(scope, element, attrs, brSelector) {
     var model = scope.model = {};
-    model.state = BudgetService.state;
-    model.budgets = BudgetService.budgets;
+    model.state = psBudgetService.state;
+    model.budgets = psBudgetService.budgets;
     scope.$watch('model.budgets', function(budgets) {
       if(!scope.selected || $.inArray(scope.selected, budgets) === -1) {
         scope.selected = budgets[0] || null;
@@ -36,7 +36,7 @@ function budgetSelectorInner(BudgetService) {
       brSelector.fixed = value;
     });
 
-    BudgetService.collection.getAll();
+    psBudgetService.collection.getAll();
   }
 }
 

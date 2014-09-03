@@ -8,7 +8,7 @@ define([], function() {
 'use strict';
 
 /* @ngInject */
-function factory(brAlertService, PaymentTokenService) {
+function factory(brAlertService, psPaymentTokenService) {
   return {
     restrict: 'A',
     scope: {
@@ -56,7 +56,7 @@ function factory(brAlertService, PaymentTokenService) {
         // get backup source token
         model.backupSource = null;
         if(account.backupSource && account.backupSource.length) {
-          PaymentTokenService.collection.get(account.backupSource[0])
+          psPaymentTokenService.collection.get(account.backupSource[0])
             .then(function(token) {
               model.backupSource = token;
               scope.$apply();

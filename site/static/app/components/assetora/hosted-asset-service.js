@@ -84,6 +84,6 @@ function factory($http, $rootScope, brIdentityService, brResourceService) {
   return service;
 }
 
-return {HostedAssetService: factory};
+return {psHostedAssetService: factory};
 
 });

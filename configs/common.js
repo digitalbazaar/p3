@@ -383,8 +383,8 @@ config.financial.cachedContract.expiration = 60 * 30;
 config.financial.transaction = {worker: {}};
 // 24 hour transaction worker expiration (assume worker has crashed after this)
 config.financial.transaction.worker.expiration = 1000 * 60 * 60 * 24;
-// run transaction workers every minute
-config.financial.transaction.worker.schedule = 1000 * 60;
+// run transaction workers every 30 seconds
+config.financial.transaction.worker.schedule = 1000 * 30;
 // increment settleAfter by 5 minutes when txn that triggered is still pending
 config.financial.transaction.triggerSettleAfterIncrement = 1000 * 60 * 5;
 // increment settleAfter by 30 seconds when status check result is pending
@@ -412,13 +412,12 @@ config.financial.account.worker.schedule = 1000 * 60;
 config.financial.account.freeCreditLineAmount = '10.0000000000';
 
 config.financial.paymentToken = {worker: {}};
-// run payment token workers every minute
-config.financial.paymentToken.worker.schedule = 1000 * 60;
-// consider an unverified payment token idle after 1 minute (needs attention)
-config.financial.paymentToken.worker.tokenIdleTimeout = 1000 * 60;
-// send a notification if an unverified payment token idle after 30 minutes
-config.financial.paymentToken.worker.tokenNotifyIdleTimeout =
-  1000 * 60 * 30;
+// run payment token workers every 30 seconds
+config.financial.paymentToken.worker.schedule = 1000 * 30;
+// consider an unverified payment token idle after 10 seconds (needs attention)
+config.financial.paymentToken.worker.tokenIdleTimeout = 1000 * 10;
+// send a notification if an unverified payment token idle after 30 seconds
+config.financial.paymentToken.worker.tokenNotifyIdleTimeout = 1000 * 30;
 // maximum number of concurrent unverified payment tokens
 config.financial.paymentToken.maxUnverified = 1000;
 // maximum number of globally unverified payment tokens

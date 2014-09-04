@@ -74,20 +74,37 @@
       <div ng-show="model.backupSourceEnabled">
         <div ps-payment-token-selector ps-selected="model.backupSource"
           ps-instant="true"></div>
+        <!--
+        <div ps-payment-token-list ps-instant="true" ps-id-list="model.account.backupSource"></div>
+        <p ng-show="model.help.backups.show"
+          class="help-block col-sm-offset-3 col-sm-8 br-fadein br-fadeout">
+          Choose the payment methods that are used to fund this account.
+        </p>
+        -->
+        <br-input ng-hide="!model.editing" br-model="model.account.sysMinInstantTransfer"
+          br-options="{
+            icon: 'fa-money', name: 'sysMinInstantTransfer',
+            label: 'Instant Transfer Threshold',
+            columns: {
+              label: 'col-sm-5',
+              input: 'col-sm-offset-5 col-sm-6',
+              help: 'col-sm-offset-1 col-sm-10'
+            }
+          }">
+          Please enter the minimum purchase amount required in order to trigger
+          an automatic instant transfer if your account is lacking sufficient
+          funds. If a purchase is for less than this amount, an instant
+          transfer will require your authorization. This setting can help
+          you manage instant transfer fees.
+          <br/><br/>
+          You must enter a valid monetary amount like 1 or 5.00.
+        </br-input>
       </div>
       <div ng-hide="model.backupSourceEnabled || model.creditDisabled || model.fullyBackedCredit"
-        class="alert alert-warning">
+        class="alert alert-warning" style="margin-bottom: 0">
         <strong>Warning:</strong>
         Use of your credit line and instant transfer will be disabled until a payment method is enabled.
       </div>
-
-      <!--
-      <div ps-payment-token-list ps-instant="true" ps-id-list="model.account.backupSource"></div>
-      <p ng-show="model.help.backups.show"
-        class="help-block col-sm-offset-3 col-sm-8 br-fadein br-fadeout">
-        Choose the payment methods that are used to fund this account.
-      </p>
-      -->
     </div>
     <div ng-hide="!editing" class="form-group">
       <label class="control-label col-sm-3" for="sysAllowInstantTransfer">
@@ -115,13 +132,5 @@
         </p>
       </div>
     </div>
-
-    <br-input ng-hide="!model.editing" br-model="model.account.sysMinInstantTransfer"
-      br-options="{icon: 'fa-money', name: 'sysMinInstantTransfer', label: 'Minimum Amount'}">
-      Please enter the minimum purchase amount required in order to trigger an
-      instant transfer.
-      <br/><br/>
-      You must enter a valid monetary amount like 1 or 5.00.
-    </br-input>
   </fieldset>
 </form>

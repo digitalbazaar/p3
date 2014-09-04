@@ -72,8 +72,11 @@ function factory(
         action: 'verify'
       }
     })).then(function(res) {
-      // return deposit transaction
-      return res.data;
+      // get payment token
+      return service.collection.get(tokenId, {force: true}).then(function() {
+        // return deposit transaction
+        return res.data;
+      })
     }).catch(function(err) {
       return service.collection.finishLoading().then(function() {
         $rootScope.$apply();

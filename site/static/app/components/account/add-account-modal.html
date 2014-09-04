@@ -14,7 +14,7 @@
           <i class="fa fa-refresh fa-spin text-muted"></i>
         </span>
         <button type="button" class="btn btn-primary"
-          ng-disabled="model.state.loading || !model.accountSlugAvailable"
+          ng-disabled="model.state.loading || model.accountSlugAvailable != 'available'"
           ng-click="model.addAccount()"><i class="fa fa-check"></i> Add</button>
         <button type="button" class="btn btn-default stackable-cancel"
           ng-disabled="model.state.loading">Cancel</button>

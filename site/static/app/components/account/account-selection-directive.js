@@ -13,7 +13,6 @@ function factory(psPaymentTokenService) {
     restrict: 'E',
     scope: {
       account: '=psAccount',
-      select: '&?psSelect',
       minBalance: '@psMinBalance',
       showDepositButton: '@psShowDepositButton',
       instant: '=psInstant',

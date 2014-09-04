@@ -13,7 +13,6 @@ function factory(psAccountService) {
     restrict: 'E',
     scope: {
       budget: '=psBudget',
-      select: '&?psSelect',
       invalid: '=psInvalid',
       minBalance: '@psMinBalance'
     },
@@ -78,12 +77,12 @@ function factory(psAccountService) {
       scope.invalid = false;
       scope.balanceTooLow = false;
       scope.maxPerUseTooLow = false;
-      if(scope.selected && value !== undefined) {
+      if(scope.budget && value !== undefined) {
         var minBalance = parseFloat(value);
-        if(parseFloat(scope.selected.balance) < minBalance) {
+        if(parseFloat(scope.budget.balance) < minBalance) {
           scope.invalid = true;
           scope.balanceTooLow = true;
-        } else if(scope.selected.sysMaxPerUse < minBalance) {
+        } else if(scope.budget.sysMaxPerUse < minBalance) {
           // max per use too low
           scope.invalid = true;
           scope.maxPerUseTooLow = true;

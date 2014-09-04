@@ -18,7 +18,8 @@
   <form class="well form-horizontal">
     <fieldset>
       <div class="form-group" ng-show="multiEnabled">
-        <div class="input-group col-sm-8">
+        <div class="input-group col-sm-12">
+          <label class="control-label col-sm-3">Type</label>
           <label class="radio-inline" ng-show="creditCardEnabled">
             <input type="radio" name="payment-type" value="CreditCard"
               checked="checked" ng-model="paymentMethod" />
@@ -34,7 +35,7 @@
       <div name="payment-type-fields" ng-switch="paymentMethod">
         <div ng-switch-when="CreditCard">
           <div class="form-group" br-property-path="source.cardBrand">
-            <label class="control-label col-sm-3" for="card-brand">Type</label>
+            <label class="control-label col-sm-3" for="card-brand">Brand</label>
             <div class="input-group col-sm-8">
               <span name="card-brand"
                 ps-credit-card-selector="card.cardNumber"
@@ -77,47 +78,44 @@
         </div>
 
         <div ng-switch-when="BankAccount">
-          <div class="bank-box bank-example">
-            <table class="bank-table">
-              <tbody>
-                <tr>
-                  <td class="bank-layer">
-                    <i class="bank-icon"></i>
-                    <span class="bank-label">
-                      <strong>My Bank</strong>
-                    </span>
-                  </td>
-                  <td class="bank-layer"><span class="bank-date">{{'' | now:'d MMM yyyy'}}</span></td>
-                </tr>
-                <tr>
-                  <td class="text-center bank-layer bank-font">
-                    <span class="bank-routing-outline">A123456789A</span>
-                  </td>
-                  <td class="text-center bank-layer bank-font">
-                    <span class="bank-account-outline">C098765C</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="text-center bank-layer">
-                    <span class="bank-routing-highlight">Routing</span>
-                  </td>
-                  <td class="text-center bank-layer">
-                    <span class="bank-account-highlight">Account</span>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+          <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-8">
+              <table class="bank-box bank-table">
+                <tbody>
+                  <tr>
+                    <td class="bank-layer">
+                      <i class="bank-icon"></i>
+                      <span class="bank-label">
+                        <strong>My Bank</strong>
+                      </span>
+                    </td>
+                    <td class="bank-layer"><span class="bank-date">{{'' | now:'d MMM yyyy'}}</span></td>
+                  </tr>
+                  <tr>
+                    <td class="text-center bank-layer bank-font">
+                      <span class="bank-routing-outline">A123456789A</span>
+                    </td>
+                    <td class="text-center bank-layer bank-font">
+                      <span class="bank-account-outline">C098765C</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="text-center bank-layer">
+                      <span class="bank-routing-highlight">Routing</span>
+                    </td>
+                    <td class="text-center bank-layer">
+                      <span class="bank-account-highlight">Account</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
 
           <br-input br-model="bankAccount.bankRoutingNumber"
             br-options="{
-              name: 'source.bankRoutingNumber', label: 'Routing Number',
-              maxLength: '9', autocomplete: 'off',
-              columns: {
-                label: 'col-sm-4',
-                input: 'col-sm-7',
-                help: 'col-sm-offset-4, col-sm-7'
-              }
+              name: 'source.bankRoutingNumber', label: 'Routing #',
+              maxLength: '9', autocomplete: 'off'
             }">
             Please enter your bank's routing number. This can be found in your
             checkbook or by signing into your bank online.
@@ -126,25 +124,15 @@
           <br-select br-model="bankAccount.bankAccountType"
             br-items="bankAccountTypes" br-display-item="item.label"
             br-options="{
-              name: 'source.bankAccountType', label: 'Account Type', key: 'id',
-              columns: {
-                label: 'col-sm-4',
-                select: 'col-sm-7',
-                help: 'col-sm-offset-4, col-sm-7'
-              }
+              name: 'source.bankAccountType', label: 'Account Type', key: 'id'
             }">
             If your bank account does not have a type, choose 'Checking'.
           </br-select>
 
           <br-input br-model="bankAccount.bankAccount"
             br-options="{
-              name: 'source.bankAccount', label: 'Account Number',
-              maxLength: '30', autocomplete: 'off',
-              columns: {
-                label: 'col-sm-4',
-                input: 'col-sm-7',
-                help: 'col-sm-offset-4, col-sm-7'
-              }
+              name: 'source.bankAccount', label: 'Account #',
+              maxLength: '30', autocomplete: 'off'
             }">
             Please enter your bank account number. This can be found
             in your checkbook or by signing into your bank online.

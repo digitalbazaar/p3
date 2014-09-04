@@ -28,11 +28,12 @@ function factory(
     psAccountService.collection.getCurrent(opts)
       .then(function(account) {
         self.account = account;
-        $scope.$apply();
       })
       .catch(function(err) {
         brAlertService.add('error', err);
         self.account = null;
+      })
+      .then(function() {
         $scope.$apply();
       });
   })();

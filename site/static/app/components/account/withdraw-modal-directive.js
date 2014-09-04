@@ -9,7 +9,8 @@ define(['angular'], function(angular) {
 
 /* @ngInject */
 function factory(
-  $filter, brAlertService, config, psAccountService, psTransactionService) {
+  $filter, $timeout, brAlertService, brRefreshService, config,
+  psAccountService, psTransactionService) {
   return {
     restrict: 'A',
     scope: {account: '=psAccount'},
@@ -138,11 +139,27 @@ function factory(
           scope.withdrawal = withdrawal;
           scope.state = 'complete';
 
+          /*
           // get updated balance after a delay
-          psAccountService.collection.get(scope.account.id, {delay: 500});
+          psAccountService.collection.get(scope.account.id, {
+            delay: 500,
+            force: true
+          });
 
           // update recent transactions
           psTransactionService.getRecent({force: true});
+          */
+
+          // FIXME: a global refresh is used because the deposit modal may not
+          // know or have access to the data that needs to be updated.  For
+          // instance, on the account page the transactions displayed are from
+          // a custom account collection.  Also see deposit directive.
+
+          // refresh all data after a delay
+          // FIXME: there may be a race condition here
+          $timeout(function() {
+            brRefreshService.refresh();
+          }, 500);
 
           // go to top of page?
           //var target = options.target;

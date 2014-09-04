@@ -138,7 +138,7 @@
           <td class="br-compact text-center" ng-show="bankAccount.sysStatus == 'active' || bankAccount.sysStatus == 'disabled'">
             <button ng-show="bankAccount.sysStatus == 'active' && !bankAccount.sysVerified && bankAccount.sysVerifyReady"
               ng-click="model.modals.paymentToken=bankAccount; model.modals.showVerifyBankAccountModal=true"
-              class="btn btn-primary" title="Verify">Verify</button>
+              class="btn btn-primary btn-sm" title="Verify">Verify</button>
             <span ng-show="bankAccount.sysStatus == 'disabled'"
               class="label label-important"
               br-tooltip="This payment method was likely disabled because your bank account information could not be verified. Please delete this payment method and try to add it again with corrected information."

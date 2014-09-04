@@ -136,14 +136,11 @@
           </td>
           <!-- Status -->
           <td class="br-compact text-center" ng-show="bankAccount.sysStatus == 'active' || bankAccount.sysStatus == 'disabled'">
-            <button ng-show="bankAccount.sysStatus == 'active' && !bankAccount.sysVerified && bankAccount.sysVerifyReady"
-              ng-click="model.modals.paymentToken=bankAccount; model.modals.showVerifyBankAccountModal=true"
-              class="btn btn-primary btn-sm" title="Verify">Verify</button>
             <span ng-show="bankAccount.sysStatus == 'disabled'"
               class="label label-important"
               br-tooltip="This payment method was likely disabled because your bank account information could not be verified. Please delete this payment method and try to add it again with corrected information."
               br-options="{placement: 'bottom', trigger: 'hover'}">Disabled</span>
-            <span ng-show="bankAccount.sysStatus != 'active' && bankAccount.sysStatus != 'disabled' && bankAccount.sysStatus != 'deleted' && !bankAccount.sysVerified" class="label label-warning">Unverified</span>
+            <span ng-show="bankAccount.sysStatus == 'active' && !bankAccount.sysVerified && bankAccount.sysVerifyReady" class="label label-warning">Unverified</span>
             <span ng-show="bankAccount.sysStatus == 'active' && !bankAccount.sysVerified && !bankAccount.sysVerifyReady" class="label label-info">Pending</span>
             <span ng-show="bankAccount.sysVerified" class="label label-success">Verified</span>
           </td>
@@ -156,6 +153,13 @@
           <td class="br-action">
             <br-action-menu>
               <ul class="dropdown-menu stackable-menu">
+                <li class="alert-success"
+                  ng-show="bankAccount.sysStatus == 'active' && !bankAccount.sysVerified && bankAccount.sysVerifyReady">
+                  <a class="stackable-cancel"
+                    ng-click="model.modals.paymentToken=bankAccount; model.modals.showVerifyBankAccountModal=true">
+                    <i class="fa fa-check"></i> Verify
+                  </a>
+                </li>
                 <li>
                   <a class="stackable-cancel"
                     ng-click="model.modals.paymentToken=bankAccount; model.modals.showEditPaymentToken=true">

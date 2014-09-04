@@ -22,31 +22,34 @@
     <div class="section col-md-12">
       <br-headline br-title="Financial Account" br-loading="model.state.accounts.loading" br-options="{menu: {{!!model.account}}}">
         <ul class="stackable-menu dropdown-menu">
-          <li>
-            <a ng-click="model.modals.account=model.account; model.modals.showDeposit=true">
+          <li ng-class="{disabled: !model.account.sysAllowStoredValue && model.account.balance[0] != '-'}">
+            <a class="stackable-cancel" ng-show="!model.account.sysAllowStoredValue && model.account.balance[0] != '-'" href="#">
+              <i class="fa fa-plus"></i> Deposit
+            </a>
+            <a class="stackable-cancel" ng-hide="!model.account.sysAllowStoredValue && model.account.balance[0] != '-'" ng-click="model.modals.account=model.account; model.modals.showDeposit=true">
               <i class="fa fa-plus"></i> Deposit
             </a>
           </li>
           <li ng-class="{disabled: model.account.balance == 0}">
-            <a ng-show="model.account.balance == 0" href="#">
+            <a class="stackable-cancel" ng-show="model.account.balance == 0" href="#">
               <i class="fa fa-minus"></i> Withdraw
             </a>
-            <a ng-hide="model.account.balance == 0" ng-click="model.modals.account=model.account; model.modals.showWithdraw=true">
+            <a class="stackable-cancel" ng-hide="model.account.balance == 0" ng-click="model.modals.account=model.account; model.modals.showWithdraw=true">
               <i class="fa fa-minus"></i> Withdraw
             </a>
           </li>
           <li>
-            <a ng-click="model.modals.account=model.account; model.modals.showEditAccount=true">
+            <a class="stackable-cancel" ng-click="model.modals.account=model.account; model.modals.showEditAccount=true">
               <i class="fa fa-pencil"></i> Edit
             </a>
           </li>
           <li ng-show="model.identity.sysUnbackedCreditEmailAvailable && (!model.account.creditLimit || model.account.creditLimit == 0)">
-            <a ng-click="model.modals.account=model.account; model.modals.showAddCreditLine=true">
+            <a class="stackable-cancel" ng-click="model.modals.account=model.account; model.modals.showAddCreditLine=true">
               <i class="fa fa-credit-card"></i> Open Credit Line
             </a>
           </li>
           <li>
-            <a ng-click="model.modals.account=model.account; model.modals.showRedeemPromoCode=true">
+            <a class="stackable-cancel" ng-click="model.modals.account=model.account; model.modals.showRedeemPromoCode=true">
               <i class="fa fa-money"></i> Redeem Promo Code
             </a>
           </li>

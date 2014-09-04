@@ -55,13 +55,16 @@
                   <i class="fa fa-star"></i> Set as Default
                 </a>
               </li>
-              <li ng-hide="!account.sysAllowStoredValue && account.balance[0] != '-'">
-                <a class="stackable-cancel" ng-click="model.modals.account=account; model.modals.showDeposit=true">
+              <li ng-class="{disabled: !account.sysAllowStoredValue && account.balance[0] != '-'}">
+                <a class="stackable-cancel" ng-show="!account.sysAllowStoredValue && account.balance[0] != '-'" href="#">
+                  <i class="fa fa-plus"></i> Deposit
+                </a>
+                <a class="stackable-cancel" ng-hide="!account.sysAllowStoredValue && account.balance[0] != '-'" ng-click="model.modals.account=account; model.modals.showDeposit=true">
                   <i class="fa fa-plus"></i> Deposit
                 </a>
               </li>
               <li ng-class="{disabled: account.balance == 0}">
-                <a ng-show="account.balance == 0" href="#">
+                <a class="stackable-cancel" ng-show="account.balance == 0" href="#">
                   <i class="fa fa-minus"></i> Withdraw
                 </a>
                 <a class="stackable-cancel" ng-hide="account.balance == 0" ng-click="model.modals.account=account; model.modals.showWithdraw=true">

@@ -169,8 +169,7 @@ function factory(
       }
       // get a quote now; this can still fail if data is changed between the
       // checks and quote
-      self.selection.account = (
-        self.selection.account || self.accounts[0]);
+      self.selection.account = (self.selection.account || self.accounts[0]);
       self.source = self.selection.account.id;
       return updateQuote(self.source).then(function() {
         // attempt to auto-purchase using a current budget
@@ -322,10 +321,10 @@ function factory(
 
   // auto-purchase w/existing budget
   function autoPurchase() {
-    // ensure referring webpage is from vendor's website
+    // ensure referring webpage is from vendor's url
     var referer = self.referer;
-    var website = self.contract.vendor.website;
-    if(!referer || referer.indexOf(website) !== 0) {
+    var url = self.contract.vendor.url;
+    if(!referer || referer.indexOf(url) !== 0) {
       return;
     }
 

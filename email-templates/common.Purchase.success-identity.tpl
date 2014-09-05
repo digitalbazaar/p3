@@ -12,9 +12,9 @@ More info is available at http://payswarm.com/wiki/Demo_Warning.
 A purchase has just been made using your {{serviceName}} account.
 
 Asset: "{{contract.asset.title}}" by {{contract.asset.creator.name}}
-Asset Provider{% if contract.assetProvider.id == contract.vendor.id %} and Vendor{% endif %}: {{contract.assetProvider.label}} ({{contract.assetProvider.website}})
+Asset Provider{% if contract.assetProvider.id == contract.vendor.id %} and Vendor{% endif %}: {{contract.assetProvider.label}} ({{contract.assetProvider.url}})
 {% if contract.assetProvider.id != contract.vendor.id -%}
-Vendor: {{contract.vendor.label}} ({{contract.vendor.website}})
+Vendor: {{contract.vendor.label}} ({{contract.vendor.url}})
 {% endif %}
 The purchased content is available here:
 

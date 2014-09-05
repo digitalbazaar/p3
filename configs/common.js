@@ -476,7 +476,7 @@ config.identity.defaults.vendor = {
   preferences: {
     type: 'IdentityPreferences'
   },
-  sysPublic: ['label', 'website', 'description'],
+  sysPublic: ['label', 'url', 'description'],
   sysResourceRole: [{
     sysRole: 'identity.registered',
     generateResource: 'id'

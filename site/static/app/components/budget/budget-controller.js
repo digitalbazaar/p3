@@ -28,13 +28,13 @@ function factory(
   self.getExpiration = psBudgetService.getExpiration;
 
   self.deleteVendor = function(vendor) {
-    self.showDeleteVendorAlert = true;
-    self.vendorToDelete = vendor;
+    self.modals.showDeleteVendorAlert = true;
+    self.modals.vendorToDelete = vendor;
   };
   self.confirmDeleteVendor = function(err, result) {
     // FIXME: handle errors
     if(!err && result === 'ok') {
-      var vendor = self.vendorToDelete;
+      var vendor = self.modals.vendorToDelete;
       vendor.deleted = true;
 
       // wait to delete so modal can transition

@@ -34,6 +34,7 @@ function factory(
     service.state.loading = true;
     return Promise.resolve($http.post(accountId + '/credit-line', {
       '@context': config.data.contextUrl,
+      id: accountId,
       backupSource: backupSourceId
     })).then(function() {
       // get account
@@ -49,6 +50,7 @@ function factory(
     service.state.loading = true;
     return Promise.resolve($http.post(accountId + '/backup-source', {
       '@context': config.data.contextUrl,
+      id: accountId,
       backupSource: backupSourceId
     })).then(function() {
       // get account
@@ -63,7 +65,9 @@ function factory(
   service.delBackupSource = function(accountId, backupSourceId) {
     service.state.loading = true;
     return Promise.resolve($http.delete(accountId, {
-      backupSource: backupSourceId
+      params: {
+        backupSource: backupSourceId
+      }
     })).then(function() {
       // get account
       return service.collection.get(accountId, {force: true});

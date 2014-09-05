@@ -26,6 +26,7 @@ var postBudget = {
     type: 'object',
     properties: {
       '@context': schemas.jsonldContext(),
+      id: schemas.url(),
       vendor: schemas.url()
     }
   }],
@@ -65,10 +66,7 @@ var postBudgets = {
 var delBudgetQuery = {
   type: 'object',
   properties: {
-    vendor: {
-      required: false,
-      type: schemas.url()
-    }
+    vendor: schemas.url({required: false})
   },
   additionalProperties: true
 };

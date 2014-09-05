@@ -10,14 +10,8 @@ var postAccounts = {
   properties: {
     '@context': schemas.jsonldContext(),
     sysSlug: schemas.slug(),
-    label: {
-      required: true,
-      type: schemas.label()
-    },
-    sysPublic: {
-      required: false,
-      type: schemas.propertyVisibility()
-    },
+    label: schemas.label(),
+    sysPublic: schemas.propertyVisibility({required: false}),
     currency: currency()
   },
   additionalProperties: false
@@ -28,14 +22,8 @@ var postAccount = {
   properties: {
     '@context': schemas.jsonldContext(),
     id: schemas.url(),
-    label: {
-      required: true,
-      type: schemas.label()
-    },
-    sysPublic: {
-      required: false,
-      type: schemas.propertyVisibility()
-    },
+    label: schemas.label({required: false}),
+    sysPublic: schemas.propertyVisibility({required: false}),
     backupSource: {
       required: false,
       type: 'array',
@@ -56,10 +44,7 @@ var postAccount = {
 var delAccountQuery = {
   type: 'object',
   properties: {
-    backupSource: {
-      required: true,
-      type: schemas.url()
-    }
+    backupSource: schemas.url()
   },
   additionalProperties: true
 };
@@ -69,6 +54,7 @@ var postAccountCreditLine = {
   type: 'object',
   properties: {
     '@context': schemas.jsonldContext(),
+    id: schemas.url(),
     backupSource: schemas.url({required: false})/*,
     amount: ...*/
   },
@@ -80,6 +66,7 @@ var postAccountBackupSource = {
   type: 'object',
   properties: {
     '@context': schemas.jsonldContext(),
+    id: schemas.url(),
     backupSource: schemas.url()
   },
   additionalProperties: false
@@ -95,14 +82,8 @@ var postRegulatoryAddress = {
       properties: {
         '@context': schemas.jsonldContext(),
         sysSlug: schemas.slug(),
-        label: {
-          required: true,
-          type: schemas.label()
-        },
-        sysPublic: {
-          required: false,
-          type: schemas.propertyVisibility()
-        },
+        label: schemas.label(),
+        sysPublic: schemas.propertyVisibility({required: false}),
         currency: currency()
       },
       additionalProperties: false

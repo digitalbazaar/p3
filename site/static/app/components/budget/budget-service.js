@@ -20,6 +20,7 @@ function factory(
   });
   service.state = service.collection.state;
   service.budgets = service.collection.storage;
+  // map from budgetId to vendor info
   service.vendors = {};
 
   // add a vendor to a budget
@@ -27,6 +28,7 @@ function factory(
     service.state.loading = true;
     return Promise.resolve($http.post(budgetId, {
       '@context': config.data.contextUrl,
+      id: budgetId,
       vendor: vendorId
     })).then(function() {
       // get budget
@@ -42,7 +44,9 @@ function factory(
   service.delVendor = function(budgetId, vendorId) {
     service.state.loading = true;
     return Promise.resolve($http.delete(budgetId, {
-      vendor: vendorId
+      params: {
+        vendor: vendorId
+      }
     })).then(function() {
       // get budget
       return service.collection.get(budgetId);
@@ -61,6 +65,8 @@ function factory(
         new brResourceService.Collection({
           url: budgetId + '?view=vendors'
         });
+      // FIXME: want to remove this registration when not needed
+      brRefreshService.register(collection);
     } else {
       collection = service.vendors[budgetId];
     }

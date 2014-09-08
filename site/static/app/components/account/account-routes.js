@@ -16,12 +16,14 @@ return [{
   path: base + '/:identity/accounts',
   options: {
     title: 'Accounts',
+    session: 'required',
     templateUrl: '/app/components/account/accounts.html'
   }
 }, {
   path: base + '/:identity/accounts/:account',
   options: {
     title: 'Account',
+    session: 'required',
     templateUrl: '/app/components/account/account.html'
   }
 }];

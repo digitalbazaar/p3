@@ -16,6 +16,7 @@ return [{
   path: base + '/:identity/budgets/:budget',
   options: {
     title: 'Budget',
+    session: 'required',
     templateUrl: '/app/components/budget/budget.html'
   }
 }];

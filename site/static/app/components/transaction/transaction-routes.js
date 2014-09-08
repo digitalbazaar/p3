@@ -15,6 +15,7 @@ return [{
   path: '/transactions/:transaction',
   options: {
     title: 'Transaction',
+    session: 'required',
     templateUrl: '/app/components/transaction/transaction.html'
   }
 }];

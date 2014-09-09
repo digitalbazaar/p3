@@ -85,6 +85,11 @@ config.identity.identities.push({
   email: 'admin@payswarm.dev',
   sysPassword: 'password',
   sysPublic: ['label', 'url', 'description'],
+  sysRegulatoryAddress: {
+    type: 'Address',
+    addressRegion: 'State',
+    addressCountry: 'US'
+  },
   sysResourceRole: [{
     sysRole: 'payswarm.admin'
   }],
@@ -101,6 +106,11 @@ config.identity.identities.push({
   email: 'authority@payswarm.dev',
   sysPassword: 'password',
   sysPublic: ['label', 'url', 'description'],
+  sysRegulatoryAddress: {
+    type: 'Address',
+    addressRegion: 'State',
+    addressCountry: 'US'
+  },
   sysResourceRole: [{
     sysRole: 'identity.registered',
     generateResource: 'id'
@@ -146,6 +156,11 @@ config.identity.identities.push({
   email: 'vendor@payswarm.dev',
   sysPublic: ['label', 'url', 'description'],
   sysPassword: 'password',
+  sysRegulatoryAddress: {
+    type: 'Address',
+    addressRegion: 'State',
+    addressCountry: 'US'
+  },
   sysResourceRole: [{
     sysRole: 'identity.registered',
     generateResource: 'id'
@@ -190,6 +205,7 @@ config.financial.accounts.push({
   type: 'FinancialAccount',
   owner: authorityId,
   sysSlug: 'fees',
+  sysRegulations: 'urn:regulation:unregulated',
   label: config.authority.name + ' Fees Account',
   sysPublic: ['label', 'owner'],
   currency: 'USD',
@@ -200,6 +216,7 @@ config.financial.accounts.push({
   type: 'FinancialAccount',
   owner: authorityId,
   sysSlug: 'main',
+  sysRegulations: 'urn:regulation:unregulated',
   label: config.authority.name + ' Main Account',
   currency: 'USD',
   sysAllowStoredValue: true
@@ -209,6 +226,7 @@ config.financial.accounts.push({
   type: 'FinancialAccount',
   owner: authorityId,
   sysSlug: 'verify',
+  sysRegulations: 'urn:regulation:unregulated',
   label: config.authority.name + ' Verify Source Account',
   currency: 'USD',
   sysAllowStoredValue: true
@@ -234,6 +252,7 @@ config.financial.accounts.push({
   type: 'FinancialAccount',
   owner: baseIdPath + '/vendor',
   sysSlug: 'primary',
+  sysRegulations: 'urn:regulation:unregulated',
   label: 'Primary Account',
   sysPublic: ['label', 'owner'],
   currency: 'USD'

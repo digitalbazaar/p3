@@ -21,17 +21,21 @@ function factory(
     identities: brIdentityService.state
   };
   self.account = undefined;
+  self.isOwner = false;
 
   brRefreshService.register($scope, function(force) {
     var opts = {force: !!force};
     brAlertService.clear();
+    self.isOwner = false;
     psAccountService.collection.getCurrent(opts)
       .then(function(account) {
         self.account = account;
+        self.isOwner = self.account.owner == brIdentityService.identity.id;
       })
       .catch(function(err) {
         brAlertService.add('error', err);
         self.account = null;
+        self.isOwner = false;
       })
       .then(function() {
         $scope.$apply();

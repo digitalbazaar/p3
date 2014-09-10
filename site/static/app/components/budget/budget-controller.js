@@ -43,6 +43,7 @@ function factory(
           .catch(function(err) {
             brAlertService.add('error', err);
             vendor.deleted = false;
+          }).then(function() {
             $scope.$apply();
           });
       });

@@ -86,7 +86,7 @@ module.exports = function(grunt) {
       options: {
         baseUrl: '<%= dirs.bedrock %>/site/static',
         paths: {
-          'almond': '../../node_modules/almond/almond',
+          'almond': '<%= dirs.bedrock %>/bower_components/almond/almond',
           'angular': '<%= dirs.bedrock %>/bower_components/angular/angular',
           'angular-animate': '<%= dirs.bedrock %>/bower_components/angular-animate/angular-animate',
           'angular-bootstrap': '<%= dirs.bedrock %>/bower_components/angular-bootstrap/ui-bootstrap-tpls',

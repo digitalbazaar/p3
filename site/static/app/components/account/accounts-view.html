@@ -63,11 +63,11 @@
                   <i class="fa fa-plus"></i> Deposit
                 </a>
               </li>
-              <li ng-class="{disabled: account.balance == 0}">
-                <a class="stackable-cancel" ng-show="account.balance == 0" href="#">
+              <li ng-class="{disabled: account.balance == 0 || account.balance[0] == '-'}">
+                <a class="stackable-cancel" ng-show="account.balance == 0 || account.balance[0] == '-'" href="#">
                   <i class="fa fa-minus"></i> Withdraw
                 </a>
-                <a class="stackable-cancel" ng-hide="account.balance == 0" ng-click="model.modals.account=account; model.modals.showWithdraw=true">
+                <a class="stackable-cancel" ng-hide="account.balance == 0 || account.balance[0] == '-'" ng-click="model.modals.account=account; model.modals.showWithdraw=true">
                   <i class="fa fa-minus"></i> Withdraw
                 </a>
               </li>

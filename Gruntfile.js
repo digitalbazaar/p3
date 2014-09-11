@@ -26,12 +26,12 @@ module.exports = function(grunt) {
   grunt.config('cssmin', {
     combine: {
       options: {
-        root: '<%= dirs.bedrock %>/site/static/',
+        root: 'site/static/',
         report: 'min'
       },
       files: {
         'site/static/css/bundle.min.css': [
-          '<%= dirs.bedrock %>/site/static/css/app.css',
+          'site/static/css/app.css',
           'site/static/css/custom.css'
         ]
       }

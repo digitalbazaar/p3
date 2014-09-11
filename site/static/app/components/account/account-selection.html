@@ -25,7 +25,7 @@
       </tr>
     </tbody>
   </table>
-  <div ng-show="showDepositButton">
+  <div ng-show="showDepositButton && (account.sysAllowStoredValue || account.balance[0] == '-')">
     <button type="button" class="btn btn-success"
       ng-click="model.showDepositModal=true; $event.stopPropagation()"><i class="fa fa-plus"></i> Deposit</button><br/>
     <div br-lazy-compile="ps-account-selection-deposit-modal" br-compile-trigger="model.showDepositModal">

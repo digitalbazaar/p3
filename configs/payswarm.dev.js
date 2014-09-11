@@ -180,7 +180,7 @@ config.website.writeLocales = false;
 
 config.website.views.vars.productionMode = false;
 // 'minify' setting used in non-production mode
-config.website.views.vars.minify = true;
+config.website.views.vars.minify = false;
 
 config.website.views.vars.baseUri = baseUri;
 config.website.views.vars.serviceHost = config.server.host;

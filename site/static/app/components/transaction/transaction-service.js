@@ -113,7 +113,7 @@ function factory(
    * psTransactionService.getQuote({
    *   listing: 'https://merchant.com/listing-url',
    *   listingHash: 'ab34e87a8d8f5fde3f23f23',
-   *   source 'https://example.com/i/myid/accounts/primary',
+   *   source: 'https://example.com/i/myid/accounts/primary',
    *   referenceId: '12345' (optional),
    *   nonce: '12345' (optional)
    * });

@@ -29,20 +29,18 @@ var APP_NAME = 'payswarm.apps.PromotionEditor';
 
 console.log('\nPromotion Editor:\n');
 
+// FIXME: see audit tool to add options like config, etc.
+var program = bedrock.program
+  .version('0.0.1')
+  .option(
+    '--create <filename>', 'The JSON file containing the promotion details.');
+
 async.waterfall([
   function(callback) {
     // start bedrock
-    bedrock.start({
-      // FIXME: see audit tool to add options like config, etc.
-      program: {
-        version: '0.0.1',
-        options: [
-          '--create <filename>', 'The JSON file containing the promotion details.'
-        ]
-      }
-    }, callback);
+    bedrock.start(callback);
   },
-  function(program, callback) {
+  function(callback) {
     if(!program.create) {
       console.log('\nError: Missing required option "--create".');
       process.stdout.write(program.helpInformation());

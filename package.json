@@ -38,7 +38,7 @@
     "grunt-contrib-requirejs": "~0.4.1",
     "jsdom": "~0.7.0",
     "ng-annotate": "~0.9.7",
-    "request": "~2.37.0",
+    "request": "~2.42.0",
     "requirejs": "~2.1.8",
     "soap": "git://github.com/digitalbazaar/node-soap.git",
     "sprintf": "~0.1.1",

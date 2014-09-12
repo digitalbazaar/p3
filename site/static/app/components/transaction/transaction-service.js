@@ -134,7 +134,8 @@ function factory(
    * psTransactionService.purchase({
    *   type: 'PurchaseRequest',
    *   transactionId: 'https://example.com/transactions/1.1.a',
-   *   nonce: '12345' (optional)
+   *   nonce: '12345' (optional),
+   *   allowBudget: false (optional)
    * });
    */
   service.purchase = function(purchaseRequest) {

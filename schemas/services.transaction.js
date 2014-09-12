@@ -1,6 +1,7 @@
 var bedrock = require('bedrock');
 var schemas = bedrock.validation.schemas;
 
+var allowBudget = require('./allowBudget');
 var deposit = require('./deposit');
 var referenceId = require('./referenceId');
 var resourceHash = require('./resourceHash');
@@ -89,6 +90,7 @@ var postPurchaseRequest = {
         required: false,
         type: 'string'
       },
+      allowBudget: allowBudget({required: false}),
       signature: schemas.graphSignature({required: false})
     },
     additionalProperties: false
@@ -101,6 +103,7 @@ var postPurchaseRequest = {
       type: schemas.jsonldType('PurchaseRequest'),
       transactionId: schemas.url(),
       nonce: schemas.nonce({required: false}),
+      allowBudget: allowBudget({required: false}),
       signature: schemas.graphSignature({required: false})
     },
     additionalProperties: false

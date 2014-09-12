@@ -72,6 +72,7 @@ function factory(
     return self.selection.account;
   }, function(value) {
     if(self.sourceType === 'account') {
+      updatePurchaseDisabled();
       if(self.source !== value) {
         self.source = self.selection.account.id;
         if(self.ready) {
@@ -227,47 +228,46 @@ function factory(
   function purchase(source, options) {
     self.alertType = null;
     options = options || {};
-    var promise;
     // ensure account matches quote
     var src = self.contract ? self.contract.transfer[0].source : null;
     if(src !== source) {
-      promise = updateQuote(source);
-    } else {
-      promise = Promise.resolve();
+      // $watches should prevent this from happening
+      brAlertService.add('error', new Error(
+        'The account selection changed; a new quote is required.'));
+      return;
     }
-    promise.then(function() {
-      var request = {
-        '@context': config.data.contextUrl,
-        type: 'PurchaseRequest',
-        transactionId: self.contract.id
-      };
-      if(self.nonce !== null) {
-        request.nonce = self.nonce;
+    var request = {
+      '@context': config.data.contextUrl,
+      type: 'PurchaseRequest',
+      transactionId: self.contract.id
+    };
+    if(self.nonce !== null) {
+      request.nonce = self.nonce;
+    }
+    if('allowBudget' in options) {
+      request.allowBudget = options.allowBudget;
+    }
+    psTransactionService.purchase(request).then(function(response) {
+      self.alertType = 'purchased';
+      self.purchased = true;
+      if(response.type === 'EncryptedMessage') {
+        self.encryptedMessage = response;
+      } else {
+        self.receipt = response;
       }
-      if('allowBudget' in options) {
-        request.allowBudget = options.allowBudget;
-      }
-      return psTransactionService.purchase(request).then(function(response) {
-        self.alertType = 'purchased';
-        self.purchased = true;
-        if(response.type === 'EncryptedMessage') {
-          self.encryptedMessage = response;
-        } else {
-          self.receipt = response;
-        }
 
-        if(!self.budget) {
-          return;
-        }
-        // auto-purchased, update budget
-        return psBudgetService.collection.get(self.budget.id, {force: true})
-          .then(function(budget) {
-            self.budget = budget;
-          })
-          .catch(function(err) {
-            // log error but don't throw it, purchase was completed
-            brAlertService.add('error', err);
-          });
+      if(!self.budget) {
+        return;
+      }
+      // auto-purchased, update budget
+      return psBudgetService.collection.get(self.budget.id, {force: true})
+        .then(function(budget) {
+          self.budget = budget;
+        })
+        .catch(function(err) {
+          // log error but don't throw it, purchase was completed
+          brAlertService.add('error', err);
+        });
       }).catch(function(err) {
         brAlertService.add('error', err);
         // clear any auto-purchase budget
@@ -287,10 +287,11 @@ function factory(
               self.selection.account = account;
             }).catch(function(err) {
               brAlertService.add('error', err);
-            }).then(function() {
-              $scope.$apply();
             });
           }
+          break;
+        case 'payswarm.financial.InsufficientFunds':
+          self.purchaseDisabled = true;
           break;
         // FIXME: namespace should be payswarm.website
         //case 'payswarm.website.DuplicatePurchase':
@@ -305,7 +306,6 @@ function factory(
       }).then(function() {
         $scope.$apply();
       });
-    });
   }
 
   // try to find budget for a contract
@@ -340,7 +340,17 @@ function factory(
     if(budget) {
       // budget found, try auto-purchase
       self.budget = budget;
-      return purchase(budget.source);
+      // ensure account matches quote
+      var promise;
+      var src = self.contract ? self.contract.transfer[0].source : null;
+      if(src !== budget.source) {
+        promise = updateQuote(budget.source);
+      } else {
+        promise = Promise.resolve();
+      }
+      return promise.then(function() {
+        purchase(budget.source);
+      });
     }
   }
 }

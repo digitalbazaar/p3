@@ -10,6 +10,20 @@ var payswarm = {
 
 var APP_NAME = 'payswarm.apps.PromotionEditor';
 
+/** Example Promo File Content
+{
+  "promoCode": "ABC",
+  "expires": "2013-03-22T19:38:10Z",
+  "redeemable": 1,
+  "deposit": [{
+    "amount": "1.0000000000",
+    "comment": "The reason for the funds"
+  }],
+  "title": "The Promotion Title"
+  "description": "The promotion description."
+}
+*/
+
 // FIXME: see audit tool to add options like config, etc.
 program
   .version('0.0.1')

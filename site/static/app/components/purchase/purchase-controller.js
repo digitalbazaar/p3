@@ -80,7 +80,7 @@ function factory(
         }
       }
     }
-  });
+  }, true);
   $scope.$watch(function() {
     return self.selection.budget;
   }, function(value) {

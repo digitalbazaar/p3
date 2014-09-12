@@ -56,7 +56,6 @@ async.waterfall([
 
     console.log('\nCreating new promotion from file: "' +
       program.create + '"...');
-    console.log('foo', fs.readFileSync(program.create, 'utf8'));
     var promo = JSON.parse(fs.readFileSync(program.create, 'utf8'));
     var schema = require('../schemas/promo')();
     return payswarm.validation.validateInstance(promo, schema, function(err) {

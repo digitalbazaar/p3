@@ -4,6 +4,7 @@
  * Copyright (c) 2014 Digital Bazaar, Inc. All rights reserved.
  */
 var config = require('bedrock').config;
+var constants = config.constants;
 var baseIdPath = config.server.baseUri + config.identity.basePath;
 var authorityId = config.authority.id;
 
@@ -11,6 +12,7 @@ var authorityId = config.authority.id;
 config.addressValidator.test = {};
 config.addressValidator.test.key = 'testhashkey';
 config.addressValidator.test.address = {
+  '@context': constants.CONTEXT_URL,
   name: 'Full Name',
   streetAddress: '100 Street Apt 1',
   addressLocality: 'City',
@@ -21,8 +23,9 @@ config.addressValidator.test.address = {
 
 // financial defaults
 config.financial.defaults.account = {
-  type: 'FinancialAccount',
   // demo with $10
+  '@context': constants.CONTEXT_URL,
+  type: 'FinancialAccount',
   balance: '10.0000000',
   currency: 'USD',
   sysPublic: [],
@@ -31,6 +34,7 @@ config.financial.defaults.account = {
 config.financial.createDefaultPaymentTokens = true;
 config.financial.defaults.paymentTokens.push({
   // demo payment token source
+  '@context': constants.CONTEXT_URL,
   type: 'CreditCard',
   label: 'My Visa',
   paymentGateway: 'Test',
@@ -62,6 +66,7 @@ config.financial.paymentTokens.push({
   },
   gateway: 'Authority',
   token: {
+    '@context': constants.CONTEXT_URL,
     id: config.financial.devPaymentToken,
     type: 'PaymentToken',
     label: 'Authority External Bank Account',
@@ -78,6 +83,7 @@ config.promo.paymentToken = 'urn:authority-bank-account';
 
 // Admin
 config.identity.identities.push({
+  '@context': constants.CONTEXT_URL,
   id: config.admin.id,
   type: 'Identity',
   sysSlug: 'admin',
@@ -99,6 +105,7 @@ config.identity.identities.push({
 
 // Authority
 config.identity.identities.push({
+  '@context': constants.CONTEXT_URL,
   id: config.authority.id,
   type: 'Identity',
   sysSlug: 'authority',
@@ -121,6 +128,7 @@ config.identity.identities.push({
 
 // Dev
 config.identity.identities.push({
+  '@context': constants.CONTEXT_URL,
   id: baseIdPath + '/dev',
   type: 'Identity',
   sysSlug: 'dev',
@@ -135,6 +143,7 @@ config.identity.identities.push({
 
 // Customer
 config.identity.identities.push({
+  '@context': constants.CONTEXT_URL,
   id: baseIdPath + '/customer',
   type: 'Identity',
   sysSlug: 'customer',
@@ -149,6 +158,7 @@ config.identity.identities.push({
 
 // Vendor
 config.identity.identities.push({
+  '@context': constants.CONTEXT_URL,
   id: baseIdPath + '/vendor',
   type: 'Identity',
   sysSlug: 'vendor',
@@ -183,6 +193,7 @@ config.identity.identities.push({
 // keys
 config.identity.keys.push({
   publicKey: {
+    '@context': constants.CONTEXT_URL,
     id: config.authority.id + '/keys/1',
     type: 'CryptographicKey',
     owner: config.authority.id,
@@ -190,6 +201,7 @@ config.identity.keys.push({
     publicKeyPem: '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqMbYknpvLLx6+ZQ3IucP\nl6dsEdSj82CBw9Xd7GQIsD7qYIzE18LKe9I+SroxHhDDpBuwTZREV9kOwyvOcvbD\nbp46+ymA7TGIRoScz6L7e8QSCqEPg/z6FBWtsCNpVx+AUF68Ci99IBU0xWKHyPRp\n6ZHpW9ET4150Q3ZFQLcw7xD8pt9lCb7YGbmWcZWYvMysLRZ4ihuYCbbaBzgtTp3i\nQQGmrZ2gcQVwdx898/OcJ8Kj9PNJEyoydoqcIQtVyQtfKev+Ofegy6pfH69i5+Z3\nOqs2Ochr3tVnzPAMIVsvW/eVtnXacyxUsyT+m2uhRtC+e72zlDmobpLPm7RPYGJA\nkQIDAQAB\n-----END PUBLIC KEY-----\n'
   },
   privateKey: {
+    '@context': constants.CONTEXT_URL,
     type: 'CryptographicKey',
     owner: config.authority.id,
     label: 'Key 1',
@@ -201,6 +213,7 @@ config.identity.keys.push({
 // accounts
 // fees first so auto-deposit has a fee account to work with
 config.financial.accounts.push({
+  '@context': constants.CONTEXT_URL,
   id: authorityId + '/accounts/fees',
   type: 'FinancialAccount',
   owner: authorityId,
@@ -212,6 +225,7 @@ config.financial.accounts.push({
   sysAllowStoredValue: true
 });
 config.financial.accounts.push({
+  '@context': constants.CONTEXT_URL,
   id: authorityId + '/accounts/main',
   type: 'FinancialAccount',
   owner: authorityId,
@@ -222,6 +236,7 @@ config.financial.accounts.push({
   sysAllowStoredValue: true
 });
 config.financial.accounts.push({
+  '@context': constants.CONTEXT_URL,
   id: authorityId + '/accounts/verify',
   type: 'FinancialAccount',
   owner: authorityId,
@@ -232,6 +247,7 @@ config.financial.accounts.push({
   sysAllowStoredValue: true
 });
 config.financial.accounts.push({
+  '@context': constants.CONTEXT_URL,
   id: baseIdPath + '/dev/accounts/primary',
   type: 'FinancialAccount',
   owner: baseIdPath + '/dev',
@@ -240,6 +256,7 @@ config.financial.accounts.push({
   currency: 'USD'
 });
 config.financial.accounts.push({
+  '@context': constants.CONTEXT_URL,
   id: baseIdPath + '/customer/accounts/primary',
   type: 'FinancialAccount',
   owner: baseIdPath + '/customer',
@@ -248,6 +265,7 @@ config.financial.accounts.push({
   currency: 'USD'
 });
 config.financial.accounts.push({
+  '@context': constants.CONTEXT_URL,
   id: baseIdPath + '/vendor/accounts/primary',
   type: 'FinancialAccount',
   owner: baseIdPath + '/vendor',

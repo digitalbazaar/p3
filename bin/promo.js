@@ -7,11 +7,12 @@ var async = require('async');
 var bedrock = require('bedrock');
 var fs = require('fs');
 
-// FIXME: provide override via command line option
-// FIXME: use config that only loads required modules
-// load PaySwarm config
-require('../configs/bin.dev');
-bedrock.config.modules.push(path.join(_pslibdir, 'promo'));
+// load required modules
+var config = bedrock.module('config');
+config.tool = config.tool || {};
+config.tool.modules = [
+  path.join(_pslibdir, 'promo')
+];
 
 var APP_NAME = 'payswarm.apps.PromotionEditor';
 

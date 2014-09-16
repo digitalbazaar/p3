@@ -9,14 +9,10 @@ var async = require('async');
 var bedrock = require('bedrock');
 var request = require('request');
 
-require('../configs/bin.dev');
-
 var config = {};
 
 var program = bedrock.program
   // setup the command line options
-  .option('--config <config>',
-    'Load a config file (default: none).')
   .option('--no-progress', 'Disable progress (default: enabled).')
   .option('--account <id>', 'Audit one account (default: *).')
   .option('--stop-on-error', 'Stop when an error is detected (default: no).')
@@ -33,7 +29,6 @@ function main() {
   var audit = require('../lib/payswarm-auth/audit');
 
   // initialize the configuration
-  config.config = program.config;
   config.progress = !!program.progress;
   config.account = program.account || '*';
   console.log('modes', program.modes);

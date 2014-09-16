@@ -80,9 +80,9 @@ config.environment = 'bin';
 config.monitors = {};
 
 // logging
-config.loggers.app.filename = path.join(_logdir, 'payswarm-dev-app.log');
-config.loggers.access.filename = path.join(_logdir, 'payswarm-dev-access.log');
-config.loggers.error.filename = path.join(_logdir, 'payswarm-dev-error.log');
+config.loggers.app.filename = path.join(_logdir, 'payswarm-dev-bin-app.log');
+config.loggers.access.filename = path.join(_logdir, 'payswarm-dev-bin-access.log');
+config.loggers.error.filename = path.join(_logdir, 'payswarm-dev-bin-error.log');
 config.loggers.email.silent = true;
 config.loggers.email.to = ['cluster@payswarm.com'];
 config.loggers.email.from = 'cluster@payswarm.com';
@@ -158,48 +158,8 @@ config.mail.vars = {
 // branding
 config.brand.name = 'PaySwarm Development';
 
-// add static paths for website
-config.website.i18nPaths = [
-  path.join(_datadir, 'site', 'static')
-];
-config.server.static.push(path.join(_datadir, 'site', 'static'));
-
-config.website.views.paths.push(path.join(_datadir, 'site', 'views'));
-config.website.views.cache = false;
-
-// turn off locale file updates
-config.website.writeLocales = false;
-
-config.website.views.vars.productionMode = false;
-// 'minify' setting used in non-production mode
-config.website.views.vars.minify = false;
-
-config.website.views.vars.baseUri = baseUri;
-config.website.views.vars.serviceHost = config.server.host;
-config.website.views.vars.serviceDomain = config.server.domain;
-config.website.views.vars.supportDomain = 'payswarm.dev';
-
-config.website.views.vars.googleAnalytics.enabled = false;
-config.website.views.vars.googleAnalytics.account = '';
-
-//config.website.views.vars.style.brand.src = '/img/payswarm.png';
-//config.website.views.vars.style.brand.alt = config.brand.name;
-//config.website.views.vars.style.brand.height = '24';
-//config.website.views.vars.style.brand.width = '182';
-
-config.website.views.vars.title = config.brand.name;
-config.website.views.vars.siteTitle = config.brand.name;
-
-config.website.views.vars.debug = true;
-
 // identity credentials config
 config.identityCredentials.allowInsecureCallback = true;
-
-var clientData = config.website.views.vars.clientData;
-clientData.baseUri = config.server.baseUri;
-clientData.siteTitle = config.brand.name;
-clientData.productionMode = false;
-clientData.demoWarningUrl = 'https://payswarm.com/wiki/Demo_Warning';
 
 // identity service
 config.identity.owner = config.authority.id;
@@ -218,3 +178,14 @@ config.financial.defaults.paymentGateways = {
 config.financial.allowInitialBalance = true;
 
 require('./dev-data');
+
+// hand custom tool config
+var toolConfig = config.tool || {};
+// add modules to main modules list
+((config.tool || {}).modules || []).forEach(function(mod) {
+  config.modules.push(mod);
+});
+// load configs
+((config.tool || {}).configs || []).forEach(function(cfg) {
+  require(cfg);
+});

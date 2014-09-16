@@ -25,7 +25,10 @@ function factory(
     })).then(function() {
       service.state.loading = false;
       // refresh related account
-      psAccountService.collection.get(accountId).then(function(account) {
+      psAccountService.collection.get(accountId, {
+        delay: 500,
+        force: true
+      }).then(function() {
         // refresh latest transactions
         psTransactionService.getRecent({force: true});
       });

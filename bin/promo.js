@@ -1,6 +1,8 @@
 var path = require('path');
 GLOBAL.__libdir = path.resolve(path.join(
   __dirname, '..', 'node_modules', 'bedrock', 'lib'));
+var _pslibdir = path.resolve(path.join(
+  __dirname, '..', 'lib', 'payswarm-auth'));
 var async = require('async');
 var bedrock = require('bedrock');
 var fs = require('fs');
@@ -8,7 +10,8 @@ var fs = require('fs');
 // FIXME: provide override via command line option
 // FIXME: use config that only loads required modules
 // load PaySwarm config
-require('../configs/payswarm.dev');
+require('../configs/bin.dev');
+bedrock.config.modules.push(path.join(_pslibdir, 'promo'));
 
 var APP_NAME = 'payswarm.apps.PromotionEditor';
 

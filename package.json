@@ -27,6 +27,7 @@
     "bcrypt": "~0.7.8",
     "bignumber.js": "~1.4.1",
     "bossgeo": "~0.0.7",
+    "commander": "~1.3.2",
     "cube": "~0.2.0",
     "cubism": "~1.6.0",
     "d3": "~3.4.8",

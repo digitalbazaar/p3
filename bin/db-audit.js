@@ -1,84 +1,48 @@
 /*
  * Copyright (c) 2012-2013 Digital Bazaar, Inc. All rights reserved.
  */
-GLOBAL.__libdir = require('path').resolve(__dirname, '../lib');
+var path = require('path');
+GLOBAL.__libdir = path.resolve(path.join(
+  __dirname, '..', 'node_modules', 'bedrock', 'lib'));
 var _ = require('underscore');
 var async = require('async');
-var audit = require('../lib/payswarm-auth/audit');
-var payswarmTools = require('../lib/payswarm-auth/tools');
-var pkginfo = require('pkginfo')(module, 'version');
-var program = require('commander');
+var bedrock = require('bedrock');
 var request = require('request');
-var util = require('util');
-var winston = require('winston');
 
-var main = {};
+require('../configs/bin.dev');
+
 var config = {};
-var logger = null;
 
-main.run = function() {
-  program
-    .version(module.exports.version)
-    // setup the command line options
-    .option('--config <config>',
-      'Load a config file (default: none).', String)
-    .option('--log-level <level>',
-      'Log level (silly, verbose, info, warn, debug, error, none)' +
-      ' (default: info).', String, 'info')
-    .option('--log-file <filename>',
-      'Log file name (default: none).', String)
-    .option('--log-file-level <level>',
-      'Log level (silly, verbose, info, warn, debug, error, none)' +
-      ' (default: info).', String, 'info')
-    .option('--log-timestamps',
-      'Log timestamps (default: false).')
-    .option('--no-log-colorize',
-      'Log timestamps (default: true).')
-    .option('--no-progress', 'Disable progress (default: enabled).')
-    .option('--account <id>', 'Audit one account (default: *).', String)
-    .option('--stop-on-error', 'Stop when an error is detected (default: no).')
-    .option('--modes <modes>', 'Audit modes (default: accounts).', 'accounts')
-    .on('--help', function() {
-      console.log('  The audit modes paramter takes a comma seperated list');
-      console.log('  of modes from [accounts, validate].');
-      console.log();
-    })
-    .parse(process.argv);
+var program = bedrock.program
+  // setup the command line options
+  .option('--config <config>',
+    'Load a config file (default: none).')
+  .option('--no-progress', 'Disable progress (default: enabled).')
+  .option('--account <id>', 'Audit one account (default: *).')
+  .option('--stop-on-error', 'Stop when an error is detected (default: no).')
+  .option('--modes <modes>', 'Audit modes (default: accounts).', 'accounts')
+  .on('--help', function() {
+    console.log('  The audit modes paramter takes a comma seperated list');
+    console.log('  of modes from [accounts, validate].');
+    console.log();
+  });
+
+bedrock.start(main);
+
+function main() {
+  var audit = require('../lib/payswarm-auth/audit');
 
   // initialize the configuration
   config.config = program.config;
-  config.logLevel = program.logLevel;
-  config.logFile = program.logFile;
-  config.logFileLevel = program.logFileLevel;
-  config.logTimestamps = !!program.logTimestamps;
-  config.logColorize = !!program.logColorize;
   config.progress = !!program.progress;
   config.account = program.account || '*';
   console.log('modes', program.modes);
   config.modes = program.modes.split(',');
 
-  // setup the logging framework
-  var _transports = [];
-  if(config.logLevel !== 'none') {
-    _transports.push(new winston.transports.Console({
-      level: config.logLevel,
-      timestamp: config.logTimestamps,
-      colorize: config.logColorize
-    }));
-  }
-  if(config.logFile && config.logFileLevel !== 'none') {
-    _transports.push(new winston.transports.File({
-      json: true,
-      timestamp: config.logTimestamps,
-      filename: config.logFile
-    }));
-  }
-  logger = new (winston.Logger)({
-    transports: _transports
-  });
+  var logger = bedrock.module('loggers').get('app');
 
   // dump out the configuration
-  logger.verbose('Config:', config);
+  logger.debug('Config:', config);
 
   var vendors = [];
   var buyers = [];
@@ -101,6 +65,7 @@ main.run = function() {
       'contractCache',
       'distributedId',
       'identity',
+      'job',
       'license',
       'listing',
       'paymentToken',
@@ -156,6 +121,3 @@ process.on('uncaughtException', function(err) {
   process.removeAllListeners('uncaughtException');
   process.exit(1);
 });
-
-// run the program
-main.run();

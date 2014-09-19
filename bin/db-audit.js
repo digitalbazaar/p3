@@ -108,11 +108,3 @@ function main() {
     process.exit();
   });
 };
-
-// log uncaught exception and exit
-process.on('uncaughtException', function(err) {
-  logger.error(
-    err.toString(), err.stack ? {stack: err.stack} : null);
-  process.removeAllListeners('uncaughtException');
-  process.exit(1);
-});

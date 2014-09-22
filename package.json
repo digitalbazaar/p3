@@ -55,5 +55,6 @@
   },
   "engines": {
     "node": ">=0.10.0"
-  }
+  },
+  "main": "payswarm.dev"
 }

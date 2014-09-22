@@ -224,5 +224,3 @@ config.financial.defaults.paymentGateways = {
 
 // permit initial account balances for testing (*ONLY* true in dev mode!)
 config.financial.allowInitialBalance = true;
-
-require('./dev-data');

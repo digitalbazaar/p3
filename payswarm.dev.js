@@ -1,10 +1,7 @@
 /*
  * Copyright (c) 2012-2014 Digital Bazaar, Inc. All rights reserved.
  */
-var path = require('path');
-GLOBAL.__libdir = path.resolve(path.join(
-  __dirname, 'node_modules', 'bedrock', 'lib'));
-var br = require(path.join(GLOBAL.__libdir, 'bedrock'));
+var br = require('bedrock');
 
 if(module.parent) {
   module.exports = br;

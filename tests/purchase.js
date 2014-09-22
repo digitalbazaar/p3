@@ -1,7 +1,6 @@
 /*
  * Copyright (c) 2012-2013 Digital Bazaar, Inc. All rights reserved.
  */
-GLOBAL.__libdir = require('path').resolve(__dirname, '../lib');
 var async = require('async');
 var crypto = require('crypto');
 var events = require('events');

@@ -4,13 +4,11 @@
 
 'use strict';
 
-// FIXME: libdir crazy
-
 // use locally-configured jsonld
-var jsonld = require(GLOBAL.__libdir + '/../../payswarm-auth/lib/payswarm-auth/jsonld', true);
+var jsonld = require('../../lib/payswarm-auth/jsonld');
 var payswarm = {
-  money: require(GLOBAL.__libdir + '/../../payswarm-auth/lib/payswarm-auth/money', true),
-  tools: require(GLOBAL.__libdir + '/../../payswarm-auth/lib/payswarm-auth/tools', true)
+  money: require('../../lib/payswarm-auth/money'),
+  tools: require('../../lib/payswarm-auth/tools')
 };
 var _ = require('underscore');
 var Money = payswarm.money.Money;

@@ -1,4 +1,3 @@
-GLOBAL.__libdir = require('path').resolve(__dirname, '../lib');
 var async = require('async');
 var program = require('commander');
 var fs = require('fs');

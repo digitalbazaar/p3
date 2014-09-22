@@ -1,6 +1,4 @@
 var path = require('path');
-GLOBAL.__libdir = path.resolve(path.join(
-  __dirname, '..', 'node_modules', 'bedrock', 'lib'));
 var _pslibdir = path.resolve(path.join(
   __dirname, '..', 'lib', 'payswarm-auth'));
 var async = require('async');

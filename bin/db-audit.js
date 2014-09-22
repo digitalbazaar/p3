@@ -1,9 +1,6 @@
 /*
  * Copyright (c) 2012-2013 Digital Bazaar, Inc. All rights reserved.
  */
-var path = require('path');
-GLOBAL.__libdir = path.resolve(path.join(
-  __dirname, '..', 'node_modules', 'bedrock', 'lib'));
 var _ = require('underscore');
 var async = require('async');
 var bedrock = require('bedrock');

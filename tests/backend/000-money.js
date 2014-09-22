@@ -7,8 +7,8 @@
 // FIXME: libdir crazy
 var _ = require('underscore');
 var payswarm = {
-  money: require(GLOBAL.__libdir + '/../../payswarm-auth/lib/payswarm-auth/money', true),
-  tools: require(GLOBAL.__libdir + '/../../payswarm-auth/lib/payswarm-auth/tools', true)
+  money: require('../../lib/payswarm-auth/money'),
+  tools: require('../../lib/payswarm-auth/tools')
 };
 var Money = payswarm.money.Money;
 

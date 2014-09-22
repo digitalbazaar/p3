@@ -4,7 +4,6 @@
 
 'use strict';
 
-// FIXME: libdir crazy
 var _ = require('underscore');
 var payswarm = {
   money: require('../../lib/payswarm-auth/money'),

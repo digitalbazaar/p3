@@ -153,6 +153,7 @@ module.exports = function(grunt) {
       src: [
        '*.js',
        'bin/*.js',
+       'bin/**/*.js',
        'configs/*.js',
        'email-templates/*.js',
        'lib/*.js',
@@ -161,7 +162,6 @@ module.exports = function(grunt) {
        'schemas/*.js',
        'site/static/app/*.js',
        'site/static/app/**/*.js',
-       'test/*.js',
        'tests/*.js',
        'tests/**/*.js'
       ]

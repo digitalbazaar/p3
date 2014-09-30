@@ -104,4 +104,4 @@ function main() {
     }
     process.exit();
   });
-};
+}

@@ -51,6 +51,7 @@
     "grunt-contrib-less": "~0.11.4",
     "json-schema": "git://github.com/digitalbazaar/json-schema.git",
     "payswarm": "~0.10.6",
+    "pkginfo": "^0.3.0",
     "visionmedia-jscoverage": "~1.0.0"
   },
   "engines": {

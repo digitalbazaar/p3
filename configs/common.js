@@ -27,16 +27,6 @@ config.server.static.push({
   path: path.join(node_modules, 'filesaver.js', 'FileSaver.js'),
   file: true
 });
-config.server.static.push({
-  route: '/cubism/cubism.v1.js',
-  path: path.join(node_modules, 'cubism', 'cubism.v1.js'),
-  file: true
-});
-config.server.static.push({
-  route: '/d3/d3.js',
-  path: path.join(node_modules, 'd3', 'd3.js'),
-  file: true
-});
 
 // the supported non-english languages for the site
 config.website.locales = ['es', 'zh', 'ru', 'ja', 'de', 'fr'];

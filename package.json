@@ -25,6 +25,7 @@
   "dependencies": {
     "async": "~0.9.0",
     "bcrypt": "~0.7.8",
+    "bedrock": "~0.1.0",
     "bignumber.js": "~1.4.1",
     "bossgeo": "~0.0.7",
     "commander": "~1.3.2",
@@ -36,7 +37,7 @@
     "grunt-contrib-requirejs": "~0.4.1",
     "jsdom": "~0.7.0",
     "ng-annotate": "~0.9.7",
-    "request": "~2.42.0",
+    "request": "~2.44.0",
     "requirejs": "~2.1.8",
     "soap": "git://github.com/digitalbazaar/node-soap.git",
     "sprintf": "~0.1.1",

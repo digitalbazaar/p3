@@ -44,6 +44,7 @@ config.modules = [
 config.website.services = [
   path.join(_libdir, 'payswarm-auth', 'services.bootstrap'),
   'docs',
+  'filesystem',
   'identity',
   'identifier',
   'key',

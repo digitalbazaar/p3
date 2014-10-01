@@ -200,6 +200,10 @@ config.website.views.vars.siteTitle = config.brand.name;
 
 config.website.views.vars.debug = true;
 
+// REST API documentation - variables
+config.website.docs.vars.brand = config.brand.name;
+config.website.docs.vars.baseUri = config.server.baseUri;
+
 // identity credentials config
 config.identityCredentials.allowInsecureCallback = true;
 

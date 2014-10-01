@@ -477,3 +477,15 @@ config.identity.defaults.vendor = {
 config.identity.identities = [];
 config.identity.keys = [];
 // FIXME: port above to bedrock
+
+// REST API documentation - ignore endpoints
+config.website.docs.ignore.push('/help/pricing');
+config.website.docs.ignore.push('/help/wordpress');
+
+// REST API documentation - categories
+config.website.docs.categories['/licenses'] = 'Content License Services';
+config.website.docs.categories['/promos'] = 'Promotional Services';
+config.website.docs.categories['/transactions'] = 
+  'Financial Transaction Services';
+config.website.docs.categories['/vendor/register'] = 
+  'Merchant Registration Services';

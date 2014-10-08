@@ -6,7 +6,7 @@
     "start": "node payswarm.dev.js",
     "compile-css": "grunt compile-css",
     "ci-test": "node ./node_modules/bedrock/test.js --backend --reporter tap --config `pwd`/configs/test.js",
-    "ci-lint": "grunt jshint --mode=ci || exit 0",
+    "ci-lint": "grunt --no-color jshint --mode=ci || exit 0",
     "coverage": "rm -rf coverage && ./node_modules/.bin/istanbul cover ./node_modules/bedrock/test.js -- --backend --reporter tap --config `pwd`/configs/test.js && ./node_modules/.bin/istanbul report --root coverage lcov cobertura",
     "coverage-backend": "rm -rf coverage && ./node_modules/.bin/istanbul cover ./node_modules/bedrock/test.js -- --backend --config `pwd`/configs/test.js && ./node_modules/.bin/istanbul report --root coverage lcov",
     "coverage-frontend": "rm -rf coverage && ./node_modules/.bin/istanbul cover ./node_modules/bedrock/test.js -- --frontend --config `pwd`/configs/test.js && ./node_modules/.bin/istanbul report --root coverage lcov",

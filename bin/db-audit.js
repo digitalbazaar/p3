@@ -6,7 +6,12 @@ var async = require('async');
 var bedrock = require('bedrock');
 var request = require('request');
 
-var config = {};
+// load required modules
+var config = bedrock.module('config');
+config.tool = config.tool || {};
+config.tool.modules = [
+  'identity'
+];
 
 var program = bedrock.program
   // setup the command line options

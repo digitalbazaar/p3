@@ -25,7 +25,7 @@ config.modules = [
   //'scheduler',
   //'mail',
   //'permission',
-  'identity',
+  //'identity',
   //path.join(_libdir, 'payswarm-auth', 'authority'),
   //path.join(_libdir, 'payswarm-auth', 'identityAddress'),
   //path.join(_libdir, 'payswarm-auth', 'identityPreferences'),

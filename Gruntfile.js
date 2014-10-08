@@ -9,6 +9,12 @@ module.exports = function(grunt) {
   // init config
   grunt.initConfig({});
 
+  // set mode to either 'default' or 'ci'
+  grunt.config('mode',
+    grunt.option('mode') || process.env.GRUNT_MODE || 'default');
+  // check for ci mode
+  grunt.config('ci', grunt.option('mode') === 'ci');
+
   // optimization flag (any require.js mode, ie, 'uglify', 'none', etc
   grunt.config('optimize',
     grunt.option('optimize') || process.env.GRUNT_OPTIMIZE || 'uglify');
@@ -149,6 +155,10 @@ module.exports = function(grunt) {
   // _jshint
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.config('jshint', {
+    options: grunt.config('ci') ? {
+      reporter: 'checkstyle',
+      reporterOutput: 'reports/jshint.xml'
+    } : {},
     all: {
       src: [
        '*.js',

@@ -46,7 +46,7 @@
     </br-input>
 
     <div ng-hide="!model.editing" class="form-group">
-      <label class="control-label col-sm-5" for="backups">
+      <label class="control-label col-md-5" for="backups">
         External Payment Method
         <a br-help-toggle="model.help.backupSource">
           <i class="fa fa-question-circle"></i>
@@ -62,17 +62,19 @@
           ng-value="false" ng-model="model.backupSourceEnabled" />
         Disable
       </label>
-      <div ng-show="model.help.backupSource.show" style="margin-top: 10px"
-        class="col-sm-offset-3 col-sm-8">
-        <p class="help-block br-fadein br-fadeout">
-          An external payment method is used to automatically pay back used
-          credit on its due date and to provide funds if an instant transfer
-          is required to complete a purchase.
-        </p>
+      <div class="row">
+        <div ng-show="model.help.backupSource.show" style="margin-top: 10px"
+          class="col-md-offset-1 col-md-10">
+          <p class="help-block br-fadein br-fadeout">
+            An external payment method is used to automatically pay back used
+            credit on its due date and to provide funds if an instant transfer
+            is required to complete a purchase.
+          </p>
+        </div>
       </div>
       <div style="margin-top: 10px"></div>
       <div ng-show="model.backupSourceEnabled">
-        <div ps-payment-token-selector ps-selected="model.backupSource"
+        <div ng-show="model.backupSourceEnabled" ps-payment-token-selector ps-selected="model.backupSource"
           ps-instant="true"></div>
         <!--
         <div ps-payment-token-list ps-instant="true" ps-id-list="model.account.backupSource"></div>
@@ -86,9 +88,9 @@
             icon: 'fa-money', name: 'sysMinInstantTransfer',
             label: 'Instant Transfer Threshold',
             columns: {
-              label: 'col-sm-5',
-              input: 'col-sm-offset-5 col-sm-6',
-              help: 'col-sm-offset-1 col-sm-10'
+              label: 'col-md-5',
+              input: 'col-md-offset-5 col-md-6',
+              help: 'col-md-offset-1 col-md-10'
             }
           }">
           Please enter the minimum purchase amount required in order to trigger
@@ -105,31 +107,33 @@
         <strong>Warning:</strong>
         Use of your credit line and instant transfer will be disabled until a payment method is enabled.
       </div>
-    </div>
-    <div ng-hide="!model.editing" class="form-group">
-      <label class="control-label col-sm-5" for="sysAllowInstantTransfer">
-        Instant Transfer
-        <a br-help-toggle="model.help.sysAllowInstantTransfer">
-          <i class="fa fa-question-circle"></i>
-        </a>
-      </label>
-      <label class="radio-inline">
-        <input type="radio" name="enable-instant-transfer"
-          ng-value="true" ng-model="model.account.sysAllowInstantTransfer" />
-        Enable
-      </label>
-      <label class="radio-inline">
-        <input type="radio" name="enable-instant-transfer"
-          ng-value="false" ng-model="model.account.sysAllowInstantTransfer" />
-        Disable
-      </label>
-      <div ng-show="model.help.sysAllowInstantTransfer.show"
-        style="margin-top: 10px" class="col-sm-offset-1 col-sm-10">
-        <p class="help-block br-fadein br-fadeout">
-          Enabling instant transfer will cause purchases that exceed your
-          credit limit to be performed using the payment method of your
-          choice. Extra fees will be applied per purchase.
-        </p>
+      <div ng-hide="!model.editing" class="form-group">
+        <label class="control-label col-md-5" for="sysAllowInstantTransfer">
+          Instant Transfer
+          <a br-help-toggle="model.help.sysAllowInstantTransfer">
+            <i class="fa fa-question-circle"></i>
+          </a>
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="enable-instant-transfer"
+            ng-value="true" ng-model="model.account.sysAllowInstantTransfer" />
+          Enable
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="enable-instant-transfer"
+            ng-value="false" ng-model="model.account.sysAllowInstantTransfer" />
+          Disable
+        </label>
+        <div class="row">
+          <div ng-show="model.help.sysAllowInstantTransfer.show"
+            style="margin-top: 10px" class="col-md-offset-1 col-md-10">
+            <p class="help-block br-fadein br-fadeout">
+              Enabling instant transfer will cause purchases that exceed your
+              credit limit to be performed using the payment method of your
+              choice. Extra fees will be applied per purchase.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </fieldset>

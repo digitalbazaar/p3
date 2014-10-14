@@ -1,13 +1,13 @@
-*.sw[nop]
 *.py[co]
+*.sw[nop]
 *~
 .project
 .settings
 TAGS
-coverage.html
-lib-cov
+coverage
 node_modules
 npm-debug.log
+reports
 site/static/app/main.min.js
 site/static/app/templates.min.js
 site/static/css/bundle.min.css

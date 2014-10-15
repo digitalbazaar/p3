@@ -179,7 +179,7 @@ config.financial.allowInitialBalance = true;
 
 require('./dev-data');
 
-// hand custom tool config
+// custom tool config
 var toolConfig = config.tool || {};
 // add modules to main modules list
 ((config.tool || {}).modules || []).forEach(function(mod) {

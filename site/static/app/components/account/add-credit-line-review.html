@@ -1,9 +1,12 @@
-<p>You may open one free credit line on any account of your choice.
-FIXME: INSTRUCTIONS ABOUT HOW CREDIT LINES WORK HERE. See our
-<a target="_blank" href="/help/pricing">pricing policy and rates</a>.</p>
+<p>You may open a free credit line on any account of your choice. Once the
+credit line has been opened, you must select a payment method that will be
+used to automatically pay back any credit you use on a periodic basis.</p>
 
-<p>Please select a payment method below that will be used to automatically
-pay back any credit you use on a periodic basis.</p>
+<div class="alert alert-warning">The same payment method may not be used to
+back more than one credit line.</div>
+
+<p>For more information, see our
+<a target="_blank" href="/help/pricing">pricing policy and rates</a>.</p>
 
 <div ng-hide="model.identity.sysEmailVerified" class="section">
   <h4 class="headline">Verify Your Email Address</h4>
@@ -57,7 +60,7 @@ pay back any credit you use on a periodic basis.</p>
 
 <div ng-show="model.identity.sysEmailVerified" class="section">
   <h4 class="headline">Email Verified</h4>
-  <div><span class="alert-success">{{model.identity.email}}</span></div>
+  <div class="alert alert-success"><i class="fa fa-envelope"></i> {{model.identity.email}}</div>
 </div>
 
 <div class="section">
@@ -65,10 +68,4 @@ pay back any credit you use on a periodic basis.</p>
   <div ps-account-selector ps-selected="account"
     ps-invalid="invalidAccount" ps-fixed="true"
     ps-instant-transfer-deposit="ignore"></div>
-</div>
-
-<div class="section">
-  <h4 class="headline">Payment Method</h4>
-  <div ps-payment-token-selector ps-selected="model.backupSource"
-    ps-invalid="selection.invalidSource" ps-instant="true"></div>
 </div>

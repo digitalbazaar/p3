@@ -3,3 +3,18 @@
   <span class="money"><span class="currency">USD</span> <strong>{{account.creditLimit | currency:'$'}}</strong></span>
   for your "<strong>{{account.label}}</strong>" account.
 </p>
+
+<p>In order to enable your credit line, select a payment method that will be
+used to automatically pay back any credit you use on a periodic basis.</p>
+
+<div class="alert alert-warning">The same payment method may not be used to
+back more than one credit line.</div>
+
+<p>For more information, see our
+<a target="_blank" href="/help/pricing">pricing policy and rates</a>.</p>
+
+<div class="section">
+  <h4 class="headline">Payment Method</h4>
+  <div ps-payment-token-selector ps-selected="model.backupSource"
+    ps-invalid="selection.invalidSource" ps-instant="true"></div>
+</div>

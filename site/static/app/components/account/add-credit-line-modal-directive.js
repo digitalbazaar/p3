@@ -18,7 +18,7 @@ function factory(
     link: Link
   };
 
-  function Link(scope) {
+  function Link(scope, element, attrs, stackable) {
     var model = scope.model = {};
     model.identity = brIdentityService.identity;
     model.sysPasscode = '';
@@ -67,13 +67,26 @@ function factory(
       });
     };
 
-    scope.confirm = function() {
+    scope.addCreditLine = function() {
       model.loading = true;
       brAlertService.clearFeedback();
-      psAccountService.addCreditLine(
-        scope.account.id, model.backupSource.id).then(function() {
+      psAccountService.addCreditLine(scope.account.id).then(function() {
         // show complete page
         model.state = 'complete';
+      }).catch(function(err) {
+        brAlertService.add('error', err, {scope: scope});
+      }).then(function() {
+        model.loading = false;
+        scope.$apply();
+      });
+    };
+
+    scope.addBackupSource = function() {
+      model.loading = true;
+      brAlertService.clearFeedback();
+      psAccountService.addBackupSource(
+        scope.account.id, model.backupSource.id).then(function() {
+        stackable.close();
       }).catch(function(err) {
         brAlertService.add('error', err, {scope: scope});
       }).then(function() {

@@ -21,13 +21,17 @@
         </span>
         <span ng-show="model.state == 'reviewing'">
           <button type="button" class="btn btn-primary"
-            ng-disabled="model.loading || !model.backupSource"
-            ng-click="confirm()"><i class="fa fa-check"></i> Confirm</button>
+            ng-disabled="model.loading || !model.identity.sysEmailVerified"
+            ng-click="addCreditLine()"><i class="fa fa-check"></i> Confirm</button>
           <button type="button" ng-disabled="model.loading"
             class="btn btn-default stackable-cancel">Cancel</button>
         </span>
         <span ng-show="model.state == 'complete'">
-          <button type="button" class="btn btn-primary stackable-cancel">Done</button>
+          <button type="button" class="btn btn-primary"
+            ng-disabled="model.loading || !model.backupSource"
+            ng-click="addBackupSource()"><i class="fa fa-check"></i> Add</button>
+          <button type="button" ng-disabled="model.loading"
+            class="btn btn-default stackable-cancel">Close</button>
         </span>
       </div>
     </div><!-- /.modal-content -->

@@ -54,8 +54,7 @@ var postAccountCreditLine = {
   type: 'object',
   properties: {
     '@context': schemas.jsonldContext(),
-    id: schemas.url(),
-    backupSource: schemas.url({required: false})/*,
+    id: schemas.url(),/*,
     amount: ...*/
   },
   additionalProperties: false

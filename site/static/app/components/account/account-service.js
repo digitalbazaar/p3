@@ -30,12 +30,11 @@ function factory(
   service.updateAccounts = _updateAccounts;
 
   // add a credit line to an account
-  service.addCreditLine = function(accountId, backupSourceId) {
+  service.addCreditLine = function(accountId) {
     service.state.loading = true;
     return Promise.resolve($http.post(accountId + '/credit-line', {
       '@context': config.data.contextUrl,
-      id: accountId,
-      backupSource: backupSourceId
+      id: accountId
     })).then(function() {
       // get account
       return service.collection.get(accountId, {force: true});

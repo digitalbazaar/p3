@@ -133,13 +133,13 @@ config.database.local.writeOptions = {
   multi: true
 };
 
-// admin config
+// base config
 var baseUri = 'https://' + config.server.host;
-var adminId = baseUri + '/i/admin';
 
+// admin config
 config.admin = {};
 config.admin.baseUri = baseUri;
-config.admin.id = adminId;
+config.admin.id = baseUri + '/i/admin';
 config.admin.name = 'Admin';
 
 // authority config

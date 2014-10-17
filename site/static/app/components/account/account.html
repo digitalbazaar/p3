@@ -43,7 +43,7 @@
               <i class="fa fa-pencil"></i> Edit
             </a>
           </li>
-          <li ng-show="model.identity.sysUnbackedCreditEmailAvailable && (!model.account.creditLimit || model.account.creditLimit == 0)">
+          <li ng-show="!model.account.creditLimit || model.account.creditLimit == 0">
             <a class="stackable-cancel" ng-click="model.modals.account=model.account; model.modals.showAddCreditLine=true">
               <i class="fa fa-credit-card"></i> Open Credit Line
             </a>

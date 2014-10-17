@@ -1,6 +1,6 @@
 {
   "name": "payswarm-auth",
-  "version": "0.15.0-rc.9",
+  "version": "0.15.0-rc.10",
   "dependencies": {
     "async": {
       "version": "0.9.0",
@@ -17,7 +17,7 @@
       }
     },
     "bedrock": {
-      "version": "0.2.0-rc.5",
+      "version": "0.2.0-rc.6",
       "dependencies": {
         "async": {
           "version": "0.9.0",
@@ -3525,14 +3525,14 @@
           "version": "1.0.3",
           "from": "posix@~1.0.0"
         },
+        "colors": {
+          "version": "0.6.2",
+          "from": "colors@"
+        },
         "chai-as-promised": {
           "version": "4.1.1",
           "from": "chai-as-promised@4.1.1",
           "resolved": "https://registry.npmjs.org/chai-as-promised/-/chai-as-promised-4.1.1.tgz"
-        },
-        "colors": {
-          "version": "0.6.2",
-          "from": "colors@"
         },
         "temp": {
           "version": "0.8.1",

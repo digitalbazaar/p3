@@ -171,6 +171,8 @@
   </div>
 </div>
 
+<div br-lazy-compile="ps-register-public-key-add-address-modal"
+  br-compile-trigger="model.showAddAddressModal">
   <stackable-modal stackable="model.showAddAddressModal"
     stackable-closed="model.register()">
     <br-add-alert br-alert-type="warning">
@@ -179,6 +181,7 @@
     </br-add-alert>
     <div ps-add-address-modal></div>
   </stackable-modal>
+</div>
 
 </div>
 

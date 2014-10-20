@@ -217,7 +217,16 @@ function factory(
       self.contract = contract;
       $scope.$apply();
     }).catch(function(err) {
-      brAlertService.add('error', err);
+      // FIXME: namespace should be payswarm.website
+      if(err.type === 'bedrock.website.DuplicatePurchase') {
+        // set duplicate contract
+        self.alertType = 'duplicatePurchase';
+        self.purchased = true;
+        self.contract = err.details.contract;
+        self.encryptedMessage = err.details.encryptedMessage;
+      } else {
+        brAlertService.add('error', err);
+      }
       self.loading = false;
       $scope.$apply();
       throw err;

@@ -6,110 +6,179 @@
 {% block content %}
 
 {% raw %}
-<div ng-controller="RegisterController as model" class="ng-cloak">
+<div class="ng-cloak" ng-controller="RegisterController as model">
 
 <div class="row">
-  <h1 class="headline">Access Key Registration</h1>
-</div>
-
-<div class="row">
-  <div class="col-md-6 col-md-offset-3">
-    <p>
-    This page registers an access key that your software will use to
-    make trusted requests from this website. You may limit the power of this
-    access key and only grant the software that is using the key certain rights
-    to access and modify your account.
-    </p>
+  <div class="col-md-12">
+    <div ng-include="'/app/components/util/demo-warning.html'"></div>
   </div>
 </div>
 
-<div class="row">
-  <div class="col-md-6 col-md-offset-3">
-    <form ng-hide="model.registered" class="form-horizontal">
-      <fieldset>
-        <div class="form-group">
-          <label class="control-label">Purpose</label>
-          <div class="radio">
-            <label>
-              <input type="radio" name="registration-type"
-                value="vendor" ng-model="model.registrationType" />
-              Only for listing things for sale (Vendor only)
-            </label>
+<div ng-hide="model.registered">
+  <div class="row">
+    <div class="col-md-12">
+      <h2 class="headline">Vendor Access Key Registration</h2>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-8 col-md-offset-3">
+      <p>
+      This page registers an access key that your software will use to
+      make trusted requests from this website. You may limit the power of this
+      access key and only grant the software that is using the key certain rights
+      to access and modify your identity and account.
+      </p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="section col-md-6 col-md-offset-3">
+      <h4 class="headline">Purpose</h4>
+      <form class="form-horizontal">
+        <fieldset>
+          <div class="form-group">
+            <div class="col-md-12">
+              <div class="radio">
+                <label>
+                  <input type="radio" name="registration-type"
+                    value="vendor" ng-model="model.registrationType" />
+                  Only for listing things for sale (Vendor only)
+                </label>
+              </div>
+              <div class="radio">
+                <label>
+                  <input type="radio" name="registration-type"
+                    value="buyer" ng-model="model.registrationType" />
+                  Buying things and listings things for sale (Vendor/Buyer)
+                </label>
+              </div>
+            </div>
           </div>
-          <div class="radio">
-            <label>
-              <input type="radio" name="registration-type"
-                value="buyer" ng-model="model.registrationType" />
-              Buying things and listings things for sale (Vendor/Buyer)
-            </label>
-          </div>
-        </div>
-
-        <!-- FIXME: add switch identity modal button -->
-
-        <div class="form-group">
-          <label class="control-label" for="account-selector">Financial Account</label>
-          <div id="account-selector" ps-account-selector
-            ps-selected="model.selection.account"
-            ps-invalid="model.selection.invalidAccount"
-            ps-instant-transfer-deposit="ignore"></div>
-        </div>
-
-        <div class="form-group" br-property-path="publicKey.label">
-          <label class="control-label" for="access-key-label">Access Key Label</label>
-          <input id="access-key-label" class="form-control"
-            ng-model="model.publicKey.label"
-            name="publicKeyLabel" type="text" />
-        </div>
-
-        <div class="form-group" br-property-path="publicKey.publicKeyPem">
-          <label class="control-label" for="public-key-pem">Access Key</label>
-          <textarea id="public-key-pem" class="form-control input-sm"
-            ng-model="model.publicKey.publicKeyPem"
-            name="publicKeyPem" rows="7">{% endraw %}{% if publicKeyPem %}{{publicKeyPem}}{% endif %}{% raw %}</textarea>
-        </div>
-
-        <div class="form-group">
-          <stackable-modal="model.showAddAddressModal"
-            stackable-closed="model.register()">
-            <div ps-add-address-modal ps-add-address-alert-modal="Before you complete your registration, please enter your business's name and address information."></div>
-          </stackable>
-          <button type="button" class="btn btn-lg btn-primary"
-            ng-disabled="model.loading || !model.identity || !model.selection.account"
-            ng-click="model.register()">Register</button>
-          <span ng-show="model.loading">
-            <i class="fa fa-refresh fa-spin text-muted"></i>
-          </span>
-        </div>
-      </fieldset>
-    </form>
-
-    <div ng-show="model.registered">
-      <p>The access key has been registered.</p>
-
-      <form ng-show="model.registrationCallback" id="vendor-form"
-        class="form-vertical" method="post" action="{{model.registrationCallback}}">
-        <input name="encrypted-message" value="{{model.encryptedMessage}}"
-          type="hidden" />
-        <p>
-        Redirecting to your ecommerce website to complete registration. If
-        this does not redirect automatically, please click the following
-        button.
-        </p>
-        <button class="btn btn-lg btn-primary"
-          type="submit">Complete Vendor Registration</button>
+        </fieldset>
       </form>
+    </div>
+  </div>
 
-      <div ng-hide="model.registrationCallback">
-        <p>
-        Cut and paste the following data into your software to finish
-        the registration process:
-        </p>
-        <textarea class="col-md-6" rows="20" readonly="readonly">{{model.encryptedMessage}}</textarea>
+  <div class="row">
+    <div class="section col-md-6 col-md-offset-3">
+      <h4 class="headline">Associated Financial Account</h4>
+      <p>Select an account to associate with this key. Information about this
+        account will be sent to the software that is registering this key.</p>
+      <div ps-account-selector
+        ps-selected="model.selection.account"
+        ps-invalid="model.selection.invalidAccount"
+        ps-instant-transfer-deposit="ignore"></div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="section col-md-6 col-md-offset-3">
+      <h4 class="headline">Key Details</h4>
+      <form>
+        <fieldset>
+          <br-input br-model="model.publicKey.label"
+            br-options="{
+              icon: 'fa-tag',
+              name: 'publicKey.label',
+              label: 'Label',
+              columns: {
+                label: 'col-md-2',
+                input: 'col-md-8',
+                help: 'col-md-offset-2 col-md-8'
+              }
+            }">
+            <div ng-include="'/app/components/key/key-help.html'"></div>
+          </br-input>
+          <br-textarea br-model="model.publicKey.publicKeyPem"
+            br-options="{
+              icon: 'fa-key',
+              name: 'publicKey.publicKeyPem',
+              label: 'PEM',
+              columns: {
+                label: 'col-md-2',
+                textarea: 'col-md-8',
+                help: 'col-md-offset-2 col-md-8'
+              },
+              rows: '10'
+            }">
+            Enter the public key PEM data.
+          </br-textarea>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <hr />
+      <div class="well text-center">
+        <button type="button" class="btn btn-lg btn-primary"
+          ng-disabled="model.loading || !model.identity || !model.selection.account"
+          ng-click="model.register()">Register</button>
+        <span ng-show="model.loading">
+          <i class="fa fa-refresh fa-spin text-muted"></i>
+        </span>
       </div>
     </div>
   </div>
 </div>
+
+<div ng-show="model.registered">
+
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+
+      <div class="alert alert-success">The access key "<strong>{{model.publicKey.label}}</strong>" has been registered.</div>
+
+      <p ng-show="model.registrationCallback">We're now redirecting you to your
+      ecommerce website to complete registration. If the redirection does not
+      happen automatically, please click the following button.</p>
+
+      <p ng-hide="model.registrationCallback">Cut and paste the following data
+      into your software to complete the registration process:</p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <div ng-show="model.registrationCallback">
+        <hr />
+        <div class="well text-center">
+          <form id="vendor-form"
+            class="form-vertical" method="post" action="{{model.registrationCallback}}">
+            <input name="encrypted-message" value="{{model.encryptedMessage}}"
+              type="hidden" />
+            <button class="btn btn-lg btn-primary"
+              type="submit">Complete Vendor Registration</button>
+          </form>
+        </div>
+      </div>
+      <form ng-hide="model.registrationCallback">
+        <br-textarea br-model="model.encryptedMessage"
+          br-options="{
+            name: 'encryptedMessage',
+            label: 'Registration Data',
+            columns: {
+              textarea: 'col-md-12'
+            },
+            rows: '30',
+            disabled: true
+          }">
+        </br-textarea>
+      </form>
+    </div>
+  </div>
+</div>
+
+  <stackable-modal stackable="model.showAddAddressModal"
+    stackable-closed="model.register()">
+    <br-add-alert br-alert-type="warning">
+      <span><strong>Note:</strong> Before you complete your registration, please enter
+      your business\'s name and address information.</span>
+    </br-add-alert>
+    <div ps-add-address-modal></div>
+  </stackable-modal>
 
 </div>
 

@@ -12,17 +12,13 @@ define([], function() {
 function factory(
   $scope, $timeout, $sce, psAddressService, brAlertService, brIdentityService,
   psIdentityPreferencesService, config) {
-  // FIXME: only 1 identity now (no profile) ... no "multiple" identities for
-  // a particular session ... will need to add a "switch identities" modal
-  // thing? or option to login as another user?
   var self = this;
   self.identity = brIdentityService.identity;
   self.loading = false;
   self.registered = false;
   self.publicKey = {
     label: config.data.publicKey.label,
-    // FIXME: hack until PEM can be in config.data
-    publicKeyPem: $('#public-key-pem').val()
+    publicKeyPem: config.data.publicKey.publicKeyPem
   };
   self.authorityBase = window.location.protocol + '//' + window.location.host;
   self.registrationType = config.data.registrationType || 'vendor';
@@ -91,6 +87,7 @@ function factory(
 
     // attempt to auto-submit the form back to the registering site
     $scope.$apply();
+    // FIXME: angularify this
     $('#vendor-form').submit();
 
     // show the manual registration completion button after a timeout period

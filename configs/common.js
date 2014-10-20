@@ -485,7 +485,7 @@ config.website.docs.ignore.push('/help/wordpress');
 // REST API documentation - categories
 config.website.docs.categories['/licenses'] = 'Content License Services';
 config.website.docs.categories['/promos'] = 'Promotional Services';
-config.website.docs.categories['/transactions'] = 
+config.website.docs.categories['/transactions'] =
   'Financial Transaction Services';
-config.website.docs.categories['/vendor/register'] = 
+config.website.docs.categories['/vendor/register'] =
   'Merchant Registration Services';

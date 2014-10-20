@@ -17,7 +17,8 @@
 <div ng-hide="model.registered">
   <div class="row">
     <div class="col-md-12">
-      <h2 class="headline">Vendor Access Key Registration</h2>
+      <h3 class="headline">Vendor Access Key Registration</h3>
+      <hr />
     </div>
   </div>
 
@@ -132,7 +133,7 @@
       <div class="alert alert-success">The access key "<strong>{{model.publicKey.label}}</strong>" has been registered.</div>
 
       <p ng-show="model.registrationCallback">We're now redirecting you to your
-      ecommerce website to complete registration. If the redirection does not
+      e-commerce website to complete registration. If the redirection does not
       happen automatically, please click the following button.</p>
 
       <p ng-hide="model.registrationCallback">Cut and paste the following data
@@ -176,8 +177,8 @@
   <stackable-modal stackable="model.showAddAddressModal"
     stackable-closed="model.register()">
     <br-add-alert br-alert-type="warning">
-      <span><strong>Note:</strong> Before you complete your registration, please enter
-      your business\'s name and address information.</span>
+      <span><strong>Note:</strong> Before you complete your registration, please
+      enter your business's name and address information.</span>
     </br-add-alert>
     <div ps-add-address-modal></div>
   </stackable-modal>

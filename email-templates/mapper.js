@@ -18,7 +18,6 @@ module.exports.map = function(mapping) {
     'common.PaymentToken.verifyFailed',
     'common.Profile.created',
     'common.Profile.created-identity',
-    'common.Profile.passcodeSent',
     'common.Purchase.success',
     'common.Purchase.success-identity',
     'common.Transaction.externalTransactionVoided',

@@ -221,12 +221,6 @@ config.mail.events.push({
   // user email
   template: 'common.Profile.created-profile'
 });
-// FIXME: remove, in bedrock
-config.mail.events.push({
-  type: 'common.Profile.passcodeSent',
-  // user email
-  template: 'common.Profile.passcodeSent'
-});
 config.mail.events.push({
   type: 'common.PaymentToken.bankAccountCreated',
   // auth email

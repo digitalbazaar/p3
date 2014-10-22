@@ -57,7 +57,9 @@
           </td>
           <!-- Links -->
           <td class="br-compact text-center">
-            <span class="badge">{{card.backupSourceFor.length || ''}}</span>
+            <span class="badge" ng-hide="card.backupSourceFor.length"></span>
+            <span class="badge" ng-show="card.backupSourceFor.length"
+              ng-click="model.modals.paymentToken=card; model.modals.showEditPaymentToken=true">{{card.backupSourceFor.length}}</span>
           </td>
           <!-- Action -->
           <td class="br-action">

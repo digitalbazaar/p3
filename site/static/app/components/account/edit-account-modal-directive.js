@@ -3,7 +3,7 @@
  *
  * @author Dave Longley
  */
-define(['angular'], function(angular) {
+define(['angular', 'jsonld', 'underscore'], function(angular, jsonld, _) {
 
 'use strict';
 
@@ -90,9 +90,29 @@ function factory(
       }
 
       state.loading = true;
+      // storage of updated account for close()
+      var updatedAccount;
+      // store copy of source backupSources
+      var sourceBackupSources = _.clone(jsonld.getValues(
+        scope.sourceAccount, 'backupSource'));
       psAccountService.collection.update(accountUpdate).then(function(account) {
+        // save reference to account
+        updatedAccount = account;
+        // unique list of all old and new sources
+        var allSources = _.union(
+          sourceBackupSources, jsonld.getValues(account, 'backupSource'));
+        // force get updated tokens
+        var sourcePromises = allSources.map(
+          function(token) {
+            return psPaymentTokenService.collection.get(token, {
+              force: true
+            });
+          },
+          psPaymentTokenService.collection);
+        return Promise.all(sourcePromises);
+      }).then(function() {
         state.loading = false;
-        stackable.close(null, account);
+        stackable.close(null, updatedAccount);
       }).catch(function(err) {
         brAlertService.add('error', err, {scope: scope});
         state.loading = false;

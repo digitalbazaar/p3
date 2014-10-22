@@ -1,5 +1,6 @@
 module.exports.map = function(mapping) {
   var ids = [
+    'bedrock.Identity.created-identity',
     'common.FinancialAccount.created',
     'common.FinancialAccount.unbackedCreditPayoffFailed',
     'common.FinancialAccount.unbackedCreditPayoffFailed-identity',
@@ -16,8 +17,6 @@ module.exports.map = function(mapping) {
     'common.PaymentToken.verified-identity',
     'common.PaymentToken.verifyBalanceTooLow',
     'common.PaymentToken.verifyFailed',
-    'common.Profile.created',
-    'common.Profile.created-identity',
     'common.Purchase.success',
     'common.Purchase.success-identity',
     'common.Transaction.externalTransactionVoided',

@@ -199,12 +199,6 @@ config.mail.events.push({
   // user email
   template: 'common.FinancialAccount.unbackedCreditPayoffFailed-identity'
 });
-// FIXME: change to Identity
-config.mail.events.push({
-  type: 'common.Profile.created',
-  // auth email
-  template: 'common.Profile.created'
-});
 config.mail.events.push({
   type: 'common.Purchase.success',
   // auth email
@@ -214,12 +208,6 @@ config.mail.events.push({
   type: 'common.Purchase.success',
   // user email
   template: 'common.Purchase.success-identity'
-});
-// FIXME: change to Identity
-config.mail.events.push({
-  type: 'common.Profile.created',
-  // user email
-  template: 'common.Profile.created-profile'
 });
 config.mail.events.push({
   type: 'common.PaymentToken.bankAccountCreated',

@@ -156,7 +156,7 @@ config.mail.vars = {
   serviceDomain: config.server.domain,
   supportDomain: config.server.domain,
   subjectPrefix: '[DEV] ',
-  profileSubjectPrefix: '[DEV] ',
+  identitySubjectPrefix: '[DEV] ',
   serviceName: 'PaySwarm Development',
   machine: require('os').hostname()
 };

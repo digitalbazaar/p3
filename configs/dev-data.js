@@ -494,7 +494,7 @@ var ccPercentPayee = {
   // ((1 / (1 - 0.0214)) - 1) * 100, see note above for details
   payeeRate: '2.1867974658',
   payeeApplyType: 'ApplyExclusively',
-  comment: 'Credit Card Processing Service (Percentage Charge)'
+  comment: 'Card Processing Service (Percentage Charge)'
 };
 var ccFixedPayee = {
   type: 'Payee',
@@ -506,7 +506,7 @@ var ccFixedPayee = {
   payeeRateType: 'FlatAmount',
   payeeRate: '0.15',
   payeeApplyType: 'ApplyExclusively',
-  comment: 'Credit Card Processing Service (Fixed Charge)'
+  comment: 'Card Processing Service (Fixed Charge)'
 };
 // extra 0.15 for amex
 var ccAmexPayee = {
@@ -519,7 +519,7 @@ var ccAmexPayee = {
   payeeRateType: 'FlatAmount',
   payeeRate: '0.15',
   payeeApplyType: 'ApplyExclusively',
-  comment: 'Credit Card Processing Service (American Express Fixed Charge)'
+  comment: 'Card Processing Service (American Express Fixed Charge)'
 };
 config.financial.paymentGateway.Test.payees.deposit.CreditCard = {};
 config.financial.paymentGateway.Test.payees.deposit.CreditCard

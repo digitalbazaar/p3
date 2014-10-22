@@ -12,7 +12,7 @@ program
   .option('--auth <filename>', 'The JSON file containing gateway credentials.')
   .option('--request <filename>', 'A JSON file containing a request to ' +
     'send to the gateway.')
-  .option('--verify <filename>', 'A JSON-LD file containing credit card ' +
+  .option('--verify <filename>', 'A JSON-LD file containing card ' +
     'information that is to be verified. A payment token will be output ' +
     'on success.')
   .option('--charge <filename>', 'A JSON-LD file containing a payment ' +

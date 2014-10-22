@@ -1,5 +1,5 @@
 /*!
- * Credit Card Selector.
+ * Credit/Debit Card Selector.
  *
  * @author Dave Longley
  */

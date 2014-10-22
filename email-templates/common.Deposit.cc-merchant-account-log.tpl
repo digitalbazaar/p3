@@ -1,6 +1,6 @@
 To: {{serviceDomain}}-merchant-account-logs@digitalbazaar.com
 From: cluster@{{supportDomain}}
-Subject: {{subjectPrefix}}{{serviceName}} credit card deposit log ({{deposit.id}})
+Subject: {{subjectPrefix}}{{serviceName}} card deposit log ({{deposit.id}})
 
 Merchant Name:               Digital Bazaar, Inc.
 Merchant Location:           Blacksburg, VA, USA
@@ -11,9 +11,9 @@ Transaction Date:            {{deposit.created}}
 Transaction Payment Type:    {{deposit.source.paymentMethod}}
 Transaction ID:              {{deposit.id}}
 Owner:                       {{deposit.source.owner}}
-Credit Card Brand:           {{deposit.source.cardBrand}}
-Credit Card Number:          {{deposit.source.cardNumber}}
-Credit Card Expiration:      {{deposit.source.cardExpMonth}}/{{deposit.source.cardExpYear}}
+Card Brand:                  {{deposit.source.cardBrand}}
+Card Number:                 {{deposit.source.cardNumber}}
+Card Expiration:             {{deposit.source.cardExpMonth}}/{{deposit.source.cardExpYear}}
 Payment Gateway:             {{deposit.source.paymentGateway}}
 Authorization Approval Code: {{deposit.sysGatewayApprovalCode}}
 Transaction Type:            purchase

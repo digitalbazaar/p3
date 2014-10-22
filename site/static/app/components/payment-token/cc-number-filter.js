@@ -1,5 +1,5 @@
 /*!
- * Credit card number filter.
+ * Credit/Debit card number filter.
  *
  * @author Dave Longley
  */

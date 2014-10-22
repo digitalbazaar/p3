@@ -17,18 +17,18 @@ properties, although many other configurations are possible.</p>
 
 <ul>
 <li>All money is in simulated USD (fake USD).</li>
-<li>Deposits into a PaySwarm account can come from fake credit cards or
+<li>Deposits into a PaySwarm account can come from fake debit cards or
   verified fake bank accounts.</li>
 <li>Withdrawals from a PaySwarm account can go to a verified fake bank
   account.</li>
 <li>Fake bank accounts are verified with small deposits. In the real world
   this can take as long as 5 days but the development server will email the
   fake verification deposit amounts to you almost immediately.</li>
-<li>All fake credit card and fake bank fees are passed on to the account
+<li>All fake debit card and fake bank fees are passed on to the account
   holder.</li>
 <li>The PaySwarm Authority takes a small percentage of purchase
   transactions.</li>
-<li>All fake credit card and fake bank fees are collected to cover the
+<li>All fake debit card and fake bank fees are collected to cover the
   simulated cost of third-party processing.
 </ul>
 
@@ -49,7 +49,7 @@ properties, although many other configurations are possible.</p>
       <td><a href="#inclusive">Inclusive</a></td>
     </tr>
     <tr>
-      <td>Deposit from Credit Card</td>
+      <td>Deposit from Debit Card</td>
       <td>2.1867974658%</td>
       <td><a href="#exclusive">Exclusive</a></td>
     </tr>
@@ -79,7 +79,7 @@ used above are defined below:</p>
 
 <dl>
   <dt id="exclusive">Exclusive</dt>
-  <dd>Amounts are added on top of a base amount. For instance, a 2% exclusive credit card deposit fee for a <span class="money">$1</span> deposit would put $1 in your account and charge your credit card <span class="money">$1.02</span>.</dd>
+  <dd>Amounts are added on top of a base amount. For instance, a 2% exclusive card deposit fee for a <span class="money">$1</span> deposit would put $1 in your account and charge your card <span class="money">$1.02</span>.</dd>
   <dt id="inclusive">Inclusive</dt>
   <dd>Amounts are included in the base amount. For instance, an authority with a 2% inclusive rate on a <span class="money">$1</span> purchase would debit the buyer <span class="money">$1</span>, credit the authority <span class="money">$0.02</span>, and credit the seller <span class="money">$0.98</span>.</dd>
 </dl>

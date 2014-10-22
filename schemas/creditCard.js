@@ -9,7 +9,7 @@ var currentYear = new Date().getFullYear();
 var schema = {
   required: true,
   title: 'CreditCard',
-  description: 'A credit card.',
+  description: 'A credit or debit card.',
   type: 'object',
   properties: {
     '@context': schemas.jsonldContext(),
@@ -26,8 +26,8 @@ var schema = {
       type: 'string',
       pattern: '^[0-9]{16}$',
       errors: {
-        invalid: 'The credit card number must be 16 digits in length.',
-        missing: 'Please enter a credit card number.',
+        invalid: 'The card number must be 16 digits in length.',
+        missing: 'Please enter a card number.',
         mask: true
       }
     },
@@ -37,8 +37,8 @@ var schema = {
       minimum: 1,
       maximum: 12,
       errors: {
-        invalid: 'The credit card expiration month must be an integer between 1 and 12.',
-        missing: 'Please enter a credit card expiration month.',
+        invalid: 'The card expiration month must be an integer between 1 and 12.',
+        missing: 'Please enter a card expiration month.',
         mask: true
       }
     },
@@ -48,9 +48,9 @@ var schema = {
       minimum: currentYear,
       maximum: currentYear + 10,
       errors: {
-        invalid: 'The credit card expiration year must be an integer between ' +
+        invalid: 'The card expiration year must be an integer between ' +
           currentYear + ' and ' + (currentYear + 10) + '.',
-        missing: 'Please enter a credit card expiration year.',
+        missing: 'Please enter a card expiration year.',
         mask: true
       }
     },

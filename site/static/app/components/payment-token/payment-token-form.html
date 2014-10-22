@@ -23,7 +23,7 @@
           <label class="radio-inline" ng-show="creditCardEnabled">
             <input type="radio" name="payment-type" value="CreditCard"
               checked="checked" ng-model="paymentMethod" />
-            Credit Card
+            Credit/Debit Card
           </label>
           <label class="radio-inline" ng-show="bankAccountEnabled">
             <input type="radio" name="payment-type" value="BankAccount"
@@ -47,7 +47,7 @@
             br-options="{
               icon: 'fa-credit-card', name: 'source.cardNumber', label: 'Card Number', maxLength: '16',
               autocomplete: 'off', columns: {input: 'col-sm-6'}}">
-            Please enter your credit card number, which must be 16 digits long.
+            Please enter your card number, which must be 16 digits long.
           </br-input>
 
           <div class="form-group">
@@ -72,8 +72,8 @@
               image: '/img/scode.png', name: 'source.cardCvm', label: 'Security Code', maxLength: '4',
               autocomplete: 'off', columns: {input: 'col-sm-4'}}">
             Please enter the 3-digit security code located on the back
-            of your credit card. If you are using American Express,
-            then the number will be on the front and will be 4 digits long.
+            of your card. If you are using American Express, then the
+            number will be on the front and will be 4 digits long.
           </br-input>
         </div>
 

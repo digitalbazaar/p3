@@ -105,7 +105,7 @@
             <span ng-show="model.txn.source && transfer.source == model.txn.source.id">
               {{model.txn.source.label}}
               <span ng-show="model.txn.source.paymentMethod == 'CreditCard'">
-                (Credit Card: {{model.txn.source.cardNumber}})
+                (Credit/Debit Card: {{model.txn.source.cardNumber}})
               </span>
               <span ng-show="model.txn.source.paymentMethod == 'BankAccount'">
                 (Bank Account: {{model.txn.source.bankAccount}})
@@ -120,7 +120,7 @@
             <span ng-show="model.txn.destination && transfer.destination == model.txn.destination.id">
               {{model.txn.destination.label}}
               <span ng-show="model.txn.destination.paymentMethod == 'CreditCard'">
-                (Credit Card: {{model.txn.destination.cardNumber}})
+                (Credit/Debit Card: {{model.txn.destination.cardNumber}})
               </span>
               <span ng-show="model.txn.destination.paymentMethod == 'BankAccount'">
                 (Bank Account: {{model.txn.destination.bankAccount}})

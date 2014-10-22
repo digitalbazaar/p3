@@ -1,9 +1,9 @@
 <div ng-controller="ExternalAccountsController as model">
   <div class="section section-credit-cards">
-    <br-headline br-title="Credit Cards" br-loading="model.state.loading">
+    <br-headline br-title="Credit/Debit Cards" br-loading="model.state.loading">
       <ul class="stackable-menu dropdown-menu">
         <li>
-          <a class="stackable-cancel" ng-click="model.modals.showAddCreditCard=true"><i class="fa fa-plus"></i> Add Credit Card</a>
+          <a class="stackable-cancel" ng-click="model.modals.showAddCreditCard=true"><i class="fa fa-plus"></i> Add Card</a>
         </li>
       </ul>
     </br-headline>
@@ -46,12 +46,12 @@
             <span>{{card.cardExpMonth}} / {{card.cardExpYear}}</span>
             <span ng-show="card.showExpirationWarning">
               <i class="icon fa fa-exclamation-triangle"
-                br-tooltip="This payment method will expire in less than a month. Please update or replace the credit card information."
+                br-tooltip="This payment method will expire in less than a month. Please update or replace the card information."
                 br-options="{placement: 'bottom', trigger: 'hover'}"></i>
             </span>
             <span ng-show="card.showExpired">
               <i class="icon fa fa-exclamation-triangle"
-                br-tooltip="This payment method has expired. Please update or replace the credit card information."
+                br-tooltip="This payment method has expired. Please update or replace the card information."
                 br-options="{placement: 'bottom', trigger: 'hover'}"></i>
             </span>
           </td>
@@ -87,7 +87,7 @@
       </tbody>
     </table>
     <div ng-show="!model.state.loading && model.creditCards.length == 0">
-      <p class="text-center">You have no credit cards associated with this identity.</p>
+      <p class="text-center">You have no cards associated with this identity.</p>
     </div>
     <div br-lazy-compile="ps-external-accounts-view-add-credit-card-modal"
       br-compile-trigger="model.modals.showAddCreditCard">

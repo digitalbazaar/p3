@@ -47,7 +47,7 @@
         <div style="clear: both"></div>
         <div class="pull-left">
           <small>
-            {{account.creditPaymentDue | date:'mediumDate'}}
+            {{account.creditPaymentDue | date:'MMM d, y @ h:mm a'}}
             <span ng-show="account.backupSource && account.backupSource.length">
               <a ng-click="model.paymentMethodIsCollapsed=!model.paymentMethodIsCollapsed; $event.stopPropagation()">
                 <i class="fa fa-credit-card"></i>

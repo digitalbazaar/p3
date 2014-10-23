@@ -110,7 +110,7 @@ module.exports = function(grunt) {
           'jsonld': '<%= dirs.bedrock %>/node_modules/jsonld/js/jsonld',
           'ng-multi-transclude': '<%= dirs.bedrock %>/bower_components/ng-multi-transclude/src/multi-transclude',
           'opencred-verifier': '<%= dirs.bedrock %>/node_modules/opencred-verifier/lib/credentialVerifier',
-          'promise': '<%= dirs.bedrock %>/node_modules/es6-promise/dist/promise-1.0.0',
+          'promise': '<%= dirs.bedrock %>/bower_components/es6-promise/promise',
           'payswarm': '../../../../site/static',
           'stackables': '<%= dirs.bedrock %>/bower_components/angular-stackables/stackables',
           'underscore': '<%= dirs.bedrock %>/bower_components/underscore/underscore',

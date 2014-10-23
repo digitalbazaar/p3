@@ -113,7 +113,7 @@ module.exports = function(grunt) {
           'promise': '<%= dirs.bedrock %>/node_modules/es6-promise/dist/promise-1.0.0',
           'payswarm': '../../../../site/static',
           'stackables': '<%= dirs.bedrock %>/bower_components/angular-stackables/stackables',
-          'underscore': '<%= dirs.payswarm %>/node_modules/underscore/underscore',
+          'underscore': '<%= dirs.bedrock %>/bower_components/underscore/underscore',
           // overrides
           'app/components': '../../../../site/static/app/components',
           'app/configs': '../../../../site/static/app/configs',

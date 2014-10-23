@@ -109,7 +109,7 @@ module.exports = function(grunt) {
           'jquery-migrate': '<%= dirs.bedrock %>/bower_components/jquery-migrate/jquery-migrate',
           'jsonld': '<%= dirs.bedrock %>/bower_components/jsonld/js/jsonld',
           'ng-multi-transclude': '<%= dirs.bedrock %>/bower_components/ng-multi-transclude/src/multi-transclude',
-          'opencred-verifier': '<%= dirs.bedrock %>/node_modules/opencred-verifier/lib/credentialVerifier',
+          'opencred-verifier': '<%= dirs.bedrock %>/bower_components/opencred-verifier/lib/credentialVerifier',
           'promise': '<%= dirs.bedrock %>/bower_components/es6-promise/promise',
           'payswarm': '../../../../site/static',
           'stackables': '<%= dirs.bedrock %>/bower_components/angular-stackables/stackables',

@@ -103,7 +103,7 @@ module.exports = function(grunt) {
           'bedrock': '.',
           'bootstrap': '<%= dirs.bedrock %>/bower_components/bootstrap/dist/js/bootstrap',
           'dialog-polyfill': '<%= dirs.bedrock %>/bower_components/dialog-polyfill/dialog-polyfill',
-          'forge': '<%= dirs.bedrock %>/node_modules/node-forge/js',
+          'forge': '<%= dirs.bedrock %>/bower_components/forge/js',
           'iso8601': '<%= dirs.bedrock %>/lib/iso8601/iso8601',
           'jquery': '<%= dirs.bedrock %>/bower_components/jquery/dist/jquery',
           'jquery-migrate': '<%= dirs.bedrock %>/bower_components/jquery-migrate/jquery-migrate',

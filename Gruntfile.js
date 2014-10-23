@@ -156,11 +156,11 @@ module.exports = function(grunt) {
   // _jshint
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.config('jshint', {
-    options: grunt.config('ci') ? {
-      reporter: 'checkstyle',
-      reporterOutput: 'reports/jshint.xml'
-    } : {},
     all: {
+      options: grunt.config('ci') ? {
+        reporter: 'checkstyle',
+        reporterOutput: 'reports/jshint.xml'
+      } : {},
       src: [
        '*.js',
        'bin/*.js',
@@ -172,9 +172,9 @@ module.exports = function(grunt) {
        'locales/*.js',
        'schemas/*.js',
        'site/static/app/*.js',
-       'site/static/app/**/*.js',
-       'tests/*.js',
-       'tests/**/*.js'
+       'site/static/app/**/*.js'//,
+       //'tests/*.js',
+       //'tests/**/*.js'
       ]
     }
   });

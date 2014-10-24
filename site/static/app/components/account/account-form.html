@@ -46,7 +46,7 @@
     </br-input>
 
     <div ng-show="model.editing" class="form-group">
-      <label class="control-label" for="backups">
+      <label class="control-label col-md-5" for="backups">
         External Payment Method
         <a br-help-toggle="model.help.backupSource">
           <i class="fa fa-question-circle"></i>
@@ -67,8 +67,8 @@
           class="col-md-offset-1 col-md-10">
           <p class="help-block br-fadein br-fadeout">
             An external payment method is used to automatically pay back used
-            credit on its due date and to provide funds if an instant transfer
-            is required to complete a purchase.
+            credit on its due date. It can also be used to provide funds if an
+            instant transfer is required to complete a purchase.
           </p>
         </div>
       </div>
@@ -85,7 +85,7 @@
       -->
     </div>
 
-    <br-input ng-show="model.editing" br-model="model.account.sysMinInstantTransfer"
+    <br-input ng-show="model.editing && model.backupSourceEnabled" br-model="model.account.sysMinInstantTransfer"
       br-options="{
         icon: 'fa-money', name: 'sysMinInstantTransfer',
         label: 'Instant Transfer Threshold',

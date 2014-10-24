@@ -9,7 +9,7 @@ More info is available at http://payswarm.com/wiki/Demo_Warning.
 *** NOTE ***
 
 {% endif -%}
-Your {% if deposit.source.cardNumber %} card{% elseif deposit.source.bankAccount %}bank account{% else %}account{% endif %} has been charged ${{deposit.amount}} {{deposit.currency}}.
+Your {% if deposit.source.cardNumber %}card{% elseif deposit.source.bankAccount %}bank account{% else %}account{% endif %} has been charged ${{deposit.amount}} {{deposit.currency}}.
 
 {%- if deposit.source.bankAccount %}
 

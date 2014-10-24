@@ -1,6 +1,6 @@
 {
   "name": "payswarm-auth",
-  "version": "0.15.0-rc.13",
+  "version": "0.15.0-rc.14",
   "dependencies": {
     "async": {
       "version": "0.9.0",
@@ -17,7 +17,7 @@
       }
     },
     "bedrock": {
-      "version": "0.2.0-rc.8",
+      "version": "0.2.0-rc.9",
       "dependencies": {
         "async": {
           "version": "0.9.0",
@@ -3572,6 +3572,84 @@
             }
           }
         },
+        "mocha": {
+          "version": "1.21.5",
+          "from": "mocha@1.21.5",
+          "resolved": "https://registry.npmjs.org/mocha/-/mocha-1.21.5.tgz",
+          "dependencies": {
+            "debug": {
+              "version": "2.0.0",
+              "from": "debug@2.0.0",
+              "resolved": "https://registry.npmjs.org/debug/-/debug-2.0.0.tgz",
+              "dependencies": {
+                "ms": {
+                  "version": "0.6.2",
+                  "from": "ms@0.6.2",
+                  "resolved": "https://registry.npmjs.org/ms/-/ms-0.6.2.tgz"
+                }
+              }
+            },
+            "diff": {
+              "version": "1.0.8",
+              "from": "diff@1.0.8",
+              "resolved": "https://registry.npmjs.org/diff/-/diff-1.0.8.tgz"
+            },
+            "escape-string-regexp": {
+              "version": "1.0.2",
+              "from": "escape-string-regexp@1.0.2",
+              "resolved": "https://registry.npmjs.org/escape-string-regexp/-/escape-string-regexp-1.0.2.tgz"
+            },
+            "glob": {
+              "version": "3.2.3",
+              "from": "glob@3.2.3",
+              "resolved": "https://registry.npmjs.org/glob/-/glob-3.2.3.tgz",
+              "dependencies": {
+                "minimatch": {
+                  "version": "0.2.14",
+                  "from": "minimatch@~0.2.11",
+                  "dependencies": {
+                    "lru-cache": {
+                      "version": "2.5.0",
+                      "from": "lru-cache@2"
+                    },
+                    "sigmund": {
+                      "version": "1.0.0",
+                      "from": "sigmund@~1.0.0"
+                    }
+                  }
+                },
+                "graceful-fs": {
+                  "version": "2.0.3",
+                  "from": "graceful-fs@~2.0.0"
+                },
+                "inherits": {
+                  "version": "2.0.1",
+                  "from": "inherits@2"
+                }
+              }
+            },
+            "growl": {
+              "version": "1.8.1",
+              "from": "growl@1.8.1"
+            },
+            "jade": {
+              "version": "0.26.3",
+              "from": "jade@0.26.3",
+              "resolved": "https://registry.npmjs.org/jade/-/jade-0.26.3.tgz",
+              "dependencies": {
+                "commander": {
+                  "version": "0.6.1",
+                  "from": "commander@0.6.1",
+                  "resolved": "https://registry.npmjs.org/commander/-/commander-0.6.1.tgz"
+                },
+                "mkdirp": {
+                  "version": "0.3.0",
+                  "from": "mkdirp@0.3.0"
+                }
+              }
+            }
+          }
+        },
         "request": {
           "version": "2.46.0",
           "from": "request@2.46.0",
@@ -3800,84 +3878,6 @@
                 "inherits": {
                   "version": "2.0.1",
                   "from": "inherits@~2.0.1"
-                }
-              }
-            }
-          }
-        },
-        "mocha": {
-          "version": "1.21.5",
-          "from": "mocha@1.21.5",
-          "resolved": "https://registry.npmjs.org/mocha/-/mocha-1.21.5.tgz",
-          "dependencies": {
-            "debug": {
-              "version": "2.0.0",
-              "from": "debug@2.0.0",
-              "resolved": "https://registry.npmjs.org/debug/-/debug-2.0.0.tgz",
-              "dependencies": {
-                "ms": {
-                  "version": "0.6.2",
-                  "from": "ms@0.6.2",
-                  "resolved": "https://registry.npmjs.org/ms/-/ms-0.6.2.tgz"
-                }
-              }
-            },
-            "diff": {
-              "version": "1.0.8",
-              "from": "diff@1.0.8",
-              "resolved": "https://registry.npmjs.org/diff/-/diff-1.0.8.tgz"
-            },
-            "escape-string-regexp": {
-              "version": "1.0.2",
-              "from": "escape-string-regexp@1.0.2",
-              "resolved": "https://registry.npmjs.org/escape-string-regexp/-/escape-string-regexp-1.0.2.tgz"
-            },
-            "glob": {
-              "version": "3.2.3",
-              "from": "glob@3.2.3",
-              "resolved": "https://registry.npmjs.org/glob/-/glob-3.2.3.tgz",
-              "dependencies": {
-                "minimatch": {
-                  "version": "0.2.14",
-                  "from": "minimatch@~0.2.11",
-                  "dependencies": {
-                    "lru-cache": {
-                      "version": "2.5.0",
-                      "from": "lru-cache@2"
-                    },
-                    "sigmund": {
-                      "version": "1.0.0",
-                      "from": "sigmund@~1.0.0"
-                    }
-                  }
-                },
-                "graceful-fs": {
-                  "version": "2.0.3",
-                  "from": "graceful-fs@~2.0.0"
-                },
-                "inherits": {
-                  "version": "2.0.1",
-                  "from": "inherits@2"
-                }
-              }
-            },
-            "growl": {
-              "version": "1.8.1",
-              "from": "growl@1.8.1"
-            },
-            "jade": {
-              "version": "0.26.3",
-              "from": "jade@0.26.3",
-              "resolved": "https://registry.npmjs.org/jade/-/jade-0.26.3.tgz",
-              "dependencies": {
-                "commander": {
-                  "version": "0.6.1",
-                  "from": "commander@0.6.1",
-                  "resolved": "https://registry.npmjs.org/commander/-/commander-0.6.1.tgz"
-                },
-                "mkdirp": {
-                  "version": "0.3.0",
-                  "from": "mkdirp@0.3.0"
                 }
               }
             }

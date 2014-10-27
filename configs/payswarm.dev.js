@@ -10,7 +10,7 @@ var path = require('path');
 require('./common');
 
 // location of static resources
-var _datadir = path.join(__dirname, '/..');
+var _datadir = path.join(__dirname, '..');
 
 // location of logs
 var _logdir = '/tmp';

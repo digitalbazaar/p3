@@ -156,7 +156,7 @@ config.mail.templates.cache = false;
 config.mail.send = false;
 config.mail.vars = {};
 var _email_templates_dir = path.join(__dirname, '..', 'email-templates');
-config.mail.templates.mappers.push(path.join(_email_templates_dir, '/mapper'));
+config.mail.templates.mappers.push(path.join(_email_templates_dir, 'mapper'));
 config.mail.templates.paths.push(_email_templates_dir);
 config.mail.events.push({
   type: 'common.Deposit.failure',

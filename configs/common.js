@@ -126,7 +126,6 @@ config.database.session = {
 };
 
 // local database config
-config.database.local.collection = 'payswarm_dev';
 config.database.local.writeOptions = {
   safe: true,
   j: true,

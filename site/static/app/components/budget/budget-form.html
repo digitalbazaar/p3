@@ -2,7 +2,7 @@
   <fieldset>
     <br-input br-model="budget.label"
       br-options="{
-        icon: 'fa-tag', name: 'label', label: 'Name',
+        icon: 'tag', name: 'label', label: 'Name',
         columns: {
           label: 'col-sm-4',
           input: 'col-sm-7',
@@ -17,7 +17,7 @@
 
     <br-input br-model="budget.amount"
       br-options="{
-        icon: 'fa-money', name: 'amount', label: 'Budgeted Amount',
+        icon: 'money', name: 'amount', label: 'Budgeted Amount',
         columns: {
           label: 'col-sm-4',
           input: 'col-sm-7',
@@ -32,7 +32,7 @@
 
     <br-input br-model="budget.sysMaxPerUse"
       br-options="{
-        icon: 'fa-money', name: 'sysMaxPerUse', label: 'Max Per Use',
+        icon: 'money', name: 'sysMaxPerUse', label: 'Max Per Use',
         columns: {
           label: 'col-sm-4',
           input: 'col-sm-7',
@@ -48,7 +48,7 @@
     <br-select br-model="model.budgetRefreshDuration"
       br-items="refreshChoices" br-display-item="item.label"
       br-options="{
-        icon: 'fa-calendar', name: 'sysRefreshInterval',
+        icon: 'calendar', name: 'sysRefreshInterval',
         label: 'Refill', key: 'value',
         columns: {
           label: 'col-sm-4',
@@ -63,7 +63,7 @@
     <br-select br-model="model.budgetValidDuration"
       br-items="validityChoices" br-display-item="item.label"
       br-options="{
-        icon: 'fa-calendar', name: 'sysValidityInterval',
+        icon: 'calendar', name: 'sysValidityInterval',
         label: 'Expire after', placeholder: 'Current', key: 'value',
         columns: {
           label: 'col-sm-4',

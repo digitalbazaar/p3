@@ -1,7 +1,7 @@
 <form class="well form-horizontal">
   <fieldset>
     <br-input br-model="model.account.label"
-      br-options="{icon: 'fa-tag', name: 'label', label: 'Name'}">
+      br-options="{icon: 'tag', name: 'label', label: 'Name'}">
       Enter a name for your financial account, for instance 'primary' or 'secondary'.
       <span ng-hide="model.editing">The name you choose will become part of your account URL:</span>
     </br-input>
@@ -30,18 +30,18 @@
     <br-select br-model="model.accountVisibility"
       br-items="[{id: 'hidden', display: 'Hidden'}, {id: 'public', display: 'Public'}]"
       br-display-item="item.display"
-      br-options="{icon: 'fa-eye', name: 'visibility', label: 'Visibility', key: 'id'}">
+      br-options="{icon: 'eye', name: 'visibility', label: 'Visibility', key: 'id'}">
       Choose if the account is public or private.
     </br-select>
 
     <br-select ng-hide="model.editing" br-model="model.account.currency"
       br-items="[{id: 'USD', display: 'US Dollars $'}]" br-display-item="item.display"
-      br-options="{icon: 'fa-money', name: 'currency', label: 'Currency', key: 'id'}">
+      br-options="{icon: 'money', name: 'currency', label: 'Currency', key: 'id'}">
       Choose the currency for the account. This can not be changed after an account is created.
     </br-select>
 
     <br-input ng-show="model.editing" br-model="model.account.creditLimit"
-      br-options="{icon: 'fa-money', name: 'creditLimit', label: 'Credit Limit', disabled: true}">
+      br-options="{icon: 'money', name: 'creditLimit', label: 'Credit Limit', disabled: true}">
       Choose a credit limit for this account. Other factors may reduce your maximum available credit.
     </br-input>
 
@@ -87,7 +87,7 @@
 
     <br-input ng-show="model.editing && model.backupSourceEnabled" br-model="model.account.sysMinInstantTransfer"
       br-options="{
-        icon: 'fa-money', name: 'sysMinInstantTransfer',
+        icon: 'money', name: 'sysMinInstantTransfer',
         label: 'Instant Transfer Threshold',
         columns: {
           label: 'col-md-5',

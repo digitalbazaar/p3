@@ -1,6 +1,5 @@
 <div class="paymentToken">
-  <div br-lazy-compile="ps-payment-token-selection-credit-card"
-    br-compile-trigger="token.paymentMethod == 'CreditCard'">
+  <div br-lazy-compile="token.paymentMethod == 'CreditCard'" br-lazy-id="ps-payment-token-selection-credit-card">
     <div ng-if="token.paymentMethod == 'CreditCard'"
       class="cc-box {{token.cardBrand | lowercase}} unselectable" ng-class="{'cc-selecting': selecting}">
       <table class="cc-table {{token.cardBrand | lowercase}}" ng-class="selecting && 'br-item-hover'"
@@ -32,8 +31,7 @@
       </table>
     </div>
   </div>
-  <div br-lazy-compile="ps-payment-token-selection-bank-account"
-    br-compile-trigger="token.paymentMethod == 'BankAccount'">
+  <div br-lazy-compile="token.paymentMethod == 'BankAccount'" br-lazy-id="ps-payment-token-selection-bank-account">
     <div ng-if="token.paymentMethod == 'BankAccount'" class="bank-box unselectable"
       ng-class="{'bank-disabled-box': !token.sysVerified || token.sysStatus == 'disabled' || token.sysStatus == 'deleted', 'bank-selecting': selecting}">
       <div ng-show="!token.sysVerified && token.sysStatus != 'disabled' && token.sysStatus != 'deleted'"

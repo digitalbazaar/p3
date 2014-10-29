@@ -1,6 +1,5 @@
 <br-selector br-selected="selected=brSelector.selected" ps-payment-token-selector-inner>
-  <div name="br-selector-selected" br-lazy-compile="ps-payment-token-selector-selected"
-    br-compile-trigger="selected">
+  <div name="br-selector-selected" br-lazy-compile="selected" br-lazy-id="ps-payment-token-selector-selected">
     <span ng-show="model.state.loading">
       <i class="fa fa-refresh fa-spin text-muted"></i>
     </span>
@@ -8,8 +7,7 @@
       <ps-payment-token-selection ps-token="selected"></ps-payment-token-selection>
     </div>
   </div>
-  <div name="br-selector-choices" br-lazy-compile="ps-payment-token-selector-choices"
-    br-compile-trigger="brSelector.showChoices">
+  <div name="br-selector-choices" br-lazy-compile="brSelector.showChoices" br-lazy-id="ps-payment-token-selector-choices">
     <div ng-show="model.state.loading">
       <i class="fa fa-refresh fa-spin text-muted"></i>
     </div>
@@ -24,7 +22,6 @@
 </br-selector>
 <stackable-modal stackable="model.showAddPaymentTokenModal"
   stackable-closed="!err && brSelector.select(result)"
-  br-lazy-compile="ps-payment-token-selector-add-modal"
-  br-compile-trigger="model.showAddPaymentTokenModal">
+  br-lazy-compile="model.showAddPaymentTokenModal" br-lazy-id="ps-payment-token-selector-add-modal">
   <div ps-add-payment-token-modal ps-payment-methods="paymentMethods"></div>
 </stackable-modal>

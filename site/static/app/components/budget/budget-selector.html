@@ -1,6 +1,5 @@
 <br-selector br-selected="selected=brSelector.selected" ps-budget-selector-inner>
-  <div name="br-selector-selected" br-lazy-compile="ps-budget-selector-selected"
-    br-compile-trigger="selected">
+  <div name="br-selector-selected" br-lazy-compile="selected" br-lazy-id="ps-budget-selector-selected">
     <span ng-show="model.state.loading">
       <i class="fa fa-refresh fa-spin text-muted"></i>
     </span>
@@ -10,8 +9,7 @@
         ps-invalid="invalid"></ps-budget-selection>
     </div>
   </div>
-  <div name="br-selector-choices" br-lazy-compile="ps-budget-selector-choices"
-    br-compile-trigger="brSelector.showChoices">
+  <div name="br-selector-choices" br-lazy-compile="brSelector.showChoices" br-lazy-id="ps-budget-selector-choices">
     <div ng-show="model.state.loading">
       <i class="fa fa-refresh fa-spin text-muted"></i>
     </div>
@@ -27,7 +25,6 @@
 </br-selector>
 <stackable-modal stackable="model.showAddBudgetModal"
   stackable-closed="!err && brSelector.select(result)"
-  br-lazy-compile="ps-budget-selector-add-modal"
-  br-compile-trigger="model.showAddBudgetModal">
+  br-lazy-compile="model.showAddBudgetModal" br-lazy-id="ps-budget-selector-add-modal">
   <div ps-add-budget-modal></div>
 </stackable-modal>

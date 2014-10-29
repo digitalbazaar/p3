@@ -40,8 +40,7 @@
       <div style="display: inline-block; height 0px;">{{model.remainingCredit | floor | currency:'$'}} / {{account.creditLimit | floor | currency:'$'}}</div>
     </div>
     <div ng-show="account.creditPaymentDue"
-      br-lazy-compile="ps-account-balance-details-credit-payment-due"
-      br-compile-trigger="account.creditPaymentDue">
+      br-lazy-compile="account.creditPaymentDue" br-lazy-id="ps-account-balance-details-credit-payment-due">
       <div style="clear: both"></div>
       <div class="pull-left"><small><strong>Next automatic payment</strong></small></div>
       <div style="clear: both"></div>

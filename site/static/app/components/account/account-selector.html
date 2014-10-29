@@ -1,6 +1,5 @@
 <br-selector br-selected="selected=brSelector.selected" ps-account-selector-inner>
-  <div name="br-selector-selected" br-lazy-compile="ps-account-selector-selected"
-    br-compile-trigger="selected">
+  <div name="br-selector-selected" br-lazy-compile="selected" br-lazy-id="ps-account-selector-selected">
     <span ng-show="model.state.loading">
       <i class="fa fa-refresh fa-spin text-muted"></i>
     </span>
@@ -14,8 +13,7 @@
         ps-instant-transfer-deposit="instantTransferDeposit"></ps-account-selection>
     </div>
   </div>
-  <div name="br-selector-choices" br-lazy-compile="ps-account-selector-choices"
-    br-compile-trigger="brSelector.showChoices">
+  <div name="br-selector-choices" br-lazy-compile="brSelector.showChoices" br-lazy-id="ps-account-selector-choices">
     <div ng-show="model.state.loading">
       <i class="fa fa-refresh fa-spin text-muted"></i>
     </div>
@@ -35,7 +33,6 @@
 </br-selector>
 <stackable-modal stackable="model.showAddAccountModal"
   stackable-closed="!err && brSelector.select(result)"
-  br-lazy-compile="ps-account-selector-add-modal"
-  br-compile-trigger="model.showAddAccountModal">
+  br-lazy-compile="model.showAddAccountModal" br-lazy-id="ps-account-selector-add-modal">
   <div ps-add-account-modal></div>
 </stackable-modal>

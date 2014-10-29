@@ -100,40 +100,34 @@
   <div ng-show="!model.state.accounts.loading && model.accounts.length == 0">
     <p class="text-center">You have no accounts for this identity.</p>
   </div>
-  <div br-lazy-compile="ps-accounts-view-deposit-modal"
+  <stackable-modal stackable="model.modals.showDeposit"
+    br-lazy-compile="ps-accounts-view-deposit-modal"
     br-compile-trigger="model.modals.showDeposit">
-    <stackable-modal stackable="model.modals.showDeposit">
-      <div ps-deposit-modal ps-account="model.modals.account" ps-instant="false"></div>
-    </stackable-modal>
-  </div>
-  <div br-lazy-compile="ps-accounts-view-withdraw-modal"
+    <div ps-deposit-modal ps-account="model.modals.account" ps-instant="false"></div>
+  </stackable-modal>
+  <stackable-modal stackable="model.modals.showWithdraw"
+    br-lazy-compile="ps-accounts-view-withdraw-modal"
     br-compile-trigger="model.modals.showWithdraw">
-    <stackable-modal stackable="model.modals.showWithdraw">
-      <div ps-withdraw-modal ps-account="model.modals.account"></div>
-    </stackable-modal>
-  </div>
-  <div br-lazy-compile="ps-accounts-view-edit-account-modal"
+    <div ps-withdraw-modal ps-account="model.modals.account"></div>
+  </stackable-modal>
+  <stackable-modal stackable="model.modals.showEditAccount"
+    br-lazy-compile="ps-accounts-view-edit-account-modal"
     br-compile-trigger="model.modals.showEditAccount">
-    <stackable-modal stackable="model.modals.showEditAccount">
-      <div ps-edit-account-modal ps-account="model.modals.account"></div>
-    </stackable-modal>
-  </div>
-  <div br-lazy-compile="ps-accounts-view-add-account-modal"
+    <div ps-edit-account-modal ps-account="model.modals.account"></div>
+  </stackable-modal>
+  <stackable-modal stackable="model.modals.showAddAccount"
+    br-lazy-compile="ps-accounts-view-add-account-modal"
     br-compile-trigger="model.modals.showAddAccount">
-    <stackable-modal stackable="model.modals.showAddAccount">
-      <div ps-add-account-modal></div>
-    </stackable-modal>
-  </div>
-  <div br-lazy-compile="ps-accounts-view-add-credit-line-modal"
+    <div ps-add-account-modal></div>
+  </stackable-modal>
+  <stackable-modal stackable="model.modals.showAddCreditLine"
+    br-lazy-compile="ps-accounts-view-add-credit-line-modal"
     br-compile-trigger="model.modals.showAddCreditLine">
-    <stackable-modal stackable="model.modals.showAddCreditLine">
-      <div ps-add-credit-line-modal ps-account="model.modals.account"></div>
-    </stackable-modal>
-  </div>
-  <div br-lazy-compile="ps-accounts-view-redeem-promo-code-modal"
+    <div ps-add-credit-line-modal ps-account="model.modals.account"></div>
+  </stackable-modal>
+  <stackable-modal stackable="model.modals.showRedeemPromoCode"
+    br-lazy-compile="ps-accounts-view-redeem-promo-code-modal"
     br-compile-trigger="model.modals.showRedeemPromoCode">
-    <stackable-modal stackable="model.modals.showRedeemPromoCode">
-      <div ps-redeem-promo-code-modal ps-account="model.modals.account"></div>
-    </stackable-modal>
-  </div>
+    <div ps-redeem-promo-code-modal ps-account="model.modals.account"></div>
+  </stackable-modal>
 </div>

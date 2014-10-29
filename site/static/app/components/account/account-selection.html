@@ -28,40 +28,40 @@
   <div ng-show="showDepositButton && (account.sysAllowStoredValue || account.balance[0] == '-')">
     <button type="button" class="btn btn-success"
       ng-click="model.showDepositModal=true; $event.stopPropagation()"><i class="fa fa-plus"></i> Deposit</button><br/>
-    <div br-lazy-compile="ps-account-selection-deposit-modal" br-compile-trigger="model.showDepositModal">
-      <stackable-modal stackable="model.showDepositModal">
-        <div ps-deposit-modal ps-account="account" ps-instant="instant"></div>
-      </stackable-modal>
-    </div>
+    <stackable-modal stackable="model.showDepositModal"
+      br-lazy-compile="ps-account-selection-deposit-modal"
+      br-compile-trigger="model.showDepositModal">
+      <div ps-deposit-modal ps-account="account" ps-instant="instant"></div>
+    </stackable-modal>
   </div>
   <div ng-show="model.balanceTooLow">
     <hr />
     <div class="alert alert-danger">This account does not have a balance or remaining credit of at least <span
     class="currency">{{account.currency}}</span> {{minBalance | ceil | currency:'$'}}.</div>
   </div>
-  <div ng-show="allowInstantTransfer && model.instantTransferRequired">
-    <div br-lazy-compile="ps-account-selection-instant-transfer" br-compile-trigger="allowInstantTransfer && model.instantTransferRequired">
-      <hr />
-      <div class="alert alert-warning">
-        This account does not have sufficient funds. An instant transfer of <span ps-money="instantTransferDeposit" ps-important="true"></span> from your "<strong>{{model.backupSource.label}}</strong>" payment method will be performed to complete this purchase.
-        <span ng-show="model.backupSource">
-          Details of this instant transfer are available for review: <a ng-click="model.paymentMethodIsCollapsed=!model.paymentMethodIsCollapsed; $event.stopPropagation()">
-            <i class="fa fa-list-alt"></i>
-          </a>.
-        </span>
-      </div>
-      <div data-collapse="model.paymentMethodIsCollapsed">
-        <h5 class="headline">Instant Transfer Payment Method</h5>
-        <div ps-payment-token-selector
-          ps-selected="model.backupSource"
-          ps-instant="true" ps-fixed="true"></div>
-      </div>
-      <div data-collapse="model.paymentMethodIsCollapsed">
-        <h5 class="headline">Instant Transfer Deposit Details</h5>
-        <div ps-transaction-details="instantTransferDeposit"
-          ps-source="model.backupSource"
-          ps-complete="false"></div>
-      </div>
+  <div ng-show="allowInstantTransfer && model.instantTransferRequired"
+    br-lazy-compile="ps-account-selection-instant-transfer"
+    br-compile-trigger="allowInstantTransfer && model.instantTransferRequired">
+    <hr />
+    <div class="alert alert-warning">
+      This account does not have sufficient funds. An instant transfer of <span ps-money="instantTransferDeposit" ps-important="true"></span> from your "<strong>{{model.backupSource.label}}</strong>" payment method will be performed to complete this purchase.
+      <span ng-show="model.backupSource">
+        Details of this instant transfer are available for review: <a ng-click="model.paymentMethodIsCollapsed=!model.paymentMethodIsCollapsed; $event.stopPropagation()">
+          <i class="fa fa-list-alt"></i>
+        </a>.
+      </span>
+    </div>
+    <div data-collapse="model.paymentMethodIsCollapsed">
+      <h5 class="headline">Instant Transfer Payment Method</h5>
+      <div ps-payment-token-selector
+        ps-selected="model.backupSource"
+        ps-instant="true" ps-fixed="true"></div>
+    </div>
+    <div data-collapse="model.paymentMethodIsCollapsed">
+      <h5 class="headline">Instant Transfer Deposit Details</h5>
+      <div ps-transaction-details="instantTransferDeposit"
+        ps-source="model.backupSource"
+        ps-complete="false"></div>
     </div>
   </div>
 </div>

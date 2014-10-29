@@ -28,27 +28,26 @@ like to deposit.</p>
           <p class="form-control-static">Money will be deposited into your "<strong>{{account.label}}</strong>" account.</p>
         </div>
       </div>
-      <div br-lazy-compile="ps-deposit-modal-amount-disallowed-stored-value"
+      <div ng-if="!account.sysAllowStoredValue" class="form-group"
+        br-lazy-compile="ps-deposit-modal-amount-disallowed-stored-value"
         br-compile-trigger="!account.sysAllowStoredValue">
-        <div ng-if="!account.sysAllowStoredValue" class="form-group">
-          <label class="control-label col-sm-3" for="amount">Amount</label>
-          <div class="col-sm-8">
-            <label class="radio-inline">
-              <input
-                type="radio" name="amount"
-                ng-model="input.mode"
-                value="all"
-                ng-change="input.amount = input.max.amount" />
-              Full (<strong><span ps-money="input.max" ps-important="true" ps-exact="true"></span></strong>)
-            </label>
-            <label class="radio-inline">
-              <input
-                type="radio" name="amount"
-                ng-model="input.mode"
-                value="custom" />
-              Custom
-            </label>
-          </div>
+        <label class="control-label col-sm-3" for="amount">Amount</label>
+        <div class="col-sm-8">
+          <label class="radio-inline">
+            <input
+              type="radio" name="amount"
+              ng-model="input.mode"
+              value="all"
+              ng-change="input.amount = input.max.amount" />
+            Full (<strong><span ps-money="input.max" ps-important="true" ps-exact="true"></span></strong>)
+          </label>
+          <label class="radio-inline">
+            <input
+              type="radio" name="amount"
+              ng-model="input.mode"
+              value="custom" />
+            Custom
+          </label>
         </div>
       </div>
       <br-input

@@ -1,32 +1,27 @@
 <br-selector br-selected="selected=brSelector.selected" ps-address-selector-inner>
-  <div name="br-selector-selected">
-    <div br-lazy-compile="ps-address-selector-selected"
-      br-compile-trigger="selected">
-      <span ng-show="model.services.address.loading">
-        <i class="fa fa-refresh fa-spin text-muted"></i>
-      </span>
-      <div ng-hide="model.services.address.loading" ps-address-view="selected"></div>
-    </div>
+  <div name="br-selector-selected" br-lazy-compile="ps-address-selector-selected"
+    br-compile-trigger="selected">
+    <span ng-show="model.services.address.loading">
+      <i class="fa fa-refresh fa-spin text-muted"></i>
+    </span>
+    <div ng-hide="model.services.address.loading" ps-address-view="selected"></div>
   </div>
-  <div name="br-selector-choices">
-    <div br-lazy-compile="ps-address-selector-choices"
-      br-compile-trigger="brSelector.showChoices">
-      <div ng-show="model.services.address.loading">
-        <i class="fa fa-refresh fa-spin text-muted"></i>
-      </div>
-      <ul ng-hide="model.services.address.loading" class="list-unstyled">
-        <li class="br-item-hover well" ng-repeat="address in model.addresses"
-          ng-click="brSelector.select(address)">
-          <div ng-hide="model.services.address.loading" ps-address-view="address"></div>
-        </li>
-      </ul>
+  <div name="br-selector-choices" br-lazy-compile="ps-address-selector-choices"
+    br-compile-trigger="brSelector.showChoices">
+    <div ng-show="model.services.address.loading">
+      <i class="fa fa-refresh fa-spin text-muted"></i>
     </div>
+    <ul ng-hide="model.services.address.loading" class="list-unstyled">
+      <li class="br-item-hover well" ng-repeat="address in model.addresses"
+        ng-click="brSelector.select(address)">
+        <div ng-hide="model.services.address.loading" ps-address-view="address"></div>
+      </li>
+    </ul>
   </div>
 </br-selector>
-<div br-lazy-compile="ps-address-selector-add-modal"
+<stackable-modal stackable="model.showAddAddressModal"
+  stackable-closed="!err && brSelector.select(result)"
+  br-lazy-compile="ps-address-selector-add-modal"
   br-compile-trigger="model.showAddAddressModal">
-  <stackable-modal stackable="model.showAddAddressModal"
-    stackable-closed="!err && brSelector.select(result)">
-    <div ps-add-address-modal></div>
-  </stackable-modal>
-</div>
+  <div ps-add-address-modal></div>
+</stackable-modal>

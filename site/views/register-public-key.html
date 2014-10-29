@@ -172,17 +172,16 @@
   </div>
 </div>
 
-<div br-lazy-compile="ps-register-public-key-add-address-modal"
+<stackable-modal stackable="model.showAddAddressModal"
+  stackable-closed="model.register()"
+  br-lazy-compile="ps-register-public-key-add-address-modal"
   br-compile-trigger="model.showAddAddressModal">
-  <stackable-modal stackable="model.showAddAddressModal"
-    stackable-closed="model.register()">
-    <br-add-alert br-alert-type="warning">
-      <span><strong>Note:</strong> Before you complete your registration, please
-      enter your business's name and address information.</span>
-    </br-add-alert>
-    <div ps-add-address-modal></div>
-  </stackable-modal>
-</div>
+  <br-add-alert br-alert-type="warning">
+    <span><strong>Note:</strong> Before you complete your registration, please
+    enter your business's name and address information.</span>
+  </br-add-alert>
+  <div ps-add-address-modal></div>
+</stackable-modal>
 
 </div>
 

@@ -45,34 +45,18 @@
       Choose a credit limit for this account. Other factors may reduce your maximum available credit.
     </br-input>
 
-    <div ng-show="model.editing" class="form-group">
-      <label class="control-label col-md-5" for="backups">
-        External Payment Method
-        <a br-help-toggle="model.help.backupSource">
-          <i class="fa fa-question-circle"></i>
-        </a>
-      </label>
-      <label class="radio-inline">
-        <input type="radio" name="enable-backup-source"
-          ng-value="true" ng-model="model.backupSourceEnabled" />
-        Enable
-      </label>
-      <label class="radio-inline">
-        <input type="radio" name="enable-backup-source"
-          ng-value="false" ng-model="model.backupSourceEnabled" />
-        Disable
-      </label>
-      <div class="row">
-        <div ng-show="model.help.backupSource.show" style="margin-top: 10px"
-          class="col-md-offset-1 col-md-10">
-          <p class="help-block br-fadein br-fadeout">
-            An external payment method is used to automatically pay back used
-            credit on its due date. It can also be used to provide funds if an
-            instant transfer is required to complete a purchase.
-          </p>
-        </div>
-      </div>
-    </div>
+    <br-radio-group ng-show="model.editing" br-model="model.backupSourceEnabled"
+      br-group="[{label: 'Enable', value: true}, {label: 'Disable', value: false}]"
+      br-options="{
+        inline: true,
+        name: 'enable-backup-source',
+        label: 'External Payment Method',
+        columns: {label: 'col-md-5', help: 'col-md-offset-1 col-md-10'}
+      }">
+      An external payment method is used to automatically pay back used
+      credit on its due date. It can also be used to provide funds if an
+      instant transfer is required to complete a purchase.
+    </br-radio-group>
 
     <div ng-show="model.editing && model.backupSourceEnabled" class="form-group">
       <div ps-payment-token-selector ps-selected="model.backupSource" ps-instant="true"></div>
@@ -112,33 +96,18 @@
       </div>
     </div>
 
-    <div ng-show="model.editing" class="form-group">
-      <label class="control-label col-md-5" for="sysAllowInstantTransfer">
-        Instant Transfer
-        <a br-help-toggle="model.help.sysAllowInstantTransfer">
-          <i class="fa fa-question-circle"></i>
-        </a>
-      </label>
-      <label class="radio-inline">
-        <input type="radio" name="enable-instant-transfer"
-          ng-value="true" ng-model="model.account.sysAllowInstantTransfer" />
-        Enable
-      </label>
-      <label class="radio-inline">
-        <input type="radio" name="enable-instant-transfer"
-          ng-value="false" ng-model="model.account.sysAllowInstantTransfer" />
-        Disable
-      </label>
-      <div class="row">
-        <div ng-show="model.help.sysAllowInstantTransfer.show"
-          style="margin-top: 10px" class="col-md-offset-1 col-md-10">
-          <p class="help-block br-fadein br-fadeout">
-            Enabling instant transfer will cause purchases that exceed your
-            credit limit to be performed using the payment method of your
-            choice. Extra fees will be applied per purchase.
-          </p>
-        </div>
-      </div>
-    </div>
+    <br-radio-group ng-show="model.editing"
+      br-model="model.account.sysAllowInstantTransfer"
+      br-group="[{label: 'Enable', value: true}, {label: 'Disable', value: false}]"
+      br-options="{
+        inline: true,
+        name: 'sysAllowInstantTransfer',
+        label: 'Instant Transfer',
+        columns: {label: 'col-md-5', help: 'col-md-offset-1 col-md-10'}
+      }">
+      Enabling instant transfer will cause purchases that exceed your
+      credit limit to be performed using the payment method of your
+      choice. Extra fees will be applied per purchase.
+    </br-radio-group>
   </fieldset>
 </form>

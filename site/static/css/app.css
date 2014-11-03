@@ -9053,15 +9053,19 @@ h1.headline {
   padding-left: 3px;
   padding-right: 15px;
 }
-.input-group[class*="col-"] {
-  padding-left: 15px;
-  padding-right: 15px;
-}
-@media (min-width: 992px) {
-  .input-group[class*="col-"] {
-    padding-left: 0;
-    padding-right: 0;
+.input-group {
+  /*&[class*="col-"] {
+    padding-left: 15px;
+    padding-right: 15px;
   }
+
+  @media (min-width: @screen-md) {
+    // Undo padding of grid classes
+    &[class*="col-"] {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }*/
 }
 /* Menus */
 .stackable-menu.dropdown-menu {

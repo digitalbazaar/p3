@@ -11,6 +11,9 @@ module.exports = config;
 // load common config
 require('./common');
 
+// location of configuration files
+var _cfgdir = path.join(__dirname, '..');
+
 // location of static resources
 var _datadir = path.join(__dirname, '..');
 
@@ -97,12 +100,9 @@ config.server.bindAddr = ['payswarm.dev'];
 config.server.domain = 'payswarm.dev';
 config.server.host = 'payswarm.dev:19444';
 config.server.baseUri = 'https://' + config.server.host;
-config.server.key = path.join(
-  __dirname, '..', 'pki', 'test-payswarm-auth.key');
-config.server.cert = path.join(
-  __dirname, '..', 'pki', 'test-payswarm-auth.crt');
-//config.server.ca = path.join(
-//  __dirname, '..', 'pki', 'test-payswarm-auth-bundle.crt');
+config.server.key = path.join(_cfgdir, 'pki', 'test-payswarm-auth.key');
+config.server.cert = path.join(_cfgdir, 'pki', 'test-payswarm-auth.crt');
+//config.server.ca = path.join(_cfgdir, 'pki', 'test-payswarm-auth-bundle.crt');
 
 // session info
 config.server.session.secret = '0123456789abcdef';
@@ -116,7 +116,6 @@ config.limiter.ipRequestsPerHour = 0;
 config.database.name = 'payswarm_test';
 config.database.host = 'localhost';
 config.database.port = 27017;
-config.database.local.collection = 'payswarm_test';
 config.database.username = 'payswarm';
 config.database.password = 'password';
 config.database.adminPrompt = true;

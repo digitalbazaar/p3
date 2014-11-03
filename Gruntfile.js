@@ -37,4 +37,9 @@ module.exports = function(grunt) {
     'zip': {exports: 'zip'}
   };
   grunt.config('requirejs', requirejs);
+
+  // jscs
+  var jscs = grunt.config.getRaw('jscs');
+  jscs.all.options.excludeFiles.push('<%= dirs.payswarm %>/lib/rdfa/*.js');
+  grunt.config('jscs', jscs);
 };

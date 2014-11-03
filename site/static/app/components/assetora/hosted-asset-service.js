@@ -45,8 +45,7 @@ function factory($http, $rootScope, brIdentityService, brResourceService) {
     if(options.createdStart) {
       if(query.createdStart instanceof Date) {
         query.createdStart = (+options.createdStart / 1000);
-      }
-      else {
+      } else {
         query.createdStart = options.createdStart;
       }
     }

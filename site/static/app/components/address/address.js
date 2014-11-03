@@ -13,7 +13,7 @@ define([
   './address-view-directive',
   './addresses-controller',
   './addresses-directive',
-  './edit-address-modal-directive',
+  './edit-address-modal-directive'
 ], function(
   angular,
   addAddressModalDirective,

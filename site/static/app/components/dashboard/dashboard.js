@@ -9,7 +9,7 @@ define([
   'angular',
   './dashboard-controller',
   './welcome-modal-directive',
-  'bedrock/app/components/dashboard/dashboard-routes',
+  'bedrock/app/components/dashboard/dashboard-routes'
 ], function(
   angular,
   dashboardController,

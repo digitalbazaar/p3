@@ -71,7 +71,6 @@ var delBudgetQuery = {
   additionalProperties: true
 };
 
-
 module.exports.postBudget = function() {
   return postBudget;
 };

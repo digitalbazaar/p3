@@ -6,7 +6,7 @@
  * @author Dave Longley
  */
 define([
-  'angular',
+  'angular'//,
   //'./assetora-controller'
 ], function(angular, assetora) {
 

@@ -14,7 +14,6 @@ function factory($http, $rootScope, brIdentityService) {
     loading: false
   };
 
-
   // get identity preferences
   service.get = function(options) {
     var url = brIdentityService.identity.id + '/preferences';

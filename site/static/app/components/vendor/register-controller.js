@@ -92,7 +92,7 @@ function factory(
 
     // show the manual registration completion button after a timeout period
     var registrationDelay = (self.registrationType === 'vendor') ? 5000 : 0;
-    return Promise.resolve($timeout(function(){}, registrationDelay));
+    return Promise.resolve($timeout(function() {}, registrationDelay));
   }
 }
 

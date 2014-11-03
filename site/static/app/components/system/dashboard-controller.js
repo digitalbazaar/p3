@@ -18,7 +18,6 @@ var data;
 // http://bost.ocks.org/mike/path/
 // http://bl.ocks.org/4060954
 
-
 $(document).ready(function() {
   // alias
   data = window.data;

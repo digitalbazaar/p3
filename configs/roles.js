@@ -43,7 +43,7 @@ roles['payswarm.hostedAsset.admin'] = {
     permissions.HOSTED_ASSET_ACCESS.id,
     permissions.HOSTED_ASSET_CREATE.id,
     permissions.HOSTED_ASSET_EDIT.id,
-    permissions.HOSTED_ASSET_REMOVE.id,
+    permissions.HOSTED_ASSET_REMOVE.id
   ]
 };
 roles['payswarm.hostedListing.admin'] = {
@@ -55,7 +55,7 @@ roles['payswarm.hostedListing.admin'] = {
     permissions.HOSTED_LISTING_ACCESS.id,
     permissions.HOSTED_LISTING_CREATE.id,
     permissions.HOSTED_LISTING_EDIT.id,
-    permissions.HOSTED_LISTING_REMOVE.id,
+    permissions.HOSTED_LISTING_REMOVE.id
   ]
 };
 roles['payswarm.paymentToken.admin'] = {

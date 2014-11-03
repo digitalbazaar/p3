@@ -44,8 +44,7 @@ function factory($rootScope, brIdentityService, brResourceService) {
     if(options.createdStart) {
       if(query.createdStart instanceof Date) {
         query.createdStart = (+options.createdStart / 1000);
-      }
-      else {
+      } else {
         query.createdStart = options.createdStart;
       }
     }
@@ -63,8 +62,7 @@ function factory($rootScope, brIdentityService, brResourceService) {
     }
     if('includeAsset' in options && options.includeAsset !== undefined) {
       query.includeAsset = options.includeAsset;
-    }
-    else {
+    } else {
       query.includeAsset = true;
     }
     return service.collection.getAll({params: query});

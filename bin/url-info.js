@@ -74,8 +74,7 @@ if(program.args.length === 0) {
   source = 'stdin';
   program.prompt(util.format('Reading %s from standard input:',
     program.json ? 'JSON' : 'RDFa'), processInput);
-}
-else {
+} else {
   source = program.args[0];
   processInput(source);
 }

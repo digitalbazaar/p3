@@ -419,8 +419,8 @@ config.promo = {};
 config.hosted = {asset: {}, listing: {}};
 // how long a signed asset/listing is valid for (will be resigned afterwards)
 // 1 day
-config.hosted.asset.purchaseValidityDuration = 1000*60*60*24;
-config.hosted.listing.purchaseValidityDuration = 1000*60*60*24;
+config.hosted.asset.purchaseValidityDuration = 1000 * 60 * 60 * 24;
+config.hosted.listing.purchaseValidityDuration = 1000 * 60 * 60 * 24;
 
 // add payswarm schemas
 config.validation.schema.paths.push(path.join(__dirname, '..', 'schemas'));

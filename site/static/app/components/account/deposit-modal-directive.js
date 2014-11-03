@@ -75,7 +75,7 @@ function factory(
         payee: [{
           type: 'Payee',
           payeeGroup: ['deposit'],
-          payeeRate: ''+scope.input.amount,
+          payeeRate: '' + scope.input.amount,
           payeeRateType: 'FlatAmount',
           payeeApplyType: 'ApplyExclusively',
           destination: scope.account.id,

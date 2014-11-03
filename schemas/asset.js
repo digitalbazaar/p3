@@ -37,7 +37,7 @@ var schema = {
       }
     },
     // FIXME: is sysPublished desirable?
-    sysPublished: schemas.w3cDateTime({required: false}),
+    sysPublished: schemas.w3cDateTime({required: false})//,
     // Meritora custom asset properties
     // FIXME: need semantic type-based validation
     // FIXME: this is currently a hack to allow these to pass through

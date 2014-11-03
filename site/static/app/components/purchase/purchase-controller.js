@@ -175,7 +175,7 @@ function factory(
       return updateQuote(self.source).then(function() {
         // attempt to auto-purchase using a current budget
         autoPurchase();
-      }).catch(function(){});
+      }).catch(function() {});
     }).then(function() {
       // page now ready
       self.ready = !self.showAddAddressModal && !self.showAddAccountModal;

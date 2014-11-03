@@ -47,7 +47,7 @@ var postAssets = {
     // service does a more strict check based on extra asset types
     // FIXME: library doesn't handle 'true'
     additionalProperties: undefined
-  })],
+  })]//,
   //additionalProperties: true
 };
 

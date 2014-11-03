@@ -33,7 +33,7 @@ module.service(transactionService);
 module.directive(transactionDetailsDirective);
 module.directive(transactionsDirective);
 
-/* @ngInject */                                                                  
+/* @ngInject */
 module.config(function($routeProvider) {
   angular.forEach(transactionRoutes, function(route) {
     $routeProvider.when(route.path, route.options);

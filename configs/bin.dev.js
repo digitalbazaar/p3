@@ -21,7 +21,7 @@ var _libdir = path.join(__dirname, '..', 'lib');
 // modules to load
 config.modules = [
   //path.join(_libdir, 'payswarm-auth', 'monitors'),
-  'database',
+  'database'//,
   //'scheduler',
   //'mail',
   //'permission',

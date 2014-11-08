@@ -886,7 +886,7 @@ html {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 body {
-  font-family: 'Droid Sans';
+  font-family: 'Droid Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 1.42857143;
   color: #333333;
@@ -1332,7 +1332,7 @@ code,
 kbd,
 pre,
 samp {
-  font-family: 'Droid Sans Mono';
+  font-family: 'Droid Sans Mono', Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 code {
   padding: 2px 4px;
@@ -8891,8 +8891,26 @@ fieldset[disabled] .br-btn-navbar-inverse.active {
   padding-left: 15px;
   padding-right: 15px;
 }
+@media (min-width: 768px) {
+  .form-group-inline[class*="col-xs"] {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+@media (min-width: 768px) {
+  .form-group-inline[class*="col-sm"] {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
 @media (min-width: 992px) {
-  .form-group-inline[class*="col-"] {
+  .form-group-inline[class*="col-md"] {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+@media (min-width: 1200px) {
+  .form-group-inline[class*="col-lg"] {
     padding-left: 0;
     padding-right: 0;
   }
@@ -9053,19 +9071,33 @@ h1.headline {
   padding-left: 3px;
   padding-right: 15px;
 }
-.input-group {
-  /*&[class*="col-"] {
-    padding-left: 15px;
-    padding-right: 15px;
+.input-group[class*="col-"] {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .input-group[class*="col-xs"] {
+    padding-left: 0;
+    padding-right: 0;
   }
-
-  @media (min-width: @screen-md) {
-    // Undo padding of grid classes
-    &[class*="col-"] {
-      padding-left: 0;
-      padding-right: 0;
-    }
-  }*/
+}
+@media (min-width: 768px) {
+  .input-group[class*="col-sm"] {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+@media (min-width: 992px) {
+  .input-group[class*="col-md"] {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+@media (min-width: 1200px) {
+  .input-group[class*="col-lg"] {
+    padding-left: 0;
+    padding-right: 0;
+  }
 }
 /* Menus */
 .stackable-menu.dropdown-menu {
@@ -9200,6 +9232,7 @@ h1.headline {
   background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
 }
 /* Sections */
+.section h2.headline,
 .section h3.headline,
 .section h4.headline {
   background: #f6f6f6;
@@ -9209,18 +9242,22 @@ h1.headline {
   padding: 1px 5px;
   text-align: left;
 }
+.section h2.headline .btn,
 .section h3.headline .btn,
 .section h4.headline .btn {
   margin-top: 1px;
 }
+.section h2.headline .btn.btn-lg,
 .section h3.headline .btn.btn-lg,
 .section h4.headline .btn.btn-lg {
   margin-top: -5px;
 }
+.section h2.headline .btn.btn-sm,
 .section h3.headline .btn.btn-sm,
 .section h4.headline .btn.btn-sm {
   margin-top: 3px;
 }
+.section h2.headline .btn.btn-xs,
 .section h3.headline .btn.btn-xs,
 .section h4.headline .btn.btn-xs {
   margin-top: 7px;

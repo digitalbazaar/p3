@@ -217,8 +217,7 @@ function factory(
       self.contract = contract;
       $scope.$apply();
     }).catch(function(err) {
-      // FIXME: namespace should be payswarm.website
-      if(err.type === 'bedrock.website.DuplicatePurchase') {
+      if(err.type === 'payswarm.services.DuplicatePurchase') {
         // set duplicate contract
         self.alertType = 'duplicatePurchase';
         self.purchased = true;
@@ -302,9 +301,7 @@ function factory(
         case 'payswarm.financial.InsufficientFunds':
           self.purchaseDisabled = true;
           break;
-        // FIXME: namespace should be payswarm.website
-        //case 'payswarm.website.DuplicatePurchase':
-        case 'bedrock.website.DuplicatePurchase':
+        case 'payswarm.services.DuplicatePurchase':
           // set duplicate contract
           self.alertType = 'duplicatePurchase';
           self.purchased = true;

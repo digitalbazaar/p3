@@ -9,59 +9,12 @@ var path = require('path');
 // load common config
 require('./common');
 
-// location of static resources
-var _datadir = path.join(__dirname, '/..');
-
 // location of logs
 var _logdir = '/tmp';
 
-// location of libs
-var _libdir = path.join(__dirname, '..', 'lib');
-
 // modules to load
 config.modules = [
-  //path.join(_libdir, 'payswarm-auth', 'monitors'),
-  'database'//,
-  //'scheduler',
-  //'mail',
-  //'permission',
-  //'identity',
-  //path.join(_libdir, 'payswarm-auth', 'authority'),
-  //path.join(_libdir, 'payswarm-auth', 'identityAddress'),
-  //path.join(_libdir, 'payswarm-auth', 'identityPreferences'),
-  //path.join(_libdir, 'payswarm-auth', 'resource'),
-  //path.join(_libdir, 'payswarm-auth', 'financial'),
-  //path.join(_libdir, 'payswarm-auth', 'promo'),
-  //path.join(_libdir, 'payswarm-auth', 'hosted.asset'),
-  //path.join(_libdir, 'payswarm-auth', 'hosted.listing'),
-  //'website'
-];
-
-// website services to load
-config.website.services = [
-  'docs',
-  'identity',
-  'identifier',
-  'key',
-  'session',
-  'well-known',
-  path.join(_libdir, 'payswarm-auth', 'services.account'),
-  path.join(_libdir, 'payswarm-auth', 'services.address'),
-  //path.join(_libdir, 'payswarm-auth', 'services.assetora'),
-  path.join(_libdir, 'payswarm-auth', 'services.budget'),
-  //path.join(_libdir, 'payswarm-auth', 'services.hosted.asset'),
-  //path.join(_libdir, 'payswarm-auth', 'services.hosted.listing'),
-  path.join(_libdir, 'payswarm-auth', 'services.identityPreferences'),
-  path.join(_libdir, 'payswarm-auth', 'services.license'),
-  path.join(_libdir, 'payswarm-auth', 'services.paymentToken'),
-  path.join(_libdir, 'payswarm-auth', 'services.payswarm.identifier'),
-  path.join(_libdir, 'payswarm-auth', 'services.promo'),
-  //path.join(_libdir, 'payswarm-auth', 'services.system'),
-  //path.join(_libdir, 'payswarm-auth', 'services.test'),
-  //path.join(_libdir, 'payswarm-auth', 'services.tools'),
-  path.join(_libdir, 'payswarm-auth', 'services.transaction'),
-  path.join(_libdir, 'payswarm-auth', 'services.vendor'),
-  path.join(_libdir, 'payswarm-auth', 'services.well-known')
+  'database'
 ];
 
 // app info

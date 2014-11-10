@@ -40,18 +40,14 @@ config.modules = [
   //path.join(_libdir, 'payswarm-auth', 'hosted.asset'),
   //path.join(_libdir, 'payswarm-auth', 'hosted.listing'),
   'website',
-  'test'
-];
-
-// website services to load
-config.website.services = [
-  'docs',
-  'filesystem',
-  'identity',
-  'identifier',
-  'key',
-  'session',
-  'well-known',
+  'test',
+  'services.docs',
+  'services.filesystem',
+  'services.identity',
+  'services.identifier',
+  'services.key',
+  'services.session',
+  'services.well-known',
   path.join(_libdir, 'payswarm-auth', 'services.account'),
   path.join(_libdir, 'payswarm-auth', 'services.address'),
   //path.join(_libdir, 'payswarm-auth', 'services.assetora'),

@@ -112,9 +112,7 @@ function factory(
           scope.$apply();
         });
       }).catch(function(err) {
-        // FIXME: namespace should be payswarm.website
-        //if(err.type === 'payswarm.website.VerifyPaymentTokenFailed' &&
-        if(err.type === 'bedrock.website.VerifyPaymentTokenFailed' &&
+        if(err.type === 'payswarm.services.VerifyPaymentTokenFailed' &&
           err.cause &&
           err.cause.type === 'payswarm.financial.VerificationFailed') {
           brAlertService.add('error', {
@@ -150,9 +148,7 @@ function factory(
             },
             "cause": null
           };
-        // FIXME: namespace should be payswarm.website
-        //} else if(err.type === 'payswarm.website.VerifyPaymentTokenFailed' &&
-        } else if(err.type === 'bedrock.website.VerifyPaymentTokenFailed' &&
+        } else if(err.type === 'payswarm.services.VerifyPaymentTokenFailed' &&
           err.cause &&
           err.cause.type === 'payswarm.financial.MaxVerifyAttemptsExceeded') {
           // FIXME: add special call to brAlertService for this?

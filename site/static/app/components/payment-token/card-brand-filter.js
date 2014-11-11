@@ -17,7 +17,7 @@ function factory() {
       return logo ? 'cc-logo-mastercard' : 'MasterCard';
     }
     if(input === 'Discover') {
-      return logo ? 'cc-logo-discover': 'Discover';
+      return logo ? 'cc-logo-discover' : 'Discover';
     }
     if(input === 'AmericanExpress') {
       return logo ? 'cc-logo-amex' : 'American Express';

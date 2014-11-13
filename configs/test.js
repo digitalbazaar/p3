@@ -84,8 +84,8 @@ config.loggers.access.filename = _logdir + '/payswarm-test-access.log';
 config.loggers.error.filename = _logdir + '/payswarm-test-error.log';
 config.loggers.email.silent = true;
 
-// only log emergency errors by default
-config.loggers.console.level = 'emergency';
+// only log critical errors by default
+config.loggers.console.level = 'critical';
 
 // server info
 // 0 means use # of cpus

@@ -12,7 +12,7 @@ define(['angular', 'jsonld'], function(angular, jsonld) {
 
 /* @ngInject */
 function factory(
-  $timeout, brAlertService, brIdentityService,
+  brAlertService, brIdentityService,
   brRefreshService, psTransactionService) {
   return {
     restrict: 'A',
@@ -56,38 +56,7 @@ function factory(
     // txns expanded with details for table display
     model.table = [];
 
-    model.datePickerOpen = false;
     model.showControls = false;
-
-    function _endOfDay(date) {
-      return new Date(
-        date.getFullYear(), date.getMonth(), date.getDate(),
-        23, 59, 59, 999);
-    }
-
-    // convert date into the last millisecond of the day, also separate
-    // vars are used to avoid modifying the text while typing and to ensure the
-    // input blurs when using the calendar selector
-    model.dateChanged = function() {
-      if(model.datePickerDate) {
-        model.startDate = _endOfDay(model.datePickerDate);
-      }
-    };
-
-    // lose focus and hide datepicker
-    model.dateQuitKeyPressed = function($event) {
-      model.datePickerOpen = false;
-      $timeout(function() {
-        $event.target.blur();
-      });
-    };
-
-    model.openDatePicker = function() {
-      var isOpen = model.datePickerOpen;
-      $timeout(function() {
-        model.datePickerOpen = !isOpen;
-      });
-    };
 
     model.getRowType = psTransactionService.getType;
 
@@ -99,8 +68,7 @@ function factory(
 
     model.reset = function() {
       // set start date to last ms of today
-      model.startDate = _endOfDay(new Date());
-      model.datePickerDate = new Date(model.startDate);
+      model.startDate = new Date();
       model.limit = 10;
     };
 
@@ -117,7 +85,6 @@ function factory(
 
       if(options.createdStart) {
         model.startDate = new Date(options.createdStart);
-        model.datePickerDate = new Date(options.createdStart);
       }
 
       // fetch txns

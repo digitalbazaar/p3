@@ -18,20 +18,16 @@
     <button type="button" class="close" ng-click="model.showControls=false">&times;</button>
     <form class="form-vertical account-activity-form">
       <fieldset>
-        <div class="form-group">
-          <label class="control-label col-md-2" for="dateField">Start Date</label>
-          <div class="input-group col-md-offset-2 col-md-4">
-            <input class="form-control" name="dateField" type="text"
-              ng-model="model.datePickerDate"
-              data-datepicker-popup="yyyy/MM/dd" ng-change="model.dateChanged()"
-              data-is-open="model.datePickerOpen"
-              ng-keyup="($event.which == 13 || $event.which == 27) && model.dateQuitKeyPressed($event)" />
-            <span class="input-group-btn">
-              <button type="button" class="btn btn-default"
-                ng-click="model.openDatePicker()"><i class="fa fa-calendar"></i></button>
-            </span>
-          </div>
-        </div>
+        <br-datepicker br-model="model.startDate"
+          br-options="{
+            label: 'Start Date',
+            format: 'yyyy/MM/dd',
+            time: (24*60*60*1000 - 1),
+            columns: {
+              label: 'col-md-2',
+              input: 'col-md-offset-2 col-md-4'
+            }
+          }"></br-datepicker>
 
         <div class="form-group">
           <label class="control-label col-md-2" for="items">Items</label>
@@ -40,8 +36,7 @@
               min="1"
               max="30"
               required
-              ng-model="model.limit"
-              ng-keyup="($event.which == 13 || $event.which == 27) && model.dateQuitKeyPressed($event)" />
+              ng-model="model.limit" />
           </div>
         </div>
 

@@ -70,6 +70,8 @@ config.modules = [
 config.environment = 'testing';
 
 // app info
+// 0 means use # of cpus
+config.app.workers = 0;
 config.app.masterTitle = 'payswarm1d';
 config.app.workerTitle = 'payswarm1d-worker';
 config.app.restartWorkers = true;
@@ -88,8 +90,6 @@ config.loggers.email.silent = true;
 config.loggers.console.level = 'critical';
 
 // server info
-// 0 means use # of cpus
-config.server.workers = 0;
 config.server.port = 19444;
 config.server.httpPort = 19081;
 config.server.bindAddr = ['payswarm.dev'];

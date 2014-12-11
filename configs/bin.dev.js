@@ -18,6 +18,8 @@ config.modules = [
 ];
 
 // app info
+// 0 means use # of cpus
+config.app.workers = 1;
 config.app.masterTitle = 'payswarm1d';
 config.app.workerTitle = 'payswarm1d-worker';
 config.app.restartWorkers = false;
@@ -40,8 +42,6 @@ config.loggers.email.to = ['cluster@payswarm.com'];
 config.loggers.email.from = 'cluster@payswarm.com';
 
 // server info
-// 0 means use # of cpus
-config.server.workers = 1;
 config.server.port = 30443;
 config.server.httpPort = 30080;
 config.server.bindAddr = ['payswarm.dev'];

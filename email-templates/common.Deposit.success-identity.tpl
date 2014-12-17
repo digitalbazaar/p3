@@ -1,6 +1,6 @@
 To: {{identity.email}}
-From: "{{serviceName}} Customer Support" <support@{{supportDomain}}>
-Subject: {{identitySubjectPrefix}}{{serviceName}} deposit receipt
+From: "{{service.name}} {{support.name}}" <{{support.email}}>
+Subject: {{subject.identityPrefix}}{{service.name}} deposit receipt
 
 {% if productionMode == false %}
 *** NOTE ***
@@ -14,7 +14,7 @@ Your {% if deposit.source.cardNumber %}card{% elseif deposit.source.bankAccount 
 {%- if deposit.source.bankAccount %}
 
 It will take between 3-7 business days for the money to be transferred from your
-bank account to {{serviceName}}.
+bank account to {{service.name}}.
 {%- endif %}
 
 Here is your deposit receipt:
@@ -37,6 +37,6 @@ You can view your latest financial activity on your account activity page.
 
 {{deposit.transfer[0].destination}}?view=activity
 
-If you have any questions or comments please contact support@{{supportDomain}}.
+If you have any questions or comments please contact {{support.email}}.
 
-* All deposit fees are used to reimburse {{serviceName}} for fees charged by banks and the banking and financial networks.
+* All deposit fees are used to reimburse {{service.name}} for fees charged by banks and the banking and financial networks.

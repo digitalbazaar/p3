@@ -1,6 +1,6 @@
 To: {{identity.email}}
-From: "{{serviceName}} Customer Support" <support@{{supportDomain}}>
-Subject: {{identitySubjectPrefix}}{{serviceName}} listing asset expired
+From: "{{service.name}} {{support.name}}" <{{support.email}}>
+Subject: {{subject.identityPrefix}}{{service.name}} listing asset expired
 
 {% if productionMode == false %}
 *** NOTE ***

@@ -1,6 +1,6 @@
-To: deposits@{{supportDomain}}
-From: cluster@{{supportDomain}}
-Subject: {{subjectPrefix}}{{serviceName}} {{stage}} deposit: {{deposit.currency}} ${{deposit.amount}} ({{deposit.id}})
+To: {{deposits.email}}
+From: "{{service.name}} {{system.name}}" <{{system.email}}>
+Subject: {{subject.prefix}}{{service.name}} {{stage}} deposit: {{deposit.currency}} ${{deposit.amount}} ({{deposit.id}})
 
 Machine:         {{machine}}
 Transaction ID:  {{deposit.id}}

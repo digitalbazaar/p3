@@ -151,12 +151,42 @@ config.mail.connection = {
 config.mail.send = false;
 config.mail.vars = {
   productionMode: config.website.views.vars.productionMode,
-  serviceHost: config.server.host,
-  serviceDomain: config.server.domain,
-  supportDomain: config.server.domain,
-  subjectPrefix: '[TEST] ',
-  identitySubjectPrefix: '[TEST] ',
-  serviceName: 'PaySwarm Dev Test',
+  baseUri: config.authority.baseUri,
+  subject: {
+    prefix: '[PaySwarm TEST] ',
+    identityPrefix: '[PaySwarm TEST] '
+  },
+  service: {
+    name: 'PaySwarm Dev Test',
+    domain: config.server.domain,
+    host: config.server.host
+  },
+  system: {
+    name: 'System',
+    email: 'cluster@' + config.server.domain
+  },
+  support: {
+    name: 'Customer Support',
+    email: 'support@' + config.server.domain
+  },
+  registration: {
+    email: 'registration@' + config.server.domain
+  },
+  comments: {
+    email: 'comments@' + config.server.domain
+  },
+  notify: {
+    email: 'notify@' + config.server.domain
+  },
+  contracts: {
+    email: 'contracts@' + config.server.domain
+  },
+  deposits: {
+    email: 'deposits@' + config.server.domain
+  },
+  withdrawals: {
+    email: 'withdrawals@' + config.server.domain
+  },
   machine: require('os').hostname()
 };
 

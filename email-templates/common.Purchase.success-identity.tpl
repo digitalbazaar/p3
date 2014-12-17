@@ -1,6 +1,6 @@
 To: {{identity.email}}
-From: "{{serviceName}} Customer Support" <support@{{supportDomain}}>
-Subject: {{identitySubjectPrefix}}{{serviceName}} purchase notification
+From: "{{service.name}} {{support.name}}" <{{support.email}}>
+Subject: {{subject.identityPrefix}}{{service.name}} purchase notification
 
 {% if productionMode == false %}
 *******
@@ -9,7 +9,7 @@ More info is available at http://payswarm.com/wiki/Demo_Warning.
 *******
 
 {% endif -%}
-A purchase has just been made using your {{serviceName}} account.
+A purchase has just been made using your {{service.name}} account.
 
 Asset: "{{contract.asset.title}}" by {{contract.asset.creator.name}}
 Asset Provider{% if contract.assetProvider.id == contract.vendor.id %} and Vendor{% endif %}: {{contract.assetProvider.label}} ({{contract.assetProvider.url}})
@@ -25,7 +25,7 @@ The details of this transaction are located here:
 {{contract.id}}
 
 If you have any questions or comments about this purchase, please contact:
-support@{{supportDomain}}
+{{support.email}}
 
 Digital Bazaar, Inc.
 Blacksburg, VA, USA

@@ -1,6 +1,6 @@
-To: notify@{{supportDomain}}
-From: cluster@{{supportDomain}}
-Subject: {{subjectPrefix}}{{serviceName}} intervention required for {{transactionId}}
+To: {{notify.email}}
+From: "{{service.name}} {{system.name}}" <{{system.email}}>
+Subject: {{subject.prefix}}{{service.name}} intervention required for {{transactionId}}
 
 Machine:        {{machine}}
 Transaction ID: {{transactionId}}

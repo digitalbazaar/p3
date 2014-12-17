@@ -1,6 +1,6 @@
 To: {{identity.email}}
-From: "{{serviceName}} Customer Support" <support@{{supportDomain}}>
-Subject: {{identitySubjectPrefix}}{{serviceName}} withdrawal receipt
+From: "{{service.name}} {{support.name}}" <{{support.email}}>
+Subject: {{subject.identityPrefix}}{{service.name}} withdrawal receipt
 
 {% if productionMode == false %}
 *** NOTE ***
@@ -14,7 +14,7 @@ Your {% if withdrawal.destination.bankAccount %}bank account{% else %}account{% 
 {%- if withdrawal.destination.bankAccount %}
 
 It will take between 3-7 business days for the money to be transferred from
-{{serviceName}} to your bank account.
+{{service.name}} to your bank account.
 {%- endif %}
 
 Here is your withdrawal receipt:
@@ -36,6 +36,6 @@ You can view your latest financial activity on your account activity page.
 
 {{withdrawal.transfer[0].source}}?view=activity
 
-If you have any questions or comments please contact support@{{supportDomain}}.
+If you have any questions or comments please contact {{support.email}}.
 
-* All withdrawal fees are used to reimburse {{serviceName}} for fees charged by banks and the banking and financial networks.
+* All withdrawal fees are used to reimburse {{service.name}} for fees charged by banks and the banking and financial networks.

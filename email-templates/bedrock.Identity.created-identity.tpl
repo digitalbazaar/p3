@@ -1,6 +1,6 @@
 To: {{identity.email}}
-From: "{{serviceName}} Customer Support" <support@{{supportDomain}}>
-Subject: {{identitySubjectPrefix}}Welcome to {{serviceName}}!
+From: "{{service.name}} {{support.name}}" <{{support.email}}>
+Subject: {{subject.identityPrefix}}Welcome to {{service.name}}!
 
 {% if productionMode == false %}
 *******
@@ -11,12 +11,12 @@ More info is available at http://payswarm.com/wiki/Demo_Warning.
 {% endif -%}
 Hello {{identity.label}},
 
-Welcome to {{serviceName}}!
+Welcome to {{service.name}}!
 
 We're so glad you joined! Please let us know if there is anything that we
 can do to help you settle into the website.
 
-{{serviceName}} is a demo website for testing out PaySwarm. If you're a
+{{service.name}} is a demo website for testing out PaySwarm. If you're a
 developer, feel free to check out the API documentation here:
 
 {{baseUri}}/docs
@@ -26,7 +26,7 @@ accounts, and other settings by going here:
 
 {{identity.id}}/dashboard
 
-We'd love to hear any feedback you have about {{serviceName}}.
-Just send an email to comments@{{supportDomain}}.
+We'd love to hear any feedback you have about {{service.name}}.
+Just send an email to {{comments.email}}.
 
-If you have any questions or comments please contact support@{{supportDomain}}.
+If you have any questions or comments please contact {{support.email}}.

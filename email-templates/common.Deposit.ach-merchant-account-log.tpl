@@ -1,6 +1,6 @@
-To: {{serviceDomain}}-merchant-account-logs@digitalbazaar.com
-From: cluster@{{supportDomain}}
-Subject: {{subjectPrefix}}{{serviceName}} ACH deposit log ({{deposit.id}})
+To: {{service.domain}}-merchant-account-logs@digitalbazaar.com
+From: "{{service.name}} {{system.name}}" <{{system.email}}>
+Subject: {{subject.prefix}}{{service.name}} ACH deposit log ({{deposit.id}})
 
 Merchant Name:               Digital Bazaar, Inc.
 Merchant Location:           Blacksburg, VA, USA
@@ -17,5 +17,5 @@ Bank Account Number:         {{deposit.source.bankAccount}}
 ACH Gateway:                 {{deposit.source.paymentGateway}}
 Authorization Approval Code: {{deposit.sysGatewayApprovalCode}}
 Transaction Type:            purchase
-Transaction Description:     {{serviceName}} deposit
+Transaction Description:     {{service.name}} deposit
 Return/Refund Policy:        {{baseUri}}/legal#tos

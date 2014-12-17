@@ -1,6 +1,6 @@
-To: notify@{{supportDomain}}
-From: cluster@{{supportDomain}}
-Subject: {{subjectPrefix}}{{serviceName}} FinancialAccount intervention required, credit payoff FAILED for {{account.id}}
+To: {{notify.email}}
+From: "{{service.name}} {{system.name}}" <{{system.email}}>
+Subject: {{subject.prefix}}{{service.name}} FinancialAccount intervention required, credit payoff FAILED for {{account.id}}
 
 Machine:  {{machine}}
 Account ID: {{account.id}}

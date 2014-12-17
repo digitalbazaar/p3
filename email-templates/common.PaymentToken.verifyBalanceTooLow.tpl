@@ -1,6 +1,6 @@
-To: notify@{{supportDomain}}
-From: cluster@{{supportDomain}}
-Subject: {{subjectPrefix}}{{serviceName}} PaymentToken verify balance too low
+To: {{notify.email}}
+From: "{{service.name}} {{system.name}}" <{{system.email}}>
+Subject: {{subject.prefix}}{{service.name}} PaymentToken verify balance too low
 
 Machine: {{machine}}
 Account: {{account}}

@@ -1,6 +1,6 @@
-To: contracts@{{supportDomain}}
-From: cluster@{{supportDomain}}
-Subject: {{subjectPrefix}}{{serviceName}} Purchase for "{{contract.asset.title}}" from {{contract.assetProvider.label}}
+To: {{contracts.email}}
+From: "{{service.name}} {{system.name}}" <{{system.email}}>
+Subject: {{subject.prefix}}{{service.name}} Purchase for "{{contract.asset.title}}" from {{contract.assetProvider.label}}
 
 Machine:        {{machine}}
 Transaction ID: {{contract.id}}

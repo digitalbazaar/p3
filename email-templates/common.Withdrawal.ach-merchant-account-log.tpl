@@ -1,6 +1,6 @@
-To: {{serviceDomain}}-merchant-account-logs@digitalbazaar.com
-From: cluster@{{supportDomain}}
-Subject: {{subjectPrefix}}{{serviceName}} ACH withdrawal log ({{withdrawal.id}})
+To: {{service.domain}}-merchant-account-logs@digitalbazaar.com
+From: "{{service.name}} {{system.name}}" <{{system.email}}>
+Subject: {{subject.prefix}}{{service.name}} ACH withdrawal log ({{withdrawal.id}})
 
 Merchant Name:               Digital Bazaar, Inc.
 Merchant Location:           Blacksburg, VA, USA
@@ -17,5 +17,5 @@ Bank Account Number:         {{withdrawal.destination.bankAccount}}
 ACH Gateway:                 {{withdrawal.destination.paymentGateway}}
 Authorization Approval Code: {{withdrawal.sysGatewayApprovalCode}}
 Transaction Type:            credit
-Transaction Description:     {{serviceName}} withdrawal
+Transaction Description:     {{service.name}} withdrawal
 Return/Refund Policy:        {{baseUri}}/legal#tos

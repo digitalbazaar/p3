@@ -1,6 +1,6 @@
 To: {{identity.email}}
-From: "{{serviceName}} Customer Support" <support@{{supportDomain}}>
-Subject: {{identitySubjectPrefix}}Verify your bank account on {{serviceName}}
+From: "{{service.name}} {{support.name}}" <{{support.email}}>
+Subject: {{subject.identityPrefix}}Verify your bank account on {{service.name}}
 
 {% if productionMode == false %}
 *******
@@ -10,7 +10,7 @@ More info is available at http://payswarm.com/wiki/Demo_Warning.
 {% endif %}
 Hello {{identity.label}},
 
-Your bank account "{{paymentToken.label}}" is ready to be verified on the {{serviceName}} website!
+Your bank account "{{paymentToken.label}}" is ready to be verified on the {{service.name}} website!
 {% if verify %}
 Because this is a development sandbox and this bank account is not real, the
 transaction amounts required to verify the bank account are included below.
@@ -22,7 +22,7 @@ You can verify and manage your bank accounts here:
 
 {{identity.id}}/settings
 
-We'd love to hear any feedback you have about {{serviceName}}. 
-Just send an email to comments@{{supportDomain}}.
+We'd love to hear any feedback you have about {{service.name}}. 
+Just send an email to {{comments.email}}.
 
-If you have any questions or comments please contact support@{{supportDomain}}.
+If you have any questions or comments please contact {{support.email}}.

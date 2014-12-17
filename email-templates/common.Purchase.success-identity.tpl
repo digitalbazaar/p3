@@ -5,7 +5,7 @@ Subject: {{subject.identityPrefix}}{{service.name}} purchase notification
 {% if productionMode == false %}
 *******
 NOTE: This is a demo website notification and no real money was involved.
-More info is available at http://payswarm.com/wiki/Demo_Warning.
+More info is available at https://payswarm.com/wiki/Demo_Warning.
 *******
 
 {% endif -%}

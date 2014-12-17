@@ -5,7 +5,7 @@ Subject: {{subject.identityPrefix}}Verify your bank account on {{service.name}}
 {% if productionMode == false %}
 *******
 NOTE: This is a demonstration website notification. 
-More info is available at http://payswarm.com/wiki/Demo_Warning.
+More info is available at https://payswarm.com/wiki/Demo_Warning.
 *******
 {% endif %}
 Hello {{identity.label}},

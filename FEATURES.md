@@ -36,6 +36,8 @@ transactions per day range.
 
 ### Transaction History
 
+### Email Notification
+
 ## Payment Gateway Services
 
 ### Automated Clearing House Services

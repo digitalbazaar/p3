@@ -106,6 +106,3 @@ PAYEE.APPLY_TYPE = {
   is like a typical income tax. */
   INCLUSIVE: 'ApplyInclusively'
 };
-
-// known hard-coded domain specific constants
-require('./meritora-constants');

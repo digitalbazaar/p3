@@ -1,6 +1,6 @@
 {
   "name": "p3",
-  "version": "0.2.0-dev",
+  "version": "0.20.0-dev",
   "description": "PaySwarm Payment Processor",
   "scripts": {
     "start": "node payswarm.dev.js",

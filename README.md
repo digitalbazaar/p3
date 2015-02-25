@@ -2,26 +2,26 @@ PaySwarm Payment Processor (p3)
 ===============================
 
 PaySwarm is the world's first implementation of a set
-of technologies that make payments a core part of 
+of technologies that make payments a core part of
 the Web.
 
-This repository contains a reference implementation of 
-a Web Payments Processor based on the specifications 
+This repository contains a reference implementation of
+a Web Payments Processor based on the specifications
 at: https://web-payments.org/specs/
 
-P3 is a Web application and REST API service that can 
-be used to deploy Web Payments As a Service (WPaaS) for 
-banks, financial insitutions, and individuals that want 
+P3 is a Web application and REST API service that can
+be used to deploy Web Payments As a Service (WPaaS) for
+banks, financial insitutions, and individuals that want
 to manage their own financial accounts.
 
 A demo of what P3 can do can be found here:
 
 https://dev.payswarm.com/
 
-Quickstart 
+Quickstart
 ----------
 
-You can follow the following tutorial to setup and use 
+You can follow the following tutorial to setup and use
 p3 on a Linux or Mac OS X development machine.
 
 Requirements
@@ -55,8 +55,8 @@ To setup an admin user on mongodb:
 To setup the `payswarm.dev` hostname:
 
 1. Edit the /etc/hosts file as the administrator/root.
-2. Add an entry mapping the IP address to `payswarm.dev`. 
-   For example: `192.168.0.15 payswarm.dev` (where `192.168.0.15` 
+2. Add an entry mapping the IP address to `payswarm.dev`.
+   For example: `192.168.0.15 payswarm.dev` (where `192.168.0.15`
    is the IP address of your primary network device.
 
 Running P3
@@ -73,8 +73,8 @@ To add more verbose debugging, use the `--log-level` option:
 To access the server:
 
 1. Go to: https://payswarm.dev:22443/
-2. The certificate warning is normal for development mode. Accept it and 
-   continue to the landing page. 
+2. The certificate warning is normal for development mode. Accept it and
+   continue to the landing page.
 3. Login as the admin `admin` with the password `password` or create a new account.
 
 Running the Tests
@@ -151,9 +151,9 @@ P3 and all p3 modules are:
     Copyright (c) 2010-2015 Digital Bazaar, Inc.
     All Rights Reserved
 
-You can use P3 for non-commercial purposes such as self-study, 
-research, personal projects, or for evaluation purposes. See 
-the [LICENSE][] file for details about the included 
+You can use P3 for non-commercial purposes such as self-study,
+research, personal projects, or for evaluation purposes. See
+the [LICENSE][] file for details about the included
 non-commercial license information.
 
 [AUTHORS]: AUTHORS.md

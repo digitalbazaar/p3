@@ -1,5 +1,5 @@
 var bedrock = require('bedrock');
-var schemas = bedrock.validation.schemas;
+var schemas = require('bedrock-validation').schemas;
 
 var allowBudget = require('./allowBudget');
 var deposit = require('./deposit');

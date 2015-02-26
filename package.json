@@ -44,6 +44,20 @@
   "dependencies": {
     "async": "~0.9.0",
     "bcrypt": "~0.7.8",
+    "bedrock": "~0.3.0",
+    "bedrock-docs": "~0.1.0",
+    "bedrock-express": "~0.2.0",
+    "bedrock-i18n": "~0.1.0",
+    "bedrock-idp": "~0.1.1",
+    "bedrock-mongodb": "~0.1.0",
+    "bedrock-passport": "~0.1.0",
+    "bedrock-request-limiter": "~0.1.0",
+    "bedrock-requirejs": "~0.1.0",
+    "bedrock-rest": "~0.1.0",
+    "bedrock-server": "~0.1.0",
+    "bedrock-session-mongodb": "~0.1.0",
+    "bedrock-validation": "~0.1.0",
+    "bedrock-views": "~0.1.0",
     "bignumber.js": "~1.4.1",
     "bossgeo": "~0.0.7",
     "commander": "~2.3.0",
@@ -72,9 +86,7 @@
     "payswarm": "~0.10.6",
     "pkginfo": "~0.3.0"
   },
-  "peerDependencies": {
-    "bedrock": "~0.3.0"
-  },
+  "peerDependencies": {},
   "directories": {
     "lib": "./lib"
   },

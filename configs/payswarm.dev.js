@@ -60,18 +60,11 @@ config.modules = [
   path.join(_libdir, 'payswarm-auth', 'services.well-known')
 ];
 
-// app info
-// 0 means use # of cpus
-config.app.workers = 1;
-config.app.masterTitle = 'payswarm1d';
-config.app.workerTitle = 'payswarm1d-worker';
-config.app.restartWorkers = false;
-// system group and user IDs (can be groupname/username instead of numbers)
-config.app.user.groupId = process.getgid();
-config.app.user.userId = process.getuid();
-
-// config environment
-config.environment = 'development';
+// core
+config.core.workers = 1;
+config.core.master.title = 'payswarm1d';
+config.core.worker.title = 'payswarm1d-worker';
+config.core.worker.restart = false;
 
 // monitor config
 config.monitors = {};
@@ -110,21 +103,21 @@ config.server.cert = path.join(
 //  __dirname, '..', 'pki', 'test-payswarm-auth-bundle.crt');
 
 // session info
-config.server.session.secret = '0123456789abcdef';
-config.server.session.key = 'payswarm.sid';
-config.server.session.prefix = 'payswarm.';
+config.express.session.secret = '0123456789abcdef';
+config.express.session.key = 'payswarm.sid';
+config.express.session.prefix = 'payswarm.';
 
 // limiter config
 config.limiter.ipRequestsPerHour = 0;
 
 // database config
-config.database.name = 'payswarm_dev';
-config.database.host = 'localhost';
-config.database.port = 27017;
-config.database.username = 'payswarm';
-config.database.password = 'password';
-config.database.adminPrompt = true;
-config.database.local.collection = 'payswarm_dev';
+config.mongodb.name = 'payswarm_dev';
+config.mongodb.host = 'localhost';
+config.mongodb.port = 27017;
+config.mongodb.username = 'payswarm';
+config.mongodb.password = 'password';
+config.mongodb.adminPrompt = true;
+config.mongodb.local.collection = 'payswarm_dev';
 
 // base config
 var baseUri = 'https://' + config.server.host;
@@ -146,7 +139,7 @@ config.mail.connection = {
 };
 config.mail.send = false;
 config.mail.vars = {
-  productionMode: config.website.views.vars.productionMode,
+  productionMode: config.views.vars.productionMode,
   baseUri: config.authority.baseUri,
   subject: {
     prefix: '[PaySwarm DEV] ',
@@ -190,51 +183,52 @@ config.mail.vars = {
 config.brand.name = 'PaySwarm Development';
 
 // add static paths for website
-config.website.i18nPaths = [
-  path.join(_datadir, 'site', 'static')
-];
-config.server.static.push(path.join(_datadir, 'site', 'static'));
+// FIXME: old style had array, new style just one dir, also not used yet
+//config.i18n.localePath = [
+//  path.join(_datadir, 'site', 'static')
+//];
+config.express.static.push(path.join(_datadir, 'site', 'static'));
 
-config.website.views.paths.push(path.join(_datadir, 'site', 'views'));
-config.website.views.cache = false;
+config.views.paths.push(path.join(_datadir, 'site', 'views'));
+config.views.cache = false;
 
 // turn off locale file updates
-config.website.writeLocales = false;
+config.i18n.writeLocales = false;
 
-config.website.views.vars.productionMode = false;
+config.views.vars.productionMode = false;
 // 'minify' setting used in non-production mode
-config.website.views.vars.minify = false;
+config.views.vars.minify = false;
 
-config.website.views.vars.baseUri = baseUri;
-config.website.views.vars.serviceHost = config.server.host;
-config.website.views.vars.serviceDomain = config.server.domain;
-config.website.views.vars.supportDomain = 'payswarm.dev';
+config.views.vars.baseUri = baseUri;
+config.views.vars.serviceHost = config.server.host;
+config.views.vars.serviceDomain = config.server.domain;
+config.views.vars.supportDomain = 'payswarm.dev';
 
-config.website.views.vars.googleAnalytics.enabled = false;
-config.website.views.vars.googleAnalytics.account = '';
+config.views.vars.googleAnalytics.enabled = false;
+config.views.vars.googleAnalytics.account = '';
 
-//config.website.views.vars.style.brand.src = '/img/payswarm.png';
-//config.website.views.vars.style.brand.alt = config.brand.name;
-//config.website.views.vars.style.brand.height = '24';
-//config.website.views.vars.style.brand.width = '182';
+//config.views.vars.style.brand.src = '/img/payswarm.png';
+//config.views.vars.style.brand.alt = config.brand.name;
+//config.views.vars.style.brand.height = '24';
+//config.views.vars.style.brand.width = '182';
 
-config.website.views.vars.title = config.brand.name;
-config.website.views.vars.siteTitle = config.brand.name;
+config.views.vars.title = config.brand.name;
+config.views.vars.siteTitle = config.brand.name;
 
-config.website.views.vars.debug = true;
+config.views.vars.debug = true;
 
 // REST API documentation - variables
-config.website.docs.vars.brand = config.brand.name;
-config.website.docs.vars.baseUri = config.server.baseUri;
+config.docs.vars.brand = config.brand.name;
+config.docs.vars.baseUri = config.server.baseUri;
 
 // identity credentials config
 config.identityCredentials.allowInsecureCallback = true;
 
-var clientData = config.website.views.vars.clientData;
-clientData.baseUri = config.server.baseUri;
-clientData.siteTitle = config.brand.name;
-clientData.productionMode = false;
-clientData.demoWarningUrl = 'https://payswarm.com/wiki/Demo_Warning';
+var vars = config.views.vars;
+vars.baseUri = config.server.baseUri;
+vars.siteTitle = config.brand.name;
+vars.productionMode = false;
+vars.demoWarningUrl = 'https://payswarm.com/wiki/Demo_Warning';
 
 // identity service
 config.identity.owner = config.authority.id;

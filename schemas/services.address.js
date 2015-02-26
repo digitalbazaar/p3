@@ -1,5 +1,5 @@
 var bedrock = require('bedrock');
-var schemas = bedrock.module('validation').schemas;
+var schemas = require('bedrock-validation').schemas;
 
 var address = require('./address');
 var validatedAddress = require('./validatedAddress');

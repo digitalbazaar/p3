@@ -1,5 +1,5 @@
 var bedrock = require('bedrock');
-var schemas = bedrock.validation.schemas;
+var schemas = require('bedrock-validation').schemas;
 
 var getRegisterQuery = {
   title: 'Get Vendor Register Query',

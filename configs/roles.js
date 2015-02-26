@@ -10,6 +10,83 @@ require('./permissions');
 var permissions = config.permission.permissions;
 var roles = config.permission.roles;
 
+roles['identity.admin'] = {
+  id: 'identity.administrator',
+  label: 'Identity Administrator',
+  comment: 'Role for identity administrators.',
+  sysPermission: [
+    permissions.IDENTITY_ADMIN.id,
+    permissions.IDENTITY_ACCESS.id,
+    permissions.IDENTITY_CREATE.id,
+    permissions.IDENTITY_EDIT.id,
+    permissions.IDENTITY_REMOVE.id,
+    permissions.PUBLIC_KEY_CREATE.id,
+    permissions.PUBLIC_KEY_REMOVE.id,
+    permissions.ADDRESS_VALIDATOR_ADMIN.id,
+    permissions.ADDRESS_VALIDATOR_ACCESS.id
+  ]
+};
+
+roles['identity.manager'] = {
+  id: 'identity.manager',
+  label: 'Identity Manager',
+  comment: 'Role for identity managers.',
+  sysPermission: [
+    permissions.IDENTITY_ADMIN.id,
+    permissions.IDENTITY_ACCESS.id,
+    permissions.IDENTITY_CREATE.id,
+    permissions.IDENTITY_EDIT.id,
+    permissions.PUBLIC_KEY_CREATE.id,
+    permissions.PUBLIC_KEY_REMOVE.id
+  ]
+};
+
+// default registered identity role (contains all permissions for a regular
+// identity)
+roles['identity.registered'] = {
+  id: 'identity.registered',
+  label: 'Registered Identity',
+  comment: 'Role for registered identities.',
+  sysPermission: [].concat(
+    roles['identity.manager'].sysPermission,
+    [
+      // budget permissions
+      permissions.BUDGET_ACCESS.id,
+      permissions.BUDGET_CREATE.id,
+      permissions.BUDGET_EDIT.id,
+      permissions.BUDGET_REMOVE.id,
+      // financial account permissions
+      permissions.FINANCIAL_ACCOUNT_ACCESS.id,
+      permissions.FINANCIAL_ACCOUNT_CREATE.id,
+      permissions.FINANCIAL_ACCOUNT_EDIT.id,
+      permissions.FINANCIAL_ACCOUNT_REMOVE.id,
+      // hosted asset permissions
+      permissions.HOSTED_ASSET_ACCESS.id,
+      permissions.HOSTED_ASSET_CREATE.id,
+      permissions.HOSTED_ASSET_EDIT.id,
+      permissions.HOSTED_ASSET_REMOVE.id,
+      // hosted listing permissions
+      permissions.HOSTED_LISTING_ACCESS.id,
+      permissions.HOSTED_LISTING_CREATE.id,
+      permissions.HOSTED_LISTING_EDIT.id,
+      permissions.HOSTED_LISTING_REMOVE.id,
+      // payment token permissions
+      permissions.PAYMENT_TOKEN_ACCESS.id,
+      permissions.PAYMENT_TOKEN_CREATE.id,
+      permissions.PAYMENT_TOKEN_EDIT.id,
+      permissions.PAYMENT_TOKEN_REMOVE.id,
+      // transaction permissions
+      permissions.TRANSACTION_ACCESS.id,
+      permissions.TRANSACTION_CREATE.id,
+      // address validation access
+      permissions.ADDRESS_VALIDATOR_ACCESS.id,
+      // promo permissions
+      permissions.PROMO_ACCESS.id,
+      permissions.PROMO_REDEEM_CODE.id
+    ]
+  )
+};
+
 roles['payswarm.budget.admin'] = {
   id: 'payswarm.budget.admin',
   label: 'Budget Administrator',
@@ -106,57 +183,5 @@ roles['payswarm.admin'] = {
     roles['payswarm.paymentToken.admin'].sysPermission,
     roles['payswarm.promo.admin'].sysPermission,
     roles['payswarm.transaction.admin'].sysPermission
-  )
-};
-
-// add address validation permissions to identity admin
-roles['identity.admin'].sysPermission.push(
-  permissions.ADDRESS_VALIDATOR_ADMIN.id);
-roles['identity.admin'].sysPermission.push(
-  permissions.ADDRESS_VALIDATOR_ACCESS.id);
-
-// default registered identity role (contains all permissions for a regular
-// identity)
-roles['identity.registered'] = {
-  id: 'identity.registered',
-  label: 'Registered Identity',
-  comment: 'Role for registered identities.',
-  sysPermission: [].concat(
-    roles['identity.manager'].sysPermission,
-    [
-      // budget permissions
-      permissions.BUDGET_ACCESS.id,
-      permissions.BUDGET_CREATE.id,
-      permissions.BUDGET_EDIT.id,
-      permissions.BUDGET_REMOVE.id,
-      // financial account permissions
-      permissions.FINANCIAL_ACCOUNT_ACCESS.id,
-      permissions.FINANCIAL_ACCOUNT_CREATE.id,
-      permissions.FINANCIAL_ACCOUNT_EDIT.id,
-      permissions.FINANCIAL_ACCOUNT_REMOVE.id,
-      // hosted asset permissions
-      permissions.HOSTED_ASSET_ACCESS.id,
-      permissions.HOSTED_ASSET_CREATE.id,
-      permissions.HOSTED_ASSET_EDIT.id,
-      permissions.HOSTED_ASSET_REMOVE.id,
-      // hosted listing permissions
-      permissions.HOSTED_LISTING_ACCESS.id,
-      permissions.HOSTED_LISTING_CREATE.id,
-      permissions.HOSTED_LISTING_EDIT.id,
-      permissions.HOSTED_LISTING_REMOVE.id,
-      // payment token permissions
-      permissions.PAYMENT_TOKEN_ACCESS.id,
-      permissions.PAYMENT_TOKEN_CREATE.id,
-      permissions.PAYMENT_TOKEN_EDIT.id,
-      permissions.PAYMENT_TOKEN_REMOVE.id,
-      // transaction permissions
-      permissions.TRANSACTION_ACCESS.id,
-      permissions.TRANSACTION_CREATE.id,
-      // address validation access
-      permissions.ADDRESS_VALIDATOR_ACCESS.id,
-      // promo permissions
-      permissions.PROMO_ACCESS.id,
-      permissions.PROMO_REDEEM_CODE.id
-    ]
   )
 };

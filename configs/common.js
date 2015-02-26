@@ -12,53 +12,53 @@ require('./constants');
 // add routes
 // - string: '/foo/bar' -> site/views/foo/bar.html
 // - array: ['/foo', '/foo/index.html'] -> site/views/foo/index.html
-config.website.views.routes.push(['/', 'index.html']);
-config.website.views.routes.push('/about');
-config.website.views.routes.push('/legal');
-config.website.views.routes.push('/contact');
-config.website.views.routes.push(['/help', 'help/index.html']);
-config.website.views.routes.push('/help/pricing');
-config.website.views.routes.push('/help/wordpress');
+config.views.routes.push(['/', 'index.html']);
+config.views.routes.push('/about');
+config.views.routes.push('/legal');
+config.views.routes.push('/contact');
+config.views.routes.push(['/help', 'help/index.html']);
+config.views.routes.push('/help/pricing');
+config.views.routes.push('/help/wordpress');
 
 // add static paths for website
 var node_modules = path.join(__dirname, '..', 'node_modules');
-config.server.static.push({
+config.express.static.push({
   route: '/filesaver/FileSaver.js',
   path: path.join(node_modules, 'filesaver.js', 'FileSaver.js'),
   file: true
 });
 
 // the supported non-english languages for the site
-config.website.locales = ['es', 'zh', 'ru', 'ja', 'de', 'fr'];
-config.website.localePath = path.join(__dirname, '..', 'locales');
-config.website.writeLocales = true;
+config.i18n.locales = ['es', 'zh', 'ru', 'ja', 'de', 'fr'];
+config.i18n.localePath = path.join(__dirname, '..', 'locales');
+config.i18n.writeLocales = true;
 
 // authentication config
 // see config.server.session for session config
-config.website.authentication = {};
-config.website.authentication.httpSignature = {};
-config.website.authentication.httpSignature.enabled = true;
+config.passport.authentication = {};
+config.passport.authentication.httpSignature = {};
+config.passport.authentication.httpSignature.enabled = true;
 
 // payswarm-specific website vars
-config.website.views.vars.licenses = {
+config.views.vars.licenses = {
   directories: ['../licenses']
 };
-config.website.views.vars.style.brand = {
+config.views.vars.style.brand = {
   alt: config.brand.name,
   src: '/img/payswarm.png',
   height: '24',
   width: '182'
 };
-config.website.views.vars.clientData.paymentDefaults = {
+config.views.vars.paymentDefaults = {
   allowDuplicatePurchases: true
 };
 // key generation config
-config.website.views.vars.clientData.keygen = {
+config.views.vars.keygen = {
   bits: 2048
 };
 
 // website contact info
-var contact = config.website.views.vars.contact;
+var contact = config.views.vars.contact;
 contact.address = {
   label: 'Digital Bazaar, Inc.',
   address:
@@ -98,40 +98,6 @@ contact.twitter = {
 };
 //contact.youtube = {label: '...', url: ''};
 
-// database config
-config.database.options = {
-  safe: true,
-  j: true,
-  native_parser: true
-};
-config.database.connectOptions = {
-  auto_reconnect: true,
-  socketOptions: {
-    maxBsonSize: 1024 * 1024 * 16
-  }
-};
-config.database.writeOptions = {
-  safe: true,
-  j: true,
-  // FIXME: change to 2 for at least 1 replica
-  w: 1,
-  multi: true
-};
-config.database.session = {
-  collection: 'session',
-  // time in seconds to run db update to clear expired sessions
-  clearInterval: 60 * 60,
-  // 30 minute timeout on the server
-  defaultExpirationTime: 1000 * 60 * 30
-};
-
-// local database config
-config.database.local.writeOptions = {
-  safe: true,
-  j: true,
-  multi: true
-};
-
 // base config
 var baseUri = 'https://' + config.server.host;
 
@@ -155,9 +121,6 @@ config.mail.connection = {
 config.mail.templates.cache = false;
 config.mail.send = false;
 config.mail.vars = {};
-var _email_templates_dir = path.join(__dirname, '..', 'email-templates');
-config.mail.templates.mappers.push(path.join(_email_templates_dir, 'mapper'));
-config.mail.templates.paths.push(_email_templates_dir);
 config.mail.events.push({
   type: 'common.Deposit.failure',
   template: 'common.Deposit.failure'
@@ -295,6 +258,41 @@ config.mail.events.push({
   template: 'hosted.Listing.assetExpired-identity'
 });
 
+var ids = [
+  'bedrock.Identity.created-identity',
+  'common.FinancialAccount.created',
+  'common.FinancialAccount.unbackedCreditPayoffFailed',
+  'common.FinancialAccount.unbackedCreditPayoffFailed-identity',
+  'common.Deposit.ach-merchant-account-log',
+  'common.Deposit.cc-merchant-account-log',
+  'common.Deposit.failure',
+  'common.Deposit.success',
+  'common.Deposit.success-identity',
+  'common.PaymentToken.bankAccountCreated',
+  'common.PaymentToken.bankAccountCreated-identity',
+  'common.PaymentToken.unverified',
+  'common.PaymentToken.unverified-identity',
+  'common.PaymentToken.unverifiedLimitReached',
+  'common.PaymentToken.verified-identity',
+  'common.PaymentToken.verifyBalanceTooLow',
+  'common.PaymentToken.verifyFailed',
+  'common.Purchase.success',
+  'common.Purchase.success-identity',
+  'common.Transaction.externalTransactionVoided',
+  'common.Transaction.statusCheckError',
+  'common.Transaction.statusChecksExceeded',
+  'common.Withdrawal.ach-merchant-account-log',
+  'common.Withdrawal.failure',
+  'common.Withdrawal.success',
+  'common.Withdrawal.success-identity',
+  'hosted.Listing.assetExpired-identity'
+];
+ids.forEach(function(id) {
+  config.mail.templates.config[id] = {
+    filename: path.join(__dirname, '..', 'email-templates', id + '.tpl')
+  };
+});
+
 // address validator
 config.addressValidator = {};
 // FIXME: does this path need fixing?
@@ -425,9 +423,8 @@ config.hosted.listing.purchaseValidityDuration = 1000 * 60 * 60 * 24;
 // add payswarm schemas
 config.validation.schema.paths.push(path.join(__dirname, '..', 'schemas'));
 
-// common bedrock config
-require('bedrock/configs/roles');
-require('bedrock/configs/common-data');
+// common data
+require('./common-data');
 
 // payswarm roles
 require('./roles');
@@ -460,13 +457,13 @@ config.identity.keys = [];
 // FIXME: port above to bedrock
 
 // REST API documentation - ignore endpoints
-config.website.docs.ignore.push('/help/pricing');
-config.website.docs.ignore.push('/help/wordpress');
+config.docs.ignore.push('/help/pricing');
+config.docs.ignore.push('/help/wordpress');
 
 // REST API documentation - categories
-config.website.docs.categories['/licenses'] = 'Content License Services';
-config.website.docs.categories['/promos'] = 'Promotional Services';
-config.website.docs.categories['/transactions'] =
+config.docs.categories['/licenses'] = 'Content License Services';
+config.docs.categories['/promos'] = 'Promotional Services';
+config.docs.categories['/transactions'] =
   'Financial Transaction Services';
-config.website.docs.categories['/vendor/register'] =
+config.docs.categories['/vendor/register'] =
   'Merchant Registration Services';

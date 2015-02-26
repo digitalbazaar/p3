@@ -69,15 +69,11 @@ config.modules = [
 // config environment
 config.environment = 'testing';
 
-// app info
-// 0 means use # of cpus
-config.app.workers = 0;
-config.app.masterTitle = 'payswarm1d';
-config.app.workerTitle = 'payswarm1d-worker';
-config.app.restartWorkers = true;
-// system group and user IDs (can be groupname/username instead of numbers)
-config.app.user.groupId = process.getgid();
-config.app.user.userId = process.getuid();
+// core
+config.core.workers = 0;
+config.core.master.title = 'payswarm1d';
+config.core.worker.title = 'payswarm1d-worker';
+config.core.worker.restart = true;
 
 // logging
 config.loggers.logdir = _logdir;

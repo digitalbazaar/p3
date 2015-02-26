@@ -50,9 +50,4 @@ p3 database and the local p3 database collection:
     > db.payswarm_dev.drop()
     > exit
 
-[AUTHORS]: AUTHORS.md
-[FEATURES]: FEATURES.md
-[HACKING]: HACKING.md
 [README]: README.md
-[FAQ]: FAQ.md
-[LICENSE]: LICENSE.md

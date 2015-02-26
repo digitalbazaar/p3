@@ -132,11 +132,11 @@ FAQ
 
 See the [FAQ][] file for answers to frequently asked questions.
 
-Hacking
--------
+Contributing
+------------
 
-See the [HACKING][] file for various details for coders about
-hacking on this project.
+See the [CONTRIBUTING][] file for various details for coders about
+contributing to this project.
 
 Authors
 -------
@@ -158,6 +158,6 @@ non-commercial license information.
 
 [AUTHORS]: AUTHORS.md
 [FEATURES]: FEATURES.md
-[HACKING]: HACKING.md
+[CONTRIBUTING]: CONTRIBUTING.md
 [FAQ]: FAQ.md
 [LICENSE]: LICENSE.md

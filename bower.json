@@ -1,0 +1,41 @@
+{
+  "name": "p3",
+  "version": "0.0.1",
+  "private": true,
+  "description": "P3 bower dependencies.",
+  "dependencies": {
+    "angular": "~1.3.10",
+    "angular-animate": "~1.3.10",
+    "angular-bootstrap": "~0.12.0",
+    "angular-file-upload": "~1.1.5",
+    "angular-route": "~1.3.10",
+    "angular-sanitize": "~1.3.10",
+    "angular-stackables": "~0.0.30",
+    "angular-ui-select": "https://github.com/digitalbazaar/ui-select.git#allow-lazy-compile-dist",
+    "bedrock-angular": "~0.1.0",
+    "bedrock-angular-alert": "~0.1.0",
+    "bedrock-angular-filters": "~0.1.0",
+    "bedrock-angular-form": "~0.1.0",
+    "bedrock-angular-lazy-compile": "~0.1.0",
+    "bedrock-angular-modal": "~0.1.0",
+    "bedrock-angular-model": "~0.1.0",
+    "bedrock-angular-resource": "~0.1.0",
+    "bedrock-angular-selector": "~0.1.0",
+    "bedrock-angular-ui": "~0.1.0",
+    "bedrock-idp": "~0.1.0",
+    "es6-promise": "~2.0.0",
+    "font-awesome": "~4.2.0",
+    "forge": "~0.6.16",
+    "jquery": "~1.11.1",
+    "jquery-migrate": "~1.2.1",
+    "jsonld": "~0.3.22",
+    "opencred-verifier": "~0.0.6",
+    "ng-multi-transclude": "~0.1.2",
+    "requirejs": "~2.1.15",
+    "underscore": "~1.7.0",
+    "bootstrap": "~3.3.1"
+  },
+  "resolutions": {
+    "angular": "~1.3.10"
+  }
+}

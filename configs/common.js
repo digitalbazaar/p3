@@ -467,3 +467,25 @@ config.docs.categories['/transactions'] =
   'Financial Transaction Services';
 config.docs.categories['/vendor/register'] =
   'Merchant Registration Services';
+
+// add top level p3 component
+var p3Path = path.join(
+  __dirname, '..', 'site', 'static', 'app', 'components');
+config.requirejs.config.packages.push({
+  name: 'p3',
+  main: './components.js',
+  location: '/bower-components/p3'
+});
+config.requirejs.optimize.config.packages.push({
+  name: 'p3',
+  main: './components.js',
+  location: p3Path
+});
+config.express.static.push({
+  route: '/bower-components/p3',
+  path: p3Path
+});
+config.requirejs.autoload.push('p3');
+
+config.views.less.compile.files.push(path.join(
+  __dirname, '..', 'less', 'app.less'));

@@ -6,7 +6,7 @@ var bedrock = require('bedrock');
 var fs = require('fs');
 
 // load required modules
-var config = bedrock.module('config');
+var config = bedrock.config;
 config.tool = config.tool || {};
 config.tool.modules = [
   path.join(_pslibdir, 'promo')
@@ -50,10 +50,10 @@ async.waterfall([
     }
 
     var payswarm = {
-      config: bedrock.module('config'),
-      db: bedrock.module('bedrock.database'),
+      config: bedrock.config,
+      db: require('bedrock-mongodb'),
       promo: require('../lib/payswarm-auth/promo'),
-      validation: bedrock.module('validation')
+      validation: require('bedrock-validation')
     };
 
     console.log('\nCreating new promotion from file: "' +

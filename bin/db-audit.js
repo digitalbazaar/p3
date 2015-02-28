@@ -7,7 +7,7 @@ var bedrock = require('bedrock');
 var request = require('request');
 
 // load required modules
-var config = bedrock.module('config');
+var config = bedrock.config;
 config.tool = config.tool || {};
 config.tool.modules = [
   'identity'
@@ -36,7 +36,7 @@ function main() {
   console.log('modes', program.modes);
   config.modes = program.modes.split(',');
 
-  var logger = bedrock.module('loggers').get('app');
+  var logger = bedrock.loggers.get('app');
 
   // dump out the configuration
   logger.debug('Config:', config);

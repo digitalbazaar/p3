@@ -15,7 +15,7 @@
         <h3 class="modal-title" ng-switch-when="complete">Deposit Complete</h3>
       </div>
       <div class="modal-body" ng-switch="state">
-        <div ng-include="'/app/components/util/demo-warning.html'"></div>
+        <br-demo-warning></br-demo-warning>
         <div ng-switch-when="preparing">
           <div ng-show="!account.sysAllowStoredValue && account.balance[0] != '-'">
             <p>

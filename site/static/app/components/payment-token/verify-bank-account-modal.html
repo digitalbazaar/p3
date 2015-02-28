@@ -8,7 +8,7 @@
         <h3 class="modal-title" ng-switch-when="complete">Verification<span ng-show="input.amount"> and Deposit</span> Complete</h3>
       </div>
       <div class="modal-body" ng-switch="state">
-        <div ng-include="'/app/components/util/demo-warning.html'"></div>
+        <br-demo-warning></br-demo-warning>
         <div ng-switch-when="preparing">
           <div ng-include="'/app/components/payment-token/verify-bank-account-prepare.html'"></div>
         </div>

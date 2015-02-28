@@ -6,7 +6,7 @@
         <h3 class="modal-title">New Address</h3>
       </div>
       <div class="modal-body" ng-switch="state">
-        <div ng-include="'/app/components/util/demo-warning.html'"></div>
+        <br-demo-warning></br-demo-warning>
         <div ng-switch-when="editing">
           <div ng-include="'/app/components/address/add-address-edit.html'"></div>
         </div>

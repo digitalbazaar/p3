@@ -226,10 +226,10 @@ config.website.views.vars.debug = false;
 // identity credentials config
 config.identityCredentials.allowInsecureCallback = true;
 
-var clientData = config.website.views.vars.clientData;
-clientData.baseUri = config.server.baseUri;
-clientData.siteTitle = config.brand.name;
-clientData.productionMode = false;
+var vars = config.website.views.vars;
+vars.baseUri = config.server.baseUri;
+vars.siteTitle = config.brand.name;
+vars.productionMode = false;
 
 // identity service
 config.identity.owner = config.authority.id;

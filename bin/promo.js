@@ -49,18 +49,16 @@ async.waterfall([
       process.exit(1);
     }
 
+    var brValidation = require('bedrock-validation');
     var payswarm = {
-      config: bedrock.config,
-      db: require('bedrock-mongodb'),
-      promo: require('../lib/payswarm-auth/promo'),
-      validation: require('bedrock-validation')
+      promo: require('../lib/payswarm-auth/promo')
     };
 
     console.log('\nCreating new promotion from file: "' +
       program.create + '"...');
     var promo = JSON.parse(fs.readFileSync(program.create, 'utf8'));
     var schema = require('../schemas/promo')();
-    return payswarm.validation.validateInstance(promo, schema, function(err) {
+    return brValidation.validateInstance(promo, schema, function(err) {
       if(err) {
         return callback(err);
       }

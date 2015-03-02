@@ -23,9 +23,6 @@ config.core.master.title = 'payswarm1d';
 config.core.worker.title = 'payswarm1d-worker';
 config.core.worker.restart = false;
 
-// config environment
-config.environment = 'bin';
-
 // monitor config
 config.monitors = {};
 

@@ -200,3 +200,6 @@ config.financial.defaults.paymentGateways = {
 
 // permit initial account balances for testing (*ONLY* true in dev mode!)
 config.financial.allowInitialBalance = true;
+
+// include verify transactions in 'unverified' event
+config.financial.paymentToken.includeVerifyTransactions = true;

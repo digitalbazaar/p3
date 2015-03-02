@@ -66,9 +66,6 @@ config.modules = [
   path.join(_libdir, 'payswarm-auth', 'services.well-known')
 ];
 
-// config environment
-config.environment = 'testing';
-
 // core
 config.core.workers = 0;
 config.core.master.title = 'payswarm1d';

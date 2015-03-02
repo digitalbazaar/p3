@@ -404,6 +404,8 @@ config.financial.paymentToken.expiration = {
   BankAccount: 1000 * 60,
   CreditCard: 0
 };
+// include verify transactions in 'unverified' event
+config.financial.paymentToken.includeVerifyTransactions = false;
 // do not create default payment tokens
 config.financial.createDefaultPaymentTokens = false;
 // shared bcrypt salt for unique payment token IDs

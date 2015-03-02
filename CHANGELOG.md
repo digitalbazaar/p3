@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Added
+- `config.financial.paymentToken.includeVerifyTransactions` to control
+  including verify transactions in the `unverified` event.
+
 ### Changed
 - Updated to use bedrock 0.3.x.
 

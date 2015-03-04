@@ -20,23 +20,23 @@ module.exports = function(grunt) {
   grunt.config('pkg', grunt.file.readJSON('package.json'));
 
   // add templates
-  var ngtemplates = grunt.config.getRaw('ngtemplates');
-  ngtemplates.myapp.src.push('site/static/app/components/**/*.html');
-  grunt.config('ngtemplates', ngtemplates);
+  //var ngtemplates = grunt.config.getRaw('ngtemplates');
+  //ngtemplates.myapp.src.push('site/static/app/components/**/*.html');
+  //grunt.config('ngtemplates', ngtemplates);
 
   // requirejs
-  var requirejs = grunt.config.getRaw('requirejs');
-  var compileOptions = requirejs.compile.options;
-  compileOptions.paths.payswarm = '<%= dirs.payswarm %>/site/static';
-  compileOptions.paths['app/components'] = '<%= dirs.payswarm %>/site/static/app/components';
-  compileOptions.paths['app/configs'] = '<%= dirs.payswarm %>/site/static/app/configs';
-  compileOptions.paths['app/templates'] = '<%= dirs.payswarm %>/site/static/app/templates.min';
-  compileOptions.shim = {
-    // export app/bootstrap globals
-    'FileSaver': {exports: 'saveAs'},
-    'zip': {exports: 'zip'}
-  };
-  grunt.config('requirejs', requirejs);
+  //var requirejs = grunt.config.getRaw('requirejs');
+  //var compileOptions = requirejs.compile.options;
+  //compileOptions.paths.payswarm = '<%= dirs.payswarm %>/site/static';
+  //compileOptions.paths['app/components'] = '<%= dirs.payswarm %>/site/static/app/components';
+  //compileOptions.paths['app/configs'] = '<%= dirs.payswarm %>/site/static/app/configs';
+  //compileOptions.paths['app/templates'] = '<%= dirs.payswarm %>/site/static/app/templates.min';
+  //compileOptions.shim = {
+  //  // export app/bootstrap globals
+  //  'FileSaver': {exports: 'saveAs'},
+  //  'zip': {exports: 'zip'}
+  //};
+  //grunt.config('requirejs', requirejs);
 
   // jscs
   var jscs = grunt.config.getRaw('jscs');

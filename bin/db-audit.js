@@ -4,58 +4,52 @@
 var _ = require('underscore');
 var async = require('async');
 var bedrock = require('bedrock');
-var request = require('request');
 
-// load required modules
-var config = bedrock.config;
-config.tool = config.tool || {};
-config.tool.modules = [
-  'identity'
-];
+var logger = bedrock.loggers.get('app');
 
-var program = bedrock.program
-  // setup the command line options
-  .option('--no-progress', 'Disable progress (default: enabled).')
-  .option('--account <id>', 'Audit one account (default: *).')
-  .option('--stop-on-error', 'Stop when an error is detected (default: no).')
-  .option('--modes <modes>', 'Audit modes (default: accounts).', 'accounts')
-  .on('--help', function() {
-    console.log('  The audit modes paramter takes a comma seperated list');
-    console.log('  of modes from [accounts, validate].');
-    console.log();
-  });
+bedrock.events.on('bedrock-cli.init', function(callback) {
+  bedrock.program
+    // setup the command line options
+    .option('--no-progress', 'Disable progress (default: enabled).')
+    .option('--account <id>', 'Audit one account (default: *).')
+    .option('--stop-on-error', 'Stop when an error is detected (default: no).')
+    .option('--modes <modes>', 'Audit modes (default: accounts).', 'accounts')
+    .on('--help', function() {
+      console.log('  The audit modes paramter takes a comma seperated list');
+      console.log('  of modes from [accounts, validate].');
+      console.log();
+    });
+  callback();
+});
 
-bedrock.start(main);
-
-function main() {
-  var audit = require('../lib/payswarm-auth/audit');
+bedrock.events.on('bedrock-cli.ready', function(callback) {
+  var config = bedrock.config.audit;
 
   // initialize the configuration
-  config.progress = !!program.progress;
-  config.account = program.account || '*';
-  console.log('modes', program.modes);
-  config.modes = program.modes.split(',');
-
-  var logger = bedrock.loggers.get('app');
+  config.progress = !!bedrock.program.progress;
+  config.account = bedrock.program.account || '*';
+  console.log('modes', bedrock.program.modes);
+  config.modes = bedrock.program.modes.split(',');
 
   // dump out the configuration
-  logger.debug('Config:', config);
+  logger.debug('Audit config:', config);
 
-  var vendors = [];
-  var buyers = [];
-  var listings = [];
-
-  var doAccounts = (config.modes.indexOf('accounts') !== -1);
-  var doValidate = (config.modes.indexOf('validate') !== -1);
-  var collections = [];
-  if(doAccounts) {
-    collections = _.union(collections, [
+  config.checks = {};
+  config.checks.accounts =
+    (config.modes.indexOf('accounts') !== -1);
+  config.checks.validate =
+    (config.modes.indexOf('validate') !== -1);
+  config.collections = [];
+  if(config.checks.accounts) {
+    config.collections = _.union(
+      config.collections, [
       'account',
       'transaction'
     ]);
   }
-  if(doValidate) {
-    collections = _.union(collections, [
+  if(config.checks.validate) {
+    config.collections = _.union(
+      config.collections, [
       'account',
       'asset',
       'budget',
@@ -74,39 +68,58 @@ function main() {
       'transaction'
     ]);
   }
+  callback();
+});
 
-  async.waterfall([
-    function(callback) {
-      // initialize the audit module
-      audit.init(config, collections, callback);
-    },
-    function(callback) {
-      if(!doAccounts) {
-        return callback();
+bedrock.events.on('bedrock.start', function(callback) {
+  bedrock.runOnce('payswarm-audit.audit', function(callback) {
+    async.waterfall([
+      function(callback) {
+        if(!bedrock.config.audit.checks.accounts) {
+          return callback();
+        }
+        // audit accounts
+        var opts = {
+          logger: logger,
+          progress: bedrock.config.audit.progress,
+          account: bedrock.config.audit.account
+        };
+        audit.accounts(opts, null, callback);
+      },
+      function(callback) {
+        if(!bedrock.config.audit.checks.validate) {
+          return callback();
+        }
+        // validate
+        var opts = {
+          logger: logger,
+          progress: bedrock.config.audit.progress
+        };
+        audit.validate(opts, null, callback);
       }
-      // audit accounts
-      var opts = {
-        logger: logger,
-        progress: config.progress,
-        account: config.account
-      };
-      audit.accounts(opts, null, callback);
-    },
-    function(callback) {
-      if(!doValidate) {
-        return callback();
+    ], function(err) {
+      if(err) {
+        logger.error('Error', err);
       }
-      // validate
-      var opts = {
-        logger: logger,
-        progress: config.progress
-      };
-      audit.validate(opts, null, callback);
-    }
-  ], function(err) {
-    if(err) {
-      logger.error('Error', err);
-    }
-    process.exit();
-  });
-}
+      // FIXME: properly quit bedrock
+      process.exit();
+      //callback();
+    });
+  }, callback);
+});
+
+// FIXME: just needed so generic bin config is setup
+require('bedrock-express');
+require('bedrock-server');
+require('bedrock-views');
+require('bedrock-i18n');
+require('bedrock-passport');
+require('bedrock-docs');
+require('bedrock-request-limiter');
+require('bedrock-idp');
+
+require('bedrock-mongodb');
+require('bedrock-identity');
+var audit = require('../lib/payswarm-auth/audit');
+
+bedrock.start();

@@ -52,21 +52,21 @@ config.server.cert = path.join(
 //  __dirname, '..', 'pki', 'test-payswarm-auth-bundle.crt');
 
 // session info
-config.server.session.secret = '0123456789abcdef';
-config.server.session.key = 'payswarm.sid';
-config.server.session.prefix = 'payswarm.';
+config.express.session.secret = '0123456789abcdef';
+config.express.session.key = 'payswarm.sid';
+config.express.session.prefix = 'payswarm.';
 
 // limiter config
 config.limiter.ipRequestsPerHour = 0;
 
 // database config
-config.database.name = 'payswarm_dev';
-config.database.host = 'localhost';
-config.database.port = 27017;
-config.database.username = 'payswarm';
-config.database.password = 'password';
-config.database.adminPrompt = true;
-config.database.local.collection = 'payswarm_dev';
+config.mongodb.name = 'payswarm_dev';
+config.mongodb.host = 'localhost';
+config.mongodb.port = 27017;
+config.mongodb.username = 'payswarm';
+config.mongodb.password = 'password';
+config.mongodb.adminPrompt = true;
+config.mongodb.local.collection = 'payswarm_dev';
 
 // admin config
 var baseUri = 'https://' + config.server.host;
@@ -89,7 +89,7 @@ config.mail.connection = {
 };
 config.mail.send = false;
 config.mail.vars = {
-  productionMode: config.website.views.vars.productionMode,
+  productionMode: config.views.vars.productionMode,
   baseUri: config.authority.baseUri,
   subject: {
     prefix: '[PaySwarm BIN DEV] ',
@@ -152,14 +152,3 @@ config.financial.defaults.paymentGateways = {
 config.financial.allowInitialBalance = true;
 
 require('./dev-data');
-
-// custom tool config
-var toolConfig = config.tool || {};
-// add modules to main modules list
-((config.tool || {}).modules || []).forEach(function(mod) {
-  config.modules.push(mod);
-});
-// load configs
-((config.tool || {}).configs || []).forEach(function(cfg) {
-  require(cfg);
-});

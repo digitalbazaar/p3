@@ -8,7 +8,7 @@ define(['angular'], function(angular) {
 'use strict';
 
 /* @ngInject */
-function factory(brAlertService, psHostedAssetService, config) {
+function factory(brAlertService, psHostedAssetService, config, util) {
   return {
     restrict: 'A',
     scope: {},
@@ -48,7 +48,7 @@ function factory(brAlertService, psHostedAssetService, config) {
       var asset = scope.model.asset;
       // FIXME: where should angular $$xxx property removal go?
       asset = JSON.parse(angular.toJson(asset));
-      asset.created = window.iso8601.w3cDate();
+      asset.created = util.w3cDate();
       asset.sysPublished = asset.created;
 
       console.log('invoice asset', asset);

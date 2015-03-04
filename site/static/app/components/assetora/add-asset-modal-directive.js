@@ -8,7 +8,7 @@ define([], function() {
 'use strict';
 
 /* @ngInject */
-function factory(brAlertService, psHostedAssetService, config) {
+function factory(brAlertService, psHostedAssetService, config, util) {
   return {
     restrict: 'A',
     scope: {},
@@ -36,12 +36,12 @@ function factory(brAlertService, psHostedAssetService, config) {
       listingRestrictions: {vendor: scope.identity.id},
       assetContent: 'http://wordpress.payswarm.dev/asset-content/test.html',
       // FIXME: figure out whether published flag is desirable
-      sysPublished: window.iso8601.w3cDate()
+      sysPublished: util.w3cDate()
     };
 
     scope.addAsset = function() {
       var asset = scope.model.asset;
-      asset.created = window.iso8601.w3cDate();
+      asset.created = util.w3cDate();
 
       console.log('asset', asset);
       psHostedAssetService.add(asset).then(function(asset) {

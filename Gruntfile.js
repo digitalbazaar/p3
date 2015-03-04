@@ -38,6 +38,15 @@ module.exports = function(grunt) {
   //};
   //grunt.config('requirejs', requirejs);
 
+  // update js
+  var js = grunt.config.getRaw('js');
+  js.push('email-templates/*.js');
+  js.push('schemas/*.js');
+  js.push('site/static/app/*.js');
+  js.push('site/static/app/**/*.js');
+  js.push('!site/static/app/**/*.min.js');
+  grunt.config('js', js);
+
   // jscs
   var jscs = grunt.config.getRaw('jscs');
   jscs.all.options.excludeFiles.push('<%= dirs.payswarm %>/lib/rdfa/*.js');

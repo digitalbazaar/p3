@@ -9,9 +9,11 @@ require('bedrock-express');
 require('bedrock-i18n');
 require('bedrock-idp');
 require('bedrock-passport');
+require('bedrock-mongodb');
 require('bedrock-request-limiter');
 require('bedrock-requirejs');
 require('bedrock-server');
+require('bedrock-session-mongodb');
 require('bedrock-validation');
 require('bedrock-views');
 

@@ -41,6 +41,7 @@ require('./lib/payswarm-auth/promo');
 'services.session';
 'services.well-known';
 */
+require('./lib/payswarm-auth/financial');
 require('./lib/payswarm-auth/services.account');
 require('./lib/payswarm-auth/services.address');
 //require('./lib/payswarm-auth/services.assetora');

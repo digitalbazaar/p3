@@ -3,7 +3,7 @@
  *
  * @author Dave Longley
  */
-define(['iso8601'], function(iso8601) {
+define(['moment-interval'], function(moment) {
 
 'use strict';
 
@@ -84,11 +84,14 @@ function factory(
     if(!budget) {
       return null;
     }
-    var interval = budget.sysRefreshInterval.split('/');
-    if(interval.length === 3) {
-      return new Date(interval[1]);
+    var intervalParts = budget.sysRefreshInterval.split('/');
+    var interval;
+    if(intervalParts.length === 3) {
+      interval = moment.interval(interval.slice(1).join('/'));
+    } else {
+      interval = moment.interval(budget.sysRefreshInterval);
     }
-    return new Date(interval[0]);
+    return interval.start().toDate();
   };
 
   // helper function to get the refresh duration for the given budget
@@ -96,9 +99,10 @@ function factory(
     if(!budget) {
       return null;
     }
-    var interval = budget.sysRefreshInterval.split('/');
-    if(interval.length === 3) {
-      return interval[2];
+    var intervalParts = budget.sysRefreshInterval.split('/');
+    if(intervalParts.length === 3) {
+      return moment.interval(interval.slice(1).join('/')).period()
+        .toISOString();
     }
     return 'never';
   };
@@ -108,11 +112,11 @@ function factory(
     if(!budget) {
       return null;
     }
-    var interval = budget.sysValidityInterval.split('/');
-    if(interval.length === 1) {
+    var intervalParts = budget.sysValidityInterval.split('/');
+    if(intervalparts.length === 1) {
       return 'never';
     }
-    return interval[1];
+    return moment.interval(budget.sysValidityInterval).period().toISOString();
   };
 
   // helper function to get expiration date for the given budget
@@ -120,15 +124,12 @@ function factory(
     if(!budget) {
       return null;
     }
-    var interval = budget.sysValidityInterval.split('/');
-    if(interval.length === 1) {
+    var intervalParts = budget.sysValidityInterval.split('/');
+    var interval = moment.interval(budget.sysValidityInterval);
+    if(intervalParts.length === 1) {
       return 'never';
-    } else if(iso8601.Period.isValid(interval[1])) {
-      var start = +new Date(interval[0]);
-      var end = start + iso8601.Period.parseToTotalSeconds(interval[1]) * 1000;
-      return new Date(end);
     }
-    return new Date(interval[1]);
+    return interval.end().toDate();
   };
 
   // register for system-wide refreshes

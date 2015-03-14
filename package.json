@@ -67,6 +67,8 @@
     "grunt-cli": "~0.1.9",
     "grunt-jscs": "~1.0.0",
     "jsdom": "~0.7.0",
+    "moment": "~2.9.0",
+    "moment-interval": "~0.2.1",
     "ng-annotate": "~0.10.2",
     "progress": "~1.1.8",
     "request": "~2.45.0",

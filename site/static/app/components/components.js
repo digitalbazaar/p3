@@ -10,7 +10,7 @@ define([
   'bedrock-idp',
   './account/account',
   './address/address',
-  //'./budget/budget',
+  './budget/budget',
   './dashboard/dashboard',
   './identity-preferences/identity-preferences',
   './payment-token/payment-token',

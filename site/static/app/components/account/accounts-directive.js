@@ -40,7 +40,7 @@ function factory(
 
     model.setDefaultAccount = function(account) {
       var update = {
-        '@context': config.data.contextUrl,
+        '@context': config.data.contextUrls.payswarm,
         type: 'IdentityPreferences',
         source: account.id
       };

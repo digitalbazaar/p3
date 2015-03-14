@@ -1,4 +1,4 @@
-var bedrock = require('bedrock');
+var constants = require('bedrock').config.constants;
 var schemas = require('bedrock-validation').schemas;
 
 var money = require('./money');
@@ -11,7 +11,7 @@ var postBudget = {
   type: [{
     type: 'object',
     properties: {
-      '@context': schemas.jsonldContext(),
+      '@context': schemas.jsonldContext(constants.PAYSWARM_CONTEXT_V1_URL),
       id: schemas.url(),
       type: schemas.jsonldType('Budget'),
       label: schemas.label({required: false}),
@@ -25,7 +25,7 @@ var postBudget = {
   }, {
     type: 'object',
     properties: {
-      '@context': schemas.jsonldContext(),
+      '@context': schemas.jsonldContext(constants.PAYSWARM_CONTEXT_V1_URL),
       id: schemas.url(),
       vendor: schemas.url()
     }
@@ -50,7 +50,7 @@ var postBudgets = {
   description: 'A budget that is being created for the first time.',
   type: 'object',
   properties: {
-    '@context': schemas.jsonldContext(),
+    '@context': schemas.jsonldContext(constants.PAYSWARM_CONTEXT_V1_URL),
     type: schemas.jsonldType('Budget'),
     label: schemas.label(),
     source: schemas.url(),

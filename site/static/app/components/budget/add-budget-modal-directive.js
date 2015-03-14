@@ -26,7 +26,7 @@ function factory(
     scope.identity = brIdentityService.identity;
     scope.state = psBudgetService.state;
     scope.budget = {
-      '@context': config.data.contextUrl,
+      '@context': config.data.contextUrls.payswarm,
       type: 'Budget'
     };
     scope.refreshChoices = [

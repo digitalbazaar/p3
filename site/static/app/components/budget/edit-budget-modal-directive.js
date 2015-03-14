@@ -94,7 +94,7 @@ function factory(
       }
 
       var budget = {
-        '@context': config.data.contextUrl,
+        '@context': config.data.contextUrls.payswarm,
         id: b.id,
         type: 'Budget',
         label: b.label,

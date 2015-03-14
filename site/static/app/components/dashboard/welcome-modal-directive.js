@@ -29,14 +29,14 @@ function factory(psAccountService, brAlertService, brIdentityService, config) {
       brAlertService.clearFeedback();
       psAccountService.setRegulatoryAddress({
         address: {
-          '@context': config.data.contextUrl,
+          '@context': config.data.contextUrls.payswarm,
           type: 'Address',
           addressRegion: model.address.addressRegion,
           addressCountry: model.address.addressCountry
         },
         // FIXME: allow user customization?
         account: {
-          '@context': config.data.contextUrl,
+          '@context': config.data.contextUrls.payswarm,
           // FIXME: use default values from config
           label: 'Primary Account',
           sysSlug: 'primary',

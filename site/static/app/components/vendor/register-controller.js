@@ -44,7 +44,7 @@ function factory(
       .then(function() {
         // update and get identity preferences with nonce
         return psIdentityPreferencesService.update({
-          '@context': config.data.contextUrl,
+          '@context': config.data.contextUrls.payswarm,
           type: 'IdentityPreferences',
           destination: self.selection.account.id,
           publicKey: self.publicKey

@@ -10,25 +10,15 @@ var path = require('path');
 /**
  * Versioned PaySwarm JSON-LD context URLs.
  */
-constants.CONTEXT_V1_URL = 'https://w3id.org/payswarm/v1';
+constants.PAYSWARM_CONTEXT_V1_URL = 'https://w3id.org/payswarm/v1';
 
 /**
  * v1 PaySwarm JSON-LD context.
  */
-constants.CONTEXTS[constants.CONTEXT_V1_URL] = JSON.parse(
+constants.CONTEXTS[constants.PAYSWARM_CONTEXT_V1_URL] = JSON.parse(
   fs.readFileSync(
     path.join(__dirname, '..', 'site/static/contexts/payswarm-v1.jsonld'),
     {encoding: 'utf8'}));
-
-/**
- * Default PaySwarm JSON-LD context URL.
- */
-constants.CONTEXT_URL = constants.CONTEXT_V1_URL;
-
-/**
- * Default PaySwarm JSON-LD context.
- */
-constants.CONTEXT = constants.CONTEXTS[constants.CONTEXT_URL];
 
 /**
  * PaySwarm JSON-LD frames.
@@ -40,7 +30,7 @@ constants.FRAMES = {};
 
 /** PaySwarm JSON-LD frame for an Asset. */
 constants.FRAMES.Asset = {
-  '@context': constants.CONTEXT_URL,
+  '@context': constants.PAYSWARM_CONTEXT_V1_URL,
   type: 'Asset',
   creator: {},
   signature: {'@embed': true},
@@ -49,13 +39,13 @@ constants.FRAMES.Asset = {
 
 /** PaySwarm JSON-LD frame for a License. */
 constants.FRAMES.License = {
-  '@context': constants.CONTEXT_URL,
+  '@context': constants.PAYSWARM_CONTEXT_V1_URL,
   type: 'License'
 };
 
 /** PaySwarm JSON-LD frame for a Listing. */
 constants.FRAMES.Listing = {
-  '@context': constants.CONTEXT_URL,
+  '@context': constants.PAYSWARM_CONTEXT_V1_URL,
   type: 'Listing',
   asset: {'@embed': false},
   license: {'@embed': false},
@@ -65,7 +55,7 @@ constants.FRAMES.Listing = {
 
 /** Pseudo type used for a short contract. */
 constants.FRAMES['Contract/Short'] = {
-  '@context': constants.CONTEXT_URL,
+  '@context': constants.PAYSWARM_CONTEXT_V1_URL,
   type: 'Contract',
   '@explicit': true,
   asset: {

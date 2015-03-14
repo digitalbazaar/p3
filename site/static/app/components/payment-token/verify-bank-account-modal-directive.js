@@ -48,7 +48,7 @@ function factory(
 
     scope.review = function() {
       var verifyRequest = {
-        '@context': config.data.contextUrl,
+        '@context': config.data.contextUrls.payswarm,
         sysVerifyParameters: {
           amount: [
             scope.sysVerifyParameters.amount[0],

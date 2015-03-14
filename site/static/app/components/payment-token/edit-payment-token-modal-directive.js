@@ -61,7 +61,7 @@ function factory(
 
     scope.editPaymentToken = function() {
       var paymentToken = {
-        '@context': config.data.contextUrl,
+        '@context': config.data.contextUrls.payswarm,
         id: scope.paymentToken.id,
         label: scope.paymentToken.label
       };

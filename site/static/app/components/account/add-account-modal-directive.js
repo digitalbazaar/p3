@@ -22,7 +22,7 @@ function factory(psAccountService, brAlertService, brIdentityService, config) {
     model.identity = brIdentityService.identity;
     model.state = psAccountService.state;
     var account = model.account = {
-      '@context': config.data.contextUrl,
+      '@context': config.data.contextUrls.payswarm,
       currency: 'USD',
       sysPublic: []
     };

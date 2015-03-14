@@ -28,7 +28,7 @@ function factory(psAddressService, brAlertService, config) {
       model.loading = true;
       // set all fields from UI
       var address = {
-        '@context': config.data.contextUrl,
+        '@context': config.data.contextUrls.payswarm,
         id: model.address.id,
         label: model.address.label
       };

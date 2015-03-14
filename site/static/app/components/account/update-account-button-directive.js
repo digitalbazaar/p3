@@ -23,7 +23,7 @@ function factory(psAccountService, brAlertService, brIdentityService, config) {
     model.updateAccount = function() {
       // merge in all properties from given account
       var account = {
-        '@context': config.data.contextUrl,
+        '@context': config.data.contextUrls.payswarm,
         id: scope.account.id
       };
       scope.account.forEach(function(property) {

@@ -39,7 +39,7 @@ function factory(
     // default to first payment method
     scope.paymentMethod = scope.paymentMethods[0];
     scope.card = {
-      '@context': config.data.contextUrl,
+      '@context': config.data.contextUrls.payswarm,
       type: 'CreditCard'
     };
     scope.bankAccountTypes = [
@@ -47,7 +47,7 @@ function factory(
       {id: 'Savings', label: 'Savings'}
     ];
     scope.bankAccount = {
-      '@context': config.data.contextUrl,
+      '@context': config.data.contextUrls.payswarm,
       type: 'BankAccount',
       bankAccountType: 'Checking'
     };
@@ -84,7 +84,7 @@ function factory(
 
       // create post data
       var token = {
-        '@context': config.data.contextUrl,
+        '@context': config.data.contextUrls.payswarm,
         label: scope.paymentToken.label
       };
 

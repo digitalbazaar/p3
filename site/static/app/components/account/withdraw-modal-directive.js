@@ -63,7 +63,7 @@ function factory(
     scope.review = function() {
       // clean withdrawal
       var withdrawal = {
-        '@context': config.data.contextUrl,
+        '@context': config.data.contextUrls.payswarm,
         type: ['Transaction', 'Withdrawal'],
         source: scope.account.id,
         payee: [{

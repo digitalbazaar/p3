@@ -20,7 +20,10 @@ jsonld.documentLoader = function(url, callback) {
   if(url === 'https://w3id.org/payswarm/v1') {
     return callback(null, {
       contextUrl: null,
-      document: {'@context': payswarm.constants.CONTEXT},
+      document: {
+        '@context':
+          payswarm.constants.CONTEXTS[constants.PAYSWARM_CONTEXT_V1_URL];
+      },
       documentUrl: url
     });
   }

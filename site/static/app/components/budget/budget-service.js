@@ -27,7 +27,7 @@ function factory(
   service.addVendor = function(budgetId, vendorId) {
     service.state.loading = true;
     return Promise.resolve($http.post(budgetId, {
-      '@context': config.data.contextUrl,
+      '@context': config.data.contextUrls.payswarm,
       id: budgetId,
       vendor: vendorId
     })).then(function() {

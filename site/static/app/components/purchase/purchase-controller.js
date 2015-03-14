@@ -201,7 +201,7 @@ function factory(
   function updateQuote(source) {
     self.loading = true;
     var request = {
-      '@context': config.data.contextUrl,
+      '@context': config.data.contextUrls.payswarm,
       listing: self.listing,
       listingHash: self.listingHash,
       source: source
@@ -245,7 +245,7 @@ function factory(
       return;
     }
     var request = {
-      '@context': config.data.contextUrl,
+      '@context': config.data.contextUrls.payswarm,
       type: 'PurchaseRequest',
       transactionId: self.contract.id
     };

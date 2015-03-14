@@ -33,7 +33,7 @@ function factory(
   service.addCreditLine = function(accountId) {
     service.state.loading = true;
     return Promise.resolve($http.post(accountId + '/credit-line', {
-      '@context': config.data.contextUrl,
+      '@context': config.data.contextUrls.payswarm,
       id: accountId
     })).then(function() {
       // get account
@@ -48,7 +48,7 @@ function factory(
   service.addBackupSource = function(accountId, backupSourceId) {
     service.state.loading = true;
     return Promise.resolve($http.post(accountId + '/backup-source', {
-      '@context': config.data.contextUrl,
+      '@context': config.data.contextUrls.payswarm,
       id: accountId,
       backupSource: backupSourceId
     })).then(function() {

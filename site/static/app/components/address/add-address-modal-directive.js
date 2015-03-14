@@ -23,7 +23,7 @@ function factory(brAlertService, brIdentityService, config, psAddressService) {
     model.countries = config.constants.countries;
     scope.identity = brIdentityService.identity;
     scope.originalAddress = {
-      '@context': config.data.contextUrl,
+      '@context': config.data.contextUrls.payswarm,
       type: 'Address',
       // default to US
       addressCountry: 'US'
@@ -49,7 +49,7 @@ function factory(brAlertService, brIdentityService, config, psAddressService) {
           // FIXME: should backend handle this?
           // copy over non-validation fields
           scope.validatedAddress = angular.extend(validated, {
-            '@context': config.data.contextUrl,
+            '@context': config.data.contextUrls.payswarm,
             type: 'Address',
             label: scope.originalAddress.label,
             name: scope.originalAddress.name

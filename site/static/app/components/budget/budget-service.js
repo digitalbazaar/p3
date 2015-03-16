@@ -87,7 +87,7 @@ function factory(
     var intervalParts = budget.sysRefreshInterval.split('/');
     var interval;
     if(intervalParts.length === 3) {
-      interval = moment.interval(interval.slice(1).join('/'));
+      interval = moment.interval(intervalParts.slice(1).join('/'));
     } else {
       interval = moment.interval(budget.sysRefreshInterval);
     }
@@ -101,7 +101,7 @@ function factory(
     }
     var intervalParts = budget.sysRefreshInterval.split('/');
     if(intervalParts.length === 3) {
-      return moment.interval(interval.slice(1).join('/')).period()
+      return moment.interval(intervalParts.slice(1).join('/')).period()
         .toISOString();
     }
     return 'never';

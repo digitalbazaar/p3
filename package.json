@@ -23,6 +23,8 @@
     "install-protractor": "./node_modules/bedrock/node_modules/.bin/webdriver-manager update",
     "lint": "grunt jshint",
     "minify": "grunt",
+    "postinstall": "bower install",
+    "postupdate": "bower update",
     "bower-install": "bower install",
     "bower-update": "bower update"
   },

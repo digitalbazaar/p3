@@ -1,7 +1,7 @@
 /*!
  * PaymentToken module.
  *
- * Copyright (c) 2012-2014 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2012-2015 Digital Bazaar, Inc. All rights reserved.
  *
  * @author Dave Longley
  */
@@ -14,7 +14,6 @@ define([
   './edit-payment-token-modal-directive',
   './external-accounts-controller',
   './external-accounts-directive',
-  './kredit-directive',
   './payment-token-list-directive',
   './payment-token-list-selector-modal-directive',
   './payment-token-selection-directive',
@@ -30,7 +29,6 @@ define([
   editPaymentTokenModalDirective,
   externalAccountsController,
   externalAccountsDirective,
-  kreditDirective,
   paymentTokenListDirective,
   paymentTokenListSelectorModalDirective,
   paymentTokenSelectionDirective,
@@ -46,7 +44,6 @@ module.directive(addPaymentTokenModalDirective);
 module.filter(cardBrandFilter);
 module.filter(ccNumberFilter);
 module.directive(creditCardSelectorDirective);
-module.directive(kreditDirective);
 module.directive(editPaymentTokenModalDirective);
 module.controller(externalAccountsController);
 module.directive(externalAccountsDirective);

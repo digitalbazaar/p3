@@ -22,9 +22,7 @@ define([
 
 'use strict';
 
-// FIXME: adds extra 'components'
-//var modulePath = requirejs.toUrl('p3');
-var modulePath = '/bower-components/p3';
+var modulePath = requirejs.toUrl('p3/components');
 
 var module = angular.module(
   'app.p3', Array.prototype.slice.call(arguments, 1));

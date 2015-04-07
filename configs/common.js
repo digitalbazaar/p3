@@ -470,24 +470,18 @@ config.docs.categories['/transactions'] =
 config.docs.categories['/vendor/register'] =
   'Merchant Registration Services';
 
-// add top level p3 component
-var p3Path = path.join(
-  __dirname, '..', 'site', 'static', 'app', 'components');
-config.requirejs.config.packages.push({
-  name: 'p3',
-  main: './components.js',
-  location: '/bower-components/p3'
+// add p3 components
+config.requirejs.bower.packages.push({
+  path: path.join(__dirname, '../site/static/app'),
+  manifest: {
+    name: 'p3',
+    moduleType: 'amd',
+    main: './components/components.js',
+    dependencies: {
+      angular: '~1.3.15'
+    }
+  }
 });
-config.requirejs.optimize.config.packages.push({
-  name: 'p3',
-  main: './components.js',
-  location: p3Path
-});
-config.express.static.push({
-  route: '/bower-components/p3',
-  path: p3Path
-});
-config.requirejs.autoload.push('p3');
 
 config.views.less.compile.files.push(path.join(
   __dirname, '..', 'less', 'app.less'));

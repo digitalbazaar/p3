@@ -28,7 +28,6 @@
     "font-awesome": "~4.2.0",
     "forge": "~0.6.16",
     "jquery": "~1.11.1",
-    "jquery-migrate": "~1.2.1",
     "jsonld": "~0.3.22",
     "moment": "~2.9.0",
     "moment-interval": "~0.2.1",

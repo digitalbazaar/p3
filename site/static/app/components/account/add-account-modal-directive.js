@@ -13,7 +13,8 @@ function factory(psAccountService, brAlertService, brIdentityService, config) {
     restrict: 'A',
     scope: {},
     require: '^stackable',
-    templateUrl: '/app/components/account/add-account-modal.html',
+    templateUrl: requirejs.toUrl(
+      '/p3/components/account/add-account-modal.html'),
     link: Link
   };
 

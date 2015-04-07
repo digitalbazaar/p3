@@ -16,7 +16,7 @@ function factory(config) {
       destination: '=psDestination'
     },
     require: '^stackable',
-    templateUrl: '/app/components/add-invoice-item-modal.html',
+    templateUrl: requirejs.toUrl('p3/components/add-invoice-item-modal.html'),
     link: Link
   };
 

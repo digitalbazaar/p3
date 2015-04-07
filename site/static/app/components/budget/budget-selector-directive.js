@@ -50,7 +50,7 @@ function budgetSelector() {
       fixed: '=?psFixed',
       minBalance: '@psMinBalance'
     },
-    templateUrl: '/app/components/budget/budget-selector.html'
+    templateUrl: requirejs.toUrl('p3/components/budget/budget-selector.html')
   };
 }
 

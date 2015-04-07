@@ -14,7 +14,7 @@ define([], function() {
 function factory(brIdentityService) {
   return {
     restrict: 'A',
-    templateUrl: '/app/components/dashboard/messages-view.html',
+    templateUrl: requirejs.toUrl('p3/components/dashboard/messages-view.html'),
     link: Link
   };
 

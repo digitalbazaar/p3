@@ -15,7 +15,7 @@ function factory(
     restrict: 'A',
     scope: {account: '=psAccount'},
     require: '^stackable',
-    templateUrl: '/app/components/account/withdraw-modal.html',
+    templateUrl: requirejs.toUrl('p3/components/account/withdraw-modal.html'),
     link: Link
   };
 

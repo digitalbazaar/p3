@@ -15,7 +15,8 @@ function factory(brAlertService, psHostedAssetService, config) {
     restrict: 'A',
     scope: {asset: '=psAsset'},
     require: '^stackable',
-    templateUrl: '/app/components/assetora/protect-asset-modal.html',
+    templateUrl: requirejs.toUrl(
+      'p3/components/assetora/protect-asset-modal.html'),
     link: Link
   };
 

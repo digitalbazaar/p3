@@ -15,7 +15,8 @@ function factory(brAlertService, brModelService, psPaymentTokenService) {
       idList: '=psIdList',
       instant: '=psInstant'
     },
-    templateUrl: '/app/components/payment-token/payment-token-list.html',
+    templateUrl: requirejs.toUrl(
+      'p3/components/payment-token/payment-token-list.html'),
     link: Link
   };
 

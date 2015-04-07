@@ -60,7 +60,7 @@ function accountSelector() {
       allowInstantTransfer: '@psAllowInstantTransfer',
       instantTransferDeposit: '=?psInstantTransferDeposit'
     },
-    templateUrl: '/app/components/account/account-selector.html'
+    templateUrl: requirejs.toUrl('p3/components/account/account-selector.html')
   };
 }
 

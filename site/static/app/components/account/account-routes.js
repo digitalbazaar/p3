@@ -17,14 +17,14 @@ return [{
   options: {
     title: 'Accounts',
     session: 'required',
-    templateUrl: '/app/components/account/accounts.html'
+    templateUrl: requirejs.toUrl('p3/components/account/accounts.html')
   }
 }, {
   path: base + '/:identity/accounts/:account',
   options: {
     title: 'Account',
     session: 'required',
-    templateUrl: '/app/components/account/account.html'
+    templateUrl: requirejs.toUrl('p3/components/account/account.html')
   }
 }];
 

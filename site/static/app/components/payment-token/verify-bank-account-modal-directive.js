@@ -14,7 +14,8 @@ function factory(
     restrict: 'A',
     scope: {paymentToken: '=psPaymentToken'},
     require: '^stackable',
-    templateUrl: '/app/components/payment-token/verify-bank-account-modal.html',
+    templateUrl: requirejs.toUrl(
+      'p3/components/payment-token/verify-bank-account-modal.html'),
     link: Link
   };
 

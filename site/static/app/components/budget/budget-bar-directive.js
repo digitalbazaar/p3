@@ -13,7 +13,7 @@ function factory() {
     restrict: 'A',
     scope: {budget: '=psBudgetBar'},
     replace: true,
-    templateUrl: '/app/components/budget/budget-bar.html',
+    templateUrl: requirejs.toUrl('p3/components/budget/budget-bar.html'),
     link: function(scope) {
       var model = scope.model = {};
       model.barPercentage = 0;

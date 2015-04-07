@@ -24,7 +24,8 @@ function factory(
       // recent for all accounts
       recent: '=psRecent'
     },
-    templateUrl: '/app/components/transaction/transactions-view.html',
+    templateUrl: requirejs.toUrl(
+      'p3/components/transaction/transactions-view.html'),
     link: Link
   };
 

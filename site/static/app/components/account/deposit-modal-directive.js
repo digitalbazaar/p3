@@ -18,7 +18,7 @@ function factory(
       instant: '=psInstant'
     },
     require: '^stackable',
-    templateUrl: '/app/components/account/deposit-modal.html',
+    templateUrl: requirejs.toUrl('p3/components/account/deposit-modal.html'),
     link: Link
   };
 

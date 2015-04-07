@@ -12,7 +12,8 @@ function factory(psAddressService, brAlertService, config) {
   return {
     scope: {sourceAddress: '=psAddress'},
     require: '^stackable',
-    templateUrl: '/app/components/address/edit-address-modal.html',
+    templateUrl: requirejs.toUrl(
+      'p3/components/address/edit-address-modal.html'),
     link: Link
   };
 

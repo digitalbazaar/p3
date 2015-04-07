@@ -15,22 +15,22 @@ var base = window.data.identityBasePath;
 return [{
   path: base + '/:identity/assetora',
   options: {
-    templateUrl: '/app/components/assetora.html'
+    templateUrl: requirejs.toUrl('p3/components/assetora.html')
   }
 }, {
   path: base + '/:identity/causes',
   options: {
-    templateUrl: '/app/components/assetora/causes.html'
+    templateUrl: requirejs.toUrl('p3/components/assetora/causes.html')
   }
 }, {
   path: base + '/:identity/invoices',
   options: {
-    templateUrl: '/app/components/assetora/invoices.html'
+    templateUrl: requirejs.toUrl('p3/components/assetora/invoices.html')
   }
 }, {
   path: base + '/:identity/tickets',
   options: {
-    templateUrl: '/app/component/assetora/tickets.html'
+    templateUrl: requirejs.toUrl('p3/component/assetora/tickets.html')
   }
 }];
 

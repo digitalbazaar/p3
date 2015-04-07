@@ -13,7 +13,8 @@ function factory(brAlertService, psPromoService) {
     restrict: 'A',
     scope: {account: '=psAccount'},
     require: '^stackable',
-    templateUrl: '/app/components/promo/redeem-promo-code-modal.html',
+    templateUrl: requirejs.toUrl(
+      'p3/components/promo/redeem-promo-code-modal.html'),
     link: Link
   };
 

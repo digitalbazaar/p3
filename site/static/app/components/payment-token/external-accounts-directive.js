@@ -15,7 +15,8 @@ function factory() {
   return {
     restrict: 'E',
     replace: true,
-    templateUrl: '/app/components/payment-token/external-accounts-view.html'
+    templateUrl: requirejs.toUrl(
+      'p3/components/payment-token/external-accounts-view.html')
   };
 }
 

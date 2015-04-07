@@ -89,7 +89,7 @@
                 help: 'col-md-offset-2 col-md-8'
               }
             }">
-            <div ng-include="'/app/components/key/key-help.html'"></div>
+            <div ng-include="$root.requirejs.toUrl('p3/components/key/key-help.html')"></div>
           </br-input>
           <br-textarea br-model="model.publicKey.publicKeyPem"
             br-options="{

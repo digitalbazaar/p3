@@ -7,7 +7,7 @@
       </div>
       <div class="modal-body">
         <br-demo-warning></br-demo-warning>
-        <div ng-include="'/app/components/budget/budget-form.html'"></div>
+        <div ng-include="$root.requirejs.toUrl('p3/components/budget/budget-form.html')"></div>
       </div>
       <div class="modal-footer">
         <span ng-show="loading">

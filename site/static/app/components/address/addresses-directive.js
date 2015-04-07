@@ -15,7 +15,7 @@ function factory() {
   return {
     restrict: 'E',
     replace: true,
-    templateUrl: '/app/components/address/addresses-view.html'
+    templateUrl: requirejs.toUrl('p3/components/address/addresses-view.html')
   };
 }
 

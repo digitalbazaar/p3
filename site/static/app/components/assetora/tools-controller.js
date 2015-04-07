@@ -11,7 +11,7 @@ return {
   routes: [{
     path: '/i/:identity/tools',
     options: {
-      templateUrl: '/app/components/assetora/tools.html'
+      templateUrl: requirejs.toUrl('p3/components/assetora/tools.html')
     }
   }]
 };

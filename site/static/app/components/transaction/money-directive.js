@@ -34,7 +34,7 @@ function factory($filter) {
       roundMode: '@?psRoundMode'
     },
     replace: true,
-    templateUrl: '/app/components/transaction/money.html',
+    templateUrl: requirejs.toUrl('p3/components/transaction/money.html'),
     link: Link
   };
 

@@ -15,7 +15,8 @@ function factory(
     restrict: 'A',
     scope: {sourceBudget: '=psBudget'},
     require: '^stackable',
-    templateUrl: '/app/components/budget/edit-budget-modal.html',
+    templateUrl: requirejs.toUrl(
+      'p3/components/budget/edit-budget-modal.html'),
     link: Link
   };
 

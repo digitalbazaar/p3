@@ -10,13 +10,13 @@
       <div class="modal-body" ng-switch="state">
         <br-demo-warning></br-demo-warning>
         <div ng-switch-when="preparing">
-          <div ng-include="'/app/components/account/withdraw-prepare.html'"></div>
+          <div ng-include="$root.requirejs.toUrl('p3/components/account/withdraw-prepare.html')"></div>
         </div>
         <div ng-switch-when="reviewing">
-          <div ng-include="'/app/components/account/withdraw-review.html'"></div>
+          <div ng-include="$root.requirejs.toUrl('p3/components/account/withdraw-review.html')"></div>
         </div>
         <div ng-switch-when="complete">
-          <div ng-include="'/app/components/account/withdraw-complete.html'"></div>
+          <div ng-include="$root.requirejs.toUrl('p3/components/account/withdraw-complete.html')"></div>
         </div>
       </div>
       <div class="modal-footer">

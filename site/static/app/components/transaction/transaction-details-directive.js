@@ -17,7 +17,8 @@ function factory(psAccountService) {
       destination: '=psDestination',
       complete: '@psComplete'
     },
-    templateUrl: '/app/components/transaction/transaction-details.html',
+    templateUrl: requirejs.toUrl(
+      'p3/components/transaction/transaction-details.html'),
     link: Link
   };
 

@@ -36,7 +36,7 @@
             web server.
           </p>
           <div ng-hide="model.saveAsSupported">
-            <div ng-include="'/app/components/assetora/protect-asset-php.html'"></div>
+            <div ng-include="$root.requirejs.toUrl('p3/components/assetora/protect-asset-php.html')"></div>
           </div>
           <div ng-show="model.saveAsSupported">
             <button ng-hide="model.bundleSaved" class="btn btn-primary"

@@ -13,7 +13,7 @@ function factory(psAccountService, brAlertService, brIdentityService, config) {
     restrict: 'A',
     scope: {},
     require: '^stackable',
-    templateUrl: '/app/components/dashboard/welcome-modal.html',
+    templateUrl: requirejs.toUrl('p3/components/dashboard/welcome-modal.html'),
     link: Link
   };
 

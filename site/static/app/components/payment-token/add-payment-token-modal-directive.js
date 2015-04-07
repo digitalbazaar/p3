@@ -14,7 +14,8 @@ function factory(
     restrict: 'A',
     scope: {paymentMethods: '=psPaymentMethods'},
     require: '^stackable',
-    templateUrl: '/app/components/payment-token/add-payment-token-modal.html',
+    templateUrl: requirejs.toUrl(
+      'p3/components/payment-token/add-payment-token-modal.html'),
     link: Link
   };
 

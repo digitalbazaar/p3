@@ -9,10 +9,10 @@
       <div class="modal-body" ng-switch="model.state">
         <br-demo-warning></br-demo-warning>
         <div ng-switch-when="reviewing">
-          <div ng-include="'/app/components/account/add-credit-line-review.html'"></div>
+          <div ng-include="$root.requirejs.toUrl('p3/components/account/add-credit-line-review.html')"></div>
         </div>
         <div ng-switch-when="complete">
-          <div ng-include="'/app/components/account/add-credit-line-complete.html'"></div>
+          <div ng-include="$root.requirejs.toUrl('p3/components/account/add-credit-line-complete.html')"></div>
         </div>
       </div>
       <div class="modal-footer">

@@ -17,7 +17,7 @@ return [{
   options: {
     title: 'Budget',
     session: 'required',
-    templateUrl: '/app/components/budget/budget.html'
+    templateUrl: requirejs.toUrl('p3/components/budget/budget.html')
   }
 }];
 

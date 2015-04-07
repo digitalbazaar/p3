@@ -44,7 +44,7 @@
 
   <div class="row" ng-show="model.budget">
     <div ng-show="!model.state.budgets.loading" class="section col-md-12">
-      <div ng-include="'/app/components/budget/budget-view.html'"></div>
+      <div ng-include="$root.requirejs.toUrl('p3/components/budget/budget-view.html')"></div>
     </div>
   </div>
 

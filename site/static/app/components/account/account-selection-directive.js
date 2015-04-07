@@ -19,7 +19,8 @@ function factory(psPaymentTokenService) {
       allowInstantTransfer: '@psAllowInstantTransfer',
       instantTransferDeposit: '=?psInstantTransferDeposit'
     },
-    templateUrl: '/app/components/account/account-selection.html',
+    templateUrl: requirejs.toUrl(
+      'p3/components/account/account-selection.html'),
     link: Link
   };
 

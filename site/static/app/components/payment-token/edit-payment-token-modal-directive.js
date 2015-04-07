@@ -19,7 +19,8 @@ function factory(
     },
     require: '^stackable',
     name: 'editPaymentToken',
-    templateUrl: '/app/components/payment-token/edit-payment-token-modal.html',
+    templateUrl: requirejs.toUrl(
+      'p3/components/payment-token/edit-payment-token-modal.html'),
     link: Link
   };
 

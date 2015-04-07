@@ -13,7 +13,8 @@ function factory(brAlertService, brIdentityService, config, psAddressService) {
     restrict: 'A',
     scope: {},
     require: '^stackable',
-    templateUrl: '/app/components/address/add-address-modal.html',
+    templateUrl: requirejs.toUrl(
+      'p3/components/address/add-address-modal.html'),
     link: Link
   };
 

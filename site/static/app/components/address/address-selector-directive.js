@@ -52,7 +52,7 @@ function addressSelector() {
       invalid: '=psInvalid',
       fixed: '=?psFixed'
     },
-    templateUrl: '/app/components/address/address-selector.html'
+    templateUrl: requirejs.toUrl('p3/components/address/address-selector.html')
   };
 }
 

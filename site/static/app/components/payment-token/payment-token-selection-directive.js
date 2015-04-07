@@ -16,7 +16,8 @@ function factory() {
       selecting: '=psSelecting',
       select: '&?psSelect'
     },
-    templateUrl: '/app/components/payment-token/payment-token-selection.html'
+    templateUrl: requirejs.toUrl(
+      'p3/components/payment-token/payment-token-selection.html')
   };
 }
 

@@ -14,7 +14,7 @@ function factory(
     restrict: 'A',
     scope: {},
     require: '^stackable',
-    templateUrl: '/app/components/budget/add-budget-modal.html',
+    templateUrl: requirejs.toUrl('p3/components/budget/add-budget-modal.html'),
     link: Link
   };
 

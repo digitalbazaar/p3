@@ -13,7 +13,7 @@ function factory(brAlertService, psPaymentTokenService) {
     restrict: 'A',
     scope: {account: '=psAccountBalance'},
     replace: true,
-    templateUrl: '/app/components/account/account-balance.html',
+    templateUrl: requirejs.toUrl('p3/components/account/account-balance.html'),
     link: Link
   };
 

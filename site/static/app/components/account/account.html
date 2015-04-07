@@ -70,7 +70,7 @@
 
   <div class="row" ng-if="model.account">
     <div ng-show="!model.state.accounts.loading" class="section col-md-12">
-      <div ng-include="'/app/components/account/account-view.html'"></div>
+      <div ng-include="$root.requirejs.toUrl('p3/components/account/account-view.html')"></div>
     </div>
   </div>
 

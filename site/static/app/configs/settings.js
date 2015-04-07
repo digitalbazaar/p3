@@ -13,16 +13,20 @@ return {
   settings: {
     panes: [
       {
-        templateUrl: '/app/components/identity/identity-settings.html'
+        templateUrl: requirejs.toUrl(
+          'p3/components/identity/identity-settings.html')
       },
       {
-        templateUrl: '/app/components/key/key-settings.html'
+        templateUrl: requirejs.toUrl(
+          'p3/components/key/key-settings.html')
       },
       {
-        templateUrl: '/app/components/address/address-settings.html'
+        templateUrl: requirejs.toUrl(
+          'p3/components/address/address-settings.html')
       },
       {
-        templateUrl: '/app/components/payment-token/external-account-settings.html'
+        templateUrl: requirejs.toUrl(
+          'p3/components/payment-token/external-account-settings.html')
       }
     ]
   }

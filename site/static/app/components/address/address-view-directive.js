@@ -15,7 +15,7 @@ function factory() {
       address: '=psAddressView',
       noLabel: '=?psNoLabel'
     },
-    templateUrl: '/app/components/address/address-view.html'
+    templateUrl: requirejs.toUrl('p3/components/address/address-view.html')
   };
 }
 

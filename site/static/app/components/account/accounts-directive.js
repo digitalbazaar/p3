@@ -17,7 +17,7 @@ function factory(
   return {
     restrict: 'A',
     scope: {},
-    templateUrl: '/app/components/account/accounts-view.html',
+    templateUrl: requirejs.toUrl('p3/components/account/accounts-view.html'),
     link: Link
   };
 

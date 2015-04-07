@@ -16,7 +16,7 @@ return [{
   options: {
     title: 'Transaction',
     session: 'required',
-    templateUrl: '/app/components/transaction/transaction.html'
+    templateUrl: requirejs.toUrl('p3/components/transaction/transaction.html')
   }
 }];
 

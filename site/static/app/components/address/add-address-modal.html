@@ -8,10 +8,10 @@
       <div class="modal-body" ng-switch="state">
         <br-demo-warning></br-demo-warning>
         <div ng-switch-when="editing">
-          <div ng-include="'/app/components/address/add-address-edit.html'"></div>
+          <div ng-include="$root.requirejs.toUrl('p3/components/address/add-address-edit.html')"></div>
         </div>
         <div ng-switch-when="selecting">
-          <div ng-include="'/app/components/address/add-address-select.html'"></div>
+          <div ng-include="$root.requirejs.toUrl('p3/components/address/add-address-select.html')"></div>
         </div>
       </div>
       <div class="modal-footer">

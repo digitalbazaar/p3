@@ -12,7 +12,8 @@ function factory(psAccountService, brAlertService, brIdentityService, config) {
   return {
     restrict: 'A',
     scope: {account: '=psAccount', callback: '&psCallback'},
-    templateUrl: '/app/components/account/update-account-button.html',
+    templateUrl: requirejs.toUrl(
+      'p3/components/account/update-account-button.html'),
     link: Link
   };
 

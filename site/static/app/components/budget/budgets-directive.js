@@ -15,7 +15,7 @@ function factory(brAlertService, psBudgetService) {
   return {
     restrict: 'A',
     scope: {},
-    templateUrl: '/app/components/budget/budgets-view.html',
+    templateUrl: requirejs.toUrl('p3/components/budget/budgets-view.html'),
     link: Link
   };
 

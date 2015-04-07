@@ -16,7 +16,7 @@ function factory(psAccountService) {
       invalid: '=psInvalid',
       minBalance: '@psMinBalance'
     },
-    templateUrl: '/app/components/budget/budget-selection.html',
+    templateUrl: requirejs.toUrl('p3/components/budget/budget-selection.html'),
     link: Link
   };
 

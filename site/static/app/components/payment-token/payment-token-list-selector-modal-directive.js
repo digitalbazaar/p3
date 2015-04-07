@@ -17,7 +17,7 @@ function factory() {
     },
     require: '^stackable',
     templateUrl:
-      '/app/components/payment-token/payment-token-list-selector.html',
+      'p3/components/payment-token/payment-token-list-selector.html',
     link: Link
   };
 

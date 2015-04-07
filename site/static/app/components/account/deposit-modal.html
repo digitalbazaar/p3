@@ -25,14 +25,14 @@
             </p>
           </div>
           <div ng-hide="!account.sysAllowStoredValue && account.balance[0] != '-'">
-            <div ng-include="'/app/components/account/deposit-prepare.html'"></div>
+            <div ng-include="$root.requirejs.toUrl('p3/components/account/deposit-prepare.html')"></div>
           </div>
         </div>
         <div ng-switch-when="reviewing">
-          <div ng-include="'/app/components/account/deposit-review.html'"></div>
+          <div ng-include="$root.requirejs.toUrl('p3/components/account/deposit-review.html')"></div>
         </div>
         <div ng-switch-when="complete">
-          <div ng-include="'/app/components/account/deposit-complete.html'"></div>
+          <div ng-include="$root.requirejs.toUrl('p3/components/account/deposit-complete.html')"></div>
         </div>
       </div>
       <div class="modal-footer">

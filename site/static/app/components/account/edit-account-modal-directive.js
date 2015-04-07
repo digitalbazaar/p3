@@ -15,7 +15,8 @@ function factory(
     restrict: 'A',
     scope: {sourceAccount: '=psAccount'},
     require: '^stackable',
-    templateUrl: '/app/components/account/edit-account-modal.html',
+    templateUrl: requirejs.toUrl(
+      'p3/components/account/edit-account-modal.html'),
     link: Link
   };
 

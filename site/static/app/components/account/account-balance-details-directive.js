@@ -16,7 +16,8 @@ function factory(brAlertService, psPaymentTokenService) {
       expand: '=psExpand'
     },
     replace: true,
-    templateUrl: '/app/components/account/account-balance-details.html',
+    templateUrl: requirejs.toUrl(
+      'p3/components/account/account-balance-details.html'),
     link: Link
   };
 

@@ -22,18 +22,18 @@ define([
 
 'use strict';
 
-var modulePath = requirejs.toUrl('p3/components');
-
 var module = angular.module(
   'app.p3', Array.prototype.slice.call(arguments, 1));
 
 /* @ngInject */
 module.run(function(config) {
   config.settings.panes.push({
-    templateUrl: modulePath + '/address/address-settings.html'
+    templateUrl: requirejs.toUrl(
+      'p3/components/address/address-settings.html')
   });
   config.settings.panes.push({
-    templateUrl: modulePath + '/payment-token/external-account-settings.html'
+    templateUrl: requirejs.toUrl(
+      'p3/components/payment-token/external-account-settings.html')
   });
 });
 

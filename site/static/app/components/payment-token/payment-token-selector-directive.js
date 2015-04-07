@@ -126,7 +126,8 @@ function paymentTokenSelector() {
       instant: '=psInstant',
       omit: '=psOmit'
     },
-    templateUrl: '/app/components/payment-token/payment-token-selector.html'
+    templateUrl: requirejs.toUrl(
+      'p3/components/payment-token/payment-token-selector.html')
   };
 }
 

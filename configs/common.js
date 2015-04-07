@@ -487,5 +487,5 @@ config.views.less.compile.files.push(path.join(
   __dirname, '..', 'less', 'app.less'));
 
 // contexts
-config.views.vars.contextUrls.payswarm = 
+config.views.vars.contextUrls.payswarm =
   config.constants.PAYSWARM_CONTEXT_V1_URL;

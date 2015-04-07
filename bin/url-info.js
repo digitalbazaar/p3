@@ -22,7 +22,7 @@ jsonld.documentLoader = function(url, callback) {
       contextUrl: null,
       document: {
         '@context':
-          payswarm.constants.CONTEXTS[constants.PAYSWARM_CONTEXT_V1_URL];
+          payswarm.constants.CONTEXTS[constants.PAYSWARM_CONTEXT_V1_URL]
       },
       documentUrl: url
     });

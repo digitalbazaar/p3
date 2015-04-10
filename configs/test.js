@@ -221,7 +221,7 @@ config.website.views.vars.siteTitle = config.brand.name;
 config.website.views.vars.debug = false;
 
 // identity credentials config
-config.identityCredentials.allowInsecureCallback = true;
+config.idp.allowInsecureCallback = true;
 
 var vars = config.website.views.vars;
 vars.baseUri = config.server.baseUri;

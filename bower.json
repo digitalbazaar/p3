@@ -22,7 +22,7 @@
     "bedrock-angular-resource": "^1.0.0",
     "bedrock-angular-selector": "^1.0.0",
     "bedrock-angular-ui": "^1.0.0",
-    "bedrock-idp": "^1.0.0",
+    "bedrock-idp": "^1.0.1",
     "bootstrap": "~3.3.4",
     "es6-promise": "~2.0.0",
     "font-awesome": "~4.3.0",

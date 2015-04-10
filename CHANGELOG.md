@@ -13,5 +13,4 @@
 
 - See git history for changes.
 
-
 [Unreleased]: https://github.com/digitalbazaar/bedrock-idp/compare/0.0.0...HEAD

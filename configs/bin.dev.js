@@ -133,7 +133,7 @@ config.mail.vars = {
 config.brand.name = 'PaySwarm Development';
 
 // identity credentials config
-config.identityCredentials.allowInsecureCallback = true;
+config.idp.allowInsecureCallback = true;
 
 // identity service
 config.identity.owner = config.authority.id;

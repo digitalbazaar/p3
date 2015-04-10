@@ -177,7 +177,7 @@ config.docs.vars.brand = config.brand.name;
 config.docs.vars.baseUri = config.server.baseUri;
 
 // identity credentials config
-config.identityCredentials.allowInsecureCallback = true;
+config.idp.allowInsecureCallback = true;
 
 var vars = config.views.vars;
 vars.baseUri = config.server.baseUri;

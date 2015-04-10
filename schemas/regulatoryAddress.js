@@ -1,5 +1,4 @@
 var bedrock = require('bedrock');
-var tools = bedrock.tools;
 
 var address = require('./address');
 
@@ -19,7 +18,7 @@ delete schema.properties.postalCode;
 
 module.exports = function(extend) {
   if(extend) {
-    return tools.extend(true, tools.clone(schema), extend);
+    return bedrock.util.extend(true, bedrock.util.clone(schema), extend);
   }
   return schema;
 };

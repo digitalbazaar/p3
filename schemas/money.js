@@ -1,5 +1,4 @@
 var bedrock = require('bedrock');
-var tools = bedrock.tools;
 
 var precise = {
   required: true,
@@ -44,19 +43,21 @@ var precisePositive = {
 
 module.exports.precise = function(extend) {
   if(extend) {
-    return tools.extend(true, tools.clone(precise), extend);
+    return bedrock.util.extend(true, bedrock.util.clone(precise), extend);
   }
   return precise;
 };
 module.exports.preciseNonNegative = function(extend) {
   if(extend) {
-    return tools.extend(true, tools.clone(preciseNonNegative), extend);
+    return bedrock.util.extend(
+      true, bedrock.util.clone(preciseNonNegative), extend);
   }
   return preciseNonNegative;
 };
 module.exports.precisePositive = function(extend) {
   if(extend) {
-    return tools.extend(true, tools.clone(precisePositive), extend);
+    return bedrock.util.extend(
+      true, bedrock.util.clone(precisePositive), extend);
   }
   return precisePositive;
 };

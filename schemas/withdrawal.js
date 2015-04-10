@@ -1,6 +1,5 @@
 var bedrock = require('bedrock');
 var schemas = require('bedrock-validation').schemas;
-var tools = bedrock.tools;
 
 var currency = require('./currency');
 var ipv4Address = require('./ipv4Address');
@@ -66,7 +65,7 @@ module.exports = function(type, extend) {
   }
 
   if(extend) {
-    return tools.extend(true, tools.clone(schema), extend);
+    return bedrock.util.extend(true, bedrock.util.clone(schema), extend);
   }
   return schema;
 };

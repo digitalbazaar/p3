@@ -1,6 +1,5 @@
 var bedrock = require('bedrock');
 var schemas = require('bedrock-validation').schemas;
-var tools = bedrock.tools;
 
 var money = require('./money');
 
@@ -52,7 +51,7 @@ var schema = {
 
 module.exports = function(extend) {
   if(extend) {
-    return tools.extend(true, tools.clone(schema), extend);
+    return bedrock.util.extend(true, bedrock.util.clone(schema), extend);
   }
   return schema;
 };

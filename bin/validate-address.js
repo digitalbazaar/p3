@@ -1,10 +1,9 @@
 var async = require('async');
-var program = require('commander');
+var bedrock = require('bedrock');
 var fs = require('fs');
-var payswarm = {
-  tools: require('../lib/payswarm-auth/tools')
-};
-var PaySwarmError = payswarm.tools.PaySwarmError;
+var program = require('commander');
+
+var BedrockError = bedrock.util.BedrockError;
 
 // include yahoo address validator config and module
 require('../configs/yahoo-av');

@@ -11,7 +11,7 @@ var payswarm = {
   security: require('../lib/payswarm-auth/security'),
   tools: require('../lib/payswarm-auth/tools')
 };
-var PaySwarmError = payswarm.tools.PaySwarmError;
+var BedrockError = bedrock.util.BedrockError;
 
 // require https for @contexts
 var nodeDocumentLoader = jsonld.documentLoaders.node({secure: true});
@@ -162,7 +162,7 @@ function processType(data, type, callback) {
       }
       var frames = payswarm.constants.FRAMES;
       if(!(type in frames)) {
-        return callback(new PaySwarmError(
+        return callback(new BedrockError(
           'No frame for type.',
           APP_NAME + '.InvalidType', {type: type}));
       }

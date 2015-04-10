@@ -205,7 +205,6 @@ config.financial.allowInitialBalance = true;
 config.financial.paymentToken.includeVerifyTransactions = true;
 
 // angular template overrides
-config.views.vars.angular.templates.overrides = {
-  'bedrock-idp/components/dashboard/dashboard.html':
-    'p3/components/dashboard/dashboard.html'
-};
+config.views.vars.angular.templates.overrides[
+  'bedrock-idp/components/dashboard/dashboard.html'] =
+    'p3/components/dashboard/dashboard.html';

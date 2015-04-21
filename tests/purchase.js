@@ -178,7 +178,7 @@ LoadTester.prototype.run = function() {
         logger.info(util.format('Creating %d vendor profiles...',
           config.vendors));
         // FIXME: don't use arrays for this
-        async.forEachLimit(new Array(config.vendors), config.batchSize,
+        async.eachLimit(new Array(config.vendors), config.batchSize,
           function(item, callback) {
             _createVendorProfile(self, config.data.vendors, callback);
         }, callback);
@@ -191,7 +191,7 @@ LoadTester.prototype.run = function() {
         logger.info(util.format('Creating %d buyer profiles...',
           config.buyers));
         // FIXME: don't use arrays for this
-        async.forEachLimit(new Array(config.buyers), config.batchSize,
+        async.eachLimit(new Array(config.buyers), config.batchSize,
           function(item, callback) {
             _createBuyerProfile(self, config.data.buyers, callback);
         }, callback);
@@ -203,7 +203,7 @@ LoadTester.prototype.run = function() {
         }
         logger.info(util.format('Creating %d listings...',
           config.listings));
-        async.forEachLimit(new Array(config.listings), config.batchSize,
+        async.eachLimit(new Array(config.listings), config.batchSize,
           function(item, callback) {
             _createListing(self, config.data.vendors, config.data.listings,
               callback);
@@ -228,7 +228,7 @@ LoadTester.prototype.run = function() {
         logger.info(util.format(
           'Performing %d purchases...', config.purchases));
         // FIXME: Need a better way to limit purchases
-        async.forEachLimit(new Array(config.purchases), config.batchSize,
+        async.eachLimit(new Array(config.purchases), config.batchSize,
           function(item, callback) {
             _purchaseAsset(self, config.data.buyers, config.data.listings,
               callback);

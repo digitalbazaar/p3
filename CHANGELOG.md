@@ -8,6 +8,7 @@
 
 ### Changed
 - Updated to use bedrock 0.3.x.
+- Update `async.forEach*` to `async.each*`.
 
 ## 0.15.x - 2014
 

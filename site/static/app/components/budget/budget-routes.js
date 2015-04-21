@@ -11,7 +11,7 @@ define([], function() {
 
 'use strict';
 
-var base = window.data.identityBasePath;
+var base = window.data.idp.identityBasePath;
 return [{
   path: base + '/:identity/budgets/:budget',
   options: {
